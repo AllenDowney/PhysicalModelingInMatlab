@@ -1,14 +1,14 @@
 \sloppy
-%\setlength{\topmargin}{-0.375in}
-%\setlength{\oddsidemargin}{0.0in}
-%\setlength{\evensidemargin}{0.0in}
+\setlength{\topmargin}{-0.375in}
+\setlength{\oddsidemargin}{0.0in}
+\setlength{\evensidemargin}{0.0in}
 
 % Uncomment these to center on 8.5 x 11
 %\setlength{\topmargin}{0.625in}
 %\setlength{\oddsidemargin}{0.875in}
 %\setlength{\evensidemargin}{0.875in}
 
-%\setlength{\textheight}{7.2in}
+\setlength{\textheight}{7.8in}
 
 \setlength{\headsep}{3ex}
 \setlength{\parindent}{0.0in}

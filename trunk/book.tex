@@ -61,7 +61,7 @@
 %\blankpage
 
 \newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
-\newcommand{\theversion}{1.1.3}
+\newcommand{\theversion}{1.1.4}
 
 \title {\thetitle}
 \author {Allen B. Downey}
@@ -232,6 +232,8 @@ can be confused with exponents, so now I am using symbols.
 \item Philip Loh sent me some updates for recent revisions of MATLAB.
 
 \item Harold Jaffe spotted a typo.
+
+\item Vidie Pong pointed out the problem with spaces in filenames.
 
 \end{itemize}
 
@@ -995,6 +997,25 @@ In this case you can either save your script again in a directory
 that is on the search path, or modify the search path to include
 the directory where you keep your scripts.  You'll have to consult
 the documentation for the details (sorry!).
+
+The filename can be anything you want, but you should try to choose
+something meaningful and memorable.  You should be very careful to choose a
+name that is not already in use; if you do, you might accidentally
+replace one of MATLAB's functions with your own.
+Finally, the name of the file cannot contain spaces.  If you create
+a file named {\tt my script.m}, MATLAB doesn't complain until you try
+to run it:
+
+\begin{verbatim}
+>> my script
+??? Undefined function or method 'my' for input arguments 
+of type 'char'.
+\end{verbatim}
+
+The problem is that it is looking for a scipt named {\tt my}.  The
+problem is even worse if the first word of the filename is a function
+that exists.  Just for fun, create a script named {\tt abs val.m}
+and run it.
 
 Keeping track of your scripts can be a pain.  To keep things simple,
 for now, I suggest putting all of your scripts in the default

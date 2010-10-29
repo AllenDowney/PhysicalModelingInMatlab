@@ -9,8 +9,8 @@ PDFFLAGS = -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress  \
 all:	book.tex
 	latex book
 	makeindex book
-#	dvips -T 6.9in,9.8in -Ppdf -o downey10matlab.ps book
-	dvips -Ppdf -o downey10matlab.ps book
+	dvips -T 6.9in,9.8in -Ppdf -o downey10matlab.ps book
+#	dvips -Ppdf -o downey10matlab.ps book
 	gv downey10matlab.ps
 
 DEST = /home/downey/public_html/greent/matlab
