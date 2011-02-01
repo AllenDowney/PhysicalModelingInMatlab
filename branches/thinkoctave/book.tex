@@ -1,4 +1,4 @@
-% LaTeX source for textbook ``Physical Modeling in MATLAB''
+% LaTeX source for textbook ``Physical Modeling in Octave''
 % Copyright 2010 Allen B. Downey.
 
 % Permission is granted to copy, distribute and/or modify this
@@ -22,6 +22,7 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{hevea}                           
 \usepackage{upquote}
+\usepackage{epstopdf}
 
 \newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
 
@@ -60,7 +61,7 @@
 %\blankpage
 %\blankpage
 
-\newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
+\newcommand{\thetitle}{Physical Modeling in Octave\myreg}
 \newcommand{\theversion}{1.1.4}
 
 \title {\thetitle}
@@ -110,7 +111,7 @@ among other free, open-source programs.
 The LaTeX source for this book is available from
 \url{http://greenteapress.com/matlab}.
 
-MATLAB\myreg is a registered trademark of The
+Octave\myreg is a registered trademark of The
 Mathworks, Inc.  The Mathworks does not warrant the accuracy
 of this book; they probably don't even like it.
 
@@ -147,9 +148,9 @@ Unported License, which is available at
 
 
 
-\chapter{Preface}
+\chapter*{Preface}
 
-Most books that use MATLAB are aimed at readers who know how
+Most books that use Octave are aimed at readers who know how
 to program.  This book is for people who have never programmed
 before.
 
@@ -161,21 +162,21 @@ programming semantics.  But there are problems:
 
 \begin{itemize}
 
-\item The MATLAB documentation is written in terms of matrices,
+\item The Octave documentation is written in terms of matrices,
 and so are the error messages.
 To mitigate this problem, the book explains the necessary
 vocabulary early and deciphers some of the messages that
 beginners find confusing.
 
 \item Many of the examples in the first half of the book are
-not idiomatic MATLAB.  I address this problem in the second
+not idiomatic Octave.  I address this problem in the second
 half by translating the examples into a more standard style.
 
 \end{itemize}
 
 The book puts a lot of emphasis on functions, in part because they are
 an important mechanism for controlling program complexity, and also
-because they are useful for working with MATLAB tools like {\tt fzero}
+because they are useful for working with Octave tools like {\tt fzero}
 and {\tt ode45}.
 
 I assume that readers know calculus, differential equations, and
@@ -229,7 +230,7 @@ can't have spaces.
 \item Kelsey Breseman pointed out that numbers as footnote markers
 can be confused with exponents, so now I am using symbols.
 
-\item Philip Loh sent me some updates for recent revisions of MATLAB.
+\item Philip Loh sent me some updates for recent revisions of Octave.
 
 \item Harold Jaffe spotted a typo.
 
@@ -249,29 +250,29 @@ can be confused with exponents, so now I am using symbols.
 \section{A glorified calculator}
 \label{calc}
 
-At heart, MATLAB is a glorified calculator.  When you start MATLAB
+At heart, Octave is a glorified calculator.  When you start Octave
 you will see a window
-entitled {\sf MATLAB} that contains smaller windows entitled {\sf
+entitled {\sf Octave} that contains smaller windows entitled {\sf
 Current Directory}, {\sf Command History} and {\sf Command Window}.
-The Command Window runs the MATLAB {\bf interpreter}, which allows you
-to type MATLAB {\bf commands}, then executes them and prints the
+The Command Window runs the Octave {\bf interpreter}, which allows you
+to type Octave {\bf commands}, then executes them and prints the
 result.
 
 Initially, the Command Window contains a welcome message with information
-about the version of MATLAB you are running, followed by a chevron:
+about the version of Octave you are running, followed by a chevron:
 
 \begin{verbatim}
 >>
 \end{verbatim}
 
-which is the MATLAB {\bf prompt}; that is, this symbol prompts you
+which is the Octave {\bf prompt}; that is, this symbol prompts you
 to enter a command.
 
 The simplest kind of command is a mathematical {\bf expression}, which
 is made up of {\bf operands} (like numbers, for example) and
 {\bf operators} (like the plus sign, {\tt +}).
 
-If you type an expression and then press Enter (or Return), MATLAB
+If you type an expression and then press Enter (or Return), Octave
 {\bf evaluates} the expression and prints the result.
 
 \begin{verbatim}
@@ -279,8 +280,8 @@ If you type an expression and then press Enter (or Return), MATLAB
 ans = 3
 \end{verbatim}
 
-Just to be clear: in the example above, MATLAB printed {\tt >>}; I
-typed {\tt 2 + 1} and then hit Enter, and MATLAB printed {\tt ans = 3}.
+Just to be clear: in the example above, Octave printed {\tt >>}; I
+typed {\tt 2 + 1} and then hit Enter, and Octave printed {\tt ans = 3}.
 And when I say ``printed,'' I really mean ``displayed on the screen,''
 which might be confusing, but it's the way people talk.
 
@@ -293,7 +294,7 @@ don't.
 ans = 45
 \end{verbatim}
 
-Speaking of spaces, you might have noticed that MATLAB puts some
+Speaking of spaces, you might have noticed that Octave puts some
 space between {\tt ans =} and the result.  In my examples I will leave
 it out to save paper.
 
@@ -319,7 +320,7 @@ ans = -0.4000
 When I added the parentheses I also changed the spacing to make the
 grouping of operands clearer to a human reader.  This is the first
 of many style guidelines I will recommend for making your programs
-easier to read.  Style doesn't change what the program does; the MATLAB
+easier to read.  Style doesn't change what the program does; the Octave
 interpreter doesn't check for style.  But human readers do, and the
 most important human who will read your code is you.
 
@@ -348,7 +349,7 @@ of operations.
 
 \section{Math functions}
 
-MATLAB knows how to compute pretty much every math function you've
+Octave knows how to compute pretty much every math function you've
 heard of.  It knows all the trigonometric functions; here's how you
 use them:
 
@@ -360,7 +361,7 @@ ans = 0.8415
 This command is an example of a {\bf function call}.  The name of the
 function is {\tt sin}, which is the usual abbreviation for the
 trigonometric sine.  The value in parentheses is called the {\bf argument}.
-All the trig functions in MATLAB work in radians.
+All the trig functions in Octave work in radians.
 
 Some functions take more than one argument, in which case they are
 separated by commas.  For example, {\tt atan2} computes the inverse
@@ -375,7 +376,7 @@ ans = 0.7854
 If that bit of trigonometry isn't familiar to you, don't worry about
 it.  It's just an example of a function with multiple arguments.
 
-MATLAB also provides exponential functions, like {\tt exp}, which
+Octave also provides exponential functions, like {\tt exp}, which
 computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
 
 \begin{verbatim}
@@ -411,7 +412,7 @@ read the documentation.
 
 \section{Documentation}
 
-MATLAB comes with two forms of online documentation, {\tt help}
+Octave comes with two forms of online documentation, {\tt help}
 and {\tt doc}.
 
 The help command works from the Command Window; just type {\tt help}
@@ -435,7 +436,7 @@ Unfortunately, this documentation is not beginner-friendly.
 
 One gotcha is that the name of the function appears in the
 help page in capital letters, but if you type it like that
-in MATLAB, you get an error:
+in Octave, you get an error:
 
 \begin{verbatim}
 >> SIN(1)
@@ -455,11 +456,11 @@ get a preview of what's coming.
 
 \section{Variables}
 
-One of the features that makes MATLAB more powerful than a calculator
+One of the features that makes Octave more powerful than a calculator
 is the ability to give a name to a value.  A named value is called
 a {\bf variable}.
 
-MATLAB comes with a few predefined variables.  For
+Octave comes with a few predefined variables.  For
 example\footnote{Technically {\tt pi} is a function, not a variable,
 but for now it's best to pretend.}, the name {\tt pi} refers to the
 mathematical quantity $\pi$, which is approximately
@@ -491,11 +492,11 @@ ans = 1
 ans = -1.0000 + 0.0000i
 \end{verbatim}
 
-As the second example shows, many MATLAB functions work with
+As the second example shows, many Octave functions work with
 complex numbers.  This example demonstrates Euler's Equality:
 $e^{i \pi} = -1$.
 
-Whenever you evaluate an expression, MATLAB assigns the result to
+Whenever you evaluate an expression, Octave assigns the result to
 a variable named {\tt ans}.  You can use {\tt ans} in a subsequent
 calculation as shorthand for ``the value of the previous expression''.
 
@@ -523,7 +524,7 @@ x = 42
 \end{verbatim}
 
 This example creates a new variable named {\tt x} and assigns it the
-value of the expression {\tt 6 * 7}.  MATLAB responds with the
+value of the expression {\tt 6 * 7}.  Octave responds with the
 variable name and the computed value.
 
 In every assignment statement, the left side has to be a
@@ -546,11 +547,11 @@ first_name = allen
 \end{verbatim}
 
 The first two examples demonstrate the use of the semi-colon, which
-suppresses the output from a command.  In this case MATLAB creates the
+suppresses the output from a command.  In this case Octave creates the
 variables and assigns them values, but displays nothing.
 
 The third example demonstrates that not everything
-in MATLAB is a number.  A sequence of characters in single quotes is
+in Octave is a number.  A sequence of characters in single quotes is
 a {\bf string}.
 
 Although {\tt i}, {\tt j} and {\tt pi} are predefined, you are free
@@ -638,24 +639,24 @@ for multiplication.
 >> area = pi r^2
 ??? area = pi r^2
               |
-Error: Unexpected MATLAB expression.
+Error: Unexpected Octave expression.
 \end{verbatim}
 
 The error message indicates that, after seeing the operand {\tt pi},
-MATLAB was ``expecting'' to see an operator, like {\tt *}.  Instead,
+Octave was ``expecting'' to see an operator, like {\tt *}.  Instead,
 it got a variable name, which is the ``unexpected expression'' indicated
 by the vertical line, {\tt |} (which is called a ``pipe'').
 
 Another common error is to leave out the parentheses around the
 arguments of a function.  For example, in math notation, it is common
-to write something like $\sin \pi$, but not in MATLAB.
+to write something like $\sin \pi$, but not in Octave.
 
 \begin{verbatim}
 >> sin pi
 ??? Function 'sin' is not defined for values of class 'char'.
 \end{verbatim}
 
-The problem is that when you leave out the parentheses, MATLAB treats
+The problem is that when you leave out the parentheses, Octave treats
 the argument as a string (rather than as an expression).  In
 this case the {\tt sin} function generates a reasonable error message,
 but in other cases the results can be baffling.  For example, what
@@ -684,7 +685,7 @@ misleading, but it is worth making some effort to understand them.
 
 Here's another common rookie error.  If you were translating
 the following mathematical
-expression into MATLAB:
+expression into Octave:
 
 \[ \frac{1}{2 \sqrt \pi}\]
 
@@ -700,10 +701,10 @@ But that would be wrong.  So very wrong.
 \section{Floating-point arithmetic}
 
 In mathematics, there are several kinds of numbers: integer, real,
-rational, irrational, imaginary, complex, etc.  MATLAB only has one
+rational, irrational, imaginary, complex, etc.  Octave only has one
 kind of number, called {\bf floating-point}.
 
-You might have noticed that MATLAB expresses values in decimal
+You might have noticed that Octave expresses values in decimal
 notation.  So, for example, the rational number $1/3$ is represented
 by the floating-point value
 
@@ -713,7 +714,7 @@ ans = 0.3333
 \end{verbatim}
 
 which is only approximately correct.  It's not quite as bad as
-it seems; MATLAB uses more digits than it shows by default.
+it seems; Octave uses more digits than it shows by default.
 You can change the {\tt format} to see the other digits.
 
 \begin{verbatim}
@@ -722,10 +723,10 @@ You can change the {\tt format} to see the other digits.
 ans = 0.33333333333333
 \end{verbatim}
 
-Internally, MATLAB uses the IEEE double-precision floating-point
+Internally, Octave uses the IEEE double-precision floating-point
 format, which provides about 15 significant digits of precision (in
 base 10).  Leading and trailing zeros don't count as ``significant''
-digits, so MATLAB can represent large and small numbers
+digits, so Octave can represent large and small numbers
 with the same precision.
 
 Very large and very small values are displayed in scientific notation.
@@ -748,9 +749,9 @@ You can enter numbers using the same notation.
 speed_of_light = 300000000
 \end{verbatim}
 
-Although MATLAB can handle large numbers, there is a limit.  The
+Although Octave can handle large numbers, there is a limit.  The
 predefined variables {\tt realmax} and {\tt realmin} contain the
-largest and smallest numbers that MATLAB can handle\footnote{The names
+largest and smallest numbers that Octave can handle\footnote{The names
 of these variables are misleading; floating-point numbers are
 sometimes, wrongly, called ``real''.}.
 
@@ -762,7 +763,7 @@ ans = 1.797693134862316e+308
 ans = 2.225073858507201e-308
 \end{verbatim}
 
-If the result of a computation is too big, MATLAB ``rounds up''
+If the result of a computation is too big, Octave ``rounds up''
 to infinity.
 
 \begin{verbatim}
@@ -773,7 +774,7 @@ ans = 7.257415615307994e+306
 ans = Inf
 \end{verbatim}
 
-Division by zero also returns {\tt Inf}, but in this case MATLAB
+Division by zero also returns {\tt Inf}, but in this case Octave
 gives you a warning because division by zero is usually
 considered undefined.
 
@@ -789,7 +790,7 @@ is allowed to continue.  Allowing {\tt Inf} to propagate
 through a computation doesn't always do what you expect, but if you
 are careful with how you use it, {\tt Inf} can be quite useful.
 
-For operations that are truly undefined, MATLAB returns {\tt NaN},
+For operations that are truly undefined, Octave returns {\tt NaN},
 which stands for ``not a number''.
 
 \begin{verbatim}
@@ -815,7 +816,7 @@ speed_of_light = 300000000
 
 The comment runs from the percent symbol to the end of the line.
 In this case it specifies the units of the value.  In an ideal world,
-MATLAB would keep track of units and propagate them through the
+Octave would keep track of units and propagate them through the
 computation, but for now that burden falls on the programmer.
 
 Comments have no effect on the execution of the program.  They
@@ -847,9 +848,9 @@ program consistent with your math.
 
 \begin{description}
 
-\item[interpreter:] The program that reads and executes MATLAB code.
+\item[interpreter:] The program that reads and executes Octave code.
 
-\item[command:] A line of MATLAB code executed by the interpreter.
+\item[command:] A line of Octave code executed by the interpreter.
 
 \item[prompt:] The symbol the interpreter prints to indicate that it is
 waiting for you to type a command.
@@ -891,7 +892,7 @@ one function call as an argument for another.
 \item[string:] A value that consists of a sequence of characters (as
 opposed to a number). 
 
-\item[floating-point:] The kind of number MATLAB works with.  All
+\item[floating-point:] The kind of number Octave works with.  All
 floating-point numbers can be represented with about 16 significant
 decimal digits (unlike mathematical integers and reals).
 
@@ -923,7 +924,7 @@ about the program, but does not affect its execution.
 \newtheorem{ex}{Exercise}[chapter]
 
 \begin{ex}
-Write a MATLAB expression that evaluates the
+Write a Octave expression that evaluates the
 following math expression.  You can assume that the variables
 {\tt mu}, {\tt sigma} and {\tt x} already exist.
 
@@ -932,7 +933,7 @@ following math expression.  You can assume that the variables
 {\sigma \sqrt{2 \pi}}
 \end{equation}
 
-Note: you can't use Greek letters in MATLAB; when translating
+Note: you can't use Greek letters in Octave; when translating
 math expressions with Greek letters, it is common to write out
 the name of the letter (assuming you know it).
 \end{ex}
@@ -948,15 +949,15 @@ fine if you are not writing more than a few lines.  Beyond that,
 you will want to store your program in a {\bf script} and then
 execute the script.
 
-A script is a file that contains MATLAB code.  These files are
+A script is a file that contains Octave code.  These files are
 also called ``M-files'' because they use the extension {\tt .m},
-which is short for MATLAB.
+which is short for Octave.
 
 You can create and edit
 scripts with any text editor or word processor, but the simplest way
 is by selecting {\sf New}$\rightarrow${\sf Script} from the {\sf File}
 menu.  A window appears running a text editor specially designed for
-MATLAB.
+Octave.
 
 Type the following code in the editor
 
@@ -969,12 +970,12 @@ from the {\sf File} menu.  Either way, a dialog box appears where you
 can choose the file name and the directory where it should go.  Change
 the name to {\tt myscript.m} and leave the directory unchanged.
 
-By default, MATLAB will store your script in a directory that is on
-the {\bf search path}, which is the list of directories MATLAB
+By default, Octave will store your script in a directory that is on
+the {\bf search path}, which is the list of directories Octave
 searches for scripts.
 
 Go back to the Command Window and type {\tt myscript} (without the
-extension) at the prompt.  MATLAB executes your script and displays
+extension) at the prompt.  Octave executes your script and displays
 the result.
 
 \begin{verbatim}
@@ -982,10 +983,10 @@ the result.
 x = 5
 \end{verbatim}
 
-When you run a script, MATLAB executes the commands in the M-File, one
+When you run a script, Octave executes the commands in the M-File, one
 after another, exactly as if you had typed them at the prompt.
 
-If something goes wrong and MATLAB can't find your script, you will
+If something goes wrong and Octave can't find your script, you will
 get an error message like:
 
 \begin{verbatim}
@@ -1001,9 +1002,9 @@ the documentation for the details (sorry!).
 The filename can be anything you want, but you should try to choose
 something meaningful and memorable.  You should be very careful to choose a
 name that is not already in use; if you do, you might accidentally
-replace one of MATLAB's functions with your own.
+replace one of Octave's functions with your own.
 Finally, the name of the file cannot contain spaces.  If you create
-a file named {\tt my script.m}, MATLAB doesn't complain until you try
+a file named {\tt my script.m}, Octave doesn't complain until you try
 to run it:
 
 \begin{verbatim}
@@ -1039,7 +1040,7 @@ F_n = \frac{1}{\sqrt{5}}
 \right]
 \end{equation}
 
-Translate this expression into MATLAB and store your
+Translate this expression into Octave and store your
 code in a file named {\tt fibonacci1}.  At the prompt, set the value
 of {\tt n} to 10 and then run your script.  The last line of your
 script should assign the value of $F_n$ to {\tt ans}.
@@ -1080,10 +1081,10 @@ run it.  If you forget to save it, you will be running the old version.
 
 Also, whenever you start a new script, start with something simple,
 like {\tt x=5}, that produces a visible effect.  Then run your script
-and confirm that you get what you expect.  MATLAB comes with a lot of
+and confirm that you get what you expect.  Octave comes with a lot of
 predefined functions.  It is easy to write a script that has the same
-name as a MATLAB function, and if you are not careful, you might
-find yourself running the MATLAB function instead of your script.
+name as a Octave function, and if you are not careful, you might
+find yourself running the Octave function instead of your script.
 
 Either way, if the code you are running is not the code you are looking
 at, you will find debugging a frustrating exercise!  And that brings
@@ -1140,7 +1141,7 @@ z = 9
 \end{verbatim}
 
 (Strictly speaking, the name of a variable is an expression, so
-evaluating it should assign a value to {\tt ans}, but MATLAB seems
+evaluating it should assign a value to {\tt ans}, but Octave seems
 to handle this as a special case.)
 
 
@@ -1163,10 +1164,10 @@ diff = t1^(n+1) - t2^(n+1);
  
 The details of this message might be different for you, depending
 on what's in your script.  But the general idea is that {\tt n}
-is undefined.  Notice that MATLAB tells you what line of your
+is undefined.  Notice that Octave tells you what line of your
 program the error is in, and displays the line.
 
-This information can be helpful, but beware!  MATLAB is telling you
+This information can be helpful, but beware!  Octave is telling you
 where the error was discovered, not where the error is.  In this
 case, the error is not in the script at all; it is, in a sense, in
 the workspace.
@@ -1199,7 +1200,7 @@ A {\bf precondition} is something that must be true, when the script
 starts, in order for it to work correctly.  A {\bf postcondition}
 is something that will be true when the script completes.
 
-If there is a comment at the beginning of a script, MATLAB assumes
+If there is a comment at the beginning of a script, Octave assumes
 it is the documentation for the script, so if you type {\tt help
 fibonacci1}, you get the contents of the comment (without the percent
 signs).
@@ -1218,7 +1219,7 @@ Help Window.
 \section{Assignment and equality}
 
 In mathematics the equals sign means that the two sides of the
-equation have the same value.  In MATLAB an assignment statement
+equation have the same value.  In Octave an assignment statement
 {\em looks} like a mathematical equality, but it's not.
 
 One difference is that the sides of an assignment statement are not
@@ -1252,7 +1253,7 @@ does not get updated.
 
 A third difference is that a mathematical equality is a statement that
 may or may not be true.  For example, $y = y+1$ is a statement that
-happens to be false for all real values of $y$.  In MATLAB, {\tt y
+happens to be false for all real values of $y$.  In Octave, {\tt y
 = y+1} is a sensible and useful assignment statement.  It reads the
 current value of {\tt y}, adds one, and replaces the old value with
 the new value.
@@ -1263,7 +1264,7 @@ the new value.
 y = 2
 \end{verbatim}
 
-When you read MATLAB code, you might find it helpful to pronounce
+When you read Octave code, you might find it helpful to pronounce
 the equals sign ``gets'' rather than ``equals.''  So {\tt x = y+1}
 is pronounced ``{\tt x} gets the value of {\tt y} plus one.''
 
@@ -1354,7 +1355,7 @@ for the first time.  You should test it in isolation before you
 put it into your program.
 
 For example, suppose you know that {\tt x} is the sine of some
-angle and you want to find the angle.  You find the MATLAB function
+angle and you want to find the angle.  You find the Octave function
 {\tt asin}, and you are pretty sure it computes the inverse sine
 function.  Pretty sure is not good enough; you want to be very sure.
 
@@ -1373,7 +1374,7 @@ which is correct.  Also, we know that the sine of 90 degrees is
 ans = 1.5708
 \end{verbatim}
 
-Oops.  We forgot that the trig functions in MATLAB work in radians,
+Oops.  We forgot that the trig functions in Octave work in radians,
 not degrees.  So the correct answer is $\pi/2$, which we can
 confirm by dividing through by {\tt pi}:
 
@@ -1383,8 +1384,8 @@ ans = 0.5000
 \end{verbatim}
 
 With this kind of unit testing, you are not really checking for
-errors in MATLAB, you are checking your understanding.  If you
-make an error because you are confused about how MATLAB works, it
+errors in Octave, you are checking your understanding.  If you
+make an error because you are confused about how Octave works, it
 might take a long time to find, because when you look at the code,
 it looks right. 
 
@@ -1400,11 +1401,11 @@ The worst bugs aren't in your code; they are in your head.
 
 \begin{description}
 
-\item[M-file:] A file that contains a MATLAB program. 
+\item[M-file:] A file that contains a Octave program. 
 
-\item[script:] An M-file that contains a sequence of MATLAB commands.
+\item[script:] An M-file that contains a sequence of Octave commands.
 
-\item[search path:] The list of directories where MATLAB looks for
+\item[search path:] The list of directories where Octave looks for
 M-files. 
 
 \item[workspace:] A set of variables and their values. 
@@ -1530,15 +1531,15 @@ There are four kinds of error:
 
 \begin{description}
 
-\item[Syntax error:] You have written a MATLAB command that cannot
+\item[Syntax error:] You have written a Octave command that cannot
 execute because it violates one of the rules of syntax.  For example,
 you can't have two operands in a row without an operator, so 
-\verb+pi r^2+ contains a syntax error.  When MATLAB finds a syntax
+\verb+pi r^2+ contains a syntax error.  When Octave finds a syntax
 error, it prints an error message and stops running your program.
 
 \item[Runtime error:] Your program starts running, but something goes
 wrong along the way.  For example, if you try to access a variable
-that doesn't exist, that's a runtime error.  When MATLAB detects the
+that doesn't exist, that's a runtime error.  When Octave detects the
 problem, it prints an error message and stops.
 
 \item[Logical error:] Your program runs without generating any error
@@ -1546,31 +1547,31 @@ messages, but it doesn't do the right thing.  The problem in the
 previous section, where we changed the value of {\tt a} before
 reading the old value, is a logical error.
 
-\item[Numerical error:] Most computations in MATLAB are only
+\item[Numerical error:] Most computations in Octave are only
 approximately right.  Most of the time the errors are small enough
 that we don't care, but in some cases the roundoff errors are a problem.
 
 \end{description}
 
 Syntax errors are usually the easiest.  Sometimes the error messages
-are confusing, but MATLAB can usually tell you where the error is, at
+are confusing, but Octave can usually tell you where the error is, at
 least roughly.
 
-Run time errors are harder because, as I mentioned before, MATLAB
+Run time errors are harder because, as I mentioned before, Octave
 can tell you where it detected the problem, but not what caused it.
 
-Logical errors are hard because MATLAB can't help at all.  Only you
+Logical errors are hard because Octave can't help at all.  Only you
 know what the program is supposed to do, so only you can check it.
-From MATLAB's point of view, there's nothing wrong with the program;
+From Octave's point of view, there's nothing wrong with the program;
 the bug is in your head!
 
 Numerical errors can be tricky because it's not clear whether the
-problem is your fault.  For most simple computations, MATLAB produces
+problem is your fault.  For most simple computations, Octave produces
 the floating-point value that is closest to the exact solution, which
 means that the first 15 significant digits should be correct.  But some
 computations are ill-conditioned, which means that even if your program
 is correct, the roundoff errors accumulate and the number of correct
-digits can be smaller.  Sometimes MATLAB can warn you that
+digits can be smaller.  Sometimes Octave can warn you that
 this is happening, but not always!  Precision (the number of digits
 in the answer) does not imply accuracy (the number of digits that
 are right).
@@ -1719,7 +1720,7 @@ Other shapes include {\tt +},
 When you use {\tt plot} this way, it can only plot one point at a
 time.  If you run {\tt plot} again, it clears the figure before making
 the new plot.  The {\tt hold} command lets you override that behavior.
-{\tt hold on} tells MATLAB not to clear the figure when it makes a new
+{\tt hold on} tells Octave not to clear the figure when it makes a new
 plot; {\tt hold off} returns to the default behavior.
 
 Try this:
@@ -1730,7 +1731,7 @@ Try this:
 >> plot(2, 2, 'o')
 \end{verbatim}
 
-You should see a figure with two points.  MATLAB scales
+You should see a figure with two points.  Octave scales
 the plot automatically so that the axes run from the lowest value in
 the plot to the highest.  So in this example the points are plotted in
 the corners.
@@ -1742,7 +1743,7 @@ loop it plots the value of {\tt a} versus the value of {\tt i}.
 Once you get that working, modify it so it plots the values of {\tt a}
 with red circles and the values of {\tt b} with blue diamonds.
 
-One more thing: if you use {\tt hold on} to prevent MATLAB from
+One more thing: if you use {\tt hold on} to prevent Octave from
 clearing the figure, you might want to clear the figure yourself,
 from time to time, with the command {\tt clf}.
 \end{ex}
@@ -2017,7 +2018,7 @@ total = 0
 
 Why?  Because the expression {\tt 1:-1} means ``all the numbers
 from 1 to -1, counting up by 1.''  It's not immediately obvious
-what that should mean, but MATLAB's interpretation is that there
+what that should mean, but Octave's interpretation is that there
 aren't any numbers that fit that description, so the result is
 
 \begin{verbatim}
@@ -2053,11 +2054,11 @@ end
 
 The syntax is similar to a {\tt for} loop.  The first line
 specifies the condition we are interested in; in this case we
-are asking if {\tt n} is negative.  If it is, MATLAB executes
+are asking if {\tt n} is negative.  If it is, Octave executes
 the body of the statement, which is the indented sequence of
 statements between the {\tt if} and the {\tt end}.
 
-MATLAB doesn't require you to indent the body of an {\tt if}
+Octave doesn't require you to indent the body of an {\tt if}
 statement, but it makes your code more readable, so you should do it,
 and don't make me tell you again.
 
@@ -2141,7 +2142,7 @@ Error: The expression to the left of the equals sign is not a valid
 target for an assignment.
 \end{verbatim}
 
-MATLAB thinks you are making an assignment to a variable named {\tt if x}! 
+Octave thinks you are making an assignment to a variable named {\tt if x}! 
 
 
 \section{Logical operators}
@@ -2169,7 +2170,7 @@ But don't be fooled!
 ans = 1
 \end{verbatim}
 
-The problem is that MATLAB is evaluating the operators from left
+The problem is that Octave is evaluating the operators from left
 to right, so first it checks if {\tt 0<x}.  It is, so the result
 is 1.  Then it compares the logical value 1 (not the value of
 {\tt x}) to 10.  Since {\tt 1<10}, the result is true, even though
@@ -2215,7 +2216,7 @@ The values we have seen so far are all single numbers,
 which are called {\bf scalars} to contrast them with {\bf vectors}
 and {\bf matrices}, which are collections of numbers.
 
-A vector in MATLAB is similar to a sequence in mathematics;
+A vector in Octave is similar to a sequence in mathematics;
 it is a set of numbers that correspond to positive integers.  
 What
 we called a ``range'' in the previous chapter was actually a
@@ -2231,7 +2232,7 @@ X = 1     2     3     4     5
 \end{verbatim}
 
 Variables that contain vectors are often capital letters.  That's
-just a convention; MATLAB doesn't require it, but for beginning
+just a convention; Octave doesn't require it, but for beginning
 programmers it is a useful way to remember what is a scalar and
 what is a vector.
 
@@ -2242,7 +2243,7 @@ Just as with sequences, the numbers that make up the vector are called
 \section{Vector arithmetic}
 
 You can perform arithmetic with vectors, too.  If you add a scalar
-to a vector, MATLAB increments each element of the vector:
+to a vector, Octave increments each element of the vector:
 
 \begin{verbatim}
 >> Y = X+5
@@ -2253,7 +2254,7 @@ Y = 6     7     8     9    10
 The result is a new vector; the original value of {\tt X} is not
 changed.
 
-If you add two vectors, MATLAB adds the corresponding elements of each
+If you add two vectors, Octave adds the corresponding elements of each
 vector and creates a new vector that contains the sums:
 
 \begin{verbatim}
@@ -2277,14 +2278,14 @@ Matrix dimensions must agree.
 
 The error message in this case is confusing, because we are thinking
 of these values as vectors, not matrices.  The problem is a slight
-mismatch between math vocabulary and MATLAB vocabulary.
+mismatch between math vocabulary and Octave vocabulary.
 
 
 \section{Everything is a matrix}
 
 In math (specifically in linear algebra) a vector is a one-dimensional
 sequence of values and a matrix is two-dimensional (and, if you want
-to think of it that way, a scalar is zero-dimensional).  In MATLAB,
+to think of it that way, a scalar is zero-dimensional).  In Octave,
 everything is a matrix.
 
 You can see this if you use the {\tt whos} command to display the
@@ -2323,19 +2324,19 @@ Now let's see what we've got.
   matrix       2x3                        32  double array
 \end{verbatim}
 
-According to MATLAB, everything is a double array:  ``double''
+According to Octave, everything is a double array:  ``double''
 is another name for double-precision floating-point numbers,
 and ``array'' is another name for a matrix.
 
 The only difference is the size, which is specified by the number of
 rows and columns.  The thing we called {\tt scalar} is, according to
-MATLAB, a matrix with one row and one column.  Our {\tt vector} is
+Octave, a matrix with one row and one column.  Our {\tt vector} is
 really a matrix with one row and 5 columns.  And, of course, {\tt
 matrix} is a matrix.
 
 The point of all this is that you can think of your values as
 scalars, vectors, and matrices, and I think you should, as long
-as you remember that MATLAB thinks everything is a matrix.
+as you remember that Octave thinks everything is a matrix.
 
 Here's another example where the error message only makes sense
 if you know what is happening under the hood:
@@ -2354,7 +2355,7 @@ Y = 1     2     3     4     5
 Inner matrix dimensions must agree.
 \end{verbatim}
 
-First of all, {\tt mtimes} is the MATLAB function that performs
+First of all, {\tt mtimes} is the Octave function that performs
 matrix multiplication.  The reason the ``inner matrix dimensions
 must agree'' is that the way matrix multiplication is defined in
 linear algebra, the number of rows in {\tt X} has to equal the
@@ -2451,7 +2452,7 @@ zero or negative, you get this:
 logicals.
 \end{verbatim}
 
-``Subscript indices'' is MATLAB's longfangled way to say ``indices.''
+``Subscript indices'' is Octave's longfangled way to say ``indices.''
 ``Real positive integers'' means that complex numbers are
 out.  And you can forget about ``logicals'' for now.
 
@@ -2480,7 +2481,7 @@ Vectors and sequences go together like ice cream and apple pie.  For
 example, another way to evaluate the Fibonacci sequence is by
 storing successive values in a vector.  Again, the definition of the
 Fibonacci sequence is $F_1 = 1$, $F_2 = 1$, and $F_{i} = F_{i-1} +
-F_{i-2}$ for $i \ge 3$.  In MATLAB, that looks like
+F_{i-2}$ for $i \ge 3$.  In Octave, that looks like
 
 \begin{verbatim}
 F(1) = 1
@@ -2498,7 +2499,7 @@ stores it in {\tt ans}, since the result of this script is supposed
 to be the $n$th Fibonacci number, not the whole sequence.
 
 If you had any trouble with Exercise~\ref{fib2}, you have to
-appreciate the simplicity of this version.  The MATLAB syntax is
+appreciate the simplicity of this version.  The Octave syntax is
 similar to the math notation, which makes it easier to check
 correctness.  The only drawbacks are
 
@@ -2535,7 +2536,7 @@ makes your code easier to write and debug, that's probably ok.
 Write a loop that computes the first {\tt n} elements
 of the geometric sequence $A_{i+1} = A_i/2$ with $A_1 = 1$.  Notice that
 the math notation puts $A_{i+1}$ on the left side of the equality.
-When you translate to MATLAB, you may want to shift the index.
+When you translate to Octave, you may want to shift the index.
 \end{ex}
 
 
@@ -2543,7 +2544,7 @@ When you translate to MATLAB, you may want to shift the index.
 
 Plotting and vectors go together like the moon and June, whatever that
 means.  If you call {\tt plot} with a single vector as an argument,
-MATLAB plots the indices on the $x$-axis and the elements on the
+Octave plots the indices on the $x$-axis and the elements on the
 $y$-axis.  To plot the Fibonacci numbers we computed in the previous
 section:
 
@@ -2555,7 +2556,7 @@ This display is often useful for debugging, especially
 if your vectors are big enough that displaying the elements on
 the screen is unwieldy.
 
-If you call {\tt plot} with two vectors as arguments, MATLAB plots
+If you call {\tt plot} with two vectors as arguments, Octave plots
 the second one as a function of the first; that is, it treats
 the first vector as a sequence of $x$ values and the second as
 corresponding $y$ value and plots a sequence of $(x, y)$ points.
@@ -2566,9 +2567,9 @@ Y = 6:10
 plot(X, Y)
 \end{verbatim}
 
-By default, MATLAB draws a blue line, but you can override that
+By default, Octave draws a blue line, but you can override that
 setting with the same kind of string we saw in Section~\ref{plotting}.
-For example, the string {\tt 'ro-'} tells MATLAB to plot a red circle
+For example, the string {\tt 'ro-'} tells Octave to plot a red circle
 at each data point; the hyphen means the points should be connected
 with a line.
 
@@ -2576,7 +2577,7 @@ In this example, I stuck with the convention of naming the first
 argument {\tt X} (since it is plotted on the $x$-axis) and the
 second {\tt Y}.  There is nothing special about these names;
 you could just as well plot {\tt X} as a function of {\tt Y}.
-MATLAB always treats the first vector as the ``independent''
+Octave always treats the first vector as the ``independent''
 variable, and the second as the ``dependent'' variable (if those
 terms are familiar to you).
 
@@ -2754,8 +2755,8 @@ a legal index, so it is a good way to indicate the special case).
 
 \section{Spoiling the fun}
 
-Experienced MATLAB programmers would never write the kind of loops
-in this chapter, because MATLAB provides simpler and faster ways to
+Experienced Octave programmers would never write the kind of loops
+in this chapter, because Octave provides simpler and faster ways to
 perform many reduce, filter and search operations.
 
 For example, the {\tt sum} function computes the sum of the elements
@@ -2769,7 +2770,7 @@ Section~\ref{apply}
 Y = X .^ 2
 \end{verbatim}
 
-Also, most built-in MATLAB functions work with vectors:
+Also, most built-in Octave functions work with vectors:
 
 \begin{verbatim}
 X = linspace(0, 2*pi)
@@ -2784,7 +2785,7 @@ for now you are better off on your own.
 I started with simple loops because I wanted to demonstrate the basic
 concepts and give you a chance to practice.  At some point you will
 probably have to write a loop for which there is no 
-MATLAB shortcut, but you have to work your way up from somewhere.
+Octave shortcut, but you have to work your way up from somewhere.
 
 If you understand loops and you are are comfortable with the
 shortcuts, feel free to use them!  Otherwise, you can always write
@@ -2809,7 +2810,7 @@ contains other statements in an indented body.
 generates a logical value as a result.
 
 \item[logical value:] A value that represents either ``true'' or
-``false''.  MATLAB uses the values 1 and 0, respectively.
+``false''.  Octave uses the values 1 and 0, respectively.
 
 \item[flag:] A variable that contains a logical value, often used
 to store the status of some condition.
@@ -2819,10 +2820,10 @@ to store the status of some condition.
 \item[vector:] A sequence of values.
 
 \item[matrix:] A two-dimensional collection of values (also called
-``array'' in some MATLAB documentation).
+``array'' in some Octave documentation).
 
 \item[index:] An integer value used to indicate one of the values
-in a vector or matrix (also called subscript in some MATLAB documentation).
+in a vector or matrix (also called subscript in some Octave documentation).
 
 \item[element:] One of the values in a vector or matrix.
 
@@ -3007,7 +3008,7 @@ end
 \end{verbatim}
 
 The first word of the file has to be the word {\tt function}, because
-that's how MATLAB tells the difference between a script and a function
+that's how Octave tells the difference between a script and a function
 file.
 
 A function definition is a compound statement.  The first line
@@ -3022,8 +3023,8 @@ as a convention, I like to call it {\tt res}.  Usually the last
 thing a function does is assign a value to the output variable.
 
 Once you have defined a new function, you call it the same way you
-call built-in MATLAB functions.  If you call the function as a statement,
-MATLAB puts the result into {\tt ans}:
+call built-in Octave functions.  If you call the function as a statement,
+Octave puts the result into {\tt ans}:
 
 \begin{verbatim}
 >> myfunc(1)
@@ -3112,7 +3113,7 @@ function res = myfunc (x)
 end
 \end{verbatim}
 
-When you ask for {\tt help}, MATLAB prints the comment you
+When you ask for {\tt help}, Octave prints the comment you
 provide.
 
 \begin{verbatim}
@@ -3181,19 +3182,19 @@ Then here's what you'll get:
 
 The second gotcha is that the name of the file can't have spaces.
 For example, if you write a function and name the file {\tt my func.m},
-which the MATLAB editor will happily allow you to do, and then
+which the Octave editor will happily allow you to do, and then
 try to run it, you get:
 
 \begin{verbatim}
 >> y = my func(1)
 ??? y = my func(1)
            |
-Error: Unexpected MATLAB expression.
+Error: Unexpected Octave expression.
 \end{verbatim}
 
 The third gotcha is that your function names can collide with built-in
-MATLAB functions.  For example, if you create an M-file named {\tt
-sum.m}, and then call {\tt sum}, MATLAB might call {\em your} new
+Octave functions.  For example, if you create an M-file named {\tt
+sum.m}, and then call {\tt sum}, Octave might call {\em your} new
 function, not the built-in version!  Which one actually gets called
 depends on the order of the directories in the search path, and
 (in some cases) on the arguments.  As an example, put the following
@@ -3217,10 +3218,10 @@ ans = 6
 ans = 7
 \end{verbatim}
 
-In the first case MATLAB used the built-in function; in the second
+In the first case Octave used the built-in function; in the second
 case it ran your function!  This kind of interaction can be very
 confusing.  Before you create a new function, check to see if there is
-already a MATLAB function with the same name.  If there is, choose
+already a Octave function with the same name.  If there is, choose
 another name!
 
 
@@ -3240,7 +3241,7 @@ end
 If you remember the Pythagorean Theorem, you probably figured out
 that this function computes the length of the hypotenuse of a right
 triangle if the lengths of the adjacent sides are {\tt a}
-and {\tt b}.  (There is a MATLAB function called {\tt hypot} that does
+and {\tt b}.  (There is a Octave function called {\tt hypot} that does
 the same thing.)
 
 If we call it from the Command Window with arguments 3 and 4, we can
@@ -3254,7 +3255,7 @@ c = 5
 
 The arguments you provide are assigned to the input variables in
 order, so in this case 3 is assigned to {\tt a} and 4 is assigned to
-{\tt b}.  MATLAB checks that you provide the right number of arguments;
+{\tt b}.  Octave checks that you provide the right number of arguments;
 if you provide too few, you get
 
 \begin{verbatim}
@@ -3283,7 +3284,7 @@ Which is a better message.
 \section{Logical functions}
 
 In Section~\ref{logop} we used logical operators to compare values.
-MATLAB also provides {\bf logical functions} that check for certain
+Octave also provides {\bf logical functions} that check for certain
 conditions and return logical values: 1 for ``true'' and 0 for ``false''.
 
 For example, {\tt isprime} checks to see whether a number is prime.
@@ -3553,7 +3554,7 @@ function, we can avoid name collisions; this process is called {\bf
 encapsulation} because it isolates this program from the workspace.
 
 In order to put the code we have written inside a function, we
-have to indent the whole thing.  The MATLAB editor provides a
+have to indent the whole thing.  The Octave editor provides a
 shortcut for doing that, the {\sf Increase Indent} command
 under the {\sf Text} menu.  Just don't forget to unselect the
 text before you start typing!
@@ -3658,7 +3659,7 @@ you can run the program and use the error messages to guide you.
 But this technique is risky, especially if the error messages make
 suggestions about what to change.  If you do what you're told, you
 might make the error message go away, but that doesn't mean the
-program will do the right thing.  MATLAB doesn't know what the program
+program will do the right thing.  Octave doesn't know what the program
 is {\em supposed} to do, but you should.
 
 And that brings us to the Eighth Theorem of debugging:
@@ -3681,7 +3682,7 @@ $a$ and $b$ share a common factor.  If they do, then dividing both
 by the common factor yields a smaller, similar triangle that has
 already been checked.
 
-MATLAB provides a {\tt gcd} function that computes the greatest common
+Octave provides a {\tt gcd} function that computes the greatest common
 divisor of two numbers.  If the result is greater than 1, then
 $a$ and $b$ share a common factor and we can use the {\tt continue}
 statement to skip to the next pair:
@@ -3752,10 +3753,10 @@ a function:
 
 \begin{enumerate}
 
-\item Before the function starts running, MATLAB creates a new
+\item Before the function starts running, Octave creates a new
 workspace for it.
 
-\item MATLAB evaluates each of the arguments and assigns
+\item Octave evaluates each of the arguments and assigns
 the resulting values, in order, to the input variables (which
 live in the {\em new} workspace).
 
@@ -3788,7 +3789,7 @@ function call.
 
 When you use built-in functions, it is natural to take the leap
 of faith, in part because you expect that most
-MATLAB functions work, and in part because you don't
+Octave functions work, and in part because you don't
 generally have access to the code in the body of the function.
 
 But when you start writing your own functions, you will probably
@@ -3885,7 +3886,7 @@ complexity of large programs.
 \end{itemize}
 
 Another reason you should consider using functions is that many of the
-tools provided by MATLAB require you to write functions.  For example,
+tools provided by Octave require you to write functions.  For example,
 in this chapter we will use {\tt fzero} to find solutions of nonlinear
 equations.  Later we will use {\tt ode45} to approximate solutions to
 differential equations.
@@ -3931,7 +3932,7 @@ don't like this notation.  I prefer
 \[ f : x \to x^2 - 2x -3 \]
 
 which means ``f is the function that maps from
-$x$ to $x^2 - 2x -3$.''  In MATLAB, this would be expressed
+$x$ to $x^2 - 2x -3$.''  In Octave, this would be expressed
 like this:
 
 \begin{verbatim}
@@ -4091,7 +4092,7 @@ And if you said, ``I would evaluate $f$ at a third point, find the
 parabola that passes through all three points, and compute the zeros
 of the parabola,'' then... well, you probably didn't say that.
 
-Finally, if you said, ``I would use a built-in MATLAB function that
+Finally, if you said, ``I would use a built-in Octave function that
 combines the best features of several efficient and robust
 numerical methods,'' then you are ready to go on to the next section.
 
@@ -4099,11 +4100,11 @@ numerical methods,'' then you are ready to go on to the next section.
 \section{{\tt fzero}}
 \label{fzero}
 
-{\tt fzero} is a built-in MATLAB function that
+{\tt fzero} is a built-in Octave function that
 combines the best features of several efficient and robust
 numerical methods.
 
-In order to use {\tt fzero}, you have to define a MATLAB function
+In order to use {\tt fzero}, you have to define a Octave function
 that computes the error function you derived from the original
 nonlinear equation, and you have to provide an initial guess at
 the location of a zero.
@@ -4208,7 +4209,7 @@ Error in ==> error_func at 2
     x
 \end{verbatim}
 
-Which is a very confusing error message.  The problem is that MATLAB
+Which is a very confusing error message.  The problem is that Octave
 treats the first argument as a function call, so it calls {\tt error\_func}
 with no arguments.  Since {\tt error\_func} requires one argument, the
 message indicates that the input argument is ``undefined,'' although
@@ -4216,7 +4217,7 @@ it might be clearer to say that you haven't provided a value for it.
 
 Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
-{\em always} assign a value to the output variable, but MATLAB doesn't
+{\em always} assign a value to the output variable, but Octave doesn't
 enforce this rule, so it is easy to forget.  For example, if you
 write:
 
@@ -4291,7 +4292,7 @@ expression, etc.).
 
 When you write your own functions and use them yourself, it is easy
 for mistakes to go undetected.  But when you use your functions with
-MATLAB functions like {\tt fzero}, you have to get it right!
+Octave functions like {\tt fzero}, you have to get it right!
 
 Yet another thing that can go wrong: if you provide an interval for the
 initial guess and it doesn't actually contain a root, you get
@@ -4343,7 +4344,7 @@ to make your function silent before you plot it.
 \section{More name collisions}
 
 Functions and variables occupy the same ``name-space,'' which means
-that whenever a name appears in an expression, MATLAB starts by looking
+that whenever a name appears in an expression, Octave starts by looking
 for a variable with that name, and if there isn't one, it looks for
 a function.
 
@@ -4360,7 +4361,7 @@ a value to {\tt sin}, and then try to use the {\tt sin} function, you
 \end{verbatim}
 
 In this example, the problem is clear.  Since the value of {\tt sin}
-is a scalar, and a scalar is really a 1x1 matrix, MATLAB tries to
+is a scalar, and a scalar is really a 1x1 matrix, Octave tries to
 access the 5th element of the matrix and finds that there isn't one.
 Of course, if there were more distance between the assignment
 and the ``function call,'' this message would be pretty confusing.
@@ -4394,7 +4395,7 @@ command, conflicting with its use here as the name of a variable.
 \end{verbatim}
 
 At least, that's what you get if you are lucky.  If this happens
-inside a function, MATLAB tries to call {\tt f} as a function,
+inside a function, Octave tries to call {\tt f} as a function,
 and you get this
 
 \begin{verbatim}
@@ -4519,12 +4520,12 @@ continuous set.
 \item[zero (of a function):] A value in the range of a function that
 maps to 0.
 
-\item[function handle:] In MATLAB, a function handle is a way of
+\item[function handle:] In Octave, a function handle is a way of
 referring to a function by name (and passing it as an argument)
 without calling it.
 
 \item[shadow:] A kind of name collision in which a new definition
-causes an existing definition to become invisible.  In MATLAB,
+causes an existing definition to become invisible.  In Octave,
 variable names can shadow built-in functions (with hilarious results). 
 
 \end{description}
@@ -4586,7 +4587,7 @@ Here are some suggestions about how to proceed:
 \item Rearrange the equation so the right-hand side is zero.
 Our goal is to find values of $d$ that are roots of this equation.
 
-\item Write a MATLAB function that evaluates this function.  Test it,
+\item Write a Octave function that evaluates this function.  Test it,
    then make it a quiet function.
 
 \item Make a guess about the value of $d_0$ to use as a starting place.
@@ -4848,7 +4849,7 @@ location of a target value in a vector.
 \section{Vectorizing your functions}
 
 Functions that work on vectors will almost always work on scalars
-as well, because MATLAB considers a scalar to be a vector with
+as well, because Octave considers a scalar to be a vector with
 length 1.
 
 \begin{verbatim}
@@ -4887,10 +4888,10 @@ Y = 1.3818    1.3254    1.1311
 \end{verbatim}
 
 At this point, I want to take a minute to acknowledge that I
-have been a little harsh in my presentation of MATLAB, because
+have been a little harsh in my presentation of Octave, because
 there are a number of features that I think make life harder
 than it needs to be for beginners.  But here, finally,
-we are seeing features that show MATLAB's strengths.
+we are seeing features that show Octave's strengths.
 
 Some of the other functions we wrote don't work on vectors,
 but they can be patched up with just a little effort.  For example,
@@ -4942,7 +4943,7 @@ original vector, then the elements of the cumulative sum, $C$, are:
 \[ C_i = \sum_{j=1}^i V_j \]
 
 In other words, the $i$th element of $C$ is the sum of the first
-$i$ elements from $V$.  MATLAB provides a function named {\tt cumsum}
+$i$ elements from $V$.  Octave provides a function named {\tt cumsum}
 that computes cumulative sums:
 
 \begin{verbatim}
@@ -4970,7 +4971,7 @@ D = 2     3     4     5
 \end{verbatim}
 
 Notice that the output vector is shorter by one than the input
-vector.  As a result, MATLAB's version of {\tt diff} is not
+vector.  As a result, Octave's version of {\tt diff} is not
 exactly the inverse of {\tt cumsum}.  If it were, then we would
 expect {\tt cumsum(diff(X))} to be {\tt X}:
 
@@ -4998,7 +4999,7 @@ that's:
 
 \[ P_i = \prod_{j=1}^i V_j \]
 
-In MATLAB, that looks like:
+In Octave, that looks like:
 
 \begin{verbatim}
 >> V = 1:5
@@ -5015,7 +5016,7 @@ Write a function named {\tt cumulative\_prod} that uses
 a loop to compute the cumulative product of the input vector.
 \end{ex}
 
-MATLAB doesn't provide the multiplicative version
+Octave doesn't provide the multiplicative version
 of {\tt diff}, which would be called {\tt ratio}, and which would
 compute the ratio of successive elements of the input vector.
 
@@ -5048,7 +5049,7 @@ this expression
 \[ \exists x \mbox{~in~} S: x>0 \]
 
 means, ``there exists some element $x$ in the set $S$ such that
-$x>0$.''  In MATLAB it is natural to express this idea with a logical
+$x>0$.''  In Octave it is natural to express this idea with a logical
 function, like {\tt exists}, that returns 1 if there is such an
 element and 0 if there is not.
 
@@ -5089,7 +5090,7 @@ expression
 
 means ``for all elements, $x$, in the set $S$, $x>0$.''
 
-A slightly silly way to evaluate this expression in MATLAB is to
+A slightly silly way to evaluate this expression in Octave is to
 count the number of elements that satisfy the condition.
 A better way is to reduce the problem to
 existential quantification; that is, to rewrite
@@ -5425,7 +5426,7 @@ called {\tt ode45}.  The {\tt ode} stands for ``ordinary differential
 equation [solver];'' the 45 indicates that it uses a combination of
 4th and 5th order formulas.
 
-In order to use {\tt ode45}, you have to write a MATLAB function
+In order to use {\tt ode45}, you have to write a Octave function
 that evaluates $g$ as a function of
 $t$ and $y$.
 
@@ -5517,7 +5518,7 @@ computes $g$.  The second argument is the interval we are interested
 in, one year.  The third argument is the initial population, $f(0) = 2$.
 
 When you call {\tt ode45} without assigning the result to a variable,
-MATLAB displays the result in a figure:
+Octave displays the result in a figure:
 
 \beforefig \centerline{\includegraphics[height=2in]{figs/rats.eps}}
 
@@ -5530,7 +5531,7 @@ spring and fall, but it also accelerates as the population grows.
 \section{Multiple output variables}
 \label{rats}
 
-{\tt ode45} is one of many MATLAB functions that return more
+{\tt ode45} is one of many Octave functions that return more
 than one output variable.  The syntax for calling it and saving
 the results is
 
@@ -5564,7 +5565,7 @@ last element from each vector:
 ans = 365.0000   76.9530
 \end{verbatim}
 
-{\tt end} is a special word in MATLAB; when it appears as an index,
+{\tt end} is a special word in Octave; when it appears as an index,
 it means ``the index of the last element.''  You can use it in an
 expression, so {\tt Y(end-1)} is the second-to-last element of
 {\tt Y}.
@@ -5629,7 +5630,7 @@ way around).
 \section{What can go wrong?}
 
 Don't forget the {\tt @} on the function handle.
-If you leave it out, MATLAB treats the first argument as a function
+If you leave it out, Octave treats the first argument as a function
 call, and calls {\tt rats} without providing arguments.
 
 \begin{verbatim}
@@ -5708,7 +5709,7 @@ This might be a scary message, but if you read the first line
 and ignore the rest, you'll get the idea.
 
 Yet another mistake that people make with {\tt ode45} is leaving
-out the brackets on the second argument.  In that case, MATLAB
+out the brackets on the second argument.  In that case, Octave
 thinks there are four arguments, and you get
 
 \begin{verbatim}
@@ -5988,7 +5989,7 @@ ans = 2     3
 \section{Row and column vectors}
 
 Although it is useful to think in terms of scalars, vectors and matrices,
-from MATLAB's point of view, everything is a matrix.  A scalar
+from Octave's point of view, everything is a matrix.  A scalar
 is just a matrix that happens to have one row and one column:
 
 \begin{verbatim}
@@ -6190,7 +6191,7 @@ The order of these elements (rabbits and foxes) is up to you, but
 you have to be consistent.  That is, the initial conditions you
 provide when you call {\tt ode45} have to be the same as the order,
 inside {\tt lotka}, where you unpack the input vector and repack
-the output vector.  MATLAB doesn't know what these values mean;
+the output vector.  Octave doesn't know what these values mean;
 it is up to you as the programmer to keep track.
 
 But if you get the order right, you should see something like this:
@@ -6223,7 +6224,7 @@ Which is pretty good as error messages go.  It's not clear {\em why}
 it needs to be a column vector, but that's not our problem.
 
 Another possible error is reversing the order of the elements in the
-initial conditions, or the vectors inside {\tt lotka}.  Again, MATLAB
+initial conditions, or the vectors inside {\tt lotka}.  Again, Octave
 doesn't know what the elements are supposed to mean, so it can't catch
 errors like this; it will just produce incorrect results.
 
@@ -6262,7 +6263,7 @@ do this:
 >> plot(T, M)
 \end{verbatim}
 
-MATLAB understands that it should plot each column from {\tt M}
+Octave understands that it should plot each column from {\tt M}
 versus {\tt T}.
 
 You can copy the columns of {\tt M} into other variables like
@@ -6324,7 +6325,7 @@ but for 4 or more variables, you are on your own.
 
 \begin{description}
 
-\item[row vector:] In MATLAB, a matrix that has only one row. 
+\item[row vector:] In Octave, a matrix that has only one row. 
 
 \item[column vector:] A matrix that has only one column. 
 
@@ -6983,7 +6984,7 @@ ranges?  How big is the effect on the optimal angles?
 Normally when you call {\tt ode45} you have to specify
 a start time and an end time.  But in many cases, you don't know ahead
 of time when the simulation should end.
-Fortunately MATLAB provides a mechanism for dealing
+Fortunately Octave provides a mechanism for dealing
 with this problem.  The bad news is that it is a little awkward.
 Here's how it works:
 
@@ -7138,7 +7139,7 @@ This method works for almost any value of $x_4$, but some choices
 are better than others.  In the example, I chose to bisect the
 bigger of the ranges $(x_1, x_2)$ and $(x_2, x_3)$.
 
-Here's what that looks like in MATLAB:
+Here's what that looks like in Octave:
 
 \begin{verbatim}
 function res = optimize(V)
@@ -7234,7 +7235,7 @@ optimized.
 \end{ex}
 
 \begin{ex}
-The MATLAB function {\tt fminsearch} takes a function handle
+The Octave function {\tt fminsearch} takes a function handle
 and searches for a local minimum.  Read the documentation for
 {\tt fminsearch} and use it to find the optimal launch angle
 of a baseball with a given velocity.
@@ -7319,7 +7320,7 @@ because the time value we want is right in the middle.
 
 A better option is to draw a straight line between the two points that
 bracket Day 180 and use the line to estimate the value in between.
-This process is called {\bf linear interpolation}, and MATLAB provides
+This process is called {\bf linear interpolation}, and Octave provides
 a function named {\tt interp1} that does it:
 
 \begin{verbatim}
@@ -7556,14 +7557,14 @@ golf ball is about 0.2 as long as the ball is moving faster than 20 m/s.
 \section{What's a vector?}
 
 The word ``vector'' means different things to different people.
-In MATLAB, a vector is a matrix that has either one row or one
-column.  So far we have used MATLAB vectors to represent
+In Octave, a vector is a matrix that has either one row or one
+column.  So far we have used Octave vectors to represent
 
 \begin{description}
 
 \item[sequences:] A sequence is a set of values identified by
 integer indices; it is natural to store the elements of the
-sequence as elements of a MATLAB vector.
+sequence as elements of a Octave vector.
 
 \item[state vectors:] A state vector is a set of values that
 describes the state of a physical system.  When you call
@@ -7580,7 +7581,7 @@ from the time values in {\tt T} to the population values in {\tt Y}.
 
 \end{description}
 
-In this chapter we will see another use of MATLAB vectors:
+In this chapter we will see another use of Octave vectors:
 representing spatial vectors.  A spatial vector is a value that
 represents a multidimensional physical quantity like position,
 velocity, acceleration or force\footnote{See
@@ -7594,11 +7595,11 @@ $z$ coordinates.  As another example, in 2-dimensional polar
 coordinates, you can specify a velocity with two numbers, a
 magnitude and an angle, often called $r$ and $\theta$.
 
-It is convenient to represent spatial vectors using MATLAB vectors
-because MATLAB knows how to perform most of the vector
+It is convenient to represent spatial vectors using Octave vectors
+because Octave knows how to perform most of the vector
 operations you need for physical modeling.  For example,
 suppose that you are given the velocity of a baseball in
-the form of a MATLAB vector with two elements, $v_x$ and $v_y$,
+the form of a Octave vector with two elements, $v_x$ and $v_y$,
 which are the components of velocity in the $x$ and $y$ directions.
 
 \begin{verbatim}
@@ -7618,11 +7619,11 @@ $\rho$, $A$ and $C_d$, are scalars.
 
 The magnitude of a vector is the square root of the sum of the squares
 of the elements.  You could compute it with {\tt hypotenuse} from
-Section~\ref{hypotenuse}, or you could use the MATLAB function {\tt
+Section~\ref{hypotenuse}, or you could use the Octave function {\tt
 norm} ({\bf norm} is another name\footnote{Magnitude is also called
 ``length'' but I will avoid that term because it gets confused with
 the {\tt length} function, which returns the number of elements in a
-MATLAB vector.}  for the magnitude of a vector):
+Octave vector.}  for the magnitude of a vector):
 
 \begin{verbatim}
 >> v = norm(V)
@@ -7698,7 +7699,7 @@ The dot product of vectors $A$ and $B$ is a scalar:
 where $a$ is the magnitude of $A$, $b$ is the magnitude of $B$,
 and $\theta$ is the angle between the vectors.  We already know
 how to compute magnitudes, and you could probably figure out
-how to compute $\theta$, but you don't have to.  MATLAB provides
+how to compute $\theta$, but you don't have to.  Octave provides
 a function, {\tt dot}, that computes dot products.
 
 \begin{verbatim}
@@ -7730,7 +7731,7 @@ is perpendicular to $A$ and $B$ and whose magnitude is
 \[ c = a b \sin \theta \]
 %
 where (again) $a$ is the magnitude of $A$, $b$ is the magnitude of
-$B$, and $\theta$ is the angle between the vectors.  MATLAB provides
+$B$, and $\theta$ is the angle between the vectors.  Octave provides
 a function, {\tt cross}, that computes cross products.
 
 \begin{verbatim}
@@ -7788,7 +7789,7 @@ rhat = R / r
 \end{verbatim}
 
 \begin{ex}
-Write a sequence of MATLAB statements that computes {\tt F12}, a vector
+Write a sequence of Octave statements that computes {\tt F12}, a vector
 that represents the force on the star due to the planet, and {\tt
 F21}, the force on the planet due to the star.
 \end{ex}
@@ -7812,7 +7813,7 @@ about 4332 days for Jupiter to orbit the Sun.
 
 Animation is a useful tool for checking the results of a physical
 model.  If something is wrong, animation can make it obvious.
-There are two ways to do animation in MATLAB.  One is to use
+There are two ways to do animation in Octave.  One is to use
 {\tt getframe} to capture a series of images and {\tt movie} to
 play them back.
 The more informal way is to draw a series of plots.
@@ -7847,18 +7848,18 @@ positions and velocities of the Sun and Jupiter, so
 
 {\tt minmax} is a vector of four elements which is used inside
 the loop to set the axes of the figure.  This is necessary because
-otherwise MATLAB scales the figure each time through the loop,
+otherwise Octave scales the figure each time through the loop,
 so the axes keep changing, which makes the animation hard
 to watch.
 
 Each time through the loop, {\tt animate\_func} uses {\tt clf}
 to clear the figure and {\tt axis} to reset the axes.  {\tt hold
 on} makes it possible to put more than one plot onto the same
-axes (otherwise MATLAB clears the figure each time you call
+axes (otherwise Octave clears the figure each time you call
 {\tt plot}).
 
 Each time through the loop, we have to call {\tt drawnow} so
-that MATLAB actually displays each plot.  Otherwise it waits
+that Octave actually displays each plot.  Otherwise it waits
 until you finish drawing all the figures and {\em then} updates
 the display.
 
@@ -7981,7 +7982,7 @@ decreases.
 \end{ex}
 
 \begin{ex}
-Run your simulation with one of the other ODE solvers MATLAB provides
+Run your simulation with one of the other ODE solvers Octave provides
 and see if any of them conserve energy.
 \end{ex}
 
@@ -8033,7 +8034,7 @@ multidimensional physical quantity like position, velocity,
 acceleration or force.
 
 \item[norm:] The magnitude of a vector.  Sometimes called ``length,''
-but not to be confused with the number of elements in a MATLAB
+but not to be confused with the number of elements in a Octave
 vector.
 
 \item[unit vector:] A vector with norm 1, used to indicate
