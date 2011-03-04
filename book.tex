@@ -1061,9 +1061,7 @@ Note: you can't use Greek letters in Octave; when translating
 math expressions with Greek letters, it is common to write out
 the name of the letter (assuming you know it).
 \end{ex}
- 
 
-%%%%%%%%%%%%%%%%%%% Stopped here %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % chap02
 \chapter{Scripts}
@@ -1077,31 +1075,55 @@ execute the script.
 
 A script is a file that contains Octave code. These files are
 also called ``M-files'' because they use the extension {\tt .m},
-which is short for Octave.
+which is short for Octave.\footnote{The .m extension was first used for MATLAB
+script files, but the creators of Octave decided to use the same extension
+because the languages are nearly identical.}
 
-You can create and edit
-scripts with any text editor or word processor, but the simplest way
-is by selecting {\sf New}$\rightarrow${\sf Script} from the {\sf File}
-menu. A window appears running a text editor specially designed for
-Octave.
+Octave does not have a built-in editor, so when you write or edit scripts,
+Octave opens up one of the text editors that's installed on your computer. If
+you are using Linux, Octave will open up Emacs -- a very powerful text editor.
+Unless you are very familiar UNIX operating systems, the Emacs interface will be
+very strange and unintuitive. (Be warned that the keyboard shortcuts are
+different from the shortcuts you are probably used to!) In this book, we assume
+that your version of Octave uses Emacs as its default editor.
 
-Type the following code in the editor
+Type {\tt
+edit} in the Octave window command window and press enter. You should see an
+Emacs window open up.\footnote{Most distributions of Linux now have a version of
+Emacs with a graphical user interface, but some older distributions may still
+used the command-line version.} Note that window that appears is NOT a new
+document window -- this is just the default startup window.
+
+To create a new M-file, click on the new document icon on the
+toolbar, or type the key combination CTRL-X,
+followed by the key combination CTRL-F (in documentation, this will often be
+abbreviated as {\tt C-x C-f}). The line at the very bottom of the window should
+read {\tt Find file: $\sim$/}. Type in the name {\tt myscript.m} (so that the
+line now displays {\tt Find file: $\sim$/myscript.m}), and hit ENTER. You
+should now see an empty text window.
+
+Type the following code in the window
 
 \begin{verbatim}
 x = 5
 \end{verbatim}
 
 and then press the (outdated) floppy disk icon, or select {\sf Save}
-from the {\sf File} menu. Either way, a dialog box appears where you
-can choose the file name and the directory where it should go. Change
-the name to {\tt myscript.m} and leave the directory unchanged.
+from the {\sf File} menu. You can also use the keyboard shortcut {\tt C-x C-s}
+(CTRL-X, followed by CTRL-S).
 
-By default, Octave will store your script in a directory that is on
-the {\bf search path}, which is the list of directories Octave
-searches for scripts.
+By default, Octave will store your script in the current directory that
+you're in. A {\bf directory} is just a fancy name for a folder; it's a place
+on the computer where files are stored. (If you don't know what your current
+directory is, back in the
+Octave window type the command {\tt pwd}, print working directory. You might
+have to close Emacs first). If you started up Octave directly from the terminal,
+chances are you're in you're home folder. We'll talk more about how to navigate
+through directories later.
 
-Go back to the Command Window and type {\tt myscript} (without the
-extension) at the prompt. Octave executes your script and displays
+Exit out of the editor by selecting {\sf Quit} from the {\sf File} menu, or by
+typing the keyboard shortcut {\tt C-x C-c}. Back in the Octave terminal window,
+enter the command {\tt myscript}. Octave executes your script and displays
 the result.
 
 \begin{verbatim}
@@ -1112,18 +1134,18 @@ x = 5
 When you run a script, Octave executes the commands in the M-File, one
 after another, exactly as if you had typed them at the prompt.
 
+If you made a mistake, or if you want to edit the code you just wrote, you can
+re-open the script by typing the command {\tt edit myscript.m} in the Octave
+window. This will open myscript.m directly without opening up the Emacs startup
+window.
+
 If something goes wrong and Octave can't find your script, you will
 get an error message like:
 
 \begin{verbatim}
 octave:1> myscript
-??? Undefined function or variable 'myscript'.
+error: `myscript' undefined near line 3 column 1
 \end{verbatim}
-
-In this case you can either save your script again in a directory
-that is on the search path, or modify the search path to include
-the directory where you keep your scripts. You'll have to consult
-the documentation for the details (sorry!).
 
 The filename can be anything you want, but you should try to choose
 something meaningful and memorable. You should be very careful to choose a
@@ -1135,18 +1157,13 @@ to run it:
 
 \begin{verbatim}
 octave:1> my script
-??? Undefined function or method 'my' for input arguments 
-of type 'char'.
+error: `my' undefined near line 8 column 1
 \end{verbatim}
 
-The problem is that it is looking for a scipt named {\tt my}. The
+The problem is that it is looking for a script named {\tt my}. The
 problem is even worse if the first word of the filename is a function
 that exists. Just for fun, create a script named {\tt abs val.m}
 and run it.
-
-Keeping track of your scripts can be a pain. To keep things simple,
-for now, I suggest putting all of your scripts in the default
-directory.
 
 \begin{ex}
 The Fibonacci sequence, denoted $F$, is described by the equations
@@ -1185,9 +1202,10 @@ might take a few tries to get everything right. Putting your code
 in a script makes it easier to edit than typing it at the prompt.
 
 On the other hand, it can be a pain to switch back and forth between
-the Command Window and the Editor. Try to arrange your windows so
-you can see the Editor and the Command Window at the same time, and
-use the Tab key or the mouse to switch between them.
+the Emacs and the Octave terminal window. Notice that you can't run anything
+in the Octave window while Emacs is open. One way to work around this is to
+open up another terminal window and run Octave. Then one terminal can be used
+for running Emacs and the other can be used to run prompt commands.
 
 \item If you choose good names for your scripts, you will be able
 to remember which script does what, and you might be able to reuse
@@ -1231,39 +1249,40 @@ names of the variables in the workspace.
 
 \begin{verbatim}
 octave:1> x=5;
-octave:1> y=7;
-octave:1> z=9;
-octave:1> who
+octave:2> y=7;
+octave:3> z=9;
+octave:4> who
+Variables in the current scope:
 
-Your variables are:
+ans  x    y    z
 
-x y z 
 \end{verbatim}
 
 The {\tt clear} command removes variables.
 
 \begin{verbatim}
-octave:1> clear y
-octave:1> who
+octave:5> clear y
+octave:6> who
+Variables in the current scope:
 
-Your variables are:
+ans  x    z
 
-x z 
+
 \end{verbatim}
 
 To display the value of a variable, you can use the {\tt disp}
 function.
 
 \begin{verbatim}
-octave:1> disp(z)
-   9
+octave:7> disp(z)
+ 9
 \end{verbatim}
 
 But it's easier to just type the variable name.
 
 \begin{verbatim}
-octave:1> z
-z = 9
+octave:8> z
+z =  9
 \end{verbatim}
 
 (Strictly speaking, the name of a variable is an expression, so
@@ -1282,10 +1301,10 @@ to assign a value to {\tt n}. If you don't:
 
 \begin{verbatim}
 octave:1> fibonacci1
-??? Undefined function or variable "n".
-
-Error in ==> fibonacci1 at 4
-diff = t1^(n+1) - t2^(n+1);
+error: `n' undefined near line 2 column 25
+error: called from:
+error:   /home/gpleiss/Documents/Octave/fibonacci1.m at line 2, 
+column 4
 \end{verbatim}
  
 The details of this message might be different for you, depending
@@ -1333,6 +1352,9 @@ signs).
 
 \begin{verbatim}
 octave:1> help fibonacci1
+`fibonacci1' is a script from the file
+/home/gpleiss/Documents/Octave/fibonacci1.m
+
  Computes the nth Fibonacci number. 
  Precondition: you must assign a value to n before running 
  this script. Postcondition: the result is stored in ans.
@@ -1355,22 +1377,19 @@ target} of the assignment. So this is legal:
 
 \begin{verbatim}
 octave:1> y = 1;
-octave:1> x = y+1
-x = 2
+octave:2> x = y+1
+x =  2
 \end{verbatim}
 
 But this is not:
 
 \begin{verbatim}
-octave:1> y+1 = x
-??? y+1 = x
-    |
-Error: The expression to the left of the equals sign is not a valid 
-target for an assignment.
+octave:3> y+1 = x
+error: invalid lvalue function called in expression
 \end{verbatim}
 
-In this case the error message is pretty helpful, as long as you know
-what a ``target'' is.
+This error message may be confusing, but hopefully if you see it again you'll
+recognize it and know what it means.
 
 Another difference is that an assignment statement is only temporary,
 in the following sense. When you assign {\tt x = y+1}, you get the
@@ -1385,8 +1404,8 @@ current value of {\tt y}, adds one, and replaces the old value with
 the new value.
 
 \begin{verbatim}
-octave:1> y = 1;
-octave:1> y = y+1
+octave:4> y = 1;
+octave:5> y = y+1
 y = 2
 \end{verbatim}
 
@@ -1467,7 +1486,6 @@ If you find yourself writing more than a few lines of code before
 you start testing, and you are spending a lot of time debugging,
 you should try incremental development.
 
-
 \section{Unit testing}
 
 In large software projects, {\bf unit testing} is the process of
@@ -1496,7 +1514,7 @@ which is correct. Also, we know that the sine of 90 degrees is
 1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
 
 \begin{verbatim}
-octave:1> asin(1)
+octave:2> asin(1)
 ans = 1.5708
 \end{verbatim}
 
@@ -1505,7 +1523,7 @@ not degrees. So the correct answer is $\pi/2$, which we can
 confirm by dividing through by {\tt pi}:
 
 \begin{verbatim}
-octave:1> asin(1) / pi
+octave:3> asin(1) / pi
 ans = 0.5000
 \end{verbatim}
 
@@ -1521,7 +1539,67 @@ Which brings us to the Sixth Theorem of Debugging:
 The worst bugs aren't in your code; they are in your head.
 \end{quote}
 
+\section{A good layout}
 
+By now you've probably noticed that it's rather annoying to go back and forward
+between edit scripts and running them. Each time you want to run the script you
+have to save and close the editor. And if you discover an error, you have to
+re-open the editor. This can get rather annoying, especially if your are
+incrementally testing your code.
+
+One solution I've found is to have two terminal windows open - both running
+Octave. One is my ``command window,'' where I will run scripts or test out
+lines of code. The other is my ``editor window,'' where I call the editor from.
+Both windows are running Octave, and both can access Octave files and
+commands at the same time. In the top window, I call {\tt edit fibonacci.m}.
+This opens Emacs, and I type the script. After I type a part of the script and
+save it, I can run it from the bottom window. I never have to close the editor.
+
+\begin{figure}
+ \centerline{\includegraphics[height=3.8in]{figs/ScreenLayout.png}}
+ \caption{A good screen layout. The top terminal window is running Octave and
+keeping Emacs open, while the bottom window is the ``command window,'' running
+the script while keeping the editor open.}
+\end{figure}
+
+\section{Navigating Through Directories}
+
+By default, Octave will save scripts in the current directory that you are in.
+Again, if you started up Octave in a terminal window, your current
+directory should be your home folder. Chances are you don't want to fill up
+your home folder with lots of Octave scripts. To store files in other folders
+we need to learn how to navigate around the file system.
+In general, we probably won't be doing any massive file organization
+while running Octave. Nevertheless, there are three file-related tasks that
+we will perform frequently:
+%
+\begin{enumerate}
+ \item Change our current directory
+ \item See what files are in our directory
+ \item Make a new folder
+\end{enumerate}
+
+All of these tasks can be performed in Octave uses standard {\bf UNIX commands}.
+To change your directory, use the command {\tt cd}. For example, to go to your
+Documents folder, type {\tt cd Documents}. If you want to go back a folder, type
+{\tt cd ../}. You can also navigate through multiple levels at once. {\tt cd
+Documents/Octave} will take you to your Octave folder inside your Documents
+folder. To return to your home folder, type {\tt cd} with nothing after it.
+
+Sometimes you don't know if the current directory contains the file you're
+looking for. Use the command {\tt ls} to list all the files and directories that
+are inside your current directory. For example, typing the command {cd
+Documents}, followed by {\tt ls} will list all the files in your Documents
+folder.
+
+Finally, you may want to create a new folder inside your Documents folder to
+store all of your Octave scripts. After you cd to your Documents folder, use
+the command {\tt mkdir Octave} to make a folder named Octave. Typing {\tt cd
+Octave} will then make this new folder your current directory.
+
+(One note about naming: though directory names can have spaces in them, you
+will find that is much easier to navigate if you use names that have
+no spaces.)
 
 \section{Glossary}
 
@@ -1531,8 +1609,7 @@ The worst bugs aren't in your code; they are in your head.
 
 \item[script:] An M-file that contains a sequence of Octave commands.
 
-\item[search path:] The list of directories where Octave looks for
-M-files. 
+\item[directory:] A folder in the computer's file system where files are stored.
 
 \item[workspace:] A set of variables and their values. 
 
@@ -1777,15 +1854,14 @@ To see the loop in action you can run a loop that displays the
 loop variable:
 
 \begin{verbatim}
-octave:1> for i=1:5
-  i
-end
-
-i = 1
-i = 2
-i = 3
-i = 4
-i = 5
+octave:2> for i=1:5
+> i
+> end
+i =  1
+i =  2
+i =  3
+i =  4
+i =  5
 \end{verbatim}
 
 As this example shows, you {\em can} run a for loop from the
@@ -1819,29 +1895,31 @@ To plot a single point, type
 octave:1> plot(1, 2)
 \end{verbatim}
 
-A {\sf Figure Window} should appear with a graph and a single, blue dot
+A {\sf Figure Window} should appear with a graph. You probably won't be able to
+see it, but there is a single very small blue dot
 at $x$ position 1 and $y$ position 2. To make the dot more visible,
 you can specify a different shape:
 
 \begin{verbatim}
-octave:1> plot(1, 2, 'o')
+octave:2> plot(1, 2, 'o')
 \end{verbatim}
 
 The letter in single quotes is a string that specifies how the
 point should be plotted. You can also specify the color:
 
 \begin{verbatim}
-octave:1> plot(1, 2, 'ro')
+octave:3> plot(1, 2, 'ro')
 \end{verbatim}
 
 {\tt r} stands for red; the other colors include {\bf g}reen, {\bf
-b}lue, {\bf c}yan, {\bf m}agenta, {\bf y}ellow and blac{\bf k}.
+b}lue, {\bf c}yan, {\bf m}agenta, {\bf w}hite and blac{\bf k}.
 Other shapes include {\tt +}, 
 {\tt *}, 
-{\tt x}, 
-{\tt s} (for square), 
-{\tt d} (for diamond), and 
+{\tt x}, and 
 \verb+^+ (for a triangle). 
+We recommend that you specify the shape, if not not the color. The small dot
+that Octave uses as a default is normally very difficult to see, where as the
+other shapes are fairly visible.
 
 When you use {\tt plot} this way, it can only plot one point at a
 time. If you run {\tt plot} again, it clears the figure before making
@@ -1852,9 +1930,9 @@ plot; {\tt hold off} returns to the default behavior.
 Try this:
 
 \begin{verbatim}
-octave:1> hold on
-octave:1> plot(1, 1, 'o')
-octave:1> plot(2, 2, 'o')
+octave:4> hold on
+octave:5> plot(1, 1, 'o')
+octave:6> plot(2, 2, 'o')
 \end{verbatim}
 
 You should see a figure with two points. Octave scales
@@ -1869,10 +1947,11 @@ loop it plots the value of {\tt a} versus the value of {\tt i}.
 Once you get that working, modify it so it plots the values of {\tt a}
 with red circles and the values of {\tt b} with blue diamonds.
 
+\end{ex}
+
 One more thing: if you use {\tt hold on} to prevent Octave from
 clearing the figure, you might want to clear the figure yourself,
 from time to time, with the command {\tt clf}.
-\end{ex}
 
 
 \section{Sequences}
@@ -1999,19 +2078,15 @@ of {\tt n}:
 
 \begin{verbatim}
 octave:1> n=10; series
-
 total = 1.99804687500000
 
-octave:1> n=20; series
-
+octave:2> n=20; series
 total = 1.99999809265137
 
-octave:1> n=30; series
-
+octave:3> n=30; series
 total = 1.99999999813735
 
-octave:1> n=40; series
-
+octave:4> n=40; series
 total = 1.99999999999818
 \end{verbatim}
 
@@ -2149,8 +2224,7 @@ aren't any numbers that fit that description, so the result is
 
 \begin{verbatim}
 octave:1> 1:-1
-
-ans = Empty matrix: 1-by-0
+ans = [](1x0)
 \end{verbatim}
 
 If the matrix is empty, you might expect it to be ``0-by-0,'' but
@@ -2235,16 +2309,14 @@ can also evaluate them at the prompt:
 
 \begin{verbatim}
 octave:1> x = 5;
-octave:1> x < 10
-
+octave:2> x < 10
 ans = 1
 \end{verbatim}
 
 You can assign a logical value to a variable:
 
 \begin{verbatim}
-octave:1> flag = x > 10
-
+octave:3> flag = x > 10
 flag = 0
 \end{verbatim}
 
@@ -2258,18 +2330,18 @@ is the symbol for ``not.'')
 
 Don't forget that {\tt ==} is the operator that tests equality,
 and {\tt =} is the assignment operator. If you try to use {\tt =} in
-an {\tt if} statement, you get a syntax error:
+an {\tt if} statement, you get a strange message:
 
 \begin{verbatim}
-if x=5
-??? if x=5
-    |
-Error: The expression to the left of the equals sign is not a valid 
-target for an assignment.
+octave:4> if x=5
+> ans = 1
+> end
+warning: suggest parenthesis around assignment used as truth value
+ans =  1
 \end{verbatim}
 
-Octave thinks you are making an assignment to a variable named {\tt if x}! 
-
+Octave does not check to see if the variable x equals 5. It assigns 5 to x, and
+then runs whatever is inside the if statement.
 
 \section{Logical operators}
 \label{logop}
@@ -2282,17 +2354,15 @@ example:
 
 \begin{verbatim}
 octave:1> x = 5;
-octave:1> 0 < x < 10      % right for the wrong reason
-
+octave:2> 0 < x < 10      % right for the wrong reason
 ans = 1
 \end{verbatim}
 
 But don't be fooled!
 
 \begin{verbatim}
-octave:1> x = 17
-octave:1> 0 < x < 10      % just plain wrong
-
+octave:3> x = 17
+octave:4> 0 < x < 10      % just plain wrong
 ans = 1
 \end{verbatim}
 
@@ -2320,14 +2390,12 @@ But it is more concise to use the AND operator, {\tt \&\&}, to
 combine the conditions.
 
 \begin{verbatim}
-octave:1> x = 5;
-octave:1> 0<x && x<10
-
+octave:5> x = 5;
+octave:6> 0<x && x<10
 ans = 1
 
-octave:1> x = 17;
-octave:1> 0<x && x<10
-
+octave:7> x = 17;
+octave:8> 0<x && x<10
 ans = 0
 \end{verbatim}
 
@@ -2372,8 +2440,7 @@ You can perform arithmetic with vectors, too. If you add a scalar
 to a vector, Octave increments each element of the vector:
 
 \begin{verbatim}
-octave:1> Y = X+5
-
+octave:2> Y = X+5
 Y = 6   7   8   9  10
 \end{verbatim}
 
@@ -2384,8 +2451,7 @@ If you add two vectors, Octave adds the corresponding elements of each
 vector and creates a new vector that contains the sums:
 
 \begin{verbatim}
-octave:1> Z = X+Y
-
+octave:3> Z = X+Y
 Z = 7   9  11  13  15
 \end{verbatim}
 
@@ -2393,18 +2459,17 @@ But adding vectors only works if the operands are the same size.
 Otherwise:
 
 \begin{verbatim}
-octave:1> W = 1:3
-
+octave:4> W = 1:3
 W = 1   2   3
 
-octave:1> X+W
-??? Error using ==> plus
-Matrix dimensions must agree.
+octave:5> X+W
+error: operator +: nonconformant arguments (op1 is 1x5, op2 is 
+1x3)
 \end{verbatim}
 
-The error message in this case is confusing, because we are thinking
-of these values as vectors, not matrices. The problem is a slight
-mismatch between math vocabulary and Octave vocabulary.
+What's nice about this error message is that Octave tells you the size of
+the vectors. Note that the size is given by two numbers (e.g. 1x5). X is a
+vector of length 5, but Octave treats X as a 1-by-5 matrix.
 
 
 \section{Everything is a matrix}
@@ -2422,15 +2487,12 @@ First I'll make one of each kind of value:
 
 \begin{verbatim}
 octave:1> scalar = 5
-
 scalar = 5
 
-octave:1> vector = 1:5
-
+octave:2> vector = 1:5
 vector = 1   2   3   4   5
 
-octave:1> matrix = ones(2,3)
-
+octave:3> matrix = ones(2,3)
 matrix =
 
    1   1   1
@@ -2442,17 +2504,23 @@ number of rows and columns, and sets all the elements to 1.
 Now let's see what we've got.
 
 \begin{verbatim}
-octave:1> whos
- Name     Size          Bytes Class
+octave:4> whos
+Variables in the current scope:
 
- scalar    1x1             8 double array
- vector    1x5            40 double array
- matrix    2x3            32 double array
+  Attr Name        Size                     Bytes  Class
+  ==== ====        ====                     =====  ===== 
+       ans         1x30                        30  char
+       matrix      2x3                         48  double
+       scalar      1x1                          8  double
+       vector      1x5                         24  double
+
+Total is 42 elements using 110 bytes
 \end{verbatim}
 
 According to Octave, everything is a double array: ``double''
 is another name for double-precision floating-point numbers,
-and ``array'' is another name for a matrix.
+and ``array'' is another name for a matrix. (The only variable that is not a
+double array is ans. Don't worry about this for now.)
 
 The only difference is the size, which is specified by the number of
 rows and columns. The thing we called {\tt scalar} is, according to
@@ -2468,17 +2536,15 @@ Here's another example where the error message only makes sense
 if you know what is happening under the hood:
 
 \begin{verbatim}
-octave:1> X = 1:5
-
+octave:6> X = 1:5
 X = 1   2   3   4   5
 
-octave:1> Y = 1:5
-
+octave:7> Y = 1:5
 Y = 1   2   3   4   5
 
-octave:1> Z = X*Y
-??? Error using ==> mtimes
-Inner matrix dimensions must agree.
+octave:8> Z = X*Y
+error: operator *: nonconformant arguments (op1 is 1x5, 
+op2 is 1x5)
 \end{verbatim}
 
 First of all, {\tt mtimes} is the Octave function that performs
@@ -2495,8 +2561,7 @@ is called {\bf elementwise} multiplication, and the operator that
 performs it is {\tt .*}:
 
 \begin{verbatim}
-octave:1> X .* Y
-
+octave:9> X .* Y
 ans = 1   4   9  16  25
 \end{verbatim}
 
@@ -2512,15 +2577,12 @@ You can select elements of a vector with parentheses:
 
 \begin{verbatim}
 octave:1> Y = 6:10
-
 Y = 6   7   8   9  10
 
-octave:1> Y(1)
-
+octave:2> Y(1)
 ans = 6
 
-octave:1> Y(5)
-
+octave:3> Y(5)
 ans = 10
 \end{verbatim}
 
@@ -2532,10 +2594,8 @@ vector you want.
 The index can be any kind of expression.
 
 \begin{verbatim}
-octave:1> i = 1;
-
-octave:1> Y(i+1)
-
+octave:4> i = 1;
+octave:5> Y(i+1)
 ans = 7
 \end{verbatim}
 
@@ -2573,8 +2633,8 @@ less than or equal to the length of the vector. If it's
 zero or negative, you get this:
 
 \begin{verbatim}
-octave:1> Y(0)
-??? Subscript indices must either be real positive integers or
+octave:6> Y(0)
+error: subscript indices must be either positive integers or 
 logicals.
 \end{verbatim}
 
@@ -2585,8 +2645,8 @@ out. And you can forget about ``logicals'' for now.
 If the index is too big, you get this:
 
 \begin{verbatim}
-octave:1> Y(6)
-??? Index exceeds matrix dimensions.
+octave:7> Y(6)
+error: A(I): Index exceeds matrix dimension.
 \end{verbatim}
 
 There's the ``m'' word again, but other than that, this message
@@ -2595,8 +2655,8 @@ is pretty clear.
 Finally, don't forget that the index has to be an integer:
 
 \begin{verbatim}
-octave:1> Y(1.5)
-??? Subscript indices must either be real positive integers or
+octave:8> Y(1.5)
+error: subscript indices must be either positive integers or
 logicals.
 \end{verbatim}
 
@@ -2682,6 +2742,11 @@ This display is often useful for debugging, especially
 if your vectors are big enough that displaying the elements on
 the screen is unwieldy.
 
+Note how Octave connects the points with a line. Octave does this when you plot
+vectors (not when you plot scalars). If you were to type {\tt plot(F, 'o')},
+for example, Octave would plot the points with circles, but would not connect
+points with a line. Type {\tt plot(F, 'o-')} to plot connected circles.
+
 If you call {\tt plot} with two vectors as arguments, Octave plots
 the second one as a function of the first; that is, it treats
 the first vector as a sequence of $x$ values and the second as
@@ -2692,12 +2757,6 @@ X = 1:5
 Y = 6:10
 plot(X, Y)
 \end{verbatim}
-
-By default, Octave draws a blue line, but you can override that
-setting with the same kind of string we saw in Section~\ref{plotting}.
-For example, the string {\tt 'ro-'} tells Octave to plot a red circle
-at each data point; the hyphen means the points should be connected
-with a line.
 
 In this example, I stuck with the convention of naming the first
 argument {\tt X} (since it is plotted on the $x$-axis) and the
