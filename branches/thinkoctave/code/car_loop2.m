@@ -6,5 +6,5 @@ hold on
 for i=1:52
     car_update
     plot(i, a, 'ro')
-    plot(i, b, 'bd')
+    plot(i, b, 'bo')
 end
