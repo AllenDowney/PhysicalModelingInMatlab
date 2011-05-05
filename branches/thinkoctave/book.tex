@@ -43,10 +43,11 @@
 
 \newenvironment{code}{\vspace{0.6\parskip} \begin{verbatim}}{\end{verbatim} \vspace{0.6\parskip}}
 
+% TODO: get the styles to work
 % these styles get translated in CSS for the HTML version
 % \newstyle{a:link}{color:black;}
-\newstyle{p+p}{margin-top:1em;margin-bottom:1em}
-\newstyle{img}{border:0px}
+ \newstyle{p+p}{margin-top:1em;margin-bottom:1em}
+ \newstyle{img}{border:0px}
 
 % change the arrows
 \setlinkstext
@@ -3215,11 +3216,8 @@ Octave puts the result into {\tt ans}:
 octave:1> myfunc(1)
 
 s = 0.84147098480790
-
 c = 0.54030230586814
-
 res = 1.38177329067604
-
 ans = 1.38177329067604
 \end{verbatim}
 
@@ -3227,14 +3225,11 @@ But it is more common (and better style) to assign the result to
 a variable:
 
 \begin{verbatim}
-octave:1> y = myfunc(1)
+octave:2> y = myfunc(1)
 
 s = 0.84147098480790
-
 c = 0.54030230586814
-
 res = 1.38177329067604
-
 y = 1.38177329067604
 \end{verbatim}
 
@@ -3250,14 +3245,14 @@ access (read or write) the variables defined inside a function, you
 will find that they don't exist.
 
 \begin{verbatim}
-octave:1> clear
-octave:1> y = myfunc(1);
-octave:1> who
+octave:3> clear
+octave:4> y = myfunc(1);
+octave:5> who
+Variables in the current scope:
+y
 
-Your variables are: y
- 
-octave:1> s
-??? Undefined function or variable 's'.
+octave:6> s
+error: `s' undefined near line 11 column 1
 \end{verbatim}
 
 The only value from the function that you can access is the result,
@@ -3268,11 +3263,10 @@ before you call {\tt myfunc}, they will still be there when the
 function completes.
 
 \begin{verbatim}
-octave:1> s = 1;
-octave:1> c = 1;
-octave:1> y = myfunc(1);
-octave:1> s, c
-
+octave:7> s = 1;
+octave:8> c = 1;
+octave:9> y = myfunc(1);
+octave:10> s, c
 s = 1
 c = 1
 \end{verbatim}
@@ -3303,6 +3297,9 @@ provide.
 
 \begin{verbatim}
 octave:1> help myfunc
+`myfunc' is a function from the file /home/gpleiss/Octave/
+myfunc.m
+
  res = myfunc (x)
  Compute the Manhattan distance from the origin to the
  point on the unit circle with angle (x) in radians.
@@ -3361,8 +3358,8 @@ Then here's what you'll get:
 
 \begin{verbatim}
 octave:1> y = myfunc(1);
-octave:1> y = something_else(1);
-??? Undefined command/function 'something_else'.
+octave:2> y = something_else(1);
+error: `something_else' undefined near line 1 column 1
 \end{verbatim}
 
 The second gotcha is that the name of the file can't have spaces.
@@ -3371,18 +3368,17 @@ which the Octave editor will happily allow you to do, and then
 try to run it, you get:
 
 \begin{verbatim}
-octave:1> y = my func(1)
-??? y = my func(1)
-      |
-Error: Unexpected Octave expression.
+octave:3> y = my func(1)
+parse error:
+  syntax error
+>>> y = my func(1)
+              ^
 \end{verbatim}
 
 The third gotcha is that your function names can collide with built-in
 Octave functions. For example, if you create an M-file named {\tt
-sum.m}, and then call {\tt sum}, Octave might call {\em your} new
-function, not the built-in version! Which one actually gets called
-depends on the order of the directories in the search path, and
-(in some cases) on the arguments. As an example, put the following
+sum.m}, and then call {\tt sum}, Octave will probably call {\em your} new
+function, not the built-in version! As an example, put the following
 code in a file named {\tt sum.m}:
 
 \begin{verbatim}
@@ -3394,17 +3390,12 @@ end
 And then try this:
 
 \begin{verbatim}
-octave:1> sum(1:3)
-
-ans = 6
-
-octave:1> sum
-
+octave:4> sum(1:3)
 ans = 7
 \end{verbatim}
 
-In the first case Octave used the built-in function; in the second
-case it ran your function! This kind of interaction can be very
+Note that Octave ran your function instead of the built in one! This kind of
+interaction can be very
 confusing. Before you create a new function, check to see if there is
 already a Octave function with the same name. If there is, choose
 another name!
@@ -3434,36 +3425,36 @@ confirm that the length of the third side is 5.
 
 \begin{verbatim}
 octave:1> c = hypotenuse(3, 4)
-
 c = 5
 \end{verbatim}
 
 The arguments you provide are assigned to the input variables in
 order, so in this case 3 is assigned to {\tt a} and 4 is assigned to
-{\tt b}. Octave checks that you provide the right number of arguments;
+{\tt b}. Octave checks that you provide enough arguments;
 if you provide too few, you get
 
 \begin{verbatim}
-octave:1> c = hypotenuse(3)
-??? Input argument "b" is undefined.
-
-Error in ==> hypotenuse at 2
-  res = sqrt(a^2 + b^2);
+octave:2> c = hypotenuse(3)
+error: `b' undefined near line 4 column 21
+error: evaluating argument list element number 1
+error: evaluating argument list element number 1
+error: called from:
+error:   /home/gpleiss/hypotenuse.m at line 4, column 7
 \end{verbatim}
 
 This error message is confusing, because it suggests that
 the problem is in {\tt hypotenuse} rather than in the function call.
 Keep that in mind when you are debugging.
 
-If you provide too many arguments, you get
+If you provide too many arguments, you may not get an error.
 
 \begin{verbatim}
-octave:1> c = hypotenuse(3, 4, 5)
-??? Error using ==> hypotenuse
-Too many input arguments.
+octave:3> c = hypotenuse(3, 4, 5)
+c =  5
 \end{verbatim}
 
-Which is a better message.
+Do not be fooled by the lack of an error message! It is never a good idea to
+call a function with the wrong number of arguments.
 
 
 \section{Logical functions}
@@ -3476,11 +3467,9 @@ For example, {\tt isprime} checks to see whether a number is prime.
 
 \begin{verbatim}
 octave:1> isprime(17)
-
 ans = 1
 
-octave:1> isprime(21)
-
+octave:2> isprime(21)
 ans = 0
 \end{verbatim}
 
@@ -3496,11 +3485,9 @@ whether a floating-point value happens to be integral.
 
 \begin{verbatim}
 octave:1> c = hypotenuse(3, 4)
-
 c = 5
 
 octave:1> isinteger(c)
-
 ans = 0
 \end{verbatim}
 
@@ -3630,7 +3617,7 @@ creates a new matrix which, when it is displayed, shows the
 three values on one line:
 
 \begin{verbatim}
-octave:1> find_triples
+octave:2> find_triples
 
 ans = 1.0000  1.0000  1.4142
 ans = 1.0000  2.0000  2.2361
@@ -3738,10 +3725,10 @@ use if any of those names were in use. By wrapping the code in a
 function, we can avoid name collisions; this process is called {\bf
 encapsulation} because it isolates this program from the workspace.
 
-In order to put the code we have written inside a function, we
-have to indent the whole thing. The Octave editor provides a
-shortcut for doing that, the {\sf Increase Indent} command
-under the {\sf Text} menu. Just don't forget to unselect the
+It is good programming practice to indent all of the lines of code that are
+inside a function. The QtOctave editor provides a
+shortcut for doing that, the {\sf Indent} command
+under the {\sf Tools} menu. Just don't forget to unselect the
 text before you start typing!
 
 The first draft of the function takes no input variables:
@@ -3795,7 +3782,7 @@ end
 Here are the results for the range from 1 to 15:
 
 \begin{verbatim}
-octave:1> find_triples(15)
+octave:2> find_triples(15)
 
 ans = 3   4   5
 ans = 5  12  13
@@ -3827,13 +3814,12 @@ an example. Now when you run {\tt find\_triples}, you get:
 
 \begin{verbatim}
 octave:1> find_triples(20)
-??? Input argument "d" is undefined.
-
-Error in ==> hypotenuse at 2
-  res = (a.^d + b.^d) ^ (1/d);
-
-Error in ==> find_triples at 7
-      c = hypotenuse(a, b);
+error: `d' undefined near line 4 column 18
+error: evaluating argument list element number 1
+error: evaluating argument list element number 1
+error: called from:
+error:   /home/gpleiss/hypotenuse.m at line 4, column 7
+error:   /home/gpleiss/find_triples.m at line 7, column 5
 \end{verbatim}
 
 So that makes it pretty easy to find the error. This is an example of
@@ -3988,6 +3974,21 @@ Forgetting about details is called {\bf abstraction}; in the context
 of functions, abstraction means forgetting about {\em how} a function
 works, and just assuming (after appropriate testing) that it works.
 
+\section{Some Stylistic Suggestions}
+\label{style1}
+
+So far we've closed functions with the word {\tt end}. If you look up
+example Octave code, you may see something different. The following example was
+taken from the Octave manual\footnote{Available from: }
+% TODO: find out where octave manual is available from
+%
+\begin{verbatim}
+function retval = avg (v)
+  retval = sum (v) / length (v);
+endfunction
+\end{verbatim}
+%
+% TODO: add stuff to this section
 
 \section{Glossary}
 
@@ -4122,7 +4123,7 @@ like this:
 
 \begin{verbatim}
 function res = error_func(x)
-  res = x^2 - 2*x -3;
+  res = x.^2 - 2*x -3;
 end
 \end{verbatim}
 
@@ -4183,24 +4184,19 @@ Here's what would happen:
 \begin{verbatim}
 octave:1> x = 4;
 
-octave:1> x = sqrt(2*x+3)
-
+octave:2> x = sqrt(2*x+3)
 x = 3.3166
 
-octave:1> x = sqrt(2*x+3)
-
+octave:3> x = sqrt(2*x+3)
 x = 3.1037
 
-octave:1> x = sqrt(2*x+3)
-
+octave:4> x = sqrt(2*x+3)
 x = 3.0344
 
-octave:1> x = sqrt(2*x+3)
-
+octave:5> x = sqrt(2*x+3)
 x = 3.0114
 
-octave:1> x = sqrt(2*x+3)
-
+octave:6> x = sqrt(2*x+3)
 x = 3.0038
 \end{verbatim}
 
@@ -4298,7 +4294,7 @@ We've already seen an example of an error function:
 
 \begin{verbatim}
 function res = error_func(x)
-  res = x^2 - 2*x -3;
+  res = x.^2 - 2*x -3;
 end
 \end{verbatim}
 
@@ -4309,17 +4305,17 @@ confirm that there are zeros at 3 and -1.
 octave:1> error_func(3)
 ans = 0
 
-octave:1> error_func(-1)
+octave:2> error_func(-1)
 ans = 0
 \end{verbatim}
 
 But let's pretend that we don't know exactly where
-the roots are; we only know that one of them is near 4. Then
+the roots are; we only know that one of them is between 0 and 4. Then
 we could call {\tt fzero} like this:
 
 \begin{verbatim}
-octave:1> fzero(@error_func, 4)
-ans = 3.0000
+octave:3> fzero(@error_func, [0, 4])
+ans = 3
 \end{verbatim}
 
 Success! We found one of the zeros.
@@ -4332,26 +4328,10 @@ that you are not actually calling {\tt error\_func} directly;
 you are just telling {\tt fzero} where it is. In turn, {\tt fzero}
 calls your error function---more than once, in fact.
 
-The second argument is the initial guess. If we provide a different
-initial guess, we get a different root (at least sometimes).
-
-\begin{verbatim}
-octave:1> fzero(@error_func, -2)
-ans = -1
-\end{verbatim}
-
-Alternatively, if you know two values that bracket the root,
-you can provide both:
-
-\begin{verbatim}
-octave:1> fzero(@error_func, [2,4])
-
-ans = 3
-\end{verbatim}
-
-The second argument here is actually a vector that contains two
-elements. The bracket operator is a convenient way (one of several)
-to create a new vector.
+The second argument is a vector that tells {\tt fzero} where we
+guess the zero is. (The bracket operator is a convenient way 
+(one of several) to create a new vector.) In this case, we know that
+there's a root that's greater than 2 and less than 4.
 
 You might be curious to know how many times {\tt fzero} calls your
 function, and where. If you modify {\tt error\_func} so that it displays
@@ -4359,21 +4339,19 @@ the value of {\tt x} every time it is called and then run {\tt fzero}
 again, you get:
 
 \begin{verbatim}
-octave:1> fzero(@error_func, [2,4])
-x = 2
+octave:4> fzero(@error_func, [0,4])
+x = 0
 x = 4
-x = 2.75000000000000
-x = 3.03708133971292
-x = 2.99755211623500
-x = 2.99997750209270
-x = 3.00000000025200
-x = 3.00000000000000
-x = 3
+x = 1.5000
+x = 2.7500
+x = 3.0000
+x = 3.0000
+x = 3.0000
 x = 3
 ans = 3
 \end{verbatim}
 
-Not surprisingly, it starts by computing $f(2)$ and $f(4)$. After
+Not surprisingly, it starts by computing $f(0)$ and $f(4)$. After
 each iteration, the interval that brackets the root gets smaller;
 {\tt fzero} stops when the interval is so small that the estimated
 zero is correct to 16 digits. If you
@@ -4387,11 +4365,13 @@ The most common problem people have with {\tt fzero} is leaving
 out the {\tt @}. In that case, you get something like:
 
 \begin{verbatim}
-octave:1> fzero(error_func, [2,4])
-??? Input argument "x" is undefined.
-
-Error in ==> error_func at 2
-  x
+octave:1> fzero (error_func, [0, 4])
+error: `x' undefined near line 2 column 8
+error: called from:
+error:   /home/gpleiss/Dropbox/Workspace/Octave/error_func.m at 
+line 2, column 6
+error: evaluating argument list element number 1
+error: evaluating argument list element number 1
 \end{verbatim}
 
 Which is a very confusing error message. The problem is that Octave
@@ -4399,6 +4379,22 @@ treats the first argument as a function call, so it calls {\tt error\_func}
 with no arguments. Since {\tt error\_func} requires one argument, the
 message indicates that the input argument is ``undefined,'' although
 it might be clearer to say that you haven't provided a value for it.
+
+Probably the second most common error is providing a scalar instead of a vector
+as {\tt fzero}'s second argument.
+
+\begin{verbatim}
+octave:1> x = fzero(@error_func, 4)
+error: fzero: zero point is not bracketed
+error: called from:
+error:   /usr/share/octave/3.2.3/m/optimization/fzero.m at 
+line 255, column 1
+\end{verbatim}
+ 
+This error message isn't as confusing as the last one, but it still doesn't
+give you a good idea of what's going on. Always double check for the {\tt @}
+sign and that you provided a vector for the initial guess. It will save you
+hours of debugging!
 
 Another common problem is writing an error function that never
 assigns a value to the output variable. In general, functions should
@@ -4408,7 +4404,7 @@ write:
 
 \begin{verbatim}
 function res = error_func(x)
-  y = x^2 - 2*x -3
+  y = x.^2 - 2*x -3
 end
 \end{verbatim}
 
@@ -4416,7 +4412,6 @@ and then call it from the Command Window:
 
 \begin{verbatim}
 octave:1> error_func(4)
-
 y = 5
 \end{verbatim}
 
@@ -4426,36 +4421,32 @@ ends, {\tt y} disappears along with the function's workspace.
 If you try to use it with {\tt fzero}, you get
 
 \begin{verbatim}
-octave:1> fzero(@error_func, [2,4])
-
+octave:2> fzero (@error_func, [0, 4])
 y = -3
-
-??? Error using ==> fzero
-FZERO cannot continue because user supplied function_handle ==> 
-error_func failed with the error below.
-
-Output argument "res" (and maybe others) not assigned during 
-call to "/home/downey/error_func.m (error_func)".
+y =  5
+y = -3
+warning: error_func: some elements in list of return values 
+are undefined
+warning: error_func: some elements in list of return values 
+are undefined
+warning: error_func: some elements in list of return values 
+are undefined
+error: fzero: zero point is not bracketed
+error: called from:
+error:   /usr/share/octave/3.2.3/m/optimization/fzero.m at 
+line 255, column 1
 \end{verbatim}
-
-If you read it carefully, this is a pretty good error message
-(with the quibble that ``output argument'' is not a good synonym
-for ``output variable'').
 
 You would have seen the same error message when you called {\tt
 error\_func} from the interpreter, if only you had assigned the result
 to a variable:
 
 \begin{verbatim}
-octave:1> x = error_func(4)
-
-y = 5
-
-??? Output argument "res" (and maybe others) not assigned during 
-call to "/home/downey/error_func.m (error_func)".
-
-Error in ==> error_func at 2
-  y = x^2 - 2*x -3
+octave:2> x = error_func(4)
+y =  5
+x = [](0x0)
+warning: error_func: some elements in list of return values 
+are undefined
 \end{verbatim}
 
 You can avoid all of this if you remember these two rules:
@@ -4480,24 +4471,23 @@ for mistakes to go undetected. But when you use your functions with
 Octave functions like {\tt fzero}, you have to get it right!
 
 Yet another thing that can go wrong: if you provide an interval for the
-initial guess and it doesn't actually contain a root, you get
+initial guess that doesn't actually contain a root, you get
 
 \begin{verbatim}
-octave:1> fzero(@error_func, [0,1])
-
-??? Error using ==> fzero
-The function values at the interval endpoints must differ in sign.
+>>> x = fzero(@error_func, [0, 1])
+error: fzero: not a valid initial bracketing
+error: called from:
+error:   /usr/share/octave/3.2.3/m/optimization/fzero.m 
+at line 137, column 5
 \end{verbatim}
 
-There is one other thing that can go wrong when you use {\tt fzero}, but
-this one is less likely to be your fault. It is possible that {\tt fzero}
-won't be able to find a root.
+This looks similar to the error message we got when we forgot to make the
+initial guess a scalar, but it's a completely different error. In this case it
+is not a bug in our code -- we just didn't provide a good interval.
 
 {\tt fzero} is generally pretty robust, so you may never have a
 problem, but you should remember that there is no guarantee that {\tt
-fzero} will work, especially if you provide a single value as an
-initial guess. Even if you provide an interval that brackets a root,
-things can still go wrong if the error function is discontinuous.
+fzero} will work.
 
 
 \section{Finding an initial guess}
@@ -4540,9 +4530,9 @@ a value to {\tt sin}, and then try to use the {\tt sin} function, you
 
 \begin{verbatim}
 octave:1> sin = 3;
-octave:1> x = 5;
-octave:1> sin(x)
-??? Index exceeds matrix dimensions.
+octave:2> x = 5;
+octave:3> sin(x)
+error: A(I): Index exceeds matrix dimension.
 \end{verbatim}
 
 In this example, the problem is clear. Since the value of {\tt sin}
@@ -4557,9 +4547,8 @@ or if the value of {\tt x} was smaller, you would really
 be in trouble.
 
 \begin{verbatim}
-octave:1> sin = 3;
-octave:1> sin(1)
-
+octave:3> sin = 3;
+octave:4> sin(1)
 ans = 3
 \end{verbatim}
 
@@ -4572,22 +4561,11 @@ try to increment a variable named {\tt f} (and if you forget to
 initialize {\tt f}), you get
 
 \begin{verbatim}
-octave:1> f = f+1
-??? Error: "f" previously appeared to be used as a function or 
-command, conflicting with its use here as the name of a variable.
- A possible cause of this error is that you forgot to initialize the
- variable, or you have initialized it implicitly using load or eval.
-\end{verbatim}
-
-At least, that's what you get if you are lucky. If this happens
-inside a function, Octave tries to call {\tt f} as a function,
-and you get this
-
-\begin{verbatim}
-??? Input argument "x" is undefined.
-
-Error in ==> f at 3
-y = x^2 - a
+octave:5> f = f+1
+error: `x' undefined near line 2 column 12
+error: evaluating argument list element number 1
+error: called from:
+error:   /home/gpleiss/Octave/f.m at line 2, column 6
 \end{verbatim}
 
 There is no universal way to avoid these kind of
@@ -4775,9 +4753,10 @@ Our goal is to find values of $d$ that are roots of this equation.
 \item Write a Octave function that evaluates this function. Test it,
   then make it a quiet function.
 
-\item Make a guess about the value of $d_0$ to use as a starting place.
+\item Make a guess about an interval that contains $d$. It can be a big
+interval if you want.
 
-\item Use {\tt fzero} to find a root near $d_0$.
+\item Use {\tt fzero} to find a root in your interval.
 
 \item Check to make sure the result makes sense. In particular,
   check that $d < 2 r$, because otherwise the volume equation
@@ -4965,7 +4944,6 @@ a return value; it just displays the value of the input variable:
 
 \begin{verbatim}
 octave:1> display_vector(1:3)
-
 X = 1   2   3
 \end{verbatim}
 
@@ -4988,8 +4966,7 @@ function {\tt sum}, which does pretty much the same thing.
 Here's how you call it from the Command Window:
 
 \begin{verbatim}
-octave:1> total = mysum(1:3)
-
+octave:2> total = mysum(1:3)
 total = 6
 \end{verbatim}
 
@@ -5020,7 +4997,6 @@ Here's how {\tt myapply} works:
 
 \begin{verbatim}
 octave:1> V = myapply(1:3)
-
 V = 1   4   9
 \end{verbatim}
 
@@ -5039,11 +5015,9 @@ length 1.
 
 \begin{verbatim}
 octave:1> mysum(17)
-
 ans = 17
 
-octave:1> myapply(9)
-
+octave:2> myapply(9)
 ans = 81
 \end{verbatim}
 
@@ -5067,8 +5041,7 @@ end
 And lo! It turns out to work on vectors:
 
 \begin{verbatim}
-octave:1> Y = myfunc(1:3)
-
+octave:3> Y = myfunc(1:3)
 Y = 1.3818  1.3254  1.1311
 \end{verbatim}
 
@@ -5133,11 +5106,9 @@ that computes cumulative sums:
 
 \begin{verbatim}
 octave:1> V = 1:5
-
 V = 1   2   3   4   5
 
-octave:1> C = cumsum(V)
-
+octave:2> C = cumsum(V)
 C = 1   3   6  10  15
 \end{verbatim}
 
@@ -5150,8 +5121,7 @@ The inverse operation of {\tt cumsum} is {\tt diff}, which computes
 the difference between successive elements of the input vector.
 
 \begin{verbatim}
-octave:1> D = diff(C)
-
+octave:3> D = diff(C)
 D = 2   3   4   5
 \end{verbatim}
 
@@ -5161,8 +5131,7 @@ exactly the inverse of {\tt cumsum}. If it were, then we would
 expect {\tt cumsum(diff(X))} to be {\tt X}:
 
 \begin{verbatim}
-octave:1> cumsum(diff(V))
-
+octave:4> cumsum(diff(V))
 ans = 1   2   3   4
 \end{verbatim}
 
@@ -5188,11 +5157,9 @@ In Octave, that looks like:
 
 \begin{verbatim}
 octave:1> V = 1:5
-
 V = 1   2   3   4   5
 
-octave:1> P = cumprod(V)
-
+octave:2> P = cumprod(V)
 P = 1   2   6  24  120
 \end{verbatim}
 
@@ -5308,11 +5275,9 @@ values 1 and 0.
 
 \begin{verbatim}
 octave:1> V = -3:3
-
 V = -3  -2  -1   0   1   2   3
 
-octave:1> L = V>0
-
+octave:2> L = V>0
 L = 0   0   0   0   1   1   1
 \end{verbatim}
 
@@ -5328,8 +5293,7 @@ the indices of the elements that are ``true.''
 Applying {\tt find} to {\tt L} yields
 
 \begin{verbatim}
-octave:1> find(L)
-
+octave:3> find(L)
 ans = 5   6   7
 \end{verbatim}
 
@@ -5338,9 +5302,8 @@ which indicates that elements 5, 6 and 7 have the value 1.
 If there are no ``true'' elements, the result is an empty vector.
 
 \begin{verbatim}
-octave:1> find(V>10)
-
-ans = Empty matrix: 1-by-0
+octave:4> find(V>10)
+ans = [](1x0)
 \end{verbatim}
 
 This example computes the logical vector and passes it as an
@@ -5412,6 +5375,19 @@ operator to a vector, that contains logical values 1 and 0.
 % chap08
 \chapter{Ordinary Differential Equations}
 
+\section{A Note on Syntax}
+
+Up until now, if you have followed the syntax that I've been using, especially
+the guidelines that were layed out in Section~\ref{style1}, the code you've
+written has been compatible with MATLAB. This means that someone who is
+creating models in MATLAB can run your code and get the same results. In
+general, Octave and MATLAB share vary similar syntax and function names.
+
+However, starting with this chapter, we are going to introduce functions that
+aren't compatible with MATLAB. Most of the syntax will be similar, so modifying
+code so it works with MATLAB will not be difficult. Nevertheless, don't try to
+run the code you're about to write in MATLAB. You will get many strange errors
+if you do!
 
 \section{Differential equations}
 
@@ -5595,30 +5571,20 @@ of change for any (hypothetical) population at any time; $f_t$
 is more specific: it is the actual rate of change at time $t$, given
 that the population is $f(t)$.
 
+\section{{\tt lsode}}
+\label{lsode}
 
-\section{{\tt ode45}}
-\label{ode45}
+Euler's method is an example of a {\bf fixed-step} differential equation solver.
+This is because the time step is pre-determined and fixed. In other words, all
+points that the DE solver calculates the function at will be equally spaced.
+There are many other fixed-step solvers, some of which are faster and more
+accurate than Euler's method. Octave has a built-in function, {\tt lsode}, that
+combines a number of fixed-step solvers into one, so you don't ever have to
+write your own DE solver.
 
-A limitation of Euler's method is that the time step is constant from
-one iteration to the next. But some parts of the solution are
-harder to estimate than others; if the time step is small enough to
-get the hard parts right, it is doing more work than necessary on the
-easy parts. The ideal solution is to adjust the time step as you go
-along. Methods that do that are called {\bf adaptive}, and one of the
-best adaptive methods is the Dormand-Prince pair of Runge-Kutta
-formulas. Fortunately, you don't have to know what that means,
-because the nice people at Mathworks have implemented it in a function
-called {\tt ode45}. The {\tt ode} stands for ``ordinary differential
-equation [solver];'' the 45 indicates that it uses a combination of
-4th and 5th order formulas.
-
-In order to use {\tt ode45}, you have to write a Octave function
+In order to use {\tt lsode}, you have to write a Octave function
 that evaluates $g$ as a function of
-$t$ and $y$.
-
-% where did the rats example come from?
-
-As an example, suppose that the rate of population growth for rats
+$t$ and $y$. As an example, suppose that the rate of population growth for rats
 depends on the current population, $y$, and the availability of food,
 which varies over the course of the year.
 The governing equation might be something like
@@ -5655,16 +5621,15 @@ compute $f_t(t)$, which is the slope, or rate of change, of $f$.
 The last step is to express that computation as a function called
 $g$:
 
-\[ g : t, y \to a y \left[1 + \sin (\omega t) \right] \]
+\[ g : y, t \to a y \left[1 + \sin (\omega t) \right] \]
 
-This function is useful because we can use it with Euler's method
-or {\tt ode45} to estimate values of $f$. All we have to
-do is write a function that evaluates $g$. Here's what
-that looks like using the values $a = 0.01$
+We have now written out the differential equation as a function, which we
+can use with Euler's method of {\tt lsode} to estimate values of $f$. Here's
+what the function looks like using the values $a = 0.01$
 and $\omega = 2 \pi/365$ (one cycle per year):
 
 \begin{verbatim}
-function res = rats(t, y)
+function res = rats(y, t)
   a = 0.01;
   omega = 2 * pi / 365;
   res = a * y * (1 + sin(omega * t));
@@ -5676,9 +5641,8 @@ different values of {\tt t} and {\tt y}; the result is the rate of
 change (in units of rats per day):
 
 \begin{verbatim}
-octave:1> r = rats(0, 2)
-
-r = 0.0200
+octave:1> r = rats(2, 0)
+r = 0.020000
 \end{verbatim}
 
 So if there are two rats on January 1, we expect them to reproduce
@@ -5686,9 +5650,8 @@ at a rate that would produce 2 more rats per hundred days. But
 if we come back in April, the rate has almost doubled:
 
 \begin{verbatim}
-octave:1> r = rats(120, 2)
-
-r = 0.0376
+octave:2> r = rats(2, 120)
+r = 0.037600
 \end{verbatim}
 
 Since the rate is constantly changing, it is not easy to predict
@@ -5696,23 +5659,48 @@ the future rat population, but that is exactly what {\tt ode45} does.
 Here's how you would use it:
 
 \begin{verbatim}
-octave:1> ode45(@rats, [0, 365], 2)
+octave:3> T = 0:5:365;
+octave:4> Y = lsode(@rats, 2, T)
 \end{verbatim}
+
+In the first line, we are creating a vector for all the times that we want to
+find values of $f$ at. Note that these times are all 5 days apart -- in other
+words, 
 
 The first argument is a handle for the function that
 computes $g$. The second argument is the interval we are interested
 in, one year. The third argument is the initial population, $f(0) = 2$.
 
+\section{{\tt ode45}}
+\label{ode45}
+
+%TODO: fix this
+
+A limitation of fixed-step solvers is that the time step is constant from
+one iteration to the next. But some parts of the solution are
+harder to estimate than others; if the time step is small enough to
+get the hard parts right, it is doing more work than necessary on the
+easy parts. The ideal solution is to adjust the time step as you go
+along. Methods that do that are called {\bf adaptive}, and one of the
+best adaptive methods is the Dormand-Prince pair of Runge-Kutta
+formulas. Fortunately, you don't have to know what that means,
+because the nice people at Mathworks have implemented it in a function
+called {\tt ode45}. The {\tt ode} stands for ``ordinary differential
+equation [solver];'' the 45 indicates that it uses a combination of
+4th and 5th order formulas.
+
+%%%
+
 When you call {\tt ode45} without assigning the result to a variable,
 Octave displays the result in a figure:
 
+%Why doesn't this work?
 \beforefig \centerline{\includegraphics[height=2in]{figs/rats.eps}}
 
 The x-axis shows time from 0 to 365 days; the y-axis shows the rat
 population, which starts at 2 and grows to almost 80. The rate
 of growth is slow in the winter and summer, and faster in the
 spring and fall, but it also accelerates as the population grows.
-
 
 \section{Multiple output variables}
 \label{rats}
@@ -5978,6 +5966,9 @@ respect to the same variable.
 more than one variable
 
 \item[first order (ODE):] A DE that includes only first derivatives.
+
+\item[fixed-step (numerical method):] An ODE solver method that uses a constant
+time step.
 
 \item[linear:] A DE that includes no products or powers of the
 function and its derivatives.
