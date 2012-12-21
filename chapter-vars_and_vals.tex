@@ -1,0 +1,776 @@
+% chap01 - Variables and values
+% Last edited: 08-24-11 by Geoff
+
+\chapter{Variables and values}
+
+\section{A glorified calculator}
+\label{calc}
+
+At heart, Octave is a glorified calculator. Technically, Octave is a
+program for {\bf scientific computing} -- constructing mathematical models
+to solve scientific problems.
+% Is this a good definition?
+What this boils down to is a calculator with extended capabilities.
+
+The Octave application is nothing more than an {\bf interpereter}. You supply
+the program with an Octave {\bf command}, such as an expression or function,
+and the program will execute the command and print the result. This is no
+different than you typing {\tt 2 + 3} into a calculator and having it print
+out {\tt 5}.
+
+Starting up the Octave application will open up a terminal window.
+(In certain operating systems, you can start up Octave by typing the command
+{\tt octave} in an existing terminal window). This terminal window is now the
+Octave command window, and the last line should look something
+like this:
+%
+\begin{verbatim}
+octave:1>
+\end{verbatim}
+%
+This is the Octave {\bf prompt}; that is, the line that prompts you to
+enter a command. (The number after the colon represents the current
+command
+number. After you execute your first command, the prompt will read {\tt
+octave:2>}, etc.). Your prompt may look different than this, depending on what
+operating system you're using.
+
+The simplest kind of command is a mathematical {\bf expression}, which
+is made up of {\bf operands} (like numbers, for example) and
+{\bf operators} (like the plus sign, {\tt +}).
+
+If you type an expression and then press Enter (or Return), Octave
+{\bf evaluates} the expression and prints the result.
+
+\begin{verbatim}
+octave:1> 2 + 1
+ans = 3
+octave:2>
+\end{verbatim}
+
+Just to be clear: in the example above, Octave printed {\tt octave:1>} ; I
+typed {\tt 2 + 1} and then hit Enter, and Octave printed {\tt ans = 3}.
+And when I say ``printed,'' I really mean ``displayed on the screen,''
+which might be confusing, but it's the way people talk. Octave also printed
+{\tt octave:2>}, which is the prompt for your next command.
+
+An expression can contain any number of operators and operands. You
+don't have to put spaces between them; some people do and some people
+don't.
+
+\begin{verbatim}
+octave:2> 1+2+3+4+5+6+7+8+9
+ans = 45
+\end{verbatim}
+
+The other arithmetic operators are pretty much what you would expect.
+Subtraction is denoted by a minus sign, {\tt -}; multiplication by
+an asterisk, {\tt *} (sometimes pronounced ``splat''); division by
+a forward slash, {\tt /}.
+
+\begin{verbatim}
+octave:3> 2*3 - 4/5
+ans = 5.2000
+\end{verbatim}
+
+The order of operations is what you would expect from basic algebra:
+multiplication and division happen before addition and subtraction.
+If you want to override the order of operations, you can use parentheses.
+
+\begin{verbatim}
+octave:4> 2 * (3-4) / 5
+ans = -0.4000
+\end{verbatim}
+
+When I added the parentheses I also changed the spacing to make the
+grouping of operands clearer to a human reader. This is the first
+of many style guidelines I will recommend for making your programs
+easier to read. Style doesn't change what the program does; the Octave
+interpreter doesn't check for style. But human readers do, and the
+most important human who will read your code is you.
+
+And that brings us to the First Theorem of debugging:
+
+\begin{quote}
+Readable code is debuggable code.
+\end{quote}
+
+It is worth spending time to make your code pretty; it will save
+you time debugging!
+
+The other common operator is exponentiation, which uses the \verb+^+
+symbol, sometimes pronounced ``carat'' or ``hat''. So 2 raised to the
+16th power is
+
+\begin{verbatim}
+octave:5> 2^16
+ans = 65536
+\end{verbatim}
+
+As in basic algebra, exponentiation happens before multiplication
+and division, but again, you can use parentheses to override the order
+of operations.
+
+You now know enough commands to use Octave as a basic calculator! To quit the
+application, either close the terminal window, or type the command {\tt quit}
+at the prompt. (The command {\tt exit} will also work).
+
+
+\section{Math functions}
+
+Octave's functionality goes well beyond simple math operations -- it knows how
+to compute pretty much every math function you've
+heard of. Octave knows all the trigonometric functions; here's how you
+use them:
+
+\begin{verbatim}
+octave:1> sin(1)
+ans = 0.8415
+\end{verbatim}
+
+This command is an example of a {\bf function call}. The name of the
+function is {\tt sin}, which is the usual abbreviation for the
+trigonometric sine. The value in parentheses is called the {\bf argument}.
+All the trig functions in Octave work in radians.
+
+All functions in Octave are case-sensitive. In other words, typing {\tt Sin(1)}
+will give you an error.
+
+\begin{verbatim}
+octave:2> Sin(1)
+error: `Sin' undefined near line 2 column 1
+\end{verbatim}
+
+Some functions take more than one argument, in which case they are
+separated by commas. For example, {\tt atan2} computes the inverse
+tangent, which is the angle in radians between the positive x-axis and
+the point with the given $y$ and $x$ coordinates.
+
+\begin{verbatim}
+octave:3> atan2(1,1)
+ans = 0.7854
+\end{verbatim}
+
+If that bit of trigonometry isn't familiar to you, don't worry about
+it. It's just an example of a function with multiple arguments.
+
+Octave also provides exponential functions, like {\tt exp}, which
+computes $e$ raised to the given power. So {\tt exp(1)} is just $e$.
+
+\begin{verbatim}
+octave:4> exp(1)
+ans = 2.7183
+\end{verbatim}
+
+The inverse of {\tt exp} is {\tt log}, which computes the logarithm
+base $e$:
+
+\begin{verbatim}
+octave:5> log(exp(3))
+ans = 3
+\end{verbatim}
+
+This example also demonstrates that function calls can be {\bf nested};
+that is, you can use the result from one function as an argument for
+another.
+
+More generally, you can use a function call as an operand in an expression.
+
+\begin{verbatim}
+octave:5> sqrt(sin(0.5)^2 + cos(0.5)^2)
+ans = 1
+\end{verbatim}
+
+As you probably guessed, {\tt sqrt} computes the square root.
+
+There are lots of other math functions, but this is not meant to
+be a reference manual. To learn about other functions, you should
+read the documentation.
+
+
+\section{Documentation}
+
+Octave has exenstive written documents, both online and printed resources,
+that outline every feature and command. However, often you just want to know
+how to use one command or function. Fortunatly, the Octave program has a
+built-in help command:
+{\tt help}.
+
+The help command works from the Command Window; just type {\tt help}
+followed by the name of a command.
+
+\begin{verbatim}
+octave:1> help sin
+`sin' is a built-in function
+
+ -- Mapping Function:  sin (X)
+     Compute the sine for each element of X in radians.
+
+     See also: asin, sind, sinh
+\end{verbatim}
+
+In general, help pages are fairly simple to use, although they will use some
+vocabulary you don't know yet. For example, ``for each element of X'' won't make
+sense until we get to vectors and matricies a few chapters from now.
+
+Another downside of the help pages is that there are no examples. Some of the
+functions may be simple enough to use without examples, but for others it
+may be difficult. You can find some examples found in the online Octave guide,
+which can be found at \url{http://www.gnu.org/software/octave/docs.html}.
+Unfortunatly, this guide can be a little difficult to navigate, especially when
+you're getting started.
+
+The help command only works when you know the exact name of the command you are
+looking up. What happens if you don't know the exact name? For example, let's
+say you want to find the eigenvalues of a matrix. You know that Octave has a
+function for calculating eigenvalues, but you don't know it's name. If you enter
+the command {\tt help eigenvalues}, you will get an error message.
+
+\begin{verbatim}
+octave:2> help eigenvalues
+error: help: `eigenvalues' not found
+\end{verbatim}
+
+How do you find out the name of the eigenvalues function? This is where
+{\tt lookfor} comes into play. The lookfor command will search through
+all of the help pages and give you a list of commands with that search term. So
+if you were to type {\tt lookfor eigenvalues}, you'd get:
+
+\begin{verbatim}
+octave:2> lookfor eigenvalues
+eig                 The eigenvalues (and eigenvectors) of a matrix 
+                    are computed in a several step pr
+eigs                Calculate a limited number of eigenvalues and
+                    eigenvectors of A, based on a sele
+schur               The Schur decomposition is used to compute 
+                    eigenvalues of a square matrix, and h
+\end{verbatim}
+
+Remember, the lookfor command has a lot of help pages to look through, so it
+may take a while for it to print out results. Also, the search
+terms are NOT case-sensitive, so {\tt lookfor eigenvalues} will produce the
+same search results as {\tt lookfor Eigenvalues}.
+
+What happens if Octave can't display all of a help page at once? Try entering
+the command {\tt help plot}. Chances are (unless you have a really really big
+monitor), your terminal should display something like this:
+%Is this the best way to do this?
+
+\begin{verbatim}
+`plot' is a function from the file /usr/share/octave/3.2.3/m/plot/plot.m
+
+ -- Function File:  plot (Y)
+ -- Function File:  plot (X, Y)
+ -- Function File:  plot (X, Y, PROPERTY, VALUE, ...)
+ -- Function File:  plot (X, Y, FMT)
+ -- Function File:  plot (H, ...)
+     Produces two-dimensional plots.  Many different combinations of
+     arguments are possible.  The simplest form is
+
+          plot (Y)
+
+     where the argument is taken as the set of Y coordinates and the X
+     coordinates are taken to be the indices of the elements, starting
+     with 1.
+
+     To save a plot, in one of several image formats such as PostScript
+     or PNG, use the `print' command.
+
+     If more than one argument is given, they are interpreted as
+
+          plot (Y, PROPERTY, VALUE, ...)
+
+:
+\end{verbatim}
+
+Notice that you can no longer access your prompt. Don't worry, it's still there.
+What's happened is Octave has opened up a {\it pager}, which is a process used
+for viewing large amounts of text. Press the ENTER key to go forward on
+line, or press SPACE to go forward a window's worth of text. To go
+backwards, press B. Press P to go back up to the top of the page.
+To exit the pager and return to the prompt, press Q. When you exit the pager,
+all of the text from the help page disappears, and you are back where you left
+off.
+
+\begin{verbatim}
+octave:3> help plot
+octave:4>
+\end{verbatim}
+
+Octave uses pagers whenever the output from a command is too big to fit in one
+window, so don't be surprised if you see one when you enter a command like {\tt
+1:1000}. (We'll learn what that command means in chapter 3.)
+
+There are more ways to access to access Octave's help files and documentation.
+You can read about them on the online guide.
+
+
+\section{Variables}
+
+One of the features that makes Octave more powerful than a calculator
+is the ability to give a name to a value. A named value is called
+a {\bf variable}.
+
+Octave comes with a few predefined variables. For
+example\footnote{Technically {\tt pi} is a function, not a variable,
+but for now it's best to pretend.}, the name {\tt pi} refers to the
+mathematical quantity $\pi$, which is approximately
+
+\begin{verbatim}
+octave:1> pi
+ans = 3.1416
+\end{verbatim}
+
+And if you do anything with complex numbers, you might find it
+convenient that both {\tt i} and {\tt j} are predefined as the square
+root of $-1$.
+
+You can use a variable name anywhere you can use a number; for example, as
+an operand in an expression:
+
+\begin{verbatim}
+octave:2> pi * 3^2
+ans = 28.274
+\end{verbatim}
+
+or as an argument to a function:
+
+\begin{verbatim}
+octave:3> sin(pi/2)
+ans = 1
+octave:4> exp(i * pi)
+ans = -1.0000e+00 + 1.2246e-16i
+\end{verbatim}
+
+As the second example shows, many Octave functions work with
+complex numbers. This example demonstrates Euler's Equality:
+$e^{i \pi} = -1$.\footnote{Actually, this answer has a small imaginary
+component, but this is due to the method that Octave uses to calculate the
+exponential function. $1.2246 \times 10^{-16}$ is very very small, so for all
+intents and purposes we can assume that it is zero.}
+
+Whenever you evaluate an expression, Octave assigns the result to
+a variable named {\tt ans}. You can use {\tt ans} in a subsequent
+calculation as shorthand for ``the value of the previous expression.''
+
+\begin{verbatim}
+octave:5> 3^2 + 4^2
+ans = 25
+octave:6> sqrt(ans)
+ans = 5
+\end{verbatim}
+
+But keep in mind that the value of {\tt ans} changes every time
+you evaluate an expression.
+
+
+\section{Assignment statements}
+
+You can create your own variables, and give them values, with
+an {\bf assignment statement}. The assignment operator is the
+equals sign, {\tt =}.
+
+\begin{verbatim}
+octave:1> x = 6 * 7
+x = 42
+\end{verbatim}
+
+This example creates a new variable named {\tt x} and assigns it the
+value of the expression {\tt 6 * 7}. Octave responds with the
+variable name and the computed value.
+
+In every assignment statement, the left side has to be a
+legal variable name. The right side can be any expression,
+including function calls.
+
+Almost any sequence of lower and upper case letters is a legal
+variable name. Some punctuation is also legal, but the underscore,
+{\tt \_}, is the only commonly-used non-letter. Numbers are fine, but
+not at the beginning. Spaces are not allowed. Variable names are
+``case sensitive'', so {\tt x} and {\tt X} are different variables.
+
+\begin{verbatim}
+octave:2> fibonacci0 = 1;
+octave:3> LENGTH = 10;
+octave:4> first_name = 'allen'
+first_name = allen
+\end{verbatim}
+
+The first two examples demonstrate the use of the semi-colon, which
+suppresses the output from a command. In this case Octave creates the
+variables and assigns them values, but displays nothing.
+
+The third example demonstrates that not everything
+in Octave is a number. A sequence of characters in single quotes is
+a {\bf string}.
+
+Although {\tt i}, {\tt j} and {\tt pi} are predefined, you are free
+to reassign them. It is common to use {\tt i} and {\tt j} for other
+purposes, but it is probably not a good idea to change the value of
+{\tt pi}!
+
+\section{Why variables?}
+
+The most common reasons to use variables are
+
+\begin{itemize}
+
+\item To avoid recomputing a value that is used repeatedly. For
+example, if you are performing computations involving $e$, you might
+want to compute it once and save the result.
+
+\begin{verbatim}
+octave:1> e = exp(1)
+e = 2.7183
+\end{verbatim}
+
+
+\item To make the connection between the code and the underlying
+mathematics more apparent. If you are computing the area of a circle,
+you might want to use a variable named {\tt r}:
+
+\begin{verbatim}
+octave:2> r = 3
+r = 3
+octave:3> area = pi * r^2
+area = 28.2743
+\end{verbatim}
+
+That way your code resembles the familiar formula $\pi r^2$.
+
+\item To break a long computation into a sequence of steps.
+Suppose you are evaluating a big, hairy expression like this:
+
+\begin{verbatim}
+octave:4> ans = ((x - theta) * sqrt(2 * pi) * sigma) ^ -1 * ...
+> exp(-1/2 * (log(x - theta) - zeta)^2 / sigma^2)
+\end{verbatim}
+
+You can use an ellipsis to break the expression into multiple lines.
+Just type {\tt ...} at the end of the first line and
+continue on the next. (Octave prints the {\tt >} on the next line).
+
+But often it is better to break the computation into a sequence of
+steps and assign intermediate results to variables.
+
+\begin{verbatim}
+shiftx = x - theta
+denom = shiftx * sqrt(2 * pi) * sigma
+temp = (log(shiftx) - zeta) / sigma
+exponent = -1/2 * temp^2
+ans = exp(exponent) / denom
+\end{verbatim}
+
+The names of the intermediate variables explain their role in the
+computation. {\tt shiftx} is the value of {\tt x} shifted by {\tt
+theta}. It should be no surprise that {\tt exponent} is the argument
+of {\tt exp}, and {\tt denom} ends up in the denominator. Choosing
+informative names makes the code easier to read and understand (see
+the First Theorem of Debugging).
+
+\end{itemize}
+
+
+\section{Errors}
+
+It's early, but now would be a good time to start making errors.
+Whenever you learn a new feature, you should try
+to make as many errors as possible, as soon as possible.
+
+When you make deliberate errors, you get to see what the error messages
+look like. Later, when you make accidental errors, you will know what
+the messages mean.
+
+A common error for beginning programmers is leaving out the {\tt *}
+for multiplication.
+
+\begin{verbatim}
+octave:1> area = pi r^2
+parse error:
+
+  syntax error
+
+>>> area = pi r^2
+              ^
+\end{verbatim}
+
+The error message indicates that, after seeing the operand {\tt pi},
+Octave was ``expecting'' to see an operator, like {\tt *}. Instead,
+it got a variable name, which is the ``syntax error'' indicated
+by the carat (\verb+^+).
+
+Another common error is to leave out the parentheses around the
+arguments of a function. For example, in math notation, it is common
+to write something like $\sin \pi$, but not in Octave.
+
+\begin{verbatim}
+octave:1> sin pi
+error: octave_base_value::sin (): wrong type argument `sq_string'
+\end{verbatim}
+
+The problem is that when you leave out the parentheses, Octave treats
+the argument as a string (rather than as an expression). In
+this case the {\tt sin} function generates a reasonable error message,
+but in other cases the results can be baffling. For example, what
+do you think is going on here?
+
+\begin{verbatim}
+octave:1> abs pi
+ans =
+   112   105
+\end{verbatim}
+
+There is a reason for this ``feature'', but rather than get into that
+now, let me suggest that you should {\em always} put parentheses around
+arguments.
+
+This example also demonstrates the Second Theorem of Debugging:
+
+\begin{quote}
+The only thing worse than getting an error message is {\em not}
+getting an error message.
+\end{quote}
+
+Beginning programmers hate error messages and do everything they
+can to make them go away. Experienced programmers know that error
+messages are your friend. They can be hard to understand, and even
+misleading, but it is worth making some effort to understand them.
+
+Here's another common rookie error. If you were translating
+the following mathematical
+expression into Octave:
+
+\[ \frac{1}{2 \sqrt \pi}\]
+
+You might be tempted to write something like this:
+
+\begin{verbatim}
+1 / 2 * sqrt(pi)
+\end{verbatim}
+
+But that would be wrong. So very wrong.
+
+
+\section{Floating-point arithmetic}
+
+In mathematics, there are several kinds of numbers: integer, real,
+rational, irrational, imaginary, complex, etc. Octave only has one
+kind of number, called {\bf floating-point}.
+
+You might have noticed that Octave expresses values in decimal
+notation. So, for example, the rational number $1/3$ is represented
+by the floating-point value
+
+\begin{verbatim}
+octave:1> 1/3
+ans = 0.3333
+\end{verbatim}
+
+which is only approximately correct. It's not quite as bad as
+it seems; Octave uses more digits than it shows by default.
+You can change the {\tt format} to see the other digits.
+
+\begin{verbatim}
+octave:2> format long
+octave:3> 1/3
+ans =  0.333333333333333
+\end{verbatim}
+
+Internally, Octave uses the IEEE double-precision floating-point
+format, which provides about 15 significant digits of precision (in
+base 10). Leading and trailing zeros don't count as ``significant''
+digits, so Octave can represent large and small numbers
+with the same precision.
+
+Very large and very small values are displayed in scientific notation.
+
+\begin{verbatim}
+octave:4> factorial(100)
+ans =  9.33262154439422e+157
+\end{verbatim}
+
+The {\tt e} in this notation is {\em not} the transcendental number
+known as $e$; it is just an abbreviation for ``exponent''. So
+this means that $100!$ is approximately $9.33 \times 10^{157}$. The
+exact solution is a 158-digit integer, but we only know the first 16
+digits.
+
+You can enter numbers using the same notation.
+
+\begin{verbatim}
+octave:5> speed_of_light = 3.0e8
+speed_of_light = 300000000
+\end{verbatim}
+
+Although Octave can handle large numbers, there is a limit. The
+predefined variables {\tt realmax} and {\tt realmin} contain the
+largest and smallest numbers that Octave can handle\footnote{The names
+of these variables are misleading; floating-point numbers are
+sometimes, wrongly, called ``real''.}.
+
+\begin{verbatim}
+octave:6> realmax
+ans =  1.79769313486232e+308
+octave:7> realmin
+ans =  2.22507385850720e-308
+\end{verbatim}
+
+If the result of a computation is too big, Octave ``rounds up''
+to infinity.
+
+\begin{verbatim}
+octave:8> factorial(170)
+ans =  7.25741561530806e+306
+octave:9> factorial(171)
+ans = Inf
+\end{verbatim}
+
+Division by zero also returns {\tt Inf}, but in this case Octave
+gives you a warning because division by zero is usually
+considered undefined.
+
+\begin{verbatim}
+octave:10> 1/0
+warning: division by zero
+ans = Inf
+\end{verbatim}
+
+A warning is like an error message without teeth; the computation
+is allowed to continue. Allowing {\tt Inf} to propagate
+through a computation doesn't always do what you expect, but if you
+are caul with how you use it, {\tt Inf} can be quite useful.
+
+For operations that are truly undefined, Octave returns {\tt NaN},
+which stands for ``not a number''.
+
+\begin{verbatim}
+octave:11> 0/0
+warning: division by zero
+ans = NaN
+\end{verbatim}
+
+
+\section{Comments}
+
+Along with the commands that make up a program, it is useful
+to include comments that provide additional information about the
+program. The percent symbol {\tt \%} separates
+the comments from the code.
+
+\begin{verbatim}
+octave:1> speed_of_light = 3.0e8   % meters per second
+speed_of_light = 300000000
+\end{verbatim}
+
+The comment runs from the percent symbol to the end of the line.
+In this case it specifies the units of the value. In an ideal world,
+Octave would keep track of units and propagate them through the
+computation, but for now that burden falls on the programmer.
+
+Comments have no effect on the execution of the program. They
+are there for human readers. Good comments make programs more
+readable, but bad comments are useless or (even worse) misleading.
+
+Avoid comments that are redundant with the code:
+
+\begin{verbatim}
+octave:2> x = 5    % assign the value 5 to x
+\end{verbatim}
+
+Good comments provide additional information that is not in the
+code, like units in the example above, or the meaning of a variable:
+
+\begin{verbatim}
+octave:3> p = 0;   % position from the origin in meters 
+octvae:4> v = 100;   % velocity in meters / second
+octave:5> a = -9.8;  % acceleration of gravity in meters / second^2
+\end{verbatim}
+
+If you use longer variable names, you might not need explanatory
+comments, but there is a tradeoff: longer code can become harder
+to read. Also, if you are translating from math
+that uses short variable names, it can be useful to make your
+program consistent with your math. 
+
+\section{Glossary}
+
+\begin{description}
+
+\item[scientific computing:] A field of study based around constructing
+mathematical models to solve physical problems.
+
+\item[interpreter:] The program that reads and executes Octave code.
+
+\item[command:] A line of Octave code executed by the interpreter.
+
+\item[prompt:] The symbol the interpreter prints to indicate that it is
+waiting for you to type a command.
+
+\item[operator:] One of the symbols, like {\tt *} and {\tt +}, that
+represent mathematical operations.  
+
+\item[operand:] A number or variable that appears in an expression along
+with operators.
+
+\item[expression:] A sequence of operands and operators that specifies
+a mathematical computation and yields a value.  
+
+\item[value:] The numerical result of a computation.  
+
+\item[evaluate:] To compute the value of an expression.  
+
+\item[order of operations:] The rules that specify which operations
+in an expression are performed first.
+
+\item[function:] A named computation; for example {\tt log10} is the
+name of a function that computes logarithms in base 10.
+
+\item[call:] To cause a function to execute and compute a result.  
+
+\item[function call:] A kind of command that executes a function.  
+
+\item[argument:] An expression that appears in a function call to
+specify the value the function operates on.
+
+\item[nested function call:] An expression that uses the result from
+one function call as an argument for another.  
+
+\item[variable:] A named value.  
+
+\item[assignment statement:] A command that creates a new variable
+(if necessary) and gives it a value.
+
+\item[string:] A value that consists of a sequence of characters (as
+opposed to a number). 
+
+\item[floating-point:] The kind of number Octave works with. All
+floating-point numbers can be represented with about 16 significant
+decimal digits (unlike mathematical integers and reals).
+
+\item[scientific notation:] A format for typing and displaying large
+and small numbers; e.g. {\tt 3.0e8}, which represents $3.0 \times 10^8$
+or 300,000,000. 
+
+\item[comment:] Part of a program that provides additional information
+about the program, but does not affect its execution. 
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+Write a Octave expression that evaluates the
+following math expression. You can assume that the variables
+{\tt mu}, {\tt sigma} and {\tt x} already exist.
+
+\begin{equation}
+\frac{e^{- \left( \frac{x-\mu}{\sigma \sqrt{}2} \right) ^2}}
+{\sigma \sqrt{2 \pi}}
+\end{equation}
+
+Note: you can't use Greek letters in Octave; when translating
+math expressions with Greek letters, it is common to write out
+the name of the letter (assuming you know it).
+\end{ex}
+

@@ -1,0 +1,516 @@
+% chap03 - Loops
+% Last edited:
+
+\chapter{Loops}
+
+\section{Updating variables}
+
+In Exercise~\ref{cargame}, you might have been tempted to write something
+like
+
+\begin{verbatim}
+a = a - 0.05*a + 0.03*b
+b = b + 0.05*a - 0.03*b
+\end{verbatim}
+
+But that would be wrong, so very wrong. Why? The problem is that
+the first line changes the value of {\tt a}, so when the second line
+runs, it gets the old value of {\tt b} and the new value of {\tt a}.
+As a result, the change in {\tt a} is not always the same as the
+change in {\tt b}, which violates the principle of Conversation
+of Cars!
+
+One solution is to use temporary variables {\tt anew} and {\tt bnew}:
+
+\begin{verbatim}
+anew = a - 0.05*a + 0.03*b
+bnew = b + 0.05*a - 0.03*b
+a = anew
+b = bnew
+\end{verbatim}
+
+This has the effect of updating the variables ``simultaneously;'' that
+is, it reads both old values before writing either new value.
+
+The following is an alternative solution that
+has the added advantage of simplifying the computation:
+
+\begin{verbatim}
+atob = 0.05*a - 0.03*b
+a = a - atob
+b = b + atob
+\end{verbatim}
+
+It is easy to look at this code and confirm that it obeys Conversation
+of Cars. Even if the value of {\tt atob} is wrong, at least the total
+number of cars is right. And that brings us to the Seventh Theorem of
+Debugging:
+
+\begin{quote}
+The best way to avoid a bug is to make it impossible.
+\end{quote}
+
+In this case, removing redundancy also eliminates the opportunity for
+a bug.
+
+
+\section{Kinds of error}
+
+There are four kinds of error:
+
+\begin{description}
+
+\item[Syntax error:] You have written a Octave command that cannot
+execute because it violates one of the rules of syntax. For example,
+you can't have two operands in a row without an operator, so 
+\verb+pi r^2+ contains a syntax error. When Octave finds a syntax
+error, it prints an error message and stops running your program.
+
+\item[Runtime error:] Your program starts running, but something goes
+wrong along the way. For example, if you try to access a variable
+that doesn't exist, that's a runtime error. When Octave detects the
+problem, it prints an error message and stops.
+
+\item[Logical error:] Your program runs without generating any error
+messages, but it doesn't do the right thing. The problem in the
+previous section, where we changed the value of {\tt a} before
+reading the old value, is a logical error.
+
+\item[Numerical error:] Most computations in Octave are only
+approximately right. Most of the time the errors are small enough
+that we don't care, but in some cases the roundoff errors are a problem.
+
+\end{description}
+
+Syntax errors are usually the easiest. Sometimes the error messages
+are confusing, but Octave can usually tell you where the error is, at
+least roughly.
+
+Run time errors are harder because, as I mentioned before, Octave
+can tell you where it detected the problem, but not what caused it.
+
+Logical errors are hard because Octave can't help at all. Only you
+know what the program is supposed to do, so only you can check it.
+From Octave's point of view, there's nothing wrong with the program;
+the bug is in your head!
+
+Numerical errors can be tricky because it's not clear whether the
+problem is your fault. For most simple computations, Octave produces
+the floating-point value that is closest to the exact solution, which
+means that the first 15 significant digits should be correct. But some
+computations are ill-conditioned, which means that even if your program
+is correct, the roundoff errors accumulate and the number of correct
+digits can be smaller. Sometimes Octave can warn you that
+this is happening, but not always! Precision (the number of digits
+in the answer) does not imply accuracy (the number of digits that
+are right).
+
+
+\section{Absolute and relative error}
+
+There are two ways of thinking about numerical errors, called {\bf
+absolute} and {\bf relative}.
+
+An absolute error is just the difference between the correct value and
+the approximation. We usually write the magnitude of the error,
+ignoring its sign, because it doesn't matter whether the approximation
+is too high or too low.
+
+For example, we might want to estimate $9!$ using the formula $\sqrt
+{18 \pi} ( 9 / e)^9$. The exact answer is $9 \cdot 8 \cdot 7 \cdot 6
+\cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 362,880$. The approximation
+is $359,536.87$. The absolute error is 3,343.13.
+
+At first glance, that sounds like a lot---we're off by three
+thousand---but it is worth taking into account the size of the
+thing we are estimating. For example, \$3000 matters a lot
+if we are talking about my annual salary, but not at all if we
+are talking about the national debt.
+
+A natural way to handle this problem is to use relative
+error, which is the error expressed as a fraction (or percentage)
+of the exact value. In this case, we would divide the error
+by 362,880, yielding $.00921$, which is just less than 1\%.
+For many purposes, being off by 1\% is good enough.
+
+
+\section{for loops}
+
+A {\bf loop} is a part of a program that executes repeatedly;
+a {\bf for loop} is the kind of loop that uses the {\tt for}
+statement.
+
+The simplest use of a {\tt for} loop is to execute one or more
+lines a fixed number of times. 
+For example, in the last chapter
+we wrote a script named {\tt car\_update} that simulates one
+week in the life of a rental car company. To simulate an entire
+year, we have to run it 52 times:
+
+\begin{verbatim}
+for i=1:52
+  car_update
+end
+\end{verbatim}
+
+The first line looks like an assignment statement, and it {\em is}
+like an assignment statement, except that it runs more than once. The
+first time it runs, it creates the variable {\tt i} and assigns it the
+value 1. The second time, {\tt i} gets the value 2, and so on, up to
+52.
+
+The colon operator, {\tt :}, specifies a {\bf range} of integers. In
+the spirit of unit testing, you can create a range at the prompt:
+
+\begin{verbatim}
+octave:1> 1:5
+ans = 1   2   3   4   5
+\end{verbatim}
+
+The variable you use in the for statement is called the {\bf loop
+variable}. It is a common convention to use the names {\tt i},
+{\tt j} and {\tt k} as loop variables.
+
+The statements inside the loop are called the {\bf body}. By convention,
+they are indented to show that they are inside the loop, but the
+indentation does not actually affect the execution of the program.
+The end of the loop is officially marked by the {\tt end} statement.
+
+To see the loop in action you can run a loop that displays the
+loop variable:
+
+\begin{verbatim}
+octave:2> for i=1:5
+> i
+> end
+i =  1
+i =  2
+i =  3
+i =  4
+i =  5
+\end{verbatim}
+
+As this example shows, you {\em can} run a for loop from the
+command line, but it's much more common to put it in a script.
+
+\begin{ex}
+Create a script named {\tt car\_loop} that uses a {\tt for}
+loop to run {\tt car\_update} 52 times. Remember that before you run
+{\tt car\_update}, you have to assign values to {\tt a} and {\tt b}.
+For this exercise, start with the values {\tt a = 150} and {\tt b =
+150}.
+
+If everything goes smoothly, your script will display a long stream
+of numbers on the screen. But it is probably too long
+to fit, and even if it fit, it would be hard to interpret. 
+A graph would be much better!
+\end{ex}
+
+
+\section{plotting}
+\label{plotting}
+
+{\tt plot} is a versatile function for plotting points and lines
+on a two-dimensional graph. Unfortunately, it is so versatile
+that it can be hard to use (and hard to read the documentation!).
+We will start simple and work our way up.
+
+To plot a single point, type
+
+\begin{verbatim}
+octave:1> plot(1, 2)
+\end{verbatim}
+
+A {\sf Figure Window} should appear with a graph. You probably won't be able to
+see it, but there is a single very small blue dot
+at $x$ position 1 and $y$ position 2. To make the dot more visible,
+you can specify a different shape:
+
+\begin{verbatim}
+octave:2> plot(1, 2, 'o')
+\end{verbatim}
+
+The letter in single quotes is a string that specifies how the
+point should be plotted. You can also specify the color:
+
+\begin{verbatim}
+octave:3> plot(1, 2, 'ro')
+\end{verbatim}
+
+{\tt r} stands for red; the other colors include {\bf g}reen, {\bf
+b}lue, {\bf c}yan, {\bf m}agenta, {\bf w}hite and blac{\bf k}.
+Other shapes include {\tt +}, 
+{\tt *}, 
+{\tt x}, and 
+\verb+^+ (for a triangle). 
+We recommend that you specify the shape, if not not the color. The small dot
+that Octave uses as a default is normally very difficult to see, where as the
+other shapes are fairly visible.
+
+When you use {\tt plot} this way, it can only plot one point at a
+time. If you run {\tt plot} again, it clears the figure before making
+the new plot. The {\tt hold} command lets you override that behavior.
+{\tt hold on} tells Octave not to clear the figure when it makes a new
+plot; {\tt hold off} returns to the default behavior.
+
+Try this:
+
+\begin{verbatim}
+octave:4> hold on
+octave:5> plot(1, 1, 'o')
+octave:6> plot(2, 2, 'o')
+\end{verbatim}
+
+You should see a figure with two points. Octave scales
+the plot automatically so that the axes run from the lowest value in
+the plot to the highest. So in this example the points are plotted in
+the corners.
+
+\begin{ex}
+Modify {\tt car\_loop} so that each time through the
+loop it plots the value of {\tt a} versus the value of {\tt i}.
+
+Once you get that working, modify it so it plots the values of {\tt a}
+with red circles and the values of {\tt b} with blue diamonds.
+
+\end{ex}
+
+One more thing: if you use {\tt hold on} to prevent Octave from
+clearing the figure, you might want to clear the figure yourself,
+from time to time, with the command {\tt clf}.
+
+
+\section{Sequences}
+
+In mathematics a {\bf sequence} is a set of numbers that corresponds
+to the positive integers. The numbers in the sequence are
+called {\bf elements}. In math notation, the elements
+are denoted with subscripts, so the first element of the series $A$ is
+$A_1$, followed by $A_2$, and so on.
+
+{\tt for} loops are a natural way to compute the elements of a sequence.
+As an example, in a geometric sequence, each element is a constant
+multiple of the previous element. As a more specific example, let's
+look at the sequence with $A_1 = 1$ and the ratio $A_{i+1} = A_i/2$,
+for all $i$. In other words, each element is half as big as the one
+before it.
+
+The following loop computes the first 10 elements of $A$:
+
+\begin{verbatim}
+a = 1
+for i=2:10
+  a = a/2
+end
+\end{verbatim}
+
+Each time through the loop, we find the next value of {\tt a}
+by dividing the previous value by 2. Notice that the loop
+range starts at 2 because the initial value of {\tt a} corresponds
+to $A_1$, so the first time through the loop we are computing
+$A_2$.
+
+Each time through the loop, we replace the previous element with
+the next, so at the end, {\tt a} contains the 10th element. The
+other elements are displayed on the screen, but they are not saved
+in a variable. Later, we will see how to save all of the elements
+of a sequence in a vector.
+
+This loop computes the sequence {\bf recurrently}, which means
+that each element depends on the previous one.
+For this sequence it is also possible to compute the $i$th element
+{\bf directly}, as a function of $i$, without using the previous element.
+In math notation, $A_i = A_1 r^{i-1}$. 
+
+\begin{ex}
+Write a
+script named {\tt sequence} that uses a loop
+to compute elements of $A$ directly.
+\end{ex}
+
+
+\section{Series}
+\label{series}
+
+In mathematics, a {\bf series} is the sum of the elements of
+a sequence. It's a terrible name, because in common English,
+``sequence'' and ``series'' mean pretty much the same thing, but in
+math, a sequence is a set of numbers, and a series is an expression
+(a sum) that has a single value. In math notation, a series
+is often written using the summation symbol $\sum$.
+
+For example, the sum of the first 10 elements of $A$ is
+
+\[ \sum_{i=1}^{10} A_i \]
+
+A {\tt for} loop is a natural way to compute the value of this
+series:
+
+\begin{verbatim}
+A1 = 1;
+total = 0;
+for i=1:10
+  a = A1 * 0.5^(i-1);
+  total = total + a;
+end
+ans = total
+\end{verbatim}
+
+{\tt A1} is the first element of the sequence, so each time
+through the loop {\tt a} is the $i$th element. 
+
+The way we are using {\tt total} is sometimes called an {\bf
+accumulator}; that is, a variable that accumulates a result a little
+bit at a time. Before the loop we initialize it to 0. Each time
+through the loop we add in the $i$th element. At the end of the loop
+{\tt total} contains the sum of the elements. Since that's the value
+we were looking for, we assign it to {\tt ans}.
+
+\begin{ex}
+This example computes the terms of the series directly; as
+an exercise, write a script named {\tt series} that computes
+the same sum by computing the elements recurrently. You will
+have to be careful about where you start and stop the loop.
+\end{ex}
+
+
+\section{Generalization}
+
+As written, the previous example always adds up the first 10
+elements of the sequence, but we might be curious to know what
+happens to {\tt total} as we increase the
+number of terms in the series. If you have studied geometric
+series, you might know that this series converges on 2; that is,
+as the number of terms goes to infinity, the sum approaches
+2 asymptotically.
+
+To see if that's true for our program, we could replace the
+constant, 10, with a variable named {\tt n}:
+
+\begin{verbatim}
+A1 = 1;
+total = 0;
+for i=1:n
+  a = A1 * 0.5^(i-1);
+  total = total + a;
+end
+ans = total
+\end{verbatim}
+
+Now the script can compute any number of terms, with the
+precondition that you have to set {\tt n} before you execute
+the script. Here's how you could run it with different values
+of {\tt n}:
+
+\begin{verbatim}
+octave:1> n=10; series
+total = 1.99804687500000
+
+octave:2> n=20; series
+total = 1.99999809265137
+
+octave:3> n=30; series
+total = 1.99999999813735
+
+octave:4> n=40; series
+total = 1.99999999999818
+\end{verbatim}
+
+It sure looks like it's converging on 2.
+
+Replacing a constant with a variable is called {\bf generalization}.
+Instead of computing a fixed, specific number of terms, the new script
+is more general; it can compute any number of terms.
+
+This is an important idea we will come back to when we
+talk about functions.
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[absolute error:] The difference between an approximation and
+an exact answer.
+
+\item[relative error:] The difference between an approximation and
+an exact answer, expressed as a fraction or percentage of the exact
+answer.
+
+\item[loop:] A part of a program that runs repeatedly.
+
+\item[loop variable:] A variable, defined in a {\tt for} statement,
+that gets assigned a different value each time through the loop.
+
+\item[range:] The set of values assigned to the loop variable, often
+specified with the colon operator; for example {\tt 1:5}.
+
+\item[body:] The statements inside the for loop that are run
+repeatedly.
+
+\item[sequence:] In mathematics, a set of numbers that correspond
+to the positive integers.
+
+\item[element:] A member of the set of numbers in a sequence. 
+
+\item[recurrently:] A way of computing the next element of a sequence
+based on previous elements.
+
+\item[directly:] A way of computing an element in a sequence without
+using previous elements.
+
+\item[series:] The sum of the elements in a sequence.
+
+\item[accumulator:] A variable that is used to accumulate a result
+a little bit at a time.
+
+\item[generalization:] A way to make a program more versatile, for
+example by replacing a specific value with a variable that can have
+any value.
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+\label{fib2}
+
+We have already seen the Fibonacci sequence, $F$, which
+is defined recurrently as
+
+\[ F_{i} = F_{i-1} + F_{i-2} \]
+
+In order to get started, you have to specify the first two
+elements, but once you have those, you can compute the rest.
+The most common Fibonacci sequence starts with $F_1 = 1$ and $F_2 = 1$.
+
+Write a script called {\tt fibonacci2} that uses a for loop
+to compute the first 10 elements of this Fibonacci sequence.
+As a postcondition, your script should assign the 10th element to
+{\tt ans}.
+
+Now generalize your script so that it computes the $n$th element
+for any value of {\tt n}, with the precondition that you have to
+set {\tt n} before you run the script. To keep things simple for
+now, you can assume that {\tt n} is greater than 2.
+
+Hint: you will have to use two variables to keep track of the
+previous two elements of the sequence. You might want to call
+them {\tt prev1} and {\tt prev2}. Initially, {\tt prev1 =} $F_1$
+and {\tt prev2 =} $F_2$. At the end of the loop, you will have
+to update {\tt prev1} and {\tt prev2}; think carefully about the
+order of the updates!
+\end{ex}
+
+
+\begin{ex}
+\label{fib_plot}
+
+Write a script named {\tt fib\_plot} that loops {\tt i}
+through a range from 1 to 20, uses {\tt fibonacci2} to compute
+Fibonacci numbers, and plots $F_i$ for each $i$ with a series of red
+circles.
+
+\end{ex}
+

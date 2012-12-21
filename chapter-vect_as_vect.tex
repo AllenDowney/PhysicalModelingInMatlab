@@ -1,0 +1,557 @@
+% chap12 - Vectors as vectors
+% Last edited:
+
+\chapter{Vectors as vectors}
+
+\section{What's a vector?}
+
+The word ``vector'' means different things to different people.
+In Octave, a vector is a matrix that has either one row or one
+column. So far we have used Octave vectors to represent
+
+\begin{description}
+
+\item[sequences:] A sequence is a set of values identified by
+integer indices; it is natural to store the elements of the
+sequence as elements of a Octave vector.
+
+\item[state vectors:] A state vector is a set of values that
+describes the state of a physical system. When you call
+{\tt ode45}, you give it in the initial conditions in a state
+vector. Then when {\tt ode45} calls your rate function, it
+gives you a state vector.
+
+\item[discrete maps:] If you have two vectors with the same
+length, you can think of them as a mapping from the elements
+of one vector to the corresponding elements of the other. For
+example, in Section~\ref{rats}, the results from {\tt ode45}
+are vectors, {\tt T} and {\tt Y}, that represent a mapping
+from the time values in {\tt T} to the population values in {\tt Y}.
+
+\end{description}
+
+In this chapter we will see another use of Octave vectors:
+representing spatial vectors. A spatial vector is a value that
+represents a multidimensional physical quantity like position,
+velocity, acceleration or force\footnote{See
+\url{http://en.wikipedia.org/wiki/Vector_(spatial)}.}.
+
+These quantities cannot be described with a
+single number because they contain multiple components. For example,
+in a 3-dimensional Cartesian coordinate space, it takes three numbers
+to specify a position in space; they are usually called $x$, $y$ and
+$z$ coordinates. As another example, in 2-dimensional polar
+coordinates, you can specify a velocity with two numbers, a
+magnitude and an angle, often called $r$ and $\theta$.
+
+It is convenient to represent spatial vectors using Octave vectors
+because Octave knows how to perform most of the vector
+operations you need for physical modeling. For example,
+suppose that you are given the velocity of a baseball in
+the form of a Octave vector with two elements, $v_x$ and $v_y$,
+which are the components of velocity in the $x$ and $y$ directions.
+
+\begin{verbatim}
+octave:1> V = [30, 40]    % velocity in m/s
+\end{verbatim}
+
+And suppose you are asked to compute the total acceleration of
+the ball due to drag and gravity. In math notation, the force
+due to drag is
+
+\[ F_d = -\frac{1}{2} ~ \rho ~ v^2 ~ A ~ C_d ~ \hat{V}  \]
+
+where $V$ is a spatial vector representing velocity, $v$ is the magnitude
+of the velocity (sometimes called ``speed''), and $\hat{V}$ is a unit
+vector in the direction of the velocity vector. The other terms,
+$\rho$, $A$ and $C_d$, are scalars.
+
+The magnitude of a vector is the square root of the sum of the squares
+of the elements. You could compute it with {\tt hypotenuse} from
+Section~\ref{hypotenuse}, or you could use the Octave function {\tt
+norm} ({\bf norm} is another name\footnote{Magnitude is also called
+``length'' but I will avoid that term because it gets confused with
+the {\tt length} function, which returns the number of elements in a
+Octave vector.} for the magnitude of a vector):
+
+\begin{verbatim}
+octave:1> v = norm(V)
+
+v = 50
+\end{verbatim}
+
+$\hat{V}$ is a {\bf unit vector}, which means it should have norm 1,
+and it should point in the same direction as $V$. The simplest
+way to compute it is to divide $V$ by its own norm.
+
+\begin{verbatim}
+octave:1> Vhat = V / v
+
+Vhat = 0.6 0.8
+\end{verbatim}
+
+Then we can confirm that the norm of $\hat{V}$ is 1:
+
+\begin{verbatim}
+octave:1> norm(Vhat)
+
+ans = 1
+\end{verbatim}
+
+To compute $F_d$ we just multiply the scalar terms by $\hat{V}$.
+
+\begin{verbatim}
+Fd = - 1/2 * C * rho * A * v^2 * Vhat
+\end{verbatim}
+
+Similarly, we can compute acceleration by dividing the vector
+$F_d$ by the scalar $m$.
+
+\begin{verbatim}
+Ad = Fd / m
+\end{verbatim}
+
+To represent the acceleration of gravity, we create a vector 
+with two components:
+
+\begin{verbatim}
+Ag = [0; -9.8]
+\end{verbatim}
+
+The $x$ component of gravity is 0; the $y$ component is $-9.8 m/s^2$.
+
+Finally we compute total acceleration by adding vector
+quantities:
+
+\begin{verbatim}
+A = Ag + Ad;
+\end{verbatim}
+
+One nice thing about this computation is that we didn't have to
+think much about the components of the vectors. By treating
+spatial vectors as basic quantities, we can express complex computations
+concisely.
+
+
+\section{Dot and cross products}
+
+Multiplying a vector by a scalar is a straightforward operation;
+so is adding two vectors. But multiplying two vectors is more
+subtle. It turns out that there are two vector operations that
+resemble multiplication: {\bf dot product}
+and {\bf cross product}.
+
+The dot product of vectors $A$ and $B$ is a scalar:
+
+\[ d = a b \cos \theta \]
+%
+where $a$ is the magnitude of $A$, $b$ is the magnitude of $B$,
+and $\theta$ is the angle between the vectors. We already know
+how to compute magnitudes, and you could probably figure out
+how to compute $\theta$, but you don't have to. Octave provides
+a function, {\tt dot}, that computes dot products.
+
+\begin{verbatim}
+d = dot(A, B)
+\end{verbatim}
+
+{\tt dot} works in any number of dimensions, as long as {\tt A}
+and {\tt B} have the same number of elements.
+
+If one of the operands is a unit vector, you can use the dot
+product to compute the component of a vector $A$ that is in
+the direction of a unit vector, $\hat{i}$:
+
+\begin{verbatim}
+s = dot(A, ihat)
+\end{verbatim}
+
+In this example, $s$ is the {\bf scalar projection} of $A$
+onto $\hat{i}$. The {\bf vector projection} is the vector
+that has magnitude $s$ in the direction of $\hat{i}$:
+
+\begin{verbatim}
+V = dot(A, ihat) * ihat
+\end{verbatim}
+
+The cross product of vectors $A$ and $B$ is a vector whose direction
+is perpendicular to $A$ and $B$ and whose magnitude is
+
+\[ c = a b \sin \theta \]
+%
+where (again) $a$ is the magnitude of $A$, $b$ is the magnitude of
+$B$, and $\theta$ is the angle between the vectors. Octave provides
+a function, {\tt cross}, that computes cross products.
+
+\begin{verbatim}
+C = cross(A, B)
+\end{verbatim}
+
+{\tt cross} only works for 3-dimensional vectors; the result is
+a 3-dimensional vector.
+
+A common use of {\tt cross} is to compute torques. If you represent
+a moment arm $R$ and a force $F$ as 3-dimensional vectors, then
+the torque is just
+
+\begin{verbatim}
+Tau = cross(R, F)
+\end{verbatim}
+
+If the components of {\tt R} are in meters and the components
+of {\tt F} are in Newtons, then the torques in {\tt Tau} are
+in Newton-meters.
+
+
+
+\section{Celestial mechanics}
+
+Modeling celestial mechanics is a good opportunity
+to compute with spatial vectors.
+Imagine a star with mass $m_1$ at a point in space described by the
+vector $P_1$, and a planet with mass $m_2$ at point $P_2$. The
+magnitude of the gravitational force\footnote{See
+\url{http://en.wikipedia.org/wiki/Gravity}} between them is
+
+\[ f_g = G \frac{m_1 m_2}{r^2} \]
+%
+where $r$ is the distance between them and $G$ is the universal
+gravitational constant, which is about $6.67 \times 10^{-11} N m^2 /
+kg^2$. Remember that this is the appropriate value of $G$ only if the
+masses are in kilograms, distances in meters, and forces in Newtons.
+
+The direction of the force on the star at $P_1$ is in the
+direction toward $P_2$. We can compute relative direction by
+subtracting vectors; if we compute {\tt R = P2 - P1}, then
+the direction of {\tt R} is from {\tt P1} to {\tt P2}.
+
+The distance between the planet and star is the length of $R$:
+
+\begin{verbatim}
+r = norm(R)
+\end{verbatim}
+
+The direction of the force on the star is $\hat{R}$:
+
+\begin{verbatim}
+rhat = R / r
+\end{verbatim}
+
+\begin{ex}
+Write a sequence of Octave statements that computes {\tt F12}, a vector
+that represents the force on the star due to the planet, and {\tt
+F21}, the force on the planet due to the star.
+\end{ex}
+
+\begin{ex}
+Encapsulate these statements in a function named {\tt
+gravity\_force\_func} that takes {\tt P1}, {\tt m1}, {\tt P2}, and
+{\tt m2} as input variables and returns {\tt F12}.
+\end{ex}
+
+\begin{ex}
+\label{jupiter}
+Write a simulation of the orbit of Jupiter around the Sun. The mass
+of the Sun is about $2.0 \times 10^{30}$ kg. You can get the mass of
+Jupiter, its distance from the Sun and orbital velocity from
+\url{http://en.wikipedia.org/wiki/Jupiter}. Confirm that it takes
+about 4332 days for Jupiter to orbit the Sun.
+\end{ex}
+
+\section{Animation}
+
+Animation is a useful tool for checking the results of a physical
+model. If something is wrong, animation can make it obvious.
+There are two ways to do animation in Octave. One is to use
+{\tt getframe} to capture a series of images and {\tt movie} to
+play them back.
+The more informal way is to draw a series of plots.
+Here is an example I wrote for Exercise~\ref{jupiter}:
+
+\begin{verbatim}
+function animate_func(T,M)
+  % animate the positions of the planets, assuming that the
+  % columns of M are x1, y1, x2, y2.
+  X1 = M(:,1);
+  Y1 = M(:,2);
+  X2 = M(:,3);
+  Y2 = M(:,4);
+
+  minmax = [min([X1;X2]), max([X1;X2]), min([Y1;Y2]), max([Y1;Y2])];
+
+  for i=1:length(T)
+    clf;
+    axis(minmax);
+    hold on;
+    draw_func(X1(i), Y1(i), X2(i), Y2(i));
+    drawnow;
+  end
+end
+\end{verbatim}
+
+The input variables are the output from {\tt ode45}, a vector
+{\tt T} and a matrix {\tt M}. The columns of {\tt M} are the
+positions and velocities of the Sun and Jupiter, so
+{\tt X1} and {\tt Y1} get the coordinates of the Sun;
+{\tt X2} and {\tt Y2} get the coordinates of Jupiter.
+
+{\tt minmax} is a vector of four elements which is used inside
+the loop to set the axes of the figure. This is necessary because
+otherwise Octave scales the figure each time through the loop,
+so the axes keep changing, which makes the animation hard
+to watch.
+
+Each time through the loop, {\tt animate\_func} uses {\tt clf}
+to clear the figure and {\tt axis} to reset the axes. {\tt hold
+on} makes it possible to put more than one plot onto the same
+axes (otherwise Octave clears the figure each time you call
+{\tt plot}).
+
+Each time through the loop, we have to call {\tt drawnow} so
+that Octave actually displays each plot. Otherwise it waits
+until you finish drawing all the figures and {\em then} updates
+the display.
+
+{\tt draw\_func} is the function that actually makes the
+plot:
+
+\begin{verbatim}
+function draw_func(x1, y1, x2, y2)
+  plot(x1, y1, 'r.', 'MarkerSize', 50);
+  plot(x2, y2, 'b.', 'MarkerSize', 20);
+end
+\end{verbatim}
+
+The input variables are the position of the Sun and Jupiter.
+{\tt draw\_func} uses {\tt plot} to draw
+the Sun as a large red marker and Jupiter as a smaller blue one.
+
+\begin{ex}
+To make sure you understand how {\tt animate\_func} works,
+try commenting out some of the lines to see what happens.
+\end{ex}
+
+One limitation of this kind of animation is that the speed
+of the animation depends on how fast your computer can generate
+the plots. Since the results from {\tt ode45} are usually not
+equally spaced in time, your animation might slow down where
+{\tt ode45} takes small time steps and speed up where the time
+step is larger.
+
+There are two ways to fix this problem:
+
+\begin{enumerate}
+
+\item When you call {\tt ode45} you can give it a vector of
+points in time where it should generate estimates. Here is
+an example:
+
+\begin{verbatim}
+end_time = 1000;
+step = end_time/200;
+[T, M] = ode45(@rate_func, [0:step:end_time], W);
+\end{verbatim}
+
+The second argument is a range vector that goes from 0 to 1000 with a
+step size determined by {\tt step}. Since {\tt step} is {\tt
+end\_time/200}, there will be about 200 rows in {\tt T} and {\tt M}
+(201 to be precise).
+
+This option does not affect the accuracy of the results; {\tt ode45}
+still uses variable time steps to generate the estimates, but then it
+interpolates them before returning the results.
+
+\item You can use {\tt pause} to play the animation in
+real time. After drawing each frame and calling
+{\tt drawnow}, you can compute the time
+until the next frame and use {\tt pause} to wait:
+
+\begin{verbatim}
+dt = T(i+1) - T(i);
+pause(dt);
+\end{verbatim}
+
+A limitation of this method is that it ignores the time required to
+draw the figure, so it tends to run slow, especially if the figure is
+complex or the time step is small.
+
+\end{enumerate}
+
+\begin{ex}
+Use {\tt animate\_func} and {\tt draw\_func} to vizualize your
+simulation of Jupiter. Modify it so it shows one day of simulated
+time in 0.001 seconds of real time---one revolution should take
+about 4.3 seconds.
+\end{ex}
+
+
+\section{Conservation of Energy}
+
+A useful way to check the accuracy of an ODE solver is to
+see whether it conserves energy. For planetary
+motion, it turns out that {\tt ode45} does not.
+
+The kinetic energy of a moving body is $m v^2 / 2$; the
+kinetic energy of a solar system is the total kinetic
+energy of the planets and sun.
+The potential energy of a sun with mass $m_1$ and a
+planet with mass $m_2$ and a distance $r$ between them is
+
+\[ U = -G \frac{m_1 m_2}{r} \]
+%
+
+\begin{ex}
+Write a function called {\tt energy\_func} that takes the output of
+your Jupiter simulation, {\tt T} and {\tt M}, and computes the total
+energy (kinetic and potential) of the system for each estimated
+position and velocity. Plot the result as a function of time and
+confirm that it decreases over the course of the simulation. Your
+function should also compute the relative change in energy, the
+difference between the energy at the beginning and end, as a
+percentage of the starting energy.
+\end{ex}
+
+You can reduce the rate of energy loss by decreasing {\tt ode45}'s
+tolerance option using {\tt odeset} (see Section~\ref{events}):
+
+\begin{verbatim}
+options = odeset('RelTol', 1e-5);
+[T, M] = ode45(@rate_func, [0:step:end_time], W, options);
+\end{verbatim}
+%
+The name of the option is {\tt RelTol} for ``relative tolerance.''
+The default value is {\tt 1e-3} or 0.001. Smaller values
+make {\tt ode45} less ``tolerant,'' so it does more work to
+make the errors smaller. 
+
+\begin{ex}
+Run {\tt ode45} with a range of values for {\tt RelTol} and confirm
+that as the tolerance gets smaller, the rate of energy loss
+decreases.
+\end{ex}
+
+\begin{ex}
+Run your simulation with one of the other ODE solvers Octave provides
+and see if any of them conserve energy.
+\end{ex}
+
+% \section{Scaling}
+
+% \section{Polar coordinates}
+
+\section{What is a model for?}
+
+In Section~\ref{modeling} I defined a ``model'' as a simplified
+description of a physical system, and said that a good model
+lends itself to analysis and simulation, and makes predictions
+that are good enough for the intended purpose.
+
+Since then, we have seen a number of examples; now we can
+say more about what models are for. The goals of a model tend
+to fall into three categories.
+ 
+\begin{description}
+
+\item[prediction:] Some models make predictions about physical
+systems. As a simple example, the duck model in
+Exercise~\ref{duck} predicts the level a duck floats at. At the other
+end of the spectrum, global climate models try to predict the weather
+tens or hundreds of years in the future.
+
+\item[design:] Models are useful for engineering design, especially
+for testing the feasibility of a design and for optimization. For
+example, in Exercise~\ref{golf} you were asked to design the golf
+swing with the perfect combination of launch angle, velocity and spin.
+
+\item[explanation:] Models can answer scientific questions. For
+example, the Lotka-Volterra model in Section~\ref{lotka} offers a
+possible explanation of the dynamics of animal populations systems in
+terms of interactions between predator and prey species. 
+
+\end{description}
+
+The exercises at the end of this chapter include one model of
+each type.
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[spatial vector:] A value that represents a
+multidimensional physical quantity like position, velocity,
+acceleration or force.
+
+\item[norm:] The magnitude of a vector. Sometimes called ``length,''
+but not to be confused with the number of elements in a Octave
+vector.
+
+\item[unit vector:] A vector with norm 1, used to indicate
+direction.
+
+\item[dot product:] A scalar product of two vectors, proportional
+to the norms of the vectors and the cosine of the angle between them.
+
+\item[cross product:] A vector product of two vectors with norm
+proportional to the norms of the vectors and the sine of the angle
+between them, and direction perpendicular to both.
+
+\item[projection:] The component of one vector that is in the
+direction of the other (might be used to mean ``scalar projection'' or
+``vector projection'').
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+If you put two identical bowls of water into a freezer, one at
+room temperature and one boiling, which one freezes first?
+
+Hint: you might want to do some research on the Mpemba effect.
+
+% You might have to do some research on thermal expansion\footnote{See
+% \url{http://en.wikipedia.org/wiki/Thermal_expansion}.},
+% cooling\footnote{See
+% \url{http://en.wikipedia.org/wiki/Heat_conduction}.},
+% evaporation\footnote{See
+% \url{http://en.wikipedia.org/wiki/Evaporation}.} and
+% freezing\footnote{See \url{http://en.wikipedia.org/wiki/Freezing}.},
+% and think about which factors you have to include in the model and
+% which you can ignore.
+\end{ex}
+
+\begin{ex}
+You have been asked to design a new skateboard ramp; unlike a typical
+skateboard ramp, this one is free to pivot about a support point.
+Skateboarders approach the ramp on a flat surface and then coast up
+the ramp; they are not allowed to put their feet down while on the
+ramp. If they go fast enough, the ramp will rotate and they will
+gracefully ride down the rotating ramp. Technical and artistic
+display will be assessed by the usual panel of talented judges.
+
+Your job is to design a ramp that will allow a rider to accomplish
+this feat, and to create a physical model of the system, a
+simulation that computes the behavior of a rider on the ramp, and an
+animation of the result.
+\end{ex}
+
+\begin{ex}
+\label{binary}
+
+A binary star system contains two stars orbiting each other and
+sometimes planets that orbit one or both stars\footnote{See
+\url{http://en.wikipedia.org/wiki/Binary_star}.}. In a binary
+system, some orbits are ``stable'' in the sense that a planet can stay
+in orbit without crashing into one of the stars or flying off into
+space.
+
+Simulation is a useful tool for investigating the nature of these
+orbits, as in Holman, M.J. and P.A. Wiegert, 1999, ``Long-Term Stability
+of Planets in Binary Systems,'' {\em Astronomical Journal} 117, 
+available from \url{http://citeseer.ist.psu.edu/358720.html}.
+
+Read this paper and then modify your planetary simulation to
+replicate or extend the results.
+\end{ex}
