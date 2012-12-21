@@ -1,0 +1,611 @@
+% chap02 - Scripts
+% Last edited:
+
+\chapter{Scripts}
+
+\section{M-files}
+
+So far we have typed all of our programs ``at the prompt,'' which is
+fine if you are not writing more than a few lines. Beyond that,
+you will want to store your program in a {\bf script} and then
+execute the script.
+
+A script is a file that contains Octave code. These files are
+also called ``M-files'' because they use the extension {\tt .m},
+which is short for Octave.\footnote{The .m extension was first used for MATLAB
+script files, but the creators of Octave decided to use the same extension
+because the languages are nearly identical.}
+
+Octave does not have a built-in editor, so when you write or edit scripts,
+Octave opens up one of the text editors that's installed on your computer. If
+you are using Linux, Octave will open up Emacs -- a very powerful text editor.
+Unless you are very familiar UNIX operating systems, the Emacs interface will be
+very strange and unintuitive. (Be warned that the keyboard shortcuts are
+different from the shortcuts you are probably used to!) In this book, we assume
+that your version of Octave uses Emacs as its default editor.
+
+Type {\tt
+edit} in the Octave window command window and press enter. You should see an
+Emacs window open up.\footnote{Most distributions of Linux now have a version of
+Emacs with a graphical user interface, but some older distributions may still
+used the command-line version.} Note that window that appears is NOT a new
+document window -- this is just the default startup window.
+
+To create a new M-file, click on the new document icon on the
+toolbar, or type the key combination CTRL-X,
+followed by the key combination CTRL-F (in documentation, this will often be
+abbreviated as {\tt C-x C-f}). The line at the very bottom of the window should
+read {\tt Find file: $\sim$/}. Type in the name {\tt myscript.m} (so that the
+line now displays {\tt Find file: $\sim$/myscript.m}), and hit ENTER. You
+should now see an empty text window.
+
+Type the following code in the window
+
+\begin{verbatim}
+x = 5
+\end{verbatim}
+
+and then press the (outdated) floppy disk icon, or select {\sf Save}
+from the {\sf File} menu. You can also use the keyboard shortcut {\tt C-x C-s}
+(CTRL-X, followed by CTRL-S).
+
+By default, Octave will store your script in the current directory that
+you're in. A {\bf directory} is just a fancy name for a folder; it's a place
+on the computer where files are stored. (If you don't know what your current
+directory is, back in the
+Octave window type the command {\tt pwd}, print working directory. You might
+have to close Emacs first). If you started up Octave directly from the terminal,
+chances are you're in you're home folder. We'll talk more about how to navigate
+through directories later.
+
+Exit out of the editor by selecting {\sf Quit} from the {\sf File} menu, or by
+typing the keyboard shortcut {\tt C-x C-c}. Back in the Octave terminal window,
+enter the command {\tt myscript}. Octave executes your script and displays
+the result.
+
+\begin{verbatim}
+octave:1> myscript
+x = 5
+\end{verbatim}
+
+When you run a script, Octave executes the commands in the M-File, one
+after another, exactly as if you had typed them at the prompt.
+
+If you made a mistake, or if you want to edit the code you just wrote, you can
+re-open the script by typing the command {\tt edit myscript.m} in the Octave
+window. This will open myscript.m directly without opening up the Emacs startup
+window.
+
+If something goes wrong and Octave can't find your script, you will
+get an error message like:
+
+\begin{verbatim}
+octave:1> myscript
+error: `myscript' undefined near line 3 column 1
+\end{verbatim}
+
+The filename can be anything you want, but you should try to choose
+something meaningful and memorable. You should be very careful to choose a
+name that is not already in use; if you do, you might accidentally
+replace one of Octave's functions with your own.
+Finally, the name of the file cannot contain spaces. If you create
+a file named {\tt my script.m}, Octave doesn't complain until you try
+to run it:
+
+\begin{verbatim}
+octave:1> my script
+error: `my' undefined near line 8 column 1
+\end{verbatim}
+
+The problem is that it is looking for a script named {\tt my}. The
+problem is even worse if the first word of the filename is a function
+that exists. Just for fun, create a script named {\tt abs val.m}
+and run it.
+
+\begin{ex}
+The Fibonacci sequence, denoted $F$, is described by the equations
+$F_1 = 1$, $F_2 = 1$, and for $i \ge 3$, $F_{i} = F_{i-1} + F_{i-2}$.
+The elements of this sequence occur naturally in many plants,
+particularly those with petals or scales arranged in the form of a
+logarithmic spiral.
+
+The following expression computes the
+$n$th Fibonacci number:
+
+\begin{equation}
+F_n = \frac{1}{\sqrt{5}}
+\left[ 
+\left( \frac{1 + \sqrt{5}}{2} \right)^{n} -
+\left( \frac{1 - \sqrt{5}}{2} \right)^{n}
+\right]
+\end{equation}
+
+Translate this expression into Octave and store your
+code in a file named {\tt fibonacci1}. At the prompt, set the value
+of {\tt n} to 10 and then run your script. The last line of your
+script should assign the value of $F_n$ to {\tt ans}.
+(The correct value of $F_{10}$ is 55).
+\end{ex}
+
+
+\section{Why scripts?}
+
+The most common reasons to use scripts are:
+
+\begin{itemize}
+
+\item When you are writing more than a couple of lines of code, it
+might take a few tries to get everything right. Putting your code
+in a script makes it easier to edit than typing it at the prompt.
+
+On the other hand, it can be a pain to switch back and forth between
+the Emacs and the Octave terminal window. Notice that you can't run anything
+in the Octave window while Emacs is open. One way to work around this is to
+open up another terminal window and run Octave. Then one terminal can be used
+for running Emacs and the other can be used to run prompt commands.
+
+\item If you choose good names for your scripts, you will be able
+to remember which script does what, and you might be able to reuse
+a script from one project to the next.
+
+\item If you run a script repeatedly, it is faster to type the
+name of the script than to retype the code!
+
+\end{itemize}
+
+Unfortunately, the great power of scripts comes with great responsibility,
+which is that you have to make sure that the code you are running is
+the code you think you are running.
+
+First, whenever you edit your script, you have to save it before you
+run it. If you forget to save it, you will be running the old version.
+
+Also, whenever you start a new script, start with something simple,
+like {\tt x=5}, that produces a visible effect. Then run your script
+and confirm that you get what you expect. Octave comes with a lot of
+predefined functions. It is easy to write a script that has the same
+name as a Octave function, and if you are not careful, you might
+find yourself running the Octave function instead of your script.
+
+Either way, if the code you are running is not the code you are looking
+at, you will find debugging a frustrating exercise! And that brings
+us to the Third Theorem of Debugging:
+
+\begin{quote}
+You must always be 100\% sure that the code you are running is
+the code you think you are running.
+\end{quote}
+
+
+
+\section{The workspace}
+
+The variables you create are stored in the {\bf workspace}, which is a
+set of variables and their values. The {\tt who} command prints the
+names of the variables in the workspace.
+
+\begin{verbatim}
+octave:1> x=5;
+octave:2> y=7;
+octave:3> z=9;
+octave:4> who
+Variables in the current scope:
+
+ans  x    y    z
+
+\end{verbatim}
+
+The {\tt clear} command removes variables.
+
+\begin{verbatim}
+octave:5> clear y
+octave:6> who
+Variables in the current scope:
+
+ans  x    z
+
+
+\end{verbatim}
+
+To display the value of a variable, you can use the {\tt disp}
+function.
+
+\begin{verbatim}
+octave:7> disp(z)
+ 9
+\end{verbatim}
+
+But it's easier to just type the variable name.
+
+\begin{verbatim}
+octave:8> z
+z =  9
+\end{verbatim}
+
+(Strictly speaking, the name of a variable is an expression, so
+evaluating it should assign a value to {\tt ans}, but Octave seems
+to handle this as a special case.)
+
+
+\section{More errors}
+
+Again, when you try something new, you should make a few mistakes
+on purpose so you'll recognize them later.
+
+The most common error with scripts is to run a script without creating
+the necessary variables. For example, {\tt fibonacci1} requires you
+to assign a value to {\tt n}. If you don't:
+
+\begin{verbatim}
+octave:1> fibonacci1
+error: `n' undefined near line 2 column 25
+error: called from:
+error:   /home/gpleiss/Documents/Octave/fibonacci1.m at line 2, 
+column 4
+\end{verbatim}
+ 
+The details of this message might be different for you, depending
+on what's in your script. But the general idea is that {\tt n}
+is undefined. Notice that Octave tells you what line of your
+program the error is in, and displays the line.
+
+This information can be helpful, but beware! Octave is telling you
+where the error was discovered, not where the error is. In this
+case, the error is not in the script at all; it is, in a sense, in
+the workspace.
+
+Which brings us to the Fourth Theorem of Debugging:
+
+\begin{quote}
+Error messages tell you where the problem was discovered, not
+where it was caused. 
+\end{quote}
+
+The object of the game is to find the cause and
+fix it---not just to make the error message go away.
+
+
+\section{Pre- and post-conditions}
+
+Every script should contain a comment that explains
+what it does, and what the requirements are for the workspace. For
+example, I might put something like this at the beginning of
+{\tt fibonacci1}:
+
+\begin{verbatim}
+% Computes the nth Fibonacci number. 
+% Precondition: you must assign a value to n before running 
+% this script. Postcondition: the result is stored in ans.
+\end{verbatim}
+
+A {\bf precondition} is something that must be true, when the script
+starts, in order for it to work correctly. A {\bf postcondition}
+is something that will be true when the script completes.
+
+If there is a comment at the beginning of a script, Octave assumes
+it is the documentation for the script, so if you type {\tt help
+fibonacci1}, you get the contents of the comment (without the percent
+signs).
+
+\begin{verbatim}
+octave:1> help fibonacci1
+`fibonacci1' is a script from the file
+/home/gpleiss/Documents/Octave/fibonacci1.m
+
+ Computes the nth Fibonacci number. 
+ Precondition: you must assign a value to n before running 
+ this script. Postcondition: the result is stored in ans.
+\end{verbatim}
+
+That way, scripts that you write behave just like predefined scripts.
+You can even use the {\tt doc} command to see your comment in the
+Help Window.
+
+\section{Assignment and equality}
+
+In mathematics the equals sign means that the two sides of the
+equation have the same value. In Octave an assignment statement
+{\em looks} like a mathematical equality, but it's not.
+
+One difference is that the sides of an assignment statement are not
+interchangeable. The right side can be any legal expression, but
+the left side has to be a variable, which is called the {\bf
+target} of the assignment. So this is legal:
+
+\begin{verbatim}
+octave:1> y = 1;
+octave:2> x = y+1
+x =  2
+\end{verbatim}
+
+But this is not:
+
+\begin{verbatim}
+octave:3> y+1 = x
+error: invalid lvalue function called in expression
+\end{verbatim}
+
+This error message may be confusing, but hopefully if you see it again you'll
+recognize it and know what it means.
+
+Another difference is that an assignment statement is only temporary,
+in the following sense. When you assign {\tt x = y+1}, you get the
+{\em current} value of {\tt y}. If {\tt y} changes later, {\tt x}
+does not get updated.
+
+A third difference is that a mathematical equality is a statement that
+may or may not be true. For example, $y = y+1$ is a statement that
+happens to be false for all real values of $y$. In Octave, {\tt y
+= y+1} is a sensible and useful assignment statement. It reads the
+current value of {\tt y}, adds one, and replaces the old value with
+the new value.
+
+\begin{verbatim}
+octave:4> y = 1;
+octave:5> y = y+1
+y = 2
+\end{verbatim}
+
+When you read Octave code, you might find it helpful to pronounce
+the equals sign ``gets'' rather than ``equals.'' So {\tt x = y+1}
+is pronounced ``{\tt x} gets the value of {\tt y} plus one.''
+
+To test your understanding of assignment statements, try this
+exercise:
+
+\begin{ex}
+Write a few lines of code that swap the values of
+{\tt x} and {\tt y}. Put your code in a script called {\tt swap}
+and test it.
+\end{ex}
+
+\section{Incremental development}
+
+When you start writing scripts that are more than a few lines, you
+might find yourself spending more and more time debugging. The more
+code you write before you start debugging, the harder it is to find
+the problem.
+
+{\bf Incremental development} is a way of programming that tries
+to minimize the pain of debugging. The fundamental steps are
+
+\begin{enumerate}
+
+\item Always start with a working program. If you have an
+example from a book or a program you wrote that is similar to
+what you are working on, start with that. Otherwise, start with
+something you {\em know} is correct, like {\tt x=5}. Run the program
+and confirm that you are running the program you think you are
+running.
+
+This step is important, because in most environments there
+are lots of little things that can trip you up when you start a new
+project. Get them out of the way so you can focus on programming.
+
+\item Make one small, testable change at a time. A ``testable''
+change is one that displays something on the screen (or has some
+other effect) that you can check. Ideally, you should know what
+the correct answer is, or be able to check it by performing another
+computation. 
+
+\item Run the program and see if the change worked. If so, go back
+to Step 2. If not, you will have to do some debugging, but if the
+change you made was small, it shouldn't take long to find the problem.
+
+\end{enumerate}
+
+When this process works, you will find that your changes usually
+work the first time, or the problem is obvious. That's a good thing,
+and it brings us to the Fifth Theorem of Debugging:
+
+\begin{quote}
+The best kind of debugging is the kind you don't have to do.
+\end{quote}
+
+In practice, there are two problems with incremental development:
+
+\begin{itemize}
+
+\item Sometimes you have to write extra code to
+generate visible output that you can check. This extra code is
+called {\bf scaffolding} because you use it to build the program
+and then remove it when you are done. But time you save on
+debugging is almost always worth the time you spend on
+scaffolding.
+
+\item When you are getting started, it is usually not obvious how to
+choose the steps that get from {\tt x=5} to the program you are trying
+to write. There is an extended example in Section~\ref{increxample}.
+
+\end{itemize}
+
+If you find yourself writing more than a few lines of code before
+you start testing, and you are spending a lot of time debugging,
+you should try incremental development.
+
+\section{Unit testing}
+
+In large software projects, {\bf unit testing} is the process of
+testing software components in isolation before putting
+them together.
+
+The programs we have seen so far are not
+big enough to need unit testing, but the same principle applies
+when you are working with a new function or a new language feature
+for the first time. You should test it in isolation before you
+put it into your program.
+
+For example, suppose you know that {\tt x} is the sine of some
+angle and you want to find the angle. You find the Octave function
+{\tt asin}, and you are pretty sure it computes the inverse sine
+function. Pretty sure is not good enough; you want to be very sure.
+
+Since we know $\sin 0 = 0$, we could try
+
+\begin{verbatim}
+octave:1> asin(0)
+ans = 0
+\end{verbatim}
+
+which is correct. Also, we know that the sine of 90 degrees is
+1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
+
+\begin{verbatim}
+octave:2> asin(1)
+ans = 1.5708
+\end{verbatim}
+
+Oops. We forgot that the trig functions in Octave work in radians,
+not degrees. So the correct answer is $\pi/2$, which we can
+confirm by dividing through by {\tt pi}:
+
+\begin{verbatim}
+octave:3> asin(1) / pi
+ans = 0.5000
+\end{verbatim}
+
+With this kind of unit testing, you are not really checking for
+errors in Octave, you are checking your understanding. If you
+make an error because you are confused about how Octave works, it
+might take a long time to find, because when you look at the code,
+it looks right. 
+
+Which brings us to the Sixth Theorem of Debugging:
+
+\begin{quote}
+The worst bugs aren't in your code; they are in your head.
+\end{quote}
+
+\section{A good layout}
+
+By now you've probably noticed that it's rather annoying to go back and forward
+between edit scripts and running them. Each time you want to run the script you
+have to save and close the editor. And if you discover an error, you have to
+re-open the editor. This can get rather annoying, especially if your are
+incrementally testing your code.
+
+One solution I've found is to have two terminal windows open - both running
+Octave. One is my ``command window,'' where I will run scripts or test out
+lines of code. The other is my ``editor window,'' where I call the editor from.
+Both windows are running Octave, and both can access Octave files and
+commands at the same time. In the top window, I call {\tt edit fibonacci.m}.
+This opens Emacs, and I type the script. After I type a part of the script and
+save it, I can run it from the bottom window. I never have to close the editor.
+
+\begin{figure}
+ \centerline{\includegraphics[height=3.8in]{figs/ScreenLayout.png}}
+ \caption{A good screen layout. The top terminal window is running Octave and
+keeping Emacs open, while the bottom window is the ``command window,'' running
+the script while keeping the editor open.}
+\end{figure}
+
+\section{Navigating Through Directories}
+
+By default, Octave will save scripts in the current directory that you are in.
+Again, if you started up Octave in a terminal window, your current
+directory should be your home folder. Chances are you don't want to fill up
+your home folder with lots of Octave scripts. To store files in other folders
+we need to learn how to navigate around the file system.
+In general, we probably won't be doing any massive file organization
+while running Octave. Nevertheless, there are three file-related tasks that
+we will perform frequently:
+%
+\begin{enumerate}
+ \item Change our current directory
+ \item See what files are in our directory
+ \item Make a new folder
+\end{enumerate}
+
+All of these tasks can be performed in Octave uses standard {\bf UNIX commands}.
+To change your directory, use the command {\tt cd}. For example, to go to your
+Documents folder, type {\tt cd Documents}. If you want to go back a folder, type
+{\tt cd ../}. You can also navigate through multiple levels at once. {\tt cd
+Documents/Octave} will take you to your Octave folder inside your Documents
+folder. To return to your home folder, type {\tt cd} with nothing after it.
+
+Sometimes you don't know if the current directory contains the file you're
+looking for. Use the command {\tt ls} to list all the files and directories that
+are inside your current directory. For example, typing the command {cd
+Documents}, followed by {\tt ls} will list all the files in your Documents
+folder.
+
+Finally, you may want to create a new folder inside your Documents folder to
+store all of your Octave scripts. After you cd to your Documents folder, use
+the command {\tt mkdir Octave} to make a folder named Octave. Typing {\tt cd
+Octave} will then make this new folder your current directory.
+
+(One note about naming: though directory names can have spaces in them, you
+will find that is much easier to navigate if you use names that have
+no spaces.)
+
+\section{Glossary}
+
+\begin{description}
+
+\item[M-file:] A file that contains a Octave program. 
+
+\item[script:] An M-file that contains a sequence of Octave commands.
+
+\item[directory:] A folder in the computer's file system where files are stored.
+
+\item[workspace:] A set of variables and their values. 
+
+\item[precondition:] Something that must be true when the script
+starts, in order for it to work correctly.
+
+\item[postcondition:] Something that will be true when the script
+completes.
+
+\item[target:] The variable on the left side of an assignment statement. 
+
+\item[incremental development:] A way of programming by making a series
+of small, testable changes. 
+
+\item[scaffolding:] Code you write to help you program or debug, but
+which is not part of the finished program. 
+
+\item[unit testing:] A process of testing software by testing each
+component in isolation.
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+\label{cargame}
+
+Imagine that you are the owner of a car rental company with two
+locations, Albany and Boston. Some of your customers do ``one-way
+rentals,'' picking up a car in Albany and returning it in Boston, or
+the other way around. Over time, you have observed that each week 5\%
+of the cars in Albany are dropped off in Boston, and 3\% of the cars
+in Boston get dropped off in Albany.
+At the beginning of the year, there are 150 cars at each location.
+
+Write a script called {\tt car\_update} that updates the number
+of cars in each location from one week to the next. The precondition
+is that the variables {\tt a} and {\tt b} contain the number of cars
+in each location at the beginning of the week. The postcondition
+is that {\tt a} and {\tt b} have been modified to reflect the number
+of cars that moved.
+
+To test your program, initialize {\tt a} and {\tt b} at
+the prompt and then execute the script. The script should display
+the updated values of {\tt a} and {\tt b}, but not any intermediate
+variables.
+
+Note: cars are countable things, so {\tt a} and {\tt b} should always
+be integer values. You might want to use the {\tt round} function
+to compute the number of cars that move during each week.
+
+If you execute your script repeatedly, you can simulate the passage
+of time from week to week. What do you think will happen to the
+number of cars? Will all the cars end up in one place? Will the
+number of cars reach an equilibrium, or will it oscillate from week
+to week?
+
+In the next chapter we will see how to execute your script automatically,
+and how to plot the values of {\tt a} and {\tt b} versus time.
+\end{ex}
+

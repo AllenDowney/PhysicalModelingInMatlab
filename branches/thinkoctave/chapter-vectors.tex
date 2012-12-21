@@ -1,0 +1,935 @@
+% chap04 - Vectors
+% Last edited:
+
+\chapter{Vectors}
+\label{vectors}
+
+\section{Checking preconditions}
+
+Some of the loops in the previous chapter don't work
+if the value of {\tt n} isn't set correctly before the loop runs.
+For example, this loop computes the sum of the first {\tt n} elements
+of a geometric sequence:
+
+\begin{verbatim}
+A1 = 1;
+total = 0;
+for i=1:n
+  a = A1 * 0.5^(i-1);
+  total = total + a;
+end
+ans = total
+\end{verbatim}
+
+It works for any positive value of {\tt n}, but what if {\tt n}
+is negative? In that case, you get:
+
+\begin{verbatim}
+total = 0
+\end{verbatim}
+
+Why? Because the expression {\tt 1:-1} means ``all the numbers
+from 1 to -1, counting up by 1.'' It's not immediately obvious
+what that should mean, but Octave's interpretation is that there
+aren't any numbers that fit that description, so the result is
+
+\begin{verbatim}
+octave:1> 1:-1
+ans = [](1x0)
+\end{verbatim}
+
+If the matrix is empty, you might expect it to be ``0-by-0,'' but
+there you have it. In any case, if you loop over an empty range,
+the loop never runs at all, which is why in this example the
+value of {\tt total} is zero for any negative value of {\tt n}.
+
+If you are sure that you will never make a mistake, and that the
+preconditions of your functions will always be satisfied, then you
+don't have to check. But for the rest of us, it is dangerous to write
+a script, like this one, that quietly produces the wrong answer (or
+at least a meaningless answer) if the input value is negative.
+A better alternative is to use an {\tt if} statement.
+
+
+\section{{\tt if}}
+
+The {\tt if} statement allows you to check for certain conditions
+and execute statements if the conditions are met. In the previous
+example, we could write:
+
+\begin{verbatim}
+if n<0
+  ans = NaN
+end
+\end{verbatim}
+
+The syntax is similar to a {\tt for} loop. The first line
+specifies the condition we are interested in; in this case we
+are asking if {\tt n} is negative. If it is, Octave executes
+the body of the statement, which is the indented sequence of
+statements between the {\tt if} and the {\tt end}.
+
+Octave doesn't require you to indent the body of an {\tt if}
+statement, but it makes your code more readable, so you should do it,
+and don't make me tell you again.
+
+In this example, the ``right'' thing to do if {\tt n} is negative
+is to set {\tt ans = NaN}, which is a standard way to indicate that
+the result is undefined (not a number).
+
+If the condition is not satisfied, the statements in the body are
+not executed. Sometimes there are alternative statements to
+execute when the condition is false. In that case you can extend
+the {\tt if} statement with an {\tt else} clause.
+
+The complete version of the previous example might look like this:
+
+\begin{verbatim}
+if n<0
+  ans = NaN
+else
+  A1 = 1;
+  total = 0;
+  for i=1:n
+    a = A1 * 0.5^(i-1);
+    total = total + a;
+  end
+  ans = total
+end
+\end{verbatim}
+
+Statements like {\tt if} and {\tt for} that contain other statements
+are called {\bf compound} statements. All compound statements end
+with, well, {\tt end}.
+
+In this example, one of the statements in the {\tt else} clause is a
+{\tt for} loop. Putting one compound statement inside another is
+legal and common, and sometimes called {\bf nesting}.
+
+
+\section{Relational operators}
+
+The operators that compare values, like {\tt <} and {\tt >} are
+called {\bf relational operators} because they test the relationship
+between two values. The result of a relational operator is one
+of the {\bf logical values}:
+either 1, which represents ``true,'' or 0, which represents ``false.''
+
+Relational operators often appear in {\tt if} statements, but you
+can also evaluate them at the prompt:
+
+\begin{verbatim}
+octave:1> x = 5;
+octave:2> x < 10
+ans = 1
+\end{verbatim}
+
+You can assign a logical value to a variable:
+
+\begin{verbatim}
+octave:3> flag = x > 10
+flag = 0
+\end{verbatim}
+
+A variable that contains a logical value is often called a {\bf flag}
+because it flags the status of some condition.
+
+The other relational operators are {\tt <=} and {\tt >=}, which are
+self-explanatory, {\tt ==}, for ``equal,'' and 
+\verb+~=+, for ``not equal.'' (In some logic notations, the tilde
+is the symbol for ``not.'')
+
+Don't forget that {\tt ==} is the operator that tests equality,
+and {\tt =} is the assignment operator. If you try to use {\tt =} in
+an {\tt if} statement, you get a strange message:
+
+\begin{verbatim}
+octave:4> if x=5
+> ans = 1
+> end
+warning: suggest parenthesis around assignment used as truth value
+ans =  1
+\end{verbatim}
+
+Octave does not check to see if the variable x equals 5. It assigns 5 to x, and
+then runs whatever is inside the if statement.
+
+\section{Logical operators}
+\label{logop}
+
+To test if a number falls in an interval, you might be
+tempted to write something like {\tt 0 < x < 10}, but that
+would be wrong, so very wrong. Unfortunately, in many cases,
+you will get the right answer for the wrong reason. For
+example:
+
+\begin{verbatim}
+octave:1> x = 5;
+octave:2> 0 < x < 10      % right for the wrong reason
+ans = 1
+\end{verbatim}
+
+But don't be fooled!
+
+\begin{verbatim}
+octave:3> x = 17
+octave:4> 0 < x < 10      % just plain wrong
+ans = 1
+\end{verbatim}
+
+The problem is that Octave is evaluating the operators from left
+to right, so first it checks if {\tt 0<x}. It is, so the result
+is 1. Then it compares the logical value 1 (not the value of
+{\tt x}) to 10. Since {\tt 1<10}, the result is true, even though
+{\tt x} is not in the interval.
+
+For beginning programmers, this is an evil, evil bug!
+
+One way around this problem is to use a nested {\tt if} statement to
+check the two conditions separately:
+
+\begin{verbatim}
+ans = 0
+if 0<x
+  if x<10
+    ans = 1
+  end
+end
+\end{verbatim}
+
+But it is more concise to use the AND operator, {\tt \&\&}, to
+combine the conditions.
+
+\begin{verbatim}
+octave:5> x = 5;
+octave:6> 0<x && x<10
+ans = 1
+
+octave:7> x = 17;
+octave:8> 0<x && x<10
+ans = 0
+\end{verbatim}
+
+The result of AND is true if {\em both} of the operands are
+true. The OR operator, {\tt ||}, is true if {\em either or both}
+of the operands are true.
+
+
+\section{Vectors}
+
+The values we have seen so far are all single numbers,
+which are called {\bf scalars} to contrast them with {\bf vectors}
+and {\bf matrices}, which are collections of numbers.
+
+A vector in Octave is similar to a sequence in mathematics;
+it is a set of numbers that correspond to positive integers. 
+What
+we called a ``range'' in the previous chapter was actually a
+vector.
+
+In general, anything you can do with a scalar, you can also do with
+a vector. You can assign a vector value to a variable:
+
+\begin{verbatim}
+octave:1> X = 1:5
+
+X = 1   2   3   4   5
+\end{verbatim}
+
+Variables that contain vectors are often capital letters. That's
+just a convention; Octave doesn't require it, but for beginning
+programmers it is a useful way to remember what is a scalar and
+what is a vector.
+
+Just as with sequences, the numbers that make up the vector are called
+{\bf elements}.
+
+
+\section{Vector arithmetic}
+
+You can perform arithmetic with vectors, too. If you add a scalar
+to a vector, Octave increments each element of the vector:
+
+\begin{verbatim}
+octave:2> Y = X+5
+Y = 6   7   8   9  10
+\end{verbatim}
+
+The result is a new vector; the original value of {\tt X} is not
+changed.
+
+If you add two vectors, Octave adds the corresponding elements of each
+vector and creates a new vector that contains the sums:
+
+\begin{verbatim}
+octave:3> Z = X+Y
+Z = 7   9  11  13  15
+\end{verbatim}
+
+But adding vectors only works if the operands are the same size.
+Otherwise:
+
+\begin{verbatim}
+octave:4> W = 1:3
+W = 1   2   3
+
+octave:5> X+W
+error: operator +: nonconformant arguments (op1 is 1x5, op2 is 
+1x3)
+\end{verbatim}
+
+What's nice about this error message is that Octave tells you the size of
+the vectors. Note that the size is given by two numbers (e.g. 1x5). X is a
+vector of length 5, but Octave treats X as a 1-by-5 matrix.
+
+
+\section{Everything is a matrix}
+
+In math (specifically in linear algebra) a vector is a one-dimensional
+sequence of values and a matrix is two-dimensional (and, if you want
+to think of it that way, a scalar is zero-dimensional). In Octave,
+everything is a matrix.
+
+You can see this if you use the {\tt whos} command to display the
+variables in the workspace. {\tt whos} is similar to {\tt who} except
+that it also displays the size and type of each variable.
+
+First I'll make one of each kind of value:
+
+\begin{verbatim}
+octave:1> scalar = 5
+scalar = 5
+
+octave:2> vector = 1:5
+vector = 1   2   3   4   5
+
+octave:3> matrix = ones(2,3)
+matrix =
+
+   1   1   1
+   1   1   1
+\end{verbatim}
+
+{\tt ones} is a function that builds a new matrix with the given
+number of rows and columns, and sets all the elements to 1.
+Now let's see what we've got.
+
+\begin{verbatim}
+octave:4> whos
+Variables in the current scope:
+
+  Attr Name        Size                     Bytes  Class
+  ==== ====        ====                     =====  ===== 
+       ans         1x30                        30  char
+       matrix      2x3                         48  double
+       scalar      1x1                          8  double
+       vector      1x5                         24  double
+
+Total is 42 elements using 110 bytes
+\end{verbatim}
+
+According to Octave, everything is a double array: ``double''
+is another name for double-precision floating-point numbers,
+and ``array'' is another name for a matrix. (The only variable that is not a
+double array is ans. Don't worry about this for now.)
+
+The only difference is the size, which is specified by the number of
+rows and columns. The thing we called {\tt scalar} is, according to
+Octave, a matrix with one row and one column. Our {\tt vector} is
+really a matrix with one row and 5 columns. And, of course, {\tt
+matrix} is a matrix.
+
+The point of all this is that you can think of your values as
+scalars, vectors, and matrices, and I think you should, as long
+as you remember that Octave thinks everything is a matrix.
+
+Here's another example where the error message only makes sense
+if you know what is happening under the hood:
+
+\begin{verbatim}
+octave:6> X = 1:5
+X = 1   2   3   4   5
+
+octave:7> Y = 1:5
+Y = 1   2   3   4   5
+
+octave:8> Z = X*Y
+error: operator *: nonconformant arguments (op1 is 1x5, 
+op2 is 1x5)
+\end{verbatim}
+
+First of all, {\tt mtimes} is the Octave function that performs
+matrix multiplication. The reason the ``inner matrix dimensions
+must agree'' is that the way matrix multiplication is defined in
+linear algebra, the number of rows in {\tt X} has to equal the
+number of columns in {\tt Y} (those are the inner dimensions).
+
+If you don't know linear algebra, this doesn't make much sense.
+When you saw {\tt X*Y} you probably expected it to multiply each
+the the elements of {\tt X} by the corresponding element of
+{\tt Y} and put the results into a new vector. That operation
+is called {\bf elementwise} multiplication, and the operator that
+performs it is {\tt .*}:
+
+\begin{verbatim}
+octave:9> X .* Y
+ans = 1   4   9  16  25
+\end{verbatim}
+
+We'll get back to the elementwise operators later; you can
+forget about them for now.
+
+
+
+
+\section{Indices}
+
+You can select elements of a vector with parentheses:
+
+\begin{verbatim}
+octave:1> Y = 6:10
+Y = 6   7   8   9  10
+
+octave:2> Y(1)
+ans = 6
+
+octave:3> Y(5)
+ans = 10
+\end{verbatim}
+
+This means that the first element of {\tt Y} is 6 and the
+fifth element is 10. The number in parentheses is called
+the {\bf index} because it indicates which element of the
+vector you want.
+
+The index can be any kind of expression.
+
+\begin{verbatim}
+octave:4> i = 1;
+octave:5> Y(i+1)
+ans = 7
+\end{verbatim}
+
+Loops and vectors go together like the storm and rain.
+For example, this loop displays the elements of {\tt Y}.
+
+\begin{verbatim}
+for i=1:5
+   Y(i)
+end
+\end{verbatim}
+
+Each time through the loop we use a different value of {\tt i}
+as an index into {\tt Y}.
+
+A limitation of this example is that we had to know the number
+of elements in {\tt Y}. We can make it more general by using
+the {\tt length} function, which returns the number of elements
+in a vector:
+
+\begin{verbatim}
+for i=1:length(Y)
+   Y(i)
+end
+\end{verbatim}
+
+There. Now that will work for a vector of any length.
+
+
+\section{Indexing errors}
+
+An index can be any kind of expression, but the value of the
+expression has to be a positive integer, and it has to be
+less than or equal to the length of the vector. If it's
+zero or negative, you get this:
+
+\begin{verbatim}
+octave:6> Y(0)
+error: subscript indices must be either positive integers or 
+logicals.
+\end{verbatim}
+
+``Subscript indices'' is Octave's longfangled way to say ``indices.''
+``Real positive integers'' means that complex numbers are
+out. And you can forget about ``logicals'' for now.
+
+If the index is too big, you get this:
+
+\begin{verbatim}
+octave:7> Y(6)
+error: A(I): Index exceeds matrix dimension.
+\end{verbatim}
+
+There's the ``m'' word again, but other than that, this message
+is pretty clear.
+
+Finally, don't forget that the index has to be an integer:
+
+\begin{verbatim}
+octave:8> Y(1.5)
+error: subscript indices must be either positive integers or
+logicals.
+\end{verbatim}
+
+
+\section{Vectors and sequences}
+
+Vectors and sequences go together like ice cream and apple pie. For
+example, another way to evaluate the Fibonacci sequence is by
+storing successive values in a vector. Again, the definition of the
+Fibonacci sequence is $F_1 = 1$, $F_2 = 1$, and $F_{i} = F_{i-1} +
+F_{i-2}$ for $i \ge 3$. In Octave, that looks like
+
+\begin{verbatim}
+F(1) = 1
+F(2) = 1
+for i=3:n
+  F(i) = F(i-1) + F(i-2)
+end
+ans = F(n)
+\end{verbatim}
+
+Notice that I am using a capital letter for the vector {\tt F}
+and lower-case letters for the scalars {\tt i} and {\tt n}.
+At the end, the script extracts the final element of {\tt F} and
+stores it in {\tt ans}, since the result of this script is supposed
+to be the $n$th Fibonacci number, not the whole sequence.
+
+If you had any trouble with Exercise~\ref{fib2}, you have to
+appreciate the simplicity of this version. The Octave syntax is
+similar to the math notation, which makes it easier to check
+correctness. The only drawbacks are
+
+\begin{itemize}
+
+\item You have to be careful with the range of the
+loop. In this version, the loop runs from {\tt 3} to {\tt n},
+and each time we assign a value to the {\tt i}th element. It
+would also work to ``shift'' the index over by two,
+running the loop from 1 to {\tt n-2}:
+
+\begin{verbatim}
+F(1) = 1
+F(2) = 1
+for i=1:n-2
+  F(i+2) = F(i+1) + F(i)
+end
+ans = F(n)
+\end{verbatim}
+
+Either version is fine, but you have to choose one approach
+and be consistent. If you combine elements of both, you will
+get confused. I prefer the version that has {\tt F(i)} on the
+left side of the assignment, so that each time through the loop
+it assigns the {\tt i}th element.
+
+\item If you really only want the $n$th Fibonacci number, then storing
+the whole sequence wastes some storage space. But if wasting space
+makes your code easier to write and debug, that's probably ok.
+
+\end{itemize}
+
+\begin{ex}
+Write a loop that computes the first {\tt n} elements
+of the geometric sequence $A_{i+1} = A_i/2$ with $A_1 = 1$. Notice that
+the math notation puts $A_{i+1}$ on the left side of the equality.
+When you translate to Octave, you may want to shift the index.
+\end{ex}
+
+
+\section{Plotting vectors}
+
+Plotting and vectors go together like the moon and June, whatever that
+means. If you call {\tt plot} with a single vector as an argument,
+Octave plots the indices on the $x$-axis and the elements on the
+$y$-axis. To plot the Fibonacci numbers we computed in the previous
+section:
+
+\begin{verbatim}
+plot(F)
+\end{verbatim}
+
+This display is often useful for debugging, especially
+if your vectors are big enough that displaying the elements on
+the screen is unwieldy.
+
+Note how Octave connects the points with a line. Octave does this when you plot
+vectors (not when you plot scalars). If you were to type {\tt plot(F, 'o')},
+for example, Octave would plot the points with circles, but would not connect
+points with a line. Type {\tt plot(F, 'o-')} to plot connected circles.
+
+If you call {\tt plot} with two vectors as arguments, Octave plots
+the second one as a function of the first; that is, it treats
+the first vector as a sequence of $x$ values and the second as
+corresponding $y$ value and plots a sequence of $(x, y)$ points.
+
+\begin{verbatim}
+X = 1:5
+Y = 6:10
+plot(X, Y)
+\end{verbatim}
+
+In this example, I stuck with the convention of naming the first
+argument {\tt X} (since it is plotted on the $x$-axis) and the
+second {\tt Y}. There is nothing special about these names;
+you could just as well plot {\tt X} as a function of {\tt Y}.
+Octave always treats the first vector as the ``independent''
+variable, and the second as the ``dependent'' variable (if those
+terms are familiar to you).
+
+
+
+\section{Reduce}
+\label{reduce}
+
+A frequent use of loops is to run through the elements of an array
+and add them up, or multiply them together, or compute the sum
+of their squares, etc. This kind of operation is called {\bf reduce},
+because it reduces a vector with multiple elements down to a single
+scalar.
+
+For example, this loop adds up the elements of a vector named {\tt X}
+(which we assume has been defined).
+
+\begin{verbatim}
+total = 0
+for i=1:length(X)
+  total = total + X(i)
+end
+ans = total
+\end{verbatim}
+
+The use of {\tt total} as an accumulator is similar to what we
+saw in Section~\ref{series}. Again, we use the {\tt length} function
+to find the upper bound of the range, so this loop will work
+regardless of the length of {\tt X}.
+Each time through the loop, we add
+in the {\tt i}th element of {\tt X}, so at the end of the loop
+{\tt total} contains the sum of the elements.
+
+\begin{ex}
+Write a similar loop that multiplies all the
+elements of a vector together. You might want to call the
+accumulator {\tt product}, and you might want to think about 
+the initial value you give it before the loop.
+\end{ex}
+
+
+\section{Apply}
+\label{apply}
+
+Another common use of a loop is to run through the elements of
+a vector, perform some operation on the elements, and create
+a new vector with the results. This kind of operation is called
+{\bf apply}, because you apply the operation to each element in
+the vector.
+
+For example, the following loop computes a vector {\tt Y} that
+contains the squares of the elements of {\tt X} (assuming, again,
+that {\tt X} is already defined).
+
+\begin{verbatim}
+for i=1:length(X)
+  Y(i) = X(i)^2
+end
+\end{verbatim}
+
+\begin{ex}
+Write a loop that computes a vector {\tt Y} that
+contains the sines of the elements of {\tt X}. To test your
+loop, write a script that
+
+\begin{enumerate}
+
+\item Uses {\tt linspace} (see the documentation) to assign
+to {\tt X} a vector with 100 elements running from 0 to $2 \pi$.
+
+\item Uses your loop to store the sines in {\tt Y}.
+
+\item Plots the elements of {\tt Y} as a function of the elements
+of {\tt X}.
+
+\end{enumerate}
+\end{ex}
+
+\section{Search}
+\label{search}
+
+Yet another use of loops is to search the elements of a vector
+and return the index of the value you are looking for (or the
+first value that has a particular property). For example, if
+a vector contains the computed altitude of a falling object, you
+might want to know the index where the object touches down (assuming
+that the ground is at altitude 0).
+
+To create some fake data, we'll use an extended version of the
+colon operator:
+
+\begin{verbatim}
+X = 10:-1:-10
+\end{verbatim}
+
+The values in this range run from 10 to -10, with a {\bf step size}
+of -1. The step size is the interval between elements of the range.
+
+The following loop finds the index of the element 0 in {\tt X}:
+
+\begin{verbatim}
+for i=1:length(X)
+  if X(i) == 0
+    ans = i
+  end
+end
+\end{verbatim}
+ 
+One funny thing about this loop is that it keeps going after it
+finds what it is looking for. That might be what you want; if the
+target value appears more than one, this loop provides the index
+of the {\em last} one.
+
+But if you want the index of the first one (or you know that there
+is only one), you can save some unnecessary looping by using the
+{\tt break} statement.
+
+\begin{verbatim}
+for i=1:length(X)
+  if X(i) == 0
+    ans = i
+    break
+  end
+end
+\end{verbatim}
+
+{\tt break} does pretty much what it sounds like. It ends the
+loop and proceeds immediately to the next statement after the
+loop (in this case, there isn't one, so the script ends).
+
+This example demonstrates the basic idea of a search, but it
+also demonstrates a dangerous use of the {\tt if} statement.
+Remember that floating-point values are often only approximately
+right. That means that if you look for a perfect match, you might
+not find it. For example, try this:
+
+\begin{verbatim}
+X = linspace(1,2)
+for i=1:length(X)
+  Y(i) = sin(X(i))
+end
+plot(X, Y)
+\end{verbatim}
+
+You can see in the plot that the value of $\sin x$ goes through
+0.9 in this range, but if you search for the index where
+{\tt Y(i) == 0.9}, you will come up empty.
+
+\begin{verbatim}
+for i=1:length(Y)
+  if Y(i) == 0.9
+    ans = i
+    break
+  end
+end
+\end{verbatim}
+
+The condition is never true, so the body of the {\tt if} statement
+is never executed.
+
+Even though the plot shows a continuous line, don't forget that {\tt
+X} and {\tt Y} are sequences of discrete (and usually approximate)
+values. As a rule, you should (almost) never use the {\tt ==}
+operator to compare floating-point values. There are a number of ways
+to get around this limitation; we will get to them later.
+
+\begin{ex}
+Write a loop that finds the index of the first
+negative number in a vector and stores it in {\tt ans}. If there are
+no negative numbers, it should set {\tt ans} to -1 (which is not
+a legal index, so it is a good way to indicate the special case).
+\end{ex}
+
+
+
+\section{Spoiling the fun}
+
+Experienced Octave programmers would never write the kind of loops
+in this chapter, because Octave provides simpler and faster ways to
+perform many reduce, filter and search operations.
+
+For example, the {\tt sum} function computes the sum of the elements
+in a vector and {\tt prod} computes the product.
+
+Many apply operations can be done with elementwise operators. The
+following statement is more concise than the loop in
+Section~\ref{apply}
+
+\begin{verbatim}
+Y = X .^ 2
+\end{verbatim}
+
+Also, most built-in Octave functions work with vectors:
+
+\begin{verbatim}
+X = linspace(0, 2*pi)
+Y = sin(X)
+plot(X, Y)
+\end{verbatim}
+
+Finally, the {\tt find} function can perform search operations, but
+understanding it requires a couple of concepts we haven't got to, so
+for now you are better off on your own.
+
+I started with simple loops because I wanted to demonstrate the basic
+concepts and give you a chance to practice. At some point you will
+probably have to write a loop for which there is no 
+Octave shortcut, but you have to work your way up from somewhere.
+
+If you understand loops and you are are comfortable with the
+shortcuts, feel free to use them! Otherwise, you can always write
+out the loop.
+
+\begin{ex}
+Write an expression that computes the sum of the
+squares of the elements of a vector.
+\end{ex}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[compound:] A statement, like {\tt if} and {\tt for}, that
+contains other statements in an indented body.
+
+\item[nesting:] Putting one compound statement in the body of another.
+
+\item[relational operator:] An operator that compares two values and
+generates a logical value as a result.
+
+\item[logical value:] A value that represents either ``true'' or
+``false''. Octave uses the values 1 and 0, respectively.
+
+\item[flag:] A variable that contains a logical value, often used
+to store the status of some condition.
+
+\item[scalar:] A single value.
+
+\item[vector:] A sequence of values.
+
+\item[matrix:] A two-dimensional collection of values (also called
+``array'' in some Octave documentation).
+
+\item[index:] An integer value used to indicate one of the values
+in a vector or matrix (also called subscript in some Octave documentation).
+
+\item[element:] One of the values in a vector or matrix.
+
+\item[elementwise:] An operation that acts on the individual elements
+of a vector or matrix (unlike some linear algebra operations).
+
+\item[reduce:] A way of processing the elements of a vector and
+generating a single value; for example, the sum of the elements.
+
+\item[apply:] A way of processing a vector by performing some operation
+on each of the elements, producing a vector that contains the
+results.
+
+\item[search:] A way of processing a vector by examining the
+elements in order until one is found that has the desired property.
+
+\end{description}
+
+\section{Exercises}
+
+\begin{ex}
+\label{fibratio}
+
+The ratio of consecutive Fibonacci numbers, $F_{n+1}/F_{n}$, converges
+to a constant value as $n$ increases. Write a script that computes
+a vector with the first $n$ elements of a Fibonacci sequence (assuming
+that the variable {\tt n} is defined), and then computes a new
+vector that contains the ratios of consecutive Fibonacci numbers.
+Plot this vector to see if it seems to converge. What value does
+it converge on?
+
+% fibonacci4.m
+\end{ex}
+
+\begin{ex}
+A certain famous system of differential equations can be approximated
+by a system of difference equations that looks like this:
+%
+\begin{eqnarray}
+x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt \\
+y_{i+1} &=& y_i + \left[ x_i (r - z_i) - y_i \right] dt  \\
+z_{i+1} &=& z_i + \left( x_i y_i - b z_i \right) dt
+\end{eqnarray}
+%
+\begin{itemize}
+
+\item Write a script that computes the first 10 elements of the sequences
+$X$, $Y$ and $Z$ and stores them in vectors named {\tt X}, {\tt Y}
+and {\tt Z}.
+
+Use the initial values $X_1 = 1$, $Y_1 = 2$ and $Z_1 = 3$, with values
+$\sigma = 10$, $b = 8/3$ and $r = 28$, and with time step $dt = 0.01$.
+
+\item Read the documentation for {\tt plot3} and {\tt comet3} and
+plot the results in 3 dimensions.
+
+\item Once the code is working, use semi-colons to suppress the output
+and then run the program with sequence length 100, 1000 and 10000.
+
+\item Run the program again with different starting conditions.
+What effect does it have on the result?
+
+\item Run the program with different values for $\sigma$, $b$ and $r$
+and see if you can get a sense of how each variable affects the
+system.
+
+\end{itemize}
+
+\end{ex}
+
+
+\begin{ex}
+The logistic map is often cited as an example of how complex, chaotic
+behaviour can arise from simple non-linear dynamical equations [some
+of this description is adapted from the Wikipedia page on the logistic
+map]. It was popularized in a seminal 1976 paper by the biologist
+Robert May.
+
+It has been used to model the biomass of a
+species in the presence of limiting factors such as food supply and
+disease. In this case, there are two processes at work:
+(1) A reproductive process increases the biomass of the species
+in proportion to the current population.
+(2) A starvation process causes the biomass to decrease at a rate
+proportional to the carrying capacity of the environment less the
+current population.
+
+Mathematically this can be written as
+
+\[ X_{i+1} = r X_i (1-X_i) \]
+
+where $X_i$ is a number between zero and one that represents the
+biomass at year $i$, and $r$ is a positive number that represents a
+combined rate for reproduction and starvation.
+
+\begin{itemize}
+
+\item Write a script named {\tt logmap} that computes the first 50
+elements of $X$ with {\tt r=3.9} and {\tt X1=0.5}, where
+{\tt r} is the parameter of the logistic map and {\tt X1} is the
+initial population.
+
+\item Plot the results for a range of values of $r$ from 2.4 to 4.0.
+How does the behavior of the system change as you vary $r$.
+
+\item One way to characterize the effect of $r$ is to make a plot
+with $r$ on the x-axis and biomass on the $y$ axis, and to show,
+for each value of $r$, the values of biomass that occur in steady
+state. See if you can figure out how to generate this plot.
+
+\end{itemize}
+
+\end{ex}
