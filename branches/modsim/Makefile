@@ -7,14 +7,9 @@ PDFFLAGS = -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress  \
            -dEmbedAllFonts=true -dSubsetFonts=true -dMaxSubsetPct=100
 
 all:	book.tex
-	latex book
+	pdflatex book
 	makeindex book
-#	dvips -T 6.9in,9.8in -Ppdf -o PhysModMatlab.ps book
-	dvips -Ppdf -o PhysModMatlab.ps book
-	evince PhysModMatlab.ps
-
-pdf:
-	ps2pdf $(PDFFLAGS) PhysModMatlab.ps PhysModMatlab.pdf
+	evince book.pdf
 
 DEST = /home/downey/public_html/greent/matlab
 FILES = Makefile book.tex latexonly figs
