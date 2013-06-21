@@ -9,14 +9,17 @@ PDFFLAGS = -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress  \
 all:	book.tex
 	latex book
 	makeindex book
-	dvips -T 6.9in,9.8in -Ppdf -o downey10matlab.ps book
-#	dvips -Ppdf -o downey10matlab.ps book
-	gv downey10matlab.ps
+#	dvips -T 6.9in,9.8in -Ppdf -o PhysModMatlab.ps book
+	dvips -Ppdf -o PhysModMatlab.ps book
+	evince PhysModMatlab.ps
+
+pdf:
+	ps2pdf $(PDFFLAGS) PhysModMatlab.ps PhysModMatlab.pdf
 
 DEST = /home/downey/public_html/greent/matlab
-FILES = Makefile book.tex figs
+FILES = Makefile book.tex latexonly figs
 
-html:	book.tex header.html footer.html
+hevea:	book.tex header.html footer.html
 	rm -rf html
 	mkdir html
 	hevea -O -e latexonly htmlonly book
@@ -29,12 +32,11 @@ html:	book.tex header.html footer.html
 	mv index.html book.css book*.html book*.png *motif.gif html
 
 distrib: 
-	ps2pdf $(PDFFLAGS) downey10matlab.ps downey10matlab.pdf
 	rm -rf tex
 	mkdir tex
 	rsync -a $(FILES) tex
 	rm tex/figs/*.bak
-	zip -r downey10matlab.zip tex
-	rsync -a downey10matlab.* html $(DEST)
+	zip -r PhysModMatlab.zip tex
+	rsync -a PhysModMatlab.* html $(DEST)
 	chmod -R o+r $(DEST)/*
 

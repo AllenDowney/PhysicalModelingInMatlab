@@ -1,18 +1,10 @@
 % LaTeX source for textbook ``Physical Modeling in MATLAB''
-% Copyright 2010 Allen B. Downey.
+% Copyright 2012 Allen B. Downey.
 
-% Permission is granted to copy, distribute and/or modify this
-% document under the terms of the GNU Free Documentation License,
-% Version 1.1  or any later version published by the Free Software
-% Foundation; with the Invariant Sections being "Contributor List",
-% with no Front-Cover Texts, and with no Back-Cover Texts. A copy of
-% the license is included in the section entitled "GNU Free
-% Documentation License".
-
-% You can obtain a copy of the GNU Free Documentation License
-% from www.gnu.org or by writing to the Free Software Foundation,
-% Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+% License: Creative Commons Attribution-NonCommercial 3.0 Unported License.
+% http://creativecommons.org/licenses/by-nc/3.0/
 %
+
 \documentclass{book}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
@@ -22,6 +14,9 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{hevea}                           
 \usepackage{upquote}
+
+% load package with ``framed'' and ``numbered'' option.
+\usepackage[framed,autolinebreaks,useliterate]{mcode}
 
 \newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
 
@@ -40,7 +35,7 @@
 
 \renewcommand\MakeUppercase{}
 
-\newenvironment{code}{\vspace{0.6\parskip} \begin{verbatim}}{\end{verbatim} \vspace{0.6\parskip}}
+\newenvironment{code}{\vspace{0.0\parskip} \begin{lstlisting}}{\end{lstlisting} \vspace{0.0\parskip}}
 
 % these styles get translated in CSS for the HTML version
 % \newstyle{a:link}{color:black;}
@@ -57,11 +52,13 @@
 
 \begin{document}
 
+\frontmatter
+
 %\blankpage
 %\blankpage
 
 \newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
-\newcommand{\theversion}{1.1.4}
+\newcommand{\theversion}{1.1.6}
 
 \title {\thetitle}
 \author {Allen B. Downey}
@@ -85,25 +82,24 @@
 
 \vspace{0.25in}
 
-Copyright 2007, 2008, 2009, 2010 Allen B. Downey
+Copyright 2011 Allen B. Downey
 \end{center}
 
 \vspace{0.25in}
 
-Permission is granted to copy, distribute and/or modify this
-document under the terms of the GNU Free Documentation License,
-Version 1.1  or any later version published by the Free Software
-Foundation; this book contains no Invariant Sections,
-no Front-Cover Texts, and no Back-Cover Texts.
+\begin{flushleft}
+Green Tea Press       \\
+9 Washburn Ave \\
+Needham MA 02492
+\end{flushleft}
 
-You can obtain a copy of the GNU Free Documentation License
-from www.gnu.org or by writing to the Free Software Foundation,
-Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+Permission is granted to copy, distribute, and/or modify this document
+under the terms of the Creative Commons Attribution-NonCommercial 3.0 Unported
+License, which is available at \url{http://creativecommons.org/licenses/by-nc/3.0/}.
 
-The original form of this book is LaTeX source code.
-Compiling this LaTeX source has the effect of generating
-a device-independent representation of a book, which
-can be converted to other formats and printed.
+The original form of this book is \LaTeX\ source code.  Compiling this
+code has the effect of generating a device-independent representation
+of a textbook, which can be converted to other formats and printed.
 
 This book was typeset by the author using latex, dvips and ps2pdf,
 among other free, open-source programs.
@@ -113,8 +109,6 @@ The LaTeX source for this book is available from
 MATLAB\myreg is a registered trademark of The
 Mathworks, Inc.  The Mathworks does not warrant the accuracy
 of this book; they probably don't even like it.
-
-\frontmatter
 
 \end{latexonly}
 
@@ -131,20 +125,18 @@ of this book; they probably don't even like it.
 
 Version \theversion
 
-\setcounter{chapter}{-1}
-
-Copyright 2010 Allen B. Downey
+Copyright 2011 Allen B. Downey
 
 \vspace{0.25in}
 
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the Creative Commons Attribution-Share Alike 3.0
+Permission is granted to copy, distribute, and/or modify this document
+under the terms of the Creative Commons Attribution-NonCommercial 3.0
 Unported License, which is available at
-\url{creativecommons.org/licenses/by-sa/3.0/}.
+\url{http://creativecommons.org/licenses/by-nc/3.0/}.
+
+\setcounter{chapter}{-1}
 
 \end{htmlonly}
-
-
 
 
 \chapter{Preface}
@@ -186,15 +178,11 @@ the material before.
 There are small exercises within each chapter, and a few larger
 exercises at the end of some chapters.
 
-This is Version 1.1 of the book.  I used Version 0.9 for my class
-in Fall 2007.  I made some corrections based on feedback from students
-and others, then added some exercises and additional chapters.
 If you have suggestions and corrections, please send them to
 {\tt downey@allendowney.com}.
 
 \noindent Allen B. Downey \\
 \noindent Needham, MA \\
-\noindent December 28, 2007
 
 \vspace{0.1in}
 
@@ -235,6 +223,11 @@ can be confused with exponents, so now I am using symbols.
 
 \item Vidie Pong pointed out the problem with spaces in filenames.
 
+\item Nik Martelaro suggested using the mcode package to make the
+code examples look better.
+
+\item Arjun Plakkat found a numerical error.
+
 \end{itemize}
 
 % ENDCONTRIB
@@ -260,9 +253,9 @@ result.
 Initially, the Command Window contains a welcome message with information
 about the version of MATLAB you are running, followed by a chevron:
 
-\begin{verbatim}
+\begin{lstlisting}
 >>
-\end{verbatim}
+\end{lstlisting}
 
 which is the MATLAB {\bf prompt}; that is, this symbol prompts you
 to enter a command.
@@ -274,10 +267,10 @@ is made up of {\bf operands} (like numbers, for example) and
 If you type an expression and then press Enter (or Return), MATLAB
 {\bf evaluates} the expression and prints the result.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 2 + 1
 ans = 3
-\end{verbatim}
+\end{lstlisting}
 
 Just to be clear: in the example above, MATLAB printed {\tt >>}; I
 typed {\tt 2 + 1} and then hit Enter, and MATLAB printed {\tt ans = 3}.
@@ -288,10 +281,10 @@ An expression can contain any number of operators and operands.  You
 don't have to put spaces between them; some people do and some people
 don't.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 1+2+3+4+5+6+7+8+9
 ans = 45
-\end{verbatim}
+\end{lstlisting}
 
 Speaking of spaces, you might have noticed that MATLAB puts some
 space between {\tt ans =} and the result.  In my examples I will leave
@@ -302,19 +295,19 @@ Subtraction is denoted by a minus sign, {\tt -}; multiplication by
 an asterisk, {\tt *} (sometimes pronounced ``splat''); division by
 a forward slash {\tt /}.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 2*3 - 4/5
 ans = 5.2000
-\end{verbatim}
+\end{lstlisting}
 
 The order of operations is what you would expect from basic algebra:
 multiplication and division happen before addition and subtraction.
 If you want to override the order of operations, you can use parentheses.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 2 * (3-4) / 5
 ans = -0.4000
-\end{verbatim}
+\end{lstlisting}
 
 When I added the parentheses I also changed the spacing to make the
 grouping of operands clearer to a human reader.  This is the first
@@ -336,10 +329,10 @@ The other common operator is exponentiation, which uses the \verb+^+
 symbol, sometimes pronounced ``carat'' or ``hat''.  So 2 raised to the
 16th power is
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 2^16
 ans = 65536
-\end{verbatim}
+\end{lstlisting}
 
 As in basic algebra, exponentiation happens before multiplication
 and division, but again, you can use parentheses to override the order
@@ -352,10 +345,10 @@ MATLAB knows how to compute pretty much every math function you've
 heard of.  It knows all the trigonometric functions; here's how you
 use them:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> sin(1)
 ans = 0.8415
-\end{verbatim}
+\end{lstlisting}
 
 This command is an example of a {\bf function call}.  The name of the
 function is {\tt sin}, which is the usual abbreviation for the
@@ -367,10 +360,10 @@ separated by commas.  For example, {\tt atan2} computes the inverse
 tangent, which is the angle in radians between the positive x-axis and
 the point with the given $y$ and $x$ coordinates.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> atan2(1,1)
 ans = 0.7854
-\end{verbatim}
+\end{lstlisting}
 
 If that bit of trigonometry isn't familiar to you, don't worry about
 it.  It's just an example of a function with multiple arguments.
@@ -378,18 +371,18 @@ it.  It's just an example of a function with multiple arguments.
 MATLAB also provides exponential functions, like {\tt exp}, which
 computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> exp(1)
 ans = 2.7183
-\end{verbatim}
+\end{lstlisting}
 
 The inverse of {\tt exp} is {\tt log}, which computes the logarithm
 base $e$:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> log(exp(3))
 ans = 3
-\end{verbatim}
+\end{lstlisting}
 
 This example also demonstrates that function calls can be {\bf nested};
 that is, you can use the result from one function as an argument for
@@ -397,10 +390,10 @@ another.
 
 More generally, you can use a function call as an operand in an expression.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> sqrt(sin(0.5)^2 + cos(0.5)^2)
 ans = 1
-\end{verbatim}
+\end{lstlisting}
 
 As you probably guessed, {\tt sqrt} computes the square root.
 
@@ -417,7 +410,7 @@ and {\tt doc}.
 The help command works from the Command Window; just type {\tt help}
 followed by the name of a command.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> help sin
  SIN    Sine of argument in radians.
     SIN(X) is the sine of the elements of X.
@@ -429,7 +422,7 @@ followed by the name of a command.
 
     Reference page in Help browser
        doc sin
-\end{verbatim}
+\end{lstlisting}
 
 Unfortunately, this documentation is not beginner-friendly.
 
@@ -437,10 +430,10 @@ One gotcha is that the name of the function appears in the
 help page in capital letters, but if you type it like that
 in MATLAB, you get an error:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> SIN(1)
 ??? Undefined command/function 'SIN'.
-\end{verbatim}
+\end{lstlisting}
 
 Another problem is that the help page uses vocabulary you don't
 know yet.  For example, ``the elements of X'' won't make sense until
@@ -464,10 +457,10 @@ example\footnote{Technically {\tt pi} is a function, not a variable,
 but for now it's best to pretend.}, the name {\tt pi} refers to the
 mathematical quantity $\pi$, which is approximately
 
-\begin{verbatim}
+\begin{lstlisting}
 >> pi
 ans = 3.1416
-\end{verbatim}
+\end{lstlisting}
 
 And if you do anything with complex numbers, you might find it
 convenient that both {\tt i} and {\tt j} are predefined as the square
@@ -476,20 +469,20 @@ root of $-1$.
 You can use a variable name anywhere you can use a number; for example, as
 an operand in an expression:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> pi * 3^2
 ans = 28.2743
-\end{verbatim}
+\end{lstlisting}
 
 or as an argument to a function:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> sin(pi/2)
 ans = 1
 
 >> exp(i * pi)
 ans = -1.0000 + 0.0000i
-\end{verbatim}
+\end{lstlisting}
 
 As the second example shows, many MATLAB functions work with
 complex numbers.  This example demonstrates Euler's Equality:
@@ -499,13 +492,13 @@ Whenever you evaluate an expression, MATLAB assigns the result to
 a variable named {\tt ans}.  You can use {\tt ans} in a subsequent
 calculation as shorthand for ``the value of the previous expression''.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 3^2 + 4^2
 ans = 25
 
 >> sqrt(ans)
 ans = 5
-\end{verbatim}
+\end{lstlisting}
 
 But keep in mind that the value of {\tt ans} changes every time
 you evaluate an expression.
@@ -517,10 +510,10 @@ You can create your own variables, and give them values, with
 an {\bf assignment statement}.  The assignment operator is the
 equals sign, {\tt =}.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 6 * 7
 x = 42
-\end{verbatim}
+\end{lstlisting}
 
 This example creates a new variable named {\tt x} and assigns it the
 value of the expression {\tt 6 * 7}.  MATLAB responds with the
@@ -536,14 +529,14 @@ variable name.  Some punctuation is also legal, but the underscore,
 not at the beginning.  Spaces are not allowed.  Variable names are
 ``case sensitive'', so {\tt x} and {\tt X} are different variables.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fibonacci0 = 1;
 
 >> LENGTH = 10;
 
 >> first_name = 'allen'
 first_name = allen
-\end{verbatim}
+\end{lstlisting}
 
 The first two examples demonstrate the use of the semi-colon, which
 suppresses the output from a command.  In this case MATLAB creates the
@@ -568,33 +561,33 @@ The most common reasons to use variables are
 example, if you are performing computations involving $e$, you might
 want to compute it once and save the result.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> e = exp(1)
 e = 2.7183
-\end{verbatim}
+\end{lstlisting}
 
 
 \item To make the connection between the code and the underlying
 mathematics more apparent.  If you are computing the area of a circle,
 you might want to use a variable named {\tt r}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> r = 3
 r = 3
 
 >> area = pi * r^2
 area = 28.2743
-\end{verbatim}
+\end{lstlisting}
 
 That way your code resembles the familiar formula $\pi r^2$.
 
 \item To break a long computation into a sequence of steps.
 Suppose you are evaluating a big, hairy expression like this:
 
-\begin{verbatim}
+\begin{lstlisting}
 ans = ((x - theta) * sqrt(2 * pi) * sigma) ^ -1 * ...
 exp(-1/2 * (log(x - theta) - zeta)^2 / sigma^2)
-\end{verbatim}
+\end{lstlisting}
 
 You can use an ellipsis to break the expression into multiple lines.
 Just type {\tt ...} at the end of the first line and continue on the
@@ -603,13 +596,13 @@ next.
 But often it is better to break the computation into a sequence of
 steps and assign intermediate results to variables.
 
-\begin{verbatim}
+\begin{lstlisting}
 shiftx = x - theta
 denom = shiftx * sqrt(2 * pi) * sigma
 temp = (log(shiftx) - zeta) / sigma
 exponent = -1/2 * temp^2
 ans = exp(exponent) / denom
-\end{verbatim}
+\end{lstlisting}
 
 The names of the intermediate variables explain their role in the
 computation.  {\tt shiftx} is the value of {\tt x} shifted by {\tt
@@ -634,12 +627,12 @@ the messages mean.
 A common error for beginning programmers is leaving out the {\tt *}
 for multiplication.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> area = pi r^2
 ??? area = pi r^2
               |
 Error: Unexpected MATLAB expression.
-\end{verbatim}
+\end{lstlisting}
 
 The error message indicates that, after seeing the operand {\tt pi},
 MATLAB was ``expecting'' to see an operator, like {\tt *}.  Instead,
@@ -650,10 +643,10 @@ Another common error is to leave out the parentheses around the
 arguments of a function.  For example, in math notation, it is common
 to write something like $\sin \pi$, but not in MATLAB.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> sin pi
 ??? Function 'sin' is not defined for values of class 'char'.
-\end{verbatim}
+\end{lstlisting}
 
 The problem is that when you leave out the parentheses, MATLAB treats
 the argument as a string (rather than as an expression).  In
@@ -661,10 +654,10 @@ this case the {\tt sin} function generates a reasonable error message,
 but in other cases the results can be baffling.  For example, what
 do you think is going on here?
 
-\begin{verbatim}
+\begin{lstlisting}
 >> abs pi
 ans =  112   105
-\end{verbatim}
+\end{lstlisting}
 
 There is a reason for this ``feature'', but rather than get into that
 now, let me suggest that you should {\em always} put parentheses around
@@ -690,9 +683,9 @@ expression into MATLAB:
 
 You might be tempted to write something like this:
 
-\begin{verbatim}
+\begin{lstlisting}
 1 / 2 * sqrt(pi)
-\end{verbatim}
+\end{lstlisting}
 
 But that would be wrong.  So very wrong.
 
@@ -707,20 +700,20 @@ You might have noticed that MATLAB expresses values in decimal
 notation.  So, for example, the rational number $1/3$ is represented
 by the floating-point value
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 1/3
 ans = 0.3333
-\end{verbatim}
+\end{lstlisting}
 
 which is only approximately correct.  It's not quite as bad as
 it seems; MATLAB uses more digits than it shows by default.
 You can change the {\tt format} to see the other digits.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> format long
 >> 1/3
 ans = 0.33333333333333
-\end{verbatim}
+\end{lstlisting}
 
 Internally, MATLAB uses the IEEE double-precision floating-point
 format, which provides about 15 significant digits of precision (in
@@ -730,10 +723,10 @@ with the same precision.
 
 Very large and very small values are displayed in scientific notation.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> factorial(100)
 ans = 9.332621544394410e+157
-\end{verbatim}
+\end{lstlisting}
 
 The {\tt e} in this notation is {\em not} the transcendental number
 known as $e$; it is just an abbreviation for ``exponent''.  So
@@ -743,10 +736,10 @@ digits.
 
 You can enter numbers using the same notation.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> speed_of_light = 3.0e8
 speed_of_light = 300000000
-\end{verbatim}
+\end{lstlisting}
 
 Although MATLAB can handle large numbers, there is a limit.  The
 predefined variables {\tt realmax} and {\tt realmin} contain the
@@ -754,35 +747,35 @@ largest and smallest numbers that MATLAB can handle\footnote{The names
 of these variables are misleading; floating-point numbers are
 sometimes, wrongly, called ``real''.}.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> realmax
 ans = 1.797693134862316e+308
 
 >> realmin
 ans = 2.225073858507201e-308
-\end{verbatim}
+\end{lstlisting}
 
 If the result of a computation is too big, MATLAB ``rounds up''
 to infinity.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> factorial(170)
 ans = 7.257415615307994e+306
 
 >> factorial(171)
 ans = Inf
-\end{verbatim}
+\end{lstlisting}
 
 Division by zero also returns {\tt Inf}, but in this case MATLAB
 gives you a warning because division by zero is usually
 considered undefined.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 1/0
 Warning: Divide by zero.
 
 ans = Inf
-\end{verbatim}
+\end{lstlisting}
 
 A warning is like an error message without teeth; the computation
 is allowed to continue.  Allowing {\tt Inf} to propagate
@@ -792,12 +785,12 @@ are careful with how you use it, {\tt Inf} can be quite useful.
 For operations that are truly undefined, MATLAB returns {\tt NaN},
 which stands for ``not a number''.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 0/0
 Warning: Divide by zero.
 
 ans = NaN
-\end{verbatim}
+\end{lstlisting}
 
 
 
@@ -808,10 +801,10 @@ to include comments that provide additional information about the
 program.  The percent symbol {\tt \%} separates
 the comments from the code.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> speed_of_light = 3.0e8     % meters per second
 speed_of_light = 300000000
-\end{verbatim}
+\end{lstlisting}
 
 The comment runs from the percent symbol to the end of the line.
 In this case it specifies the units of the value.  In an ideal world,
@@ -824,18 +817,18 @@ readable, but bad comments are useless or (even worse) misleading.
 
 Avoid comments that are redundant with the code:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 5        % assign the value 5 to x
-\end{verbatim}
+\end{lstlisting}
 
 Good comments provide additional information that is not in the
 code, like units in the example above, or the meaning of a variable:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> p = 0         % position from the origin in meters 
 >> v = 100       % velocity in meters / second
 >> a = -9.8      % acceleration of gravity in meters / second^2
-\end{verbatim}
+\end{lstlisting}
 
 If you use longer variable names, you might not need explanatory
 comments, but there is a tradeoff: longer code can become harder
@@ -960,9 +953,9 @@ MATLAB.
 
 Type the following code in the editor
 
-\begin{verbatim}
+\begin{lstlisting}
 x = 5
-\end{verbatim}
+\end{lstlisting}
 
 and then press the (outdated) floppy disk icon, or select {\sf Save}
 from the {\sf File} menu.  Either way, a dialog box appears where you
@@ -977,10 +970,10 @@ Go back to the Command Window and type {\tt myscript} (without the
 extension) at the prompt.  MATLAB executes your script and displays
 the result.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> myscript
 x = 5
-\end{verbatim}
+\end{lstlisting}
 
 When you run a script, MATLAB executes the commands in the M-File, one
 after another, exactly as if you had typed them at the prompt.
@@ -988,10 +981,10 @@ after another, exactly as if you had typed them at the prompt.
 If something goes wrong and MATLAB can't find your script, you will
 get an error message like:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> myscript
 ??? Undefined function or variable 'myscript'.
-\end{verbatim}
+\end{lstlisting}
 
 In this case you can either save your script again in a directory
 that is on the search path, or modify the search path to include
@@ -1006,11 +999,11 @@ Finally, the name of the file cannot contain spaces.  If you create
 a file named {\tt my script.m}, MATLAB doesn't complain until you try
 to run it:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> my script
 ??? Undefined function or method 'my' for input arguments 
 of type 'char'.
-\end{verbatim}
+\end{lstlisting}
 
 The problem is that it is looking for a scipt named {\tt my}.  The
 problem is even worse if the first word of the filename is a function
@@ -1102,7 +1095,7 @@ The variables you create are stored in the {\bf workspace}, which is a
 set of variables and their values.  The {\tt who} command prints the
 names of the variables in the workspace.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x=5;
 >> y=7;
 >> z=9;
@@ -1111,33 +1104,33 @@ names of the variables in the workspace.
 Your variables are:
 
 x  y  z  
-\end{verbatim}
+\end{lstlisting}
 
 The {\tt clear} command removes variables.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> clear y
 >> who
 
 Your variables are:
 
 x  z  
-\end{verbatim}
+\end{lstlisting}
 
 To display the value of a variable, you can use the {\tt disp}
 function.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> disp(z)
      9
-\end{verbatim}
+\end{lstlisting}
 
 But it's easier to just type the variable name.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> z
 z = 9
-\end{verbatim}
+\end{lstlisting}
 
 (Strictly speaking, the name of a variable is an expression, so
 evaluating it should assign a value to {\tt ans}, but MATLAB seems
@@ -1153,13 +1146,13 @@ The most common error with scripts is to run a script without creating
 the necessary variables.  For example, {\tt fibonacci1} requires you
 to assign a value to {\tt n}.  If you don't:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fibonacci1
 ??? Undefined function or variable "n".
 
 Error in ==> fibonacci1 at 4
 diff = t1^(n+1) - t2^(n+1);
-\end{verbatim}
+\end{lstlisting}
  
 The details of this message might be different for you, depending
 on what's in your script.  But the general idea is that {\tt n}
@@ -1189,11 +1182,11 @@ what it does, and what the requirements are for the workspace.  For
 example, I might put something like this at the beginning of
 {\tt fibonacci1}:
 
-\begin{verbatim}
+\begin{lstlisting}
 % Computes the nth Fibonacci number.  
 % Precondition: you must assign a value to n before running 
 % this script.  Postcondition: the result is stored in ans.
-\end{verbatim}
+\end{lstlisting}
 
 A {\bf precondition} is something that must be true, when the script
 starts, in order for it to work correctly.  A {\bf postcondition}
@@ -1204,12 +1197,12 @@ it is the documentation for the script, so if you type {\tt help
 fibonacci1}, you get the contents of the comment (without the percent
 signs).
 
-\begin{verbatim}
+\begin{lstlisting}
 >> help fibonacci1
   Computes the nth Fibonacci number.  
   Precondition: you must assign a value to n before running 
   this script.  Postcondition: the result is stored in ans.
-\end{verbatim}
+\end{lstlisting}
 
 That way, scripts that you write behave just like predefined scripts.
 You can even use the {\tt doc} command to see your comment in the
@@ -1226,21 +1219,21 @@ interchangeable.  The right side can be any legal expression, but
 the left side has to be a variable, which is called the {\bf
 target} of the assignment.  So this is legal:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> y = 1;
 >> x = y+1
 x = 2
-\end{verbatim}
+\end{lstlisting}
 
 But this is not:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> y+1 = x
 ??? y+1 = x
         |
 Error: The expression to the left of the equals sign is not a valid 
 target for an assignment.
-\end{verbatim}
+\end{lstlisting}
 
 In this case the error message is pretty helpful, as long as you know
 what a ``target'' is.
@@ -1257,11 +1250,11 @@ happens to be false for all real values of $y$.  In MATLAB, {\tt y
 current value of {\tt y}, adds one, and replaces the old value with
 the new value.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> y = 1;
 >> y = y+1
 y = 2
-\end{verbatim}
+\end{lstlisting}
 
 When you read MATLAB code, you might find it helpful to pronounce
 the equals sign ``gets'' rather than ``equals.''  So {\tt x = y+1}
@@ -1360,27 +1353,27 @@ function.  Pretty sure is not good enough; you want to be very sure.
 
 Since we know $\sin 0 = 0$, we could try
 
-\begin{verbatim}
+\begin{lstlisting}
 >> asin(0)
 ans = 0
-\end{verbatim}
+\end{lstlisting}
 
 which is correct.  Also, we know that the sine of 90 degrees is
 1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
 
-\begin{verbatim}
+\begin{lstlisting}
 >> asin(1)
 ans = 1.5708
-\end{verbatim}
+\end{lstlisting}
 
 Oops.  We forgot that the trig functions in MATLAB work in radians,
 not degrees.  So the correct answer is $\pi/2$, which we can
 confirm by dividing through by {\tt pi}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> asin(1) / pi
 ans = 0.5000
-\end{verbatim}
+\end{lstlisting}
 
 With this kind of unit testing, you are not really checking for
 errors in MATLAB, you are checking your understanding.  If you
@@ -1478,10 +1471,10 @@ and how to plot the values of {\tt a} and {\tt b} versus time.
 In Exercise~\ref{cargame}, you might have been tempted to write something
 like
 
-\begin{verbatim}
+\begin{lstlisting}
 a = a - 0.05*a + 0.03*b
 b = b + 0.05*a - 0.03*b
-\end{verbatim}
+\end{lstlisting}
 
 But that would be wrong, so very wrong.  Why?  The problem is that
 the first line changes the value of {\tt a}, so when the second line
@@ -1492,12 +1485,12 @@ of Cars!
 
 One solution is to use temporary variables {\tt anew} and {\tt bnew}:
 
-\begin{verbatim}
+\begin{lstlisting}
 anew = a - 0.05*a + 0.03*b
 bnew = b + 0.05*a - 0.03*b
 a = anew
 b = bnew
-\end{verbatim}
+\end{lstlisting}
 
 This has the effect of updating the variables ``simultaneously;'' that
 is, it reads both old values before writing either new value.
@@ -1505,11 +1498,11 @@ is, it reads both old values before writing either new value.
 The following is an alternative solution that
 has the added advantage of simplifying the computation:
 
-\begin{verbatim}
+\begin{lstlisting}
 atob = 0.05*a - 0.03*b
 a = a - atob
 b = b + atob
-\end{verbatim}
+\end{lstlisting}
 
 It is easy to look at this code and confirm that it obeys Conversation
 of Cars.  Even if the value of {\tt atob} is wrong, at least the total
@@ -1617,11 +1610,11 @@ we wrote a script named {\tt car\_update} that simulates one
 week in the life of a rental car company.  To simulate an entire
 year, we have to run it 52 times:
 
-\begin{verbatim}
+\begin{lstlisting}
 for i=1:52
     car_update
 end
-\end{verbatim}
+\end{lstlisting}
 
 The first line looks like an assignment statement, and it {\em is}
 like an assignment statement, except that it runs more than once.  The
@@ -1632,10 +1625,10 @@ value 1.  The second time, {\tt i} gets the value 2, and so on, up to
 The colon operator, {\tt :}, specifies a {\bf range} of integers.  In
 the spirit of unit testing, you can create a range at the prompt:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 1:5
 ans =  1     2     3     4     5
-\end{verbatim}
+\end{lstlisting}
 
 The variable you use in the for statement is called the {\bf loop
 variable}.  It is a common convention to use the names {\tt i},
@@ -1649,7 +1642,7 @@ The end of the loop is officially marked by the {\tt end} statement.
 To see the loop in action you can run a loop that displays the
 loop variable:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> for i=1:5
     i
 end
@@ -1659,7 +1652,7 @@ i = 2
 i = 3
 i = 4
 i = 5
-\end{verbatim}
+\end{lstlisting}
 
 As this example shows, you {\em can} run a for loop from the
 command line, but it's much more common to put it in a script.
@@ -1688,24 +1681,24 @@ We will start simple and work our way up.
 
 To plot a single point, type
 
-\begin{verbatim}
+\begin{lstlisting}
 >> plot(1, 2)
-\end{verbatim}
+\end{lstlisting}
 
 A {\sf Figure Window} should appear with a graph and a single, blue dot
 at $x$ position 1 and $y$ position 2.  To make the dot more visible,
 you can specify a different shape:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> plot(1, 2, 'o')
-\end{verbatim}
+\end{lstlisting}
 
 The letter in single quotes is a string that specifies how the
 point should be plotted.  You can also specify the color:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> plot(1, 2, 'ro')
-\end{verbatim}
+\end{lstlisting}
 
 {\tt r} stands for red; the other colors include {\bf g}reen, {\bf
 b}lue, {\bf c}yan, {\bf m}agenta, {\bf y}ellow and blac{\bf k}.
@@ -1724,11 +1717,11 @@ plot; {\tt hold off} returns to the default behavior.
 
 Try this:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> hold on
 >> plot(1, 1, 'o')
 >> plot(2, 2, 'o')
-\end{verbatim}
+\end{lstlisting}
 
 You should see a figure with two points.  MATLAB scales
 the plot automatically so that the axes run from the lowest value in
@@ -1765,12 +1758,12 @@ before it.
 
 The following loop computes the first 10 elements of $A$:
 
-\begin{verbatim}
+\begin{lstlisting}
 a = 1
 for i=2:10
     a = a/2
 end
-\end{verbatim}
+\end{lstlisting}
 
 Each time through the loop, we find the next value of {\tt a}
 by dividing the previous value by 2.  Notice that the loop
@@ -1814,7 +1807,7 @@ For example, the sum of the first 10 elements of $A$ is
 A {\tt for} loop is a natural way to compute the value of this
 series:
 
-\begin{verbatim}
+\begin{lstlisting}
 A1 = 1;
 total = 0;
 for i=1:10
@@ -1822,7 +1815,7 @@ for i=1:10
     total = total + a;
 end
 ans = total
-\end{verbatim}
+\end{lstlisting}
 
 {\tt A1} is the first element of the sequence, so each time
 through the loop {\tt a} is the $i$th element.  
@@ -1855,7 +1848,7 @@ as the number of terms goes to infinity, the sum approaches
 To see if that's true for our program, we could replace the
 constant, 10, with a variable named {\tt n}:
 
-\begin{verbatim}
+\begin{lstlisting}
 A1 = 1;
 total = 0;
 for i=1:n
@@ -1863,14 +1856,14 @@ for i=1:n
     total = total + a;
 end
 ans = total
-\end{verbatim}
+\end{lstlisting}
 
 Now the script can compute any number of terms, with the
 precondition that you have to set {\tt n} before you execute
 the script.  Here's how you could run it with different values
 of {\tt n}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> n=10; series
 
 total = 1.99804687500000
@@ -1886,7 +1879,7 @@ total = 1.99999999813735
 >> n=40; series
 
 total = 1.99999999999818
-\end{verbatim}
+\end{lstlisting}
 
 It sure looks like it's converging on 2.
 
@@ -1965,7 +1958,7 @@ As a postcondition, your script should assign the 10th element to
 Now generalize your script so that it computes the $n$th element
 for any value of {\tt n}, with the precondition that you have to
 set {\tt n} before you run the script.  To keep things simple for
-now, you can assume that {\tt n} is greater than 2.
+now, you can assume that {\tt n} is greater than 0.
 
 Hint: you will have to use two variables to keep track of the
 previous two elements of the sequence.  You might want to call
@@ -1998,7 +1991,7 @@ if the value of {\tt n} isn't set correctly before the loop runs.
 For example, this loop computes the sum of the first {\tt n} elements
 of a geometric sequence:
 
-\begin{verbatim}
+\begin{lstlisting}
 A1 = 1;
 total = 0;
 for i=1:n
@@ -2006,25 +1999,25 @@ for i=1:n
     total = total + a;
 end
 ans = total
-\end{verbatim}
+\end{lstlisting}
 
 It works for any positive value of {\tt n}, but what if {\tt n}
 is negative?  In that case, you get:
 
-\begin{verbatim}
+\begin{lstlisting}
 total = 0
-\end{verbatim}
+\end{lstlisting}
 
 Why?  Because the expression {\tt 1:-1} means ``all the numbers
 from 1 to -1, counting up by 1.''  It's not immediately obvious
 what that should mean, but MATLAB's interpretation is that there
 aren't any numbers that fit that description, so the result is
 
-\begin{verbatim}
+\begin{lstlisting}
 >> 1:-1
 
 ans = Empty matrix: 1-by-0
-\end{verbatim}
+\end{lstlisting}
 
 If the matrix is empty, you might expect it to be ``0-by-0,'' but
 there you have it.  In any case, if you loop over an empty range,
@@ -2045,11 +2038,11 @@ The {\tt if} statement allows you to check for certain conditions
 and execute statements if the conditions are met.  In the previous
 example, we could write:
 
-\begin{verbatim}
+\begin{lstlisting}
 if n<0
     ans = NaN
 end
-\end{verbatim}
+\end{lstlisting}
 
 The syntax is similar to a {\tt for} loop.  The first line
 specifies the condition we are interested in; in this case we
@@ -2072,7 +2065,7 @@ the {\tt if} statement with an {\tt else} clause.
 
 The complete version of the previous example might look like this:
 
-\begin{verbatim}
+\begin{lstlisting}
 if n<0
     ans = NaN
 else
@@ -2084,7 +2077,7 @@ else
     end
     ans = total
 end
-\end{verbatim}
+\end{lstlisting}
 
 Statements like {\tt if} and {\tt for} that contain other statements
 are called {\bf compound} statements.  All compound statements end
@@ -2106,20 +2099,20 @@ either 1, which represents ``true,''  or 0, which represents ``false.''
 Relational operators often appear in {\tt if} statements, but you
 can also evaluate them at the prompt:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 5;
 >> x < 10
 
 ans = 1
-\end{verbatim}
+\end{lstlisting}
 
 You can assign a logical value to a variable:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> flag = x > 10
 
 flag = 0
-\end{verbatim}
+\end{lstlisting}
 
 A variable that contains a logical value is often called a {\bf flag}
 because it flags the status of some condition.
@@ -2133,13 +2126,13 @@ Don't forget that {\tt ==} is the operator that tests equality,
 and {\tt =} is the assignment operator.  If you try to use {\tt =} in
 an {\tt if} statement, you get a syntax error:
 
-\begin{verbatim}
+\begin{lstlisting}
 if x=5
 ??? if x=5
         |
 Error: The expression to the left of the equals sign is not a valid 
 target for an assignment.
-\end{verbatim}
+\end{lstlisting}
 
 MATLAB thinks you are making an assignment to a variable named {\tt if x}! 
 
@@ -2153,21 +2146,21 @@ would be wrong, so very wrong.  Unfortunately, in many cases,
 you will get the right answer for the wrong reason.  For
 example:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 5;
 >> 0 < x < 10            % right for the wrong reason
 
 ans = 1
-\end{verbatim}
+\end{lstlisting}
 
 But don't be fooled!
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 17
 >> 0 < x < 10            % just plain wrong
 
 ans = 1
-\end{verbatim}
+\end{lstlisting}
 
 The problem is that MATLAB is evaluating the operators from left
 to right, so first it checks if {\tt 0<x}.  It is, so the result
@@ -2180,19 +2173,19 @@ For beginning programmers, this is an evil, evil bug!
 One way around this problem is to use a nested {\tt if} statement to
 check the two conditions separately:
 
-\begin{verbatim}
+\begin{lstlisting}
 ans = 0
 if 0<x
     if x<10
         ans = 1
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 But it is more concise to use the AND operator, {\tt \&\&}, to
 combine the conditions.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 5;
 >> 0<x && x<10
 
@@ -2202,7 +2195,7 @@ ans = 1
 >> 0<x && x<10
 
 ans = 0
-\end{verbatim}
+\end{lstlisting}
 
 The result of AND is true if {\em both} of the operands are
 true.  The OR operator, {\tt ||}, is true if {\em either or both}
@@ -2224,11 +2217,11 @@ vector.
 In general, anything you can do with a scalar, you can also do with
 a vector.  You can assign a vector value to a variable:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> X = 1:5
 
 X = 1     2     3     4     5
-\end{verbatim}
+\end{lstlisting}
 
 Variables that contain vectors are often capital letters.  That's
 just a convention; MATLAB doesn't require it, but for beginning
@@ -2244,11 +2237,11 @@ Just as with sequences, the numbers that make up the vector are called
 You can perform arithmetic with vectors, too.  If you add a scalar
 to a vector, MATLAB increments each element of the vector:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Y = X+5
 
 Y = 6     7     8     9    10
-\end{verbatim}
+\end{lstlisting}
 
 The result is a new vector; the original value of {\tt X} is not
 changed.
@@ -2256,16 +2249,16 @@ changed.
 If you add two vectors, MATLAB adds the corresponding elements of each
 vector and creates a new vector that contains the sums:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Z = X+Y
 
 Z = 7     9    11    13    15
-\end{verbatim}
+\end{lstlisting}
 
 But adding vectors only works if the operands are the same size.
 Otherwise:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> W = 1:3
 
 W = 1     2     3
@@ -2273,7 +2266,7 @@ W = 1     2     3
 >> X+W
 ??? Error using ==> plus
 Matrix dimensions must agree.
-\end{verbatim}
+\end{lstlisting}
 
 The error message in this case is confusing, because we are thinking
 of these values as vectors, not matrices.  The problem is a slight
@@ -2293,7 +2286,7 @@ that it also displays the size and type of each variable.
 
 First I'll make one of each kind of value:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> scalar = 5
 
 scalar = 5
@@ -2308,20 +2301,20 @@ matrix =
 
      1     1     1
      1     1     1
-\end{verbatim}
+\end{lstlisting}
 
 {\tt ones} is a function that builds a new matrix with the given
 number of rows and columns, and sets all the elements to 1.
 Now let's see what we've got.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> whos
   Name         Size                    Bytes  Class
 
   scalar       1x1                         8  double array
   vector       1x5                        40  double array
   matrix       2x3                        32  double array
-\end{verbatim}
+\end{lstlisting}
 
 According to MATLAB, everything is a double array:  ``double''
 is another name for double-precision floating-point numbers,
@@ -2340,7 +2333,7 @@ as you remember that MATLAB thinks everything is a matrix.
 Here's another example where the error message only makes sense
 if you know what is happening under the hood:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> X = 1:5
 
 X = 1     2     3     4     5
@@ -2352,7 +2345,7 @@ Y = 1     2     3     4     5
 >> Z = X*Y
 ??? Error using ==> mtimes
 Inner matrix dimensions must agree.
-\end{verbatim}
+\end{lstlisting}
 
 First of all, {\tt mtimes} is the MATLAB function that performs
 matrix multiplication.  The reason the ``inner matrix dimensions
@@ -2367,11 +2360,11 @@ the the elements of {\tt X} by the corresponding element of
 is called {\bf elementwise} multiplication, and the operator that
 performs it is {\tt .*}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> X .* Y
 
 ans = 1     4     9    16    25
-\end{verbatim}
+\end{lstlisting}
 
 We'll get back to the elementwise operators later; you can
 forget about them for now.
@@ -2383,7 +2376,7 @@ forget about them for now.
 
 You can select elements of a vector with parentheses:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Y = 6:10
 
 Y = 6     7     8     9    10
@@ -2395,7 +2388,7 @@ ans = 6
 >> Y(5)
 
 ans = 10
-\end{verbatim}
+\end{lstlisting}
 
 This means that the first element of {\tt Y} is 6 and the
 fifth element is 10.  The number in parentheses is called
@@ -2404,22 +2397,22 @@ vector you want.
 
 The index can be any kind of expression.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> i = 1;
 
 >> Y(i+1)
 
 ans = 7
-\end{verbatim}
+\end{lstlisting}
 
 Loops and vectors go together like the storm and rain.
 For example, this loop displays the elements of {\tt Y}.
 
-\begin{verbatim}
+\begin{lstlisting}
 for i=1:5
      Y(i)
 end
-\end{verbatim}
+\end{lstlisting}
 
 Each time through the loop we use a different value of {\tt i}
 as an index into {\tt Y}.
@@ -2429,11 +2422,11 @@ of elements in {\tt Y}.  We can make it more general by using
 the {\tt length} function, which returns the number of elements
 in a vector:
 
-\begin{verbatim}
+\begin{lstlisting}
 for i=1:length(Y)
      Y(i)
 end
-\end{verbatim}
+\end{lstlisting}
 
 There.  Now that will work for a vector of any length.
 
@@ -2445,11 +2438,11 @@ expression has to be a positive integer, and it has to be
 less than or equal to the length of the vector.  If it's
 zero or negative, you get this:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Y(0)
 ??? Subscript indices must either be real positive integers or
 logicals.
-\end{verbatim}
+\end{lstlisting}
 
 ``Subscript indices'' is MATLAB's longfangled way to say ``indices.''
 ``Real positive integers'' means that complex numbers are
@@ -2457,21 +2450,21 @@ out.  And you can forget about ``logicals'' for now.
 
 If the index is too big, you get this:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Y(6)
 ??? Index exceeds matrix dimensions.
-\end{verbatim}
+\end{lstlisting}
 
 There's the ``m'' word again, but other than that, this message
 is pretty clear.
 
 Finally, don't forget that the index has to be an integer:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Y(1.5)
 ??? Subscript indices must either be real positive integers or
 logicals.
-\end{verbatim}
+\end{lstlisting}
 
 
 \section{Vectors and sequences}
@@ -2482,14 +2475,14 @@ storing successive values in a vector.  Again, the definition of the
 Fibonacci sequence is $F_1 = 1$, $F_2 = 1$, and $F_{i} = F_{i-1} +
 F_{i-2}$ for $i \ge 3$.  In MATLAB, that looks like
 
-\begin{verbatim}
+\begin{lstlisting}
 F(1) = 1
 F(2) = 1
 for i=3:n
     F(i) = F(i-1) + F(i-2)
 end
 ans = F(n)
-\end{verbatim}
+\end{lstlisting}
 
 Notice that I am using a capital letter for the vector {\tt F}
 and lower-case letters for the scalars {\tt i} and {\tt n}.
@@ -2510,14 +2503,14 @@ and each time we assign a value to the {\tt i}th element.  It
 would also work to ``shift'' the index over by two,
 running the loop from 1 to {\tt n-2}:
 
-\begin{verbatim}
+\begin{lstlisting}
 F(1) = 1
 F(2) = 1
 for i=1:n-2
     F(i+2) = F(i+1) + F(i)
 end
 ans = F(n)
-\end{verbatim}
+\end{lstlisting}
 
 Either version is fine, but you have to choose one approach
 and be consistent.  If you combine elements of both, you will
@@ -2547,9 +2540,9 @@ MATLAB plots the indices on the $x$-axis and the elements on the
 $y$-axis.  To plot the Fibonacci numbers we computed in the previous
 section:
 
-\begin{verbatim}
+\begin{lstlisting}
 plot(F)
-\end{verbatim}
+\end{lstlisting}
 
 This display is often useful for debugging, especially
 if your vectors are big enough that displaying the elements on
@@ -2560,11 +2553,11 @@ the second one as a function of the first; that is, it treats
 the first vector as a sequence of $x$ values and the second as
 corresponding $y$ value and plots a sequence of $(x, y)$ points.
 
-\begin{verbatim}
+\begin{lstlisting}
 X = 1:5
 Y = 6:10
 plot(X, Y)
-\end{verbatim}
+\end{lstlisting}
 
 By default, MATLAB draws a blue line, but you can override that
 setting with the same kind of string we saw in Section~\ref{plotting}.
@@ -2594,13 +2587,13 @@ scalar.
 For example, this loop adds up the elements of a vector named {\tt X}
 (which we assume has been defined).
 
-\begin{verbatim}
+\begin{lstlisting}
 total = 0
 for i=1:length(X)
     total = total + X(i)
 end
 ans = total
-\end{verbatim}
+\end{lstlisting}
 
 The use of {\tt total} as an accumulator is similar to what we
 saw in Section~\ref{series}.  Again, we use the {\tt length} function
@@ -2631,11 +2624,11 @@ For example, the following loop computes a vector {\tt Y} that
 contains the squares of the elements of {\tt X} (assuming, again,
 that {\tt X} is already defined).
 
-\begin{verbatim}
+\begin{lstlisting}
 for i=1:length(X)
     Y(i) = X(i)^2
 end
-\end{verbatim}
+\end{lstlisting}
 
 \begin{ex}
 Write a loop that computes a vector {\tt Y} that
@@ -2668,22 +2661,22 @@ that the ground is at altitude 0).
 To create some fake data, we'll use an extended version of the
 colon operator:
 
-\begin{verbatim}
+\begin{lstlisting}
 X = 10:-1:-10
-\end{verbatim}
+\end{lstlisting}
 
 The values in this range run from 10 to -10, with a {\bf step size}
 of -1.  The step size is the interval between elements of the range.
 
 The following loop finds the index of the element 0 in {\tt X}:
 
-\begin{verbatim}
+\begin{lstlisting}
 for i=1:length(X)
     if X(i) == 0
         ans = i
     end
 end
-\end{verbatim}
+\end{lstlisting}
  
 One funny thing about this loop is that it keeps going after it
 finds what it is looking for.  That might be what you want; if the
@@ -2694,14 +2687,14 @@ But if you want the index of the first one (or you know that there
 is only one), you can save some unnecessary looping by using the
 {\tt break} statement.
 
-\begin{verbatim}
+\begin{lstlisting}
 for i=1:length(X)
     if X(i) == 0
         ans = i
         break
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 {\tt break} does pretty much what it sounds like.  It ends the
 loop and proceeds immediately to the next statement after the
@@ -2713,26 +2706,26 @@ Remember that floating-point values are often only approximately
 right.  That means that if you look for a perfect match, you might
 not find it.  For example, try this:
 
-\begin{verbatim}
+\begin{lstlisting}
 X = linspace(1,2)
 for i=1:length(X)
     Y(i) = sin(X(i))
 end
 plot(X, Y)
-\end{verbatim}
+\end{lstlisting}
 
 You can see in the plot that the value of $\sin x$ goes through
 0.9 in this range, but if you search for the index where
 {\tt Y(i) == 0.9}, you will come up empty.
 
-\begin{verbatim}
+\begin{lstlisting}
 for i=1:length(Y)
     if Y(i) == 0.9
         ans = i
         break
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 The condition is never true, so the body of the {\tt if} statement
 is never executed.
@@ -2765,17 +2758,17 @@ Many apply operations can be done with elementwise operators.  The
 following statement is more concise than the loop in
 Section~\ref{apply}
 
-\begin{verbatim}
+\begin{lstlisting}
 Y = X .^ 2
-\end{verbatim}
+\end{lstlisting}
 
 Also, most built-in MATLAB functions work with vectors:
 
-\begin{verbatim}
+\begin{lstlisting}
 X = linspace(0, 2*pi)
 Y = sin(X)
 plot(X, Y)
-\end{verbatim}
+\end{lstlisting}
 
 Finally, the {\tt find} function can perform search operations, but
 understanding it requires a couple of concepts we haven't got to, so
@@ -2954,7 +2947,7 @@ sum of the first {\tt n} terms in a geometric sequence, but it also
 has the {\bf side-effect} of assigning values to {\tt A1}, {\tt total},
 {\tt i} and {\tt a}.
 
-\begin{verbatim}
+\begin{lstlisting}
 A1 = 1;
 total = 0;
 for i=1:10
@@ -2962,7 +2955,7 @@ for i=1:10
     total = total + a;
 end
 ans = total
-\end{verbatim}
+\end{lstlisting}
 
 If you were using any of those variable names before calling this
 script, you might be surprised to find, after running the script,
@@ -2998,13 +2991,13 @@ want, and put a function definition in it.  For example, to create
 a function named {\tt myfunc}, create an M-file named {\tt myfunc.m}
 and put the following definition into it.
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = myfunc(x)
     s = sin(x)
     c = cos(x)
     res = abs(s) + abs(c)
 end
-\end{verbatim}
+\end{lstlisting}
 
 The first word of the file has to be the word {\tt function}, because
 that's how MATLAB tells the difference between a script and a function
@@ -3025,7 +3018,7 @@ Once you have defined a new function, you call it the same way you
 call built-in MATLAB functions.  If you call the function as a statement,
 MATLAB puts the result into {\tt ans}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> myfunc(1)
 
 s = 0.84147098480790
@@ -3035,12 +3028,12 @@ c = 0.54030230586814
 res = 1.38177329067604
 
 ans = 1.38177329067604
-\end{verbatim}
+\end{lstlisting}
 
 But it is more common (and better style) to assign the result to
 a variable:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> y = myfunc(1)
 
 s = 0.84147098480790
@@ -3050,7 +3043,7 @@ c = 0.54030230586814
 res = 1.38177329067604
 
 y = 1.38177329067604
-\end{verbatim}
+\end{lstlisting}
 
 While you are debugging a new function, you might want to display
 intermediate results like this, but once it is working, you will want
@@ -3063,7 +3056,7 @@ function starts and destroyed when the function ends.  If you try to
 access (read or write) the variables defined inside a function, you
 will find that they don't exist.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> clear
 >> y = myfunc(1);
 >> who
@@ -3072,7 +3065,7 @@ Your variables are: y
   
 >> s
 ??? Undefined function or variable 's'.
-\end{verbatim}
+\end{lstlisting}
 
 The only value from the function that you can access is the result,
 which in this case is assigned to {\tt y}.
@@ -3081,7 +3074,7 @@ If you have variables named {\tt s} or {\tt c} in your workspace
 before you call {\tt myfunc}, they will still be there when the
 function completes.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> s = 1;
 >> c = 1;
 >> y = myfunc(1);
@@ -3089,7 +3082,7 @@ function completes.
 
 s = 1
 c = 1
-\end{verbatim}
+\end{lstlisting}
 
 So inside a function you can use whatever variable names you
 want without worrying about collisions.
@@ -3100,7 +3093,7 @@ want without worrying about collisions.
 At the beginning of every function file, you should include a comment
 that explains what the function does.
 
-\begin{verbatim}
+\begin{lstlisting}
 % res = myfunc (x)
 % Compute the Manhattan distance from the origin to the
 % point on the unit circle with angle (x) in radians.
@@ -3110,17 +3103,17 @@ function res = myfunc (x)
     c = cos(x);
     res = abs(s) + abs(c);
 end
-\end{verbatim}
+\end{lstlisting}
 
 When you ask for {\tt help}, MATLAB prints the comment you
 provide.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> help myfunc
   res = myfunc (x)
   Compute the Manhattan distance from the origin to the
   point on the unit circle with angle (x) in radians.
-\end{verbatim}
+\end{lstlisting}
 
 There are lots of conventions about what should be included
 in these comments.  Among other things, it is a good idea to
@@ -3163,33 +3156,33 @@ then run it again.
 
 If this is what you put in {\tt myfunc.m}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = something_else (x)
     s = sin(x);
     c = cos(x);
     res = abs(s) + abs(c);
 end
-\end{verbatim}
+\end{lstlisting}
 
 Then here's what you'll get:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> y = myfunc(1);
 >> y = something_else(1);
 ??? Undefined command/function 'something_else'.
-\end{verbatim}
+\end{lstlisting}
 
 The second gotcha is that the name of the file can't have spaces.
 For example, if you write a function and name the file {\tt my func.m},
 which the MATLAB editor will happily allow you to do, and then
 try to run it, you get:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> y = my func(1)
 ??? y = my func(1)
            |
 Error: Unexpected MATLAB expression.
-\end{verbatim}
+\end{lstlisting}
 
 The third gotcha is that your function names can collide with built-in
 MATLAB functions.  For example, if you create an M-file named {\tt
@@ -3199,15 +3192,15 @@ depends on the order of the directories in the search path, and
 (in some cases) on the arguments.  As an example, put the following
 code in a file named {\tt sum.m}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = sum(x)
    res = 7;
 end
-\end{verbatim}
+\end{lstlisting}
 
 And then try this:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> sum(1:3)
 
 ans = 6
@@ -3215,7 +3208,7 @@ ans = 6
 >> sum
 
 ans = 7
-\end{verbatim}
+\end{lstlisting}
 
 In the first case MATLAB used the built-in function; in the second
 case it ran your function!  This kind of interaction can be very
@@ -3231,11 +3224,11 @@ Functions can, and often do, take more than one input variable.
 For example, the following function takes two input variables,
 {\tt a} and {\tt b}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = hypotenuse(a, b)
     res = sqrt(a^2 + b^2);
 end
-\end{verbatim}
+\end{lstlisting}
 
 If you remember the Pythagorean Theorem, you probably figured out
 that this function computes the length of the hypotenuse of a right
@@ -3246,24 +3239,24 @@ the same thing.)
 If we call it from the Command Window with arguments 3 and 4, we can
 confirm that the length of the third side is 5.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> c = hypotenuse(3, 4)
 
 c = 5
-\end{verbatim}
+\end{lstlisting}
 
 The arguments you provide are assigned to the input variables in
 order, so in this case 3 is assigned to {\tt a} and 4 is assigned to
 {\tt b}.  MATLAB checks that you provide the right number of arguments;
 if you provide too few, you get
 
-\begin{verbatim}
+\begin{lstlisting}
 >> c = hypotenuse(3)
 ??? Input argument "b" is undefined.
 
 Error in ==> hypotenuse at 2
     res = sqrt(a^2 + b^2);
-\end{verbatim}
+\end{lstlisting}
 
 This error message is confusing, because it suggests that
 the problem is in {\tt hypotenuse} rather than in the function call.
@@ -3271,11 +3264,11 @@ Keep that in mind when you are debugging.
 
 If you provide too many arguments, you get
 
-\begin{verbatim}
+\begin{lstlisting}
 >> c = hypotenuse(3, 4, 5)
 ??? Error using ==> hypotenuse
 Too many input arguments.
-\end{verbatim}
+\end{lstlisting}
 
 Which is a better message.
 
@@ -3288,7 +3281,7 @@ conditions and return logical values: 1 for ``true'' and 0 for ``false''.
 
 For example, {\tt isprime} checks to see whether a number is prime.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> isprime(17)
 
 ans = 1
@@ -3296,7 +3289,7 @@ ans = 1
 >> isprime(21)
 
 ans = 0
-\end{verbatim}
+\end{lstlisting}
 
 The functions {\tt isscalar} and {\tt isvector} check whether
 a value is a scalar or vector; if both are false, you can assume
@@ -3308,7 +3301,7 @@ wrong.  {\tt isinteger} checks whether a value belongs to one of
 the integer types (a topic we have not discussed); it doesn't check
 whether a floating-point value happens to be integral.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> c = hypotenuse(3, 4)
 
 c = 5
@@ -3316,12 +3309,12 @@ c = 5
 >> isinteger(c)
 
 ans = 0
-\end{verbatim}
+\end{lstlisting}
 
 To do that, we have to write our own logical function, which
 we'll call {\tt isintegral}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = isintegral(x)
     if round(x) == x
         res = 1;
@@ -3329,7 +3322,7 @@ function res = isintegral(x)
         res = 0;
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 This function is good enough for most applications, but remember
 that floating-point values are only approximately right; in some
@@ -3381,11 +3374,11 @@ will avoid a lot of debugging.
 
 Here's the second draft:
 
-\begin{verbatim}
+\begin{lstlisting}
 for a=1:3
     a
 end
-\end{verbatim}
+\end{lstlisting}
 
 At each step, the program is testable: it produces output (or another
 visible effect) that you can check.
@@ -3395,20 +3388,20 @@ visible effect) that you can check.
 
 The third draft contains a nested loop:
 
-\begin{verbatim}
+\begin{lstlisting}
 for a=1:3
     a
     for b=1:4
         b
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 The inner loop gets executed 3 times, once for each value of {\tt a},
 so here's what the output loops like (I adjusted the spacing to make
 the structure clear):
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find_triples
 
 a = 1   b = 1
@@ -3425,25 +3418,25 @@ a = 3   b = 1
         b = 2
         b = 3
         b = 4
-\end{verbatim}
+\end{lstlisting}
 
 The next step is to compute $c$ for each pair of values $a$ and $b$.
 
-\begin{verbatim}
+\begin{lstlisting}
 for a=1:3
     for b=1:4
         c = hypotenuse(a, b);
         [a, b, c]
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 To display the values of {\tt a}, {\tt b} and {\tt c}, I am
 using a feature we haven't seen before.  The bracket operator
 creates a new matrix which, when it is displayed, shows the
 three values on one line:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find_triples
 
 ans = 1.0000    1.0000    1.4142
@@ -3458,21 +3451,21 @@ ans = 3.0000    1.0000    3.1623
 ans = 3.0000    2.0000    3.6056
 ans = 3.0000    3.0000    4.2426
 ans = 3         4         5
-\end{verbatim}
+\end{lstlisting}
 
 Sharp-eyed readers will notice that we are wasting some effort here.
 After checking $a=1$ and $b=2$, there is no point in checking
 $a=2$ and $b=1$.  We can eliminate the extra work by adjusting the
 range of the second loop:
 
-\begin{verbatim}
+\begin{lstlisting}
 for a=1:3
     for b=a:4
         c = hypotenuse(a, b);
         [a, b, c]
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 If you are following along, run this version to make sure it has
 the expected effect.
@@ -3484,7 +3477,7 @@ The next step is to check for integral values of $c$.  This
 loop calls {\tt isintegral} and prints the resulting logical
 value.
 
-\begin{verbatim}
+\begin{lstlisting}
 for a=1:3
     for b=a:4
         c = hypotenuse(a, b);
@@ -3492,13 +3485,13 @@ for a=1:3
         [c, flag]
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 By not displaying {\tt a} and {\tt b} I made it easy to scan the
 output to make sure that the values of {\tt c} and {\tt flag}
 look right.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find_triples
 
 ans = 1.4142         0
@@ -3510,7 +3503,7 @@ ans = 3.6056         0
 ans = 4.4721         0
 ans = 4.2426         0
 ans = 5              1
-\end{verbatim}
+\end{lstlisting}
 
 I chose the ranges for {\tt a} and {\tt b} to be small
 (so the amount of output is manageable), but to contain at
@@ -3521,7 +3514,7 @@ working (or not) without being overwhelmed.
 The next step is to use {\tt flag} to display only the successful
 triples:
 
-\begin{verbatim}
+\begin{lstlisting}
 for a=1:3
     for b=a:4
         c = hypotenuse(a, b);
@@ -3531,15 +3524,15 @@ for a=1:3
         end
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 Now the output is elegant and simple:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find_triples
 
 ans = 3     4     5
-\end{verbatim}
+\end{lstlisting}
 
 
 
@@ -3560,7 +3553,7 @@ text before you start typing!
 
 The first draft of the function takes no input variables:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = find_triples ()
     for a=1:3
         for b=a:4
@@ -3572,16 +3565,16 @@ function res = find_triples ()
         end
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 The empty parentheses in the signature are not strictly necessary, but
 they make it apparent that there are no input variables.  Similarly,
 when I call the new function, I like to use parentheses to remind me
 that it is a function, not a script:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find_triples()
-\end{verbatim}
+\end{lstlisting}
 
 The output variable isn't strictly necessary, either; it
 never gets assigned a value.  But I put it there as a matter of
@@ -3592,7 +3585,7 @@ variables.  The natural generalization is to replace the constant
 values 3 and 4 with a variable so we can search an arbitrarily large
 range of values.
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = find_triples (n)
     for a=1:n
         for b=a:n
@@ -3604,11 +3597,11 @@ function res = find_triples (n)
         end
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 Here are the results for the range from 1 to 15:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find_triples(15)
 
 ans = 3     4     5
@@ -3616,7 +3609,7 @@ ans = 5    12    13
 ans = 6     8    10
 ans = 8    15    17
 ans = 9    12    15
-\end{verbatim}
+\end{lstlisting}
 
 Some of these are more interesting than others.  The triples
 $5,12,13$ and $8,15,17$ are ``new,'' but the others are just
@@ -3629,17 +3622,17 @@ When you change the signature of a function, you have to change all
 the places that call the function, too.  For example, suppose
 I decided to add a third input variable to {\tt hypotenuse}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = hypotenuse(a, b, d)
     res = (a.^d + b.^d) ^ (1/d);
 end
-\end{verbatim}
+\end{lstlisting}
 
 When {\tt d} is 2, this does the same thing it did before.  There is
 no practical reason to generalize the function in this way; it's just
 an example.  Now when you run {\tt find\_triples}, you get:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find_triples(20)
 ??? Input argument "d" is undefined.
 
@@ -3648,7 +3641,7 @@ Error in ==> hypotenuse at 2
 
 Error in ==> find_triples at 7
             c = hypotenuse(a, b);
-\end{verbatim}
+\end{lstlisting}
 
 So that makes it pretty easy to find the error.  This is an example of
 a development technique that is sometimes useful: rather
@@ -3686,7 +3679,7 @@ divisor of two numbers.  If the result is greater than 1, then
 $a$ and $b$ share a common factor and we can use the {\tt continue}
 statement to skip to the next pair:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = find_triples (n)
     for a=1:n
         for b=a:n
@@ -3700,7 +3693,7 @@ function res = find_triples (n)
         end
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 {\tt continue} causes the program to end the current iteration
 immediately (without executing the rest of the body), jump to
@@ -3716,7 +3709,7 @@ I also simplified the program slightly by eliminating
 
 Here are the results with {\tt n=40}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find_triples(40)
 
 ans =  3     4     5
@@ -3726,7 +3719,7 @@ ans =  8    15    17
 ans =  9    40    41
 ans = 12    35    37
 ans = 20    21    29
-\end{verbatim}
+\end{lstlisting}
 
 There is an interesting connection between Fibonacci numbers and
 Pythagorean triples.  If $F$ is a Fibonacci sequence, then
@@ -3934,11 +3927,11 @@ which means ``f is the function that maps from
 $x$ to $x^2 - 2x -3$.''  In MATLAB, this would be expressed
 like this:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = error_func(x)
     res = x^2 - 2*x -3;
 end
-\end{verbatim}
+\end{lstlisting}
 
 I'll explain soon why this function is called {\tt error\_func}.
 Now, back to our regularly-scheduled programming.
@@ -3994,7 +3987,7 @@ approximations of the solution.
 
 Here's what would happen:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 4;
 
 >> x = sqrt(2*x+3)
@@ -4016,7 +4009,7 @@ x = 3.0114
 >> x = sqrt(2*x+3)
 
 x = 3.0038
-\end{verbatim}
+\end{lstlisting}
 
 After each iteration, {\tt x} is closer to the correct answer,
 and after 5 iterations, the relative error is about 0.1\%, which
@@ -4110,31 +4103,31 @@ the location of a zero.
 
 We've already seen an example of an error function:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = error_func(x)
     res = x^2 - 2*x -3;
 end
-\end{verbatim}
+\end{lstlisting}
 
 You can call {\tt error\_func} from the Command Window, and
 confirm that there are zeros at 3 and -1.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> error_func(3)
 ans = 0
 
 >> error_func(-1)
 ans = 0
-\end{verbatim}
+\end{lstlisting}
 
 But let's pretend that we don't know exactly where
 the roots are; we only know that one of them is near 4.  Then
 we could call {\tt fzero} like this:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fzero(@error_func, 4)
 ans = 3.0000
-\end{verbatim}
+\end{lstlisting}
 
 Success!  We found one of the zeros.
 
@@ -4149,19 +4142,19 @@ calls your error function---more than once, in fact.
 The second argument is the initial guess.  If we provide a different
 initial guess, we get a different root (at least sometimes).
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fzero(@error_func, -2)
 ans = -1
-\end{verbatim}
+\end{lstlisting}
 
 Alternatively, if you know two values that bracket the root,
 you can provide both:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fzero(@error_func, [2,4])
 
 ans = 3
-\end{verbatim}
+\end{lstlisting}
 
 The second argument here is actually a vector that contains two
 elements.  The bracket operator is a convenient way (one of several)
@@ -4172,7 +4165,7 @@ function, and where.  If you modify {\tt error\_func} so that it displays
 the value of {\tt x} every time it is called and then run {\tt fzero}
 again, you get:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fzero(@error_func, [2,4])
 x = 2
 x = 4
@@ -4185,7 +4178,7 @@ x = 3.00000000000000
 x = 3
 x = 3
 ans = 3
-\end{verbatim}
+\end{lstlisting}
 
 Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  After
 each iteration, the interval that brackets the root gets smaller;
@@ -4200,13 +4193,13 @@ you a quicker, dirtier answer (see the documentation for details).
 The most common problem people have with {\tt fzero} is leaving
 out the {\tt @}.  In that case, you get something like:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fzero(error_func, [2,4])
 ??? Input argument "x" is undefined.
 
 Error in ==> error_func at 2
     x
-\end{verbatim}
+\end{lstlisting}
 
 Which is a very confusing error message.  The problem is that MATLAB
 treats the first argument as a function call, so it calls {\tt error\_func}
@@ -4220,26 +4213,26 @@ assigns a value to the output variable.  In general, functions should
 enforce this rule, so it is easy to forget.  For example, if you
 write:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = error_func(x)
     y = x^2 - 2*x -3
 end
-\end{verbatim}
+\end{lstlisting}
 
 and then call it from the Command Window:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> error_func(4)
 
 y = 5
-\end{verbatim}
+\end{lstlisting}
 
 It looks like it worked, but don't be fooled.  This function assigns
 a value to {\tt y}, and it displays the result, but when the function
 ends, {\tt y} disappears along with the function's workspace.
 If you try to use it with {\tt fzero}, you get
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fzero(@error_func, [2,4])
 
 y = -3
@@ -4250,7 +4243,7 @@ error_func failed with the error below.
 
 Output argument "res" (and maybe others) not assigned during 
 call to "/home/downey/error_func.m (error_func)".
-\end{verbatim}
+\end{lstlisting}
 
 If you read it carefully, this is a pretty good error message
 (with the quibble that ``output argument'' is not a good synonym
@@ -4260,7 +4253,7 @@ You would have seen the same error message when you called {\tt
 error\_func} from the interpreter, if only you had assigned the result
 to a variable:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = error_func(4)
 
 y = 5
@@ -4270,7 +4263,7 @@ call to "/home/downey/error_func.m (error_func)".
 
 Error in ==> error_func at 2
     y = x^2 - 2*x -3
-\end{verbatim}
+\end{lstlisting}
 
 You can avoid all of this if you remember these two rules:
 
@@ -4296,12 +4289,12 @@ MATLAB functions like {\tt fzero}, you have to get it right!
 Yet another thing that can go wrong: if you provide an interval for the
 initial guess and it doesn't actually contain a root, you get
 
-\begin{verbatim}
+\begin{lstlisting}
 >> fzero(@error_func, [0,1])
 
 ??? Error using ==> fzero
 The function values at the interval endpoints must differ in sign.
-\end{verbatim}
+\end{lstlisting}
 
 There is one other thing that can go wrong when you use {\tt fzero}, but
 this one is less likely to be your fault.  It is possible that {\tt fzero}
@@ -4329,9 +4322,9 @@ approximate the zeros visually.  If you have a function, like
 {\tt error\_func} that takes a scalar input variable and returns
 a scalar output variable, you can plot it with {\tt ezplot}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> ezplot(@error_func, [-2,5])
-\end{verbatim}
+\end{lstlisting}
 
 The first argument is a function handle; the second is the 
 interval you want to plot the function in.
@@ -4352,12 +4345,12 @@ the variable {\bf shadows} the function.  For example, if you assign
 a value to {\tt sin}, and then try to use the {\tt sin} function, you
 {\em might} get an error:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> sin = 3;
 >> x = 5;
 >> sin(x)
 ??? Index exceeds matrix dimensions.
-\end{verbatim}
+\end{lstlisting}
 
 In this example, the problem is clear.  Since the value of {\tt sin}
 is a scalar, and a scalar is really a 1x1 matrix, MATLAB tries to
@@ -4370,12 +4363,12 @@ getting an error message.  If the value of {\tt sin} was a vector,
 or if the value of {\tt x} was smaller, you would really
 be in trouble.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> sin = 3;
 >> sin(1)
 
 ans = 3
-\end{verbatim}
+\end{lstlisting}
 
 Just to review, the sine of 1 is not 3!
 
@@ -4385,24 +4378,24 @@ For example, if you have a function named {\tt f}, and then
 try to increment a variable named {\tt f} (and if you forget to
 initialize {\tt f}), you get
 
-\begin{verbatim}
+\begin{lstlisting}
 >> f = f+1
 ??? Error:  "f" previously appeared to be used as a function or 
 command, conflicting with its use here as the name of a variable.
  A possible cause of this error is that you forgot to initialize the
  variable, or you have initialized it implicitly using load or eval.
-\end{verbatim}
+\end{lstlisting}
 
 At least, that's what you get if you are lucky.  If this happens
 inside a function, MATLAB tries to call {\tt f} as a function,
 and you get this
 
-\begin{verbatim}
+\begin{lstlisting}
 ??? Input argument "x" is undefined.
 
 Error in ==> f at 3
 y = x^2 - a
-\end{verbatim}
+\end{lstlisting}
 
 There is no universal way to avoid these kind of
 collisions, but you can improve your chances by choosing
@@ -4653,7 +4646,7 @@ call {\tt duck} from the Command Window.
 
 Here's what my first draft might look like:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = duck()
     error = error_func(10)
 end
@@ -4663,7 +4656,7 @@ function res = error_func(h)
     r = 10;         % radius in cm
     res = h;
 end
-\end{verbatim}
+\end{lstlisting}
 
 The line {\tt res = h} isn't finished yet, but this
 is enough code to test.
@@ -4764,11 +4757,11 @@ Since many of the built-in functions take vectors as arguments,
 it should come as no surprise that you can write functions that
 take vectors.  Here's a simple (silly) example:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = display_vector(X)
     X
 end
-\end{verbatim}
+\end{lstlisting}
 
 There's nothing special about this function at all.  The only
 difference from the scalar functions we've seen is that I used
@@ -4777,16 +4770,16 @@ a capital letter to remind me that {\tt X} is a vector.
 This is another example of a function that doesn't actually have
 a return value; it just displays the value of the input variable:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> display_vector(1:3)
 
 X = 1     2     3
-\end{verbatim}
+\end{lstlisting}
 
 Here's a more interesting example that encapsulates the code
 from Section~\ref{reduce} that adds up the elements of a vector:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = mysum(X)
     total = 0;
     for i=1:length(X)
@@ -4794,18 +4787,18 @@ function res = mysum(X)
     end
     res = total;
 end
-\end{verbatim}
+\end{lstlisting}
 
 I called it {\tt mysum} to avoid a collision with the built-in
 function {\tt sum}, which does pretty much the same thing.
 
 Here's how you call it from the Command Window:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> total = mysum(1:3)
 
 total = 6
-\end{verbatim}
+\end{lstlisting}
 
 Because this function has a return value, I made a
 point of assigning it to a variable.
@@ -4817,14 +4810,14 @@ There's also nothing wrong with assigning a vector to an output
 variable.  Here's an example that encapsulates the code from
 Section~\ref{apply}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = myapply(X)
     for i=1:length(X)
         Y(i) = X(i)^2
     end
     res = Y
 end
-\end{verbatim}
+\end{lstlisting}
 
 Ideally I would have changed the name of the output variable to
 {\tt Res}, as a reminder that it is supposed to get a vector value,
@@ -4832,11 +4825,11 @@ but I didn't.
 
 Here's how {\tt myapply} works:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> V = myapply(1:3)
 
 V = 1     4     9
-\end{verbatim}
+\end{lstlisting}
 
 \begin{ex}
 Write a function named {\tt find\_target} that
@@ -4851,7 +4844,7 @@ Functions that work on vectors will almost always work on scalars
 as well, because MATLAB considers a scalar to be a vector with
 length 1.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> mysum(17)
 
 ans = 17
@@ -4859,7 +4852,7 @@ ans = 17
 >> myapply(9)
 
 ans = 81
-\end{verbatim}
+\end{lstlisting}
 
 Unfortunately, the converse is not always true.  If you write
 a function with scalar inputs in mind, it might not work on vectors.
@@ -4870,21 +4863,21 @@ function will probably work on vectors.
 
 For example, here is the very first function we wrote:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = myfunc (x)
     s = sin(x)
     c = cos(x)
     res = abs(s) + abs(c)
 end
-\end{verbatim}
+\end{lstlisting}
 
 And lo!  It turns out to work on vectors:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Y = myfunc(1:3)
 
 Y = 1.3818    1.3254    1.1311
-\end{verbatim}
+\end{lstlisting}
 
 At this point, I want to take a minute to acknowledge that I
 have been a little harsh in my presentation of MATLAB, because
@@ -4896,32 +4889,32 @@ Some of the other functions we wrote don't work on vectors,
 but they can be patched up with just a little effort.  For example,
 here's {\tt hypotenuse} from Section~\ref{hypotenuse}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = hypotenuse(a, b)
     res = sqrt(a^2 + b^2);
 end
-\end{verbatim}
+\end{lstlisting}
 
 This doesn't work on vectors because the \verb+^+ operator
 tries to do matrix exponentiation, which only works on
 square matrices.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> hypotenuse(1:3, 1:3)
 ??? Error using ==> mpower
 Matrix must be square.
-\end{verbatim}
+\end{lstlisting}
 
 But if you replace \verb+^+ with the elementwise operator
 \verb+.^+, it works!
 
-\begin{verbatim}
+\begin{lstlisting}
 >> A = [3,5,8];
 >> B = [4,12,15];
 >> C = hypotenuse(A, B)
 
 C = 5    13    17
-\end{verbatim}
+\end{lstlisting}
  
 In this case, it matches up corresponding elements from the two
 input vectors, so the elements of {\tt C} are the hypotenuses of
@@ -4945,7 +4938,7 @@ In other words, the $i$th element of $C$ is the sum of the first
 $i$ elements from $V$.  MATLAB provides a function named {\tt cumsum}
 that computes cumulative sums:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> V = 1:5
 
 V = 1     2     3     4     5
@@ -4953,7 +4946,7 @@ V = 1     2     3     4     5
 >> C = cumsum(V)
 
 C = 1     3     6    10    15
-\end{verbatim}
+\end{lstlisting}
 
 \begin{ex}
 Write a function named {\tt cumulative\_sum} that uses
@@ -4963,22 +4956,22 @@ a loop to compute the cumulative sum of the input vector.
 The inverse operation of {\tt cumsum} is {\tt diff}, which computes
 the difference between successive elements of the input vector.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> D = diff(C)
 
 D = 2     3     4     5
-\end{verbatim}
+\end{lstlisting}
 
 Notice that the output vector is shorter by one than the input
 vector.  As a result, MATLAB's version of {\tt diff} is not
 exactly the inverse of {\tt cumsum}.  If it were, then we would
 expect {\tt cumsum(diff(X))} to be {\tt X}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> cumsum(diff(V))
 
 ans = 1     2     3     4
-\end{verbatim}
+\end{lstlisting}
 
 But it isn't.
 
@@ -5000,7 +4993,7 @@ that's:
 
 In MATLAB, that looks like:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> V = 1:5
 
 V = 1     2     3     4     5
@@ -5008,7 +5001,7 @@ V = 1     2     3     4     5
 >> P = cumprod(V)
 
 P = 1     2     6    24   120
-\end{verbatim}
+\end{lstlisting}
 
 \begin{ex}
 Write a function named {\tt cumulative\_prod} that uses
@@ -5052,7 +5045,7 @@ $x>0$.''  In MATLAB it is natural to express this idea with a logical
 function, like {\tt exists}, that returns 1 if there is such an
 element and 0 if there is not.
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = exists(X)
     for i=1:length(X)
         if X(i) > 0
@@ -5062,7 +5055,7 @@ function res = exists(X)
     end
     res = 0;
 end
-\end{verbatim}
+\end{lstlisting}
 
 We haven't seen the {\tt return} statement before; it is similar
 to {\tt break} except that it breaks out of the whole function, not
@@ -5120,7 +5113,7 @@ When you apply a logical operator to a vector, the result is a {\bf
 logical vector}; that is, a vector whose elements are the logical
 values 1 and 0.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> V = -3:3
 
 V = -3    -2    -1     0     1     2     3
@@ -5128,7 +5121,7 @@ V = -3    -2    -1     0     1     2     3
 >> L = V>0
 
 L =  0     0     0     0     1     1     1
-\end{verbatim}
+\end{lstlisting}
 
 In this example, {\tt L} is a logical vector whose elements
 correspond to the elements of {\tt V}.  For each positive element of
@@ -5141,21 +5134,21 @@ the indices of the elements that are ``true.''
 
 Applying {\tt find} to {\tt L} yields
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find(L)
 
 ans = 5     6     7
-\end{verbatim}
+\end{lstlisting}
 
 which indicates that elements 5, 6 and 7 have the value 1.
 
 If there are no ``true'' elements, the result is an empty vector.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find(V>10)
 
 ans = Empty matrix: 1-by-0
-\end{verbatim}
+\end{lstlisting}
 
 This example computes the logical vector and passes it as an
 argument to {\tt find} without assigning it to an intermediate
@@ -5164,12 +5157,12 @@ the indices of elements of {\tt V} that are greater than 10.''
 
 We can also use {\tt find} to write {\tt exists} more concisely:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = exists(X)
     L = find(X>0)
     res = length(L) > 0
 end
-\end{verbatim}
+\end{lstlisting}
 
 \begin{ex}
 Write a version of {\tt forall} using {\tt find}.
@@ -5272,10 +5265,10 @@ can express the solution as a function of $t$.
 This particular ODE has an infinite number of solutions, but
 they all have this form:
 
-\[ t \to b e^{at} \]
+\[ f(t) = b e^{at} \]
 
-For any value of $b$, this function satisfies the ODE.  If you don't
-believe me, take its derivative and check.
+For any value of $b$, this function satisfies the ODE.  If
+you don't believe me, take its derivative and check.
 
 If we know the population of bacteria at a particular point in time,
 we can use that additional information to determine which of the
@@ -5290,7 +5283,7 @@ can write
 and solve for $b$, which is 5.  That determines what we wanted
 to know:
 
-\[ f : t \to 5 e^{at} \]
+\[ f(t) = 5 e^{at} \]
 
 The extra bit of information that determines $b$ is called
 the {\bf initial condition} (although it isn't always specified
@@ -5307,47 +5300,48 @@ The simplest numerical method for ODEs is Euler's method.  Here's a
 test to see if you are as smart as Euler.  Let's say that you
 arrive at time $t$ and measure the current population, $y$, and
 the rate of change, $r$.  What do you think the population will
-be after some period of time $h$ has elapsed?
+be after some period of time $\Delta t$ has elapsed?
 
-If you said $y + r h$, congratulations!  You just invented
+If you said $y + r \Delta t$, congratulations!  You just invented
 Euler's method (but you're still not as smart as Euler).
 
 This estimate is based on the assumption that $r$ is constant, but
 in general it's not, so we only expect the estimate to be good if
-$r$ changes slowly and $h$ is small.
+$r$ changes slowly and $\Delta t$ is small.
 
 But let's assume (for now) that the ODE we are interested in can
 be written so that
 
-\[ \forall t,y: \frac{df}{dt}(t) = g(t, y) \]
+\[ \frac{df}{dt}(t) = g(t, y) \]
 
-where $y=f(t)$ and $g$ is some function that maps $(t, y)$ onto $r$;
+where $g$ is some function that maps $(t, y)$ onto $r$;
 that is, given the time and current population, it computes the rate
 of change.  Then we can advance from one point in time to the
 next using these equations:
 
 \begin{eqnarray}
 \label{euler1}
-T_{n+1} = T_n + h              \\
+T_{n+1} = T_n + \Delta t           \\
 \label{euler2}
-F_{n+1} = F_n + g(t,y) h
+F_{n+1} = F_n + g(t,y)~\Delta t
 \end{eqnarray}
 
-where $T$ is a sequence of times where we estimate the value
-of $f$, and $F$ is the sequence of estimates.  For each
+Here $\{T_i\}$ is a sequence of times where we estimate the value
+of $f$, and $\{F_i\}$ is the sequence of estimates.  For each
 index $i$, $F_i$ is an estimate of $f(T_i)$.
-The interval $h$ is called the {\bf time step}.
+The interval $\Delta t$ is called the {\bf time step}.
 
 Assuming that we start at $t=0$ and we have an initial condition $f(0)
-= y_0$ (where $y_0$ denotes a particular, known value), we would set
-$T_1 = 0$ and $F_1 = y_0$, and then use Equations~\ref{euler1} and~\ref{euler2} to
+= y_0$ (where $y_0$ denotes a particular, known value), we set
+$T_1 = 0$ and $F_1 = y_0$, and then use 
+Equations~\ref{euler1} and~\ref{euler2} to
 compute values of $T_i$ and $F_i$ until $T_i$ 
 gets to the value of $t$ we are interested in.
 
 If the rate doesn't change too fast and the time step isn't
 too big, Euler's method is accurate enough for most purposes.  One
-way to check is to run it once with time step $h$ and then run it
-again with time step $h/2$.  If the results are the same, they are
+way to check is to run it once with time step $\Delta t$ and then run it
+again with time step $\Delta t/2$.  If the results are the same, they are
 probably accurate; otherwise, cut the time step again.
 
 Euler's method is {\bf first order}, which means that each time you
@@ -5359,32 +5353,29 @@ methods is that they have to evaluate $g$ more times per time step.
 
 \section{Another note on notation}
 
-There's a lot of math notation in this chapter, and some of it is
-non-standard, so I want to pause to review what we have so far.
-Here are the variables, their meanings, and their types:
+There's a lot of math notation in this chapter so I want to pause to
+review what we have so far.  Here are the variables, their meanings,
+and their types:
 
 \begin{tabular}{|l|l|l|}
 \hline
 Name     &  Meaning             &  Type  \\
 \hline \hline
+$t$     &  time                 & scalar variable \\\hline
+$\Delta t$  &  time step            & scalar constant \\\hline
+
+$y$     &  population           & scalar variable \\\hline
+$r$     &  rate of change       & scalar variable \\\hline
+
 $f$     &  The unknown function specified,    &  function $t \to y$  \\
         &  implicitly, by an ODE.             &    \\\hline
 
 $df/dt$  &  The first time derivative of $f$  &  function $t \to r$  \\ \hline
 
-$f_t$  &  Alternative notation for the   &  function $t \to r$  \\ 
-       & first time derivative of $f$    & \\ \hline
-
-
 $g$     &  A ``rate function,'' derived from     &  \\
         &  the ODE, that computes rate of     &  function $t, y \to r$  \\
         &  change for any $t$, $y$.           &   \\\hline
 
-$t$     &  time           & scalar variable \\\hline
-$y$     &  population           & scalar variable \\\hline
-$r$     &  rate of change           & scalar variable \\\hline
-
-$h$     &  time step           & scalar constant \\\hline
 $T$     & a sequence of times, $t$, where   & sequence \\
               & we estimate $f(t)$    &           \\\hline
 $F$     & a sequence of estimates for $f(t)$  & sequence \\
@@ -5394,17 +5385,18 @@ $F$     & a sequence of estimates for $f(t)$  & sequence \\
 So $f$ is a function that computes the population as a function of
 time, $f(t)$ is the function evaluated at a particular time, and if we
 assign $f(t)$ to a variable, we usually call that variable $y$.
+
 Similarly, $g$ is a ``rate function'' that computes the rate of change as a
 function of time and population.  If we assign $g(t,y)$ to a variable,
 we call it $r$.
 
-$df/dt$ is the most common notation for the first derivative of $f$,
-but I have never liked it because it looks like a fraction.  I
-prefer $f_t$, which has the benefit of looking like a function.
+$df/dt$ is the first derivative of $f$, and it maps from $t$ to a
+rate.  If we assign $df/dt(t)$ to a variable,
+we call it $r$.
 
-It is easy to get $f_t$ confused with $g$, but notice that they are
+It is easy to get $df/dt$ confused with $g$, but notice that they are
 not even the same type.  $g$ is more general: it can compute the rate
-of change for any (hypothetical) population at any time; $f_t$
+of change for any (hypothetical) population at any time; $df/dt$
 is more specific: it is the actual rate of change at time $t$, given
 that the population is $f(t)$.
 
@@ -5419,7 +5411,7 @@ get the hard parts right, it is doing more work than necessary on the
 easy parts.  The ideal solution is to adjust the time step as you go
 along.  Methods that do that are called {\bf adaptive}, and one of the
 best adaptive methods is the Dormand-Prince pair of Runge-Kutta
-formulas.  Fortunately, you don't have to know what that means,
+formulas.  You don't have to know what that means,
 because the nice people at Mathworks have implemented it in a function
 called {\tt ode45}.  The {\tt ode} stands for ``ordinary differential
 equation [solver];'' the 45 indicates that it uses a combination of
@@ -5432,85 +5424,82 @@ $t$ and $y$.
 % where did the rats example come from?
 
 As an example, suppose that the rate of population growth for rats
-depends on the current population, $y$, and the availability of food,
+depends on the current population and the availability of food,
 which varies over the course of the year.
 The governing equation might be something like
 
-\[ f_t = a f \left[1 + \sin (\omega t) \right] \]
+\[ \frac{df}{dt}(t) = a f(t) \left[1 + \sin (\omega t) \right] \]
 %
-where $a$ is
-a {\bf parameter}\footnote{A parameter is a value that appears
-in a model to quantify some physical aspect of the scenario being
-modeled.  For example, in Exercise~\ref{duck} we used parameters
-{\tt rho} and {\tt r} to quantify the density and radius of a
-duck.  Parameters are often constants, but in some models they
-might vary in time.} 
-that characterizes the reproductive rate, and
-$\omega$ is the frequency of a periodic function that characterizes
+where $t$ is time in days and $f(t)$ is the population at time $t$.
+
+$a$ and $\omega$ are {\bf parameters}.  A parameter is a value that
+quantifies a physical aspect of the scenario being modeled.  For
+example, in Exercise~\ref{duck} we used parameters {\tt rho} and
+{\tt r} to quantify the density and radius of a duck.  Parameters are
+often constants, but in some models they vary in time.
+
+In this example, $a$ characterizes the reproductive rate, and
+$\omega$ is the frequency of a periodic function that describes
 the effect of varying food supply on reproduction.
 
-This is an equation that specifies a relationship between a
+This equation specifies a relationship between a
 function and its derivative.  In order to estimate values of
 $f$ numerically, we have to transform it into a rate function.
-The first step is to write the equation more explicitly; to
-say that two function are equal means that they are equal
-all all times.  In other words
 
-\[ \forall t: f_t(t) = a f(t) \left[1 + \sin (\omega t) \right] \]
-%
-where $t$ is time in days.  The next step is to introduce a variable,
+The first step is to introduce a variable,
 $y$, as another name for $f(t)$
 
-\[ \forall t: f_t(t) = a y \left[1 + \sin (\omega t) \right] \]
+\[ \frac{df}{dt}(t) = a y \left[1 + \sin (\omega t) \right] \]
 
 This equation means that if we are given $t$ and $y$, we can
-compute $f_t(t)$, which is the slope, or rate of change, of $f$.
-The last step is to express that computation as a function called
+compute $df/dt(t)$, which is the rate of change of $f$.
+The next step is to express that computation as a function called
 $g$:
 
-\[ g : t, y \to a y \left[1 + \sin (\omega t) \right] \]
+\[ g(t, y) = a y \left[1 + \sin (\omega t) \right] \]
 
-This function is useful because we can use it with Euler's method
+Writing the function this way is useful because we can use it 
+with Euler's method
 or {\tt ode45} to estimate values of $f$.  All we have to
-do is write a function that evaluates $g$.  Here's what
+do is write a MATLAB function that evaluates $g$.  Here's what
 that looks like using the values $a = 0.01$
 and $\omega = 2 \pi/365$ (one cycle per year):
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = rats(t, y)
     a = 0.01;
     omega = 2 * pi / 365;
     res = a * y * (1 + sin(omega * t));
 end
-\end{verbatim}
+\end{lstlisting}
 
 You can test this function from the Command Window by calling it with
 different values of {\tt t} and {\tt y}; the result is the rate of
 change (in units of rats per day):
 
-\begin{verbatim}
+\begin{lstlisting}
 >> r = rats(0, 2)
 
 r = 0.0200
-\end{verbatim}
+\end{lstlisting}
 
 So if there are two rats on January 1, we expect them to reproduce
 at a rate that would produce 2 more rats per hundred days. But
 if we come back in April, the rate has almost doubled:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> r = rats(120, 2)
 
 r = 0.0376
-\end{verbatim}
+\end{lstlisting}
 
 Since the rate is constantly changing, it is not easy to predict
 the future rat population, but that is exactly what {\tt ode45} does.
 Here's how you would use it:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> ode45(@rats, [0, 365], 2)
-\end{verbatim}
+\end{lstlisting}
 
 The first argument is a handle for the function that
 computes $g$.  The second argument is the interval we are interested
@@ -5534,9 +5523,9 @@ spring and fall, but it also accelerates as the population grows.
 than one output variable.  The syntax for calling it and saving
 the results is
 
-\begin{verbatim}
+\begin{lstlisting}
 >> [T, Y] = ode45(@rats, [0, 365], 2);
-\end{verbatim}
+\end{lstlisting}
 
 The first return value is assigned to {\tt T}; the second is assigned
 to {\tt Y}.  Each element of {\tt T} is a time,
@@ -5547,9 +5536,9 @@ If you assign the output values to variables,
 {\tt ode45} doesn't draw the figure;
 you have to do it yourself:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> plot(T, Y, 'bo-')
-\end{verbatim}
+\end{lstlisting}
 
 If you plot the elements of {\tt T}, you'll see that the
 space between the points is not quite even.  They are closer
@@ -5558,11 +5547,11 @@ together at the beginning of the interval and farther apart at the end.
 To see the population at the end of the year, you can display the
 last element from each vector:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> [T(end), Y(end)]
 
 ans = 365.0000   76.9530
-\end{verbatim}
+\end{lstlisting}
 
 {\tt end} is a special word in MATLAB; when it appears as an index,
 it means ``the index of the last element.''  You can use it in an
@@ -5594,22 +5583,22 @@ If you are curious to know more about how {\tt ode45} works, you
 can modify {\tt rats} to display the points, $(t, y)$, where
 {\tt ode45} evaluates $g$.  Here is a simple version:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = rats(t, y)
     plot(t, y, 'bo')
     a = 0.01;
     omega = 2 * pi / 365;
     res = a * y * (1 + sin(omega * t));
 end
-\end{verbatim}
+\end{lstlisting}
 
 Each time {\tt rats} is called, it plots one data point; in order
 to see all of the data points, you have to use {\tt hold on}.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> clf; hold on
 >> [T, Y] = ode45(@rats, [0, 10], 2);
-\end{verbatim}
+\end{lstlisting}
 
 This figure shows part of the output, zoomed
 in on the range from Day 100 to 170:
@@ -5632,13 +5621,13 @@ Don't forget the {\tt @} on the function handle.
 If you leave it out, MATLAB treats the first argument as a function
 call, and calls {\tt rats} without providing arguments.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> ode45(rats, [0,365], 2)
 ??? Input argument "y" is undefined.
 
 Error in ==> rats at 4
     res = a * y * (1 + sin(omega * t));
-\end{verbatim}
+\end{lstlisting}
 
 Again, the error message is confusing, because it looks like the problem
 is in {\tt rats}.  You've been warned!
@@ -5650,16 +5639,16 @@ in that order, and return one output variable, {\tt r}.
 
 If you are working with a rate function like this:
 
-\[ g : t, y \to a y \]
+\[ g(t, y) = a y \]
 
 You might be tempted to write this:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = rate_func(y)        % WRONG
     a = 0.1
     res = a * y
 end
-\end{verbatim}
+\end{lstlisting}
 
 But that would be wrong.  So very wrong.  Why?  Because
 when {\tt ode45} calls {\tt rate\_func}, it provides two arguments.
@@ -5667,28 +5656,28 @@ If you only take one input variable, you'll get an error.  So
 you have to write a function that takes {\tt t} as an input
 variable, even if you don't use it.
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = rate_func(t, y)     % RIGHT
     a = 0.1
     res = a * y
 end
-\end{verbatim}
+\end{lstlisting}
 
 Another common error is to write a function that doesn't make
 an assignment to the output variable.  If you write something
 like this:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = rats(t, y)
     a = 0.01;
     omega = 2 * pi / 365;
     r = a * y * (1 + sin(omega * t))    % WRONG
 end
-\end{verbatim}
+\end{lstlisting}
 
 And then call it from {\tt ode45}, you get
 
-\begin{verbatim}
+\begin{lstlisting}
 >> ode45(@rats, [0,365], 2)
 ??? Output argument "res" (and maybe others) not assigned during 
 call to "/home/downey/rats.m (rats)".
@@ -5702,7 +5691,7 @@ f0 = feval(ode,t0,y0,args{:});   % ODE15I sets args{1} to yp0.
 Error in ==> ode45 at 173
 [neq, tspan, ntspan, next, t0, tfinal, tdir, y0, f0, odeArgs, 
 odeFcn, ...
-\end{verbatim}
+\end{lstlisting}
 
 This might be a scary message, but if you read the first line
 and ignore the rest, you'll get the idea.
@@ -5711,7 +5700,7 @@ Yet another mistake that people make with {\tt ode45} is leaving
 out the brackets on the second argument.  In that case, MATLAB
 thinks there are four arguments, and you get
 
-\begin{verbatim}
+\begin{lstlisting}
 >> ode45(@rats, 0, 365, 2)
 ??? Error using ==> funfun/private/odearguments
 When the first argument to ode45 is a function handle, the 
@@ -5720,7 +5709,7 @@ tspan argument must have at least two elements.
 Error in ==> ode45 at 173
 [neq, tspan, ntspan, next, t0, tfinal, tdir, y0, f0, odeArgs, 
 odeFcn, ...
-\end{verbatim}
+\end{lstlisting}
 
 Again, if you read the first line, you should be able to figure
 out the problem ({\tt tspan} stands for ``time span'', which we
@@ -5741,7 +5730,7 @@ conditions) the time step needed to control the error is very small,
 which means that the computation takes a long time.  Here's one
 example:
 
-\[ f_t = f^2 - f^3 \]
+\[ \frac{df}{dt} = f^2 - f^3 \]
 
 If you solve this ODE with the initial condition $f(0) = \delta$ over
 the interval from 0 to $2/\delta$, with $\delta = 0.01$, you should
@@ -5825,7 +5814,7 @@ to start drinking as soon as possible, are you better off adding
 the cream immediately or waiting?  And if you should wait, then how
 long?
 
-To answer this question, you will have to model the cooling process
+To answer this question, you have to model the cooling process
 of a hot liquid in air.  Hot coffee transfers heat to the environment
 by conduction, radiation, and evaporative cooling.  Quantifying these
 effects individually would be challenging and unnecessary to answer
@@ -5834,10 +5823,10 @@ the question as posed.
 As a simplification, we can use Newton's Law of
 Cooling\footnote{\url{http://en.wikipedia.org/wiki/Heat_conduction}}:
 
-\[ f_t = -r (f - e) \]
+\[ \frac{df}{dt} = -r (f - e) \]
 %
 where $f$ is the temperature of the coffee as a function of time and
-$f_t$ is its time derivative; $e$ is the temperature of the
+$df/dt$ is its time derivative; $e$ is the temperature of the
 environment, which is a constant in this case, and $r$ is a parameter
 (also constant) that characterizes the rate of heat transfer.
 
@@ -5925,37 +5914,37 @@ is that the elements are arranged in rows and columns, so it takes
 One of many ways to create a matrix is the {\tt magic} function,
 which returns a ``magic'' matrix with the given size:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> M = magic(3)
 
 M =  8     1     6
      3     5     7
      4     9     2
-\end{verbatim}
+\end{lstlisting}
 
 If you don't know the size of a matrix, you can use {\tt whos} to
 display it:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> whos
   Name        Size                    Bytes  Class
   M           3x3                        72  double array
-\end{verbatim}
+\end{lstlisting}
 
 Or the {\tt size} function, which returns a vector:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> V = size(M)
 
 V = 3     3
-\end{verbatim}
+\end{lstlisting}
 
 The first element is the number of rows, the second is the number of
 columns.
 
 To read an element of a matrix, you specify the row and column numbers:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> M(1,2)
 
 ans = 1
@@ -5963,7 +5952,7 @@ ans = 1
 >> M(2,1)
 
 ans = 3
-\end{verbatim}
+\end{lstlisting}
 
 When you are working with matrices, it takes some effort to remember
 which index comes first, row or column.  I find it useful to repeat
@@ -5973,7 +5962,7 @@ helpful to remember ``down, across,'' or the abbreviation RC.
 Another way to create a matrix is to enclose the elements in
 brackets, with semi-colons between rows:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> D = [1,2,3 ; 4,5,6]
 
 D =  1     2     3
@@ -5982,7 +5971,7 @@ D =  1     2     3
 >> size(D)
 
 ans = 2     3
-\end{verbatim}
+\end{lstlisting}
 
 
 \section{Row and column vectors}
@@ -5991,21 +5980,21 @@ Although it is useful to think in terms of scalars, vectors and matrices,
 from MATLAB's point of view, everything is a matrix.  A scalar
 is just a matrix that happens to have one row and one column:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 5;
 >> size(x)
 
 ans = 1     1
-\end{verbatim}
+\end{lstlisting}
 
 And a vector is a matrix with only one row:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> R = 1:5;
 >> size(R)
 
 ans = 1     5
-\end{verbatim}
+\end{lstlisting}
 
 Well, some vectors, anyway.  Actually, there are two kind
 of vectors.  The ones we have seen so far are called {\bf row vectors},
@@ -6015,7 +6004,7 @@ because the elements are arranged in a row; the other kind are
 One way to create a column vector is to create a matrix with only
 one element per row:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> C = [1;2;3]
 
 C =
@@ -6027,7 +6016,7 @@ C =
 >> size(C)
 
 ans = 3     1
-\end{verbatim}
+\end{lstlisting}
 
 The difference between row and column vectors is important in
 linear algebra, but for
@@ -6035,7 +6024,7 @@ most basic vector operations, it doesn't matter.  When you
 index the elements of a vector, you don't have to know what kind
 it is:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> R(2)
 
 ans = 2
@@ -6043,7 +6032,7 @@ ans = 2
 >> C(2)
 
 ans = 2
-\end{verbatim}
+\end{lstlisting}
 
 
 
@@ -6056,22 +6045,22 @@ transformed into a column (or you can think of it the other way around).
 
 In this example:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> D = [1,2,3 ; 4,5,6]
 
 D =  1     2     3
      4     5     6
-\end{verbatim}
+\end{lstlisting}
 
 {\tt D} has two rows, so its transpose has two columns:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Dt = D'
 
 Dt = 1     4
      2     5
      3     6
-\end{verbatim}
+\end{lstlisting}
 
 \begin{ex}
 What effect does the transpose operator
@@ -6122,7 +6111,7 @@ that contains one column for $R$ and one for $F$.
 And here's what the rate function looks like
 with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$ and $e = 0.2$:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = lotka(t, V)
     % unpack the elements of V
     r = V(1);
@@ -6141,7 +6130,7 @@ function res = lotka(t, V)
     % pack the derivatives into a vector
     res = [drdt; dfdt];
 end
-\end{verbatim}
+\end{lstlisting}
 
 As usual, the first input variable is time.
 The second input variable is a vector with two elements,
@@ -6167,9 +6156,9 @@ as input and expects to get a vector as output.
 
 Sharp-eyed readers will notice something different about this line:
 
-\begin{verbatim}
+\begin{lstlisting}
     res = [drdt; dfdt];
-\end{verbatim}
+\end{lstlisting}
 
 The semi-colon between the elements of the vector is not an error.  It
 is necessary in this case because {\tt ode45} requires the result of
@@ -6177,9 +6166,9 @@ this function to be a column vector.
 
 Now we can run {\tt ode45} like this:
 
-\begin{verbatim}
+\begin{lstlisting}
 ode45(@lotka, [0, 365], [100, 10])
-\end{verbatim}
+\end{lstlisting}
 
 As always, the first argument is a function handle, the second is the
 time interval, and the third is the initial condition.  The initial
@@ -6210,14 +6199,14 @@ different values.
 The output vector from the rate function
 has to be a column vector; otherwise you get
 
-\begin{verbatim}
+\begin{lstlisting}
 ??? Error using ==> funfun/private/odearguments
 LOTKA must return a column vector.
 
 Error in ==> ode45 at 173
 [neq, tspan, ntspan, next, t0, tfinal, tdir, y0, f0, odeArgs,
 odeFcn, ...
-\end{verbatim}
+\end{lstlisting}
 
 Which is pretty good as error messages go.  It's not clear {\em why}
 it needs to be a column vector, but that's not our problem.
@@ -6236,9 +6225,9 @@ If you assign
 the results to variables, it suppresses the figure.
 Here's what that looks like:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> [T, M] = ode45(@lotka, [0, 365], [100, 10]);
-\end{verbatim}
+\end{lstlisting}
 
 You can think of the left side of this assignment as a vector
 of variables.
@@ -6248,19 +6237,19 @@ ode45} made estimates.  But unlike previous examples, the
 second output variable is a matrix containing one column for each
 variable (in this case, $R$ and $F$) and one row for each time value.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> size(M)
 
 ans = 185     2
-\end{verbatim}
+\end{lstlisting}
 
 This structure---one column per variable---is a common way to
 use matrices.  {\tt plot} understands this structure, so if you
 do this:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> plot(T, M)
-\end{verbatim}
+\end{lstlisting}
 
 MATLAB understands that it should plot each column from {\tt M}
 versus {\tt T}.
@@ -6268,16 +6257,16 @@ versus {\tt T}.
 You can copy the columns of {\tt M} into other variables like
 this:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> R = M(:, 1);
 >> F = M(:, 2);
-\end{verbatim}
+\end{lstlisting}
 
 In this context, the colon represents the range from 1 to {\tt end},
 so {\tt M(:, 1)} means ``all the rows, column 1'' and
 {\tt M(:, 2)} means ``all the rows, column 2.''
 
-\begin{verbatim}
+\begin{lstlisting}
 >> size(R)
 
 ans = 185     1
@@ -6285,7 +6274,7 @@ ans = 185     1
 >> size(F)
 
 ans = 185     1
-\end{verbatim}
+\end{lstlisting}
 
 So {\tt R} and {\tt F} are column vectors.  
 
@@ -6293,9 +6282,9 @@ So {\tt R} and {\tt F} are column vectors.
 If you plot these
 vectors against each other, like this
 
-\begin{verbatim}
+\begin{lstlisting}
 >> plot(R, F)
-\end{verbatim}
+\end{lstlisting}
 
 You get a {\bf phase plot} that looks like this:
 
@@ -6418,7 +6407,7 @@ $x$, $y$ and $z$.
 In the Section~\ref{funfiles}, we saw an example of an M-file with
 more than one function:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = duck()
     error = error_func(10)
 end
@@ -6428,14 +6417,14 @@ function res = error_func(h)
     r = 10;         % radius in cm
     res = ...
 end
-\end{verbatim}
+\end{lstlisting}
 
 Because the first function ends before the second begins, they are at
 the same level of indentation.  Functions like these are {\bf
 parallel}, as opposed to {\bf nested}.  A nested function is
 defined inside another, like this:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = duck()
     error = error_func(10)
 
@@ -6445,7 +6434,7 @@ function res = duck()
         res = ...
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 The top-level function, {\tt duck}, is
 the {\bf outer function} and {\tt error\_func} is
@@ -6458,7 +6447,7 @@ possible with parallel functions.
 In this example, using a nested function makes it possible to
 move the parameters {\tt rho} and {\tt r} out of {\tt error\_func}.
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = duck(rho)
     r = 10;
     error = error_func(10)
@@ -6467,7 +6456,7 @@ function res = duck(rho)
         res = ...
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
 By making {\tt rho} an input argument, we made it easier to test
@@ -6538,7 +6527,7 @@ this will be a one-dimensional problem, at least for now.
 Here is a rate function we can use with {\tt ode45} to solve
 this problem:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = freefall(t, X)
     p = X(1);      % the first element is position
     v = X(2);      % the second element is velocity
@@ -6553,7 +6542,7 @@ function res = acceleration(t, p, v)
     g = -9.8;      % acceleration of gravity in m/s^2
     res = g;
 end
-\end{verbatim}
+\end{lstlisting}
 
 The first function is the rate function.  It gets {\tt t} and
 {\tt X} as input variables, where the elements of {\tt X} are understood
@@ -6572,9 +6561,9 @@ yet, but we will soon.
 
 Here's how to run {\tt ode45} with this rate function:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> ode45(@freefall, [0, 30], [4000, 0])
-\end{verbatim}
+\end{lstlisting}
  
 As always, the first argument is the function handle, the second
 is the time interval (30 seconds) and the third is the initial
@@ -6615,7 +6604,7 @@ say that the skydiver (with equipment) weighs 75 kg.
 Here's a version of {\tt acceleration} that takes air resistance
 into account (you don't have to make any changes in {\tt freefall}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = acceleration(t, p, v)
     a_grav = -9.8;              % acceleration of gravity in m/s^2
     c = 0.2;                    % drag constant
@@ -6624,7 +6613,7 @@ function res = acceleration(t, p, v)
     a_drag = f_drag / m;        % drag acceleration in m/s^2
     res = a_grav + a_drag;      % total acceleration
 end
-\end{verbatim}
+\end{lstlisting}
 
 The sign of the drag force (and acceleration) is positive as
 long as the object is falling, the direction of the drag force is
@@ -6647,13 +6636,13 @@ known as ``terminal velocity,'' and position decreases linearly
 the results more closely, we can assign them to variables
 
 
-\begin{verbatim}
+\begin{lstlisting}
 >> [T, M] = ode45(@freefall, [0, 30], [4000, 0]);
-\end{verbatim}
+\end{lstlisting}
 
 And then read the terminal position and velocity:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> M(end,1)
 
 ans = 2.4412e+03          % altitude in meters
@@ -6661,7 +6650,7 @@ ans = 2.4412e+03          % altitude in meters
 >> M(end,2)
 
 ans = -60.6143            % velocity in m/s
-\end{verbatim}
+\end{lstlisting}
 
 \begin{ex}
 Increase the mass of the skydiver, and confirm that
@@ -6712,7 +6701,7 @@ feet).
 Here is a general framework for computing the trajectory of a projectile
 in two dimensions using {\tt ode45}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = projectile(t, W)
     P = W(1:2);
     V = W(3:4);
@@ -6727,7 +6716,7 @@ function res = acceleration(t, P, V)
     g = -9.8;             % acceleration of gravity in m/s^2
     res = [0; g];
 end
-\end{verbatim}
+\end{lstlisting}
 
 The second argument of the rate function is a vector, {\tt W}, with
 four elements.  The first two are assigned to {\tt P}, which
@@ -6748,9 +6737,9 @@ If we launch the human projectile from an initial height of
 directions, the {\tt ode45} call looks like
 this:
 
-\begin{verbatim}
+\begin{lstlisting}
 ode45(@projectile, [0,10], [0, 3, 40, 30]);
-\end{verbatim}
+\end{lstlisting}
 
 And the result looks like this:
 
@@ -6787,7 +6776,7 @@ side by side.
 
 Here's an example of horizontal catenation with row vectors:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> x = 1:3
 
 x = 1     2     3
@@ -6799,13 +6788,13 @@ y = 4     5
 >> z = [x, y]
 
 z = 1     2     3     4     5
-\end{verbatim}
+\end{lstlisting}
 
 Inside brackets, the comma operator performs horizontal catenation.
 The vertical catenation operator is the semi-colon.  Here is an
 example with matrices:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> X = zeros(2,3)
 
 X =  0     0     0
@@ -6822,12 +6811,12 @@ Z =  0     0     0
      0     0     0
      1     1     1
      1     1     1
-\end{verbatim}
+\end{lstlisting}
 
 These operations only work if the matrices are the same size along
 the dimension where they are glued together.  If not, you get:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> a = 1:3
 
 a = 1     2     3
@@ -6847,7 +6836,7 @@ All matrices on a row in the bracketed expression must have the
 ??? Error using ==> vertcat
 All rows in the bracketed expression must have the same 
 number of columns.
-\end{verbatim}
+\end{lstlisting}
 
 In this example, {\tt a} is a row vector and {\tt b} is a column
 vector, so they can't be catenated in either direction.
@@ -6860,7 +6849,7 @@ These operations are relevant to {\tt projectile} because of the
 last line, which packs {\tt dPdt} and {\tt dVdt} into the
 output variable:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = projectile(t, W)
     P = W(1:2);
     V = W(3:4);
@@ -6870,7 +6859,7 @@ function res = projectile(t, W)
 
     res = [dPdt; dVdt];
 end
-\end{verbatim}
+\end{lstlisting}
 
 As long as both {\tt dPdt} and {\tt dVdt} are column vectors,
 the semi-colon performs vertical catenation, and the result is
@@ -6993,9 +6982,9 @@ Here's how it works:
 object called {\tt options} that contains values that control
 how {\tt ode45} works:
 
-\begin{verbatim}
+\begin{lstlisting}
 options = odeset('Events', @events);
-\end{verbatim}
+\end{lstlisting}
 %
 In this case, the name of the option is {\tt Events} and the
 value is a function handle.  When {\tt ode45} runs, it will invoke
@@ -7008,13 +6997,13 @@ the same input variables as your rate function.  For example,
 here is an event function that would work with {\tt projectile}
 from Section~\ref{projectile}
 
-\begin{verbatim}
+\begin{lstlisting}
 function [value,isterminal,direction] = events(t,X)
     value = X(2);        % Extract the current height.
     isterminal = 1;      % Stop the integration if height crosses zero.
     direction = -1;      % But only if the height is decreasing.
 end
-\end{verbatim}
+\end{lstlisting}
 
 {\tt events} returns three output variables:
 
@@ -7038,9 +7027,9 @@ estimated values in the result is at the time of the event.
 \item When you call {\tt ode45}, you pass {\tt options} as a fourth
 argument:
 
-\begin{verbatim}
+\begin{lstlisting}
 ode45(@projectile, [0,10], [0, 3, 40, 30], options);
-\end{verbatim}
+\end{lstlisting}
 %
 \end{enumerate}
 
@@ -7140,7 +7129,7 @@ bigger of the ranges $(x_1, x_2)$ and $(x_2, x_3)$.
 
 Here's what that looks like in MATLAB:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = optimize(V)
     x1 = V(1);
     x2 = V(2);
@@ -7177,7 +7166,7 @@ function res = optimize(V)
     end
     res = [x1 x2 x3];
 end
-\end{verbatim}
+\end{lstlisting}
 
 The input variable is a vector that contains three values that bracket
 a maximum; in this case they are angles in degrees.  {\tt optimize}
@@ -7209,16 +7198,16 @@ variables, just as {\tt fzero} and {\tt ode45} do.
 For example, {\tt handle\_func} takes a function handle called
 {\tt func} and calls it, passing {\tt pi} as an argument.
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = handle_func(func)
     func(pi)
 end
-\end{verbatim}
+\end{lstlisting}
 
 You can call {\tt handle\_func} from the Command Window and pass
 different function handles as arguments:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> handle_func(@sin)
 
 ans = 0
@@ -7226,7 +7215,7 @@ ans = 0
 >> handle_func(@cos)
 
 ans = -1
-\end{verbatim}
+\end{lstlisting}
 
 Modify {\tt optimize} so that it takes a function handle
 as an input variable and uses it as the function to be
@@ -7251,19 +7240,19 @@ you can think of as a discrete map.
 For example, in Section~\ref{ode45}, we used the following rate
 function to estimate the population of rats as a function of time:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = rats(t, y)
     a = 0.01;
     omega = 2 * pi / 365;
     res = a * y * (1 + sin(omega * t));
 end
-\end{verbatim}
+\end{lstlisting}
 
 The result from {\tt ode45} is two vectors:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> [T, Y] = ode45(@rats, [0, 365], 2);
-\end{verbatim}
+\end{lstlisting}
 
 {\tt T} contains the time values where {\tt ode45} estimated the
 population; {\tt Y} contains the population estimates.
@@ -7271,41 +7260,41 @@ population; {\tt Y} contains the population estimates.
 Now suppose we would like to know the population on the 180th day
 of the year.  We could search {\tt T} for the value 180:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> find(T==180)
 
 ans = Empty matrix: 0-by-1
-\end{verbatim}
+\end{lstlisting}
 
 But there is no guarantee that any particular value appears in
 {\tt T}.  We can find the index where {\tt T} crosses 180:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> I = find(T>180); I(1)
 
 ans = 23
-\end{verbatim}
+\end{lstlisting}
 
 {\tt I} gets the indices of all elements of {\tt T} greater
 than 180, so {\tt I(1)} is the index of the {\em first} one.
 
 Then we find the corresponding value from {\tt Y}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> [T(23), Y(23)]
 
 ans = 184.3451   40.3742
-\end{verbatim}
+\end{lstlisting}
 
 That gives us a coarse estimate of the population on Day 180.
 If we wanted to do a little better, we could also find the last value
 before Day 180:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> [T(22), Y(22)]
 
 ans = 175.2201   36.6973
-\end{verbatim}
+\end{lstlisting}
 
 So the population on Day 180 was between 36.6973 and 40.3742.
 
@@ -7322,11 +7311,11 @@ bracket Day 180 and use the line to estimate the value in between.
 This process is called {\bf linear interpolation}, and MATLAB provides
 a function named {\tt interp1} that does it:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> pop = interp1(T, Y, 180)
 
 pop = 38.6233
-\end{verbatim}
+\end{lstlisting}
 
 The first two arguments specify a discrete map from the values in
 {\tt T} to the values in {\tt Y}.  The third argument is the
@@ -7339,7 +7328,7 @@ does linear interpolation.  Other choices include {\tt 'spline'}
 which uses a spline curve to fit two points on either side,
 and {\tt 'cubic'}, which uses piecewise cubic Hermite interpolation.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> pop = interp1(T, Y, 180, 'spline')
 
 pop = 38.6486
@@ -7347,7 +7336,7 @@ pop = 38.6486
 >> pop = interp1(T, Y, 180, 'cubic')
 
 pop = 38.6491
-\end{verbatim}
+\end{lstlisting}
 
 In this case we expect the spline and cubic interpolations to be
 better than linear, because they use more of the data, and we know the
@@ -7358,7 +7347,7 @@ Fortunately, they are not very different.
 We can also use {\tt interp1} to project the rat population out
 beyond the values in {\tt T}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> [T(end), Y(end)]
 
 ans = 365.0000   76.9530
@@ -7366,7 +7355,7 @@ ans = 365.0000   76.9530
 >> pop = interp1(T, Y, 370, 'cubic')
 
 pop = 80.9971
-\end{verbatim}
+\end{lstlisting}
 
 This process is called {\bf extrapolation}.  For time values near
 365, extrapolation may be reasonable, but as we go farther into
@@ -7374,11 +7363,11 @@ the ``future,'' we expect them to be less accurate.
 For example, here is the estimate we get by extrapolating for a whole
 year:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> pop = interp1(T, Y, 365*2, 'cubic')
 
 pop = -4.8879e+03
-\end{verbatim}
+\end{lstlisting}
 
 And that's wrong.  So very wrong.
 
@@ -7390,11 +7379,11 @@ by reversing the roles of {\tt T} and {\tt Y}, we can also interpolate
 time as a function of population.  For example, we might want to know
 how long it takes the population to reach 20.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> interp1(Y, T, 20)
 
 ans = 133.4128
-\end{verbatim}
+\end{lstlisting}
 
 This use of {\tt interp1} might be confusing if you think of the
 arguments as $x$ and $y$.  You might find it helpful to think of them
@@ -7419,21 +7408,21 @@ during the winter, we might see something like this:
 
 We can still use {\tt interp1} to map from {\tt T} to {\tt Y}:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> interp1(T, Y, 260)
 
 ans = 15.0309
-\end{verbatim}
+\end{lstlisting}
 
 So on Day 260, the population is about 15, but if we ask on what
 day the population was 15, there are two possible answers, 172.44
 and 260.44.  If we try to use {\tt interp1}, we get the wrong answer:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> interp1(Y, T, 15)         
 
 ans = 196.3833                % WRONG
-\end{verbatim}
+\end{lstlisting}
 
 On Day 196, the population is actually 16.8, so {\tt interp1} isn't
 even close!  The problem is that {\tt T} as a function of {\tt Y} is a
@@ -7454,7 +7443,7 @@ For example\footnote{This example is adapted from Gerald and Wheatley,
 1989.}, suppose that the population of field mice is governed by this
 rate equation:
 
-\[ g : t,y \to ay - b(t) y^{1.7} \]
+\[ g(t, y) = ay - b(t) y^{1.7} \]
 
 where $t$ is time in months, $y$ is population, $a$ is a parameter
 that characterizes population growth in the absence of limitations,
@@ -7465,7 +7454,7 @@ Although $b$ appears in the equation as a continuous function, we
 might not know $b(t)$ for all $t$.  Instead, we might only have discrete
 measurements:
 
-\begin{verbatim}
+\begin{lstlisting}
 t          b(t)
 -          ----
 0          0.0070
@@ -7477,20 +7466,20 @@ t          b(t)
 6          0.0028
 7          0.0043
 8          0.0056
-\end{verbatim}
+\end{lstlisting}
 
 If we use {\tt ode45} to solve the differential equation, then we
 don't get to choose the values of $t$ where the rate function
 (and therefore $b$) gets evaluated.  We need to provide a function
 that can evaluate $b$ everywhere:
 
-\begin{verbatim}
+\begin{lstlisting}
 function res = interpolate_b(t)
     T = 0:8;
     B = [70 36 11 1 4 13 28 43 56] * 1e-4;
     res = interp1(T, B, t);
 end
-\end{verbatim}
+\end{lstlisting}
 
 Abstractly, this function uses a discrete map to implement a
 continuous map.  
@@ -7601,9 +7590,9 @@ suppose that you are given the velocity of a baseball in
 the form of a MATLAB vector with two elements, $v_x$ and $v_y$,
 which are the components of velocity in the $x$ and $y$ directions.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> V = [30, 40]        % velocity in m/s
-\end{verbatim}
+\end{lstlisting}
 
 And suppose you are asked to compute the total acceleration of
 the ball due to drag and gravity.  In math notation, the force
@@ -7624,58 +7613,58 @@ norm} ({\bf norm} is another name\footnote{Magnitude is also called
 the {\tt length} function, which returns the number of elements in a
 MATLAB vector.}  for the magnitude of a vector):
 
-\begin{verbatim}
+\begin{lstlisting}
 >> v = norm(V)
 
 v = 50
-\end{verbatim}
+\end{lstlisting}
 
 $\hat{V}$ is a {\bf unit vector}, which means it should have norm 1,
 and it should point in the same direction as $V$.  The simplest
 way to compute it is to divide $V$ by its own norm.
 
-\begin{verbatim}
+\begin{lstlisting}
 >> Vhat = V / v
 
 Vhat =  0.6  0.8
-\end{verbatim}
+\end{lstlisting}
 
 Then we can confirm that the norm of $\hat{V}$ is 1:
 
-\begin{verbatim}
+\begin{lstlisting}
 >> norm(Vhat)
 
 ans = 1
-\end{verbatim}
+\end{lstlisting}
 
 To compute $F_d$ we just multiply the scalar terms by $\hat{V}$.
 
-\begin{verbatim}
+\begin{lstlisting}
 Fd = - 1/2 * C * rho * A * v^2 * Vhat
-\end{verbatim}
+\end{lstlisting}
 
 Similarly, we can compute acceleration by dividing the vector
 $F_d$ by the scalar $m$.
 
-\begin{verbatim}
+\begin{lstlisting}
 Ad = Fd / m
-\end{verbatim}
+\end{lstlisting}
 
 To represent the acceleration of gravity, we create a vector 
 with two components:
 
-\begin{verbatim}
+\begin{lstlisting}
 Ag = [0; -9.8]
-\end{verbatim}
+\end{lstlisting}
 
 The $x$ component of gravity is 0; the $y$ component is $-9.8 m/s^2$.
 
 Finally we compute total acceleration by adding vector
 quantities:
 
-\begin{verbatim}
+\begin{lstlisting}
 A = Ag + Ad;
-\end{verbatim}
+\end{lstlisting}
 
 One nice thing about this computation is that we didn't have to
 think much about the components of the vectors.  By treating
@@ -7701,9 +7690,9 @@ how to compute magnitudes, and you could probably figure out
 how to compute $\theta$, but you don't have to.  MATLAB provides
 a function, {\tt dot}, that computes dot products.
 
-\begin{verbatim}
+\begin{lstlisting}
 d = dot(A, B)
-\end{verbatim}
+\end{lstlisting}
 
 {\tt dot} works in any number of dimensions, as long as {\tt A}
 and {\tt B} have the same number of elements.
@@ -7712,17 +7701,17 @@ If one of the operands is a unit vector, you can use the dot
 product to compute the component of a vector $A$ that is in
 the direction of a unit vector, $\hat{i}$:
 
-\begin{verbatim}
+\begin{lstlisting}
 s = dot(A, ihat)
-\end{verbatim}
+\end{lstlisting}
 
 In this example, $s$ is the {\bf scalar projection} of $A$
 onto $\hat{i}$.  The {\bf vector projection} is the vector
 that has magnitude $s$ in the direction of $\hat{i}$:
 
-\begin{verbatim}
+\begin{lstlisting}
 V = dot(A, ihat) * ihat
-\end{verbatim}
+\end{lstlisting}
 
 The cross product of vectors $A$ and $B$ is a vector whose direction
 is perpendicular to $A$ and $B$ and whose magnitude is
@@ -7733,9 +7722,9 @@ where (again) $a$ is the magnitude of $A$, $b$ is the magnitude of
 $B$, and $\theta$ is the angle between the vectors.  MATLAB provides
 a function, {\tt cross}, that computes cross products.
 
-\begin{verbatim}
+\begin{lstlisting}
 C = cross(A, B)
-\end{verbatim}
+\end{lstlisting}
 
 {\tt cross} only works for 3-dimensional vectors; the result is
 a 3-dimensional vector.
@@ -7744,9 +7733,9 @@ A common use of {\tt cross} is to compute torques.  If you represent
 a moment arm $R$ and a force $F$ as 3-dimensional vectors, then
 the torque is just
 
-\begin{verbatim}
+\begin{lstlisting}
 Tau = cross(R, F)
-\end{verbatim}
+\end{lstlisting}
 
 If the components of {\tt R} are in meters and the components
 of {\tt F} are in Newtons, then the torques in {\tt Tau} are
@@ -7777,15 +7766,15 @@ the direction of {\tt R} is from {\tt P1} to {\tt P2}.
 
 The distance between the planet and star is the length of $R$:
 
-\begin{verbatim}
+\begin{lstlisting}
 r = norm(R)
-\end{verbatim}
+\end{lstlisting}
 
 The direction of the force on the star is $\hat{R}$:
 
-\begin{verbatim}
+\begin{lstlisting}
 rhat = R / r
-\end{verbatim}
+\end{lstlisting}
 
 \begin{ex}
 Write a sequence of MATLAB statements that computes {\tt F12}, a vector
@@ -7818,7 +7807,7 @@ play them back.
 The more informal way is to draw a series of plots.
 Here is an example I wrote for Exercise~\ref{jupiter}:
 
-\begin{verbatim}
+\begin{lstlisting}
 function animate_func(T,M)
     % animate the positions of the planets, assuming that the
     % columns of M are x1, y1, x2, y2.
@@ -7837,7 +7826,7 @@ function animate_func(T,M)
         drawnow;
     end
 end
-\end{verbatim}
+\end{lstlisting}
 
 The input variables are the output from {\tt ode45}, a vector
 {\tt T} and a matrix {\tt M}.  The columns of {\tt M} are the
@@ -7865,12 +7854,12 @@ the display.
 {\tt draw\_func} is the function that actually makes the
 plot:
 
-\begin{verbatim}
+\begin{lstlisting}
 function draw_func(x1, y1, x2, y2)
     plot(x1, y1, 'r.', 'MarkerSize', 50);
     plot(x2, y2, 'b.', 'MarkerSize', 20);
 end
-\end{verbatim}
+\end{lstlisting}
 
 The input variables are the position of the Sun and Jupiter.
 {\tt draw\_func} uses {\tt plot} to draw
@@ -7896,11 +7885,11 @@ There are two ways to fix this problem:
 points in time where it should generate estimates.  Here is
 an example:
 
-\begin{verbatim}
+\begin{lstlisting}
 end_time = 1000;
 step = end_time/200;
 [T, M] = ode45(@rate_func, [0:step:end_time], W);
-\end{verbatim}
+\end{lstlisting}
 
 The second argument is a range vector that goes from 0 to 1000 with a
 step size determined by {\tt step}.  Since {\tt step} is {\tt
@@ -7916,10 +7905,10 @@ real time.  After drawing each frame and calling
 {\tt drawnow}, you can compute the time
 until the next frame and use {\tt pause} to wait:
 
-\begin{verbatim}
+\begin{lstlisting}
 dt = T(i+1) - T(i);
 pause(dt);
-\end{verbatim}
+\end{lstlisting}
 
 A limitation of this method is that it ignores the time required to
 draw the figure, so it tends to run slow, especially if the figure is
@@ -7964,10 +7953,10 @@ percentage of the starting energy.
 You can reduce the rate of energy loss by decreasing {\tt ode45}'s
 tolerance option using {\tt odeset} (see Section~\ref{events}):
 
-\begin{verbatim}
+\begin{lstlisting}
 options = odeset('RelTol', 1e-5);
 [T, M] = ode45(@rate_func, [0:step:end_time], W, options);
-\end{verbatim}
+\end{lstlisting}
 %
 The name of the option is {\tt RelTol} for ``relative tolerance.''
 The default value is {\tt 1e-3} or 0.001.  Smaller values
