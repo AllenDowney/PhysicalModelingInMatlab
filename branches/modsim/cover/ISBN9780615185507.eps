@@ -1,0 +1,149 @@
+%!PS-Adobe-2.0 EPSF-1.2
+%%Creator: bookland 1.3
+%%Title: ISBN 978-0-6151-8550-7
+%%BoundingBox: 199 335 371 432
+%%EndComments
+% Command line: /home/milgram/cgi-bin/isbn.py
+% This is free software and comes with NO WARRANTY WHATSOVER. This file
+% contains portions of bookland, a free program licensed under the GNU
+% General Public License. The GPL notwithstanding, you may use and
+% redistribute this output file without restriction.
+
+/W { moduleWidth mul 0 rmoveto } def
+/B { dup moduleWidth mul 2 div 0 rmoveto
+     dup moduleWidth mul barWidthReduction sub setlinewidth
+     0 moduleHeight rlineto 0 moduleHeight neg rmoveto
+     currentpoint stroke moveto
+     moduleWidth mul 2 div 0 rmoveto } def
+/L { dup moduleWidth mul 2 div 0 rmoveto
+     dup moduleWidth mul barWidthReduction sub setlinewidth
+     0 -5 rmoveto 0 5 rlineto
+     0 moduleHeight rlineto 0 moduleHeight neg rmoveto
+     currentpoint stroke moveto
+     moduleWidth mul 2 div 0 rmoveto } def
+% function fitstring:
+% usage: width string font fitstring
+% scale font to fit string to desired width
+% leave string on stack
+/fitstring { dup findfont 1 scalefont setfont % w s f
+             3 1 roll % f w s
+             dup stringwidth pop % f w s sw
+             3 2 roll exch div % f s x
+             3 2 roll findfont exch
+             scalefont setfont } def
+% get bounding box of string.
+% usage: string stringbb ->  llx lly urx ury
+/stringbb {gsave false charpath flattenpath pathbbox grestore} def
+% String height and width:
+/stringhw {stringbb exch % llx lly ury urx
+           4 1 roll      % urx llx lly ury
+	   sub neg       % urx llx h
+           3 1 roll      % h urx llx
+	   sub           % h w
+           } def
+/dx { [ 0 1 2 0 1 2 0 1 2 ] } def
+/dy { [ 0 0 0 1 1 1 2 2 2 ] } def
+% Set dx and dy to shift to anchor point:
+/dxdy { dup dx exch % anchor dx anchor
+        get         % anchor idx
+	dy          % anchor idx dy
+	3 2 roll    % idx dy anchor
+	get         % idx idy
+        } def
+% Usage: string anchor anchorstring
+/anchorstring { dxdy          % string idx idy
+                3 2 roll      % idx idy string
+		dup           % idx idy string string
+		4 1 roll      % string idx idy string
+		stringhw      % string idx idy h w
+		4 1 roll      % string w idx idy h
+		mul -2 div    % string w idx ry
+		3 1 roll      % string ry w idx
+		mul -2 div    % string ry rx
+		exch
+		rmoveto show } def
+220.0 347.5 translate 0 0 moveto
+0.0 0.0 0.0 1.0 setcmykcolor
+
+%
+% Text string
+%
+gsave 65.52 -1 translate 0 0 moveto
+36.6912 (780615) /OCRB fitstring
+(185507) 7 anchorstring
+grestore
+
+%
+% Text string
+%
+gsave 22.464 -1 translate 0 0 moveto
+36.6912 (780615) /OCRB fitstring
+(780615) 7 anchorstring
+grestore
+
+%
+% Text string
+%
+gsave -2 -1 translate 0 0 moveto
+36.6912 (780615) /OCRB fitstring
+(9) 8 anchorstring
+grestore
+
+%
+% Product Code Bars
+%
+gsave
+0 0 translate 0 0 moveto
+/moduleHeight { 72.0 } def
+/moduleWidth { 0.936 } def
+/barWidthReduction { 0.0 } def
+1 L 1 W 1 L 1 W 3 B 1 W 2 B 3 W 1 B 2 W 1 B 1 W 1 B 2 W 3 B 1 W 1 B 1 W 4 B 1 W 2 B 2 W 2 B 1 W 2 B 3 W 1 B 1 W 1 L 1 W 1 L 1 W 2 B 2 W 2 B 1 W 1 B 2 W 1 B 3 W 1 B 2 W 3 B 1 W 1 B 2 W 3 B 1 W 3 B 2 W 1 B 1 W 1 B 3 W 1 B 2 W 1 L 1 W 1 L
+grestore
+
+%
+% Text string
+%
+gsave 88.92 0 translate 0 0 moveto
+36.6912 (780615) /OCRB fitstring
+( ) 0 anchorstring
+grestore
+
+%
+% Text string
+%
+gsave 44.46 74.0 translate 0 0 moveto
+/OCRB findfont 9.0 scalefont setfont
+(ISBN 978-0-6151-8550-7) 1 anchorstring
+grestore
+
+%
+% Product Code Bars
+%
+gsave
+98 0 translate 0 0 moveto
+/moduleHeight { 61.344 } def
+/moduleWidth { 0.936 } def
+/barWidthReduction { 0 } def
+1 B 1 W 2 B 1 W 3 B 2 W 1 B 1 W 1 B 2 W 1 B 2 W 2 B 1 W 1 B 2 W 3 B 1 W 1 B 1 W 1 B 3 W 1 B 1 W 2 B 1 W 1 B 1 W 2 B 3 W 1 B
+grestore
+
+%
+% Text string
+%
+gsave 119.996 63.344 translate 0 0 moveto
+32.994 (52495) /OCRB fitstring
+(52495) 1 anchorstring
+grestore
+
+%
+% Text string
+%
+gsave 142.992 63.344 translate 0 0 moveto
+32.994 (52495) /OCRB fitstring
+(>) 0 anchorstring
+grestore
+
+stroke
+% showpage OK in EPS
+showpage
+% Good luck!
