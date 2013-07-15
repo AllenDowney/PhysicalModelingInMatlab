@@ -1,15 +1,26 @@
 
-\chapter{Abstracting, Act 2: Thermal Systems}
+\chapter{Abstraction, Act 2}
 
 \section{Where we're going}
 
-So far we've dealt mostly with modeling populations, and we have done so using discrete time models -- models where we assume, either for simplicity or for structural reasons, that it makes sense to talk about the state of the system at discrete points in time.  
+So far we've dealt mostly with modeling populations, and we have done
+so using discrete time models -- models where we assume, either for
+simplicity or for structural reasons, that it makes sense to talk
+about the state of the system at discrete points in time.
 
-To do this, we've utilized a couple of pieces of formalism: stock and flow diagrams, which qualitatively represent our understanding of what quantities we are tracking, and how they evolve in time, and difference equations, which more quantitatively express the model. 
+To do this, we've utilized a couple of pieces of formalism: stock and
+flow diagrams, which qualitatively represent our understanding of what
+quantities we are tracking, and how they evolve in time, and
+difference equations, which more quantitatively express the model.
 
-We've also worked on implementing models, using both MATLAB and using some analytical tools (e.g., finding equilibria for a set of difference equations). We've started to validate models -- mostly using comparison to data and common sense -- and we've begun to go beyond using a model to generate a time series.
+We've also worked on implementing models, using both MATLAB and using
+some analytical tools (e.g., finding equilibria for a set of
+difference equations). We've started to validate models -- mostly
+using comparison to data and common sense -- and we've begun to go
+beyond using a model to generate a time series.
 
-We're now going to iterate again on the modeling process.  You'll see some new stuff along the way:
+We're now going to iterate again on the modeling process.  You'll see
+some new stuff along the way:
 
 \begin{itemize}
 \item We will begin dealing with continuous time models -- models in which we assume that the system is evolving constantly in time, and in which we are able, in principle, to ask about what the state of the system is at any given time.
@@ -23,7 +34,7 @@ We're now going to iterate again on the modeling process.  You'll see some new s
 
 At the same time, our old friend the stock and flow is still with us, and we'll resurrect difference equations to help us make sense of differential equations -- so the territory is not really all that new...
 
-\section{Differential Equations and Stocks and Flows: A First Encounter}
+\section{Differential Equations and Stocks and Flows}
 
 In modeling populations, we used difference equations.  For example, we modeled the elephant population in year $n+1$, $E_{n+1}$, as depending on the population in year $n$:
 $$E_{n+1} = E_n + bE_n - d E_n$$
@@ -96,7 +107,7 @@ $$\frac{dm_1}{dt} = -bm_1(t)$$
 $$\frac{dm_2}{dt} = bm_1(t)-am_2(t)$$
 
  
- \section{Let's Stop and Take Stock} 
+ \section{Let's stop and take stock} 
  
 In ModSim, we've been using stock and flow diagrams, as well as difference equations, and (starting now) differential equations.  In this section we ask two questions: (1) What do these different representations buy you? and (2) How do they relate to each other?
 
