@@ -53,7 +53,7 @@
 
 
 \newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
-\newcommand{\theversion}{1.1.6}
+\newcommand{\theversion}{2.0.0}
 
 \title {\thetitle}
 \author {Allen B. Downey}
@@ -204,26 +204,38 @@ code examples look better.
 
 \mainmatter
 
+\graphicspath{{./}}
+
+
 \include{TheBigPictureChapter}
 \include{AbstractingAct1Chapter}
-\include{AnalysisAct1Chapter}
-\include{IsleRoyaleExampleChapter}
-\include{PresentationAct1Chapter}
-\include{AbstractingAct2Chapter}
-\include{AbstractingAct3Chapter}
-
-\graphicspath{{./}}
 
 % chap01
 \chapter{Variables and values}
 
+\section{Implementing models}
+
+In the previous chapter we talked about implementing models.  For
+some physical systems you can implement a model by building it and
+watching it run, but in this book, ``implementation'' almost always
+means a computer simulation.
+
+You can run simulations in almost any computer language.  The focus
+of this book is MATLAB, a general-purpose programming language with
+many functions and libraries for doing scientific computing.
+
+This book is intended for people with no programming experience.
+So we will start at the beginning and build up gradually.
+
+
 \section{A glorified calculator}
 \label{calc}
 
-At heart, MATLAB is a glorified calculator.  When you start MATLAB
-you will see a window
+At heart, MATLAB is a glorified calculator.  When you start
+MATLAB\sidenote{How you start MATLAB depends on what operating system
+  you are using and how MATLAB is installed.}  you will see a window
 entitled {\sf MATLAB} that contains smaller windows entitled {\sf
-Current Directory}, {\sf Command History} and {\sf Command Window}.
+  Current Directory}, {\sf Command History} and {\sf Command Window}.
 The Command Window runs the MATLAB {\bf interpreter}, which allows you
 to type MATLAB {\bf commands}, then executes them and prints the
 result.
@@ -1957,6 +1969,11 @@ circles.
 
 \end{ex}
 
+
+
+\include{AnalysisAct1Chapter}
+\include{IsleRoyaleExampleChapter}
+\include{PresentationAct1Chapter}
 
 % chap04
 \chapter{Vectors}
@@ -4589,8 +4606,7 @@ infinity?  Goes to zero?
 
 
 
-
-
+\include{AbstractingAct2Chapter}
 
 
 % chap07
@@ -4644,89 +4660,6 @@ Once I finished and tested {\tt error\_func}, I would modify
 For this problem I might only need two functions, but if there
 were more, I could write and test them one at a time, and then
 combine them into a working program.
-
-
-
-\section{Physical modeling}
-\label{modeling}
-
-Most of the examples so far have been about mathematics;
-Exercise~\ref{duck}, the ``duck problem,'' is the first example we
-have seen of a physical system.  If you didn't work on this exercise,
-you should at least go back and read it.
-
-This book is supposed to be about {\bf physical modeling}, so it might
-be a good idea to explain what that is.  Physical modeling is a process
-for making predictions about physical systems and explaining their
-behavior.  A {\bf physical system} is something in the real
-world that we are interested in, like a duck.
-
-The following figure shows the steps of this process:
-
-\beforefig \centerline{\includegraphics[height=1.5in]{figs/model.eps}}
-
-A {\bf model} is a simplified description of a physical system.  The
-process of building a model is called {\bf abstraction}.  In this
-context, ``abstract'' is the opposite of ``realistic;'' an abstract
-model bears little direct resemblance to the physical system it
-models, in the same way that abstract art does not directly depict
-objects in the real world.  A realistic model is one that includes
-more details and corresponds more directly to the real world.
-
-Abstraction involves making justified decisions about which factors to
-include in the model and which factors can be simplified or ignored.
-For example, in the duck problem, we took into account the density of
-the duck and the buoyancy of water, but we ignored the buoyancy of the
-duck due to displacement of air and the dynamic effect of paddling
-feet.  We also simplified the geometry of the duck by assuming that
-the underwater parts of a duck are similar to a segment of a sphere.
-And we used coarse estimates of the size and weight of the duck.
-
-Some of these decisions are justifiable.  The density of the duck
-is much higher than the density of air, so the effect of buoyancy
-in air is probably small.  Other decisions, like the spherical
-geometry, are harder to justify, but very helpful.  The actual
-geometry of a duck is complicated; the sphere model makes it possible
-to generate an approximate answer without making detailed measurements
-of real ducks.
-
-A more realistic model is not necessarily better.  Models are useful
-because they can be analyzed mathematically and simulated
-computationally.  Models that are too realistic might be difficult to
-simulate and impossible to analyze.
-
-A model is successful if it is good enough for its purpose.  If we
-only need a rough idea of the fraction of a duck that lies below
-the surface, the sphere model is good enough.  If we need a more
-precise answer (for some reason) we might need a more realistic
-model.
-
-% Einstein's actual quote: ``It can scarcely be denied that the supreme
-% goal of all theory is to make the irreducible basic elements as simple
-% and as few as possible without having to surrender the adequate
-% representation of a single datum of experience.
-
-%     * "On the Method of Theoretical Physics" The Herbert Spencer
-%       Lecture, delivered at Oxford (10 June 1933); also published in
-%       Philosophy of Science, Vol. 1, No. 2 (April 1934),
-%       pp. 163-169. [thanks to Dr. Techie @ www.wordorigins.org and
-%       JSTOR]
-
-Checking whether a model is good enough is called {\bf validation}.
-The strongest form of validation is to make a measurement of an
-actual physical system and compare it to the prediction of a
-model.
-
-If that is infeasible, there are weaker forms of validation.  One is
-to compare multiple models of the same system.  If they are
-inconsistent, that is an indication that (at least) one of them is
-wrong, and the size of the discrepancy is a hint about the reliability
-of their predictions.
-
-We have only seen one physical model so far, so parts of this
-discussion may not be clear yet.  We will come back to these topics
-later, but first we should learn more about vectors.
-
 
 
 \section{Vectors as input variables}
@@ -6374,6 +6307,9 @@ $x$, $y$ and $z$.
 \end{enumerate}
 
 \end{ex}
+
+
+\include{AbstractingAct3Chapter}
 
 
 % chap10

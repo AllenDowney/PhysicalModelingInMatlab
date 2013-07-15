@@ -3,20 +3,18 @@
 
 \section*{Where we're going}
 
-The examples of modeling that we've discussed in the previous chapter and in studio -- 
-feline high-rise syndrome, box manufacturing -- 
-focused on understanding the very big picture of modeling:  what we mean when we talk about ``abstraction'', a ``model'', ``implementation'',  ``prediction'', ``validation'', and ``doing work'' with a model.  
+The examples of modeling that we've discussed in the previous chapter and in studio---feline high-rise syndrome, box manufacturing---focused on understanding the very big picture of modeling:  what we mean when we talk about ``abstraction'', a ``model'', ``implementation'',  ``prediction'', ``validation'', and ``doing work'' with a model.  
 
 \begin{marginfigure}
 \includegraphics[width=6cm]{figs/ModsimDiagram}
 \caption{The Modeling Process.  Can you identify ``abstraction'', a ``model'', ``implementation'',  ``prediction'', ``validation'', and ``doing work'' ? 
  }
 \end{marginfigure}
-In the case of feline high-rise syndrome we made a distinction between the simplest kind of model of all -- the implicit mental model -- and more formal, but still highly qualitative models of behavior for a physical system.  These models allowed us to make simple predictions (which, in many cases, were not consistent with observed behavior); iterating on these models in light of this validation failure allowed us to generate a qualitative model that explains the physical behavior we observe when Fluffy falls out of a tree and lives to tell the tale.  
+In the case of feline high-rise syndrome we made a distinction between the simplest kind of model of all---the implicit mental model---and more formal, but still highly qualitative models of behavior for a physical system.  These models allowed us to make simple predictions (which, in many cases, were not consistent with observed behavior); iterating on these models in light of this validation failure allowed us to generate a qualitative model that explains the physical behavior we observe when Fluffy falls out of a tree and lives to tell the tale.  
 
-The box manufacturing model was more quantitative -- we came up with an actual mathematical representation of the model, as opposed to a cartoon-based representation -- but like the feline high-rise syndrome case, it required abstraction, analysis, validation , and also involved doing design work as opposed to explanatory or predictive work.  And, like the cat example, the model we came up with could certainly be made more accurate, if we thought that was important for the work we wished to do.  Note, of course, that ``more accurate'' does not necessarily mean ``better'' -- ``better'' only makes sense in the context of asking what kind of work you want to do with the model, and whether the model is an appropriate one for that application.
+The box manufacturing model was more quantitative---we came up with an actual mathematical representation of the model, as opposed to a cartoon-based representation---but like the feline high-rise syndrome case, it required abstraction, analysis, validation , and also involved doing design work as opposed to explanatory or predictive work.  And, like the cat example, the model we came up with could certainly be made more accurate, if we thought that was important for the work we wished to do.  Note, of course, that ``more accurate'' does not necessarily mean ``better''---``better'' only makes sense in the context of asking what kind of work you want to do with the model, and whether the model is an appropriate one for that application.
 
-In this chapter, we will begin looking at a broad class of models that deal with systems that evolve in time.  Indeed, this entire class focuses primarily on modeling such {\it dynamic} systems.   We'll begin by introducing formalisms that will allow us to implement our models both analytically and in simulation.  To introduce these formalisms, we'll be confining ourselves in this chapter to one broad kind of system as well -- populations that evolve in time -- but the ideas we'll deal with apply to many other systems as well.
+In this chapter, we will begin looking at a broad class of models that deal with systems that evolve in time.  Indeed, this entire class focuses primarily on modeling such {\it dynamic} systems.   We'll begin by introducing formalisms that will allow us to implement our models both analytically and in simulation.  To introduce these formalisms, we'll be confining ourselves in this chapter to one broad kind of system as well---populations that evolve in time---but the ideas we'll deal with apply to many other systems as well.
 
 This chapter deals only with the process of {\it abstracting} from a physical system to a model (or a set of models); in subsequent chapters we'll see how to implement these abstractions in code, how to implement them analytically, and ultimately how to validate and do work with them.  
 
@@ -25,7 +23,7 @@ This chapter deals only with the process of {\it abstracting} from a physical sy
 As noted above, this chapter focuses on the formalisms associated with abstracting from a physical system to a model.  In order to situate that formalism, let's start out by identifying a physical system we might be interested in modeling.  I've always liked elephants, and it turns out that there are many people who are interested in understanding the populations of elephants:
 
 \begin{marginfigure}
-%\includegraphics[width=6cm]{figs/elephant}
+\includegraphics[width=6cm]{figs/elephant}
 \caption{An elephant.  From {\tt cksinfo.com}}
 \end{marginfigure}
 
@@ -52,7 +50,7 @@ catastrophic and, if left unchecked, is only arrested when the elephants themsel
  \flushright{Ben Colenbrander {\tt  http://elephantpopulationcontrol.library.uu.nl/ }}
 \end{quote}
  
-Given what Mr. Colenbrander has to say, it seems clear that there might be good reason to have a model of elephant populations -- after all, it's a lot easier to deal with virtual elephants than real elephants in exploring different policy options!  So, what do you say we build a model of elephant populations?
+Given what Mr. Colenbrander has to say, it seems clear that there might be good reason to have a model of elephant populations---after all, it's a lot easier to deal with virtual elephants than real elephants in exploring different policy options!  So, what do you say we build a model of elephant populations?
 
 For the sake of argument, let's assume we are interested in modeling elephant population in a game park, in order to (1) ensure the continued survival of the elephants (important for the elephants, and also for the profitability of the park), and (2) in order to make sure that the number of elephants does not get too high.  
 
@@ -74,7 +72,7 @@ We're also going to assume that the system we are modeling consists of live elep
 
 An aside here:  We just made a really important statement:  we defined our {\it system}.  We drew a dotted line around ``live elephants in the game park'', and divided the universe into the system and the surroundings:  the elephants in the park are the system; the food supply, the hunters; and the elephants outside the park are all part of the surroundings.  In modeling, we will make assumptions about the surroundings in order to make predictions about what happens to the system.    
 
-To represent our simple model, we're going to introduce a piece of formalism called a {\it stock and flow diagram} that can be pretty helpful for expressing your models -- particularly as the models get more complex.  Let's start by looking at the diagram, and then we'll deconstruct it a bit.
+To represent our simple model, we're going to introduce a piece of formalism called a {\it stock and flow diagram} that can be pretty helpful for expressing your models---particularly as the models get more complex.  Let's start by looking at the diagram, and then we'll deconstruct it a bit.
 
 Here's the diagram.
 
@@ -107,13 +105,13 @@ In stock and flow diagrams, stocks are represented with a box, like this:
 %\caption{Representation of a stock. } %end{figure}
 \afterfig
 
-Stocks represent the physical stuff that we are keeping track of in an accounting sense -- i.e., we are watching how much of the stuff there is over time. A stock is the kind of stuff that you can measure an amount of, or that is in some sense countable.  This is consistent with our common usage of the word stock:  for example, we talk about number of heads of livestock, or the number of barrels of available oil stocks, or the amount of toothpaste that a drugstore has in stock.  Along the same lines, stocks tend to be nouns:  ``elephants'' (how many elephants there are in the game park), ``ice'' (how much ice there is in a freezer), ``stored energy'' (how much energy is stored in a compressed spring).  
+Stocks represent the physical stuff that we are keeping track of in an accounting sense---i.e., we are watching how much of the stuff there is over time. A stock is the kind of stuff that you can measure an amount of, or that is in some sense countable.  This is consistent with our common usage of the word stock:  for example, we talk about number of heads of livestock, or the number of barrels of available oil stocks, or the amount of toothpaste that a drugstore has in stock.  Along the same lines, stocks tend to be nouns:  ``elephants'' (how many elephants there are in the game park), ``ice'' (how much ice there is in a freezer), ``stored energy'' (how much energy is stored in a compressed spring).  
 
-In physics, quantities that are {\it extensive} and {\it conserved} \footnote{Extensive quantities are quantities that depend on the number of particles in a the system -- for example, two liters of gas at STP contains more energy and more mass than one liter of gas at STP. Conserved quantities are quantities that only change by going somewhere else -- e.g., the amount of energy in a system can only change if energy somehow enters or leaves the system.}  tend to be stocks -- e.g., energy, momentum, charge.  And stocks therefore tend to have units of number, or mass, or volume, or moles, or joules.
+In physics, quantities that are {\it extensive} and {\it conserved} \footnote{Extensive quantities are quantities that depend on the number of particles in a the system---for example, two liters of gas at STP contains more energy and more mass than one liter of gas at STP. Conserved quantities are quantities that only change by going somewhere else---e.g., the amount of energy in a system can only change if energy somehow enters or leaves the system.}  tend to be stocks---e.g., energy, momentum, charge.  And stocks therefore tend to have units of number, or mass, or volume, or moles, or joules.
 
-It is worth contrasting quantities that are stocks with some quantities that are not stocks.  Frequently it is tempting to call an {\it intensive} quantity, like temperature, a stock -- and if you look around in the literature, you'll find that people do this fairly frequently.  I recommend that youresist this temptation. Intensive quantities are quantities that are properties of the material within the system, but which do not depend on the number of particles in the system.  Temperature and density are good examples -- two liters of gas at STP has the same temperature and density as one liter of gas at STP.  Both of these are properties of the material, but not of the amount of the material -- and it would not make sense to talk about increasing the amount of temperature in the system, nor would it make sense to talk about temperature being conserved.  
+It is worth contrasting quantities that are stocks with some quantities that are not stocks.  Frequently it is tempting to call an {\it intensive} quantity, like temperature, a stock---and if you look around in the literature, you'll find that people do this fairly frequently.  I recommend that youresist this temptation. Intensive quantities are quantities that are properties of the material within the system, but which do not depend on the number of particles in the system.  Temperature and density are good examples---two liters of gas at STP has the same temperature and density as one liter of gas at STP.  Both of these are properties of the material, but not of the amount of the material---and it would not make sense to talk about increasing the amount of temperature in the system, nor would it make sense to talk about temperature being conserved.  
 
-This is a subtle point -- you'll want to think about it some more later in the course. It primarily comes into play when you have two stocks in a system that are connected to each other.  For example, if you were keeping track of both elephants in the park and elephants outside the park, it would make sense to have those two stocks connected:
+This is a subtle point---you'll want to think about it some more later in the course. It primarily comes into play when you have two stocks in a system that are connected to each other.  For example, if you were keeping track of both elephants in the park and elephants outside the park, it would make sense to have those two stocks connected:
 
 %\begin{figure}[h!]
 \beforefig
@@ -135,14 +133,14 @@ Flows are represented with a double arrow, like this:
 %\begin{figure}[h!]
 \beforefig
 \centerline{\includegraphics[height=.4in]{figs/Flow}}
-%\caption{Symbol representing a flow -- a process by which a stock changes. } %end{figure}
+%\caption{Symbol representing a flow---a process by which a stock changes. } %end{figure}
 \afterfig
 
 
 Flows represent the processes by which a stock changes.  Since they represent processes, they often are verbs or phrases:  ``dying'', ``melting''.  The units of flows tend to be in stock per unit time (e.g., number per year, kilograms per second).  And while stocks have memory, flows do not: if you doubled the temperature 
 in a room, the amount of ice in the room would not change instantaneously, but the rate of ice melting would.  
 
-The circle/triangle symbol represents a valve -- i.e., the thing that controls the flow.  When there is more than one thing controlling the flow, the flow is the {\em product} of the control quantities.  So, above, the number of elephants that die each year is a product of the number of elephants and $d$, the elephant death rate (i.e., the chance that a given elephant dies each year, or the fraction of the total elephant population that dies each year).  We'll see some more examples of this later.
+The circle/triangle symbol represents a valve---i.e., the thing that controls the flow.  When there is more than one thing controlling the flow, the flow is the {\em product} of the control quantities.  So, above, the number of elephants that die each year is a product of the number of elephants and $d$, the elephant death rate (i.e., the chance that a given elephant dies each year, or the fraction of the total elephant population that dies each year).  We'll see some more examples of this later.
 
 
 \subsection{Information}
@@ -186,9 +184,9 @@ Now we will take two steps in making the model more complex.  First, Let's add t
 \afterfig
 
 
-We've introduced two new bits of formalism: the diamond, and the plain text variables that originate information flows (e.g., ``P(t): Poaching rate'').  The diamond indicates that there is an additional {\it function} -- something like the available food per elephant --  which controls the death rate.  This function depends on a parameter, the carrying capacity of the park, and also on the number of elephants. Looking at the signs on the arrows, we see that increasing the carrying capacity has the effect of reducing the function, while increasing the number of elephants increases the function:  larger carrying capacity $\rightarrow$ more food $\rightarrow$ less death from starvation; larger population $\rightarrow$ less food per elephant $\rightarrow$ more death from starvation.  
+We've introduced two new bits of formalism: the diamond, and the plain text variables that originate information flows (e.g., ``P(t): Poaching rate'').  The diamond indicates that there is an additional {\it function}---something like the available food per elephant--- which controls the death rate.  This function depends on a parameter, the carrying capacity of the park, and also on the number of elephants. Looking at the signs on the arrows, we see that increasing the carrying capacity has the effect of reducing the function, while increasing the number of elephants increases the function:  larger carrying capacity $\rightarrow$ more food $\rightarrow$ less death from starvation; larger population $\rightarrow$ less food per elephant $\rightarrow$ more death from starvation.  
 
-The plain text variables or functions are {\it parameters}, or {\it exogenous variables}.  Exogenous simply means that they are something that is coming from outside -- i.e., something that the model takes as a given, rather than purports to explain.  We might, for example, assume that the poaching rate changes on a yearly basis -- but we are taking that as an assumption, not something that the model predicts.  Similarly, we might decide that the park has a given carrying capacity  -- but we're not modeling how the carrying capacity depends on the number of elephants.  In some ways, you can think about exogenous variables as being like sources for information -- it's information that is coming from outside the system.
+The plain text variables or functions are {\it parameters}, or {\it exogenous variables}.  Exogenous simply means that they are something that is coming from outside---i.e., something that the model takes as a given, rather than purports to explain.  We might, for example, assume that the poaching rate changes on a yearly basis---but we are taking that as an assumption, not something that the model predicts.  Similarly, we might decide that the park has a given carrying capacity ---but we're not modeling how the carrying capacity depends on the number of elephants.  In some ways, you can think about exogenous variables as being like sources for information---it's information that is coming from outside the system.
 
 What's the difference between exogenous variables and parameters?  Well, often we talk about parameters as being {\it numbers} that don't change in time, whereas exogenous variables can be functions of time.  But this is a bit of a fine distinction, I think.
 
@@ -333,7 +331,7 @@ To get started on such a model, you could simply create a stock for the elephant
 
  \centerline{\includegraphics[height=.6in]{figs/TwoStockElephantsExample1}}
 
-Note that in this stock and flow, the flow is shown as migration from the park to the surrounding area.  In principle, that flow could be negative -- in which case more elephants would be moving into the park than moving out -- and it would still be consistent with the stock and flow diagram.  
+Note that in this stock and flow, the flow is shown as migration from the park to the surrounding area.  In principle, that flow could be negative---in which case more elephants would be moving into the park than moving out---and it would still be consistent with the stock and flow diagram.  
 
 Since there are two stocks here, we can immediately conclude that we will have two difference equations; since each has one flow, we can also conclude that the difference equations will each have one term to represent the change in the populations.
 
