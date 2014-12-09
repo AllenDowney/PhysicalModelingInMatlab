@@ -1,0 +1,42 @@
+\sloppy
+\pagestyle{fancyplain}
+
+\newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
+\renewcommand\MakeUppercase{}
+
+\lhead[\fancyplain{}{\bfseries\thepage}]%
+   {\fancyplain{}{\bfseries\rightmark}}
+\rhead[\fancyplain{}{\bfseries\leftmark}]%
+   {\fancyplain{}{\bfseries\thepage}}
+\cfoot{}
+
+\newenvironment{code}{\vspace{0.6\parskip} \begin{verbatim}}{\end{verbatim} \vspace{0.6\parskip}}
+
+% TODO: get the styles to work
+% these styles get translated in CSS for the HTML version
+\newstyle{a:link}{color:black;}
+\newstyle{p+p}{margin-top:1em;margin-bottom:1em}
+\newstyle{img}{border:0px}
+
+% change the arrows
+%\setlinkstext
+% {\imgsrc[ALT="Previous"]{html/back.png}}
+% {\imgsrc[ALT="Up"]{html/up.png}}
+% {\imgsrc[ALT="Next"]{html/next.png}}
+
+%% Theorem styles
+\newtheoremstyle{myex}% name
+   {9pt}%   Space above
+   {9pt}%   Space below
+   {\itshape}%     Body font
+   {}%     Indent amount (empty = no indent, \parindent = para indent)
+   {\bfseries}% Thm head font
+   {}%    Punctuation after thm head
+   {9pt}%   Space after thm head: " " = normal interword space;
+      %    \newline = linebreak
+   {}%     Thm head spec (can be left empty, meaning `normal')
+
+\theoremstyle{myex}
+\newtheorem{ex}{Exercise}[chapter]

@@ -16,26 +16,32 @@ which returns a ``magic'' matrix with the given size:
 \begin{verbatim}
 octave:1> M = magic(3)
 
-M = 8   1   6
-   3   5   7
-   4   9   2
+M = 
+    8   1   6
+    3   5   7
+    4   9   2
 \end{verbatim}
 
 If you don't know the size of a matrix, you can use {\tt whos} to
 display it:
 
 \begin{verbatim}
-octave:1> whos
- Name    Size          Bytes Class
- M      3x3            72 double array
+octave:2> whos
+Variables in the current scope:
+
+   Attr Name        Size                     Bytes  Class
+   ==== ====        ====                     =====  ===== 
+        M           3x3                         72  double
+
+Total is 9 elements using 72 bytes
 \end{verbatim}
 
 Or the {\tt size} function, which returns a vector:
 
 \begin{verbatim}
-octave:1> V = size(M)
-
-V = 3   3
+octave:3> v = size(M)
+v =
+   3   3
 \end{verbatim}
 
 The first element is the number of rows, the second is the number of
@@ -44,12 +50,10 @@ columns.
 To read an element of a matrix, you specify the row and column numbers:
 
 \begin{verbatim}
-octave:1> M(1,2)
-
+octave:4> M(1,2)
 ans = 1
 
-octave:1> M(2,1)
-
+octave:5> M(2,1)
 ans = 3
 \end{verbatim}
 
@@ -62,14 +66,14 @@ Another way to create a matrix is to enclose the elements in
 brackets, with semi-colons between rows:
 
 \begin{verbatim}
-octave:1> D = [1,2,3 ; 4,5,6]
-
-D = 1   2   3
+octave:6> D = [1,2,3 ; 4,5,6]
+D =
+   1   2   3
    4   5   6
 
-octave:1> size(D)
-
-ans = 2   3
+octave:7> size(D)
+ans =
+   2   3
 \end{verbatim}
 
 
