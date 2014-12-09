@@ -22,200 +22,82 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{hevea}              
 \usepackage{upquote}
-\usepackage{epstopdf}
+%\usepackage{epstopdf}
 \usepackage{hyperref} % Maybe? it makes things cool
 
-\newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
 
-\sloppy
-
-\pagestyle{fancyplain}
-
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
-
-\lhead[\fancyplain{}{\bfseries\thepage}]%
-   {\fancyplain{}{\bfseries\rightmark}}
-\rhead[\fancyplain{}{\bfseries\leftmark}]%
-   {\fancyplain{}{\bfseries\thepage}}
-\cfoot{}
-
-\renewcommand\MakeUppercase{}
-
-\newenvironment{code}{\vspace{0.6\parskip} \begin{verbatim}}{\end{verbatim} \vspace{0.6\parskip}}
-
-% TODO: get the styles to work
-% these styles get translated in CSS for the HTML version
-% \newstyle{a:link}{color:black;}
- \newstyle{p+p}{margin-top:1em;margin-bottom:1em}
- \newstyle{img}{border:0px}
-
-% change the arrows
-\setlinkstext
- {\imgsrc[ALT="Previous"]{back.png}}
- {\imgsrc[ALT="Up"]{up.png}}
- {\imgsrc[ALT="Next"]{next.png}}
-
-\makeindex
-
-
-
-
-\begin{document}
-
+% Book information
 \newcommand{\thetitle}{Physical Modeling in Octave\myreg}
 \newcommand{\theauthor}{Geoffrey Pleiss}
 \newcommand{\theversion}{1.1.4}
+
+
+\input{commands_and_prefs}
+\makeindex
+
+
+\begin{document}
 
 \title {\thetitle}
 \author {\theauthor}
 \date {Version \theversion}
 
+
+% % Title and copyright page - for both latex and html
 \input{latexonly}
-
-\begin{latexonly}
-
-%\blankpage
-%\blankpage
-
-% TITLE PAGES FOR LATEX VERSION
-
-\maketitle
-
-\vspace{2in}
-
-\begin{center}
-{\Large \thetitle}
-
-\vspace{0.25in}
-
-Copyright 2007, 2008, 2009, 2010 Allen B. Downey
-\end{center}
-
-\vspace{0.25in}
-
-Permission is granted to copy, distribute and/or modify this
-document under the terms of the GNU Free Documentation License,
-Version 1.1 or any later version published by the Free Software
-Foundation; this book contains no Invariant Sections,
-no Front-Cover Texts, and no Back-Cover Texts.
-
-You can obtain a copy of the GNU Free Documentation License
-from www.gnu.org or by writing to the Free Software Foundation,
-Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-The original form of this book is LaTeX source code.
-Compiling this LaTeX source has the effect of generating
-a device-independent representation of a book, which
-can be converted to other formats and printed.
-
-This book was typeset by the author using latex, dvips and ps2pdf,
-among other free, open-source programs.
-The LaTeX source for this book is available from
-\url{http://greenteapress.com/matlab}.
-
-Octave\myreg is a registered trademark of The
-Mathworks, Inc. The Mathworks does not warrant the accuracy
-of this book; they probably don't even like it.
-
-\frontmatter
-
-\end{latexonly}
-
-
-% HTMLONLY
-
-\begin{htmlonly}
-
-% TITLE PAGE FOR HTML VERSION
-
-{\Large \thetitle}
-
-{\large Allen B. Downey}
-
-Version \theversion
-
-\setcounter{chapter}{-1}
-
-Copyright 2010 Allen B. Downey
-
-\vspace{0.25in}
-
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the Creative Commons Attribution-Share Alike 3.0
-Unported License, which is available at
-\url{creativecommons.org/licenses/by-sa/3.0/}.
-
-\end{htmlonly}
-
-
-\newtheoremstyle{myex}% name
-   {9pt}%   Space above
-   {9pt}%   Space below
-   {\itshape}%     Body font
-   {}%     Indent amount (empty = no indent, \parindent = para indent)
-   {\bfseries}% Thm head font
-   {}%    Punctuation after thm head
-   {9pt}%   Space after thm head: " " = normal interword space;
-      %    \newline = linebreak
-   {}%     Thm head spec (can be left empty, meaning `normal')
-
-\theoremstyle{myex}
-\newtheorem{ex}{Exercise}[chapter]
+% \input{htmlonly}
+\input{title_and_copyright}
 
 
 % % Preface
-% \input{preface.tex}
+\include{chapters/preface}
 
+
+% % Table of contents
 \tableofcontents
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %STARTED WORK HERE 1-31-11
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \mainmatter
 
+
 % % chap01 - Variables and values
-% \input{chapter-vars_and_vals.tex}
+\include{chapters/vars_and_vals}
 % 
 % % chap02 - Scripts
-% \input{chapter-scripts.tex}
+\include{chapters/scripts}
 % 
 % % chap03 - Loops
-% \input{chapter-loops.tex}
+\include{chapters/loops}
 % 
 % % chap04 - Vectors
-% \input{chapter-vectors.tex}
+\include{chapters/vectors}
 % 
 % % chap05 - Functions
-% \input{chapter-functions.tex}
+\include{chapters/functions}
 % 
 % % chap06 - Zero-finding
-% \input{chapter-zero_find.tex}
+\include{chapters/zero_find}
 % 
 % % chap07 - Functions of vectors
-% \input{chapter-vector_func.tex}
+\include{chapters/vector_func}
 % 
 % % chap08 - Ordinary differential equations
-\input{chapter-ode.tex}
+\include{chapters/ode}
 % 
 % % chap09 - Systems of ODEs
-% \input{chapter-syst_ode.tex}
+\include{chapters/syst_ode}
 % 
 % % chap10 - Second-order systems
-% \input{chapter-second_order.tex}
+\include{chapters/second_order}
 % 
 % % chap11 - Optimization and interpolation
-% \input{chapter-opt_and_interp.tex}
+\include{chapters/opt_and_interp}
 % 
 % % chap12 - Vectors as vectors
-% \input{chapter-vect_as_vect.tex}
+\include{chapters/vect_as_vect}
 
-
-
-\newpage
 
 \end{document}
-
-
-
