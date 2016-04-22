@@ -35,8 +35,9 @@ distrib:
 	rm -rf tex
 	mkdir tex
 	rsync -a $(FILES) tex
-	rm tex/figs/*.bak
+	#rm tex/figs/*.bak
 	zip -r PhysModMatlab.zip tex
 	rsync -a PhysModMatlab.* html $(DEST)
 	chmod -R o+r $(DEST)/*
+	cd $(DEST)/..; sh back
 
