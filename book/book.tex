@@ -5723,6 +5723,9 @@ to see all of the data points, you have to use {\tt hold on}.
 >> clf; hold on
 >> [T, Y] = ode45(@rats, [0, 10], 2);
 \end{verbatim}
+This figure shows the output with the simple function above:
+
+\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45_simple.eps}}
 
 This figure shows the output of a more complicated script that zooms 
 %A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website\footnote{
@@ -6890,7 +6893,7 @@ ode45(@projectile, [0,10], [0, 3, 40, 30]);
 
 And the result looks like this:
 
-\beforefig \centerline{\includegraphics[height=2in]{figs/proj1.eps}}
+\beforefig \centerline{\includegraphics[height=2in]{figs/proj1_10s.eps}}
 
 You might have to think a little to figure out which line is
 which.  It looks like the flight time is about 6 seconds.
