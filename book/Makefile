@@ -22,7 +22,7 @@ FILES = Makefile book.tex latexonly figs
 hevea:	book.tex header.html footer.html
 	rm -rf html
 	mkdir html
-	hevea -O -e latexonly htmlonly book
+	hevea -fix -O -e latexonly htmlonly book
 # the following line is a kludge to prevent imagen from seeing
 # the definitions in latexonly
 	grep -v latexonly book.image.tex > a; mv a book.image.tex
