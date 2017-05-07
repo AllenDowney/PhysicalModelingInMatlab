@@ -8145,11 +8145,11 @@ The dot product of vectors $A$ and $B$ is a scalar:
 
 \[ d = a b \cos \theta \]
 %
-where $a$ is the magnitude of $A$, $b$ is the magnitude of $B$,
-and $\theta$ is the angle between the vectors.  We already know
-how to compute magnitudes, and you could probably figure out
-how to compute $\theta$, but you don't have to.  MATLAB provides
-a function, {\tt dot}, that computes dot products.
+where $a$ is the magnitude of $A$, $b$ is the magnitude of $B$, and
+$\theta$ is the smallest angle between $A$ and $B$.  We already know how
+to compute magnitudes, and you could probably figure out how to compute
+$\theta$, but you don't have to.  MATLAB provides a function, {\tt dot},
+that computes dot products.
 
 \begin{verbatim}
 d = dot(A, B)
@@ -8246,8 +8246,8 @@ each type.
 
 \begin{description}
 
-\item[dot product:] A scalar product of two vectors, proportional
-to the norms of the vectors and the cosine of the angle between them.
+\item[dot product:] A scalar product of two vectors, proportional to the
+norms of the vectors and the cosine of the smallest angle between them.
 
 \item[cross product:] A vector product of two vectors with norm
 proportional to the norms of the vectors and the sine of the angle
