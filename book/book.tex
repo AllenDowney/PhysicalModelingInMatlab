@@ -8160,18 +8160,18 @@ and {\tt B} have the same number of elements.
 
 If one of the operands is a unit vector, you can use the dot
 product to compute the component of a vector $A$ that is in
-the direction of a unit vector, $\hat{i}$:
+the direction of a unit vector, $\hat{u}$:
 
 \begin{verbatim}
-s = dot(A, ihat)
+s = dot(A, uhat)
 \end{verbatim}
 
 In this example, $s$ is the {\bf scalar projection} of $A$
-onto $\hat{i}$.  The {\bf vector projection} is the vector
-that has magnitude $s$ in the direction of $\hat{i}$:
+onto $\hat{u}$.  The {\bf vector projection} is the vector
+that has magnitude $s$ in the direction of $\hat{u}$:
 
 \begin{verbatim}
-V = dot(A, ihat) * ihat
+V = dot(A, uhat) * uhat
 \end{verbatim}
 
 The cross product of vectors $A$ and $B$ is a vector whose direction
