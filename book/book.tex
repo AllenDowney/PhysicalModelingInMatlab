@@ -7908,8 +7908,8 @@ golf ball is about 0.2 as long as the ball is moving faster than 20 m/s.
 Modeling celestial mechanics is a good opportunity
 to compute with spatial vectors.
 Imagine a star with mass $m_1$ at a point in space described by the
-vector $P_1$, and a planet with mass $m_2$ at point $P_2$.  The
-magnitude of the gravitational force\footnote{See
+vector $\vec{P_1}$, and a planet with mass $m_2$ at point $\vec{P_2}$.
+The magnitude of the gravitational force\footnote{See
 \url{https://en.wikipedia.org/wiki/Gravity}} between them is
 
 \begin{equation}
@@ -7925,12 +7925,12 @@ masses
 %are
 in kilograms and distances in meters, and forces are calculated in Newtons.
 
-The direction of the force on the star at $P_1$ is in the
-direction toward $P_2$.  We can compute relative direction by
+The direction of the force on the star at $\vec{P_1}$ is in the
+direction toward $\vec{P_2}$.  We can compute relative direction by
 subtracting vectors; if we compute {\tt R = P2 - P1}, then
 the direction of {\tt R} is from {\tt P1} to {\tt P2}.
 
-The distance between the planet and star is the length of $R$:
+The distance between the planet and star is the length of $\vec{R}$:
 
 \begin{verbatim}
 r = norm(R)
@@ -8155,17 +8155,17 @@ subtle.  It turns out that there are two vector operations that
 resemble multiplication: {\bf dot product}
 and {\bf cross product}.
 
-The dot product of vectors $A$ and $B$ is a scalar:
+The dot product of vectors $\vec{A}$ and $\vec{B}$ is a scalar:
 
 \begin{equation}
 d = a b \cos \theta
 \end{equation}
 
-where $a$ is the magnitude of $A$, $b$ is the magnitude of $B$, and
-$\theta$ is the smallest angle between $A$ and $B$.  We already know how
-to compute magnitudes, and you could probably figure out how to compute
-$\theta$, but you don't have to.  MATLAB provides a function, {\tt dot},
-that computes dot products.
+where $a$ is the magnitude of $\vec{A}$, $b$ is the magnitude of
+$\vec{B}$, and $\theta$ is the smallest angle between $\vec{A}$ and
+$\vec{B}$.  We already know how to compute magnitudes, and you could
+probably figure out how to compute $\theta$, but you don't have to.
+MATLAB provides a function, {\tt dot}, that computes dot products.
 
 \begin{verbatim}
 d = dot(A, B)
@@ -8175,14 +8175,14 @@ d = dot(A, B)
 and {\tt B} have the same number of elements.
 
 If one of the operands is a unit vector, you can use the dot
-product to compute the component of a vector $A$ that is in
+product to compute the component of a vector $\vec{A}$ that is in
 the direction of a unit vector, $\uvec{u}$:
 
 \begin{verbatim}
 s = dot(A, uhat)
 \end{verbatim}
 
-In this example, $s$ is the {\bf scalar projection} of $A$
+In this example, $s$ is the {\bf scalar projection} of $\vec{A}$
 onto $\uvec{u}$.  The {\bf vector projection} is the vector
 that has magnitude $s$ in the direction of $\uvec{u}$:
 
@@ -8190,15 +8190,16 @@ that has magnitude $s$ in the direction of $\uvec{u}$:
 V = dot(A, uhat) * uhat
 \end{verbatim}
 
-The cross product of vectors $A$ and $B$ is a vector whose direction
-is perpendicular to $A$ and $B$ and whose magnitude is
+The cross product of vectors $\vec{A}$ and $\vec{B}$ is a vector whose
+direction is perpendicular to $\vec{A}$ and $\vec{B}$ and whose
+magnitude is
 
 \begin{equation}
 c = a b \sin \theta
 \end{equation}
 
-where (again) $a$ is the magnitude of $A$, $b$ is the magnitude of
-$B$, and $\theta$ is the angle between the vectors.  MATLAB provides
+where (again) $a$ is the magnitude of $\vec{A}$, $b$ is the magnitude of
+$\vec{B}$, and $\theta$ is the angle between the vectors.  MATLAB provides
 a function, {\tt cross}, that computes cross products.
 
 \begin{verbatim}
@@ -8209,8 +8210,8 @@ C = cross(A, B)
 the first array dimension whose size equals 3.
 
 A common use of {\tt cross} is to compute torques.  If you represent
-a moment arm $R$ and a force $F$ as vectors with size equal to 3, then
-the torque is just
+a moment arm $\vec{R}$ and a force $\vec{F}$ as vectors with size equal
+to 3, then the torque is just
 
 \begin{verbatim}
 Tau = cross(R, F)
