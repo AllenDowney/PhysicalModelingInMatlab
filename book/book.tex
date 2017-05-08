@@ -29,6 +29,11 @@
 
 \pagestyle{fancyplain}
 
+% Define vector and unit vectors styles here \vec and \uvec
+%\renewcommand\vec{\mathbf}     % This would make vectors bold
+\newcommand{\uvec}[1]{\hat{#1}}
+
+
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
 
@@ -7152,10 +7157,10 @@ And suppose you are asked to compute the total acceleration of
 the ball due to drag and gravity.  In math notation, the force
 due to drag is
 
-\[ F_d = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \hat{V}   \]
+\[ F_d = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \uvec{V}   \]
 
 where $V$ is a spatial vector representing velocity, $v$ is the magnitude
-of the velocity (sometimes called ``speed''), and $\hat{V}$ is a unit
+of the velocity (sometimes called ``speed''), and $\uvec{V}$ is a unit
 vector in the direction of the velocity vector.  The other terms,
 $\rho$, $A$ and $C_d$, are scalars.
 
@@ -7176,7 +7181,7 @@ MATLAB vector.}  for the magnitude of a vector):
 v = 50
 \end{verbatim}
 
-$\hat{V}$ is a {\bf unit vector}, which means it should have norm 1,
+$\uvec{V}$ is a {\bf unit vector}, which means it should have norm 1,
 and it should point in the same direction as $V$.  The simplest
 way to compute it is to divide $V$ by its own norm.
 
@@ -7186,7 +7191,7 @@ way to compute it is to divide $V$ by its own norm.
 Vhat =  0.6  0.8
 \end{verbatim}
 
-Then we can confirm that the norm of $\hat{V}$ is 1:
+Then we can confirm that the norm of $\uvec{V}$ is 1:
 
 \begin{verbatim}
 >> norm(Vhat)
@@ -7194,7 +7199,7 @@ Then we can confirm that the norm of $\hat{V}$ is 1:
 ans = 1
 \end{verbatim}
 
-To compute $F_d$ we just multiply the scalar terms by $\hat{V}$.
+To compute $F_d$ we just multiply the scalar terms by $\uvec{V}$.
 
 \begin{verbatim}
 Fd = - 1/2 * rho * A * Cd * v^2 * Vhat
@@ -7231,7 +7236,7 @@ concisely.
 \begin{ex}
 Add air resistance to the simulation of the human projectile.
 Use the formula
-\[ F_d = -b ~ v^2 ~ \hat{V}   \]
+\[ F_d = -b ~ v^2 ~ \uvec{V}   \]
 In
 the skydiver scenario, we estimated that the drag constant was
 $0.2$, but that was based on the assumption that the skydiver is
@@ -7296,13 +7301,13 @@ dimensions.
 As presented in Section~\ref{spacial}, a
 simple model of the drag of a baseball is:
 %
-\[ F_d = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \hat{V}   \]
+\[ F_d = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \uvec{V}   \]
 %
 where $F_d$ is a vector that represents the force on the baseball due
 to drag, $C_d$ is the drag coefficient (0.3 is a reasonable choice),
 $\rho$ is the density of air (1.3 kg/m$^3$ at sea level), $A$ is the
 cross sectional area of the baseball (0.0042 m$^2$), $v$ is the
-magnitude of the velocity vector, and $\hat{V}$ is a unit vector in
+magnitude of the velocity vector, and $\uvec{V}$ is a unit vector in
 the direction of the velocity vector.  The mass of the baseball is
 $0.145$ kg.
 
@@ -7922,7 +7927,7 @@ The distance between the planet and star is the length of $R$:
 r = norm(R)
 \end{verbatim}
 
-The direction of the force on the star is $\hat{R}$:
+The direction of the force on the star is $\uvec{R}$:
 
 \begin{verbatim}
 rhat = R / r
@@ -8162,15 +8167,15 @@ and {\tt B} have the same number of elements.
 
 If one of the operands is a unit vector, you can use the dot
 product to compute the component of a vector $A$ that is in
-the direction of a unit vector, $\hat{u}$:
+the direction of a unit vector, $\uvec{u}$:
 
 \begin{verbatim}
 s = dot(A, uhat)
 \end{verbatim}
 
 In this example, $s$ is the {\bf scalar projection} of $A$
-onto $\hat{u}$.  The {\bf vector projection} is the vector
-that has magnitude $s$ in the direction of $\hat{u}$:
+onto $\uvec{u}$.  The {\bf vector projection} is the vector
+that has magnitude $s$ in the direction of $\uvec{u}$:
 
 \begin{verbatim}
 V = dot(A, uhat) * uhat
