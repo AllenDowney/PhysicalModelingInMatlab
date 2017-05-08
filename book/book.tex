@@ -6225,27 +6225,18 @@ The Lotka-Volterra model describes the interactions between two
 species in an ecosystem, a predator and its prey.  A common example
 is rabbits and foxes.
 
-The model is governed by the following system of differential
-equations:
+The model is governed by the following system of differential equations:
 
 \begin{eqnarray}
-\frac{dR}{dt} = a R - b R F
-\\
-\frac{dF}{dt} = e b R F - c F
+    \frac{dR}{dt} &=& a R - b R F
+    \\
+    \frac{dF}{dt} &=& - c F + d R F
 \end{eqnarray}
 %
-where
-%
-\begin{itemize}
-%
-\item $R$ is the population of rabbits,
-\item $F$ is the population of foxes,
-\item $a$ is the natural growth rate of rabbits in the absence of predation,
-\item $c$ is the natural death rate of foxes in the absence of prey,
-\item $b$ is the death rate of rabbits per interaction with a fox,
-\item $e$ is the efficiency of turning eaten rabbits into foxes.
-%
-\end{itemize}
+where $R$ and $F$ are the respective populations of rabbits and foxes,
+and $a$, $b$, $c$, and $d$ are positive constants
+governing the interactions between the two species.\footnote{See
+\url{https://en.wikipedia.org/wiki/Lotka-Volterra_equations}.}
 
 At first glance you might think you could solve these equations by
 calling {\tt ode45} once to solve for $R$ as a function of time and
@@ -6260,7 +6251,7 @@ initial values $R(0)$ and $F(0)$, and the output is a matrix
 that contains one column for $R$ and one for $F$.
 
 And here's what the rate function looks like
-with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$ and $e = 0.2$:
+with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$ and $d = 0.02$:
 
 \begin{verbatim}
 function res = lotka(t, V)
@@ -6272,11 +6263,11 @@ function res = lotka(t, V)
     a = 0.1;
     b = 0.01;
     c = 0.1;
-    e = 0.2;
+    d = 0.02;
 
     % compute the derivatives
     drdt = a*r - b*r*f;
-    dfdt = e*b*r*f - c*f;
+    dfdt = -c*f + d*r*f;
 
     % pack the derivatives into a vector
     res = [drdt; dfdt];
