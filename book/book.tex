@@ -6654,9 +6654,9 @@ of the object, and $a$ is the resulting acceleration of the object.
 In a simple case of one-dimensional motion,
 $F$ and $a$ are scalars, but in general they are vectors.
 
-Even more generally, if $F$ and $a$ vary in time, then they can
-be thought of as functions that return vectors; that is, $F$ is
-a function and the result of evaluating $F(t)$ is a vector that
+Even more generally, if $\vec{F}$ and $\vec{a}$ vary in time, then they can
+be thought of as functions that return vectors; that is, $\vec{F}$ is
+a function and the result of evaluating $\vec{F}(t)$ is a vector that
 describes the net force at time $t$.  So a more explicit way to
 write Newton's law is
 
@@ -6664,22 +6664,22 @@ write Newton's law is
 \forall t: \vec{F}(t) = m \vec{a}(t)
 \end{equation}
 
-The arrangement of this equation suggests that if you know $m$ and $a$
+The arrangement of this equation suggests that if you know $m$ and $\vec{a}$
 you can compute force, which is true, but in most physical
-model, you know $F$ and $m$, and compute $a$.
 simulations it is the other way around:  based on a physical
+model, you know $\vec{F}$ and $m$, and compute $\vec{a}$.
 
-So if you know acceleration, $a$, as a function of time, how do you
-find the position of the object, $p$?  Well, we know that acceleration
+So if you know acceleration, $\vec{a}$, as a function of time, how do you
+find the position of the object, $\vec{p}$?  Well, we know that acceleration
 is the second derivative of position, so we can write a differential
 equation
 
 \begin{equation}\label{eq:pos_acc}
-\frac{d^2p}{dt^2} = a
+    \frac{d^2\vec{p}}{dt^2} = \vec{a}
 \end{equation}
 
-Where $a$ and $p$ are functions of time that return vectors,
-and $\frac{d^2p}{dt^2}$ is the second time derivative of $p$.
+Where $\vec{a}$ and $\vec{p}$ are functions of time that return vectors,
+and $\frac{d^2\vec{p}}{dt^2}$ is the second time derivative of $\vec{p}$.
 
 Because equation \eqref{eq:pos_acc} includes a second derivative, it is
 a second-order ODE.  {\tt ode45} can't solve this equation in this form,
@@ -6688,13 +6688,13 @@ it as a system of first-order ODEs:
 
 \begin{eqnarray}
     \label{eq:pos_vel}
-    \frac{dp}{dt} &=& v \\
+    \frac{d\vec{p}}{dt} &=& \vec{v} \\
     \label{eq:vel_acc}
-    \frac{dv}{dt} &=& a
+    \frac{d\vec{v}}{dt} &=& \vec{a}
 \end{eqnarray}
 
-Equation \eqref{eq:pos_vel} says that the first derivative of $p$ is $v$;
-equation \eqref{eq:vel_acc} says that the derivative of $v$ is $a$.
+Equation \eqref{eq:pos_vel} says that the first derivative of $\vec{p}$ is $\vec{v}$;
+equation \eqref{eq:vel_acc} says that the derivative of $\vec{v}$ is $\vec{a}$.
 
 
 \section{Freefall}
@@ -7191,7 +7191,7 @@ the ball due to drag and gravity.  In math notation, the force
 due to drag is
 
 \begin{equation}
-F_d = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \uvec{V}
+    \vec{F_d} = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \uvec{V}
 \end{equation}
 
 where $V$ is a spatial vector representing velocity, $v$ is the magnitude
@@ -7232,14 +7232,14 @@ Then we can confirm that the norm of $\uvec{V}$ is 1:
 ans = 1
 \end{verbatim}
 
-To compute $F_d$ we just multiply the scalar terms by $\uvec{V}$.
+To compute $\vec{F_d}$ we just multiply the scalar terms by $\uvec{V}$.
 
 \begin{verbatim}
 Fd = - 1/2 * rho * A * Cd * v^2 * Vhat
 \end{verbatim}
 
 Similarly, we can compute acceleration by dividing the vector
-$F_d$ by the scalar $m$.
+$\vec{F_d}$ by the scalar $m$.
 
 \begin{verbatim}
 Ad = Fd / m
@@ -7271,7 +7271,7 @@ Add air resistance to the simulation of the human projectile.
 Use the formula
 
 \begin{equation}
-F_d = -b ~ v^2 ~ \uvec{V}
+    \vec{F_d} = -b ~ v^2 ~ \uvec{V}
 \end{equation}
 
 In
@@ -7339,11 +7339,11 @@ As presented in Section~\ref{spacial}, a
 simple model of the drag of a baseball is:
 
 \begin{equation}
-F_d = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \uvec{V}
+    \vec{F_d} = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \uvec{V}
 \end{equation}
 
 
-where $F_d$ is a vector that represents the force on the baseball due
+where $/vec{F_d}$ is a vector that represents the force on the baseball due
 to drag, $C_d$ is the drag coefficient (0.3 is a reasonable choice),
 $\rho$ is the density of air (1.3 kg/m$^3$ at sea level), $A$ is the
 cross sectional area of the baseball (0.0042 m$^2$), $v$ is the
