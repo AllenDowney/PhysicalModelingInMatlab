@@ -814,8 +814,10 @@ speed_of_light = 300000000
 
 Although MATLAB can handle large numbers, there is a limit.  The
 predefined variables {\tt realmax} and {\tt realmin} contain the
-largest and smallest number magnitudes that MATLAB can handle\footnote{The names
-of these variables are misleading: other documentation refers to ``floating-point numbers'', not ``real numbers''.}.
+largest and smallest number magnitudes that MATLAB can
+handle.\footnote{The names of these variables are misleading: other
+documentation refers to ``floating-point numbers'', not ``real
+numbers''.}
 
 \begin{verbatim}
 >> realmax
@@ -4372,11 +4374,11 @@ You can avoid all of this if you remember these two rules:
 \begin{itemize}
 
 \item Functions should always assign values to their output
-variables\footnote{Well, ok, there are exceptions, including {\tt
-find\_triples}.  Functions that don't return a value are sometimes
-called ``commands,'' because they do something (like display values or
-generate a figure) but either don't have an output variable or don't
-make an assignment to it.}.
+variables.\footnote{Well, ok, there are exceptions, including {\tt
+find\_triples} Functions that don't return a value are sometimes
+called ``commands,'' because they do something (like display
+values or generate a figure) but either don't have an output
+variable or don't make an assignment to it.}
 
 \item When you call a function, you should always do something with
 the result (either assign it to a variable or use it as part of an
@@ -4653,9 +4655,7 @@ guess?
 The density of a duck, $\rho$, is $0.3 g / cm^3$ (0.3 times the
 density of water).
 
-The volume of a sphere\footnote{This example is adapted from Gerald
-and Wheatley, {\em Applied Numerical Analysis}, Fourth Edition,
-Addison-Wesley, 1989.} with radius $r$ is $\frac{4}{3} \pi r^3$.
+The volume of a sphere with radius $r$ is $\frac{4}{3} \pi r^3$.
 
 If a sphere with radius $r$ is submerged in water to a depth $d$, the
 volume of the sphere below the water line is
@@ -4669,7 +4669,9 @@ An object floats at the level where the weight of the displaced water
 equals the total weight of the object.
 
 Assuming that a duck is a sphere with radius 10 cm, at what depth does
-a duck float?
+a duck float?\footnote{This example is adapted from Gerald and Wheatley,
+{\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
+1989.}
 
 Here are some suggestions about how to proceed:
 
@@ -5744,8 +5746,8 @@ This figure shows the output with the simple function above:
 \beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45_simple.eps}}
 
 This figure shows the output of a more complicated script that zooms
-%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website\footnote{
-%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}.
+%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
+%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
 in on the range from Day 100 to 170:
 
 \beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45.eps}}
@@ -5863,9 +5865,9 @@ have been calling the interval).
 
 There is yet another problem you might encounter, but if it makes you
 feel better, it might not be your fault: the problem you are trying to
-solve might be {\bf stiff}\footnote{The following discussion is based
+solve might be {\bf stiff}.\footnote{The following discussion is based
 partly on an article from Mathworks available at
-\url{http://www.mathworks.com/company/newsletters/news_notes/clevescorner/may03_cleve.html}}.
+\url{http://www.mathworks.com/company/newsletters/news_notes/clevescorner/may03_cleve.html}.}
 
 I won't give a technical explanation of stiffness here, except
 to say that for some problems (over some intervals with some initial
@@ -5966,7 +5968,7 @@ effects individually would be challenging and unnecessary to answer
 the question as posed.
 
 As a simplification, we can use Newton's Law of
-Cooling\footnote{\url{https://en.wikipedia.org/wiki/Heat_conduction}}:
+Cooling:
 
 \begin{equation}
 \frac{df}{dt} = -r (f - e)
@@ -5976,7 +5978,8 @@ Cooling\footnote{\url{https://en.wikipedia.org/wiki/Heat_conduction}}:
 where $f$ is the temperature of the coffee as a function of time and
 $df/dt$ is its time derivative; $e$ is the temperature of the
 environment, which is a constant in this case, and $r$ is a parameter
-(also constant) that characterizes the rate of heat transfer.
+(also constant) that characterizes the rate of heat
+transfer.\footnote{\url{https://en.wikipedia.org/wiki/Heat_conduction}}
 
 It would be easy to estimate $r$ for a given coffee cup by making
 a few measurements over time.  Let's assume that that has been
@@ -6014,9 +6017,9 @@ the final temperature of a mixture of two liquids.  It should
 take the volumes and temperatures of the liquids as parameters.
 
 In general, the final temperature of a mixture depends on the specific
-heat of the two
-substances\footnote{\url{https://en.wikipedia.org/wiki/Heat_capacity}}.
-But if we make the simplifying assumption that coffee and cream
+heat\footnote{\url{https://en.wikipedia.org/wiki/Heat_capacity}}
+of the two substances.  But if we make the simplifying
+assumption that coffee and cream
 have the same density and specific heat, then the final temperature is
 $(v_1 y_1 + v_2 y_2) / (v_1 + v_2)$, where $v_1$ and $v_2$ are
 the volumes of the liquids, and $y_1$ and $y_2$ are their
@@ -6493,14 +6496,13 @@ Based on the examples we have seen so far, you would think that
 all ODEs describe population as
 a function of time, but that's not true.
 
-According to
-Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/Lorenz_attractor}},
+According to Wikipedia,
 ``The Lorenz attractor, introduced by Edward Lorenz in 1963, is a
 non-linear three-dimensional deterministic dynamical system derived
 from the simplified equations of convection rolls arising in the
 dynamical equations of the atmosphere. For a certain set of parameters
 the system exhibits chaotic behavior and displays what is today called
-a strange attractor...''
+a strange attractor...''\footnote{\url{https://en.wikipedia.org/wiki/Lorenz_attractor}}
 
 The system is described by this system of differential equations:
 %
@@ -6848,10 +6850,9 @@ traveled and $y$ representing the height or altitude.  So now
 instead of a skydiver, think of a circus performer being fired
 out of a cannon.
 
-According to
-Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/Human_cannonball}},
-the record distance for a human cannonball is 59.05 meters (almost 194
-feet).
+According to Wikipedia, the record distance for a human cannonball is
+59.05 meters (almost 194
+feet).\footnote{\url{https://en.wikipedia.org/wiki/Human_cannonball}}
 
 Here is a general framework for computing the trajectory of a projectile
 in two dimensions using {\tt ode45}:
@@ -7130,8 +7131,8 @@ from the time values in {\tt T} to the population values in {\tt Y}.
 In this section we will see another use of MATLAB vectors:
 representing spatial vectors.  A spatial vector is a value that
 represents a multidimensional physical quantity like position,
-velocity, acceleration or force\footnote{See
-\url{https://en.wikipedia.org/wiki/Vector_(spatial)}.}.
+velocity, acceleration or force.\footnote{See
+\url{https://en.wikipedia.org/wiki/Vector_(spatial)}.}
 
 These quantities cannot be described with a
 single number because they contain multiple components.  For example,
@@ -7169,10 +7170,10 @@ $\rho$, $A$ and $C_d$, are scalars.\footnote{See
 The magnitude of a vector is the square root of the sum of the squares
 of the elements.  You could compute it with {\tt hypotenuse} from
 Section~\ref{hypotenuse}, or you could use the MATLAB function {\tt
-norm} ({\bf norm} is another name\footnote{Magnitude is also called
-``length'' but I will avoid that term because it gets confused with
-the {\tt length} function, which returns the number of elements in a
-MATLAB vector.}  for the magnitude of a vector):
+norm} ({\bf norm} is another name  for the magnitude\footnote{Magnitude
+is also called ``length'' but I will avoid that term because it gets
+confused with the {\tt length} function, which returns the number of
+elements in a MATLAB vector.} of a vector):
 
 \begin{verbatim}
 >> v = norm(V)
@@ -7878,12 +7879,12 @@ the range maps to more than one value in the domain.
 \begin{ex}
 \label{golf}
 
-A golf ball\footnote{See
-\url{https://en.wikipedia.org/wiki/Golf_ball}.} hit with backspin
+A golf ball hit with backspin
 generates lift, which might increase the range, but the energy that
 goes into generating spin probably comes at the cost of lower initial
-velocity.  Write a simulation of the flight of a golf ball and use it
-to find the launch angle and allocation of spin and initial velocity
+velocity.\footnote{See \url{https://en.wikipedia.org/wiki/Golf_ball}.}
+Write a simulation of the flight of a golf ball and use it to find
+the launch angle and allocation of spin and initial velocity
 (for a fixed energy budget) that maximizes the horizontal range of the
 ball in the air.
 
@@ -7906,8 +7907,7 @@ Modeling celestial mechanics is a good opportunity
 to compute with spatial vectors.
 Imagine a star with mass $m_1$ at a point in space described by the
 vector $\vec{P_1}$, and a planet with mass $m_2$ at point $\vec{P_2}$.
-The magnitude of the gravitational force\footnote{See
-\url{https://en.wikipedia.org/wiki/Gravity}} between them is
+The magnitude of the gravitational force between them is
 
 \begin{equation}
 F_g = G \frac{m_1 m_2}{r^2}
@@ -7915,7 +7915,8 @@ F_g = G \frac{m_1 m_2}{r^2}
 
 where $r$ is the distance between them and $G$ is the universal
 gravitational constant, which is about $6.67 \times 10^{-11} N m^2 /
-kg^2$.  Remember that when using this
+kg^2$.\footnote{See \url{https://en.wikipedia.org/wiki/Gravity}.}
+Remember that when using this
 value of $G$ it is easiest to directly specify
 %is the appropriate value of $G$ only if the
 masses
@@ -8317,8 +8318,8 @@ animation of the result.
 \label{binary}
 
 A binary star system contains two stars orbiting each other and
-sometimes planets that orbit one or both stars\footnote{See
-\url{https://en.wikipedia.org/wiki/Binary_star}.}.  In a binary
+sometimes planets that orbit one or both stars.\footnote{See
+\url{https://en.wikipedia.org/wiki/Binary_star}.}  In a binary
 system, some orbits are ``stable'' in the sense that a planet can stay
 in orbit without crashing into one of the stars or flying off into
 space.
