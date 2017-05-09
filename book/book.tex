@@ -16,6 +16,8 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{hevea}
 \usepackage{upquote}
+\usepackage[toc,page]{appendix}
+\usepackage{ifthen}
 
 %% Add pdf metadata here
 \usepackage{hyperref}
@@ -43,6 +45,38 @@
 %\renewcommand\vec{\mathbf}     % This would make vectors bold
 \newcommand{\uvec}[1]{\hat{#1}}
 
+% Create an "array" for the 9 theorems of debugging. Depends on ifthen
+% package above. (The 'xstring' package does this more elegantly, but
+% doesn't work with hevea.) This way we only need to change the theorems
+% in one place to change them everywhere.
+\newcommand{\displaythrm}[1]{%
+    \ifthenelse{\equal{#1}{1}}%
+        {Readable code is debuggable code.}{%
+    \ifthenelse{\equal{#1}{2}}%
+        {The only thing worse than getting an error message is {\em
+         not} getting an error message.}{%
+    \ifthenelse{\equal{#1}{3}}%
+        {You must always be 100\% sure that the code you are running
+         is the code you think you are running.}{%
+    \ifthenelse{\equal{#1}{4}}%
+        {Error messages tell you where the problem was discovered,
+         not where it was caused.}{%
+    \ifthenelse{\equal{#1}{5}}%
+        {The best kind of debugging is the kind you don't have to do.}{%
+    \ifthenelse{\equal{#1}{6}}%
+        {The worst bugs aren't in your code; they are in your head.}{%
+    \ifthenelse{\equal{#1}{7}}%
+        {The best way to avoid a bug is to make it impossible.}{%
+    \ifthenelse{\equal{#1}{8}}%
+        {Error messages sometimes tell you what's wrong, but they
+         seldom tell you what to do (and when they try, they're usually
+         wrong).}{%
+    \ifthenelse{\equal{#1}{9}}%
+        {Finding a hard bug requires reading, running, ruminating,
+         and sometimes retreating.  If you get stuck on one of these
+         activities, try the others.}{%
+    {}% default case
+}}}}}}}}}}% all the closing braces for displaythrm
 
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
@@ -396,7 +430,7 @@ most important human who will read your code is you.
 And that brings us to the First Theorem of Debugging:
 
 \begin{quote}
-Readable code is debuggable code.
+\displaythrm{1}
 \end{quote}
 
 It is worth spending time to make your code pretty; it will save
@@ -728,8 +762,7 @@ arguments.
 This example also demonstrates the Second Theorem of Debugging:
 
 \begin{quote}
-The only thing worse than getting an error message is {\em not}
-getting an error message.
+\displaythrm{2}
 \end{quote}
 
 Beginning programmers hate error messages and do everything they
@@ -1154,8 +1187,7 @@ at, you will find debugging a frustrating exercise!  And that brings
 us to the Third Theorem of Debugging:
 
 \begin{quote}
-You must always be 100\% sure that the code you are running is
-the code you think you are running.
+\displaythrm{3}
 \end{quote}
 
 
@@ -1246,8 +1278,7 @@ the workspace.
 Which brings us to the Fourth Theorem of Debugging:
 
 \begin{quote}
-Error messages tell you where the problem was discovered, not
-where it was caused.
+\displaythrm{4}
 \end{quote}
 
 The object of the game is to find the cause and
@@ -1388,7 +1419,7 @@ work the first time, or the problem is obvious.  That's a good thing,
 and it brings us to the Fifth Theorem of Debugging:
 
 \begin{quote}
-The best kind of debugging is the kind you don't have to do.
+\displaythrm{5}
 \end{quote}
 
 In practice, there are two problems with incremental development:
@@ -1463,7 +1494,7 @@ it looks right.
 Which brings us to the Sixth Theorem of Debugging:
 
 \begin{quote}
-The worst bugs aren't in your code; they are in your head.
+\displaythrm{6}
 \end{quote}
 
 
@@ -1589,7 +1620,7 @@ number of cars is right.  And that brings us to the Seventh Theorem of
 Debugging:
 
 \begin{quote}
-The best way to avoid a bug is to make it impossible.
+\displaythrm{7}
 \end{quote}
 
 In this case, removing redundancy also eliminates the opportunity for
@@ -3761,9 +3792,7 @@ is {\em supposed} to do, but you should.
 And that brings us to the Eighth Theorem of Debugging:
 
 \begin{quote}
-Error messages sometimes tell you what's wrong, but they
-seldom tell you what to do (and when they try, they're usually
-wrong).
+\displaythrm{8}
 \end{quote}
 
 
@@ -4578,9 +4607,7 @@ back in a little bit at a time.
 To summarize, here's the Ninth Theorem of Debugging:
 
 \begin{quote}
-Finding a hard bug requires reading, running, ruminating, and
-sometimes retreating.  If you get stuck on one of these activities,
-try the others.
+\displaythrm{9}
 \end{quote}
 
 
@@ -8337,6 +8364,23 @@ available from \url{http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.255.4
 Read this paper and then modify your planetary simulation to
 replicate or extend the results.
 \end{ex}
+
+\begin{appendices}
+\chapter{The Nine Theorems of Debugging}
+
+\begin{enumerate}
+    \item \displaythrm{1}
+    \item \displaythrm{2}
+    \item \displaythrm{3}
+    \item \displaythrm{4}
+    \item \displaythrm{5}
+    \item \displaythrm{6}
+    \item \displaythrm{7}
+    \item \displaythrm{8}
+    \item \displaythrm{9}
+\end{enumerate}
+
+\end{appendices}
 
 \newpage
 
