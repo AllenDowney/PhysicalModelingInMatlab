@@ -6666,8 +6666,8 @@ write Newton's law is
 
 The arrangement of this equation suggests that if you know $m$ and $a$
 you can compute force, which is true, but in most physical
-simulations it is the other way around.  Based on a physical
 model, you know $F$ and $m$, and compute $a$.
+simulations it is the other way around:  based on a physical
 
 So if you know acceleration, $a$, as a function of time, how do you
 find the position of the object, $p$?  Well, we know that acceleration
@@ -6683,8 +6683,8 @@ and $\frac{d^2p}{dt^2}$ is the second time derivative of $p$.
 
 Because this equation includes a second derivative, it is a second-order
 ODE.  {\tt ode45} can't solve this equation in this form, but by
-introducing a new variable, $v$, for velocity, we can rewrite it as
-a system of first-order ODEs.
+introducing a new variable, {\tt v}, for velocity, we can rewrite it as
+a system of first-order ODEs:
 
 \begin{eqnarray}
 \frac{dp}{dt} &=& v
