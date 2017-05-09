@@ -6674,26 +6674,27 @@ find the position of the object, $p$?  Well, we know that acceleration
 is the second derivative of position, so we can write a differential
 equation
 
-\begin{equation}
+\begin{equation}\label{eq:pos_acc}
 \frac{d^2p}{dt^2} = a
 \end{equation}
 
 Where $a$ and $p$ are functions of time that return vectors,
 and $\frac{d^2p}{dt^2}$ is the second time derivative of $p$.
 
-Because this equation includes a second derivative, it is a second-order
-ODE.  {\tt ode45} can't solve this equation in this form, but by
-introducing a new variable, {\tt v}, for velocity, we can rewrite it as
-a system of first-order ODEs:
+Because equation \eqref{eq:pos_acc} includes a second derivative, it is
+a second-order ODE.  {\tt ode45} can't solve this equation in this form,
+but by introducing a new variable, {\tt v}, for velocity, we can rewrite
+it as a system of first-order ODEs:
 
 \begin{eqnarray}
-\frac{dp}{dt} &=& v
-\\
-\frac{dv}{dt} &=& a
+    \label{eq:pos_vel}
+    \frac{dp}{dt} &=& v \\
+    \label{eq:vel_acc}
+    \frac{dv}{dt} &=& a
 \end{eqnarray}
 
-The first equation says that the first derivative of $p$ is $v$; the
-second says that the derivative of $v$ is $a$.
+Equation \eqref{eq:pos_vel} says that the first derivative of $p$ is $v$;
+equation \eqref{eq:vel_acc} says that the derivative of $v$ is $a$.
 
 
 \section{Freefall}
