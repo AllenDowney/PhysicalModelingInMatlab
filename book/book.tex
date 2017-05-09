@@ -5358,7 +5358,7 @@ such that $y = f(t)$.  We don't
 know what it is, but we can write a differential equation
 that describes it:
 
-\begin{equation}
+\begin{equation}\label{eq:exp_growth}
 \frac{df}{dt} = a f
 \end{equation}
 
@@ -5393,13 +5393,14 @@ can express the solution as a function of $t$.
 This particular ODE has an infinite number of solutions, but
 they all have this form:
 
-\begin{equation}
+\begin{equation}\label{eq:exp_func}
 f(t) = b e^{at}
 \end{equation}
 
 
-For any values of $a$ and $b$, this function satisfies the ODE.  If
-you don't believe me, take its derivative and check.
+For any values of $a$ and $b$, the function \eqref{eq:exp_func} satisfies
+the ODE \eqref{eq:exp_growth}.  If you don't believe me, take its
+derivative and check.
 
 If we know the population of bacteria at a particular point in time,
 we can use that additional information to determine which of the
@@ -5449,7 +5450,7 @@ $r$ changes slowly and $\Delta t$ is small.
 But let's assume (for now) that the ODE we are interested in can
 be written so that
 
-\begin{equation}
+\begin{equation}\label{eq:g_ODE}
 \frac{df}{dt}(t) = g(t, f(t))
 \end{equation}
 
@@ -5473,7 +5474,7 @@ The interval $\Delta t$ is called the {\bf time step}.
 Assuming that we start at $t=0$ and we have an initial condition $f(0)
 = y_0$ (where $y_0$ denotes a particular, known value), we set
 $T_0 = 0$ and $F_0 = y_0$, and then use
-Equations~\ref{euler1} and~\ref{euler2} to
+equations \eqref{euler1} and \eqref{euler2} to
 compute values of $T_i$ and $F_i$ until $T_i$
 gets to the value of $t$ we are interested in.
 
@@ -5512,7 +5513,7 @@ $f$     &  The unknown function specified,    &  function, f(t): $t \to y$  \\
 $df/dt$  &  The first time derivative of $f$  &  function, df/dt(t): $t \to r$  \\ \hline
 
 $g$     &  A ``rate function,'' derived from     &  \\
-        &  the ODE, that computes rate of     &  function, g(t,y): $t, y \to r$  \\
+        &  the ODE \eqref{eq:g_ODE}, that computes rate of &function, g(t,y): $t, y \to r$  \\
         &  change for any $t$, $y$.           &   \\\hline
 
 $T$     & a sequence of times, $t$, where   & sequence \\
