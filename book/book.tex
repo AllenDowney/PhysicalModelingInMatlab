@@ -18,6 +18,7 @@
 \usepackage{upquote}
 \usepackage[toc,page]{appendix}
 \usepackage{ifthen}
+\usepackage{bm}
 
 %% Add pdf metadata here
 \usepackage{hyperref}
@@ -41,9 +42,23 @@
 
 \pagestyle{fancyplain}
 
-% Define vector and unit vectors styles here \vec and \uvec
-%\renewcommand\vec{\mathbf}     % This would make vectors bold
-\newcommand{\uvec}[1]{\hat{#1}}
+% Define vector, unit vectors, and abs value bars for magnitude here
+\renewcommand{\vec}[1]{\bm{\mathbf{#1}}}
+
+% Complexity needed to display i_hat and j_hat correctly
+\newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
+\newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
+\DeclareRobustCommand{\uvec}[1]{{%
+  \ifcsname uvec#1\endcsname
+     \csname uvec#1\endcsname
+   \else
+    \bm{\hat{\mathbf{#1}}}%
+   \fi
+}}
+
+% This doesn't make the argument bold, just adds the bars
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+
 
 % Create an "array" for the 9 theorems of debugging. Depends on ifthen
 % package above. (The 'xstring' package does this more elegantly, but
@@ -5319,6 +5334,7 @@ Write a version of {\tt forall} using {\tt find}.
 \end{ex}
 
 
+
 \section{Glossary}
 
 \begin{description}
@@ -6578,123 +6594,170 @@ $x$, $y$ and $z$.
 % chap10
 \chapter{Second-order systems}
 
+\section{Spatial vectors}
+\label{spacial}
 
-\section{Nested functions}
+Before we can start modelling second-order systems,
+we need to discuss vectors. The word ``vector'' means different
+things to different people.  In MATLAB, a vector is a matrix that has
+either one row or one column.  So far we have used MATLAB vectors to
+represent
 
-In the Section~\ref{funfiles}, we saw an example of an M-file with
-more than one function:
+\begin{description}
 
-\begin{verbatim}
-function res = duck()
-    error = error_func(10)
-end
+\item[sequences:] A sequence is a set of values identified by
+integer indices; it is natural to store the elements of the
+sequence as elements of a MATLAB vector.
 
-function res = error_func(h)
-    rho = 0.3;      % density in g / cm^3
-    r = 10;         % radius in cm
-    res = ...
-end
-\end{verbatim}
+\item[state vectors:] A state vector is a set of values that
+describes the state of a physical system.  When you call
+{\tt ode45}, you give it initial conditions in a state
+vector.  Then when {\tt ode45} calls your rate function, it
+gives you a state vector.
 
-Because the first function ends before the second begins, they are at
-the same level of indentation.  Functions like these are {\bf
-parallel}, as opposed to {\bf nested}.  A nested function is
-defined inside another, like this:
+\item[discrete maps:] If you have two vectors with the same
+length, you can think of them as a mapping from the elements
+of one vector to the corresponding elements of the other.  For
+example, in Section~\ref{rats}, the results from {\tt ode45}
+are vectors, {\tt T} and {\tt Y}, that represent a mapping
+from the time values in {\tt T} to the population values in {\tt Y}.
 
-\begin{verbatim}
-function res = duck()
-    error = error_func(10)
+\end{description}
 
-    function res = error_func(h)
-        rho = 0.3;      % density in g / cm^3
-        r = 10;         % radius in cm
-        res = ...
-    end
-end
-\end{verbatim}
+In this chapter we will see another use of MATLAB vectors: representing
+{\bf spatial vectors}.  A spatial vector is a geometric object that can be used to
+represent a multidimensional physical quantity like position, velocity,
+acceleration, or force.
 
-The top-level function, {\tt duck}, is
-the {\bf outer function} and {\tt error\_func} is
-an {\bf inner function}.
+These quantities cannot be described with a single number because they
+contain multiple components (or equivalently---as we'll see shortly
+---because they have both a magnitude and a direction).  For example,
+in three-dimensional Cartesian coordinates, it takes three numbers
+to specify a position in space; these numbers are usually called $x$,
+$y$ and $z$ coordinates. Thus we can write a position vector
+$\vec{r}(t)$, representing an object's location at time $t$, as
 
-Nesting functions is useful because the variables of the outer
-function can be accessed from the inner function.  This is not
-possible with parallel functions.
+\begin{equation}\label{eq:position_vec}
+    \vec{r}(t) = (x(t), y(t), z(t))
+\end{equation}
 
-In this example, using a nested function makes it possible to
-move the parameters {\tt rho} and {\tt r} out of {\tt error\_func}.
+As another example, in two-dimensional polar coordinates, it takes two
+numbers to specify a position in space: a radial distance $\rho$ and an
+angle $\theta$. Here we can write a two-dimensional velocity vector
+$\vec{v}(t)$, representing an object's velocity at time $t$, as
 
-\begin{verbatim}
-function res = duck(rho)
-    r = 10;
-    error = error_func(10)
+\begin{equation}
+    \vec{v}(t) = (v_\rho(t),v_\theta(t))
+\end{equation}
 
-    function res = error_func(h)
-        res = ...
-    end
-end
-\end{verbatim}
+Notice that both vectors $\vec{r}(t)$ and $\vec{v}(t)$ are presented in bold,
+indicating that they are vectors.
 
-Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
-By making {\tt rho} an input argument, we made it easier to test
-{\tt duck} with different parameter values.
+An equivalent way of describing a spatial vector is with a magnitude\footnote{
+    Magnitude is also called ``length'' but I will avoid that term
+    because it gets confused with the {\tt length} function, which
+    returns the number of elements in a MATLAB vector.}
+and a direction. If you imagine the vector $\vec{r}(t)$ from equation
+\eqref{eq:position_vec} as an arrow starting from the origin and terminating
+at the point $(x(t),y(t),z(t))$, then the magnitude of $\vec{r}(t)$ is
+how long the arrow is and the direction of $\vec{r}(t)$ is where the arrow
+points.
 
+The magnitude of $\vec{r}(t)$ is usually written as
 
+\begin{equation}\label{eq:vec_u_mag1}
+    \norm{\vec{r}(t)}
+\end{equation}
+
+but when there's little room for confusion, it's often more convenient
+to write
+
+\begin{equation}\label{eq:vec_u_mag2}
+    r(t) = \norm{\vec{r}(t)}
+\end{equation}
+
+Exactly how you calculate the magnitude of a vector from its components depends
+on the coordinate system.
+
+The direction of $\vec{r}(t)$ is conveniently described by
+
+\begin{equation}\label{eq:vec_u_unit}
+    \uvec{r}(t) = \frac{\vec{r}(t)}{\norm{\vec{r}(t)}}
+\end{equation}
+
+where $\uvec{r}(t)$ is a {\bf unit vector}, as indicated by its hat.
+Notice this equation \eqref{eq:vec_u_unit} contains the product of a
+vector $\vec{r}(t)$ and a scalar $\frac{1}{\norm{\vec{r}(t)}}$; this
+operation is called scalar multiplication, wherein the scalar multiplies
+(or \textit{scales}) the magnitude of the vector without changing its
+direction.\footnote{See
+\url{https://en.wikipedia.org/wiki/Scalar_multiplication}.} For unit vectors
+we always have
+
+\begin{equation}
+    \norm{\uvec{r}(t)} = 1
+\end{equation}
+
+which is why unit vectors are so convenient for representing directions.
 
 \section{Newtonian motion}
 
-Newton's second law of motion is often written like this
+Newton's second law of motion is often written like this:
 
 \begin{equation}
-F = ma
+    \vec{F} = m \vec{a}
 \end{equation}
 
-where $F$ is the net force acting on a object, $m$ is the mass
-of the object, and $a$ is the resulting acceleration of the object.
-In a simple case of one-dimensional motion,
-$F$ and $a$ are scalars, but in general they are vectors.
+where $\vec{F}$ is the net force acting on an object, $m$ is the
+mass of the object, and $\vec{a}$ is the acceleration of the object.
+In the simple case of one-dimensional motion,
+$\vec{F}$ and $\vec{a}$ are scalars, letting us write
 
-Even more generally, if $\vec{F}$ and $\vec{a}$ vary in time, then they can
+\begin{equation}
+    F = m a
+\end{equation}
+
+but in general they are vectors. If $\vec{F}$ and $\vec{a}$ vary in time, then they can
 be thought of as functions that return vectors; that is, $\vec{F}$ is
 a function and the result of evaluating $\vec{F}(t)$ is a vector that
 describes the net force at time $t$.  So a more explicit way to
-write Newton's law is
+write Newton's second law is
 
-\begin{equation}
+\begin{equation}\label{eq:newton_explicit}
 \forall t: \vec{F}(t) = m \vec{a}(t)
 \end{equation}
 
-The arrangement of this equation suggests that if you know $m$ and $\vec{a}$
-you can compute force, which is true, but in most physical
-simulations it is the other way around:  based on a physical
-model, you know $\vec{F}$ and $m$, and compute $\vec{a}$.
+The arrangement of this equation \eqref{eq:newton_explicit} suggests
+that if you know $m$ and $\vec{a}$ you can compute force, which is true,
+but in most physical simulations it is the other way around:  based on a
+physical model, you know $\vec{F}$ and $m$, and you compute $\vec{a}$.
 
-So if you know acceleration, $\vec{a}$, as a function of time, how do you
-find the position of the object, $\vec{p}$?  Well, we know that acceleration
+So if we know acceleration, $\vec{a}$, as a function of time, how do we
+find the position of the object, $\vec{r}$?  Well, we know that acceleration
 is the second derivative of position, so we can write a differential
 equation
 
 \begin{equation}\label{eq:pos_acc}
-    \frac{d^2\vec{p}}{dt^2} = \vec{a}
+    \frac{d^2\vec{r}}{dt^2} = \vec{a}
 \end{equation}
 
-Where $\vec{a}$ and $\vec{p}$ are functions of time that return vectors,
-and $\frac{d^2\vec{p}}{dt^2}$ is the second time derivative of $\vec{p}$.
+where $\vec{a}$ and $\vec{r}$ are functions of time that return vectors,
+and $\frac{d^2\vec{r}}{dt^2}$ is the second time derivative of $\vec{r}$.
 
 Because equation \eqref{eq:pos_acc} includes a second derivative, it is
-a second-order ODE.  {\tt ode45} can't solve this equation in this form,
-but by introducing a new variable, {\tt v}, for velocity, we can rewrite
-it as a system of first-order ODEs:
+a second-order ODE.  {\tt ode45} can't solve the equation this form, but
+by introducing a new variable, {\tt v}, for velocity, we can rewrite it
+as a system of first-order ODEs:
 
 \begin{eqnarray}
     \label{eq:pos_vel}
-    \frac{d\vec{p}}{dt} &=& \vec{v} \\
+    \frac{d\vec{r}}{dt} &=& \vec{v} \\
     \label{eq:vel_acc}
     \frac{d\vec{v}}{dt} &=& \vec{a}
 \end{eqnarray}
 
-Equation \eqref{eq:pos_vel} says that the first derivative of $\vec{p}$ is $\vec{v}$;
-equation \eqref{eq:vel_acc} says that the derivative of $\vec{v}$ is $\vec{a}$.
+Equation \eqref{eq:pos_vel} says that the first derivative of $\vec{r}$ is $\vec{v}$;
+equation \eqref{eq:vel_acc} says that the first derivative of $\vec{v}$ is $\vec{a}$.
 
 
 \section{Freefall}
@@ -6705,44 +6768,42 @@ Let's start with a simple example: an object in freefall in a vacuum
 acceleration of gravity is $g = -9.8$ $m/s^2$, where the minus sign
 indicates that gravity pulls down.
 
-If the object falls straight down,
-we can describe its position with a scalar value, altitude.  So
-this will be a one-dimensional problem, at least for now.
+If the object falls straight down, we can describe its position with a
+scalar value $y$ representing altitude.  So this will be a
+one-dimensional problem, at least for now.
 
 Here is a rate function we can use with {\tt ode45} to solve
 this problem:
 
 \begin{verbatim}
 function res = freefall(t, X)
-    p = X(1);      % the first element is position
+    y = X(1);      % the first element is position
     v = X(2);      % the second element is velocity
 
-    dpdt = v;
-    dvdt = acceleration(t, p, v);
+    dydt = v;
+    dvdt = acceleration(t, y, v);
 
-    res = [dpdt; dvdt];    % pack the results in a column vector
+    res = [dydt; dvdt];    % pack the results in a column vector
 end
 
-function res = acceleration(t, p, v)
+function res = acceleration(t, y, v)
     g = 9.8;      % gravity in m/s^2
     res = -g;
 end
 \end{verbatim}
 
-The first function is the rate function.  It gets {\tt t} and
-{\tt X} as input variables, where the elements of {\tt X} are understood
-to be position and velocity.  The return value from {\tt freefall}
-is a (column) vector that contains the derivatives of position
-and velocity, which are velocity and acceleration, respectively.
+The first function, {\tt freefall}, is the rate function.  It gets {\tt
+t} and {\tt X} as input variables, where the elements of {\tt X} are
+understood to be precisely the position and velocity of the object.  It
+returns a column vector that contains {\tt dydt} and {\tt dvdt}, which
+are velocity and acceleration, respectively.
 
-Computing $p_t$ is easy because we are given velocity
-as an element of {\tt X}.  The only thing we have to compute is
-acceleration, which is what the second function does.
-
-{\tt acceleration} computes acceleration as a function of time,
-position and velocity.  In this example, the net acceleration is
-a constant, so we don't really have to include all this information
-yet, but we will soon.
+We're given the velocity as the second element of {\tt X}, so {\tt
+freefall} simply assigns this value to {\tt dydt}.  {\tt freefall}
+obtains acceleration by calling the second function, {\tt acceleration},
+which takes time, position, and velocity as input variables.  In this
+example, the net acceleration is a constant, so the input variables are
+unnecessary, but in Section~\ref{air_resistance} we'll need them.
 
 Here's how to run {\tt ode45} with this rate function:
 
@@ -6753,7 +6814,7 @@ Here's how to run {\tt ode45} with this rate function:
 As always, the first argument is the function handle, the second
 is the time interval (30 seconds) and the third is the initial
 condition: in this case, the initial altitude is 4000 meters and
-the initial velocity is 0.  So you can think of the ``object'' a
+the initial velocity is 0. You can think of our object as
 a skydiver jumping out of an airplane at about 12,000 feet.
 
 Here's what the result looks like:
@@ -6767,52 +6828,51 @@ is a function of time, not a ballistic trajectory).
 
 Notice that {\tt ode45} doesn't know where the ground is, so the
 skydiver keeps going through zero into negative altitude.  We will
-address this issue later.
+address this issue in Section~\ref{events}.
 
 
-\section{Air resistance}
+\section{Air resistance}\label{air_resistance}
 
 To make this simulation more realistic, we can add air resistance.
 For large objects moving quickly through air, the force due to air
-resistance, called ``drag,'' is proportional to $v^2$:
+resistance, called ``drag,'' is proportional to $v^2$ and directed
+oppositely to $\uvec{v}$:
 
-\begin{equation}
-F_{drag} = b v^2
+\begin{equation}\label{eq:simpledrag}
+    \vec{F_{d}} = - b v^2 \uvec{v}
 \end{equation}
 
-Where $b$ is a drag constant that depends on the density of
-air, the cross-sectional area of the object and
-the surface properties of the object.  For purposes of this
-problem, let's say that $b = 0.2$.
+where $b$ is a drag constant that depends on the density of
+air, the cross-sectional area of the object and the surface properties
+of the object.\footnote{Notice that equation \eqref{eq:simpledrag} makes use
+of the convention $v = \norm{\vec{v}}$. See
+Section~\ref{spacial}}For this problem, let's say that $b = 0.2$.
 % b is used in the book "Physics for Scientists and Engineers" by Paul A. Tipler.
 
 To convert from force to acceleration, we have to know mass, so let's
 say that the skydiver (with equipment) weighs 75 kg.
 
-Here's a version of {\tt acceleration} that takes air resistance
-into account (you don't have to make any changes in the {\tt freefall} function:
+Here's a version of {\tt acceleration} that takes air resistance into
+account (note that you don't have to make any changes in the {\tt
+freefall} function):
 
 \begin{verbatim}
-function res = acceleration(t, p, v)
+function res = acceleration(t, y, v)
     a_g = -9.8;              % acceleration due to gravity in m/s^2
     b = 0.2;                 % drag constant
     m = 75;                  % mass in kg
-    f_d = b * v^2;           % drag force in N
-    a_d = f_d / m;           % drag acceleration in m/s^2
+    F_d = b * v^2;           % drag force in N
+    a_d = F_d / m;           % drag acceleration in m/s^2
     res = a_g + a_d;         % total acceleration
 end
 \end{verbatim}
 
-The sign of the drag force (and drag acceleration) is positive as
-long as the object is falling:  the direction of the drag force is
-the opposite of the direction of motion and we have defined the
-positive direction to be
-up.
-The net
-acceleration is the sum of gravity and drag.  Be careful when you
-are working with forces and accelerations; make sure you only add
-forces to forces or accelerations to accelerations.  In my code,
-I use comments to remind myself what units the values are in.
+The sign of the drag force (and ``drag acceleration'') is positive here because
+the object is falling (i.e., the velocity is in the $-y$ direction).
+The output variable is simply the sum of the gravity and drag accelerations.
+Be careful when you are working with forces and accelerations; make sure
+you only add forces to forces or accelerations to accelerations.  In my
+code, I use comments to remind myself what units the values are in.
 That helps me avoid nonsense like adding forces to accelerations.
 
 Here's what the result looks like with air resistance:
@@ -6823,7 +6883,7 @@ Big difference!  With air resistance, velocity increases until
 the drag acceleration equals $g$; after that, velocity is a constant,
 known as ``terminal velocity,'' and position decreases linearly
 (and much more slowly than it would in a vacuum).  To examine
-the results more closely, we can assign them to variables
+the results more closely, we can assign them to variables:
 
 
 \begin{verbatim}
@@ -6848,18 +6908,15 @@ terminal velocity increases.  This relationship is the source of the
 intuition that heavy objects fall faster; in air, they do!
 \end{ex}
 
-
-\section{Parachute!}
-
-In the previous section, we saw that the terminal velocity of a $75
+\begin{ex}
+The terminal velocity of a $75
 kg$ skydiver is about 60 $m/s$, which is about 130 mph.  If you hit
 the ground at that speed, you would almost certainly be killed.
 That's where parachutes come in.
 
-\begin{ex}
 Modify {\tt acceleration} so that after 30 seconds of
 free-fall the skydiver deploys a parachute, which (almost) instantly
-increases the drag constant to 2.7.
+    increases the drag constant to 2.7. Hint: see Section~\ref{events}.
 
 What is the terminal velocity now?  How long (after deployment) does
 it take to reach the ground?
@@ -6892,27 +6949,26 @@ in two dimensions using {\tt ode45}:
 
 \begin{verbatim}
 function res = projectile(t, W)
-    P = W(1:2);
+    R = W(1:2);
     V = W(3:4);
 
-    dPdt = V;
-    dVdt = acceleration(t, P, V);
+    dRdt = V;
+    dVdt = acceleration(t, R, V);
 
-    res = [dPdt; dVdt];
+    res = [dRdt; dVdt];
 end
 
-function res = acceleration(t, P, V)
+function res = acceleration(t, R, V)
     g = 9.8;             % gravity in m/s^2
     res = [0; -g];
 end
 \end{verbatim}
 
-The second argument of the rate function is a vector, {\tt W}, with
-four elements.  The first two are assigned to {\tt P}, which
-represents position; the last two are assigned to {\tt V}, which
-represents velocity.
-{\tt P} and {\tt V} are vectors with
-elements for the $x$ and $y$ components.
+The second argument of the rate function is understood to be a vector,
+{\tt W}, with four elements.  The first two are assigned to {\tt R},
+which represents position; the last two are assigned to {\tt V}, which
+represents velocity. Both {\tt R} and {\tt V} have two elements
+representing the $x$ and $y$ components of the projectile's motion.
 
 The result from
 {\tt acceleration} is also a vector; ignoring air resistance
@@ -6947,16 +7003,245 @@ horizontal distance traveled.
 \end{ex}
 
 
+\section{Spacial vectors revisited}
+\label{spacialre}
+
+Let's talk about spacial vectors again, this time by way of example.
+Suppose that you are given the velocity of a baseball in the form of a
+MATLAB vector with two elements, $v_x$ and $v_y$, which are the
+components of velocity in the $x$ and $y$ directions.
+
+\begin{verbatim}
+>> V = [30; 40];       % velocity in m/s
+\end{verbatim}
+
+Also suppose you are asked to compute the total acceleration of the ball
+due to drag and gravity. Wikipedia specifies the drag force as follows
+(cf. equation \eqref{eq:simpledrag}):
+
+\begin{equation}\label{eq:wikidrag}
+    \vec{F_d} = - \frac{1}{2} ~ \rho v^2 C_d A ~ \uvec{v}
+\end{equation}
+
+where $\rho$, $C_d$, and $A$ are scalars representing fluid density
+($1.3 ~ kg/m^3$ for air at sea level), a dimensionless drag coefficient
+($0.3$ is reasonable for a baseball), and cross-sectional area ($0.0042
+~ m^2$ for a baseball).\footnote{
+    \url{https://en.wikipedia.org/wiki/Drag_(physics)}.}
+
+To use equation \eqref{eq:wikidrag}, we need both the magnitude and the
+direction of {\tt V}. The magnitude of a spacial vector \vec{u} in
+two-dimensional Cartesian coordinates is
+
+\begin{equation}\label{eq:cartesiannorm}
+    \norm{\vec{u}} = \sqrt{u_x^2 + u_y^2}
+\end{equation}
+
+You could compute the magnitude using equation
+\eqref{eq:cartesiannorm} with {\tt hypotenuse} from
+Section~\ref{hypotenuse}, or you could use the MATLAB function {\tt
+norm} ({\bf norm} is another name for magnitude); let's use {\tt
+norm}:
+
+\begin{verbatim}
+>> v = norm(V)
+
+v = 50
+\end{verbatim}
+
+To find the unit vector {\tt Vhat} corresponding to {\tt V}, we simply
+need to divide {\tt V} by its magnitude:
+
+\begin{verbatim}
+>> Vhat = V / v
+
+Vhat =  0.6  0.8
+\end{verbatim}
+
+Let's confirm that the norm of {\tt Vhat} is unity:
+
+\begin{verbatim}
+>> norm(Vhat)
+
+ans = 1
+\end{verbatim}
+
+Good. Now, to compute $\vec{F_d}$ we just need to recall our values for
+$\rho$, $C_d$, and $A$; and then follow equation \eqref{eq:wikidrag}:
+
+\begin{verbatim}
+>> rho = 1.3;          % kg/m^3
+>> Cd = 0.3;           % dimensionless
+>> A = 0.0042;         % m^2
+
+>> Fd = - 1/2 * rho * v^2 * Cd * A * Vhat  % N
+
+Fd =  -1.2  -1.6
+\end{verbatim}
+
+Remembering Newton's second law (and taking the mass $m$ of a baseball to be
+$0.145 ~ kg$), we can compute ``drag acceleration'':
+
+\begin{verbatim}
+>> m = 0.145;          % kg
+>> Ad = Fd / m         % m/s^2
+
+Ad =  -8.5  -11.3
+\end{verbatim}
+
+To represent acceleration due to gravity, we create a vector
+with two components:
+
+\begin{verbatim}
+>> Ag = [0; -9.8];
+\end{verbatim}
+
+The $x$ component of acceleration due to gravity is 0; the $y$ component is $-9.8 ~ m/s^2$.
+
+Finally, we compute the total acceleration by summing {\tt Ad} and {\tt Ag}:
+
+\begin{verbatim}
+>> At = Ad + Ag
+
+At =  -8.5  -1.5
+\end{verbatim}
+
+One nice thing about this computation is that we didn't have to think
+much about the components of the vectors.  By treating spatial vectors
+as basic quantities, we can express complicated computations concisely.
+
+\begin{ex}
+Suppose the baseball lands in a lake, and breaks the water's surface
+    with velocity
+
+\begin{equation}
+    v_0 = (25, -25) ~  m/s
+\end{equation}
+
+How long will it take to resurface?
+
+Consider the baseball to be fully
+    submerged when it enters the water. You will need to account for the
+    gravitational force and the drag force (given in equation
+    \eqref{eq:wikidrag}). You will also need to consider the force due
+    to ``bouyancy'' which is given by Archimedes' principle:
+
+\begin{equation}
+    \vec{F_b} = \rho V g ~ \uvec{j}
+\end{equation}
+
+where $\rho$ is the density of the fluid (for water this is $1000 ~ kg /
+    m^3$), $V$ is the volume of the fluid displaced (equal to the volume
+    of the baseball---take this to be $0.000213 ~ m^3$), and $g$ the
+    familiar gravitational constant; $\uvec{j}$ is the unit vector that
+    points straight up:
+
+\begin{equation}
+    \uvec{j} = (0, 1)
+\end{equation}
+
+\end{ex}
+
+\section{Putting it all together}
+
+Let's return to our two-dimensional simulation of the human cannonball
+from Section~\ref{projectile}. Our rate function, {\tt
+projectile}, looked like this:
+
+\begin{verbatim}
+function res = projectile(t, W)
+    R = W(1:2);
+    V = W(3:4);
+
+    dRdt = V;
+    dVdt = acceleration(t, R, V);
+
+    res = [dRdt; dVdt];
+end
+\end{verbatim}
+
+Suppose we want to model the effect of drag on our cannonball's
+flight. Luckily, we already did most of the work for this in
+Section~\ref{spacialre}. We know that we can represent the acceleration
+due to gravity with the vector
+
+\begin{verbatim}
+>> Ag = [0; -9.8];
+\end{verbatim}
+
+and we know that we can represent the acceleration due to drag with the
+vector
+
+\begin{verbatim}
+>> Fd = - 1/2 * rho * v^2 * Cd * A * Vhat;
+>> Ad = Fd / m;
+\end{verbatim}
+
+We also know how to compute {\tt v} and {\tt Vhat} given {\tt V}. But
+what constants should we use? Sure, {\tt rho} is fairly obvious---we can
+take {\tt rho} to be the density of air at sea level ($1.3 ~
+kg/m^3$)---but what about {\tt Cd}, {\tt A}, and {\tt m}? I want
+\textit{you} to figure out these constants: research is as much a part
+of physical modelling as math and programming are---and it's the part
+that's most fun.
+
+Visualize a human cannonball. If you can't, then look one up on
+YouTube. Google ``drag coefficient'' to help estimate the drag
+coefficient {\tt Cd} (the Wikipedia
+page\footnote{\url{https://en.wikipedia.org/wiki/Drag_coefficient}} is
+a good resource).
+
+Now you need to decide \textit{who} to fire out of the cannon. What's
+their waist size? What's their weight? Use these to estimate {\tt A} and
+{\tt m}.
+
+Once you decide on these constants, you can use the following {\tt
+acceleration} function to test your model (together with {\tt
+projectile} above):
+
+\begin{verbatim}
+function res = acceleration(t, R, V)
+    g = 9.8;             % gravity in m/s^2
+    rho = 1.3;           % air density in kg/m^3
+    %Cd = ?
+    %A = ?
+    %m = ?
+
+    Ag = [0; -g];
+
+    v = norm(V);
+    Vhat = V/v;
+    Fd = - 1/2 * rho * v^2 * Cd * A * Vhat;
+    Ad = Fd / m;
+
+    res = Ag + Ad;
+end
+\end{verbatim}
+
+Use the following to run the simulation:
+
+\begin{verbatim}
+>> T = [0,10];            % time-span; change this if needed
+>> W0 = [0, 3, 40, 30];   % initial position and velocity
+                          % think: is this reasonable?
+
+>> ode45(@projectile, T, W0)
+\end{verbatim}
+
+How did it go? Were your results reasonable? Why or why not? Consider our
+initial discussion of modeling from Section~\ref{modeling} . Is this
+model a good choice to simulate a human cannonball?
+
 \section{What could go wrong?}
 
 What could go wrong?  Well, {\tt vertcat} for one.  To explain
-what that means, I'll start with {\bf catenation}, which is
+what that means, I'll start with {\bf concatenation}, which is
 the operation of joining two matrices into a larger matrix.
-``Vertical catenation'' joins the matrices by stacking them on
-top of each other; ``horizontal catenation'' lays them
+``Vertical concatenation'' joins the matrices by stacking them on
+top of each other; ``horizontal concatenation'' lays them
 side by side.
 
-Here's an example of horizontal catenation with row vectors:
+Here's an example of horizontal concatenation with row vectors:
 
 \begin{verbatim}
 >> x = 1:3
@@ -6972,8 +7257,8 @@ y = 4     5
 z = 1     2     3     4     5
 \end{verbatim}
 
-Inside brackets, the comma operator performs horizontal catenation.
-The vertical catenation operator is the semi-colon.  Here is an
+Inside brackets, the comma operator performs horizontal concatenation.
+The vertical concatenation operator is the semi-colon.  Here is an
 example with matrices:
 
 \begin{verbatim}
@@ -7021,30 +7306,30 @@ consistent.
 \end{verbatim}
 
 In this example, {\tt a} is a row vector and {\tt b} is a column
-vector, so they can't be catenated in either direction.
+vector, so they can't be concatenated in either direction.
 
 Reading the error messages, you probably guessed that {\tt horzcat}
-is the function that performs horizontal catenation, and likewise
-with {\tt vertcat} and vertical catenation.
+is the function that performs horizontal concatenation, and likewise
+with {\tt vertcat} and vertical concatenation.
 
-These operations are relevant to {\tt projectile} because of the
-last line, which packs {\tt dPdt} and {\tt dVdt} into the
-output variable:
+These operations are relevant to our rate function {\tt projectile} from
+Section~\ref{projectile} because of the last line, which packs {\tt
+dRdt} and {\tt dVdt} into the output variable:
 
 \begin{verbatim}
 function res = projectile(t, W)
-    P = W(1:2);
+    R = W(1:2);
     V = W(3:4);
 
-    dPdt = V;
-    dVdt = acceleration(t, P, V);
+    dRdt = V;
+    dVdt = acceleration(t, R, V);
 
-    res = [dPdt; dVdt];
+    res = [dRdt; dVdt];
 end
 \end{verbatim}
 
-As long as both {\tt dPdt} and {\tt dVdt} are column vectors,
-the semi-colon performs vertical catenation, and the result is
+As long as both {\tt dRdt} and {\tt dVdt} are column vectors,
+the semi-colon performs vertical concatenation, and the result is
 a column vector with four elements.  But if either of them is a
 row vector, that's trouble.
 
@@ -7060,11 +7345,11 @@ and make sure you are clear on which way your vectors go.
 \section{ODE Events}
 \label{events}
 
-Normally when you call {\tt ode45} you have to specify
-a start time and an end time.  But in many cases, you don't know ahead
-of time when the simulation should end.
-Fortunately MATLAB provides a mechanism for dealing
-with this problem.  The bad news is that it is a little awkward.
+Normally when you call {\tt ode45} you have to specify a start time and
+an end time.  But in many cases, you don't know ahead of time when the
+simulation should end (this was an issue in Section~\ref{freefall}'s
+freefall simulation). Fortunately MATLAB provides a mechanism for
+dealing with this problem.  The bad news is that it is a little awkward.
 Here's how it works:
 
 \begin{enumerate}
@@ -7090,30 +7375,34 @@ from Section~\ref{projectile}
 
 \begin{verbatim}
 function [value,isterminal,direction] = event(t,X)
-    value = X(2);        % Extract the current height.
-    isterminal = 1;      % Stop the integration if height crosses zero.
-    direction = -1;      % But only if the height is decreasing.
+    value = X(2);        % Extract the current height
+    isterminal = 1;      % Stop if height crosses zero
+    direction = -1;      % if the height is decreasing
 end
 \end{verbatim}
 
 {\tt event} returns three output variables:
 
-{\tt value} determines
-when an event may occur.  In this case {\tt value} gets the second
-element of {\tt X}, which is understood to be the height of the
-projectile.  An ``event'' may occur when this value passes
-through 0.
+The  first output variable, {\tt value}, determines whether an event can
+        occur.  In this case {\tt value} gets the second element of {\tt
+        X}, which is understood to be the height of the projectile.  An
+        ``event'' can occur when {\tt value} passes through 0, but
+        whether it \textit{does} occur depends on the third output
+        variable, {\tt direction}.
 
-{\tt direction} determines whether an event occurs when
-{\tt value} is increasing ({\tt direction=1}), decreasing ({\tt
-direction=-1}, or both {\tt direction=0}.
+The second output variable, {\tt isterminal}, determines what happens
+        when the event occurs.  If {\tt isterminal=1}, the event is
+        ``terminal'' and the simulation stops.  If {\tt isterminal=0},
+        the simulation continues, but {\tt ode45} does some additional
+        work to make sure that the solution in the vicinity of the event
+        is accurate, and that one of the estimated values in the result
+        is at the time of the event.
 
-{\tt isterminal} determines what happens when the event
-occurs.  If {\tt isterminal=1}, the event is ``terminal'' and the
-simulation stops.  If {\tt isterminal=0}, the simulation continues,
-but {\tt ode45} does some additional work to make sure that the
-solution in the vicinity of the event is accurate, and that one of the
-estimated values in the result is at the time of the event.
+The third output variable, {\tt direction}, determines whether an event
+        occurs when {\tt value} is increasing ({\tt direction=1}),
+        decreasing ({\tt direction=-1}, or both {\tt direction=0}.
+
+
 
 \item When you call {\tt ode45}, you pass {\tt options} as a fourth
 argument:
@@ -7132,194 +7421,22 @@ horizontal distance will she have travelled when she hits the
 net?
 \end{ex}
 
-
-\section{Spacial vectors and air resistance on projectiles}
-\label{spacial}
-
-The word ``vector'' means different things to different people.
-In MATLAB, a vector is a matrix that has either one row or one
-column.  So far we have used MATLAB vectors to represent
-
-\begin{description}
-
-\item[sequences:] A sequence is a set of values identified by
-integer indices; it is natural to store the elements of the
-sequence as elements of a MATLAB vector.
-
-\item[state vectors:] A state vector is a set of values that
-describes the state of a physical system.  When you call
-{\tt ode45}, you give it in the initial conditions in a state
-vector.  Then when {\tt ode45} calls your rate function, it
-gives you a state vector.
-
-\item[discrete maps:] If you have two vectors with the same
-length, you can think of them as a mapping from the elements
-of one vector to the corresponding elements of the other.  For
-example, in Section~\ref{rats}, the results from {\tt ode45}
-are vectors, {\tt T} and {\tt Y}, that represent a mapping
-from the time values in {\tt T} to the population values in {\tt Y}.
-
-\end{description}
-
-In this section we will see another use of MATLAB vectors:
-representing spatial vectors.  A spatial vector is a value that
-represents a multidimensional physical quantity like position,
-velocity, acceleration or force.\footnote{See
-\url{https://en.wikipedia.org/wiki/Vector_(spatial)}.}
-
-These quantities cannot be described with a
-single number because they contain multiple components.  For example,
-in a 3-dimensional Cartesian coordinate space, it takes three numbers
-to specify a position in space; they are usually called $x$, $y$ and
-$z$ coordinates.  As another example, in 2-dimensional polar
-coordinates, you can specify a velocity with two numbers, a
-magnitude and an angle, often called $r$ and $\theta$.
-
-It is convenient to represent spatial vectors using MATLAB vectors
-because MATLAB knows how to perform most of the vector
-operations you need for physical modeling.  For example,
-suppose that you are given the velocity of a baseball in
-the form of a MATLAB vector with two elements, $v_x$ and $v_y$,
-which are the components of velocity in the $x$ and $y$ directions.
-
-\begin{verbatim}
->> V = [30; 40]        % velocity in m/s
-\end{verbatim}
-
-And suppose you are asked to compute the total acceleration of
-the ball due to drag and gravity.  In math notation, the force
-due to drag is
-
-\begin{equation}
-    \vec{F_d} = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \uvec{V}
-\end{equation}
-
-where $V$ is a spatial vector representing velocity, $v$ is the magnitude
-of the velocity (sometimes called ``speed''), and $\uvec{V}$ is a unit
-vector in the direction of the velocity vector.  The other terms,
-$\rho$, $A$ and $C_d$, are scalars.\footnote{See
-\url{https://en.wikipedia.org/wiki/Drag_(physics)}.}
-
-The magnitude of a vector is the square root of the sum of the squares
-of the elements.  You could compute it with {\tt hypotenuse} from
-Section~\ref{hypotenuse}, or you could use the MATLAB function {\tt
-norm} ({\bf norm} is another name  for the magnitude\footnote{Magnitude
-is also called ``length'' but I will avoid that term because it gets
-confused with the {\tt length} function, which returns the number of
-elements in a MATLAB vector.} of a vector):
-
-\begin{verbatim}
->> v = norm(V)
-
-v = 50
-\end{verbatim}
-
-$\uvec{V}$ is a {\bf unit vector}, which means it should have norm 1,
-and it should point in the same direction as $V$.  The simplest
-way to compute it is to divide $V$ by its own norm.
-
-\begin{verbatim}
->> Vhat = V / v
-
-Vhat =  0.6  0.8
-\end{verbatim}
-
-Then we can confirm that the norm of $\uvec{V}$ is 1:
-
-\begin{verbatim}
->> norm(Vhat)
-
-ans = 1
-\end{verbatim}
-
-To compute $\vec{F_d}$ we just multiply the scalar terms by $\uvec{V}$.
-
-\begin{verbatim}
-Fd = - 1/2 * rho * A * Cd * v^2 * Vhat
-\end{verbatim}
-
-Similarly, we can compute acceleration by dividing the vector
-$\vec{F_d}$ by the scalar $m$.
-
-\begin{verbatim}
-Ad = Fd / m
-\end{verbatim}
-
-To represent the acceleration due to gravity, we create a vector
-with two components:
-
-\begin{verbatim}
-Ag = [0; -9.8]
-\end{verbatim}
-
-The $x$ component of acceleration due to gravity is 0; the $y$ component is $-9.8 m/s^2$.
-
-Finally we compute total acceleration by adding vector
-quantities:
-
-\begin{verbatim}
-At = Ag + Ad;
-\end{verbatim}
-
-One nice thing about this computation is that we didn't have to
-think much about the components of the vectors.  By treating
-spatial vectors as basic quantities, we can express complicated computations
-concisely.
-
-\begin{ex}
-Add air resistance to the simulation of the human projectile.
-Use the formula
-
-\begin{equation}
-    \vec{F_d} = -b ~ v^2 ~ \uvec{V}
-\end{equation}
-
-In
-the skydiver scenario, we estimated that the drag constant was
-$0.2$, but that was based on the assumption that the skydiver is
-falling flat.  A human cannonball, flying head-first, probably
-has a drag constant closer to $0.1$.  Approximately what initial velocity
-is needed to achieve the record flight distance of 59.05 meters,
-assuming
-%?
-%Hint: the needed initial velocity is dependent apon the launch angle, and let's
-%assume
-for now a launch angle of 45 degrees?
-%.
-Do you think that 45 degrees is the optimal launch angle when
-air resistance is considered?  Why or why not?
-\end{ex}
-
-
 \section{Glossary}
 
 \begin{description}
-
-\item[parallel functions:] Two or more functions defined side-by-side,
-so that one ends before the next begins.
-
-\item[nested function:] A function defined inside another function.
-
-\item[outer function:] A function that contains another function
-definition.
-
-\item[inner function:] A function defined inside another function
-definition.  The inner function can access the variables of the
-outer function.
-
-\item[catenation:] The operation of joining two matrices end-to-end to
-form a new matrix.
 
 \item[spatial vector:] A value that represents a
 multidimensional physical quantity like position, velocity,
 acceleration or force.
 
+\item[unit vector:] A vector with norm 1, used to indicate
+direction.
+
 \item[norm:] The magnitude of a vector.  Sometimes called ``length,''
 but not to be confused with the number of elements in a MATLAB
 vector.
-
-\item[unit vector:] A vector with norm 1, used to indicate
-direction.
+\item[concatenation:] The operation of joining two matrices end-to-end to
+form a new matrix.
 
 
 \end{description}
@@ -7335,21 +7452,20 @@ we ignore Magnus force, the path of the baseball stays
 in a plane, so we can model it as a projectile in two
 dimensions.
 
-As presented in Section~\ref{spacial}, a
-simple model of the drag of a baseball is:
+As presented in Section~\ref{spacialre}, a simple model for the drag force
+    on a baseball is:
 
 \begin{equation}
-    \vec{F_d} = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \uvec{V}
+    \vec{F_d} = - \frac{1}{2} ~ \rho v^2 C_d A \cdot \uvec{v}
 \end{equation}
 
 
-where $/vec{F_d}$ is a vector that represents the force on the baseball due
-to drag, $C_d$ is the drag coefficient (0.3 is a reasonable choice),
-$\rho$ is the density of air (1.3 kg/m$^3$ at sea level), $A$ is the
-cross sectional area of the baseball (0.0042 m$^2$), $v$ is the
-magnitude of the velocity vector, and $\uvec{V}$ is a unit vector in
-the direction of the velocity vector.  The mass of the baseball is
-$0.145$ kg.
+where $\vec{F_d}$ is a vector that represents the force on the baseball
+    due to drag, $\rho$ is the density of air (1.3 kg/m$^3$ at sea
+    level), $C_d$ is the drag coefficient (0.3 is a reasonable choice),
+     $A$ is the baseball's cross sectional area (0.0042 m$^2$), and
+    \vec{v} is the baseball's velocity.  The baseball has a mass of
+    $0.145$ kg.
 
 \begin{itemize}
 
@@ -8390,6 +8506,3 @@ replicate or extend the results.
 %\blankpage
 
 \end{document}
-
-
-
