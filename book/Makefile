@@ -22,7 +22,7 @@ PDF_DEST=~/Desktop/[Allen_Downey]_Physical_Modeling_in_Matlab.pdf
 # Generate the book from scratch as a pdf (using static margins); throw
 # the generated pdf on the user's desktop and clean up after. Be as
 # quiet as possible.
-clean:	book.tex
+pdfbook:	book.tex
 	sed 's/ass{boo/ass[oneside]{boo/g' book.tex > tempbook_.tex
 	# compile three times to generate ToC and numbers formatted nicely
 	latex -interaction=batchmode tempbook_
@@ -33,8 +33,8 @@ clean:	book.tex
 	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps $(PDF_DEST)
 	rm tempbook_* PhysModMatlab.ps
 
-# Same as clean (above) but with alternating margins
-altclean:	book.tex
+# Same as pdfbook (above) but with alternating margins
+altpdfbook:	book.tex
 	cp book.tex tempbook_.tex
 	# compile three times to generate ToC and numbers formatted nicely
 	latex -interaction=batchmode tempbook_
