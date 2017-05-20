@@ -21,7 +21,8 @@ alternating margins (e.g., to print the book), replace `pdfbook` with
 ## Contributing improvements
 
 If you feel this book can be improved, please contribute! View contributing
-guidelines [here](CONTRIBUTING.md).
+guidelines [here](CONTRIBUTING.md) and some ideas to get started
+[here](TODO.md).
 
 ## License
 
