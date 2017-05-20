@@ -19,9 +19,9 @@
 \usepackage[toc,page]{appendix}
 \usepackage{ifthen}
 \usepackage{bm}
+\usepackage{hyperref}
 
 %% Add pdf metadata here
-\usepackage{hyperref}
 \hypersetup{
     pdftitle={Physical Modeling in MATLAB},
     pdfsubject={MATLAB programming},
@@ -38,13 +38,16 @@
 
 \newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
 
+
 \sloppy
 
 \pagestyle{fancyplain}
 
+% Use name 'Table of Contents' (vs 'Contents')
+\renewcommand{\contentsname}{Table of Contents}
+
 % Define vector, unit vectors, and abs value bars for magnitude here
 \renewcommand{\vec}[1]{\bm{\mathbf{#1}}}
-
 % Complexity needed to display i_hat and j_hat correctly
 \newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
 \newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
@@ -55,10 +58,8 @@
     \bm{\hat{\mathbf{#1}}}%
    \fi
 }}
-
 % This doesn't make the argument bold, just adds the bars
 \newcommand{\norm}[1]{\lvert #1 \rvert}
-
 
 % Create an "array" for the 9 theorems of debugging. Depends on ifthen
 % package above. (The 'xstring' package does this more elegantly, but
@@ -348,6 +349,8 @@ and Michael (as below).
 
 % ENDCONTRIB
 
+\newpage
+\pdfbookmark[chapter]{\contentsname}{toc}
 \tableofcontents
 
 \mainmatter
