@@ -51,13 +51,15 @@
 % Complexity needed to display i_hat and j_hat correctly
 \newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
 \newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
-\DeclareRobustCommand{\uvec}[1]{{%
-  \ifcsname uvec#1\endcsname
-     \csname uvec#1\endcsname
-   \else
-    \bm{\hat{\mathbf{#1}}}%
-   \fi
-}}
+
+\newcommand{\uvec}[1]{%
+    \ifthenelse{\equal{#1}{i}}%
+        {\uveci}{%
+    \ifthenelse{\equal{#1}{j}}%
+        {\uvecj}{%
+    {\bm{\hat{\mathbf{#1}}}}% default case
+}}}
+
 % This doesn't make the argument bold, just adds the bars
 \newcommand{\norm}[1]{\lvert #1 \rvert}
 
