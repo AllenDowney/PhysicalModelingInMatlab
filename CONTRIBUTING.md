@@ -34,13 +34,17 @@ This is the structure of the repository:
    merged into **unstable** once ready (preferably through a [pull
    request](https://help.github.com/articles/about-pull-requests/)).
 
-## Code style
+## Style
 + **MATLAB** code should conform to the guidelines laid out in
   ["MATLAB Style
   Guidelines"](https://www.mathworks.com/matlabcentral/fileexchange/46056-matlab-style-guidelines-2-0)
   by Richard Johnson.
 
 + **TeX** code should aim to be consistent with existing code.
+
++ **Writing** should mimic Downey's informal writing style, and should be
+appropriate for first-year undergraduate students. Also, use the
+[Oxford comma](https://en.wikipedia.org/wiki/Serial_comma) when writing lists.
 
 ## General guidelines
 1. Atomize your commits. This means each change you commit should
