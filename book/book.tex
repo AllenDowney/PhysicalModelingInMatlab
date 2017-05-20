@@ -6329,22 +6329,22 @@ is not used inside the function, its presence is required for
 using the {\tt ode45} solver in order to indicate the time span.
 The second input variable is a vector with two elements,
 $R(t)$ and $F(t)$.  I gave it a capital letter to remind me that it
-is a vector.  The body of the function includes four {\bf blocks},
+is a vector.  The body of the function includes four sections,
 each explained by a comment.
 
-The first block {\bf unpacks} the vector by copying the elements
+The first section {\bf unpacks} the vector by copying the elements
 into scalar variables.  This isn't necessary, but giving names to
 these values helps me remember what's what.  It also makes the third
-block, where we compute the derivatives, resemble the mathematical
+section, where we compute the derivatives, resemble the mathematical
 equations we were given, which helps prevent errors.
 
-The second block sets the parameters that describe the
+The second section sets the parameters that describe the
 reproductive rates of rabbits and foxes, and the characteristics of
 their interactions.  If we were studying a real system, these values
 would come from observations of real animals, but for this example
 I chose values that yield interesting results.
 
-The last block {\bf packs} the computed derivatives back into a
+The last section {\bf packs} the computed derivatives back into a
 vector.  When {\tt ode45} calls this function, it provides a vector
 as input and expects to get a vector as output.
 
@@ -6516,9 +6516,6 @@ into columns (or the other way around, if you prefer).
 
 \item[system of equations:] A collection of equations written in terms of
 the same set of variables.
-
-\item[block:] A chunk of code that makes up part of a function,
-usually with an explanatory comment.
 
 \item[unpack:] To copy the elements of a vector into a set of variables.
 
