@@ -1,25 +1,24 @@
 % LaTeX source for textbook ``Physical Modeling in MATLAB''
 % Copyright 2014 Allen B. Downey.
-
-%Note: This LaTex source can be successfully complied using TeXworks editor (Version 0.4.6) with TeX Live 2015.
-
+%
 % License: Creative Commons Attribution-NonCommercial 3.0 Unported License.
 % http://creativecommons.org/licenses/by-nc/3.0/
-%
 
 \documentclass{book}
+
+\usepackage[symbol*]{footmisc}
+\usepackage[toc,page]{appendix}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{bm}
+\usepackage{bookmark}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage{url}
-\usepackage{makeidx}
-\usepackage[symbol*]{footmisc}
-\usepackage{amsmath, amsthm, amssymb}
 \usepackage{hevea}
-\usepackage{upquote}
-\usepackage[toc,page]{appendix}
-\usepackage{ifthen}
-\usepackage{bm}
 \usepackage{hyperref}
+\usepackage{ifthen}
+\usepackage{makeidx}
+\usepackage{upquote}
+\usepackage{url}
 
 %% Add pdf metadata here
 \hypersetup{
@@ -30,28 +29,21 @@
     ps2pdf,
 }
 
-%% Packages for adding bookmarks to generated pdf file
-\usepackage{bookmark}
+%% Macros and redefinitions
 
-% load package with ``framed'', and ``numbered'' option.
-%\usepackage[framed,autolinebreaks,useliterate]{mcode}
-
+% Generate the registered trademark symbol
 \newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
-
-
-\sloppy
-
-\pagestyle{fancyplain}
 
 % Use name 'Table of Contents' (vs 'Contents')
 \renewcommand{\contentsname}{Table of Contents}
 
-% Define vector, unit vectors, and abs value bars for magnitude here
+% Use bold style for vectors
 \renewcommand{\vec}[1]{\bm{\mathbf{#1}}}
-% Complexity needed to display i_hat and j_hat correctly
+
+% Define style for unit vectors. Complexity needed to display i_hat and
+% j_hat correctly
 \newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
 \newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
-
 \newcommand{\uvec}[1]{%
     \ifthenelse{\equal{#1}{i}}%
         {\uveci}{%
@@ -60,7 +52,7 @@
     {\bm{\hat{\mathbf{#1}}}}% default case
 }}}
 
-% This doesn't make the argument bold, just adds the bars
+% Define style for the norm of a vector
 \newcommand{\norm}[1]{\lvert #1 \rvert}
 
 % Create an "array" for the 9 theorems of debugging. Depends on ifthen
@@ -96,16 +88,33 @@
     {}% default case
 }}}}}}}}}}% all the closing braces for displaythrm
 
+% Define the title and version in one place here
+\newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
+\newcommand{\theversion}{2.1.0}
+
+% TODO: add documentation here - what does this do?
 \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 \renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
+
+% TODO: add documentation here - what does this do?
+\renewcommand\MakeUppercase{}
+
+%% End of macros+redfinitions
+
+% Make the index
+\makeindex
+
+% TODO: document the below commands. Not quite sure what they do.
+
+\sloppy
+
+\pagestyle{fancyplain}
 
 \lhead[\fancyplain{}{\bfseries\thepage}]%
       {\fancyplain{}{\bfseries\rightmark}}
 \rhead[\fancyplain{}{\bfseries\leftmark}]%
       {\fancyplain{}{\bfseries\thepage}}
 \cfoot{}
-
-\renewcommand\MakeUppercase{}
 
 \newenvironment{code}{\vspace{0.0\parskip} \begin{lstlisting}}{\end{lstlisting} \vspace{0.0\parskip}}
 
@@ -121,35 +130,24 @@
   {\imgsrc[ALT="Next"]{next.png}}
 
 \makeindex
+%% End of latex configuration
 
+%% Start of the book
 \begin{document}
 
+%% Title page
 \frontmatter
 
-%\blankpage
-%\blankpage
-
-\newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
-\newcommand{\theversion}{2.0.1}
 \title {\thetitle}
 \author {Allen B. Downey \\\\\\\\
 Version 2.x Contributor\\\\
 W. Craig Scratchley\\}
-\date {Version \theversion \\
-%\today
-January, 2017
-}
-
-
+\date {Version \theversion}
 
 \input{latexonly}
-
 \begin{latexonly}
 
-%\blankpage
-%\blankpage
-
-% TITLE PAGES FOR LATEX VERSION
+% License page for latex code
 
 \maketitle
 
@@ -181,7 +179,7 @@ of a textbook, which can be converted to other formats and printed.
 
 This book was typeset by the author using latex, dvips, and ps2pdf,
 among other free, open-source programs.
-The LaTeX source for this book is available from
+The \LaTeX\ source for this book is available from
 \url{http://greenteapress.com/matlab}.
 
 MATLAB\myreg is a registered trademark of The
@@ -349,9 +347,10 @@ and Michael (as below).
 
 \end{itemize}
 
-% ENDCONTRIB
-
 \newpage
+
+% Table of contents
+
 \pdfbookmark[chapter]{\contentsname}{toc}
 \tableofcontents
 
@@ -8502,9 +8501,5 @@ replicate or extend the results.
 \end{appendices}
 
 \newpage
-
-%\blankpage
-%\blankpage
-%\blankpage
 
 \end{document}
