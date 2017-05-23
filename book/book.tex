@@ -33,7 +33,7 @@
 %% Packages for adding bookmarks to generated pdf file
 \usepackage{bookmark}
 
-% load package with ``framed'' and ``numbered'' option.
+% load package with ``framed'', and ``numbered'' option.
 %\usepackage[framed,autolinebreaks,useliterate]{mcode}
 
 \newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
@@ -179,7 +179,7 @@ The original form of this book is \LaTeX\ source code.  Compiling this
 code has the effect of generating a device-independent representation
 of a textbook, which can be converted to other formats and printed.
 
-This book was typeset by the author using latex, dvips and ps2pdf,
+This book was typeset by the author using latex, dvips, and ps2pdf,
 among other free, open-source programs.
 The LaTeX source for this book is available from
 \url{http://greenteapress.com/matlab}.
@@ -366,7 +366,7 @@ and Michael (as below).
 At heart, MATLAB is a glorified calculator.  When you start MATLAB
 you will see a window
 entitled {\sf MATLAB} that contains smaller windows entitled {\sf
-Current Directory}, {\sf Command History} and {\sf Command Window}.
+Current Directory}, {\sf Command History}, and {\sf Command Window}.
 The Command Window runs the MATLAB {\bf interpreter}, which allows you
 to type MATLAB {\bf commands}, then executes them and prints the
 result.
@@ -660,7 +660,7 @@ The third example demonstrates that not everything
 in MATLAB is a number.  A sequence of characters in single quotes is
 a {\bf string}.
 
-Although {\tt i}, {\tt j} and {\tt pi} are predefined, you are free
+Although {\tt i}, {\tt j}, and {\tt pi} are predefined, you are free
 to reassign them.  It is common to use {\tt i} and {\tt j} for other
 purposes\footnote{Note that {\tt 1i} and {\tt 1j} \textit{always}
 represent the imaginary unit.}
@@ -1040,7 +1040,7 @@ about the program, but does not affect its execution.
 \begin{ex}
 Write a MATLAB expression that evaluates the
 following math expression.  You can assume that the variables
-{\tt mu}, {\tt sigma} and {\tt x} already exist.
+{\tt mu}, {\tt sigma}, and {\tt x} already exist.
 
 \begin{equation}
 \frac{e^{- \left( \frac{x-\mu}{\sigma \sqrt{}2} \right) ^2}}
@@ -1558,7 +1558,7 @@ component in isolation.
 \label{cargame}
 
 Imagine that you are the owner of a car rental company with two
-locations, Albany and Boston.  Some of your customers do ``one-way
+locations, Albany, and Boston.  Some of your customers do ``one-way
 rentals,'' picking up a car in Albany and returning it in Boston, or
 the other way around.  Over time, you have observed that each week 5\%
 of the cars in Albany are dropped off in Boston, and 3\% of the cars
@@ -1768,7 +1768,7 @@ ans =  1     2     3     4     5
 
 The variable you use in the for statement is called the {\bf loop
 variable}.  It is a common convention to use the names {\tt i},
-{\tt j} and {\tt k} as loop variables.
+{\tt j}, and {\tt k} as loop variables.
 
 The statements inside the loop are called the {\bf body}.  By convention,
 they are indented to show that they are inside the loop, but the
@@ -1837,7 +1837,7 @@ point should be plotted.  You can also specify the color:
 \end{verbatim}
 
 {\tt r} stands for red; the other colors include {\bf g}reen, {\bf
-b}lue, {\bf c}yan, {\bf m}agenta, {\bf y}ellow and blac{\bf k}.
+b}lue, {\bf c}yan, {\bf m}agenta, {\bf y}ellow, and blac{\bf k}.
 Other shapes include {\tt +},
 {\tt *},
 {\tt x},
@@ -3008,22 +3008,22 @@ z_{i+1} &=& z_i + \left( x_i y_i - b z_i \right) dt
 \begin{itemize}
 
 \item Write a script that computes the first 10 elements of the sequences
-$X$, $Y$ and $Z$ and stores them in vectors named {\tt X}, {\tt Y}
+$X$, $Y$, and $Z$ and stores them in vectors named {\tt X}, {\tt Y},
 and {\tt Z}.
 
-Use the initial values $X_1 = 1$, $Y_1 = 2$ and $Z_1 = 3$, with values
-$\sigma = 10$, $b = 8/3$ and $r = 28$, and with time step $dt = 0.01$.
+Use the initial values $X_1 = 1$, $Y_1 = 2$, and $Z_1 = 3$, with values
+$\sigma = 10$, $b = 8/3$, and $r = 28$, and with time step $dt = 0.01$.
 
 \item Read the documentation for {\tt plot3} and {\tt comet3} and
 plot the results in 3 dimensions.
 
 \item Once the code is working, use semi-colons to suppress the output
-and then run the program with sequence length 100, 1000 and 10000.
+and then run the program with sequence length 100, 1000, and 10000.
 
 \item Run the program again with different starting conditions.
 What effect does it have on the result?
 
-\item Run the program with different values for $\sigma$, $b$ and $r$
+\item Run the program with different values for $\sigma$, $b$, and $r$
 and see if you can get a sense of how each variable affects the
 system.
 
@@ -3092,7 +3092,7 @@ scripts become unmanageable.
 For example, the following (increasingly familiar) script computes the
 sum of the first {\tt n} terms in a geometric sequence, but it also
 has the {\bf side-effect} of assigning values to {\tt A1}, {\tt total},
-{\tt i} and {\tt a}.
+{\tt i}, and {\tt a}.
 
 \begin{verbatim}
 A1 = 1;
@@ -3489,9 +3489,9 @@ approximation is not.
 \label{increxample}
 
 Let's say that we want to write a program to search for ``Pythagorean
-triples:'' sets of integral values, like 3, 4 and 5,
+triples:'' sets of integral values, like 3, 4, and 5,
 that are the lengths of the sides of a right triangle.  In other
-words, we would like to find integral values $a$, $b$ and $c$ such
+words, we would like to find integral values $a$, $b$, and $c$ such
 that $a^2 + b^2 = c^2$.
 
 Here are the steps we will follow to develop the program incrementally.
@@ -3513,7 +3513,7 @@ display it.
 \item Use {\tt isintegral} to check whether $c$ is an integral
 value.
 
-\item Use an if statement to print only the triples $a$, $b$ and $c$
+\item Use an if statement to print only the triples $a$, $b$, and $c$
 that pass the test.
 
 \item Transform the script into a function.
@@ -3586,7 +3586,7 @@ for a=1:3
 end
 \end{verbatim}
 
-To display the values of {\tt a}, {\tt b} and {\tt c}, I am
+To display the values of {\tt a}, {\tt b}, and {\tt c}, I am
 using a feature we haven't seen before.  The bracket operator
 creates a new matrix which, when it is displayed, shows the
 three values on one line:
@@ -3695,7 +3695,7 @@ ans = 3     4     5
 \section{Encapsulation and generalization}
 
 As a script, this program has the side-effect of assigning values to
-{\tt a}, {\tt b}, {\tt c} and {\tt flag}, which would make it hard to
+{\tt a}, {\tt b}, {\tt c}, and {\tt flag}, which would make it hard to
 use if any of those names were in use.  By wrapping the code in a
 function, we can avoid name collisions; this process is called {\bf
 encapsulation} because it isolates this program from the workspace.
@@ -4728,7 +4728,7 @@ Here are some suggestions about how to proceed:
 
 \begin{itemize}
 
-\item Write an equation relating $\rho$, $d$ and $r$.
+\item Write an equation relating $\rho$, $d$, and $r$.
 
 \item Rearrange the equation so the right-hand side is zero.
 Our goal is to find values of $d$ that are roots of this equation.
@@ -5076,7 +5076,7 @@ C = 5    13    17
 
 In this case, it matches up corresponding elements from the two
 input vectors, so the elements of {\tt C} are the hypotenuses of
-the pairs $(3,4)$, $(5,12)$ and $(8,15)$, respectively.
+the pairs $(3,4)$, $(5,12)$, and $(8,15)$, respectively.
 
 In general, if you write a function using only elementwise
 operators and functions that work on vectors, then the new
@@ -5431,9 +5431,9 @@ This equation is {\bf first order} because it involves only first
 derivatives.  If it involved second derivatives, it would be second order,
 and so on.
 
-This equation is {\bf linear} because each term involves $t$, $f$ or
+This equation is {\bf linear} because each term involves $t$, $f$, or
 $df/dt$ raised to the first power; if any of the terms involved
-products or powers of $t$, $f$ and $df/dt$ it would be
+products or powers of $t$, $f$, and $df/dt$ it would be
 nonlinear.
 
 Linear, first order ODEs can be solved analytically; that is, we
@@ -6305,7 +6305,7 @@ initial values $R(0)$ and $F(0)$, and the output is a matrix
 that contains one column for $R$ and one for $F$.
 
 And here's what the rate function looks like
-with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$ and $d = 0.02$:
+with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$, and $d = 0.02$:
 
 \begin{verbatim}
 function res = lotka(t, V)
@@ -6562,7 +6562,7 @@ y_t &=& x (r - z) - y   \\
 z_t &=& xy - b z
 \end{eqnarray}
 %
-Common values for the parameters are $\sigma = 10$, $b = 8/3$ and $r=28$.
+Common values for the parameters are $\sigma = 10$, $b = 8/3$, and $r=28$.
 
 Use {\tt ode45} to estimate a solution to this
 system of equations.
@@ -6578,15 +6578,15 @@ and return them in a single column vector.
 
 \item The next step is to test your function by calling it from
 the command line with values like
-$t=0$, $x=1$, $y=2$ and $z=3$?  Once you get your function working,
+$t=0$, $x=1$, $y=2$, and $z=3$?  Once you get your function working,
 you should make it a silent function before calling {\tt ode45}.
 
 \item Assuming that Step 2 works, you can use {\tt ode45}
 to estimate the solution for the time interval $t_0 = 0$, $t_e = 30$
-with the initial condition $x=1$, $y=2$ and $z=3$.
+with the initial condition $x=1$, $y=2$, and $z=3$.
 
 \item Use {\tt plot3} to plot the trajectory of
-$x$, $y$ and $z$.
+$x$, $y$, and $z$.
 
 \end{enumerate}
 
@@ -6636,7 +6636,7 @@ contain multiple components (or equivalently---as we'll see shortly
 ---because they have both a magnitude and a direction).  For example,
 in three-dimensional Cartesian coordinates, it takes three numbers
 to specify a position in space; these numbers are usually called $x$,
-$y$ and $z$ coordinates. Thus we can write a position vector
+$y$, and $z$ coordinates. Thus we can write a position vector
 $\vec{r}(t)$, representing an object's location at time $t$, as
 
 \begin{equation}\label{eq:position_vec}
@@ -7557,7 +7557,7 @@ this:
 \beforefig \centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
 
 This diagram shows that we have evaluated $f$ in three places,
-$x_1$, $x_2$ and $x_3$, and found that $x_2$ yields the highest
+$x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the highest
 value.  If $f$ is continuous, then there has to be at least one
 local maximum between $x_1$ and $x_3$, so we would say that the
 triple $(x_1, x_2, x_3)$ brackets a maximum.
@@ -7576,7 +7576,7 @@ estimate of the optimal value of $x$ gets better.
 
 This method works for almost any value of $x_4$, but some choices
 are better than others.  In the example, I chose to bisect the
-bigger of the ranges $(x_1, x_2)$ and $(x_2, x_3)$.
+bigger of the ranges $(x_1, x_2)$, and $(x_2, x_3)$.
 
 Here's what that looks like in MATLAB:
 
@@ -7630,7 +7630,7 @@ ball when it hits the ground.
 
 Each time through the {\tt for} loop the function chooses a value
 of {\tt x4}, evaluates {\tt height\_func}, and then updates the
-triplet {\tt x1}, {\tt x2} and {\tt x3} according to the results.
+triplet {\tt x1}, {\tt x2}, and {\tt x3} according to the results.
 
 After the update, it computes the range of the bracket, {\tt x3-x1},
 and checks whether it is small enough.  If so, it breaks out of
