@@ -4,8 +4,6 @@ that the item must be resolved before the current branch can be merged into
 
 ## Low hanging fruit
 
-+ Make all lists using a coordinating conjunction use the Oxford comma. (A
-simple search and replace should do the trick here.)
 + In the "Functions" chapter, there is a section called "Documentation", which
 doesn't use MATLAB best-practices for function docstrings; modify this to be
 consistent with the style guide.
