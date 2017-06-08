@@ -23,7 +23,9 @@ PDF_DEST=~/Desktop/[Allen_Downey]_Physical_Modeling_in_Matlab.pdf
 # the generated pdf on the user's desktop and clean up after. Be as
 # quiet as possible.
 pdfbook:	book.tex
-	sed 's/ass{boo/ass[oneside]{boo/g' book.tex > tempbook_.tex
+	# Do some search and replace some stuff in the tex file for static
+	# margins; note that this is somewhat sensitive to changes in the code
+	sed -e 's/\%left=/left=/g' -e 's/\%right=/right=/g' -e 's/inner=/\%inner=/g' -e 's/outer=/\%outer=/g' -e 's/\%oneside/oneside/g' book.tex > tempbook_.tex
 	# compile three times to generate ToC and numbers formatted nicely
 	latex -interaction=batchmode tempbook_
 	latex -interaction=batchmode tempbook_

@@ -4,8 +4,19 @@
 % License: Creative Commons Attribution-NonCommercial 3.0 Unported License.
 % http://creativecommons.org/licenses/by-nc/3.0/
 
-\documentclass{book}
+\documentclass[
+    %oneside,   % uncomment this for static margins (as well as below)
+]{book}
 
+\usepackage[
+    % Set margins here
+    letterpaper,
+    %left=1.5in, % uncomment these two, and comment out next two for static margins
+    %right=1.5in,
+    inner=1.6in,
+    outer=1.00in,
+    top=1.25in,
+    bottom=1.25in,]{geometry}
 \usepackage[symbol*]{footmisc}
 \usepackage[toc,page]{appendix}
 \usepackage{amsmath, amsthm, amssymb}
@@ -129,15 +140,15 @@
   {\imgsrc[ALT="Up"]{up.png}}
   {\imgsrc[ALT="Next"]{next.png}}
 
-\makeindex
 %% End of latex configuration
 
 %% Start of the book
 \begin{document}
 
-%% Title page
+% No chapter numbering, etc. for the title + preface
 \frontmatter
 
+% Define stuff to use for title page here
 \title {\thetitle}
 \author {Allen B. Downey \\\\\\\\
 Version 2.x Contributor\\\\
@@ -147,9 +158,13 @@ W. Craig Scratchley\\}
 \input{latexonly}
 \begin{latexonly}
 
-% License page for latex code
+%% Title page
 
-\maketitle
+\newgeometry{centering}
+    \maketitle
+\restoregeometry
+
+% License page for latex code
 
 \vspace{2in}
 
@@ -214,7 +229,9 @@ Unported License, which is available at
 \setcounter{chapter}{-1}
 
 \end{htmlonly}
+
 \chapter {Preface to Version 2.0}
+
  {\itshape Physical Modeling in MATLAB}'s first edition was published in
 January 2008. Credit must be give to the original author, Allen B. Downey,
 for his initial work, and his many updates to the book. Credit must also be
@@ -246,6 +263,7 @@ If you have suggestions and corrections, please send them to both
 \noindent Vancouver, BC, Canada \\
 \newline
 \today
+\newpage
 
 \chapter{Preface}
 Most books that use MATLAB are aimed at readers who know how
@@ -291,7 +309,7 @@ If you have suggestions and corrections, please send them to
 \noindent Allen B. Downey \\
 \noindent Needham, MA \\
 
-\vspace{0.1in}
+\newpage
 
 \section*{Contributor's list}
 
