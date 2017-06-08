@@ -15,8 +15,7 @@ make pdfbook
 ```
 
 and then a PDF of the book should appear on your desktop. If you prefer
-alternating margins (e.g., to print the book), replace `pdfbook` with
-`altpdfbook`.
+a PDF tailored for print, replace `pdfbook` with `pdfprintbook`.
 
 ## Contributing improvements
 

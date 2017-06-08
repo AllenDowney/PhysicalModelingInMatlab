@@ -36,7 +36,7 @@ pdfbook:	book.tex
 	rm tempbook_* PhysModMatlab.ps
 
 # Same as pdfbook (above) but with alternating margins
-altpdfbook:	book.tex
+pdfprintbook:	book.tex
 	cp book.tex tempbook_.tex
 	# compile three times to generate ToC and numbers formatted nicely
 	latex -interaction=batchmode tempbook_
