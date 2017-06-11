@@ -8514,8 +8514,66 @@ replicate or extend the results.
     \item \displaythrm{9}
 \end{enumerate}
 
-\end{appendices}
+\chapter{Nested Functions}
 
-\newpage
+In the Section~\ref{funfiles}, we saw an example of an M-file with
+more than one function:
+
+\begin{verbatim}
+function res = duck()
+    error = error_func(10)
+end
+
+function res = error_func(h)
+    rho = 0.3;      % density in g / cm^3
+    r = 10;         % radius in cm
+    res = ...
+end
+\end{verbatim}
+
+Because the first function ends before the second begins, they are at
+the same level of indentation.  Functions like these are {\bf
+parallel}, as opposed to {\bf nested}.  A nested function is
+defined inside another, like this:
+
+\begin{verbatim}
+function res = duck()
+    error = error_func(10)
+
+    function res = error_func(h)
+        rho = 0.3;      % density in g / cm^3
+        r = 10;         % radius in cm
+        res = ...
+    end
+end
+\end{verbatim}
+
+The top-level function, {\tt duck}, is
+the {\bf outer function} and {\tt error\_func} is
+an {\bf inner function}.
+
+Nesting functions is useful because the variables of the outer
+function can be accessed from the inner function.  This is not
+possible with parallel functions.
+
+In this example, using a nested function makes it possible to
+move the parameters {\tt rho} and {\tt r} out of {\tt error\_func}.
+
+\begin{verbatim}
+function res = duck(rho)
+    r = 10;
+    error = error_func(10)
+
+    function res = error_func(h)
+        res = ...
+    end
+end
+\end{verbatim}
+
+Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
+By making {\tt rho} an input argument, we made it easier to test
+{\tt duck} with different parameter values.
+
+\end{appendices}
 
 \end{document}
