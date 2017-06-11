@@ -9,8 +9,6 @@ doesn't use MATLAB best-practices for function docstrings; modify this to be
 consistent with the style guide.
 + Add figures to demonstrate the dot and cross product; this is located in the
 "Final Thoughts" chapter.
-+ **!!!** Make all chapters after "Second Order Systems" (SOS) use the notation
-for spatial vectors laid out in SOS.
 + Synchronize the code in the `/code` directory so that its consistent with the
 changes that have been made in the book.
 + Label the axes for the plots in the book. (E.g., in the "Second Order

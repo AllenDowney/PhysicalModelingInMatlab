@@ -8105,7 +8105,7 @@ r = norm(R)
 The direction of the force on the star is $\uvec{R}$:
 
 \begin{verbatim}
-rhat = R / r
+Rhat = R / r
 \end{verbatim}
 
 \begin{ex}
@@ -8321,58 +8321,56 @@ subtle.  It turns out that there are two vector operations that
 resemble multiplication: the {\bf dot product}
 and the {\bf cross product}.
 
-The dot product of vectors $\vec{A}$ and $\vec{B}$ is a scalar:
+The dot product of vectors $\vec{u}$ and $\vec{v}$ is a scalar:
 
 \begin{equation}
-d = a b \cos \theta
+    \vec{u} \cdot \vec{v} = \norm{\vec{u}} \norm{\vec{v}} \cos \theta
 \end{equation}
 
-where $a$ is the magnitude of $\vec{A}$, $b$ is the magnitude of
-$\vec{B}$, and $\theta$ is the smallest angle between $\vec{A}$ and
-$\vec{B}$.  We already know how to compute magnitudes, and you could
+where $\theta$ is the smallest angle between $\vec{u}$ and
+$\vec{v}$. We already know how to compute magnitudes, and you could
 probably figure out how to compute $\theta$, but you don't have to.
-MATLAB provides a function, {\tt dot}, that computes dot products.
+MATLAB provides a function, {\tt dot}, that computes dot products:
 
 \begin{verbatim}
-d = dot(A, B)
+d = dot(U, V)
 \end{verbatim}
 
-{\tt dot} works in any number of dimensions, as long as {\tt A}
-and {\tt B} have the same number of elements.
+{\tt dot} works in any number of dimensions, as long as {\tt U}
+and {\tt V} have the same number of elements.
 
 If one of the operands is a unit vector, you can use the dot
-product to compute the component of a vector $\vec{A}$ that is in
-the direction of a unit vector, $\uvec{u}$:
+product to compute the component of a vector $\vec{u}$ that is in
+the direction of a unit vector, $\uvec{r}$:
 
 \begin{verbatim}
-s = dot(A, uhat)
+s = dot(U, Rhat)
 \end{verbatim}
 
-In this example, $s$ is the {\bf scalar projection} of $\vec{A}$
-onto $\uvec{u}$.  The {\bf vector projection} is the vector
-that has magnitude $s$ in the direction of $\uvec{u}$:
+In this example, $s$ is the {\bf scalar projection} of $\vec{u}$
+onto $\uvec{r}$.  The {\bf vector projection} is the vector
+that has magnitude $s$ in the direction of $\uvec{r}$:
 
 \begin{verbatim}
-V = dot(A, uhat) * uhat
+V = dot(U, Rhat) * Rhat
 \end{verbatim}
 
-The cross product of vectors $\vec{A}$ and $\vec{B}$ is a vector whose
-direction is perpendicular to $\vec{A}$ and $\vec{B}$
+The cross product of vectors $\vec{u}$ and $\vec{v}$ is a vector whose
+direction is perpendicular to $\vec{u}$ and $\vec{v}$
 (with orientation determined by the right-hand
 rule\footnote{\url{https://en.wikipedia.org/wiki/Right-hand_rule}})
 and whose magnitude is
 
 \begin{equation}
-c = a b \sin \theta
+c = \norm{\vec{u}} \norm{\vec{v}} \sin \theta
 \end{equation}
 
-where (again) $a$ is the magnitude of $\vec{A}$, $b$ is the magnitude of
-$\vec{B}$, and $\theta$ is the smallest angle between $\vec{A}$ and
-$\vec{B}$. MATLAB provides a function, {\tt cross}, that computes cross
+where (again) $\theta$ is the smallest angle between $\vec{u}$ and
+$\vec{v}$. MATLAB provides a function, {\tt cross}, that computes cross
 products.
 
 \begin{verbatim}
-C = cross(A, B)
+C = cross(U, V)
 \end{verbatim}
 
 {\tt cross} calculates the cross product of corresponding vectors along
