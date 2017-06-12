@@ -1,44 +1,131 @@
 % LaTeX source for textbook ``Physical Modeling in MATLAB''
 % Copyright 2014 Allen B. Downey.
-
-%Note: This LaTex source can be successfully complied using TeXworks editor (Version 0.4.6) with TeX Live 2015.
-
+%
 % License: Creative Commons Attribution-NonCommercial 3.0 Unported License.
 % http://creativecommons.org/licenses/by-nc/3.0/
-%
 
-\documentclass{book}
+\documentclass[
+    %oneside,   % uncomment this for static margins (as well as below)
+]{book}
+
+\usepackage[
+    % Set margins here
+    letterpaper,
+    %left=1.5in, % uncomment these two, and comment out next two for static margins
+    %right=1.5in,
+    inner=1.6in,
+    outer=1.00in,
+    top=1.25in,
+    bottom=1.25in,]{geometry}
+\usepackage[symbol*]{footmisc}
+\usepackage[toc,page]{appendix}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{bm}
+\usepackage{bookmark}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage{url}
+\usepackage{hevea}
+\usepackage{hyperref}
+\usepackage{ifthen}
 \usepackage{makeidx}
-\usepackage[symbol*]{footmisc}
-\usepackage{amsmath, amsthm, amssymb}
-\usepackage{hevea}                           
 \usepackage{upquote}
+\usepackage{url}
 
-%% Packages for adding bookmarks to generated pdf file
-\usepackage{bookmark}
+%% Add pdf metadata here
+\hypersetup{
+    pdftitle={Physical Modeling in MATLAB},
+    pdfsubject={MATLAB programming},
+    pdfauthor={Allen B. Downey},
+    pdfcreator={LaTeX},
+    ps2pdf,
+}
 
-% load package with ``framed'' and ``numbered'' option.
-%\usepackage[framed,autolinebreaks,useliterate]{mcode}
+%% Macros and redefinitions
 
+% Generate the registered trademark symbol
 \newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
+
+% Use name 'Table of Contents' (vs 'Contents')
+\renewcommand{\contentsname}{Table of Contents}
+
+% Use bold style for vectors
+\renewcommand{\vec}[1]{\bm{\mathbf{#1}}}
+
+% Define style for unit vectors. Complexity needed to display i_hat and
+% j_hat correctly
+\newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
+\newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
+\newcommand{\uvec}[1]{%
+    \ifthenelse{\equal{#1}{i}}%
+        {\uveci}{%
+    \ifthenelse{\equal{#1}{j}}%
+        {\uvecj}{%
+    {\bm{\hat{\mathbf{#1}}}}% default case
+}}}
+
+% Define style for the norm of a vector
+\newcommand{\norm}[1]{\lvert #1 \rvert}
+
+% Create an "array" for the 9 theorems of debugging. Depends on ifthen
+% package above. (The 'xstring' package does this more elegantly, but
+% doesn't work with hevea.) This way we only need to change the theorems
+% in one place to change them everywhere.
+\newcommand{\displaythrm}[1]{%
+    \ifthenelse{\equal{#1}{1}}%
+        {Readable code is debuggable code.}{%
+    \ifthenelse{\equal{#1}{2}}%
+        {The only thing worse than getting an error message is {\em
+         not} getting an error message.}{%
+    \ifthenelse{\equal{#1}{3}}%
+        {You must always be 100\% sure that the code you are running
+         is the code you think you are running.}{%
+    \ifthenelse{\equal{#1}{4}}%
+        {Error messages tell you where the problem was discovered,
+         not where it was caused.}{%
+    \ifthenelse{\equal{#1}{5}}%
+        {The best kind of debugging is the kind you don't have to do.}{%
+    \ifthenelse{\equal{#1}{6}}%
+        {The worst bugs aren't in your code; they are in your head.}{%
+    \ifthenelse{\equal{#1}{7}}%
+        {The best way to avoid a bug is to make it impossible.}{%
+    \ifthenelse{\equal{#1}{8}}%
+        {Error messages sometimes tell you what's wrong, but they
+         seldom tell you what to do (and when they try, they're usually
+         wrong).}{%
+    \ifthenelse{\equal{#1}{9}}%
+        {Finding a hard bug requires reading, running, ruminating,
+         and sometimes retreating.  If you get stuck on one of these
+         activities, try the others.}{%
+    {}% default case
+}}}}}}}}}}% all the closing braces for displaythrm
+
+% Define the title and version in one place here
+\newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
+\newcommand{\theversion}{2.1.0}
+
+% TODO: add documentation here - what does this do?
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
+
+% TODO: add documentation here - what does this do?
+\renewcommand\MakeUppercase{}
+
+%% End of macros+redfinitions
+
+% Make the index
+\makeindex
+
+% TODO: document the below commands. Not quite sure what they do.
 
 \sloppy
 
 \pagestyle{fancyplain}
-
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
 
 \lhead[\fancyplain{}{\bfseries\thepage}]%
       {\fancyplain{}{\bfseries\rightmark}}
 \rhead[\fancyplain{}{\bfseries\leftmark}]%
       {\fancyplain{}{\bfseries\thepage}}
 \cfoot{}
-
-\renewcommand\MakeUppercase{}
 
 \newenvironment{code}{\vspace{0.0\parskip} \begin{lstlisting}}{\end{lstlisting} \vspace{0.0\parskip}}
 
@@ -53,50 +140,47 @@
   {\imgsrc[ALT="Up"]{up.png}}
   {\imgsrc[ALT="Next"]{next.png}}
 
-\makeindex
+%% End of latex configuration
 
+%% Start of the book
 \begin{document}
 
+% No chapter numbering, etc. for the title + preface
 \frontmatter
 
-%\blankpage
-%\blankpage
-
-\newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
-\newcommand{\theversion}{2.0.1}
+% Define stuff to use for title page here
 \title {\thetitle}
-\author {Allen B. Downey \\\\\\\\
-Version 2.x Contributor\\\\
+\author {Allen B. Downey\\
+\\
+\\
+\\
+Version 2 Contributor\\
+\\
 W. Craig Scratchley\\}
-\date {Version \theversion \\
-%\today
-January, 2017
-}
-
-
+\date {Version \theversion}
 
 \input{latexonly}
-
 \begin{latexonly}
 
-%\blankpage
-%\blankpage
+%% Title page
 
-% TITLE PAGES FOR LATEX VERSION
+\newgeometry{centering}
+    \maketitle
+\restoregeometry
 
-\maketitle
+% License page for latex code
 
 \vspace{2in}
 
 \begin{center}
-{\Large \thetitle}
-
-\vspace{0.25in}
-
-Copyright 2014 Allen B. Downey
+    {\Large \thetitle}
 \end{center}
 
-\vspace{0.25in}
+\vspace{21em}
+
+Copyright \textcopyright \, 2014 Allen Downey
+
+\vspace{0.5em}
 
 \begin{flushleft}
 Green Tea Press       \\
@@ -104,22 +188,44 @@ Green Tea Press       \\
 Needham MA 02492
 \end{flushleft}
 
+\vspace{0.5em}
+
+Copyright \textcopyright \, 2017 W. Craig Scratchley
+
+\vspace{0.5em}
+
+\begin{flushleft}
+School of Engineering Science\\
+Simon Fraser University\\
+8888 University Drive\\
+Burnaby, BC V5A 1S6
+\end{flushleft}
+
+\vspace{2em}
+
 Permission is granted to copy, distribute, and/or modify this document
 under the terms of the Creative Commons Attribution-NonCommercial 3.0 Unported
 License, which is available at \url{http://creativecommons.org/licenses/by-nc/3.0/}.
 
-The original form of this book is \LaTeX\ source code.  Compiling this
-code has the effect of generating a device-independent representation
-of a textbook, which can be converted to other formats and printed.
-
-This book was typeset by the author using latex, dvips and ps2pdf,
-among other free, open-source programs.
-The LaTeX source for this book is available from
-\url{http://greenteapress.com/matlab}.
-
 MATLAB\myreg is a registered trademark of The
 Mathworks, Inc.  The Mathworks does not warrant the accuracy
 of this book; they probably don't even like it.
+
+\vspace{2em}
+
+This book was typeset by the author using \LaTeX, dvips, and ps2pdf,
+among other free, open-source software.
+
+Version 2.0.0 of \thetitle was released in 2017. The active Git
+    repository for developing Version 2 can be found at
+    \url{https://github.com/scratchley/PhysicalModelingInMATLAB}
+
+Version 1.0.0 was released in 2008. The top-most Git repository
+for all versions of this book can be found at
+\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB}.
+
+Copying, distributing, and contributing to \thetitle is encouraged.
+The above repositories are the easiest entry points for this.
 
 \end{latexonly}
 
@@ -149,38 +255,41 @@ Unported License, which is available at
 \setcounter{chapter}{-1}
 
 \end{htmlonly}
-\chapter {Preface to Version 2.0}
- {\itshape Physical Modeling in MATLAB}'s first edition was published in 
-January 2008. Credit must be give to the original author, Allen B. Downey, 
-for his initial work, and his many updates to the book. Credit must also be 
-given to the many online contributors who have helped improved the book 
-over the years.
 
-With the twice yearly updates of the MATLAB software itself, a significant 
-part of the original material is no longer up-to-date. At the time of writing 
-this, the most recent version of MATLAB is 2016b which was released in 
-September 2016. Hence, there was a need to reexamine the contents of 
-the book to keep it relevant to the latest version of MATLAB. Led by Craig 
-Scratchley, with support from the Simon Fraser University (SFU) Teaching 
-and Learning Centre (TLC) and library through an Open Educational 
-Resources (OER) grant, an effort to overhaul Physical Modeling in MATLAB 
-has been made. 
+\chapter {Preface to Version 2}
 
-Version 2.0 builds on Allen Downey's work and was edited to (1) 
-be consistent with MATLAB 2016b  (2) provide corrections, format 
-standardizations and clarifications  (3) reorder and rework material from 
-Chapter 10 to the end of the book.
+I've used \textit{\thetitle} as the course
+textbook for ``Introduction to Engineering Analysis'' at Simon Fraser
+University (SFU) for the past two years. This book is ideal for
+first-year undergraduate students because of its clear presentation and
+delayed introduction to matricies---which is pivotal for students
+just beginning linear algebra.  My first time using this book was an
+absolute pleasure---Downey has the talent to make ordinarily dry
+subjects come to life; however, it became apparent, both from my direct
+experience teaching and from the feedback of my students, that
+significant revisions were needed to fully realize the effectiveness
+of this book.
 
-% eventually will need more information, like location of GitHub repository.
-% SFU collaborators should be mentioned here (too).
+Hence the creation of Version 2 of this book: the entire text
+has been edited for clarity, correctness, and readibility; the
+arrangement of chapters and sections has been improved;
+and all MATLAB\myreg output has been made consistent
+with the 2016 releases. There are many other
+changes, too, but there's only so much room here.
 
-If you have suggestions and corrections, please send them to both
-{\tt craig\_scratchley@alumni.sfu.ca} and {\tt downey@allendowney.com}.
+Many thanks go to Allen Downey for writing this book and making it open
+source; to SFU for funding this revision through the Open Educational
+Resources Grant; and to the following students for helping me transform
+this book into its current form: Zhen Gang Xiao, Zavier Patrick Aguila,
+Michael Cline, and Matt Wiens.
 
-\noindent W. Craig Scratchley \\
-\noindent Vancouver, BC, Canada \\
-\newline
-\today
+\noindent W. Craig Scratchley
+\\
+\noindent Vancouver, BC
+\\
+{\tt craig\_scratchley@alumni.sfu.ca}
+
+\newpage
 
 \chapter{Preface}
 Most books that use MATLAB are aimed at readers who know how
@@ -226,7 +335,7 @@ If you have suggestions and corrections, please send them to
 \noindent Allen B. Downey \\
 \noindent Needham, MA \\
 
-\vspace{0.1in}
+\newpage
 
 \section*{Contributor's list}
 
@@ -270,27 +379,31 @@ code examples look better.
 
 \item Arjun Plakkat found a numerical error.
 
-\item Craig Scratchley let me know about a problem in the HTML version, 
-and then started a project to produce this new significantly revised version 
-of the book.  He supervised the following three individuals who assisted him:
+\item Craig Scratchley led a project to produce a significantly
+revised version of this book, with the help of SFU students Zhen, Zavier,
+Michael, and Matt (as below).
 
-\item Zhen Gang Xiao did a lot of work on the book, including most 
-of the work synchronizing MATLAB output with R2016b 
+\item Zhen Gang Xiao synchronized MATLAB output with R2016b.
 
-\item Zavier Patrick Aguila did things including consistently numbering equations.
+\item Zavier Patrick Aguila consistently numbered equations.
 
-\item Michael Cline did things including putting in support for .pdf bookmarks.
+\item Michael Cline put in support for PDF bookmarks.
+
+\item Matt Wiens wrote additional sections for chapters 10--12.
 
 \end{itemize}
 
-% ENDCONTRIB
+\newpage
 
+% Table of contents
+
+\pdfbookmark[chapter]{\contentsname}{toc}
 \tableofcontents
 
 \mainmatter
 
 % chap01
-\chapter{Variables and values}
+\chapter{Variables and Values}
 
 \section{A glorified calculator}
 \label{calc}
@@ -298,7 +411,7 @@ of the work synchronizing MATLAB output with R2016b
 At heart, MATLAB is a glorified calculator.  When you start MATLAB
 you will see a window
 entitled {\sf MATLAB} that contains smaller windows entitled {\sf
-Current Directory}, {\sf Command History} and {\sf Command Window}.
+Current Directory}, {\sf Command History}, and {\sf Command Window}.
 The Command Window runs the MATLAB {\bf interpreter}, which allows you
 to type MATLAB {\bf commands}, then executes them and prints the
 result.
@@ -339,14 +452,13 @@ don't.
 ans = 45
 \end{verbatim}
 
-Speaking of spaces, you might have noticed that MATLAB puts a blank 
+Speaking of spaces, you might have noticed that MATLAB puts a blank
 line between {\tt ans =} and the result.  In my examples I will leave
-it out to save paper.
+it out to save room.
 
 The other arithmetic operators are pretty much what you would expect.
 Subtraction is denoted by a minus sign, {\tt -}; multiplication by
-an asterisk, {\tt *} (sometimes pronounced ``splat''); division by
-a forward slash {\tt /}.
+an asterisk, {\tt *}; division by a forward slash, {\tt /}.
 
 \begin{verbatim}
 >> 2*3 - 4/5
@@ -380,10 +492,10 @@ easier to read.  Style doesn't change what the program does; the MATLAB
 interpreter doesn't check for style.  But human readers do, and the
 most important human who will read your code is you.
 
-And that brings us to the First Theorem of debugging:
+And that brings us to the First Theorem of Debugging:
 
 \begin{quote}
-Readable code is debuggable code.
+\displaythrm{1}
 \end{quote}
 
 It is worth spending time to make your code pretty; it will save
@@ -465,7 +577,7 @@ followed by the name of a command.
 >> help sin
  sin    Sine of argument in radians.
     sin(X) is the sine of the elements of X.
- 
+
     See also asin, sind.
 
     Reference page for sin
@@ -478,7 +590,7 @@ in MATLAB, you get an error:
 \begin{verbatim}
 >> SIN(1)
 Undefined function 'SIN' for input arguments of type 'double'.
- 
+
 Did you mean:
 >> sin(1)
 \end{verbatim}
@@ -501,8 +613,7 @@ is the ability to give a name to a value.  A named value is called
 a {\bf variable}.
 
 MATLAB comes with a few predefined variables.  For
-example\footnote{Technically {\tt pi} is a function, not a variable,
-but for now it's best to pretend.}, the name {\tt pi} refers to the
+example, the name {\tt pi} refers to the
 mathematical quantity $\pi$, which is approximately
 
 \begin{verbatim}
@@ -594,9 +705,11 @@ The third example demonstrates that not everything
 in MATLAB is a number.  A sequence of characters in single quotes is
 a {\bf string}.
 
-Although {\tt i}, {\tt j} and {\tt pi} are predefined, you are free
+Although {\tt i}, {\tt j}, and {\tt pi} are predefined, you are free
 to reassign them.  It is common to use {\tt i} and {\tt j} for other
-purposes, but it is probably not a good idea to change the value of
+purposes\footnote{Note that {\tt 1i} and {\tt 1j} \textit{always}
+represent the imaginary unit.}
+, but it is probably not a good idea to change the value of
 {\tt pi}!
 
 \section{Why variables?}
@@ -678,7 +791,7 @@ for multiplication.
 \begin{verbatim}
 >> area = pi r^2
  area = pi r^2
-           | 
+           |
 Error: Unexpected MATLAB expression.
 \end{verbatim}
 
@@ -714,8 +827,7 @@ arguments.
 This example also demonstrates the Second Theorem of Debugging:
 
 \begin{quote}
-The only thing worse than getting an error message is {\em not}
-getting an error message.
+\displaythrm{2}
 \end{quote}
 
 Beginning programmers hate error messages and do everything they
@@ -742,7 +854,7 @@ But that would be wrong.  So very wrong.  It should instead be
 1 / (2 * sqrt(pi))
 \end{verbatim}
 
-or 
+or
 
 \begin{verbatim}
 1 / 2 / sqrt(pi)
@@ -752,8 +864,8 @@ or
 \section{Floating-point arithmetic}
 
 In mathematics, there are several kinds of numbers: integer, real,
-rational, irrational, imaginary, complex, etc.  MATLAB only has one
-kind of number, called {\bf floating-point}.
+rational, irrational, imaginary, complex, etc.  MATLAB uses only one
+kind of number by default: {\bf floating-point}.
 
 You might have noticed that MATLAB expresses values in decimal
 notation.  So, for example, the rational number $1/3$ is represented
@@ -802,8 +914,10 @@ speed_of_light = 300000000
 
 Although MATLAB can handle large numbers, there is a limit.  The
 predefined variables {\tt realmax} and {\tt realmin} contain the
-largest and smallest number magnitudes that MATLAB can handle\footnote{The names
-of these variables are misleading: other documentation refers to ``floating-point numbers'', not ``real numbers''.}.
+largest and smallest number magnitudes that MATLAB can
+handle.\footnote{The names of these variables are misleading: other
+documentation refers to ``floating-point numbers'', not ``real
+numbers''.}
 
 \begin{verbatim}
 >> realmax
@@ -824,14 +938,14 @@ ans = 7.257415615307994e+306
 ans = Inf
 \end{verbatim}
 
-Division by zero also returns {\tt Inf}. 
+Division by zero also returns {\tt Inf}.
 
 \begin{verbatim}
 >> 1/0
 ans = Inf
 \end{verbatim}
 
-Some older versions of MATLAB give a warning when dividing by zero. 
+Some older versions of MATLAB give a warning when dividing by zero.
 A warning is like an error message without teeth; the computation
 is allowed to continue.  Allowing {\tt Inf} to propagate
 through a computation doesn't always do what you expect, but if you
@@ -878,7 +992,7 @@ Good comments provide additional information that is not in the
 code, like units in the example above, or the meaning of a variable:
 
 \begin{verbatim}
->> p = 0         % position from the origin in meters 
+>> p = 0         % position from the origin in meters
 >> v = 100       % velocity in meters / second
 >> a = -9.8      % acceleration of gravity in meters / second^2
 \end{verbatim}
@@ -887,7 +1001,7 @@ If you use longer variable names, you might not need explanatory
 comments, but there is a tradeoff: longer code can become harder
 to read.  Also, if you are translating from math
 that uses short variable names, it can be useful to make your
-program consistent with your math. 
+program consistent with your math.
 
 \section{Glossary}
 
@@ -901,17 +1015,17 @@ program consistent with your math.
 waiting for you to type a command.
 
 \item[operator:] One of the symbols, like {\tt *} and {\tt +}, that
-represent mathematical operations.   
+represent mathematical operations.
 
 \item[operand:] A number or variable that appears in an expression along
 with operators.
 
 \item[expression:] A sequence of operands and operators that specifies
-a mathematical computation and yields a value.   
+a mathematical computation and yields a value.
 
-\item[value:] The numerical result of a computation.   
+\item[value:] The numerical result of a computation.
 
-\item[evaluate:] To compute the value of an expression.   
+\item[evaluate:] To compute the value of an expression.
 
 \item[order of operations:] The rules that specify which operations
 in an expression are performed first.
@@ -919,23 +1033,23 @@ in an expression are performed first.
 \item[function:] A named computation; for example {\tt log10} is the
 name of a function that computes logarithms in base 10.
 
-\item[call:] To cause a function to execute and compute a result.   
+\item[call:] To cause a function to execute and compute a result.
 
-\item[function call:] A kind of command that executes a function.   
+\item[function call:] A kind of command that executes a function.
 
 \item[argument:] An expression that appears in a function call to
 specify the value the function operates on.
 
 \item[nested function call:] An expression that uses the result from
-one function call as an argument for another.   
+one function call as an argument for another.
 
-\item[variable:] A named value.   
+\item[variable:] A named value.
 
 \item[assignment statement:] A command that creates a new variable
 (if necessary) and gives it a value.
 
 \item[string:] A value that consists of a sequence of characters (as
-opposed to a number). 
+opposed to a number).
 
 \item[floating-point:] The kind of number MATLAB works with.  All
 floating-point numbers can be represented with about 16 significant
@@ -943,10 +1057,10 @@ decimal digits (unlike mathematical integers and reals).
 
 \item[scientific notation:] A format for typing and displaying large
 and small numbers; e.g. {\tt 3.0e8}, which represents $3.0 \times 10^8$
-or 300,000,000.  
+or 300,000,000.
 
 \item[comment:] Part of a program that provides additional information
-about the program, but does not affect its execution. 
+about the program, but does not affect its execution.
 
 \end{description}
 
@@ -971,7 +1085,7 @@ about the program, but does not affect its execution.
 \begin{ex}
 Write a MATLAB expression that evaluates the
 following math expression.  You can assume that the variables
-{\tt mu}, {\tt sigma} and {\tt x} already exist.
+{\tt mu}, {\tt sigma}, and {\tt x} already exist.
 
 \begin{equation}
 \frac{e^{- \left( \frac{x-\mu}{\sigma \sqrt{}2} \right) ^2}}
@@ -1078,7 +1192,7 @@ $n$th Fibonacci number:
 
 \begin{equation}
 F_n = \frac{1}{\sqrt{5}}
-\left[ 
+\left[
 \left( \frac{1 + \sqrt{5}}{2} \right)^{n} -
 \left( \frac{1 - \sqrt{5}}{2} \right)^{n}
 \right]
@@ -1138,8 +1252,7 @@ at, you will find debugging a frustrating exercise!  And that brings
 us to the Third Theorem of Debugging:
 
 \begin{quote}
-You must always be 100\% sure that the code you are running is
-the code you think you are running.
+\displaythrm{3}
 \end{quote}
 
 
@@ -1147,7 +1260,7 @@ the code you think you are running.
 \section{The workspace}
 
 The variables you create are stored in the {\bf workspace}, which is a
-set of variables and their values.  
+set of variables and their values.
 The {\tt clear} command, by itself, removes any variables you may
 have in the workspace.
 
@@ -1156,7 +1269,7 @@ have in the workspace.
 \end{verbatim}
 
 The {\tt who} command prints the
-names of the variables in the workspace. 
+names of the variables in the workspace.
 
 \begin{verbatim}
 >> x=5;
@@ -1166,7 +1279,7 @@ names of the variables in the workspace.
 
 Your variables are:
 
-x  y  z  
+x  y  z
 \end{verbatim}
 
 The {\tt clear} command can also remove specified variables.
@@ -1177,7 +1290,7 @@ The {\tt clear} command can also remove specified variables.
 
 Your variables are:
 
-z  
+z
 \end{verbatim}
 
 To display the value of a variable, you can use the {\tt disp}
@@ -1216,7 +1329,7 @@ Undefined function or variable 'n'.
 Error in fibonacci1 (line 9)
 diff = t1^n - t2^n;
 \end{verbatim}
- 
+
 The details of this message might be different for you, depending
 on what's in your script.  But the general idea is that {\tt n}
 is undefined.  Notice that MATLAB tells you what line of your
@@ -1230,8 +1343,7 @@ the workspace.
 Which brings us to the Fourth Theorem of Debugging:
 
 \begin{quote}
-Error messages tell you where the problem was discovered, not
-where it was caused.  
+\displaythrm{4}
 \end{quote}
 
 The object of the game is to find the cause and
@@ -1246,8 +1358,8 @@ example, I might put something like this at the beginning of
 {\tt fibonacci1}:
 
 \begin{verbatim}
-% Computes the nth Fibonacci number.  
-% Precondition: you must assign a value to n before running 
+% Computes the nth Fibonacci number.
+% Precondition: you must assign a value to n before running
 % this script.  Postcondition: the result is stored in ans.
 \end{verbatim}
 
@@ -1262,8 +1374,8 @@ signs).
 
 \begin{verbatim}
 >> help fibonacci1
-  Computes the nth Fibonacci number.  
-  Precondition: you must assign a value to n before running 
+  Computes the nth Fibonacci number.
+  Precondition: you must assign a value to n before running
   this script.  Postcondition: the result is stored in ans.
 \end{verbatim}
 
@@ -1359,7 +1471,7 @@ project.  Get them out of the way so you can focus on programming.
 change is one that displays something on the screen (or has some
 other effect) that you can check.  Ideally, you should know what
 the correct answer is, or be able to check it by performing another
-computation. 
+computation.
 
 \item Run the program and see if the change worked.  If so, go back
 to Step 2.  If not, you will have to do some debugging, but if the
@@ -1372,7 +1484,7 @@ work the first time, or the problem is obvious.  That's a good thing,
 and it brings us to the Fifth Theorem of Debugging:
 
 \begin{quote}
-The best kind of debugging is the kind you don't have to do.
+\displaythrm{5}
 \end{quote}
 
 In practice, there are two problems with incremental development:
@@ -1442,12 +1554,12 @@ With this kind of unit testing, you are not really checking for
 errors in MATLAB, you are checking your understanding.  If you
 make an error because you are confused about how MATLAB works, it
 might take a long time to find, because when you look at the code,
-it looks right. 
+it looks right.
 
 Which brings us to the Sixth Theorem of Debugging:
 
 \begin{quote}
-The worst bugs aren't in your code; they are in your head.
+\displaythrm{6}
 \end{quote}
 
 
@@ -1456,14 +1568,14 @@ The worst bugs aren't in your code; they are in your head.
 
 \begin{description}
 
-\item[M-file:] A file that contains a MATLAB program. 
+\item[M-file:] A file that contains a MATLAB program.
 
 \item[script:] An M-file that contains a sequence of MATLAB commands.
 
 \item[search path:] The list of directories where MATLAB looks for
-M-files. 
+M-files.
 
-\item[workspace:] A set of variables and their values. 
+\item[workspace:] A set of variables and their values.
 
 \item[precondition:] Something that must be true when the script
 starts, in order for it to work correctly.
@@ -1471,13 +1583,13 @@ starts, in order for it to work correctly.
 \item[postcondition:] Something that will be true when the script
 completes.
 
-\item[target:] The variable on the left side of an assignment statement. 
+\item[target:] The variable on the left side of an assignment statement.
 
 \item[incremental development:] A way of programming by making a series
-of small, testable changes. 
+of small, testable changes.
 
 \item[scaffolding:] Code you write to help you program or debug, but
-which is not part of the finished program. 
+which is not part of the finished program.
 
 \item[unit testing:] A process of testing software by testing each
 component in isolation.
@@ -1491,7 +1603,7 @@ component in isolation.
 \label{cargame}
 
 Imagine that you are the owner of a car rental company with two
-locations, Albany and Boston.  Some of your customers do ``one-way
+locations, Albany, and Boston.  Some of your customers do ``one-way
 rentals,'' picking up a car in Albany and returning it in Boston, or
 the other way around.  Over time, you have observed that each week 5\%
 of the cars in Albany are dropped off in Boston, and 3\% of the cars
@@ -1573,7 +1685,7 @@ number of cars is right.  And that brings us to the Seventh Theorem of
 Debugging:
 
 \begin{quote}
-The best way to avoid a bug is to make it impossible.
+\displaythrm{7}
 \end{quote}
 
 In this case, removing redundancy also eliminates the opportunity for
@@ -1588,7 +1700,7 @@ There are four kinds of error:
 
 \item[Syntax error:] You have written a MATLAB command that cannot
 execute because it violates one of the rules of syntax.  For example,
-you can't have two operands in a row without an operator, so 
+you can't have two operands in a row without an operator, so
 \verb+pi r^2+ contains a syntax error.  When MATLAB finds a syntax
 error, it prints an error message and stops running your program.
 
@@ -1660,7 +1772,7 @@ if we are talking about my annual salary, but not at all if we
 are talking about the national debt.
 
 A natural way to handle this problem is to use relative
-error.  
+error.
 In this case, we would divide the error
 by 362,880, yielding $.00921$, which is just less than 1\%.
 For many purposes, being off by 1\% is good enough.
@@ -1673,7 +1785,7 @@ a {\bf for loop} is the kind of loop that uses the {\tt for}
 statement.
 
 The simplest use of a {\tt for} loop is to execute one or more
-lines a fixed number of times.  
+lines a fixed number of times.
 For example, in the last chapter
 we wrote a script named {\tt car\_update} that simulates one
 week in the life of a rental car company.  To simulate an entire
@@ -1701,7 +1813,7 @@ ans =  1     2     3     4     5
 
 The variable you use in the for statement is called the {\bf loop
 variable}.  It is a common convention to use the names {\tt i},
-{\tt j} and {\tt k} as loop variables.
+{\tt j}, and {\tt k} as loop variables.
 
 The statements inside the loop are called the {\bf body}.  By convention,
 they are indented to show that they are inside the loop, but the
@@ -1735,7 +1847,7 @@ For this exercise, start with the values {\tt a = 150} and {\tt b =
 
 If everything goes smoothly, your script will display a long stream
 of numbers on the screen.  But it is probably too long
-to fit, and even if it fit, it would be hard to interpret.  
+to fit, and even if it fit, it would be hard to interpret.
 A graph would be much better!
 \end{ex}
 
@@ -1770,13 +1882,13 @@ point should be plotted.  You can also specify the color:
 \end{verbatim}
 
 {\tt r} stands for red; the other colors include {\bf g}reen, {\bf
-b}lue, {\bf c}yan, {\bf m}agenta, {\bf y}ellow and blac{\bf k}.
-Other shapes include {\tt +}, 
-{\tt *}, 
-{\tt x}, 
-{\tt s} (for square), 
-{\tt d} (for diamond), and 
-\verb+^+ (for a triangle). 
+b}lue, {\bf c}yan, {\bf m}agenta, {\bf y}ellow, and blac{\bf k}.
+Other shapes include {\tt +},
+{\tt *},
+{\tt x},
+{\tt s} (for square),
+{\tt d} (for diamond), and
+\verb+^+ (for a triangle).
 
 When you use {\tt plot} this way, it can only plot one point at a
 time.  If you run {\tt plot} again, it clears the figure before making
@@ -1852,7 +1964,7 @@ This loop computes the sequence {\bf recurrently}, which means
 that each element depends on the previous one.
 For this sequence it is also possible to compute the $i$th element
 {\bf directly}, as a function of $i$, without using the previous element.
-In math notation, $A_i = A_1 r^{i-1}$.  
+In math notation, $A_i = A_1 r^{i-1}$.
 
 \begin{ex}
 Write a
@@ -1890,7 +2002,7 @@ ans = total
 \end{verbatim}
 
 {\tt A1} is the first element of the sequence, so each time
-through the loop {\tt a} is the $i$th element.  
+through the loop {\tt a} is the $i$th element.
 
 The way we are using {\tt total} is sometimes called an {\bf
 accumulator}; that is, a variable that accumulates a result a little
@@ -1932,9 +2044,9 @@ ans = total
 
 The code above can now compute any number of terms, with the
 precondition that you have to set {\tt n} before you execute
-the code.  Put the code in a file named {\tt series.m}, then 
+the code.  Put the code in a file named {\tt series.m}, then
 run the script with different values
-of {\tt n} 
+of {\tt n}
 as shown in the following:
 
 \begin{verbatim}
@@ -1990,7 +2102,7 @@ repeatedly.
 \item[sequence:] In mathematics, a set of numbers that correspond
 to the positive integers.
 
-\item[element:] A member of the set of numbers in a sequence. 
+\item[element:] A member of the set of numbers in a sequence.
 
 \item[recurrently:] A way of computing the next element of a sequence
 based on previous elements.
@@ -2019,7 +2131,7 @@ We have already seen the Fibonacci sequence, $F$, which
 is defined recurrently as
 
 \begin{equation}
-for~~i \ge 3, ~~  F_{i} = F_{i-1} + F_{i-2} 
+for~~i \ge 3, ~~  F_{i} = F_{i-1} + F_{i-2}
 \end{equation}
 
 In order to get started, you have to specify the first two
@@ -2092,10 +2204,10 @@ aren't any numbers that fit that description, so the result is
 \begin{verbatim}
 >> 1:-1
 
-ans = 1×0 empty double row vector
+ans = 1x0 empty double row vector
 \end{verbatim}
 
-If the matrix is empty, you might expect it to be ``0-by-0,'' but
+If the matrix is empty, you might expect it to be {\tt 0x0}, but
 there you have it.  In any case, if you loop over an empty range,
 the loop never runs at all, which is why in this example the
 value of {\tt total} is zero for any negative value of {\tt n}.
@@ -2194,7 +2306,7 @@ A variable that contains a logical value is often called a {\bf flag}
 because it flags the status of some condition.
 
 The other relational operators are {\tt <=} and {\tt >=}, which are
-self-explanatory, {\tt ==}, for ``equal,'' and 
+self-explanatory, {\tt ==}, for ``equal,'' and
 \verb+~=+, for ``not equal.''  (In some logic notations, the tilde
 is the symbol for ``not.'')
 
@@ -2206,11 +2318,11 @@ an {\tt if} statement, you get a syntax error:
 if x=5
 ??? if x=5
         |
-Error: The expression to the left of the equals sign is not a valid 
+Error: The expression to the left of the equals sign is not a valid
 target for an assignment.
 \end{verbatim}
 
-MATLAB thinks you are making an assignment to a variable named {\tt if x}! 
+MATLAB thinks you are making an assignment to a variable named {\tt if x}!
 
 
 \section{Logical operators}
@@ -2285,7 +2397,7 @@ which are called {\bf scalars} to contrast them with {\bf vectors}
 and {\bf matrices}, which are collections of numbers.
 
 A vector in MATLAB is similar to a sequence in mathematics;
-it is a set of numbers that correspond to positive integers.  
+it is a set of numbers that correspond to positive integers.
 What
 we called a ``range'' in the previous chapter was actually a
 vector.
@@ -2340,7 +2452,7 @@ Otherwise:
 W = 1     2     3
 
 >> X+W
-Error using  + 
+Error using  +
 Matrix dimensions must agree.
 \end{verbatim}
 
@@ -2420,7 +2532,7 @@ X = 1     2     3     4     5
 Y = 1     2     3     4     5
 
 >> Z = X*Y
-Error using  * 
+Error using  *
 Inner matrix dimensions must agree.
 \end{verbatim}
 
@@ -2522,8 +2634,8 @@ logicals.
 \end{verbatim}
 
 ``Subscript indices'' is MATLAB's longfangled way to say ``indices.''
-``Real positive integers'' 
-is self-explanatory. 
+``Real positive integers''
+is self-explanatory.
 And you can forget about ``logicals'' for now.
 
 If the index is too big, you get this:
@@ -2684,7 +2796,7 @@ in the {\tt i}th element of {\tt X}, so at the end of the loop
 \begin{ex}
 Write a similar loop that multiplies all the
 elements of a vector together.  You might want to call the
-accumulator {\tt product}, and you might want to think about 
+accumulator {\tt product}, and you might want to think about
 the initial value you give it before the loop.
 \end{ex}
 
@@ -2755,7 +2867,7 @@ for i=1:length(X)
     end
 end
 \end{verbatim}
- 
+
 One funny thing about this loop is that it keeps going after it
 finds what it is looking for.  That might be what you want; if the
 target value appears more than one, this loop provides the index
@@ -2854,7 +2966,7 @@ for now you are better off on your own.
 
 I started with simple loops because I wanted to demonstrate the basic
 concepts and give you a chance to practice.  At some point you will
-probably have to write a loop for which there is no 
+probably have to write a loop for which there is no
 MATLAB shortcut, but you have to work your way up from somewhere.
 
 If you understand loops and you are are comfortable with the
@@ -2941,22 +3053,22 @@ z_{i+1} &=& z_i + \left( x_i y_i - b z_i \right) dt
 \begin{itemize}
 
 \item Write a script that computes the first 10 elements of the sequences
-$X$, $Y$ and $Z$ and stores them in vectors named {\tt X}, {\tt Y}
+$X$, $Y$, and $Z$ and stores them in vectors named {\tt X}, {\tt Y},
 and {\tt Z}.
 
-Use the initial values $X_1 = 1$, $Y_1 = 2$ and $Z_1 = 3$, with values
-$\sigma = 10$, $b = 8/3$ and $r = 28$, and with time step $dt = 0.01$.
+Use the initial values $X_1 = 1$, $Y_1 = 2$, and $Z_1 = 3$, with values
+$\sigma = 10$, $b = 8/3$, and $r = 28$, and with time step $dt = 0.01$.
 
 \item Read the documentation for {\tt plot3} and {\tt comet3} and
 plot the results in 3 dimensions.
 
 \item Once the code is working, use semi-colons to suppress the output
-and then run the program with sequence length 100, 1000 and 10000.
+and then run the program with sequence length 100, 1000, and 10000.
 
 \item Run the program again with different starting conditions.
 What effect does it have on the result?
 
-\item Run the program with different values for $\sigma$, $b$ and $r$
+\item Run the program with different values for $\sigma$, $b$, and $r$
 and see if you can get a sense of how each variable affects the
 system.
 
@@ -3025,7 +3137,7 @@ scripts become unmanageable.
 For example, the following (increasingly familiar) script computes the
 sum of the first {\tt n} terms in a geometric sequence, but it also
 has the {\bf side-effect} of assigning values to {\tt A1}, {\tt total},
-{\tt i} and {\tt a}.
+{\tt i}, and {\tt a}.
 
 \begin{verbatim}
 A1 = 1;
@@ -3079,7 +3191,7 @@ function res = myfunc(x)
 end
 \end{verbatim}
 
-Other than possible comments, the 
+Other than possible comments, the
 first word of the file has to be the word {\tt function}, because
 that's how MATLAB tells the difference between a script and a function
 file.
@@ -3143,7 +3255,7 @@ will find that they don't exist.
 >> who
 
 Your variables are: y
-  
+
 >> s
 ??? Undefined function or variable 's'.
 \end{verbatim}
@@ -3166,9 +3278,9 @@ c = 1
 \end{verbatim}
 
 So inside a function you can use whatever variable names you
-want without worrying about collisions.  
+want without worrying about collisions.
 Notice the use of the "," which allowed two things to be done on
-one line, both of which were reported on.  
+one line, both of which were reported on.
 
 
 \section{Documentation}
@@ -3408,11 +3520,11 @@ end
 \end{verbatim}
 
 This function is good enough for most applications, but remember
-that floating-point values are 
-sometimes 
+that floating-point values are
+sometimes
 only approximately right: in some
 cases the approximation is an integer but the actual
-value is not, 
+value is not,
 and in other cases like what we saw with fibonacci1.m,
 the actual value is an integer but the floating-point
 approximation is not.
@@ -3422,9 +3534,9 @@ approximation is not.
 \label{increxample}
 
 Let's say that we want to write a program to search for ``Pythagorean
-triples:'' sets of integral values, like 3, 4 and 5,
+triples:'' sets of integral values, like 3, 4, and 5,
 that are the lengths of the sides of a right triangle.  In other
-words, we would like to find integral values $a$, $b$ and $c$ such
+words, we would like to find integral values $a$, $b$, and $c$ such
 that $a^2 + b^2 = c^2$.
 
 Here are the steps we will follow to develop the program incrementally.
@@ -3446,7 +3558,7 @@ display it.
 \item Use {\tt isintegral} to check whether $c$ is an integral
 value.
 
-\item Use an if statement to print only the triples $a$, $b$ and $c$
+\item Use an if statement to print only the triples $a$, $b$, and $c$
 that pass the test.
 
 \item Transform the script into a function.
@@ -3519,7 +3631,7 @@ for a=1:3
 end
 \end{verbatim}
 
-To display the values of {\tt a}, {\tt b} and {\tt c}, I am
+To display the values of {\tt a}, {\tt b}, and {\tt c}, I am
 using a feature we haven't seen before.  The bracket operator
 creates a new matrix which, when it is displayed, shows the
 three values on one line:
@@ -3628,7 +3740,7 @@ ans = 3     4     5
 \section{Encapsulation and generalization}
 
 As a script, this program has the side-effect of assigning values to
-{\tt a}, {\tt b}, {\tt c} and {\tt flag}, which would make it hard to
+{\tt a}, {\tt b}, {\tt c}, and {\tt flag}, which would make it hard to
 use if any of those names were in use.  By wrapping the code in a
 function, we can avoid name collisions; this process is called {\bf
 encapsulation} because it isolates this program from the workspace.
@@ -3742,12 +3854,10 @@ might make the error message go away, but that doesn't mean the
 program will do the right thing.  MATLAB doesn't know what the program
 is {\em supposed} to do, but you should.
 
-And that brings us to the Eighth Theorem of debugging:
+And that brings us to the Eighth Theorem of Debugging:
 
 \begin{quote}
-Error messages sometimes tell you what's wrong, but they
-seldom tell you what to do (and when they try, they're usually
-wrong).
+\displaythrm{8}
 \end{quote}
 
 
@@ -3821,7 +3931,7 @@ is a Pythagorean triple for all $n \ge 1$.
 \begin{ex}
 Write a function named {\tt fib\_triple} that
 takes an input variable {\tt n}, computes
-the first {\tt n} Fibonacci numbers, and then checks whether 
+the first {\tt n} Fibonacci numbers, and then checks whether
 this formula produces Pythagorean triples for numbers
 in the sequence.
 \end{ex}
@@ -4042,7 +4152,7 @@ $x^2 = a$.
 
 If you have taken algebra, you probably know how to ``solve'' this
 equation: you take the square root of both sides and get
-$x = \sqrt{a}$.  Then, with the satisfaction of a job well done,
+$x = \pm \sqrt{a}$.  Then, with the satisfaction of a job well done,
 you move on to the next problem.
 
 But what have you really done?  The relationship you derived is
@@ -4070,14 +4180,16 @@ To demonstrate a numerical solution, consider the equation $x^2 - 2x =
 3$.  You could solve this analytically, either by factoring it or by
 using the quadratic equation, and you would discover that there are
 two solutions, $x=3$ and $x=-1$.  Alternatively, you could solve it
-numerically by rewriting it as $x = \sqrt{2x+3}$.
+numerically by rewriting it as $x =\pm \sqrt{2x+3}$.
 
 This equation is not explicit, since $x$ appears on both sides, so
 it is not clear that this move did any good at all.  But suppose
 that we had some reason to expect there to be a solution near 4.
 We could start with $x=4$ as an ``initial guess,'' and then use
 the equation $x = \sqrt{2x+3}$ iteratively to compute successive
-approximations of the solution.
+approximations of the solution.\footnote{To understand why this
+(sometimes) works, see
+\url{https://en.wikipedia.org/wiki/Fixed-point_iteration}.}
 
 Here's what would happen:
 
@@ -4297,8 +4409,8 @@ Error in error_func (line 2)
     res = x^2 - 2*x -3;
 \end{verbatim}
 
-The error occurs as MATLAB treats the first argument as a function call, 
-so it calls {\tt error\_func} with no arguments.  
+The error occurs as MATLAB treats the first argument as a function call,
+so it calls {\tt error\_func} with no arguments.
 
 Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
@@ -4331,7 +4443,7 @@ If you try to use it with {\tt fzero}, you get
 y = -3
 
 Error using fzero (line 231)
-FZERO cannot continue because user-supplied function_handle ==> 
+FZERO cannot continue because user-supplied function_handle ==>
 error_func failed with the error below.
 
 Output argument "res" (and maybe others) not assigned during call
@@ -4351,7 +4463,7 @@ to a variable:
 
 y = 5
 
-Output argument "res" (and maybe others) not assigned during 
+Output argument "res" (and maybe others) not assigned during
 call to "error_func".
 \end{verbatim}
 
@@ -4360,11 +4472,11 @@ You can avoid all of this if you remember these two rules:
 \begin{itemize}
 
 \item Functions should always assign values to their output
-variables\footnote{Well, ok, there are exceptions, including {\tt
-find\_triples}.  Functions that don't return a value are sometimes
-called ``commands,'' because they do something (like display values or
-generate a figure) but either don't have an output variable or don't
-make an assignment to it.}.
+variables.\footnote{Well, ok, there are exceptions, including {\tt
+find\_triples}. Functions that don't return a value are sometimes
+called ``commands,'' because they do something (like display
+values or generate a figure) but either don't have an output
+variable or don't make an assignment to it.}
 
 \item When you call a function, you should always do something with
 the result (either assign it to a variable or use it as part of an
@@ -4415,7 +4527,7 @@ a scalar output variable, you can plot it with {\tt ezplot}:
 >> ezplot(@error_func, [-2,5])
 \end{verbatim}
 
-The first argument is a function handle; the second is the 
+The first argument is a function handle; the second is the
 interval you want to plot the function in.
 
 By default {\tt ezplot} calls your function 100 times (each time
@@ -4557,12 +4669,10 @@ If it makes you feel better, copy your program into another file
 before you start stripping it down.  Then you can paste the pieces
 back in a little bit at a time.
 
-To summarize, here's the Ninth Theorem of debugging:
+To summarize, here's the Ninth Theorem of Debugging:
 
 \begin{quote}
-Finding a hard bug requires reading, running, ruminating, and
-sometimes retreating.  If you get stuck on one of these activities,
-try the others.
+\displaythrm{9}
 \end{quote}
 
 
@@ -4605,7 +4715,7 @@ without calling it.
 
 \item[shadow:] A kind of name collision in which a new definition
 causes an existing definition to become invisible.  In MATLAB,
-variable names can shadow built-in functions (with hilarious results). 
+variable names can shadow built-in functions (with hilarious results).
 
 \end{description}
 
@@ -4616,7 +4726,7 @@ variable names can shadow built-in functions (with hilarious results).
 \begin{enumerate}
 
 \item Write a function called {\tt cheby6} that evaluates the
-6th Chebyshev polynomial.  It should take an input variable, 
+6th Chebyshev polynomial.  It should take an input variable,
 $x$, and return
 
 \begin{equation}
@@ -4641,15 +4751,13 @@ guess?
 The density of a duck, $\rho$, is $0.3 g / cm^3$ (0.3 times the
 density of water).
 
-The volume of a sphere\footnote{This example is adapted from Gerald
-and Wheatley, {\em Applied Numerical Analysis}, Fourth Edition,
-Addison-Wesley, 1989.} with radius $r$ is $\frac{4}{3} \pi r^3$.
+The volume of a sphere with radius $r$ is $\frac{4}{3} \pi r^3$.
 
 If a sphere with radius $r$ is submerged in water to a depth $d$, the
-volume of the sphere below the water line is 
+volume of the sphere below the water line is
 
 \begin{equation}
-volume = \frac{\pi}{3} (3r d^2 - d^3) \quad 
+volume = \frac{\pi}{3} (3r d^2 - d^3) \quad
 \mbox{as long as} \quad d < 2 r
 \end{equation}
 
@@ -4657,13 +4765,15 @@ An object floats at the level where the weight of the displaced water
 equals the total weight of the object.
 
 Assuming that a duck is a sphere with radius 10 cm, at what depth does
-a duck float?
+a duck float?\footnote{This example is adapted from Gerald and Wheatley,
+{\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
+1989.}
 
 Here are some suggestions about how to proceed:
 
 \begin{itemize}
 
-\item Write an equation relating $\rho$, $d$ and $r$.
+\item Write an equation relating $\rho$, $d$, and $r$.
 
 \item Rearrange the equation so the right-hand side is zero.
 Our goal is to find values of $d$ that are roots of this equation.
@@ -4705,7 +4815,7 @@ infinity?  Goes to zero?
 
 
 % chap07
-\chapter{Functions of vectors}
+\chapter{Functions of Vectors}
 
 
 \section{Functions and files}
@@ -4990,7 +5100,7 @@ square matrices.
 
 \begin{verbatim}
 >> hypotenuse(1:3, 1:3)
-Error using  ^ 
+Error using  ^
 Inputs must be a scalar and a square matrix.
 To compute elementwise POWER, use POWER (.^) instead.
 
@@ -5008,10 +5118,10 @@ But if you replace \verb+^+ with the elementwise operator
 
 C = 5    13    17
 \end{verbatim}
- 
+
 In this case, it matches up corresponding elements from the two
 input vectors, so the elements of {\tt C} are the hypotenuses of
-the pairs $(3,4)$, $(5,12)$ and $(8,15)$, respectively.
+the pairs $(3,4)$, $(5,12)$, and $(8,15)$, respectively.
 
 In general, if you write a function using only elementwise
 operators and functions that work on vectors, then the new
@@ -5200,7 +5310,7 @@ as
 
 Where $\sim \exists$ means ``does not exist.''
 In other words, checking that all the elements are positive is
-the same as checking that there are no elements 
+the same as checking that there are no elements
 that are non-positive.
 
 \begin{ex}
@@ -5252,7 +5362,7 @@ If there are no ``true'' elements, the result is an empty vector.
 \begin{verbatim}
 >> find(V>10)
 
-ans = Empty matrix: 1-by-0
+ans = Empty matrix: 1x0
 \end{verbatim}
 
 This example computes the logical vector and passes it as an
@@ -5272,6 +5382,7 @@ end
 \begin{ex}
 Write a version of {\tt forall} using {\tt find}.
 \end{ex}
+
 
 
 \section{Glossary}
@@ -5310,7 +5421,7 @@ property.
 the idea that all elements of a set have a certain property.
 
 \item[logical vector:] A vector, usually the result of applying a logical
-operator to a vector, that contains logical values 1 and 0. 
+operator to a vector, that contains logical values 1 and 0.
 
 
 \end{description}
@@ -5335,12 +5446,12 @@ For example, when bacteria grow in particularly bacteria-friendly
 conditions, the rate of growth at any point in time is proportional to
 the current population.  What we might like to know is the population
 as a function of time.  Toward that end, let's define $f$ to be a
-function that maps from time, $t$, to population $y$, 
+function that maps from time, $t$, to population $y$,
 such that $y = f(t)$.  We don't
 know what it is, but we can write a differential equation
 that describes it:
 
-\begin{equation}
+\begin{equation}\label{eq:exp_growth}
 \frac{df}{dt} = a f
 \end{equation}
 
@@ -5365,9 +5476,9 @@ This equation is {\bf first order} because it involves only first
 derivatives.  If it involved second derivatives, it would be second order,
 and so on.
 
-This equation is {\bf linear} because each term involves $t$, $f$ or
+This equation is {\bf linear} because each term involves $t$, $f$, or
 $df/dt$ raised to the first power; if any of the terms involved
-products or powers of $t$, $f$ and $df/dt$ it would be
+products or powers of $t$, $f$, and $df/dt$ it would be
 nonlinear.
 
 Linear, first order ODEs can be solved analytically; that is, we
@@ -5375,13 +5486,14 @@ can express the solution as a function of $t$.
 This particular ODE has an infinite number of solutions, but
 they all have this form:
 
-\begin{equation}
+\begin{equation}\label{eq:exp_func}
 f(t) = b e^{at}
 \end{equation}
 
 
-For any value of $b$, this function satisfies the ODE.  If
-you don't believe me, take its derivative and check.
+For any values of $a$ and $b$, the function \eqref{eq:exp_func} satisfies
+the ODE \eqref{eq:exp_growth}.  If you don't believe me, take its
+derivative and check.
 
 If we know the population of bacteria at a particular point in time,
 we can use that additional information to determine which of the
@@ -5431,7 +5543,7 @@ $r$ changes slowly and $\Delta t$ is small.
 But let's assume (for now) that the ODE we are interested in can
 be written so that
 
-\begin{equation}
+\begin{equation}\label{eq:g_ODE}
 \frac{df}{dt}(t) = g(t, f(t))
 \end{equation}
 
@@ -5454,9 +5566,9 @@ The interval $\Delta t$ is called the {\bf time step}.
 
 Assuming that we start at $t=0$ and we have an initial condition $f(0)
 = y_0$ (where $y_0$ denotes a particular, known value), we set
-$T_0 = 0$ and $F_0 = y_0$, and then use 
-Equations~\ref{euler1} and~\ref{euler2} to
-compute values of $T_i$ and $F_i$ until $T_i$ 
+$T_0 = 0$ and $F_0 = y_0$, and then use
+equations \eqref{euler1} and \eqref{euler2} to
+compute values of $T_i$ and $F_i$ until $T_i$
 gets to the value of $t$ we are interested in.
 
 If the rate doesn't change too fast and the time step isn't
@@ -5494,7 +5606,7 @@ $f$     &  The unknown function specified,    &  function, f(t): $t \to y$  \\
 $df/dt$  &  The first time derivative of $f$  &  function, df/dt(t): $t \to r$  \\ \hline
 
 $g$     &  A ``rate function,'' derived from     &  \\
-        &  the ODE, that computes rate of     &  function, g(t,y): $t, y \to r$  \\
+        &  the ODE \eqref{eq:g_ODE}, that computes rate of &function, g(t,y): $t, y \to r$  \\
         &  change for any $t$, $y$.           &   \\\hline
 
 $T$     & a sequence of times, $t$, where   & sequence \\
@@ -5508,17 +5620,18 @@ time, $f(t)$ is the function evaluated at a particular time, and if we
 assign $f(t)$ to a variable, we usually call that variable $y$.
 
 Similarly, $g$ is a ``rate function'' that computes the rate of change as a
-function of time and population.  
+function of time and population.
 
 $df/dt$ is the first derivative of $f$, and it maps from $t$ to a
 rate.  If we assign $df/dt(t)$ to a variable,
-we call it $r$.
+we can call that variable $r$.
 
 It is easy to get $df/dt$ confused with $g$, but notice that they are
-not even the same type.  $g$ is more general: it can compute the rate
-of change for any (hypothetical) population at any time; $df/dt$
-is more specific: it is the actual rate of change at time $t$, given
-that the population is $f(t)$.
+not even the same type.
+$df/dt$ is more specific: it computes the rate of change for the
+population $f(t)$ at any time $t$;
+$g$ is more general: it computes the rate
+of change for \textit{any} population $y$ at any time $t$.
 
 
 \section{{\tt ode45}}
@@ -5585,7 +5698,7 @@ $g$:
 g(t, y) = a y \left[1 + \sin (\omega t) \right]
 \end{equation}
 
-Writing the function this way is useful because we can use it 
+Writing the function this way is useful because we can use it
 with Euler's method
 or {\tt ode45} to estimate values of $f$.  All we have to
 do is write a MATLAB function that evaluates $g$.  Here's what
@@ -5730,9 +5843,9 @@ This figure shows the output with the simple function above:
 
 \beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45_simple.eps}}
 
-This figure shows the output of a more complicated script that zooms 
-%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website\footnote{
-%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}.
+This figure shows the output of a more complicated script that zooms
+%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
+%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
 in on the range from Day 100 to 170:
 
 \beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45.eps}}
@@ -5747,7 +5860,7 @@ are increasing so it can decrease the time step (or the other
 way around).
 
 
-\section{What can go wrong?}
+\section{What could go wrong?}
 
 Don't forget the {\tt @} on the function handle.
 If you leave it out, MATLAB treats the first argument as a function
@@ -5819,7 +5932,7 @@ Error in odearguments (line 87)
 f0 = feval(ode,t0,y0,args{:});   % ODE15I sets args{1} to yp0.
 
 Error in ode45 (line 115)
-    odearguments(FcnHandlesUsed, solver_name, ode, tspan, y0, 
+    odearguments(FcnHandlesUsed, solver_name, ode, tspan, y0,
     options, varargin);
 \end{verbatim}
 
@@ -5837,7 +5950,7 @@ When the first argument to ode45 is a function handle, the tspan
 argument must have at least two elements.
 
 Error in ode45 (line 115)
-    odearguments(FcnHandlesUsed, solver_name, ode, tspan, y0, 
+    odearguments(FcnHandlesUsed, solver_name, ode, tspan, y0,
     options, varargin);
 \end{verbatim}
 
@@ -5850,9 +5963,9 @@ have been calling the interval).
 
 There is yet another problem you might encounter, but if it makes you
 feel better, it might not be your fault: the problem you are trying to
-solve might be {\bf stiff}\footnote{The following discussion is based
+solve might be {\bf stiff}.\footnote{The following discussion is based
 partly on an article from Mathworks available at
-\url{http://www.mathworks.com/company/newsletters/news_notes/clevescorner/may03_cleve.html}}.
+\url{http://www.mathworks.com/company/newsletters/news_notes/clevescorner/may03_cleve.html}.}
 
 I won't give a technical explanation of stiffness here, except
 to say that for some problems (over some intervals with some initial
@@ -5887,7 +6000,7 @@ be striking.
 Write a rate function for this ODE and use
 {\tt ode45} to solve it with the given initial condition and interval.
 Start with $\delta = 0.1$ and decrease it by multiples of 10.  If
-you get tired of waiting for a computation to complete, you can 
+you get tired of waiting for a computation to complete, you can
 press the Stop button in the Figure window or press Control-C in
 the Command Window.
 
@@ -5903,21 +6016,21 @@ Now replace {\tt ode45} with {\tt ode23s} and try again!
 \item[differential equation (DE):] An equation that relates the
 derivatives of an unknown function.
 
-\item[ordinary DE:] A DE in which all derivatives are taken with
+\item[ordinary DE (ODE):] A DE in which all derivatives are taken with
 respect to the same variable.
 
 \item[partial DE:] A DE that includes derivatives with respect to
 more than one variable
 
-\item[first order (ODE):] A DE that includes only first derivatives.
+\item[first order DE:] A DE that includes only first derivatives.
 
-\item[linear:] A DE that includes no products or powers of the
+\item[linear DE:] A DE that includes no products or powers of the
 function and its derivatives.
 
 \item[time step:] The interval in time between successive estimates
 in the numerical solution of a DE.
 
-\item[first order (numerical method):] A method whose error is expected
+\item[first order numerical method:] A method whose error is expected
 to halve when the time step is halved.
 
 \item[adaptive:] A method that adjusts the time step to control error.
@@ -5953,7 +6066,7 @@ effects individually would be challenging and unnecessary to answer
 the question as posed.
 
 As a simplification, we can use Newton's Law of
-Cooling\footnote{\url{https://en.wikipedia.org/wiki/Heat_conduction}}:
+Cooling:
 
 \begin{equation}
 \frac{df}{dt} = -r (f - e)
@@ -5963,7 +6076,8 @@ Cooling\footnote{\url{https://en.wikipedia.org/wiki/Heat_conduction}}:
 where $f$ is the temperature of the coffee as a function of time and
 $df/dt$ is its time derivative; $e$ is the temperature of the
 environment, which is a constant in this case, and $r$ is a parameter
-(also constant) that characterizes the rate of heat transfer.
+(also constant) that characterizes the rate of heat
+transfer.\footnote{\url{https://en.wikipedia.org/wiki/Newton's_law_of_cooling}}
 
 It would be easy to estimate $r$ for a given coffee cup by making
 a few measurements over time.  Let's assume that that has been
@@ -6001,9 +6115,9 @@ the final temperature of a mixture of two liquids.  It should
 take the volumes and temperatures of the liquids as parameters.
 
 In general, the final temperature of a mixture depends on the specific
-heat of the two
-substances\footnote{\url{https://en.wikipedia.org/wiki/Heat_capacity}}.
-But if we make the simplifying assumption that coffee and cream
+heat\footnote{\url{https://en.wikipedia.org/wiki/Heat_capacity}}
+of the two substances.  But if we make the simplifying
+assumption that coffee and cream
 have the same density and specific heat, then the final temperature is
 $(v_1 y_1 + v_2 y_2) / (v_1 + v_2)$, where $v_1$ and $v_2$ are
 the volumes of the liquids, and $y_1$ and $y_2$ are their
@@ -6210,27 +6324,18 @@ The Lotka-Volterra model describes the interactions between two
 species in an ecosystem, a predator and its prey.  A common example
 is rabbits and foxes.
 
-The model is governed by the following system of differential
-equations:
+The model is governed by the following system of differential equations:
 
 \begin{eqnarray}
-\frac{dR}{dt} = a R - b R F \\
-\\
-\frac{dF}{dt} = e b R F - c F
+    \frac{dR}{dt} &=& a R - b R F
+    \\
+    \frac{dF}{dt} &=& - c F + d R F
 \end{eqnarray}
 %
-where
-%
-\begin{itemize}
-%
-\item $R$ is the population of rabbits,
-\item $F$ is the population of foxes,
-\item $a$ is the natural growth rate of rabbits in the absence of predation,
-\item $c$ is the natural death rate of foxes in the absence of prey,
-\item $b$ is the death rate of rabbits per interaction with a fox,
-\item $e$ is the efficiency of turning eaten rabbits into foxes.
-%
-\end{itemize}
+where $R$ and $F$ are the respective populations of rabbits and foxes,
+and $a$, $b$, $c$, and $d$ are positive constants
+governing the interactions between the two species.\footnote{See
+\url{https://en.wikipedia.org/wiki/Lotka-Volterra_equations}.}
 
 At first glance you might think you could solve these equations by
 calling {\tt ode45} once to solve for $R$ as a function of time and
@@ -6245,7 +6350,7 @@ initial values $R(0)$ and $F(0)$, and the output is a matrix
 that contains one column for $R$ and one for $F$.
 
 And here's what the rate function looks like
-with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$ and $e = 0.2$:
+with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$, and $d = 0.02$:
 
 \begin{verbatim}
 function res = lotka(t, V)
@@ -6257,39 +6362,39 @@ function res = lotka(t, V)
     a = 0.1;
     b = 0.01;
     c = 0.1;
-    e = 0.2;
-    
+    d = 0.02;
+
     % compute the derivatives
     drdt = a*r - b*r*f;
-    dfdt = e*b*r*f - c*f;
-    
+    dfdt = -c*f + d*r*f;
+
     % pack the derivatives into a vector
     res = [drdt; dfdt];
 end
 \end{verbatim}
 
-As usual, the first input variable is time. 
-Even though the time variable, {\tt t}, 
-is not used inside the function, its presence is required for 
+As usual, the first input variable is time.
+Even though the time variable, {\tt t},
+is not used inside the function, its presence is required for
 using the {\tt ode45} solver in order to indicate the time span.
 The second input variable is a vector with two elements,
 $R(t)$ and $F(t)$.  I gave it a capital letter to remind me that it
-is a vector.  The body of the function includes four {\bf paragraphs},
+is a vector.  The body of the function includes four sections,
 each explained by a comment.
 
-The first paragraph {\bf unpacks} the vector by copying the elements
+The first section {\bf unpacks} the vector by copying the elements
 into scalar variables.  This isn't necessary, but giving names to
 these values helps me remember what's what.  It also makes the third
-paragraph, where we compute the derivatives, resemble the mathematical
+section, where we compute the derivatives, resemble the mathematical
 equations we were given, which helps prevent errors.
 
-The second paragraph sets the parameters that describe the
+The second section sets the parameters that describe the
 reproductive rates of rabbits and foxes, and the characteristics of
 their interactions.  If we were studying a real system, these values
 would come from observations of real animals, but for this example
 I chose values that yield interesting results.
 
-The last paragraph {\bf packs} the computed derivatives back into a
+The last section {\bf packs} the computed derivatives back into a
 vector.  When {\tt ode45} calls this function, it provides a vector
 as input and expects to get a vector as output.
 
@@ -6333,7 +6438,7 @@ and the parameters.  As an exercise, try experimenting with
 different values.
 
 
-\section{What can go wrong?}
+\section{What could go wrong?}
 
 The output vector from the rate function
 has to be a column vector; otherwise you get
@@ -6359,7 +6464,7 @@ errors like this; it will just produce incorrect results.
 \section{Output matrices}
 
 As we saw before, if you call {\tt ode45} without assigning the
-results to variables, it plots the results.  
+results to variables, it plots the results.
 If you assign
 the results to variables, it suppresses the figure.
 Here's what that looks like:
@@ -6415,7 +6520,7 @@ ans = 185     1
 ans = 185     1
 \end{verbatim}
 
-So {\tt R} and {\tt F} are column vectors.  
+So {\tt R} and {\tt F} are column vectors.
 
 
 If you plot these
@@ -6452,28 +6557,25 @@ but for 4 or more variables, you are on your own.
 
 \begin{description}
 
-\item[row vector:] A matrix that has only one row. 
+\item[row vector:] A matrix that has only one row.
 
-\item[column vector:] A matrix that has only one column. 
+\item[column vector:] A matrix that has only one column.
 
 \item[transpose:] An operation that transforms the rows of a matrix
-into columns (or the other way around, if you prefer). 
+into columns (or the other way around, if you prefer).
 
-\item[system of equations:] A set of equations written in terms of
-a set of variables such that the equations are intertangled.
-
-\item[paragraph:] A chunk of code that makes up part of a function,
-usually with an explanatory comment. 
+\item[system of equations:] A collection of equations written in terms of
+the same set of variables.
 
 \item[unpack:] To copy the elements of a vector into a set of variables.
 
-\item[pack:] To copy values from a set of variables into a vector. 
+\item[pack:] To copy values from a set of variables into a vector.
 
 \item[state:] If a system can be described by a set of variables,
 the values of those variables are called the state of the system.
 
 \item[phase plot:] A plot that shows the state of a system as point
-in the space of possible states.  
+in the space of possible states.
 
 \item[trajectory:] A path in a phase plot that shows how the state of
 a system changes over time.
@@ -6489,14 +6591,13 @@ Based on the examples we have seen so far, you would think that
 all ODEs describe population as
 a function of time, but that's not true.
 
-According to the
-Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/Lorenz_attractor}},
+According to Wikipedia,
 ``The Lorenz attractor, introduced by Edward Lorenz in 1963, is a
 non-linear three-dimensional deterministic dynamical system derived
 from the simplified equations of convection rolls arising in the
 dynamical equations of the atmosphere. For a certain set of parameters
 the system exhibits chaotic behavior and displays what is today called
-a strange attractor...''
+a strange attractor...''\footnote{\url{https://en.wikipedia.org/wiki/Lorenz_attractor}}
 
 The system is described by this system of differential equations:
 %
@@ -6506,10 +6607,10 @@ y_t &=& x (r - z) - y   \\
 z_t &=& xy - b z
 \end{eqnarray}
 %
-Common values for the parameters are $\sigma = 10$, $b = 8/3$ and $r=28$.
+Common values for the parameters are $\sigma = 10$, $b = 8/3$, and $r=28$.
 
 Use {\tt ode45} to estimate a solution to this
-system of equations.  
+system of equations.
 
 
 \begin{enumerate}
@@ -6522,15 +6623,15 @@ and return them in a single column vector.
 
 \item The next step is to test your function by calling it from
 the command line with values like
-$t=0$, $x=1$, $y=2$ and $z=3$?  Once you get your function working,
+$t=0$, $x=1$, $y=2$, and $z=3$?  Once you get your function working,
 you should make it a silent function before calling {\tt ode45}.
 
 \item Assuming that Step 2 works, you can use {\tt ode45}
 to estimate the solution for the time interval $t_0 = 0$, $t_e = 30$
-with the initial condition $x=1$, $y=2$ and $z=3$.
+with the initial condition $x=1$, $y=2$, and $z=3$.
 
 \item Use {\tt plot3} to plot the trajectory of
-$x$, $y$ and $z$.
+$x$, $y$, and $z$.
 
 \end{enumerate}
 
@@ -6538,183 +6639,229 @@ $x$, $y$ and $z$.
 
 
 % chap10
-\chapter{Second-order systems}
+\chapter{Second-order Systems}
 
+\section{Spatial vectors}
+\label{spacial}
 
-\section{Nested functions}
+Before we can start modelling second-order systems,
+we need to discuss vectors. The word ``vector'' means different
+things to different people.  In MATLAB, a vector is a matrix that has
+either one row or one column.  So far we have used MATLAB vectors to
+represent
 
-In the Section~\ref{funfiles}, we saw an example of an M-file with
-more than one function:
+\begin{description}
 
-\begin{verbatim}
-function res = duck()
-    error = error_func(10)
-end
+\item[sequences:] A sequence is a set of values identified by
+integer indices; it is natural to store the elements of the
+sequence as elements of a MATLAB vector.
 
-function res = error_func(h)
-    rho = 0.3;      % density in g / cm^3
-    r = 10;         % radius in cm
-    res = ...
-end
-\end{verbatim}
+\item[state vectors:] A state vector is a set of values that
+describes the state of a physical system.  When you call
+{\tt ode45}, you give it initial conditions in a state
+vector.  Then when {\tt ode45} calls your rate function, it
+gives you a state vector.
 
-Because the first function ends before the second begins, they are at
-the same level of indentation.  Functions like these are {\bf
-parallel}, as opposed to {\bf nested}.  A nested function is
-defined inside another, like this:
+\item[discrete maps:] If you have two vectors with the same
+length, you can think of them as a mapping from the elements
+of one vector to the corresponding elements of the other.  For
+example, in Section~\ref{rats}, the results from {\tt ode45}
+are vectors, {\tt T} and {\tt Y}, that represent a mapping
+from the time values in {\tt T} to the population values in {\tt Y}.
 
-\begin{verbatim}
-function res = duck()
-    error = error_func(10)
+\end{description}
 
-    function res = error_func(h)
-        rho = 0.3;      % density in g / cm^3
-        r = 10;         % radius in cm
-        res = ...
-    end
-end
-\end{verbatim}
+In this chapter we will see another use of MATLAB vectors: representing
+{\bf spatial vectors}.  A spatial vector is a geometric object that can be used to
+represent a multidimensional physical quantity like position, velocity,
+acceleration, or force.
 
-The top-level function, {\tt duck}, is
-the {\bf outer function} and {\tt error\_func} is
-an {\bf inner function}.
+These quantities cannot be described with a single number because they
+contain multiple components (or equivalently---as we'll see shortly
+---because they have both a magnitude and a direction).  For example,
+in three-dimensional Cartesian coordinates, it takes three numbers
+to specify a position in space; these numbers are usually called $x$,
+$y$, and $z$ coordinates. Thus we can write a position vector
+$\vec{r}(t)$, representing an object's location at time $t$, as
 
-Nesting functions is useful because the variables of the outer
-function can be accessed from the inner function.  This is not
-possible with parallel functions.
+\begin{equation}\label{eq:position_vec}
+    \vec{r}(t) = (x(t), y(t), z(t))
+\end{equation}
 
-In this example, using a nested function makes it possible to
-move the parameters {\tt rho} and {\tt r} out of {\tt error\_func}.
+As another example, in two-dimensional polar coordinates, it takes two
+numbers to specify a position in space: a radial distance $\rho$ and an
+angle $\theta$. Here we can write a two-dimensional velocity vector
+$\vec{v}(t)$, representing an object's velocity at time $t$, as
 
-\begin{verbatim}
-function res = duck(rho)
-    r = 10;
-    error = error_func(10)
+\begin{equation}
+    \vec{v}(t) = (v_\rho(t),v_\theta(t))
+\end{equation}
 
-    function res = error_func(h)
-        res = ...
-    end
-end
-\end{verbatim}
+Notice that both vectors $\vec{r}(t)$ and $\vec{v}(t)$ are presented in bold,
+indicating that they are vectors.
 
-Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
-By making {\tt rho} an input argument, we made it easier to test
-{\tt duck} with different parameter values.
+An equivalent way of describing a spatial vector is with a magnitude\footnote{
+    Magnitude is also called ``length'' but I will avoid that term
+    because it gets confused with the {\tt length} function, which
+    returns the number of elements in a MATLAB vector.}
+and a direction. If you imagine the vector $\vec{r}(t)$ from equation
+\eqref{eq:position_vec} as an arrow starting from the origin and terminating
+at the point $(x(t),y(t),z(t))$, then the magnitude of $\vec{r}(t)$ is
+how long the arrow is and the direction of $\vec{r}(t)$ is where the arrow
+points.
 
+The magnitude of $\vec{r}(t)$ is usually written as
 
+\begin{equation}\label{eq:vec_u_mag1}
+    \norm{\vec{r}(t)}
+\end{equation}
+
+but when there's little room for confusion, it's often more convenient
+to write
+
+\begin{equation}\label{eq:vec_u_mag2}
+    r(t) = \norm{\vec{r}(t)}
+\end{equation}
+
+Exactly how you calculate the magnitude of a vector from its components depends
+on the coordinate system.
+
+The direction of $\vec{r}(t)$ is conveniently described by
+
+\begin{equation}\label{eq:vec_u_unit}
+    \uvec{r}(t) = \frac{\vec{r}(t)}{\norm{\vec{r}(t)}}
+\end{equation}
+
+where $\uvec{r}(t)$ is a {\bf unit vector}, as indicated by its hat.
+Notice this equation \eqref{eq:vec_u_unit} contains the product of a
+vector $\vec{r}(t)$ and a scalar $\frac{1}{\norm{\vec{r}(t)}}$; this
+operation is called scalar multiplication, wherein the scalar multiplies
+(or \textit{scales}) the magnitude of the vector without changing its
+direction.\footnote{See
+\url{https://en.wikipedia.org/wiki/Scalar_multiplication}.} For unit vectors
+we always have
+
+\begin{equation}
+    \norm{\uvec{r}(t)} = 1
+\end{equation}
+
+which is why unit vectors are so convenient for representing directions.
 
 \section{Newtonian motion}
 
-Newton's second law of motion is often written like this
+Newton's second law of motion is often written like this:
 
 \begin{equation}
-F = ma
+    \vec{F} = m \vec{a}
 \end{equation}
 
-where $F$ is the net force acting on a object, $m$ is the mass
-of the object, and $a$ is the resulting acceleration of the object.
-In a simple case where the object is moving along a straight line,
-$F$ and $a$ are scalars, but in general they are vectors.
-
-Even more generally, if $F$ and $a$ vary in time, then they can
-be thought of as functions that return vectors; that is, $F$ is
-a function and the result of evaluating $F(t)$ is a vector that
-describes the net force at time $t$.  So a more explicit way to
-write Newton's law is
+where $\vec{F}$ is the net force acting on an object, $m$ is the
+mass of the object, and $\vec{a}$ is the acceleration of the object.
+In the simple case of one-dimensional motion,
+$\vec{F}$ and $\vec{a}$ are scalars, letting us write
 
 \begin{equation}
+    F = m a
+\end{equation}
+
+but in general they are vectors. If $\vec{F}$ and $\vec{a}$ vary in time, then they can
+be thought of as functions that return vectors; that is, $\vec{F}$ is
+a function and the result of evaluating $\vec{F}(t)$ is a vector that
+describes the net force at time $t$.  So a more explicit way to
+write Newton's second law is
+
+\begin{equation}\label{eq:newton_explicit}
 \forall t: \vec{F}(t) = m \vec{a}(t)
 \end{equation}
 
-The arrangement of this equation suggests that if you know $m$ and $a$
-you can compute force, which is true, but in most physical
-simulations it is the other way around.  Based on a physical
-model, you know $F$ and $m$, and compute $a$.
+The arrangement of this equation \eqref{eq:newton_explicit} suggests
+that if you know $m$ and $\vec{a}$ you can compute force, which is true,
+but in most physical simulations it is the other way around:  based on a
+physical model, you know $\vec{F}$ and $m$, and you compute $\vec{a}$.
 
-So if you know acceleration, $a$, as a function of time, how do you
-find the position of the object, $p$?  Well, we know that acceleration
+So if we know acceleration, $\vec{a}$, as a function of time, how do we
+find the position of the object, $\vec{r}$?  Well, we know that acceleration
 is the second derivative of position, so we can write a differential
 equation
 
-\begin{equation}
-\frac{d^2p}{dt^2} = a
+\begin{equation}\label{eq:pos_acc}
+    \frac{d^2\vec{r}}{dt^2} = \vec{a}
 \end{equation}
 
-Where $a$ and $p$ are functions of time that return vectors,
-and $\frac{d^2p}{dt^2}$ is the second time derivative of $p$.
+where $\vec{a}$ and $\vec{r}$ are functions of time that return vectors,
+and $\frac{d^2\vec{r}}{dt^2}$ is the second time derivative of $\vec{r}$.
 
-Because this equation includes a second derivative, it is a second-order
-ODE.  {\tt ode45} can't solve this equation in this form, but by
-introducing a new variable, $v$, for velocity, we can rewrite it as
-a system of first-order ODEs.
+Because equation \eqref{eq:pos_acc} includes a second derivative, it is
+a second-order ODE.  {\tt ode45} can't solve the equation this form, but
+by introducing a new variable, {\tt v}, for velocity, we can rewrite it
+as a system of first-order ODEs:
 
 \begin{eqnarray}
-\frac{dp}{dt} &=& v \\
-\\
-\frac{dv}{dt} &=& a
+    \label{eq:pos_vel}
+    \frac{d\vec{r}}{dt} &=& \vec{v} \\
+    \label{eq:vel_acc}
+    \frac{d\vec{v}}{dt} &=& \vec{a}
 \end{eqnarray}
 
-The first equation says that the first derivative of $p$ is $v$; the
-second says that the derivative of $v$ is $a$.
+Equation \eqref{eq:pos_vel} says that the first derivative of $\vec{r}$ is $\vec{v}$;
+equation \eqref{eq:vel_acc} says that the first derivative of $\vec{v}$ is $\vec{a}$.
 
 
 \section{Freefall}
 \label{freefall}
 
-Let's start with a simple example, an object in freefall in a vacuum
+Let's start with a simple example: an object in freefall in a vacuum
 (where there's no air resistance).  Near the surface of the earth, the
 acceleration of gravity is $g = -9.8$ $m/s^2$, where the minus sign
 indicates that gravity pulls down.
 
-If the object falls straight down (in the same direction as gravity),
-we can describe its position with a scalar value, altitude.  So
-this will be a one-dimensional problem, at least for now.
+If the object falls straight down, we can describe its position with a
+scalar value $y$ representing altitude.  So this will be a
+one-dimensional problem, at least for now.
 
 Here is a rate function we can use with {\tt ode45} to solve
 this problem:
 
 \begin{verbatim}
 function res = freefall(t, X)
-    p = X(1);      % the first element is position
+    y = X(1);      % the first element is position
     v = X(2);      % the second element is velocity
 
-    dpdt = v;                          
-    dvdt = acceleration(t, p, v);
+    dydt = v;
+    dvdt = acceleration(t, y, v);
 
-    res = [dpdt; dvdt];    % pack the results in a column vector
+    res = [dydt; dvdt];    % pack the results in a column vector
 end
 
-function res = acceleration(t, p, v)
+function res = acceleration(t, y, v)
     g = 9.8;      % gravity in m/s^2
     res = -g;
 end
 \end{verbatim}
 
-The first function is the rate function.  It gets {\tt t} and
-{\tt X} as input variables, where the elements of {\tt X} are understood
-to be position and velocity.  The return value from {\tt freefall}
-is a (column) vector that contains the derivatives of position
-and velocity, which are velocity and acceleration, respectively. 
+The first function, {\tt freefall}, is the rate function.  It gets {\tt
+t} and {\tt X} as input variables, where the elements of {\tt X} are
+understood to be precisely the position and velocity of the object.  It
+returns a column vector that contains {\tt dydt} and {\tt dvdt}, which
+are velocity and acceleration, respectively.
 
-Computing $p_t$ is easy because we are given velocity
-as an element of {\tt X}.  The only thing we have to compute is
-acceleration, which is what the second function does.
-
-{\tt acceleration} computes acceleration as a function of time,
-position and velocity.  In this example, the net acceleration is
-a constant, so we don't really have to include all this information
-yet, but we will soon.
+We're given the velocity as the second element of {\tt X}, so {\tt
+freefall} simply assigns this value to {\tt dydt}.  {\tt freefall}
+obtains acceleration by calling the second function, {\tt acceleration},
+which takes time, position, and velocity as input variables.  In this
+example, the net acceleration is a constant, so the input variables are
+unnecessary, but in Section~\ref{air_resistance} we'll need them.
 
 Here's how to run {\tt ode45} with this rate function:
 
 \begin{verbatim}
 >> ode45(@freefall, [0, 30], [4000, 0])
 \end{verbatim}
- 
+
 As always, the first argument is the function handle, the second
 is the time interval (30 seconds) and the third is the initial
 condition: in this case, the initial altitude is 4000 meters and
-the initial velocity is 0.  So you can think of the ``object'' a
+the initial velocity is 0. You can think of our object as
 a skydiver jumping out of an airplane at about 12,000 feet.
 
 Here's what the result looks like:
@@ -6728,52 +6875,51 @@ is a function of time, not a ballistic trajectory).
 
 Notice that {\tt ode45} doesn't know where the ground is, so the
 skydiver keeps going through zero into negative altitude.  We will
-address this issue later.
+address this issue in Section~\ref{events}.
 
 
-\section{Air resistance}
+\section{Air resistance}\label{air_resistance}
 
 To make this simulation more realistic, we can add air resistance.
 For large objects moving quickly through air, the force due to air
-resistance, called ``drag,'' is proportional to $v^2$:
+resistance, called ``drag,'' is proportional to $v^2$ and directed
+oppositely to $\uvec{v}$:
 
-\begin{equation}
-F_{drag} = b v^2
+\begin{equation}\label{eq:simpledrag}
+    \vec{F_{d}} = - b v^2 \uvec{v}
 \end{equation}
 
-Where $b$ is a drag constant that depends on the density of
-air, the cross-sectional area of the object and
-the surface properties of the object.  For purposes of this
-problem, let's say that $b = 0.2$.
+where $b$ is a drag constant that depends on the density of
+air, the cross-sectional area of the object and the surface properties
+of the object.\footnote{Notice that equation \eqref{eq:simpledrag} makes use
+of the convention $v = \norm{\vec{v}}$. See
+Section~\ref{spacial}}For this problem, let's say that $b = 0.2$.
 % b is used in the book "Physics for Scientists and Engineers" by Paul A. Tipler.
 
 To convert from force to acceleration, we have to know mass, so let's
 say that the skydiver (with equipment) weighs 75 kg.
 
-Here's a version of {\tt acceleration} that takes air resistance
-into account (you don't have to make any changes in the {\tt freefall} function:
+Here's a version of {\tt acceleration} that takes air resistance into
+account (note that you don't have to make any changes in the {\tt
+freefall} function):
 
 \begin{verbatim}
-function res = acceleration(t, p, v)
+function res = acceleration(t, y, v)
     a_g = -9.8;              % acceleration due to gravity in m/s^2
     b = 0.2;                 % drag constant
     m = 75;                  % mass in kg
-    f_d = b * v^2;           % drag force in N
-    a_d = f_d / m;           % drag acceleration in m/s^2
+    F_d = b * v^2;           % drag force in N
+    a_d = F_d / m;           % drag acceleration in m/s^2
     res = a_g + a_d;         % total acceleration
 end
 \end{verbatim}
 
-The sign of the drag force (and drag acceleration) is positive as
-long as the object is falling:  the direction of the drag force is
-the opposite of the direction of motion and we have defined the 
-positive direction to be
-up.
-The net
-acceleration is the sum of gravity and drag.  Be careful when you
-are working with forces and accelerations; make sure you only add
-forces to forces or accelerations to accelerations.  In my code,
-I use comments to remind myself what units the values are in.
+The sign of the drag force (and ``drag acceleration'') is positive here because
+the object is falling (i.e., the velocity is in the $-y$ direction).
+The output variable is simply the sum of the gravity and drag accelerations.
+Be careful when you are working with forces and accelerations; make sure
+you only add forces to forces or accelerations to accelerations.  In my
+code, I use comments to remind myself what units the values are in.
 That helps me avoid nonsense like adding forces to accelerations.
 
 Here's what the result looks like with air resistance:
@@ -6784,7 +6930,7 @@ Big difference!  With air resistance, velocity increases until
 the drag acceleration equals $g$; after that, velocity is a constant,
 known as ``terminal velocity,'' and position decreases linearly
 (and much more slowly than it would in a vacuum).  To examine
-the results more closely, we can assign them to variables
+the results more closely, we can assign them to variables:
 
 
 \begin{verbatim}
@@ -6809,18 +6955,15 @@ terminal velocity increases.  This relationship is the source of the
 intuition that heavy objects fall faster; in air, they do!
 \end{ex}
 
-
-\section{Parachute!}
-
-In the previous section, we saw that the terminal velocity of a $75
+\begin{ex}
+The terminal velocity of a $75
 kg$ skydiver is about 60 $m/s$, which is about 130 mph.  If you hit
 the ground at that speed, you would almost certainly be killed.
 That's where parachutes come in.
 
-\begin{ex}
 Modify {\tt acceleration} so that after 30 seconds of
 free-fall the skydiver deploys a parachute, which (almost) instantly
-increases the drag constant to 2.7.
+    increases the drag constant to 2.7. Hint: see Section~\ref{events}.
 
 What is the terminal velocity now?  How long (after deployment) does
 it take to reach the ground?
@@ -6834,7 +6977,7 @@ So far we have used {\tt ode45} for a system of first-order
 equations and for a single second-order equation.  The next logical
 step is a system of second-order equations, and the next logical example
 is a projectile.  A ``projectile'' is an object propelled
-through space, usually toward, 
+through space, usually toward,
 and often to the detriment of,
 a target.
 
@@ -6844,37 +6987,35 @@ traveled and $y$ representing the height or altitude.  So now
 instead of a skydiver, think of a circus performer being fired
 out of a cannon.
 
-According to the
-Wikipedia\footnote{\url{https://en.wikipedia.org/wiki/Human_cannonball}},
-the record distance for a human cannonball is 59.05 meters (almost 194
-feet).
+According to Wikipedia, the record distance for a human cannonball is
+59.05 meters (almost 194
+feet).\footnote{\url{https://en.wikipedia.org/wiki/Human_cannonball}}
 
 Here is a general framework for computing the trajectory of a projectile
 in two dimensions using {\tt ode45}:
 
 \begin{verbatim}
 function res = projectile(t, W)
-    P = W(1:2);
+    R = W(1:2);
     V = W(3:4);
 
-    dPdt = V;                          
-    dVdt = acceleration(t, P, V);
+    dRdt = V;
+    dVdt = acceleration(t, R, V);
 
-    res = [dPdt; dVdt];
+    res = [dRdt; dVdt];
 end
 
-function res = acceleration(t, P, V)
+function res = acceleration(t, R, V)
     g = 9.8;             % gravity in m/s^2
     res = [0; -g];
 end
 \end{verbatim}
 
-The second argument of the rate function is a vector, {\tt W}, with
-four elements.  The first two are assigned to {\tt P}, which
-represents position; the last two are assigned to {\tt V}, which
-represents velocity.
-{\tt P} and {\tt V} are vectors with
-elements for the $x$ and $y$ components.
+The second argument of the rate function is understood to be a vector,
+{\tt W}, with four elements.  The first two are assigned to {\tt R},
+which represents position; the last two are assigned to {\tt V}, which
+represents velocity. Both {\tt R} and {\tt V} have two elements
+representing the $x$ and $y$ components of the projectile's motion.
 
 The result from
 {\tt acceleration} is also a vector; ignoring air resistance
@@ -6909,16 +7050,245 @@ horizontal distance traveled.
 \end{ex}
 
 
+\section{Spacial vectors revisited}
+\label{spacialre}
+
+Let's talk about spacial vectors again, this time by way of example.
+Suppose that you are given the velocity of a baseball in the form of a
+MATLAB vector with two elements, $v_x$ and $v_y$, which are the
+components of velocity in the $x$ and $y$ directions.
+
+\begin{verbatim}
+>> V = [30; 40];       % velocity in m/s
+\end{verbatim}
+
+Also suppose you are asked to compute the total acceleration of the ball
+due to drag and gravity. Wikipedia specifies the drag force as follows
+(cf. equation \eqref{eq:simpledrag}):
+
+\begin{equation}\label{eq:wikidrag}
+    \vec{F_d} = - \frac{1}{2} ~ \rho v^2 C_d A ~ \uvec{v}
+\end{equation}
+
+where $\rho$, $C_d$, and $A$ are scalars representing fluid density
+($1.3 ~ kg/m^3$ for air at sea level), a dimensionless drag coefficient
+($0.3$ is reasonable for a baseball), and cross-sectional area ($0.0042
+~ m^2$ for a baseball).\footnote{
+    \url{https://en.wikipedia.org/wiki/Drag_(physics)}.}
+
+To use equation \eqref{eq:wikidrag}, we need both the magnitude and the
+direction of {\tt V}. The magnitude of a spacial vector \vec{u} in
+two-dimensional Cartesian coordinates is
+
+\begin{equation}\label{eq:cartesiannorm}
+    \norm{\vec{u}} = \sqrt{u_x^2 + u_y^2}
+\end{equation}
+
+You could compute the magnitude using equation
+\eqref{eq:cartesiannorm} with {\tt hypotenuse} from
+Section~\ref{hypotenuse}, or you could use the MATLAB function {\tt
+norm} ({\bf norm} is another name for magnitude); let's use {\tt
+norm}:
+
+\begin{verbatim}
+>> v = norm(V)
+
+v = 50
+\end{verbatim}
+
+To find the unit vector {\tt Vhat} corresponding to {\tt V}, we simply
+need to divide {\tt V} by its magnitude:
+
+\begin{verbatim}
+>> Vhat = V / v
+
+Vhat =  0.6  0.8
+\end{verbatim}
+
+Let's confirm that the norm of {\tt Vhat} is unity:
+
+\begin{verbatim}
+>> norm(Vhat)
+
+ans = 1
+\end{verbatim}
+
+Good. Now, to compute $\vec{F_d}$ we just need to recall our values for
+$\rho$, $C_d$, and $A$; and then follow equation \eqref{eq:wikidrag}:
+
+\begin{verbatim}
+>> rho = 1.3;          % kg/m^3
+>> Cd = 0.3;           % dimensionless
+>> A = 0.0042;         % m^2
+
+>> Fd = - 1/2 * rho * v^2 * Cd * A * Vhat  % N
+
+Fd =  -1.2  -1.6
+\end{verbatim}
+
+Remembering Newton's second law (and taking the mass $m$ of a baseball to be
+$0.145 ~ kg$), we can compute ``drag acceleration'':
+
+\begin{verbatim}
+>> m = 0.145;          % kg
+>> Ad = Fd / m         % m/s^2
+
+Ad =  -8.5  -11.3
+\end{verbatim}
+
+To represent acceleration due to gravity, we create a vector
+with two components:
+
+\begin{verbatim}
+>> Ag = [0; -9.8];
+\end{verbatim}
+
+The $x$ component of acceleration due to gravity is 0; the $y$ component is $-9.8 ~ m/s^2$.
+
+Finally, we compute the total acceleration by summing {\tt Ad} and {\tt Ag}:
+
+\begin{verbatim}
+>> At = Ad + Ag
+
+At =  -8.5  -1.5
+\end{verbatim}
+
+One nice thing about this computation is that we didn't have to think
+much about the components of the vectors.  By treating spatial vectors
+as basic quantities, we can express complicated computations concisely.
+
+\begin{ex}
+Suppose the baseball lands in a lake, and breaks the water's surface
+    with velocity
+
+\begin{equation}
+    v_0 = (25, -25) ~  m/s
+\end{equation}
+
+How long will it take to resurface?
+
+Consider the baseball to be fully
+    submerged when it enters the water. You will need to account for the
+    gravitational force and the drag force (given in equation
+    \eqref{eq:wikidrag}). You will also need to consider the force due
+    to ``bouyancy'' which is given by Archimedes' principle:
+
+\begin{equation}
+    \vec{F_b} = \rho V g ~ \uvec{j}
+\end{equation}
+
+where $\rho$ is the density of the fluid (for water this is $1000 ~ kg /
+    m^3$), $V$ is the volume of the fluid displaced (equal to the volume
+    of the baseball---take this to be $0.000213 ~ m^3$), and $g$ the
+    familiar gravitational constant; $\uvec{j}$ is the unit vector that
+    points straight up:
+
+\begin{equation}
+    \uvec{j} = (0, 1)
+\end{equation}
+
+\end{ex}
+
+\section{Putting it all together}
+
+Let's return to our two-dimensional simulation of the human cannonball
+from Section~\ref{projectile}. Our rate function, {\tt
+projectile}, looked like this:
+
+\begin{verbatim}
+function res = projectile(t, W)
+    R = W(1:2);
+    V = W(3:4);
+
+    dRdt = V;
+    dVdt = acceleration(t, R, V);
+
+    res = [dRdt; dVdt];
+end
+\end{verbatim}
+
+Suppose we want to model the effect of drag on our cannonball's
+flight. Luckily, we already did most of the work for this in
+Section~\ref{spacialre}. We know that we can represent the acceleration
+due to gravity with the vector
+
+\begin{verbatim}
+>> Ag = [0; -9.8];
+\end{verbatim}
+
+and we know that we can represent the acceleration due to drag with the
+vector
+
+\begin{verbatim}
+>> Fd = - 1/2 * rho * v^2 * Cd * A * Vhat;
+>> Ad = Fd / m;
+\end{verbatim}
+
+We also know how to compute {\tt v} and {\tt Vhat} given {\tt V}. But
+what constants should we use? Sure, {\tt rho} is fairly obvious---we can
+take {\tt rho} to be the density of air at sea level ($1.3 ~
+kg/m^3$)---but what about {\tt Cd}, {\tt A}, and {\tt m}? I want
+\textit{you} to figure out these constants: research is as much a part
+of physical modelling as math and programming are---and it's the part
+that's most fun.
+
+Visualize a human cannonball. If you can't, then look one up on
+YouTube. Google ``drag coefficient'' to help estimate the drag
+coefficient {\tt Cd} (the Wikipedia
+page\footnote{\url{https://en.wikipedia.org/wiki/Drag_coefficient}} is
+a good resource).
+
+Now you need to decide \textit{who} to fire out of the cannon. What's
+their waist size? What's their weight? Use these to estimate {\tt A} and
+{\tt m}.
+
+Once you decide on these constants, you can use the following {\tt
+acceleration} function to test your model (together with {\tt
+projectile} above):
+
+\begin{verbatim}
+function res = acceleration(t, R, V)
+    g = 9.8;             % gravity in m/s^2
+    rho = 1.3;           % air density in kg/m^3
+    %Cd = ?
+    %A = ?
+    %m = ?
+
+    Ag = [0; -g];
+
+    v = norm(V);
+    Vhat = V/v;
+    Fd = - 1/2 * rho * v^2 * Cd * A * Vhat;
+    Ad = Fd / m;
+
+    res = Ag + Ad;
+end
+\end{verbatim}
+
+Use the following to run the simulation:
+
+\begin{verbatim}
+>> T = [0,10];            % time-span; change this if needed
+>> W0 = [0, 3, 40, 30];   % initial position and velocity
+                          % think: is this reasonable?
+
+>> ode45(@projectile, T, W0)
+\end{verbatim}
+
+How did it go? Were your results reasonable? Why or why not? Consider our
+initial discussion of modeling from Section~\ref{modeling} . Is this
+model a good choice to simulate a human cannonball?
+
 \section{What could go wrong?}
 
 What could go wrong?  Well, {\tt vertcat} for one.  To explain
-what that means, I'll start with {\bf catenation}, which is
+what that means, I'll start with {\bf concatenation}, which is
 the operation of joining two matrices into a larger matrix.
-``Vertical catenation'' joins the matrices by stacking them on
-top of each other; ``horizontal catenation'' lays them
+``Vertical concatenation'' joins the matrices by stacking them on
+top of each other; ``horizontal concatenation'' lays them
 side by side.
 
-Here's an example of horizontal catenation with row vectors:
+Here's an example of horizontal concatenation with row vectors:
 
 \begin{verbatim}
 >> x = 1:3
@@ -6934,8 +7304,8 @@ y = 4     5
 z = 1     2     3     4     5
 \end{verbatim}
 
-Inside brackets, the comma operator performs horizontal catenation.
-The vertical catenation operator is the semi-colon.  Here is an
+Inside brackets, the comma operator performs horizontal concatenation.
+The vertical concatenation operator is the semi-colon.  Here is an
 example with matrices:
 
 \begin{verbatim}
@@ -6983,30 +7353,30 @@ consistent.
 \end{verbatim}
 
 In this example, {\tt a} is a row vector and {\tt b} is a column
-vector, so they can't be catenated in either direction.
+vector, so they can't be concatenated in either direction.
 
 Reading the error messages, you probably guessed that {\tt horzcat}
-is the function that performs horizontal catenation, and likewise
-with {\tt vertcat} and vertical catenation.
+is the function that performs horizontal concatenation, and likewise
+with {\tt vertcat} and vertical concatenation.
 
-These operations are relevant to {\tt projectile} because of the
-last line, which packs {\tt dPdt} and {\tt dVdt} into the
-output variable:
+These operations are relevant to our rate function {\tt projectile} from
+Section~\ref{projectile} because of the last line, which packs {\tt
+dRdt} and {\tt dVdt} into the output variable:
 
 \begin{verbatim}
 function res = projectile(t, W)
-    P = W(1:2);
+    R = W(1:2);
     V = W(3:4);
 
-    dPdt = V;                          
-    dVdt = acceleration(t, P, V);
+    dRdt = V;
+    dVdt = acceleration(t, R, V);
 
-    res = [dPdt; dVdt];
+    res = [dRdt; dVdt];
 end
 \end{verbatim}
 
-As long as both {\tt dPdt} and {\tt dVdt} are column vectors,
-the semi-colon performs vertical catenation, and the result is
+As long as both {\tt dRdt} and {\tt dVdt} are column vectors,
+the semi-colon performs vertical concatenation, and the result is
 a column vector with four elements.  But if either of them is a
 row vector, that's trouble.
 
@@ -7022,11 +7392,11 @@ and make sure you are clear on which way your vectors go.
 \section{ODE Events}
 \label{events}
 
-Normally when you call {\tt ode45} you have to specify
-a start time and an end time.  But in many cases, you don't know ahead
-of time when the simulation should end.
-Fortunately MATLAB provides a mechanism for dealing
-with this problem.  The bad news is that it is a little awkward.
+Normally when you call {\tt ode45} you have to specify a start time and
+an end time.  But in many cases, you don't know ahead of time when the
+simulation should end (this was an issue in Section~\ref{freefall}'s
+freefall simulation). Fortunately MATLAB provides a mechanism for
+dealing with this problem.  The bad news is that it is a little awkward.
 Here's how it works:
 
 \begin{enumerate}
@@ -7052,30 +7422,34 @@ from Section~\ref{projectile}
 
 \begin{verbatim}
 function [value,isterminal,direction] = event(t,X)
-    value = X(2);        % Extract the current height.
-    isterminal = 1;      % Stop the integration if height crosses zero.
-    direction = -1;      % But only if the height is decreasing.
+    value = X(2);        % Extract the current height
+    isterminal = 1;      % Stop if height crosses zero
+    direction = -1;      % if the height is decreasing
 end
 \end{verbatim}
 
 {\tt event} returns three output variables:
 
-{\tt value} determines
-when an event may occur.  In this case {\tt value} gets the second
-element of {\tt X}, which is understood to be the height of the
-projectile.  An ``event'' may occur when this value passes
-through 0.
+The  first output variable, {\tt value}, determines whether an event can
+        occur.  In this case {\tt value} gets the second element of {\tt
+        X}, which is understood to be the height of the projectile.  An
+        ``event'' can occur when {\tt value} passes through 0, but
+        whether it \textit{does} occur depends on the third output
+        variable, {\tt direction}.
 
-{\tt direction} determines whether an event occurs when
-{\tt value} is increasing ({\tt direction=1}), decreasing ({\tt
-direction=-1}, or both {\tt direction=0}.
+The second output variable, {\tt isterminal}, determines what happens
+        when the event occurs.  If {\tt isterminal=1}, the event is
+        ``terminal'' and the simulation stops.  If {\tt isterminal=0},
+        the simulation continues, but {\tt ode45} does some additional
+        work to make sure that the solution in the vicinity of the event
+        is accurate, and that one of the estimated values in the result
+        is at the time of the event.
 
-{\tt isterminal} determines what happens when the event
-occurs.  If {\tt isterminal=1}, the event is ``terminal'' and the
-simulation stops.  If {\tt isterminal=0}, the simulation continues,
-but {\tt ode45} does some additional work to make sure that the
-solution in the vicinity of the event is accurate, and that one of the
-estimated values in the result is at the time of the event.
+The third output variable, {\tt direction}, determines whether an event
+        occurs when {\tt value} is increasing ({\tt direction=1}),
+        decreasing ({\tt direction=-1}, or both {\tt direction=0}.
+
+
 
 \item When you call {\tt ode45}, you pass {\tt options} as a fourth
 argument:
@@ -7088,196 +7462,28 @@ ode45(@projectile, [0,10], [0, 3, 40, 30], options);
 
 \begin{ex}
 How would you modify {\tt event} to stop when the height of
-the projectile falls through 3m?  
+the projectile falls through 3m?
 If the human projectile falls on a net at a height of 3m, what
 horizontal distance will she have travelled when she hits the
 net?
 \end{ex}
 
-
-\section{Spacial vectors and air resistance on projectiles}
-\label{spacial}
-
-The word ``vector'' means different things to different people.
-In MATLAB, a vector is a matrix that has either one row or one
-column.  So far we have used MATLAB vectors to represent
-
-\begin{description}
-
-\item[sequences:] A sequence is a set of values identified by
-integer indices; it is natural to store the elements of the
-sequence as elements of a MATLAB vector.
-
-\item[state vectors:] A state vector is a set of values that
-describes the state of a physical system.  When you call
-{\tt ode45}, you give it in the initial conditions in a state
-vector.  Then when {\tt ode45} calls your rate function, it
-gives you a state vector.
-
-\item[discrete maps:] If you have two vectors with the same
-length, you can think of them as a mapping from the elements
-of one vector to the corresponding elements of the other.  For
-example, in Section~\ref{rats}, the results from {\tt ode45}
-are vectors, {\tt T} and {\tt Y}, that represent a mapping
-from the time values in {\tt T} to the population values in {\tt Y}.
-
-\end{description}
-
-In this section we will see another use of MATLAB vectors:
-representing spatial vectors.  A spatial vector is a value that
-represents a multidimensional physical quantity like position,
-velocity, acceleration or force\footnote{See
-\url{https://en.wikipedia.org/wiki/Vector_(spatial)}.}.
-
-These quantities cannot be described with a
-single number because they contain multiple components.  For example,
-in a 3-dimensional Cartesian coordinate space, it takes three numbers
-to specify a position in space; they are usually called $x$, $y$ and
-$z$ coordinates.  As another example, in 2-dimensional polar
-coordinates, you can specify a velocity with two numbers, a
-magnitude and an angle, often called $r$ and $\theta$.
-
-It is convenient to represent spatial vectors using MATLAB vectors
-because MATLAB knows how to perform most of the vector
-operations you need for physical modeling.  For example,
-suppose that you are given the velocity of a baseball in
-the form of a MATLAB vector with two elements, $v_x$ and $v_y$,
-which are the components of velocity in the $x$ and $y$ directions.
-
-\begin{verbatim}
->> V = [30; 40]        % velocity in m/s
-\end{verbatim}
-
-And suppose you are asked to compute the total acceleration of
-the ball due to drag and gravity.  In math notation, the force
-due to drag is
-
-\[ F_d = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \hat{V}   \]
-
-where $V$ is a spatial vector representing velocity, $v$ is the magnitude
-of the velocity (sometimes called ``speed''), and $\hat{V}$ is a unit
-vector in the direction of the velocity vector.  The other terms,
-$\rho$, $A$ and $C_d$, are scalars.
-
-For more information about drag, see
-\url{https://en.wikipedia.org/wiki/Drag_(physics)}.
-
-The magnitude of a vector is the square root of the sum of the squares
-of the elements.  You could compute it with {\tt hypotenuse} from
-Section~\ref{hypotenuse}, or you could use the MATLAB function {\tt
-norm} ({\bf norm} is another name\footnote{Magnitude is also called
-``length'' but I will avoid that term because it gets confused with
-the {\tt length} function, which returns the number of elements in a
-MATLAB vector.}  for the magnitude of a vector):
-
-\begin{verbatim}
->> v = norm(V)
-
-v = 50
-\end{verbatim}
-
-$\hat{V}$ is a {\bf unit vector}, which means it should have norm 1,
-and it should point in the same direction as $V$.  The simplest
-way to compute it is to divide $V$ by its own norm.
-
-\begin{verbatim}
->> Vhat = V / v
-
-Vhat =  0.6  0.8
-\end{verbatim}
-
-Then we can confirm that the norm of $\hat{V}$ is 1:
-
-\begin{verbatim}
->> norm(Vhat)
-
-ans = 1
-\end{verbatim}
-
-To compute $F_d$ we just multiply the scalar terms by $\hat{V}$.
-
-\begin{verbatim}
-Fd = - 1/2 * rho * A * Cd * v^2 * Vhat
-\end{verbatim}
-
-Similarly, we can compute acceleration by dividing the vector
-$F_d$ by the scalar $m$.
-
-\begin{verbatim}
-Ad = Fd / m
-\end{verbatim}
-
-To represent the acceleration due to gravity, we create a vector 
-with two components:
-
-\begin{verbatim}
-Ag = [0; -9.8]
-\end{verbatim}
-
-The $x$ component of acceleration due to gravity is 0; the $y$ component is $-9.8 m/s^2$.
-
-Finally we compute total acceleration by adding vector
-quantities:
-
-\begin{verbatim}
-At = Ag + Ad;
-\end{verbatim}
-
-One nice thing about this computation is that we didn't have to
-think much about the components of the vectors.  By treating
-spatial vectors as basic quantities, we can express complicated computations
-concisely.
-
-\begin{ex}
-Add air resistance to the simulation of the human projectile.  
-Use the formula 
-\[ F_d = -b ~ v^2 ~ \hat{V}   \]
-In
-the skydiver scenario, we estimated that the drag constant was
-$0.2$, but that was based on the assumption that the skydiver is
-falling flat.  A human cannonball, flying head-first, probably
-has a drag constant closer to $0.1$.  Approximately what initial velocity
-is needed to achieve the record flight distance of 59.05 meters,
-assuming
-%?
-%Hint: the needed initial velocity is dependent apon the launch angle, and let's 
-%assume 
-for now a launch angle of 45 degrees?
-%. 
-Do you think that 45 degrees is the optimal launch angle when 
-air resistance is considered?  Why or why not?
-\end{ex}
-
-
 \section{Glossary}
 
 \begin{description}
-
-\item[parallel functions:] Two or more functions defined side-by-side,
-so that one ends before the next begins.
-
-\item[nested function:] A function defined inside another function.
-
-\item[outer function:] A function that contains another function
-definition.
-
-\item[inner function:] A function defined inside another function
-definition.  The inner function can access the variables of the
-outer function.
-
-\item[catenation:] The operation of joining two matrices end-to-end to
-form a new matrix.
 
 \item[spatial vector:] A value that represents a
 multidimensional physical quantity like position, velocity,
 acceleration or force.
 
+\item[unit vector:] A vector with norm 1, used to indicate
+direction.
+
 \item[norm:] The magnitude of a vector.  Sometimes called ``length,''
 but not to be confused with the number of elements in a MATLAB
 vector.
-
-\item[unit vector:] A vector with norm 1, used to indicate
-direction.
+\item[concatenation:] The operation of joining two matrices end-to-end to
+form a new matrix.
 
 
 \end{description}
@@ -7293,41 +7499,43 @@ we ignore Magnus force, the path of the baseball stays
 in a plane, so we can model it as a projectile in two
 dimensions.
 
-As presented in Section~\ref{spacial}, a 
-simple model of the drag of a baseball is:
-%
-\[ F_d = -\frac{1}{2} ~ \rho ~ A ~ C_d ~ v^2 ~ \hat{V}   \]
-%
-where $F_d$ is a vector that represents the force on the baseball due
-to drag, $C_d$ is the drag coefficient (0.3 is a reasonable choice),
-$\rho$ is the density of air (1.3 kg/m$^3$ at sea level), $A$ is the
-cross sectional area of the baseball (0.0042 m$^2$), $v$ is the
-magnitude of the velocity vector, and $\hat{V}$ is a unit vector in
-the direction of the velocity vector.  The mass of the baseball is
-$0.145$ kg.
+As presented in Section~\ref{spacialre}, a simple model for the drag force
+    on a baseball is:
+
+\begin{equation}
+    \vec{F_d} = - \frac{1}{2} ~ \rho v^2 C_d A \cdot \uvec{v}
+\end{equation}
+
+
+where $\vec{F_d}$ is a vector that represents the force on the baseball
+    due to drag, $\rho$ is the density of air (1.3 kg/m$^3$ at sea
+    level), $C_d$ is the drag coefficient (0.3 is a reasonable choice),
+     $A$ is the baseball's cross sectional area (0.0042 m$^2$), and
+    \vec{v} is the baseball's velocity.  The baseball has a mass of
+    $0.145$ kg.
 
 \begin{itemize}
 
-\item Write a function that takes 
+\item Write a function that takes
 as input variables
 the initial velocity, the initial height, and the launch angle of the baseball,
-%as input variables, 
+%as input variables,
 uses {\tt ode45} to compute
 the trajectory, and returns the range (horizontal distance in flight until
 the ball impacts the ground)
 as an output variable.
 
-\item Use your implemented function to display the horizontal distance profile 
-with initial velocities from 30m/s to 50m/s at a launch angle of 45 degrees 
+\item Use your implemented function to display the horizontal distance profile
+with initial velocities from 30m/s to 50m/s at a launch angle of 45 degrees
 and an initial height of 1 meter.
-Describe the relation between the horizontal distance and the initial velocity. 
+Describe the relation between the horizontal distance and the initial velocity.
 
-\item Fix the initial velocity at 48m/s and initial height at 1 meter, and display 
-the horizontal distance profile 
-with launch angles from 20 to 60 degrees. Describe the relation between 
-the horizontal distance and the launch angle.  Approximate the optimal 
+\item Fix the initial velocity at 48m/s and initial height at 1 meter, and display
+the horizontal distance profile
+with launch angles from 20 to 60 degrees. Describe the relation between
+the horizontal distance and the launch angle.  Approximate the optimal
 launch angle for this problem (for present purposes, the launch angle that gives the furthest horizontal distance to the ball impacting the ground).
-You can alter the plotted launch angles if needed or desired.  
+You can alter the plotted launch angles if needed or desired.
 
 \end{itemize}
 
@@ -7338,11 +7546,11 @@ You can alter the plotted launch angles if needed or desired.
 \chapter{Optimization and Interpolation}
 \section{Optimization}
 
-``Optimal'' is a fancy way of saying ``best;'' what that means depends on the problem. 
+``Optimal'' is a fancy way of saying ``best;'' what that means depends on the problem.
 In Exercise~\ref{baseball}, you were asked to approximate the launch angle which
-can produce the longest horizontal distance for a ball batted at a particular speed 
+can produce the longest horizontal distance for a ball batted at a particular speed
 and from a particular height.  This angle can be considered as the
-optimal angle. 
+optimal angle.
 
 The first step in any optimization problem is to define
 what ``optimal'' means.  The second step is to define a range of
@@ -7353,19 +7561,19 @@ optimal angle be near to 45 degrees, but we might not be sure
 how far from 45 degrees to look.  To play it safe, we could
 start with the widest feasible range.
 
-In many cases, 
+In many cases,
 the simplest way to get close to an optimal value is to run the
 simulation with a wide range of values and choose the one
 that yields the best result.  This
-method does not combine efficiency and accuracy, 
+method does not combine efficiency and accuracy,
 and that combination is especially important in a case like this where
 computing the distances is expensive.
 
-A better algorithm is a Golden Section Search.  
+A better algorithm is a Golden Section Search.
 
 \section{Golden section search}
 
-To present the main ideas behind 
+To present the main ideas behind
 the Golden Section Search, I will present a simplified
 search algorithm I'll call a Silver Section Search.  The basic idea is similar to
 the methods for zero-finding we saw in Section~\ref{zero}.  In the
@@ -7394,7 +7602,7 @@ this:
 \beforefig \centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
 
 This diagram shows that we have evaluated $f$ in three places,
-$x_1$, $x_2$ and $x_3$, and found that $x_2$ yields the highest
+$x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the highest
 value.  If $f$ is continuous, then there has to be at least one
 local maximum between $x_1$ and $x_3$, so we would say that the
 triple $(x_1, x_2, x_3)$ brackets a maximum.
@@ -7413,7 +7621,7 @@ estimate of the optimal value of $x$ gets better.
 
 This method works for almost any value of $x_4$, but some choices
 are better than others.  In the example, I chose to bisect the
-bigger of the ranges $(x_1, x_2)$ and $(x_2, x_3)$.
+bigger of the ranges $(x_1, x_2)$, and $(x_2, x_3)$.
 
 Here's what that looks like in MATLAB:
 
@@ -7422,11 +7630,11 @@ function res = optimize(V)
     x1 = V(1);
     x2 = V(2);
     x3 = V(3);
-    
+
     fx1 = distance_func(x1);
     fx2 = distance_func(x2);
     fx3 = distance_func(x3);
-   
+
     for i=1:200
         if x3-x2 > x2-x1
             x4 = (x2+x3) / 2;
@@ -7448,7 +7656,7 @@ function res = optimize(V)
             end
         end
 
-        if x1 == x3 
+        if x1 == x3
             break
         end
     end
@@ -7460,14 +7668,14 @@ The input variable is a vector that contains three values that bracket
 a maximum; in this case they are angles in degrees.  {\tt optimize}
 starts by evaluating {\tt distance\_func} for each of the three values.
 We assume that {\tt distance\_func} returns the result we want to
-maximize; for the baseball best-angle-for-longest-distance problem 
-it is the horizontal distance travelled by the 
+maximize; for the baseball best-angle-for-longest-distance problem
+it is the horizontal distance travelled by the
 ball when it hits the ground.
 
 
 Each time through the {\tt for} loop the function chooses a value
 of {\tt x4}, evaluates {\tt height\_func}, and then updates the
-triplet {\tt x1}, {\tt x2} and {\tt x3} according to the results.
+triplet {\tt x1}, {\tt x2}, and {\tt x3} according to the results.
 
 After the update, it computes the range of the bracket, {\tt x3-x1},
 and checks whether it is small enough.  If so, it breaks out of
@@ -7529,7 +7737,7 @@ How does the optimal launch angle vary with initial velocity?
 Colorado Rockies at their home field in Denver, Colorado.  Find an
 estimate of the density of air in the Mile High City.  What effect
 does this have on drag?  Make a prediction about what effect this will
-have on the launch angle that produces the longest horizontal flying 
+have on the launch angle that produces the longest horizontal flying
 distance, and then use your simulation to test
 your prediction.
 
@@ -7540,7 +7748,7 @@ Physics of Baseball}\footnote{Robert K. Adair, Harper Paperbacks, 3rd
 Edition, 2002.}; you also might find information on the web.
 Either way, specify a more realistic model of drag and modify your
 program to implement it.  How big is the effect on your computed
-ranges?  How big is the effect on the launch angles that produce the 
+ranges?  How big is the effect on the launch angles that produce the
 maximum horizontal flying distance?
 
 \end{itemize}
@@ -7550,10 +7758,10 @@ maximum horizontal flying distance?
 Very often, in an optimization problem, the meaning of ``optimal'' is not obvious.
 
 For example, the Green Monster in Fenway Park is about 12 m high and about 97
-m from home plate along the left field line.  
-%We could ask about 
+m from home plate along the left field line.
+%We could ask about
 What is the
-the optimal angle that the ball should leave 
+the optimal angle that the ball should leave
 the bat so that the ball clears the Green Monster with the minimum speed.
 %We could ask about the minimum
 %speed a ball must leave the bat in order to clear the monster
@@ -7570,9 +7778,9 @@ Although either definition would be good enough for some purposes,
 neither is quite right.  In this case the ``optimal'' angle is
 the one that yields the greatest height at the point where
 the ball reaches the wall, which is 97m from home plate.
-Remember, we are ultimately trying to minimize 
+Remember, we are ultimately trying to minimize
 the speed that the ball needs to leave the bat.  At this minimum speed,
-the ball will just clear the wall if hit at the optimal angle. 
+the ball will just clear the wall if hit at the optimal angle.
 \end{ex}
 
 \section{Discrete and continuous maps}
@@ -7608,7 +7816,7 @@ of the year.  We could search {\tt T} for the value 180:
 \begin{verbatim}
 >> find(T==180)
 
-ans = Empty matrix: 0-by-1
+ans = Empty matrix: 1x0
 \end{verbatim}
 
 But there is no guarantee that any particular value appears in
@@ -7748,7 +7956,7 @@ the domain, there is only one value in the range that maps to it.
 If we reduce the food supply so that the rat population decreases
 during the winter, we might see something like this:
 
-\beforefig 
+\beforefig
 \centerline{\includegraphics[height=2in,width=4in]{figs/ratplot2.eps}}
 
 We can still use {\tt interp1} to map from {\tt T} to {\tt Y}:
@@ -7764,7 +7972,7 @@ day the population was 15, there are two possible answers, 172.44
 and 260.44.  If we try to use {\tt interp1}, we get the wrong answer:
 
 \begin{verbatim}
->> interp1(Y, T, 15)         
+>> interp1(Y, T, 15)
 
 ans = 196.3833                % WRONG
 \end{verbatim}
@@ -7772,8 +7980,8 @@ ans = 196.3833                % WRONG
 On Day 196, the population is actually 16.8, so {\tt interp1} isn't
 even close!  The problem is that {\tt T} as a function of {\tt Y} is a
 {\bf multivalued mapping}; for some values in the range there are more
-than one values in the domain.  This causes {\tt interp1} to fail.  
-% Downey couldn't find documentation for this limitation.  Zhen, did you 
+than one values in the domain.  This causes {\tt interp1} to fail.
+% Downey couldn't find documentation for this limitation.  Zhen, did you
 % find documentation about this?  If so, where is it? *** wcs ***
 
 
@@ -7805,7 +8013,7 @@ measurements:
 t          b(t)
 -          ----
 0          0.0070
-1          0.0036             
+1          0.0036
 2          0.0011
 3          0.0001
 4          0.0004
@@ -7829,7 +8037,7 @@ end
 \end{verbatim}
 
 Abstractly, this function uses a discrete map to implement a
-continuous map.  
+continuous map.
 
 \begin{ex}
 Write a rate function that uses
@@ -7867,12 +8075,12 @@ the range maps to more than one value in the domain.
 \begin{ex}
 \label{golf}
 
-A golf ball\footnote{See
-\url{https://en.wikipedia.org/wiki/Golf_ball}.} hit with backspin
+A golf ball hit with backspin
 generates lift, which might increase the range, but the energy that
 goes into generating spin probably comes at the cost of lower initial
-velocity.  Write a simulation of the flight of a golf ball and use it
-to find the launch angle and allocation of spin and initial velocity
+velocity.\footnote{See \url{https://en.wikipedia.org/wiki/Golf_ball}.}
+Write a simulation of the flight of a golf ball and use it to find
+the launch angle and allocation of spin and initial velocity
 (for a fixed energy budget) that maximizes the horizontal range of the
 ball in the air.
 
@@ -7887,45 +8095,45 @@ golf ball is about 0.2 as long as the ball is moving faster than 20 m/s.
 
 
 %chap12
-\chapter{Celestial mechanics}
+\chapter{Celestial Mechanics}
 
 \section{Celestial mechanics}
 
 Modeling celestial mechanics is a good opportunity
 to compute with spatial vectors.
 Imagine a star with mass $m_1$ at a point in space described by the
-vector $P_1$, and a planet with mass $m_2$ at point $P_2$.  The
-magnitude of the gravitational force\footnote{See
-\url{https://en.wikipedia.org/wiki/Gravity}} between them is
+vector $\vec{P_1}$, and a planet with mass $m_2$ at point $\vec{P_2}$.
+The magnitude of the gravitational force between them is
 
 \begin{equation}
-f_g = G \frac{m_1 m_2}{r^2}
+F_g = G \frac{m_1 m_2}{r^2}
 \end{equation}
 
 where $r$ is the distance between them and $G$ is the universal
 gravitational constant, which is about $6.67 \times 10^{-11} N m^2 /
-kg^2$.  Remember that when using this 
-value of $G$ it is easiest to directly specify 
+kg^2$.\footnote{See \url{https://en.wikipedia.org/wiki/Gravity}.}
+Remember that when using this
+value of $G$ it is easiest to directly specify
 %is the appropriate value of $G$ only if the
-masses 
-%are 
+masses
+%are
 in kilograms and distances in meters, and forces are calculated in Newtons.
 
-The direction of the force on the star at $P_1$ is in the
-direction toward $P_2$.  We can compute relative direction by
+The direction of the force on the star at $\vec{P_1}$ is in the
+direction toward $\vec{P_2}$.  We can compute relative direction by
 subtracting vectors; if we compute {\tt R = P2 - P1}, then
 the direction of {\tt R} is from {\tt P1} to {\tt P2}.
 
-The distance between the planet and star is the length of $R$:
+The distance between the planet and star is the length of $\vec{R}$:
 
 \begin{verbatim}
 r = norm(R)
 \end{verbatim}
 
-The direction of the force on the star is $\hat{R}$:
+The direction of the force on the star is $\uvec{R}$:
 
 \begin{verbatim}
-rhat = R / r
+Rhat = R / r
 \end{verbatim}
 
 \begin{ex}
@@ -8115,7 +8323,7 @@ options = odeset('RelTol', 1e-5);
 The name of the option is {\tt RelTol} for ``relative tolerance.''
 The default value is {\tt 1e-3} or 0.001.  Smaller values
 make {\tt ode45} less ``tolerant,'' so it does more work to
-make the errors smaller.  
+make the errors smaller.
 
 \begin{ex}
 Run {\tt ode45} with a range of values for {\tt RelTol} and confirm
@@ -8131,68 +8339,74 @@ and see if any of them conserve energy.
 
 
 %chap13
-\chapter{Final thoughts}
+\chapter{Final Thoughts}
 
 \section{Dot and cross products}
 
 Multiplying a vector by a scalar is a straightforward operation;
 so is adding two vectors.  But multiplying two vectors is more
 subtle.  It turns out that there are two vector operations that
-resemble multiplication: {\bf dot product}
-and {\bf cross product}.
+resemble multiplication: the {\bf dot product}
+and the {\bf cross product}.
 
-The dot product of vectors $A$ and $B$ is a scalar:
+The dot product of vectors $\vec{u}$ and $\vec{v}$ is a scalar:
 
-\[ d = a b \cos \theta \]
-%
-where $a$ is the magnitude of $A$, $b$ is the magnitude of $B$,
-and $\theta$ is the angle between the vectors.  We already know
-how to compute magnitudes, and you could probably figure out
-how to compute $\theta$, but you don't have to.  MATLAB provides
-a function, {\tt dot}, that computes dot products.
+\begin{equation}
+    \vec{u} \cdot \vec{v} = \norm{\vec{u}} \norm{\vec{v}} \cos \theta
+\end{equation}
+
+where $\theta$ is the smallest angle between $\vec{u}$ and
+$\vec{v}$. We already know how to compute magnitudes, and you could
+probably figure out how to compute $\theta$, but you don't have to.
+MATLAB provides a function, {\tt dot}, that computes dot products:
 
 \begin{verbatim}
-d = dot(A, B)
+d = dot(U, V)
 \end{verbatim}
 
-{\tt dot} works in any number of dimensions, as long as {\tt A}
-and {\tt B} have the same number of elements.
+{\tt dot} works in any number of dimensions, as long as {\tt U}
+and {\tt V} have the same number of elements.
 
 If one of the operands is a unit vector, you can use the dot
-product to compute the component of a vector $A$ that is in
-the direction of a unit vector, $\hat{i}$:
+product to compute the component of a vector $\vec{u}$ that is in
+the direction of a unit vector, $\uvec{r}$:
 
 \begin{verbatim}
-s = dot(A, ihat)
+s = dot(U, Rhat)
 \end{verbatim}
 
-In this example, $s$ is the {\bf scalar projection} of $A$
-onto $\hat{i}$.  The {\bf vector projection} is the vector
-that has magnitude $s$ in the direction of $\hat{i}$:
+In this example, $s$ is the {\bf scalar projection} of $\vec{u}$
+onto $\uvec{r}$.  The {\bf vector projection} is the vector
+that has magnitude $s$ in the direction of $\uvec{r}$:
 
 \begin{verbatim}
-V = dot(A, ihat) * ihat
+V = dot(U, Rhat) * Rhat
 \end{verbatim}
 
-The cross product of vectors $A$ and $B$ is a vector whose direction
-is perpendicular to $A$ and $B$ and whose magnitude is
+The cross product of vectors $\vec{u}$ and $\vec{v}$ is a vector whose
+direction is perpendicular to $\vec{u}$ and $\vec{v}$
+(with orientation determined by the right-hand
+rule\footnote{\url{https://en.wikipedia.org/wiki/Right-hand_rule}})
+and whose magnitude is
 
-\[ c = a b \sin \theta \]
-%
-where (again) $a$ is the magnitude of $A$, $b$ is the magnitude of
-$B$, and $\theta$ is the angle between the vectors.  MATLAB provides
-a function, {\tt cross}, that computes cross products.
+\begin{equation}
+    \norm{\vec{u} \times \vec{v}} = \norm{\vec{u}} \norm{\vec{v}} \sin \theta
+\end{equation}
+
+where (again) $\theta$ is the smallest angle between $\vec{u}$ and
+$\vec{v}$. MATLAB provides a function, {\tt cross}, that computes cross
+products.
 
 \begin{verbatim}
-C = cross(A, B)
+C = cross(U, V)
 \end{verbatim}
 
-{\tt cross} calculates the cross product of corresponding vectors along 
+{\tt cross} calculates the cross product of corresponding vectors along
 the first array dimension whose size equals 3.
 
 A common use of {\tt cross} is to compute torques.  If you represent
-a moment arm $R$ and a force $F$ as vectors with size equal to 3, then
-the torque is just
+a moment arm $\vec{R}$ and a force $\vec{F}$ as vectors with size equal
+to 3, then the torque is just
 
 \begin{verbatim}
 Tau = cross(R, F)
@@ -8217,7 +8431,7 @@ that are good enough for the intended purpose.
 Since then, we have seen a number of examples; now we can
 say more about what models are for.  The goals of a model tend
 to fall into three categories.
- 
+
 \begin{description}
 
 \item[prediction:] Some models make predictions about physical
@@ -8234,7 +8448,7 @@ swing with the perfect combination of launch angle, velocity and spin.
 \item[explanation:] Models can answer scientific questions.  For
 example, the Lotka-Volterra model in Section~\ref{lotka} offers a
 possible explanation of the dynamics of animal populations systems in
-terms of interactions between predator and prey species.  
+terms of interactions between predator and prey species.
 
 \end{description}
 
@@ -8246,8 +8460,8 @@ each type.
 
 \begin{description}
 
-\item[dot product:] A scalar product of two vectors, proportional
-to the norms of the vectors and the cosine of the angle between them.
+\item[dot product:] A scalar product of two vectors, proportional to the
+norms of the vectors and the cosine of the smallest angle between them.
 
 \item[cross product:] A vector product of two vectors with norm
 proportional to the norms of the vectors and the sine of the angle
@@ -8298,28 +8512,96 @@ animation of the result.
 \label{binary}
 
 A binary star system contains two stars orbiting each other and
-sometimes planets that orbit one or both stars\footnote{See
-\url{https://en.wikipedia.org/wiki/Binary_star}.}.  In a binary
+sometimes planets that orbit one or both stars.\footnote{See
+\url{https://en.wikipedia.org/wiki/Binary_star}.}  In a binary
 system, some orbits are ``stable'' in the sense that a planet can stay
 in orbit without crashing into one of the stars or flying off into
 space.
 
 Simulation is a useful tool for investigating the nature of these
 orbits, as in Holman, M.J. and P.A. Wiegert, 1999, ``Long-Term Stability
-of Planets in Binary Systems,''  {\em Astronomical Journal} 117, 
+of Planets in Binary Systems,''  {\em Astronomical Journal} 117,
 available from \url{http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.255.4314}.
 
 Read this paper and then modify your planetary simulation to
 replicate or extend the results.
 \end{ex}
 
-\newpage
+\begin{appendices}
+\chapter{The Nine Theorems of Debugging}
 
-%\blankpage
-%\blankpage
-%\blankpage
+\begin{enumerate}
+    \item \displaythrm{1}
+    \item \displaythrm{2}
+    \item \displaythrm{3}
+    \item \displaythrm{4}
+    \item \displaythrm{5}
+    \item \displaythrm{6}
+    \item \displaythrm{7}
+    \item \displaythrm{8}
+    \item \displaythrm{9}
+\end{enumerate}
+
+\chapter{Nested Functions}
+
+In the Section~\ref{funfiles}, we saw an example of an M-file with
+more than one function:
+
+\begin{verbatim}
+function res = duck()
+    error = error_func(10)
+end
+
+function res = error_func(h)
+    rho = 0.3;      % density in g / cm^3
+    r = 10;         % radius in cm
+    res = ...
+end
+\end{verbatim}
+
+Because the first function ends before the second begins, they are at
+the same level of indentation.  Functions like these are {\bf
+parallel}, as opposed to {\bf nested}.  A nested function is
+defined inside another, like this:
+
+\begin{verbatim}
+function res = duck()
+    error = error_func(10)
+
+    function res = error_func(h)
+        rho = 0.3;      % density in g / cm^3
+        r = 10;         % radius in cm
+        res = ...
+    end
+end
+\end{verbatim}
+
+The top-level function, {\tt duck}, is
+the {\bf outer function} and {\tt error\_func} is
+an {\bf inner function}.
+
+Nesting functions is useful because the variables of the outer
+function can be accessed from the inner function.  This is not
+possible with parallel functions.
+
+In this example, using a nested function makes it possible to
+move the parameters {\tt rho} and {\tt r} out of {\tt error\_func}.
+
+\begin{verbatim}
+function res = duck(rho)
+    r = 10;
+    error = error_func(10)
+
+    function res = error_func(h)
+        res = ...
+    end
+end
+\end{verbatim}
+
+Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
+By making {\tt rho} an input argument, we made it easier to test
+{\tt duck} with different parameter values.
+
+\end{appendices}
 
 \end{document}
-
-
-

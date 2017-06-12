@@ -35,7 +35,7 @@
 %%
 %%   - bw  if you intend to print the document (highlighting done
 %%         via text formatting (bold, italic) and shades of gray)
-%%   
+%%
 %%   - numbered  if you want line numbers
 %%
 %%   - autolinebreaks  if you want  the package to  automatically
@@ -57,7 +57,7 @@
 %%
 %%   For example, you may use \usepackage[numbered,framed]{mcode}
 %%   in your document preamble.
-%%   
+%%
 %%   Note:  Inside code blocks you  can escape to LaTeX text mode
 %%   using §...§.  For ex. §text and some math: $x^2$§,  which is
 %%   especially  useful  in comments  for putting  nicely typeset
@@ -155,7 +155,7 @@
 
 % Check if textcomp has been loaded (this package is needed for
 % upright quotes '' (instead of typographic ones `´)...
-\ifx\textquotesingle\undefined% 
+\ifx\textquotesingle\undefined%
   \RequirePackage{textcomp}%
 \fi
 
@@ -177,7 +177,7 @@
   comment=[l]\%,                              % comments
   morecomment=[l]...,                         % comments
   morecomment=[s]{\%\{}{\%\}},                % block comments
-  morestring=[m]'                             % strings 
+  morestring=[m]'                             % strings
 }[keywords,comments,strings]%
 
 % ---------------------------------------------------------------------------------
@@ -198,7 +198,7 @@
 	\def\mcommentfont{\color[gray]{.75}\itshape} %comments light gray and italic
   \lstset{language=matlabfloz,                % use our version of highlighting
     keywordstyle=\bfseries,                   % keywords in bold
-    commentstyle=\mcommentfont,               % comments 
+    commentstyle=\mcommentfont,               % comments
     stringstyle=\color[gray]{0.5}             % strings darker gray
   }
 \else% notbw => use colors : )
@@ -207,7 +207,7 @@
     keywordstyle=\color[rgb]{0,0,1},          % keywords in blue
     commentstyle=\mcommentfont,               % comments
     stringstyle=\color[rgb]{.627,.126,.941}   % strings in purple
-  } 
+  }
 \fi%bw
 
 % ---------------------------------------------------------------------------------
