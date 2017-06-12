@@ -2,51 +2,42 @@ PDFFLAGS = -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress  \
            -dCompressPages=true -dUseFlateCompression=true  \
            -dEmbedAllFonts=true -dSubsetFonts=true -dMaxSubsetPct=100
 
-# Generate and open Postscript file (doesn't clean up temp files).
-# Likely you'll need to compile three times to get table of contents
-# working.
-all:	book.tex
-	latex book
-	makeindex book
-#	dvips -T 6.9in,9.8in -Ppdf -o PhysModMatlab.ps book
-	dvips -Ppdf -o PhysModMatlab.ps book
-	evince PhysModMatlab.ps
+# Generate a PDF of the book for electronic viewing and print; also
+# generate an HTML version of the book.
+all:	pdfbook pdfprintbook hevea
 
-# Convert Postscript to pdf
-pdf:
-	ps2pdf $(PDFFLAGS) PhysModMatlab.ps PhysModMatlab.pdf
-
-
-PDF_DEST=~/Desktop/[Allen_Downey]_Physical_Modeling_in_Matlab.pdf
-
-# Generate the book from scratch as a pdf (using static margins); throw
-# the generated pdf on the user's desktop and clean up after. Be as
-# quiet as possible.
+# Generate the book from scratch as a PDF (using static margins)
 pdfbook:	book.tex
-	# Do some search and replace some stuff in the tex file for static
+	# Search and replace a few things in the tex file for static
 	# margins; note that this is somewhat sensitive to changes in the code
-	sed -e 's/\%left=/left=/g' -e 's/\%right=/right=/g' -e 's/inner=/\%inner=/g' -e 's/outer=/\%outer=/g' -e 's/\%oneside/oneside/g' book.tex > tempbook_.tex
-	# compile three times to generate ToC and numbers formatted nicely
+	sed -e 's/\%left=/left=/g' \
+	-e 's/\%right=/right=/g' \
+	-e 's/inner=/\%inner=/g' \
+	-e 's/outer=/\%outer=/g' \
+	-e 's/\%oneside/oneside/g' \
+	book.tex > tempbook_.tex
+	# Compile three times to generate ToC and numbers formatted nicely
 	latex -interaction=batchmode tempbook_
 	latex -interaction=batchmode tempbook_
 	latex -interaction=batchmode tempbook_
 	makeindex -q tempbook_
 	dvips -q -Ppdf -o PhysModMatlab.ps tempbook_
-	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps $(PDF_DEST)
+	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps Physical_Modeling_In_MATLAB.pdf
 	rm tempbook_* PhysModMatlab.ps
 
-# Same as pdfbook (above) but with alternating margins
+# Same as pdfbook (above) but for print instead of electronic viewing;
+# margins alternate and chapters always start on right side (cf.
+# left) of page.
 pdfprintbook:	book.tex
 	cp book.tex tempbook_.tex
-	# compile three times to generate ToC and numbers formatted nicely
+	# Compile three times to generate ToC and numbers formatted nicely
 	latex -interaction=batchmode tempbook_
 	latex -interaction=batchmode tempbook_
 	latex -interaction=batchmode tempbook_
 	makeindex -q tempbook_
 	dvips -q -Ppdf -o PhysModMatlab.ps tempbook_
-	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps $(PDF_DEST)
+	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps Physical_Modeling_In_MATLAB_print.pdf
 	rm tempbook_* PhysModMatlab.ps
-
 
 # Generate the book in HTML.
 hevea:	book.tex header.html footer.html
@@ -61,13 +52,15 @@ hevea:	book.tex header.html footer.html
 	hacha book.html
 	cp up.png next.png back.png html
 	mv index.html book.css book*.html book*.png *motif.gif html
+	# Clean up
+	rm book.haux book.htoc book.image.out.ps book.image.tex
 
 
 # From here-> end: stuff for Downey's server
 DEST = /home/downey/public_html/greent/matlab
 FILES = Makefile book.tex latexonly figs
 
-distrib: 
+distrib:
 	rm -rf tex
 	mkdir tex
 	rsync -a $(FILES) tex
