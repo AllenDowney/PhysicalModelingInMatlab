@@ -18,9 +18,9 @@ pdfbook:	book.tex
 	book.tex > tempbook_.tex
 	# Compile three times to generate ToC and numbers formatted nicely
 	latex -interaction=batchmode tempbook_
-	latex -interaction=batchmode tempbook_
-	latex -interaction=batchmode tempbook_
 	makeindex -q tempbook_
+	latex -interaction=batchmode tempbook_
+	latex -interaction=batchmode tempbook_
 	dvips -q -Ppdf -o PhysModMatlab.ps tempbook_
 	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps Physical_Modeling_In_MATLAB.pdf
 	rm tempbook_* PhysModMatlab.ps
@@ -32,9 +32,9 @@ pdfprintbook:	book.tex
 	cp book.tex tempbook_.tex
 	# Compile three times to generate ToC and numbers formatted nicely
 	latex -interaction=batchmode tempbook_
-	latex -interaction=batchmode tempbook_
-	latex -interaction=batchmode tempbook_
 	makeindex -q tempbook_
+	latex -interaction=batchmode tempbook_
+	latex -interaction=batchmode tempbook_
 	dvips -q -Ppdf -o PhysModMatlab.ps tempbook_
 	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps Physical_Modeling_In_MATLAB_print.pdf
 	rm tempbook_* PhysModMatlab.ps

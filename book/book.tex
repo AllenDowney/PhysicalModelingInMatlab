@@ -44,6 +44,12 @@
     ps2pdf,
 }
 
+% Tell compiler to make the index
+\makeindex
+
+% Include index in ToC
+\usepackage[totoc]{idxlayout}
+
 %% Macros and redefinitions
 
 % Generate the registered trademark symbol
@@ -112,9 +118,6 @@
 \renewcommand\MakeUppercase{}
 
 %% End of macros+redfinitions
-
-% Make the index
-\makeindex
 
 % TODO: document the below commands. Not quite sure what they do.
 
@@ -8604,6 +8607,9 @@ Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
 By making {\tt rho} an input argument, we made it easier to test
 {\tt duck} with different parameter values.
 
+
 \end{appendices}
+
+\printindex
 
 \end{document}
