@@ -3,6 +3,10 @@
 %
 % License: Creative Commons Attribution-NonCommercial 3.0 Unported License.
 % http://creativecommons.org/licenses/by-nc/3.0/
+%
+% Labels within this document are prefixed with
+% "ex:", "eqn:", "chpt:", "sect:"
+% to indicate an example, equation, chapter, or section, respectively.
 
 \documentclass[
     %oneside,   % uncomment this for static margins (as well as below)
@@ -406,7 +410,7 @@ Michael, and Matt (as below).
 \chapter{Variables and Values}
 
 \section{A glorified calculator}
-\label{calc}
+\label{sect:calc}
 
 At heart, MATLAB is a glorified calculator.  When you start MATLAB
 you will see a window
@@ -1500,7 +1504,7 @@ scaffolding.
 
 \item When you are getting started, it is usually not obvious how to
 choose the steps that get from {\tt x=5} to the program you are trying
-to write.  There is an extended example in Section~\ref{increxample}.
+to write.  There is an extended example in Section~\ref{sect:increxample}.
 
 \end{itemize}
 
@@ -1600,7 +1604,7 @@ component in isolation.
 \section{Exercises}
 
 \begin{ex}
-\label{cargame}
+\label{ex:cargame}
 
 Imagine that you are the owner of a car rental company with two
 locations, Albany, and Boston.  Some of your customers do ``one-way
@@ -1643,7 +1647,7 @@ and how to plot the values of {\tt a} and {\tt b} versus time.
 
 \section{Updating variables}
 
-In Exercise~\ref{cargame}, you might have been tempted to write something
+In Exercise~\ref{ex:cargame}, you might have been tempted to write something
 like
 
 \begin{verbatim}
@@ -1853,7 +1857,7 @@ A graph would be much better!
 
 
 \section{plotting}
-\label{plotting}
+\label{sect:plotting}
 
 {\tt plot} is a versatile function for plotting points and lines
 on a two-dimensional graph.  Unfortunately, it is so versatile
@@ -1974,7 +1978,7 @@ to compute elements of $A$ directly.
 
 
 \section{Series}
-\label{series}
+\label{sect:series}
 
 In mathematics, a {\bf series} is the sum of the elements of
 a sequence.  It's a terrible name, because in common English,
@@ -2125,7 +2129,7 @@ any value.
 \section{Exercises}
 
 \begin{ex}
-\label{fib2}
+\label{ex:fib2}
 
 We have already seen the Fibonacci sequence, $F$, which
 is defined recurrently as
@@ -2158,7 +2162,7 @@ order of the updates!
 
 
 \begin{ex}
-\label{fib_plot}
+\label{ex:fib_plot}
 
 Write a script named {\tt fib\_plot} that loops {\tt i}
 through a range from 1 to 20, uses {\tt fibonacci2} to compute
@@ -2170,7 +2174,7 @@ circles.
 
 % chap04
 \chapter{Vectors}
-\label{vectors}
+\label{chpt:vectors}
 
 \section{Checking preconditions}
 
@@ -2326,7 +2330,7 @@ MATLAB thinks you are making an assignment to a variable named {\tt if x}!
 
 
 \section{Logical operators}
-\label{logop}
+\label{sect:logop}
 
 To test if a number falls in an interval, you might be
 tempted to write something like {\tt 0 < x < 10}, but that
@@ -2680,7 +2684,7 @@ At the end, the script extracts the final element of {\tt F} and
 stores it in {\tt ans}, since the result of this script is supposed
 to be the $n$th Fibonacci number, not the whole sequence.
 
-If you had any trouble with Exercise~\ref{fib2}, you have to
+If you had any trouble with Exercise~\ref{ex:fib2}, you have to
 appreciate the simplicity of this version.  The MATLAB syntax is
 similar to the math notation, which makes it easier to check
 correctness.  The only drawbacks are
@@ -2750,7 +2754,7 @@ plot(X, Y)
 \end{verbatim}
 
 By default, MATLAB draws a blue line, but you can override that
-setting with the same kind of string we saw in Section~\ref{plotting}.
+setting with the same kind of string we saw in Section~\ref{sect:plotting}.
 For example, the string {\tt 'ro-'} tells MATLAB to plot a red circle
 at each data point; the hyphen means the points should be connected
 with a line.
@@ -2766,7 +2770,7 @@ terms are familiar to you).
 
 
 \section{Reduce}
-\label{reduce}
+\label{sect:reduce}
 
 A frequent use of loops is to run through the elements of an array
 and add them up, or multiply them together, or compute the sum
@@ -2786,7 +2790,7 @@ ans = total
 \end{verbatim}
 
 The use of {\tt total} as an accumulator is similar to what we
-saw in Section~\ref{series}.  Again, we use the {\tt length} function
+saw in Section~\ref{sect:series}.  Again, we use the {\tt length} function
 to find the upper bound of the range, so this loop will work
 regardless of the length of {\tt X}.
 Each time through the loop, we add
@@ -2802,7 +2806,7 @@ the initial value you give it before the loop.
 
 
 \section{Apply}
-\label{apply}
+\label{sect:apply}
 
 Another common use of a loop is to run through the elements of
 a vector, perform some operation on the elements, and create
@@ -2839,7 +2843,7 @@ of {\tt X}.
 \end{ex}
 
 \section{Search}
-\label{search}
+\label{sect:search}
 
 Yet another use of loops is to search the elements of a vector
 and return the index of the value you are looking for (or the
@@ -2946,7 +2950,7 @@ in a vector and {\tt prod} computes the product.
 
 Many apply operations can be done with elementwise operators.  The
 following statement is more concise than the loop in
-Section~\ref{apply}
+Section~\ref{sect:apply}
 
 \begin{verbatim}
 Y = X .^ 2
@@ -3027,7 +3031,7 @@ elements in order until one is found that has the desired property.
 \section{Exercises}
 
 \begin{ex}
-\label{fibratio}
+\label{ex:fibratio}
 
 The ratio of consecutive Fibonacci numbers, $F_{n+1}/F_{n}$, converges
 to a constant value as $n$ increases.  Write a script that computes
@@ -3162,7 +3166,7 @@ this problem is one of the motivations for functions.
 
 
 \section{Functions}
-\label{functions}
+\label{sect:functions}
 
 A {\bf function} is like a script, except
 
@@ -3413,7 +3417,7 @@ another name!
 
 
 \section{Multiple input variables}
-\label{hypotenuse}
+\label{sect:hypotenuse}
 
 Functions can, and often do, take more than one input variable.
 For example, the following function takes two input variables,
@@ -3470,7 +3474,7 @@ Which is a better message.
 
 \section{Logical functions}
 
-In Section~\ref{logop} we used logical operators to compare values.
+In Section~\ref{sect:logop} we used logical operators to compare values.
 MATLAB also provides {\bf logical functions} that check for certain
 conditions and return logical values: 1 for ``true'' and 0 for ``false''.
 
@@ -3531,7 +3535,7 @@ approximation is not.
 
 
 \section{An incremental development example}
-\label{increxample}
+\label{sect:increxample}
 
 Let's say that we want to write a program to search for ``Pythagorean
 triples:'' sets of integral values, like 3, 4, and 5,
@@ -4085,7 +4089,7 @@ differential equations.
 
 
 \section{Maps}
-\label{map}
+\label{sect:map}
 
 In mathematics, a {\bf map} is a correspondence between one
 set called the {\bf range} and another set called the
@@ -4105,7 +4109,7 @@ are meant to represent real numbers, we think of them as continuous.)
 
 
 \section{A note on notation}
-\label{notation}
+\label{sect:notation}
 
 In this chapter I need to start talking about mathematical
 functions, and I am going to use a notation you might not have
@@ -4232,7 +4236,7 @@ the more practical alternatives in a minute.
 
 
 \section{Zero-finding}
-\label{zero}
+\label{sect:zero}
 
 A nonlinear equation like $x^2 - 2x = 3$ is a statement of
 equality that is true for some values of $x$ and false for
@@ -4298,7 +4302,7 @@ numerical methods,'' then you are ready to go on to the next section.
 
 
 \section{{\tt fzero}}
-\label{fzero}
+\label{sect:fzero}
 
 {\tt fzero} is a built-in MATLAB function that
 combines the best features of several efficient and robust
@@ -4600,7 +4604,7 @@ There is no universal way to avoid these kind of
 collisions, but you can improve your chances by choosing
 variable names that don't shadow existing functions, and by
 choosing function names that you are unlikely to use as variables.
-That's why, in Section~\ref{notation}, I called the error function
+That's why, in Section~\ref{sect:notation}, I called the error function
 {\tt error\_func} rather than {\tt f}.  I often give functions
 names that end in {\tt func}, and that helps.
 
@@ -4746,7 +4750,7 @@ guess?
 
 
 \begin{ex}
-\label{duck}
+\label{ex:duck}
 
 The density of a duck, $\rho$, is $0.3 g / cm^3$ (0.3 times the
 density of water).
@@ -4819,7 +4823,7 @@ infinity?  Goes to zero?
 
 
 \section{Functions and files}
-\label{funfiles}
+\label{sect:funfiles}
 
 So far we have only put one function in each file.  It is also
 possible to put more than one function in a file, but only the first
@@ -4834,7 +4838,7 @@ Window.
 
 To help with this problem, I often use the top-level function
 to develop and test my helper functions.  For example, to write
-a program for Exercise~\ref{duck}, I would create a file named
+a program for Exercise~\ref{ex:duck}, I would create a file named
 {\tt duck.m} and start with a top-level function named {\tt duck}
 that takes no input variables and returns no output value.
 
@@ -4869,10 +4873,10 @@ combine them into a working program.
 
 
 \section{Physical modeling}
-\label{modeling}
+\label{sect:modeling}
 
 Most of the examples so far have been about mathematics;
-Exercise~\ref{duck}, the ``duck problem,'' is the first example we
+Exercise~\ref{ex:duck}, the ``duck problem,'' is the first example we
 have seen of a physical system.  If you didn't work on this exercise,
 you should at least go back and read it.
 
@@ -4976,7 +4980,7 @@ X = 1     2     3
 \end{verbatim}
 
 Here's a more interesting example that encapsulates the code
-from Section~\ref{reduce} that adds up the elements of a vector:
+from Section~\ref{sect:reduce} that adds up the elements of a vector:
 
 \begin{verbatim}
 function res = mysum(X)
@@ -5007,7 +5011,7 @@ point of assigning it to a variable.
 
 There's also nothing wrong with assigning a vector to an output
 variable.  Here's an example that encapsulates the code from
-Section~\ref{apply}:
+Section~\ref{sect:apply}:
 
 \begin{verbatim}
 function res = myapply(X)
@@ -5032,7 +5036,7 @@ V = 1     4     9
 
 \begin{ex}
 Write a function named {\tt find\_target} that
-encapsulates the code, from Section~\ref{search}, that finds the
+encapsulates the code, from Section~\ref{sect:search}, that finds the
 location of a target value in a vector.
 \end{ex}
 
@@ -5086,7 +5090,7 @@ we are seeing features that show MATLAB's strengths.
 
 Some of the other functions we wrote don't work on vectors,
 but they can be patched up with just a little effort.  For example,
-here's {\tt hypotenuse} from Section~\ref{hypotenuse}:
+here's {\tt hypotenuse} from Section~\ref{sect:hypotenuse}:
 
 \begin{verbatim}
 function res = hypotenuse(a, b)
@@ -5231,7 +5235,7 @@ advantage of the fact that $e^{\ln a + \ln b} = a b$.
 If you apply {\tt myratio} to a vector that contains Fibonacci
 numbers, you can confirm that the ratio of successive elements
 converges on the golden ratio, $(1+\sqrt{5})/2$ (see
-Exercise~\ref{fibratio}).
+Exercise~\ref{ex:fibratio}).
 \end{ex}
 
 
@@ -5553,9 +5557,9 @@ of change.  Then we can advance from one point in time to the
 next using these equations:
 
 \begin{eqnarray}
-\label{euler1}
+\label{eq:euler1}
 T_{n+1} = T_n + \Delta t           \\
-\label{euler2}
+\label{eq:euler2}
 F_{n+1} = F_n + g(T_n,F_n)~\Delta t
 \end{eqnarray}
 
@@ -5567,7 +5571,7 @@ The interval $\Delta t$ is called the {\bf time step}.
 Assuming that we start at $t=0$ and we have an initial condition $f(0)
 = y_0$ (where $y_0$ denotes a particular, known value), we set
 $T_0 = 0$ and $F_0 = y_0$, and then use
-equations \eqref{euler1} and \eqref{euler2} to
+equations \eqref{eq:euler1} and \eqref{eq:euler2} to
 compute values of $T_i$ and $F_i$ until $T_i$
 gets to the value of $t$ we are interested in.
 
@@ -5635,7 +5639,7 @@ of change for \textit{any} population $y$ at any time $t$.
 
 
 \section{{\tt ode45}}
-\label{ode45}
+\label{sect:ode45}
 
 A limitation of Euler's method is that the time step is constant from
 one iteration to the next.  But some parts of the solution are
@@ -5670,7 +5674,7 @@ where $t$ is time in days and $f(t)$ is the population at time $t$.
 
 $a$ and $\omega$ are {\bf parameters}.  A parameter is a value that
 quantifies a physical aspect of the scenario being modeled.  For
-example, in Exercise~\ref{duck} we used parameters {\tt rho} and
+example, in Exercise~\ref{ex:duck} we used parameters {\tt rho} and
 {\tt r} to quantify the density and radius of a duck.  Parameters are
 often constants, but in some models they vary in time.
 
@@ -5757,7 +5761,7 @@ spring and fall, but it also accelerates as the population grows.
 
 
 \section{Multiple output variables}
-\label{rats}
+\label{sect:rats}
 
 {\tt ode45} is one of many MATLAB functions that return more
 than one output variable.  The syntax for calling it and saving
@@ -6318,7 +6322,7 @@ have on row vectors, column vectors, and scalars?
 
 
 \section{Lotka-Volterra}
-\label{lotka}
+\label{sect:lotka}
 
 The Lotka-Volterra model describes the interactions between two
 species in an ecosystem, a predator and its prey.  A common example
@@ -6642,7 +6646,7 @@ $x$, $y$, and $z$.
 \chapter{Second-order Systems}
 
 \section{Spatial vectors}
-\label{spacial}
+\label{sect:spacial}
 
 Before we can start modelling second-order systems,
 we need to discuss vectors. The word ``vector'' means different
@@ -6665,7 +6669,7 @@ gives you a state vector.
 \item[discrete maps:] If you have two vectors with the same
 length, you can think of them as a mapping from the elements
 of one vector to the corresponding elements of the other.  For
-example, in Section~\ref{rats}, the results from {\tt ode45}
+example, in Section~\ref{sect:rats}, the results from {\tt ode45}
 are vectors, {\tt T} and {\tt Y}, that represent a mapping
 from the time values in {\tt T} to the population values in {\tt Y}.
 
@@ -6808,7 +6812,7 @@ equation \eqref{eq:vel_acc} says that the first derivative of $\vec{v}$ is $\vec
 
 
 \section{Freefall}
-\label{freefall}
+\label{sect:freefall}
 
 Let's start with a simple example: an object in freefall in a vacuum
 (where there's no air resistance).  Near the surface of the earth, the
@@ -6850,7 +6854,7 @@ freefall} simply assigns this value to {\tt dydt}.  {\tt freefall}
 obtains acceleration by calling the second function, {\tt acceleration},
 which takes time, position, and velocity as input variables.  In this
 example, the net acceleration is a constant, so the input variables are
-unnecessary, but in Section~\ref{air_resistance} we'll need them.
+unnecessary, but in Section~\ref{sect:air_resistance} we'll need them.
 
 Here's how to run {\tt ode45} with this rate function:
 
@@ -6875,10 +6879,11 @@ is a function of time, not a ballistic trajectory).
 
 Notice that {\tt ode45} doesn't know where the ground is, so the
 skydiver keeps going through zero into negative altitude.  We will
-address this issue in Section~\ref{events}.
+address this issue in Section~\ref{sect:events}.
 
 
-\section{Air resistance}\label{air_resistance}
+\section{Air resistance}
+\label{sect:air_resistance}
 
 To make this simulation more realistic, we can add air resistance.
 For large objects moving quickly through air, the force due to air
@@ -6893,7 +6898,7 @@ where $b$ is a drag constant that depends on the density of
 air, the cross-sectional area of the object and the surface properties
 of the object.\footnote{Notice that equation \eqref{eq:simpledrag} makes use
 of the convention $v = \norm{\vec{v}}$. See
-Section~\ref{spacial}}For this problem, let's say that $b = 0.2$.
+Section~\ref{sect:spacial}}For this problem, let's say that $b = 0.2$.
 % b is used in the book "Physics for Scientists and Engineers" by Paul A. Tipler.
 
 To convert from force to acceleration, we have to know mass, so let's
@@ -6963,7 +6968,7 @@ That's where parachutes come in.
 
 Modify {\tt acceleration} so that after 30 seconds of
 free-fall the skydiver deploys a parachute, which (almost) instantly
-    increases the drag constant to 2.7. Hint: see Section~\ref{events}.
+    increases the drag constant to 2.7. Hint: see Section~\ref{sect:events}.
 
 What is the terminal velocity now?  How long (after deployment) does
 it take to reach the ground?
@@ -6971,7 +6976,7 @@ it take to reach the ground?
 
 
 \section{Two dimensions}
-\label{projectile}
+\label{sect:projectile}
 
 So far we have used {\tt ode45} for a system of first-order
 equations and for a single second-order equation.  The next logical
@@ -7022,7 +7027,7 @@ The result from
 (for now), the acceleration in the $x$ direction is 0; in
 the $y$ direction it's $-g$.
 Other than that, this code is similar to what we saw in
-Section~\ref{freefall}.
+Section~\ref{sect:freefall}.
 
 If we launch the human projectile from an initial height of
 3 meters, with velocities 40 m/s and 30 m/s in the $x$ and $y$
@@ -7051,7 +7056,7 @@ horizontal distance traveled.
 
 
 \section{Spacial vectors revisited}
-\label{spacialre}
+\label{sect:spacialre}
 
 Let's talk about spacial vectors again, this time by way of example.
 Suppose that you are given the velocity of a baseball in the form of a
@@ -7086,7 +7091,7 @@ two-dimensional Cartesian coordinates is
 
 You could compute the magnitude using equation
 \eqref{eq:cartesiannorm} with {\tt hypotenuse} from
-Section~\ref{hypotenuse}, or you could use the MATLAB function {\tt
+Section~\ref{sect:hypotenuse}, or you could use the MATLAB function {\tt
 norm} ({\bf norm} is another name for magnitude); let's use {\tt
 norm}:
 
@@ -7192,7 +7197,7 @@ where $\rho$ is the density of the fluid (for water this is $1000 ~ kg /
 \section{Putting it all together}
 
 Let's return to our two-dimensional simulation of the human cannonball
-from Section~\ref{projectile}. Our rate function, {\tt
+from Section~\ref{sect:projectile}. Our rate function, {\tt
 projectile}, looked like this:
 
 \begin{verbatim}
@@ -7209,7 +7214,7 @@ end
 
 Suppose we want to model the effect of drag on our cannonball's
 flight. Luckily, we already did most of the work for this in
-Section~\ref{spacialre}. We know that we can represent the acceleration
+Section~\ref{sect:spacialre}. We know that we can represent the acceleration
 due to gravity with the vector
 
 \begin{verbatim}
@@ -7276,7 +7281,7 @@ Use the following to run the simulation:
 \end{verbatim}
 
 How did it go? Were your results reasonable? Why or why not? Consider our
-initial discussion of modeling from Section~\ref{modeling} . Is this
+initial discussion of modeling from Section~\ref{sect:modeling} . Is this
 model a good choice to simulate a human cannonball?
 
 \section{What could go wrong?}
@@ -7360,7 +7365,7 @@ is the function that performs horizontal concatenation, and likewise
 with {\tt vertcat} and vertical concatenation.
 
 These operations are relevant to our rate function {\tt projectile} from
-Section~\ref{projectile} because of the last line, which packs {\tt
+Section~\ref{sect:projectile} because of the last line, which packs {\tt
 dRdt} and {\tt dVdt} into the output variable:
 
 \begin{verbatim}
@@ -7390,11 +7395,11 @@ and make sure you are clear on which way your vectors go.
 
 
 \section{ODE Events}
-\label{events}
+\label{sect:events}
 
 Normally when you call {\tt ode45} you have to specify a start time and
 an end time.  But in many cases, you don't know ahead of time when the
-simulation should end (this was an issue in Section~\ref{freefall}'s
+simulation should end (this was an issue in Section~\ref{sect:freefall}'s
 freefall simulation). Fortunately MATLAB provides a mechanism for
 dealing with this problem.  The bad news is that it is a little awkward.
 Here's how it works:
@@ -7418,7 +7423,7 @@ like {\tt event} is conventional.
 \item The function you provide has to take
 the same input variables as your rate function.  For example,
 here is an event function that would work with {\tt projectile}
-from Section~\ref{projectile}
+from Section~\ref{sect:projectile}
 
 \begin{verbatim}
 function [value,isterminal,direction] = event(t,X)
@@ -7491,7 +7496,7 @@ form a new matrix.
 \section{Exercises}
 
 \begin{ex}
-\label{baseball}
+\label{ex:baseball}
 
 In the absense of wind the flight of a baseball is governed by three forces: gravity,
 drag due to air resistance, and Magnus force due to spin.  If
@@ -7499,7 +7504,7 @@ we ignore Magnus force, the path of the baseball stays
 in a plane, so we can model it as a projectile in two
 dimensions.
 
-As presented in Section~\ref{spacialre}, a simple model for the drag force
+As presented in Section~\ref{sect:spacialre}, a simple model for the drag force
     on a baseball is:
 
 \begin{equation}
@@ -7547,7 +7552,7 @@ You can alter the plotted launch angles if needed or desired.
 \section{Optimization}
 
 ``Optimal'' is a fancy way of saying ``best;'' what that means depends on the problem.
-In Exercise~\ref{baseball}, you were asked to approximate the launch angle which
+In Exercise~\ref{ex:baseball}, you were asked to approximate the launch angle which
 can produce the longest horizontal distance for a ball batted at a particular speed
 and from a particular height.  This angle can be considered as the
 optimal angle.
@@ -7576,7 +7581,7 @@ A better algorithm is a Golden Section Search.
 To present the main ideas behind
 the Golden Section Search, I will present a simplified
 search algorithm I'll call a Silver Section Search.  The basic idea is similar to
-the methods for zero-finding we saw in Section~\ref{zero}.  In the
+the methods for zero-finding we saw in Section~\ref{sect:zero}.  In the
 case of zero-finding, we had a picture like this:
 
 \beforefig \centerline{\includegraphics[height=1.5in]{figs/secant.eps}}
@@ -7790,7 +7795,7 @@ which you can think of as a continuous map.  When you use an
 ODE solver, you get two vectors (or a vector and a matrix), which
 you can think of as a discrete map.
 
-For example, in Section~\ref{ode45}, we used the following rate
+For example, in Section~\ref{sect:ode45}, we used the following rate
 function to estimate the population of rats as a function of time:
 
 \begin{verbatim}
@@ -8073,7 +8078,7 @@ the range maps to more than one value in the domain.
 \section{Exercises}
 
 \begin{ex}
-\label{golf}
+\label{ex:golf}
 
 A golf ball hit with backspin
 generates lift, which might increase the range, but the energy that
@@ -8149,7 +8154,7 @@ gravity\_force\_func} that takes {\tt P1}, {\tt m1}, {\tt P2}, and
 \end{ex}
 
 \begin{ex}
-\label{jupiter}
+\label{ex:jupiter}
 Write a simulation of the orbit of Jupiter around the Sun.  The mass
 of the Sun is about $2.0 \times 10^{30}$ kg.  You can get the mass of
 Jupiter, its distance from the Sun and orbital velocity from
@@ -8165,7 +8170,7 @@ There are two ways to do animation in MATLAB.  One is to use
 {\tt getframe} to capture a series of images and {\tt movie} to
 play them back.
 The more informal way is to draw a series of plots.
-Here is an example I wrote for Exercise~\ref{jupiter}:
+Here is an example I wrote for Exercise~\ref{ex:jupiter}:
 
 \begin{verbatim}
 function animate_func(T,M)
@@ -8313,7 +8318,7 @@ percentage of the starting energy.
 \end{ex}
 
 You can reduce the rate of energy loss by decreasing {\tt ode45}'s
-tolerance option using {\tt odeset} (see Section~\ref{events}):
+tolerance option using {\tt odeset} (see Section~\ref{sect:events}):
 
 \begin{verbatim}
 options = odeset('RelTol', 1e-5);
@@ -8423,7 +8428,7 @@ in Newton-meters.
 
 \section{What is a model for?}
 
-In Section~\ref{modeling} I defined a ``model'' as a simplified
+In Section~\ref{sect:modeling} I defined a ``model'' as a simplified
 description of a physical system, and said that a good model
 lends itself to analysis and simulation, and makes predictions
 that are good enough for the intended purpose.
@@ -8436,17 +8441,17 @@ to fall into three categories.
 
 \item[prediction:] Some models make predictions about physical
 systems.  As a simple example, the duck model in
-Exercise~\ref{duck} predicts the level a duck floats at.  At the other
+Exercise~\ref{ex:duck} predicts the level a duck floats at.  At the other
 end of the spectrum, global climate models try to predict the weather
 tens or hundreds of years in the future.
 
 \item[design:] Models are useful for engineering design, especially
 for testing the feasibility of a design and for optimization.  For
-example, in Exercise~\ref{golf} you were asked to design the golf
+example, in Exercise~\ref{ex:golf} you were asked to design the golf
 swing with the perfect combination of launch angle, velocity and spin.
 
 \item[explanation:] Models can answer scientific questions.  For
-example, the Lotka-Volterra model in Section~\ref{lotka} offers a
+example, the Lotka-Volterra model in Section~\ref{sect:lotka} offers a
 possible explanation of the dynamics of animal populations systems in
 terms of interactions between predator and prey species.
 
@@ -8509,7 +8514,7 @@ animation of the result.
 \end{ex}
 
 \begin{ex}
-\label{binary}
+\label{ex:binary}
 
 A binary star system contains two stars orbiting each other and
 sometimes planets that orbit one or both stars.\footnote{See
@@ -8544,7 +8549,7 @@ replicate or extend the results.
 
 \chapter{Nested Functions}
 
-In the Section~\ref{funfiles}, we saw an example of an M-file with
+In the Section~\ref{sect:funfiles}, we saw an example of an M-file with
 more than one function:
 
 \begin{verbatim}
