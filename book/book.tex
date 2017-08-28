@@ -482,7 +482,7 @@ The order of operations is what you would expect from basic algebra:
 exponentiation happens before multiplication
 and division, and
 multiplication and division happen before addition and subtraction.
-If you want to override the order of operations, you can use parentheses.
+If you want to override the order of operations, you can use parentheses.\index{Operations!order of}
 
 \begin{verbatim}
 >> 2 * (3-4) / 5
@@ -509,7 +509,7 @@ you time debugging!
 \section{Math functions}
 
 MATLAB knows how to compute pretty much every math function you've
-heard of.  It knows all the trigonometric functions; here's how you
+heard of.  It knows all the trigonometric functions\index{Math functions!trigonometric}; here's how you
 use them:
 
 \begin{verbatim}
@@ -535,7 +535,7 @@ ans = 0.7854
 If that bit of trigonometry isn't familiar to you, don't worry about
 it.  It's just an example of a function with multiple arguments.
 
-MATLAB also provides exponential functions, like {\tt exp}, which
+MATLAB also provides exponential functions\index{Math functions!exponential}, like {\tt exp}, which
 computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
 
 \begin{verbatim}
@@ -543,7 +543,7 @@ computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
 ans = 2.7183
 \end{verbatim}
 
-The inverse of {\tt exp} is {\tt log}, which computes the logarithm
+The inverse of {\tt exp} is {\tt log}\index{Math functions!logarithmic}, which computes the logarithm
 base $e$:
 
 \begin{verbatim}
@@ -572,7 +572,7 @@ read the documentation.
 \section{Documentation}
 
 MATLAB comes with two forms of online documentation, {\tt help}
-and {\tt doc}.
+and {\tt doc}.\index{Documentation!{\tt doc} and {\tt help}}
 
 The help command works from the Command Window; just type {\tt help}
 followed by the name of a command.
@@ -616,7 +616,7 @@ One of the features that makes MATLAB more powerful than a calculator
 is the ability to give a name to a value.  A named value is called
 a {\bf variable}.
 
-MATLAB comes with a few predefined variables.  For
+MATLAB comes with a few predefined variables.\index{Variables!predefined}  For
 example, the name {\tt pi} refers to the
 mathematical quantity $\pi$, which is approximately
 
@@ -627,7 +627,7 @@ ans = 3.1416
 
 And if you do anything with complex numbers, you might find it
 convenient that both {\tt i} and {\tt j} are predefined as the square
-root of $-1$.
+root of $-1$\index{Complex numbers!imaginary unit}.
 
 You can use a variable name anywhere you can use a number; for example, as
 an operand in an expression:
@@ -648,7 +648,7 @@ ans = -1.0000 + 0.0000i
 \end{verbatim}
 
 As the second example shows, many MATLAB functions work with
-complex numbers.  This example demonstrates Euler's Equality:
+complex numbers.  This example demonstrates Euler's Equality\index{Complex numbers!Euler's Equality}:
 $e^{i \pi} = -1$.
 
 Whenever you evaluate an expression, MATLAB assigns the result to
@@ -671,7 +671,7 @@ you evaluate an expression.
 
 You can create your own variables, and give them values, with
 an {\bf assignment statement}.  The assignment operator is the
-equals sign, {\tt =}.
+equals sign, {\tt =}\index{Variables!assignment}.
 
 \begin{verbatim}
 >> x = 6 * 7
@@ -701,7 +701,7 @@ not at the beginning.  Spaces are not allowed.  Variable names are
 first_name = allen
 \end{verbatim}
 
-The first two examples demonstrate the use of the semi-colon, which
+The first two examples demonstrate the use of the semi-colon\index{Syntax!semi-colon}, which
 suppresses the output from a command.  In this case MATLAB creates the
 variables and assigns them values, but displays nothing.
 
@@ -714,11 +714,11 @@ to reassign them.  It is common to use {\tt i} and {\tt j} for other
 purposes\footnote{Note that {\tt 1i} and {\tt 1j} \textit{always}
 represent the imaginary unit.}
 , but it is probably not a good idea to change the value of
-{\tt pi}!
+{\tt pi}!\index{Complex numbers!imaginary unit}
 
 \section{Why variables?}
 
-The most common reasons to use variables are
+The most common reasons to use variables are\index{Variables!reasons for using}
 
 \begin{itemize}
 
@@ -754,7 +754,7 @@ ans = ((x - theta) * sqrt(2 * pi) * sigma) ^ -1 * ...
 exp(-1/2 * (log(x - theta) - zeta)^2 / sigma^2)
 \end{verbatim}
 
-You can use an ellipsis to break the expression into multiple lines.
+You can use an ellipsis to break the expression into multiple lines.\index{Syntax!ellipses}
 Just type {\tt ...} at the end of the first line and continue on the
 next.
 
@@ -869,7 +869,7 @@ or
 
 In mathematics, there are several kinds of numbers: integer, real,
 rational, irrational, imaginary, complex, etc.  MATLAB uses only one
-kind of number by default: {\bf floating-point}.
+kind of number by default: {\bf floating-point}.\index{Numbers!floating point}
 
 You might have noticed that MATLAB expresses values in decimal
 notation.  So, for example, the rational number $1/3$ is represented
@@ -882,7 +882,7 @@ ans = 0.3333
 
 which is only approximately correct.  It's not quite as bad as
 it seems; MATLAB uses more digits than it shows by default.
-You can change the {\tt format} to see the other digits.
+You can change the {\tt format} to see the other digits.\index{Numbers!{\tt format}}
 
 \begin{verbatim}
 >> format long
@@ -904,7 +904,7 @@ ans = 9.332621544394410e+157
 \end{verbatim}
 
 The {\tt e} in this notation is {\em not} the transcendental number
-known as $e$; it is just an abbreviation for ``exponent''.  So
+known as $e$\index{Numbers!$e$}; it is just an abbreviation for ``exponent''.  So
 this means that $100!$ is approximately $9.33 \times 10^{157}$.  The
 exact solution is a 158-digit integer, but we only know the first 16
 digits.
@@ -917,7 +917,7 @@ speed_of_light = 300000000
 \end{verbatim}
 
 Although MATLAB can handle large numbers, there is a limit.  The
-predefined variables {\tt realmax} and {\tt realmin} contain the
+predefined variables {\tt realmax} and {\tt realmin}\index{Numbers!{\tt realmax} and {\tt realmin}} contain the
 largest and smallest number magnitudes that MATLAB can
 handle.\footnote{The names of these variables are misleading: other
 documentation refers to ``floating-point numbers'', not ``real
@@ -932,7 +932,7 @@ ans = 2.225073858507201e-308
 \end{verbatim}
 
 If the result of a computation is too big, MATLAB ``rounds up''
-to infinity.
+to infinity.\index{Numbers!{\tt Inf}}
 
 \begin{verbatim}
 >> factorial(170)
@@ -956,7 +956,7 @@ through a computation doesn't always do what you expect, but if you
 are careful with how you use it, {\tt Inf} can be quite useful.
 
 For operations that are truly undefined, MATLAB returns {\tt NaN},
-which stands for ``not a number''.
+which stands for ``not a number''.\index{Numbers!{\tt NaN}}
 
 \begin{verbatim}
 >> 0/0
@@ -970,7 +970,7 @@ ans = NaN
 Along with the commands that make up a program, it is useful
 to include comments that provide additional information about the
 program.  The percent symbol {\tt \%} separates
-the comments from the code.
+the comments from the code.\index{Syntax!comments}
 
 \begin{verbatim}
 >> speed_of_light = 3.0e8     % meters per second
@@ -1105,7 +1105,7 @@ the name of the letter (assuming you know it).
 % chap02
 \chapter{Scripts}
 
-\section{M-files}
+\section{M-files}\index{Scripts!M-files}
 
 So far we have typed all of our programs ``at the prompt,'' which is
 fine if you are not writing more than a few lines.  Beyond that,
@@ -1215,7 +1215,7 @@ as the expression was being calculated.
 
 \section{Why scripts?}
 
-The most common reasons to use scripts are:
+The most common reasons to use scripts are:\index{Scripts!reasons for using}
 
 \begin{itemize}
 
@@ -1264,16 +1264,16 @@ us to the Third Theorem of Debugging:
 \section{The workspace}
 
 The variables you create are stored in the {\bf workspace}, which is a
-set of variables and their values.
+set of variables and their values.\index{Variables!workspace}
 The {\tt clear} command, by itself, removes any variables you may
-have in the workspace.
+have in the workspace.\index{Variables!{\tt clear}}
 
 \begin{verbatim}
 >> clear
 \end{verbatim}
 
 The {\tt who} command prints the
-names of the variables in the workspace.
+names of the variables in the workspace.\index{Variables!{\tt who}}
 
 \begin{verbatim}
 >> x=5;
@@ -1298,7 +1298,7 @@ z
 \end{verbatim}
 
 To display the value of a variable, you can use the {\tt disp}
-function.
+function.\index{Variables!{\tt disp}}
 
 \begin{verbatim}
 >> disp(z)
@@ -1354,7 +1354,7 @@ The object of the game is to find the cause and
 fix it---not just to make the error message go away.
 
 
-\section{Pre- and post-conditions}
+\section{Pre- and post-conditions}\index{Scripts!pre- and post-conditions}
 
 Every script should contain a comment that explains
 what it does, and what the requirements are for the workspace.  For
@@ -1387,7 +1387,7 @@ That way, scripts that you write behave just like predefined scripts.
 You can even use the {\tt doc} command to see your comment in the
 Help Window.
 
-\section{Assignment and equality}
+\section{Assignment and equality}\index{Variables!assignment}
 
 In mathematics the equals sign means that the two sides of the
 equation have the same value.  In MATLAB an assignment statement
@@ -1448,7 +1448,7 @@ Write a few lines of code that swap the values of
 and test it.
 \end{ex}
 
-\section{Incremental development}
+\section{Incremental development}\index{Scripts!incremental development}
 
 When you start writing scripts that are more than a few lines, you
 might find yourself spending more and more time debugging.  The more
@@ -1706,21 +1706,21 @@ There are four kinds of error:
 execute because it violates one of the rules of syntax.  For example,
 you can't have two operands in a row without an operator, so
 \verb+pi r^2+ contains a syntax error.  When MATLAB finds a syntax
-error, it prints an error message and stops running your program.
+error, it prints an error message and stops running your program.\index{Errors!syntax}
 
 \item[Runtime error:] Your program starts running, but something goes
 wrong along the way.  For example, if you try to access a variable
 that doesn't exist, that's a runtime error.  When MATLAB detects the
-problem, it prints an error message and stops.
+problem, it prints an error message and stops.\index{Errors!runtime}
 
 \item[Logical error:] Your program runs without generating any error
 messages, but it doesn't do the right thing.  The problem in the
 previous section, where we changed the value of {\tt a} before
-reading the old value, is a logical error.
+reading the old value, is a logical error.\index{Errors!logical}
 
 \item[Numerical error:] Most computations in MATLAB are only
 approximately right.  Most of the time the errors are small enough
-that we don't care, but in some cases the roundoff errors are a problem.
+that we don't care, but in some cases the roundoff errors are a problem.\index{Errors!numerical}
 
 \end{description}
 
@@ -1728,7 +1728,7 @@ Syntax errors are usually the easiest.  Sometimes the error messages
 are confusing, but MATLAB can usually tell you where the error is, at
 least roughly.
 
-Run time errors are harder because, as I mentioned before, MATLAB
+Runtime errors are harder because, as I mentioned before, MATLAB
 can tell you where it detected the problem, but not what caused it.
 
 Logical errors are hard because MATLAB can't help at all.  Only you
@@ -1758,10 +1758,10 @@ absolute} and {\bf relative}.
 \item[Absolute error:] It is just the difference between the correct value and
 the approximation.  We usually write the magnitude of the error,
 ignoring its sign, because it doesn't matter whether the approximation
-is too high or too low.
+is too high or too low.\index{Errors!absolute}
 
 \item[Relative error:] It is the error expressed as a fraction (or percentage)
-of the exact value.
+of the exact value.\index{Errors!relative}
 \end{description}
 
 For example, we might want to estimate $9!$ using the formula $\sqrt
@@ -1782,7 +1782,7 @@ by 362,880, yielding $.00921$, which is just less than 1\%.
 For many purposes, being off by 1\% is good enough.
 
 
-\section{for loops}
+\section{for loops}\index{Compound statements!{\tt for}}
 
 A {\bf loop} is a part of a program that executes repeatedly;
 a {\bf for loop} is the kind of loop that uses the {\tt for}
@@ -1807,7 +1807,7 @@ first time it runs, it creates the variable {\tt i} and assigns it the
 value 1.  The second time, {\tt i} gets the value 2, and so on, up to
 52.
 
-The colon operator, {\tt :}, specifies a {\bf range} of integers.  In
+The colon operator, {\tt :}, specifies a {\bf range} of integers.\index{Syntax!colon operator}  In
 the spirit of unit testing, you can create a range at the prompt:
 
 \begin{verbatim}
@@ -1857,7 +1857,7 @@ A graph would be much better!
 
 
 \section{plotting}
-\label{sect:plotting}
+\label{sect:plotting}\index{Plotting!points}
 
 {\tt plot} is a versatile function for plotting points and lines
 on a two-dimensional graph.  Unfortunately, it is so versatile
@@ -2177,6 +2177,7 @@ circles.
 \label{chpt:vectors}
 
 \section{Checking preconditions}
+\index{Scripts!pre- and post-conditions}
 
 Some of the loops in the previous chapter don't work
 if the value of {\tt n} isn't set correctly before the loop runs.
@@ -2201,7 +2202,7 @@ total = 0
 \end{verbatim}
 
 Why?  Because the expression {\tt 1:-1} means ``all the numbers
-from 1 to -1, counting up by 1.''  It's not immediately obvious
+from 1 to -1, counting up by 1.''\index{Syntax!colon operator}  It's not immediately obvious
 what that should mean, but MATLAB's interpretation is that there
 aren't any numbers that fit that description, so the result is
 
@@ -2224,7 +2225,7 @@ at least a meaningless answer) if the input value is negative.
 A better alternative is to use an {\tt if} statement.
 
 
-\section{{\tt if}}
+\section{{\tt if}}\index{Compound statements!{\tt if}}
 
 The {\tt if} statement allows you to check for certain conditions
 and execute statements if the conditions are met.  In the previous
@@ -2281,6 +2282,7 @@ legal and common, and sometimes called {\bf nesting}.
 
 
 \section{Relational operators}
+\index{Operations!relational}
 
 The operators that compare values, like {\tt <} and {\tt >} are
 called {\bf relational operators} because they test the relationship
@@ -2331,6 +2333,7 @@ MATLAB thinks you are making an assignment to a variable named {\tt if x}!
 
 \section{Logical operators}
 \label{sect:logop}
+\index{Operations!logical}
 
 To test if a number falls in an interval, you might be
 tempted to write something like {\tt 0 < x < 10}, but that
@@ -2425,6 +2428,7 @@ Just as with sequences, the numbers that make up the vector are called
 
 
 \section{Vector arithmetic}
+\index{Matrices!addition}
 
 You can perform arithmetic with vectors, too.  If you add a scalar
 to a vector, MATLAB increments each element of the vector:
@@ -2474,7 +2478,7 @@ everything is a matrix.
 
 You can see this if you use the {\tt whos} command to display the
 variables in the workspace.  {\tt whos} is similar to {\tt who} except
-that it also displays the size and type of each variable.
+that it also displays the size and type of each variable.\index{Variables!{\tt who}}
 
 First I'll make one of each kind of value:
 
@@ -2498,7 +2502,7 @@ matrix =
 
 {\tt ones} is a function that builds a new matrix with the given
 number of rows and columns, and sets all the elements to 1.
-Now let's see what we've got.
+Now let's see what we've got.\index{Matrices!{\tt ones}}
 
 \begin{verbatim}
 >> whos
@@ -2544,14 +2548,14 @@ First of all, {\tt mtimes} is the MATLAB function that performs
 matrix multiplication.  The reason the ``inner matrix dimensions
 must agree'' is that the way matrix multiplication is defined in
 linear algebra, the number of rows in {\tt X} has to equal the
-number of columns in {\tt Y} (those are the inner dimensions).
+number of columns in {\tt Y} (those are the inner dimensions).\index{Matrices!multiplication}
 
 If you don't know linear algebra, this doesn't make much sense.
 When you saw {\tt X*Y} you probably expected it to multiply each
 the the elements of {\tt X} by the corresponding element of
 {\tt Y} and put the results into a new vector.  That operation
 is called {\bf elementwise} multiplication, and the operator that
-performs it is {\tt .*}:
+performs it is {\tt .*}:\index{Matrices!elementwise multiplication}
 
 \begin{verbatim}
 >> X .* Y
@@ -2565,7 +2569,7 @@ forget about them for now.
 
 
 
-\section{Indices}
+\section{Indices}\index{Matrices!indexing}
 
 You can select elements of a vector with parentheses:
 
@@ -2625,6 +2629,7 @@ There.  Now that will work for a vector of any length.
 
 
 \section{Indexing errors}
+\index{Errors!indexing}
 
 An index can be any kind of expression, but the value of the
 expression has to be a positive integer, and it has to be
@@ -2727,6 +2732,7 @@ When you translate to MATLAB, you may want to shift the index.
 
 
 \section{Plotting vectors}
+\index{Plotting!vectors}
 
 Plotting and vectors go together like the moon and June, whatever that
 means.  If you call {\tt plot} with a single vector as an argument,
@@ -2860,7 +2866,7 @@ X = 10:-1:-10
 \end{verbatim}
 
 The values in this range run from 10 to -10, with a {\bf step size}
-of -1.  The step size is the interval between elements of the range.
+of -1.  The step size is the interval between elements of the range.\index{Syntax!colon operator}
 
 The following loop finds the index of the element 0 in {\tt X}:
 
@@ -2879,7 +2885,7 @@ of the {\em last} one.
 
 But if you want the index of the first one (or you know that there
 is only one), you can save some unnecessary looping by using the
-{\tt break} statement.
+{\tt break} statement.\index{Compound statements!{\tt break}}
 
 \begin{verbatim}
 for i=1:length(X)
@@ -3167,6 +3173,7 @@ this problem is one of the motivations for functions.
 
 \section{Functions}
 \label{sect:functions}
+\index{Functions!reasons for using}
 
 A {\bf function} is like a script, except
 
@@ -3185,7 +3192,7 @@ unexpected interactions.
 To define a new function, you create an M-file with the name you
 want, and put a function definition in it.  For example, to create
 a function named {\tt myfunc}, create an M-file named {\tt myfunc.m}
-and put the following definition into it.
+and put the following definition into it.\index{Functions!creating}
 
 \begin{verbatim}
 function res = myfunc(x)
@@ -3290,7 +3297,7 @@ one line, both of which were reported on.
 \section{Documentation}
 
 At the beginning of every function file, you should include a comment
-that explains what the function does.
+that explains what the function does\index{Documentation!functions}.
 
 \begin{verbatim}
 % res = myfunc (x)
@@ -3340,6 +3347,7 @@ to be an angle in radians.
 
 
 \section{Function names}
+\index{Functions!naming}
 
 There are three ``gotchas'' that come up when you start naming
 functions.  The first is that the ``real'' name of your function
@@ -3866,6 +3874,7 @@ And that brings us to the Eighth Theorem of Debugging:
 
 
 \section{{\tt continue}}
+\index{Compound statements!{\tt continue}}
 
 As one final improvement, let's modify the function so that it only
 displays the ``lowest'' of each Pythagorean triple, and not the
@@ -4057,6 +4066,7 @@ Window and confirm that you can display the output value.
 
 
 \section{Why functions?}
+\index{Functions!reasons for using}
 
 The previous chapter explained some of the benefits of functions,
 including
@@ -4194,6 +4204,7 @@ the equation $x = \sqrt{2x+3}$ iteratively to compute successive
 approximations of the solution.\footnote{To understand why this
 (sometimes) works, see
 \url{https://en.wikipedia.org/wiki/Fixed-point_iteration}.}
+\index{Zero-finding!fixed-point iteration}
 
 Here's what would happen:
 
@@ -4246,7 +4257,7 @@ there is no sense of whether it is close or far from a solution,
 or where we might look to find one.
 
 To address this limitation, it is useful to
-rewrite non-linear equations as zero-finding problems:
+rewrite non-linear equations as zero-finding problems:\index{Zero-finding!procedure}
 
 \begin{itemize}
 
@@ -4303,6 +4314,7 @@ numerical methods,'' then you are ready to go on to the next section.
 
 \section{{\tt fzero}}
 \label{sect:fzero}
+\index{Zero-finding!{\tt fzero}}
 
 {\tt fzero} is a built-in MATLAB function that
 combines the best features of several efficient and robust
@@ -4345,7 +4357,7 @@ Success!  We found one of the zeros.
 
 The first argument is a
 {\bf function handle} that names the M-file that evaluates
-the error function.  The {\tt @} symbol allows us to name the
+the error function.\index{Functions!handles}  The {\tt @} symbol allows us to name the
 function without calling it.  The interesting thing here is
 that you are not actually calling {\tt error\_func} directly;
 you are just telling {\tt fzero} where it is.  In turn, {\tt fzero}
@@ -4825,11 +4837,12 @@ infinity?  Goes to zero?
 \section{Functions and files}
 \label{sect:funfiles}
 
-So far we have only put one function in each file.  It is also
-possible to put more than one function in a file, but only the first
-one, the {\bf top-level function} can be called from the Command
-Window.  The other {\bf helper functions} can be called from anywhere
-inside the file, but not from any other file.
+So far we have only put one function in each file.  It is also possible
+to put more than one function in a file, but only the first one, the
+{\bf top-level function} can be called from the Command
+Window.\index{Functions!top-level} The other {\bf helper
+functions} can be called from anywhere inside the file, but not from any
+other file.
 
 Large programs almost always require more than one function; keeping
 all the functions in one file is convenient, but it makes debugging
@@ -4890,13 +4903,14 @@ The following figure shows the steps of this process:
 
 \beforefig \centerline{\includegraphics[height=1.5in]{figs/model.eps}}
 
-A {\bf model} is a simplified description of a physical system.  The
-process of building a model is called {\bf abstraction}.  In this
-context, ``abstract'' is the opposite of ``realistic;'' an abstract
-model bears little direct resemblance to the physical system it
-models, in the same way that abstract art does not directly depict
-objects in the real world.  A realistic model is one that includes
-more details and corresponds more directly to the real world.
+A {\bf model} is a simplified description of a physical
+system.\index{Physical modeling!model}  The process of building a model
+is called {\bf abstraction}.\index{Physical modeling!abstraction}  In
+this context, ``abstract'' is the opposite of ``realistic;'' an abstract
+model bears little direct resemblance to the physical system it models,
+in the same way that abstract art does not directly depict objects in
+the real world.  A realistic model is one that includes more details and
+corresponds more directly to the real world.
 
 Abstraction involves making justified decisions about which factors to
 include in the model and which factors can be simplified or ignored.
@@ -4937,7 +4951,7 @@ model.
 %       pp. 163-169. [thanks to Dr. Techie @ www.wordorigins.org and
 %       JSTOR]
 
-Checking whether a model is good enough is called {\bf validation}.
+Checking whether a model is good enough is called {\bf validation}.\index{Physical modeling!validation}
 The strongest form of validation is to make a measurement of an
 actual physical system and compare it to the prediction of a
 model.
@@ -5045,7 +5059,7 @@ location of a target value in a vector.
 
 Functions that work on vectors will almost always work on scalars
 as well, because MATLAB considers a scalar to be a vector with
-length 1.
+length 1.\index{Functions!using vectors}
 
 \begin{verbatim}
 >> mysum(17)
@@ -5472,18 +5486,18 @@ all times.  In other words:
 
 This is an {\bf ordinary} differential equation (ODE) because all the
 derivatives involved are taken with respect to the
-same variable.  If the equation related derivatives with respect to
+same variable.\index{Differential equations!ordinary}  If the equation related derivatives with respect to
 different variables (partial derivatives), it would be a {\bf partial}
-differential equation.
+differential equation.\index{Differential equations!partial}
 
 This equation is {\bf first order} because it involves only first
 derivatives.  If it involved second derivatives, it would be second order,
-and so on.
+and so on.\index{Differential equations!order}
 
 This equation is {\bf linear} because each term involves $t$, $f$, or
 $df/dt$ raised to the first power; if any of the terms involved
 products or powers of $t$, $f$, and $df/dt$ it would be
-nonlinear.
+nonlinear.\index{Differential equations!linearity}
 
 Linear, first order ODEs can be solved analytically; that is, we
 can express the solution as a function of $t$.
@@ -5522,7 +5536,7 @@ f(t) = 5 e^{at}
 
 The extra bit of information that determines $b$ is called
 the {\bf initial condition} (although it isn't always specified
-at $t=0$).
+at $t=0$).\index{Differential equations!initial conditions}
 
 Unfortunately, most interesting physical systems are described by
 nonlinear DEs, most of which can't be solved analytically.  The
@@ -5531,8 +5545,9 @@ alternative is to solve them numerically.
 
 \section{Euler's method}
 
-The simplest numerical method for ODEs is Euler's method.  Here's a
-test to see if you are as smart as Euler.  Let's say that you
+The simplest numerical method for ODEs is Euler's
+method\index{Differential equations!Euler's Method}.  Here's a test to
+see if you are as smart as Euler.  Let's say that you
 arrive at time $t$ and measure the current population, $y$, and
 the rate of change, $r$.  What do you think the population will
 be after some period of time $\Delta t$ has elapsed?
@@ -5640,6 +5655,7 @@ of change for \textit{any} population $y$ at any time $t$.
 
 \section{{\tt ode45}}
 \label{sect:ode45}
+\index{Differential equations!{\tt ode45}}
 
 A limitation of Euler's method is that the time step is constant from
 one iteration to the next.  But some parts of the solution are
@@ -5964,6 +5980,7 @@ have been calling the interval).
 
 
 \section{Stiffness}
+\index{Differential equations!stiffness}
 
 There is yet another problem you might encounter, but if it makes you
 feel better, it might not be your fault: the problem you are trying to
@@ -6165,7 +6182,7 @@ is that the elements are arranged in rows and columns, so it takes
 {\em two} indices to identify an element.
 
 One of many ways to create a matrix is the {\tt magic} function,
-which returns a ``magic'' matrix with the given size:
+which returns a ``magic'' matrix with the given size:\index{Matrices!{\tt magic}}
 
 \begin{verbatim}
 >> M = magic(3)
@@ -6184,7 +6201,7 @@ display it:
   M           3x3                        72  double array
 \end{verbatim}
 
-Or the {\tt size} function, which returns a vector:
+Or the {\tt size} function, which returns a vector:\index{Matrices!{\tt size}}
 
 \begin{verbatim}
 >> V = size(M)
@@ -6228,6 +6245,7 @@ ans = 2     3
 
 
 \section{Row and column vectors}
+\index{Matrices!row and column vectors}
 
 Although it is useful to think in terms of scalars, vectors and matrices,
 from MATLAB's point of view, everything is a matrix.  A scalar
@@ -6290,6 +6308,7 @@ ans = 2
 
 
 \section{The transpose operator}
+\index{Matrices!transpose}
 
 The transpose operator, which looks remarkably like an apostrophe,
 computes the {\bf transpose} of a matrix, which is a new matrix
@@ -6346,7 +6365,7 @@ calling {\tt ode45} once to solve for $R$ as a function of time and
 once to solve for $F$.  The problem is that each equation involves
 both variables, which is what makes this a {\bf system of equations}
 and not just a list of unrelated equations.  To solve a system, you
-have to solve the equations simultaneously.
+have to solve the equations simultaneously.\index{Differential equations!systems of equations}
 
 Fortunately, {\tt ode45} can handle systems of equations.  The
 difference is that the initial condition is a vector that contains
@@ -6685,8 +6704,9 @@ contain multiple components (or equivalently---as we'll see shortly
 ---because they have both a magnitude and a direction).  For example,
 in three-dimensional Cartesian coordinates, it takes three numbers
 to specify a position in space; these numbers are usually called $x$,
-$y$, and $z$ coordinates. Thus we can write a position vector
-$\vec{r}(t)$, representing an object's location at time $t$, as
+$y$, and $z$ coordinates.\index{Spatial vectors!coordinate
+representation} Thus we can write a position vector $\vec{r}(t)$,
+representing an object's location at time $t$, as
 
 \begin{equation}\label{eq:position_vec}
     \vec{r}(t) = (x(t), y(t), z(t))
@@ -6707,12 +6727,13 @@ indicating that they are vectors.
 An equivalent way of describing a spatial vector is with a magnitude\footnote{
     Magnitude is also called ``length'' but I will avoid that term
     because it gets confused with the {\tt length} function, which
-    returns the number of elements in a MATLAB vector.}
-and a direction. If you imagine the vector $\vec{r}(t)$ from equation
-\eqref{eq:position_vec} as an arrow starting from the origin and terminating
-at the point $(x(t),y(t),z(t))$, then the magnitude of $\vec{r}(t)$ is
-how long the arrow is and the direction of $\vec{r}(t)$ is where the arrow
-points.
+    returns the number of elements in a MATLAB vector.} and a
+direction.\index{Spatial vectors!directed line-segment repesentation} If
+you imagine the vector $\vec{r}(t)$ from equation
+\eqref{eq:position_vec} as an arrow starting from the origin and
+terminating at the point $(x(t),y(t),z(t))$, then the magnitude of
+$\vec{r}(t)$ is how long the arrow is and the direction of $\vec{r}(t)$
+is where the arrow points.
 
 The magnitude of $\vec{r}(t)$ is usually written as
 
@@ -6736,7 +6757,7 @@ The direction of $\vec{r}(t)$ is conveniently described by
     \uvec{r}(t) = \frac{\vec{r}(t)}{\norm{\vec{r}(t)}}
 \end{equation}
 
-where $\uvec{r}(t)$ is a {\bf unit vector}, as indicated by its hat.
+where $\uvec{r}(t)$ is a {\bf unit vector}, as indicated by its hat.\index{Spatial vectors!unit vectors}
 Notice this equation \eqref{eq:vec_u_unit} contains the product of a
 vector $\vec{r}(t)$ and a scalar $\frac{1}{\norm{\vec{r}(t)}}$; this
 operation is called scalar multiplication, wherein the scalar multiplies
@@ -7396,6 +7417,7 @@ and make sure you are clear on which way your vectors go.
 
 \section{ODE Events}
 \label{sect:events}
+\index{Differential equations!{\tt ode45} events}
 
 Normally when you call {\tt ode45} you have to specify a start time and
 an end time.  But in many cases, you don't know ahead of time when the
@@ -7867,7 +7889,7 @@ because the time value we want is right in the middle.
 A better option is to draw a straight line between the two points that
 bracket Day 180 and use the line to estimate the value in between.
 This process is called {\bf linear interpolation}, and MATLAB provides
-a function named {\tt interp1} that does it:
+a function named {\tt interp1} that does it:\index{Interpolation!{\tt interpl}}
 
 \begin{verbatim}
 >> pop = interp1(T, Y, 180)
@@ -8354,7 +8376,7 @@ subtle.  It turns out that there are two vector operations that
 resemble multiplication: the {\bf dot product}
 and the {\bf cross product}.
 
-The dot product of vectors $\vec{u}$ and $\vec{v}$ is a scalar:
+The dot product of vectors $\vec{u}$ and $\vec{v}$ is a scalar:\index{Spatial vectors!dot product}
 
 \begin{equation}
     \vec{u} \cdot \vec{v} = \norm{\vec{u}} \norm{\vec{v}} \cos \theta
@@ -8392,7 +8414,7 @@ The cross product of vectors $\vec{u}$ and $\vec{v}$ is a vector whose
 direction is perpendicular to $\vec{u}$ and $\vec{v}$
 (with orientation determined by the right-hand
 rule\footnote{\url{https://en.wikipedia.org/wiki/Right-hand_rule}})
-and whose magnitude is
+and whose magnitude is\index{Spatial vectors!cross product}
 
 \begin{equation}
     \norm{\vec{u} \times \vec{v}} = \norm{\vec{u}} \norm{\vec{v}} \sin \theta
