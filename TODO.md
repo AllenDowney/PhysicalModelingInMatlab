@@ -16,7 +16,6 @@ Systems" chapter.)
 
 ## Harder items
 
-+ Significantly revise the "Celestial Mechanics chapter". It needs work.
 + Organize the code in the `/code` directory, in such a way that its
   clear which code corresponds to which sections of the book
 + Make sure every single line of output is written in a consistent

@@ -8150,32 +8150,29 @@ masses
 in kilograms and distances in meters, and forces are calculated in Newtons.
 
 The direction of the force on the star at $\vec{P_1}$ is in the
-direction toward $\vec{P_2}$.  We can compute relative direction by
-subtracting vectors; if we compute {\tt R = P2 - P1}, then
-the direction of {\tt R} is from {\tt P1} to {\tt P2}.
+direction toward $\vec{P_2}$.  We can compute relative direction $\vec{r}$ by
+subtracting vectors; if we compute $\vec{r} = \vec{P_2} - \vec{P_1}$, then
+the direction of $\vec{r}$ is from $\vec{P_1}$ to $\vec{P_2}$.
 
-The distance between the planet and star is the length of $\vec{R}$:
+The distance between the planet and star is the length of $\vec{r}$:
 
 \begin{verbatim}
 r = norm(R)
 \end{verbatim}
 
-The direction of the force on the star is $\uvec{R}$:
+The direction of the force on the star is $\uvec{r}$:
 
 \begin{verbatim}
 Rhat = R / r
 \end{verbatim}
 
 \begin{ex}
-Write a sequence of MATLAB statements that computes {\tt F12}, a vector
-that represents the force on the star due to the planet, and {\tt
-F21}, the force on the planet due to the star.
-\end{ex}
-
-\begin{ex}
-Encapsulate these statements in a function named {\tt
-gravity\_force\_func} that takes {\tt P1}, {\tt m1}, {\tt P2}, and
-{\tt m2} as input variables and returns {\tt F12}.
+Write a sequence of MATLAB statements that computes $\vec{F_{12}}$, a vector
+that represents the force on the star due to the planet, and
+$\vec{F_{21}}$, the force on the planet due to the star. Encapsulate
+these statements in a function named {\tt gravity\_force\_func} that
+takes {\tt P1}, {\tt m1}, {\tt P2}, and {\tt m2} as input variables
+and returns {\tt F12} and {\tt F21}.
 \end{ex}
 
 \begin{ex}
