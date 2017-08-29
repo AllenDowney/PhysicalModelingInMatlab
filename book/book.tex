@@ -4885,7 +4885,9 @@ Once I finished and tested {\tt error\_func}, I would modify
 
 For this problem I might only need two functions, but if there
 were more, I could write and test them one at a time, and then
-combine them into a working program.
+combine them into a working program.\footnote{In
+Appendix~\ref{chpt:nestedfuns}, we show how this code can be written
+using \textit{nested} functions.}
 
 
 
@@ -8570,9 +8572,11 @@ replicate or extend the results.
 \end{enumerate}
 
 \chapter{Nested Functions}
+\label{chpt:nestedfuns}
 
-In the Section~\ref{sect:funfiles}, we saw an example of an M-file with
-more than one function:
+This appendix provides an alternative way to structure code that
+involves helper functions, which were discussed in Section~\ref{sect:funfiles};
+there, we saw an example of an M-file with more than one function:
 
 \begin{verbatim}
 function res = duck()
@@ -8586,9 +8590,9 @@ function res = error_func(h)
 end
 \end{verbatim}
 
-Because the first function ends before the second begins, they are at
-the same level of indentation.  Functions like these are {\bf
-parallel}, as opposed to {\bf nested}.  A nested function is
+Because the first function ends before the second begins, these
+functions are at the same level of indentation.  Functions like
+these are parallel, as opposed to nested.  A nested function is
 defined inside another, like this:
 
 \begin{verbatim}
@@ -8603,9 +8607,8 @@ function res = duck()
 end
 \end{verbatim}
 
-The top-level function, {\tt duck}, is
-the {\bf outer function} and {\tt error\_func} is
-an {\bf inner function}.
+The function {\tt duck} is the enclosing function and {\tt
+error\_func} is the nested function.
 
 Nesting functions is useful because the variables of the outer
 function can be accessed from the inner function.  This is not
@@ -8629,6 +8632,9 @@ Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
 By making {\tt rho} an input argument, we made it easier to test
 {\tt duck} with different parameter values.
 
+Nested functions can also help de-clutter code (but not always). For
+more information on nested functions, please consult the official documentation
+at \url{https://www.mathworks.com/help/matlab/matlab_prog/nested-functions.html}.
 
 \end{appendices}
 
