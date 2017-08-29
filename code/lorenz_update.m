@@ -4,5 +4,3 @@ znew = z + (x*y - b*z) * dt;
 x = xnew;
 y = ynew;
 z = znew;
-    
-

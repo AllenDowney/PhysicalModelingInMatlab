@@ -8,8 +8,3 @@ function res = fib_triple (n)
         %disp([i, res(1)]);
     end
 end
-
-
-    
-
-

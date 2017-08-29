@@ -1,7 +1,7 @@
 function res = coffee()
     %t = fzero(@temp_func1, 480)
     %t = fzero(@temp_func2, 480)
-    
+
     temp_func1(440)
     temp_func2(440)
 end

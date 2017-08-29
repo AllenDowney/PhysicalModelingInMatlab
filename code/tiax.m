@@ -7,7 +7,7 @@ function [ euler, quat ] = tiax( G, H )
 % the rotating an angle theta about a vector { l,m,n }
 
 g = 9.8;
-   
+
 Gprime = G/(2*g);
 Hprime = H/norm(H);
 
@@ -34,7 +34,7 @@ quat( 2:4,: )/sqrt( 1 - quat(1)^2 );
 
 % ----- Start Euler Angle conversions ----------------
 
-% We computer the numerator and denominator for the atan2 arguments to 
+% We computer the numerator and denominator for the atan2 arguments to
 % make sure we don't send bad information to the function.
 
 phi_n = 2*( quat(1)*quat(2) + quat(3)*quat(4) );
@@ -60,7 +60,7 @@ euler(3) = psi;
 
 % ------ Done with with Euler Angles -----------------------
 
-% TO DO: ALSO OUTPUT IN FORM 
+% TO DO: ALSO OUTPUT IN FORM
 % [angle rotating around, vector rotating about]
 %angle_vector(1) = 2*acos( quat(1) );
 %angle_vector(2) = acos( ( quat(2)/( sin( angle_vector(1) ) ) ) );

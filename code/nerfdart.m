@@ -32,16 +32,16 @@ VY(1)=vy*tcy/yc;
 
 dT=.01
 for n=1:200
-    alpha=(.5*Cd*rhoair*A*(vy^2))/(m*g); 
+    alpha=(.5*Cd*rhoair*A*(vy^2))/(m*g);
 
     beta=(.5*Cd*rhoair*A*(vx^2))/(m); %notice no g because of no g in the xdirection
 
     AX(n)=-beta*VX(n)*sqrt(VX(n).^2+VY(n).^2);
     AY(n)=-1-alpha*VY(n)*sqrt(VX(n).^2+VY(n).^2);
-   
+
     VX(n+1)=VX(n)+AX(n).*dT;
     VY(n+1)=VY(n)+AY(n).*dT;5
-    
+
     SX(n+1)=SX(n)+VY(n).*dT;
     SY(n+1)=SY(n)+VX(n).*dT;
 end

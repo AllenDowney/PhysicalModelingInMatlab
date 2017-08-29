@@ -2,7 +2,7 @@ function res = proj(t, W)
     P = W(1:2);
     V = W(3:4);
 
-    dPdt = V;                          
+    dPdt = V;
     dVdt = acceleration(t, P, V);
 
     res = [dPdt; dVdt];

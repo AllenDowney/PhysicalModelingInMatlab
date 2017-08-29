@@ -2,11 +2,11 @@ function res = optimize(V)
     x1 = V(1);
     x2 = V(2);
     x3 = V(3);
-    
+
     fx1 = height_func(x1);
     fx2 = height_func(x2);
     fx3 = height_func(x3);
-   
+
     for i=1:50
         if x3-x2 > x2-x1
             x4 = (x2+x3) / 2;
@@ -47,7 +47,7 @@ function res = height_func(angle)
 
     options = odeset('Events', @events);
     [T, M] = ode45(@slope, [0, 100], [0, 1, vx, vy], options);
-    
+
     X = M(:,1);
     Y = M(:,2);
     plot(X, Y)
@@ -55,9 +55,9 @@ function res = height_func(angle)
 end
 
 function [value,isterminal,direction] = events(t,W)
-    % Locate the time when height passes through zero in a 
+    % Locate the time when height passes through zero in a
     % decreasing direction and stop integration.
-    value = W(1) - 97;        % 
+    value = W(1) - 97;        %
     isterminal = 1;      % Stop the integration
     direction = 1;      % Negative direction only
 end
@@ -68,7 +68,7 @@ function res = slope(t, W)
     R = W(1:2);
     V = W(3:4);
 
-    dRdt = V;                          
+    dRdt = V;
     dVdt = acceleration(t, R, V);
 
     res = [dRdt; dVdt];
@@ -89,7 +89,7 @@ function Fd = drag_force(V)
     rho = 1.3;    % kg / m^3
     A = 0.0042;   % m^2
     v = norm(V);  % m/s
-    
+
     Fd = - 1/2 * C * rho * A * v * V;
 end
 

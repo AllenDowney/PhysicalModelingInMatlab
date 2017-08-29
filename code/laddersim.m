@@ -16,8 +16,8 @@ clf;                  % Prepare to animate
 i=1;
 for i=1:length(y)
     clf;
-    axis([-10 10 -10 10]); 
-    axis image;       % Set real aspect ratio for plot 
+    axis([-10 10 -10 10]);
+    axis image;       % Set real aspect ratio for plot
     hold on;
     h=l/2*sin(y(i,1));
     d=l/2*cos(y(i,1));

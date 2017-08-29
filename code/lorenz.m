@@ -7,15 +7,15 @@ function res = lorenz()
 end
 
 function res = rate_func(t, V)
-    x = V(1);  
-    y = V(2);   
+    x = V(1);
+    y = V(2);
     z = V(3);
 
-    sigma = 10; 
+    sigma = 10;
     b = 8/3;
     r = 28;
 
-    dxdt = sigma * (y-x);                          
+    dxdt = sigma * (y-x);
     dydt = x * (r-z) - y;
     dzdt = x*y - b*z;
 

@@ -2,7 +2,7 @@ function res = freefall(t, X)
     p = X(1);      % the first component is position
     v = X(2);      % the second component is velocity
 
-    dpdt = v;                          
+    dpdt = v;
     dvdt = acceleration(t, p, v);
 
     res = [dpdt; dvdt];    % pack the results in a column vector

@@ -5,19 +5,19 @@ function angle=optimal_angle(velocity)
     end
 
     plot(as, distance);
-    
+
     [max_dist, i] = max(distance);
     angle = as(i);
     return
-    
+
     % OR
-    
+
     max_dist = max(distance);
     i = find(distance==max_dist);
     angle = as(i);
-    
+
     % OR
-    
+
     for i=1:length(as)
         if distance(i) == max_dist
             angle = as(i);

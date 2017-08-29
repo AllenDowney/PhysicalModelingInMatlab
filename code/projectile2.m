@@ -5,8 +5,8 @@ function dXdt = f(t, X)
 V = X(3:4);
 
 A = acceleration(V)
-                          
-dXdt = [vx; vy; A];   
+
+dXdt = [vx; vy; A];
 end
 
 function A = acceleration(V)
@@ -14,4 +14,3 @@ function A = acceleration(V)
 % and returns a vector with [x'', y'']
 A = blah, blah...
 end
-

@@ -13,7 +13,7 @@ function [T, V, H] = euler(v0, dt)
     T(1) = 0;
     H(1) = 0;
     V(1) = 10;
-    
+
     i = 2;
     while 1
         T(i) = T(i-1) + dt;

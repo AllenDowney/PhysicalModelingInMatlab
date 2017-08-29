@@ -7,16 +7,16 @@ function orbit_func()
     v = 0.6;           % initial velocity of the small one
     m1 = 1;            % mass of the large star
     m2 = 1;            % mass of the small star
-    
+
     P1 = [-d;0];       % simple initial conditions
     P2 = [d;0];
     V1 = [0;v];
     V2 = [0;-v];
-    
+
     years = 10;
     [T, M] = ode45(@slope_func, [0, years*2*pi], [P1; P2; V1; V2]);
     animate_func(T,M);
-    
+
     function animate_func(T,M)
         % animate the positions of the planets, assuming that the
         % columns of M are.  Playback is in real time with speedup.
@@ -46,7 +46,7 @@ function orbit_func()
         P = W(1:n);
         V = W(n+1:end);
 
-        dRdt = V;                          
+        dRdt = V;
         dVdt = acceleration_func(t, P, V);
 
         res = [dRdt; dVdt];
@@ -56,9 +56,9 @@ function orbit_func()
         % compute acceleration due to gravity
         P1 = P(1:2);
         P2 = P(3:4);
-        
+
         Fg = gravity_force_func(P1, P2, m1, m2);
-        
+
         A1 = -Fg / m1;
         A2 = Fg / m2;
         res = [A1; A2];
@@ -71,7 +71,7 @@ function orbit_func()
         V = P1 - P2;
         Vhat = V/norm(V);
         dist = norm(V);
-        
+
         Fg = G * m1 * m2 / dist^2 * Vhat;
     end
 

@@ -22,13 +22,13 @@ function [rms] = comp_err (ang, noise, func)
         [ G, H ] = data_gen (ang, noise);
         rot = ang_rot(ang);
         [ rot_out, other ] = feval(func, G, H);
-        
+
         % rot_err is the rotation that takes rot onto rot_out
         rot_err = rot_out * rot';
-        
+
         % ang_err is the error rotation in terms of euler angles
         ang_err = rot_ang(rot_err);
-        
+
         sum = sum + ang_err.^2;
    end
    rms = sqrt(sum/N);

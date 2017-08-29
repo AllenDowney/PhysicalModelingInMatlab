@@ -10,10 +10,10 @@ function res = bisection_func(flag)
         ramp_func(v, 1.0);
         return
     end
-    
+
     u = 1.0;
     v = 10.0;
-    
+
     for i=1:50
         w = (u+v) / 2
         xend = ramp_func(w, 100.0);
@@ -40,9 +40,9 @@ function res = ramp_func(v, speedup)
     % ramp_dist is the horizontal distance from the tip of the
     % ramp to the post, so half_length is half the length of the ramp
     ramp_height = 1;
-    ramp_dist = 4;  
-    half_length = norm([ramp_height,ramp_dist]);   
-    
+    ramp_dist = 4;
+    half_length = norm([ramp_height,ramp_dist]);
+
     % compute the max and min angles
     maxth = atan2(ramp_height, ramp_dist);
     minth = -maxth;
@@ -52,7 +52,7 @@ function res = ramp_func(v, speedup)
     jhat = [0; 1];
     rhat = [cos(maxth); sin(maxth)];
     that = [-sin(maxth); cos(maxth)];
-    
+
     m = 75;        % mass of rider/board in kg
     g = 9.8;       % acceleration of gravity in m/s^2
     d = 1.0;       % height of the rider's CG in m
@@ -62,17 +62,17 @@ function res = ramp_func(v, speedup)
     IP = -half_length * rhat + d * jhat;
     IV = v * ihat;
     init = [IP; maxth; IV; 0];
-    
+
     % run the simulation, then show the results
     tend = 100;
-    options = odeset('Events', @events_func);    
+    options = odeset('Events', @events_func);
     [T, M] = ode45(@slope_func, [0:0.1:tend], init, options);
     animate_func(T,M);
-    
+
     % return the final x position
     xend = M(end,1);
     res = xend;
-    
+
     function animate_func(T,M)
         % show an animation of the data in M in real time (if possible)
         X = M(:,1);
@@ -92,15 +92,15 @@ function res = ramp_func(v, speedup)
             % draw the ramp
             th = TH(i);
             rhat = [cos(th); sin(th)];
-            
+
             left = -half_length * rhat;
             right = half_length * rhat;
             line_func(left, right);
-            
+
             orig = [0,0];
             bottom = -ramp_height * jhat;
             line_func(orig, bottom);
-            
+
             hold off;
             drawnow;
             dt = T(i+1) - T(i);
@@ -112,26 +112,26 @@ function res = ramp_func(v, speedup)
         % draw a blue line from point A to point B
         plot([A(1), B(1)], [A(2), B(2)], 'b-', 'LineWidth', 5)
     end
-    
+
     function res = slope_func(t, W)
         % this is a slope function invoked by ode45
         n = length(W)/2;
         P = W(1:n);
         V = W(n+1:end);
 
-        dRdt = V;                          
+        dRdt = V;
         dVdt = acceleration_func(t, P, V);
 
         res = [dRdt; dVdt];
     end
-
+
     function res = acceleration_func(t, P, V)
         % unpack P
         R = P(1:2);
         th = P(3);
         thdot = V(3);
         V = V(1:2);
-        
+
         % compute unit vectors rhat and that
         rhat = [cos(th); sin(th)];
         that = [-sin(th); cos(th)];
@@ -149,13 +149,13 @@ function res = ramp_func(v, speedup)
         if dx > 0
             Fr = 0 * that;
         end
-        
-	% apply a damping force to the vertical component of the
-	% skateboarder's motion
-	cd = 1000.0;
-	v = dot(V, that);
-	Fd = -cd * v * that; 
-	
+
+    % apply a damping force to the vertical component of the
+    % skateboarder's motion
+    cd = 1000.0;
+    v = dot(V, that);
+    Fd = -cd * v * that;
+
         % compute the total acceleration
         Ag = -g * jhat;
         Ar = (Fr + Fd) / m;
@@ -177,26 +177,26 @@ function res = ramp_func(v, speedup)
             dth = 0;
         end
         ar = -k * dth / I;
-        
+
         % add some damping to the ramp
         cd = 1000.0;
         adamp = -cd * thdot^2 * sign(thdot);
 
         % add up the angular accelerations
         aa = aa + ar + adamp;
-        
+
         % pack the acceleration vector
         res = [A; aa];
     end
-
+
     function [value,isterminal,direction] = events_func(t,W)
         % stop the simulation if the rider leaves the ramp
         % in either direction
-        R = W(1:2);                  
+        R = W(1:2);
         th = W(3);
         rhat = [cos(th) sin(th)]';
         r = dot(R, rhat);
-        value = [r+half_length, r-half_length];  
+        value = [r+half_length, r-half_length];
         isterminal = [1, 1];
         direction = [-1, 1];
     end

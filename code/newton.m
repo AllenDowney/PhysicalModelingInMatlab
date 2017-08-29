@@ -9,7 +9,7 @@ function [ euler, quat ] = newton ( G, H )
 % the rotating an angle theta about a vector { l,m,n }
 
 g = 9.8;
-   
+
 Gprime = G/(2*g);
 Hprime = H/norm(H);
 
@@ -36,7 +36,7 @@ quat( 2:4,: )/sqrt( 1 - quat(1)^2 );
 
 % ----- Start Euler Angle conversions ----------------
 
-% We compute the numerator and denominator for the atan2 arguments to 
+% We compute the numerator and denominator for the atan2 arguments to
 % make sure we don't send bad information to the function.
 
 phi_n = 2*( quat(1)*quat(2) + quat(3)*quat(4) );
@@ -62,7 +62,7 @@ euler(3) = psi;
 
 % ------ Done with with Euler Angles -----------------------
 
-% TO DO: ALSO OUTPUT IN FORM 
+% TO DO: ALSO OUTPUT IN FORM
 % [angle rotating around, vector rotating about]
 %angle_vector(1) = 2*acos( quat(1) );
 %angle_vector(2) = acos( ( quat(2)/( sin( angle_vector(1) ) ) ) );
@@ -77,9 +77,9 @@ b = x(2);
 c = x(3);
 d = x(4);
 
-fout= [ (a*c - b*d ) - Gprime(1); 
+fout= [ (a*c - b*d ) - Gprime(1);
         c*d + a*b - Gprime(2);
-        .5 - (b^2 + c^2) - Gprime(3); 
+        .5 - (b^2 + c^2) - Gprime(3);
         H(1)*(b*c + a*d) + H(2)/2 - H(2)*(b^2+d^2) + H(3)*(c*d - a*b) ];
 
 
@@ -95,8 +95,8 @@ lastrow(1,2) = H(1)*c -2*H(2)*b - H(3)*a;
 lastrow(1,3) = H(1)*b + H(3)*d;
 lastrow(1,4) = H(1)*a - 2*d*H(2) + c*H(3);
 
-jout = [ c,-d,a,-b; 
-         b,a,d,c; 
-         0,-2*b, -2*c, 0; 
+jout = [ c,-d,a,-b;
+         b,a,d,c;
+         0,-2*b, -2*c, 0;
          lastrow ];
 

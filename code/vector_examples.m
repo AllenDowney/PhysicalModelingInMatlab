@@ -1,4 +1,4 @@
-function res = sym_examples(func) 
+function res = sym_examples(func)
     f = str2func(func);
     f();
 end
@@ -9,7 +9,7 @@ function res = example_3_1()
     degrees = 35;   % degrees
     R = degr2vec(r, degrees)
 end
-   
+
 function res = example_3_2()
 % Example 3-2 on page 52 of Wolfson and Pasachoff
     R1 = degr2vec(2, 30);
@@ -17,24 +17,24 @@ function res = example_3_2()
     R = R1 + R2;
     [r degrees] = vec2pol(R)
 end
-    
+
 function res = example_3_4()
 % Example 3-4 on page 55 of Wolfson and Pasachoff
     ihat = [1; 0];
     jhat = [0; 1];
 
     V1 = 15 * ihat;              % km/s
-    V2 = degr2vec(19, 28);	 % km/s
+    V2 = degr2vec(19, 28);   % km/s
     dt = 10;                     % min
-    dt = dt * 60;		 % now seconds
-    A = (V2 - V1) / dt;		 % km / s^2
-    A = A * 1000		 % now m / s^2
+    dt = dt * 60;        % now seconds
+    A = (V2 - V1) / dt;      % km / s^2
+    A = A * 1000         % now m / s^2
 end
 
 function res = example_3_5()
 % Example 3-5 on page 56 of Wolfson and Pasachoff
     syms t b c f g real
-    
+
     ihat = [1; 0];
     jhat = [0; 1];
     R = (b*t^3 + c*t) * ihat + (f*t^2 + g) * jhat
@@ -45,7 +45,7 @@ end
 function res = example_3_6()
 % Example 3-6 on page 58 of Wolfson and Pasachoff
     syms v_air positive
-    syms theta real 
+    syms theta real
 
     v_land = 960.0;           % km / hour
     v_wind = 190.0;           % km / hour
@@ -58,12 +58,12 @@ function res = example_3_6()
     [val1 val2] = mysolve(E, v_air, theta);
     double(val1(1))
     double(val2(1))
-    
+
 end
 
 function res = section_4_4()
     syms r v a omega t
-    
+
     R = pol2vec(r, omega*t)
     V = diff(R, t)
     A = diff(V, t)
@@ -165,7 +165,7 @@ function res = example_6_5()
     E2 = Tr - mr * Ar;
     %simplify(E2);
 
-    % there are only two equations, 
+    % there are only two equations,
     % which we can solve for a and t
     % warning: the results from solve come back in alphabetical order
     [a t] = solve(E2(1), E1(2), a, t);
@@ -195,7 +195,7 @@ function res = example_6_9()
     Fk = - muk * n * ihat;
     E = N + Fg + T + Fk;
     simplify(E);
-    
+
     [n t] = solve(E(1), E(2), n, t);
     t = simplify(t)
 
@@ -211,7 +211,7 @@ function res = example_7_6()
     R = r * ihat;
     E = w - dot(F, R);
     theta = solve(E, theta);
-    
+
     vars = {f r w};
     vals = {830e3 0.38e3 290e6};
     theta = subs(theta, vars, vals);
@@ -229,13 +229,13 @@ function res = example_7_7()
     f = k * x;
     w1 = int(f, x, 0, dx);
     w1 = subs(w1, vars, vals)
-    
+
     w2 = int(f, x, 0, 1);
     w2 = subs(w2, vars, vals)
-    
+
     w3 = int(f, x, 19, 20);
     w3 = subs(w3, vars, vals)
-    
+
 end
 
 function res = example_8_6()
@@ -325,7 +325,7 @@ end
 
 function res = example_13_2()
     syms v r m
-    
+
     ihat = [1; 0; 0];
     jhat = [0; 1; 0];
     khat = [0; 0; 1];
@@ -340,7 +340,7 @@ end
 function res = example_13_5()
     syms theta phi Omega omega real
     syms l t I M R g positive
-    
+
     ihat = [1; 0; 0];
     jhat = [0; 1; 0];
     khat = [0; 0; 1];
@@ -365,13 +365,13 @@ function res = example_13_5()
     simplify(E)
 
     % ok, now what?
-    
+
 end
 
 function res = example_13_5a()
     syms theta phi OMEGA om1 om2 om3 omega real
     syms l t I M R g positive
-    
+
     ihat = [1; 0; 0];
     jhat = [0; 1; 0];
     khat = [0; 0; 1];
@@ -395,7 +395,7 @@ function res = example_13_5a()
     OMEGA = [om1; om2; om3];
     E = tau - cross(OMEGA, L);
     simplify(E)
-    
+
     [om1 om2 om3] = solve(E(1), E(2), E(3), om1, om2, om3);
     OMEGA = [om1; om2; om3];
     simplify(OMEGA)
@@ -451,7 +451,7 @@ function res = example_14_6()
     syms a b positive
     syms x real
 
-    % potential energy 
+    % potential energy
     U = a * x^2 - b * x^4
 
     % find the roots
@@ -463,7 +463,7 @@ function res = example_14_6()
     vals = {8 1};
     subs(roots, vars, vals)
 
-    % check the stability of each 
+    % check the stability of each
     dUdt2 = diff(U, x, 2)
     subs(dUdt2, x, roots)
 end
@@ -475,7 +475,7 @@ function res = section_15_2()
     % derive the frequency of simple harmonic motion
     xoft = A * cos(omega*t);
     dxdt2 = diff(xoft, t, 2);
-   
+
     E = m * dxdt2 + k * xoft;
     [omega] = solve(E, omega);
     simplify(omega)
@@ -489,7 +489,7 @@ function res = section_15_6()
     xoft = A * exp(-b * t / 2 / m) * cos(omega*t + phi);
     dxdt = diff(xoft, t);
     dxdt2 = diff(xoft, t, 2);
-   
+
     E = m * dxdt2 + b * dxdt + k * xoft;
     [omega] = solve(E, omega);
     simplify(omega)
@@ -503,7 +503,7 @@ function res = section_15_7()
     xoft = A * cos(omegad*t);
     dxdt = diff(xoft, t);
     dxdt2 = diff(xoft, t, 2);
-   
+
     E = m * dxdt2 + b * dxdt + k * xoft - F0 * cos(omegad * t);
     [A] = solve(E, A);
 
@@ -521,7 +521,7 @@ function res = section_16_7()
     yoft = A * cos(k*x - omega*t);
     dydx2 = diff(yoft, x, 2);
     dydt2 = diff(yoft, t, 2);
-   
+
     E = dydx2 - dydt2 / v^2;
     [v] = solve(E, v);
 
@@ -532,7 +532,7 @@ end
 function res = example_23_6()
     syms x y q real
     syms a positive
-    
+
     ihat = [1; 0];
     jhat = [0; 1];
 
@@ -558,7 +558,7 @@ end
 function res = example_23_7()
     syms px py y dq dy Q real
     syms a l positive
-    
+
     ihat = [1; 0];
     jhat = [0; 1];
 
@@ -579,7 +579,7 @@ function res = example_23_7()
     % before integrating, we have to divide by dy because
     % int puts it back in implicitly
     E = subs(E, {dq}, {Q*dy/l})
-    F = int(E/dy, y, a, a+l);    
+    F = int(E/dy, y, a, a+l);
     F = simplify(F)
 
     % but we can do the general version for px != 0
@@ -591,7 +591,7 @@ end
 function res = example_23_9()
     syms px py x y dq dx lambda real
     syms a l positive
-    
+
     ihat = [1; 0];
     jhat = [0; 1];
 
@@ -605,7 +605,7 @@ function res = example_23_9()
 
     % integrate along the line
     E = subs(E, {dq}, {lambda * dx});
-    F = int(E/dx, x, -inf, inf);    
+    F = int(E/dx, x, -inf, inf);
     F = simplify(F)
 
     % notice that px drops out of the solution, so
@@ -615,7 +615,7 @@ end
 function res = efield(X, Y, q)
     % find the electric field at X due to a charge q at Y
     syms k positive
-    
+
     R = X - Y;
     r = mynorm(R);
     Rhat = R / r;
@@ -629,7 +629,7 @@ function [x y] = projectile()
     % MATLAB: An Introduction with Applications
     syms V X ang real
     syms v0 g t positive
-    
+
     ihat = [1; 0];
     jhat = [0; 1];
 
@@ -646,15 +646,15 @@ function [x y] = projectile()
 
     for i = 1:length(angles)
         a = angles(i)
-	t = ts(i)
+    t = ts(i)
         if a < 0
-	    continue
-	end
-	P = subs(X, {ang v0 g}, {a 210 9.8})
-	x = P(1)
-	y = P(2)
-	%ezplot(x, y, [0, t])
-	%hold on
+        continue
+    end
+    P = subs(X, {ang v0 g}, {a 210 9.8})
+    x = P(1)
+    y = P(2)
+    %ezplot(x, y, [0, t])
+    %hold on
     end
 end
 
@@ -667,7 +667,7 @@ function res = circuit()
     z2 = R2;
     z3 = R1;
     z4 = 1 / (C*s);
-    
+
     H = z4 / (z4 + z2) * parallel(z3, z2+z4) / parallel(z3, z2+z4)
     H = simplify(H)
     [N D] = numden(H)
@@ -706,7 +706,7 @@ function res = tank()
     Vscale = [40:40:200]
     for i=1:length(Vscale)
         E = V-Vscale(i);
-	hans(i) = solve(E, h);
+    hans(i) = solve(E, h);
     end
     hans
 end
@@ -746,7 +746,7 @@ function [val1 val2] = mysolve(E, var1, var2)
 
     % solve for var2 (keep only the first solution)
     val2 = solve(G, var2);
-    val2 = val2(1);            
+    val2 = val2(1);
 
     % now back-substitute into the first expression
     H = subs(E(1), var2, val2);

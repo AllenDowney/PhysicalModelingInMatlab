@@ -1,4 +1,4 @@
-e = 
+e =
 
 
 function res = manny()
@@ -46,7 +46,7 @@ function res = height_func(velocity, angle)
 
     options = odeset('Events', @events_func);
     [T, M] = ode45(@slope_func, [0, 100], [0, 1, vx, vy], options);
-    
+
     X = M(:,1);
     Y = M(:,2);
     %plot(X, Y)
@@ -56,7 +56,7 @@ end
 function [value,isterminal,direction] = events_func(t,W)
     % stop the integration when the ball gets to the wall.
     wall_range = 97;                  % distance to the wall in meters
-    value = W(1) - wall_range;        % equals 0 when you hit the wall 
+    value = W(1) - wall_range;        % equals 0 when you hit the wall
     isterminal = 1;
     direction = 1;
 end
@@ -67,7 +67,7 @@ function res = slope_func(t, W)
     P = W(1:2);             % position of the ball in meters
     V = W(3:4);             % velocity of the ball in m/s
 
-    dPdt = V;                          
+    dPdt = V;
     dVdt = acceleration_func(t, P, V);
 
     res = [dPdt; dVdt];
@@ -88,7 +88,7 @@ function Fd = drag_force_func(V)
     rho = 1.3;    % kg / m^3
     A = 0.0042;   % m^2
     v = norm(V);  % m/s
-    
+
     Fd = - 1/2 * C * rho * A * v * V;       % kg m / s^2
 end
 

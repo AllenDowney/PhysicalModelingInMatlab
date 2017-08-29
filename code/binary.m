@@ -6,7 +6,7 @@ function orbit_func()
     au = 150e9;                % astronomical unit in meters
     day = 24 * 60 * 60;        % year in seconds
     sunmass = 2.0e30;          % mass of the sun in kg
-    
+
     d = 779e9;                 % initial distance in meters
     v = 13e3;                  % initial velocity in meters per second
     m1 = 2.0e30;               % mass of the sun in kg
@@ -14,33 +14,33 @@ function orbit_func()
     G = 6.67e-11;              % gravitation constant in N m^2 / kg^2
     period = 4332;             % one orbit in days
     end_time = period * day;   % period in seconds
-    
+
     % scaling distances
     d = d / au;
     v = v / au;
     G = G / au^3;
-    
+
     % scaling times
     end_time = end_time / day;
     v = v * day;
     G = G * day^2;
-    
+
     % scaling masses
     m1 = m1 / sunmass;
     m2 = m2 / sunmass;
     G = G * sunmass;
-    
+
     P1 = [0;0];       % simple initial conditions
     P2 = [d;0];
     V1 = [0;0];
     V2 = [0;v];
-    
+
     options = odeset('RelTol', 1e-5);
     step = end_time/period*100;
     [T, M] = ode45(@rate_func, [0:step:end_time], [P1; P2; V1; V2], options);
     animate_func(T,M);
     energy_func(T,M);
-    
+
     function animate_func(T,M)
         % animate the positions of the planets, assuming that the
         % columns of M are x1, y1, x2, y2.
@@ -75,7 +75,7 @@ function orbit_func()
             V1 = M(i,5:6);
             V2 = M(i,7:8);
             ke = kinetic_func(V1, m1) + kinetic_func(V2, m2);
-            E(i) = ke + pe; 
+            E(i) = ke + pe;
         end
         plot(T, E);
         loss = (E(1) - E(end)) / E(1)
@@ -104,7 +104,7 @@ function orbit_func()
         P = W(1:n);
         V = W(n+1:end);
 
-        dRdt = V;                          
+        dRdt = V;
         dVdt = acceleration_func(t, P, V);
 
         res = [dRdt; dVdt];
@@ -114,9 +114,9 @@ function orbit_func()
         % compute acceleration due to gravity
         P1 = P(1:2);
         P2 = P(3:4);
-        
+
         F12 = gravity_force_func(P1, P2, m1, m2);
-        
+
         A1 = F12 / m1;
         A2 = -F12 / m2;
         res = [A1; A2];
@@ -128,7 +128,7 @@ function orbit_func()
         R = P2 - P1;
         r = norm(R);
         Rhat = R/r;
-        
+
         Fg = G * m1 * m2 / r^2 * Rhat;
     end
 

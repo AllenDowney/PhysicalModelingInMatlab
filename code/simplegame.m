@@ -20,15 +20,15 @@ for week = 2:52
     else
         demand = 7
     end
-    
+
     % retailer goes first; read last week's info
     onhand = RetInv(week-1)
     backlog = RetBack(week-1)
     received = Shipping(week-1)
-    
+
     % add the backlog to this week's demand
     totalDemand = demand + backlog
-    
+
     % if we have enough to meet demand, sell it; otherwise,
     % sell what we have
     shipping = min(onhand, totalDemand)
@@ -36,14 +36,14 @@ for week = 2:52
     % update inventory and backlog
     onhand = onhand - shipping + received
     backlog = totalDemand - shipping
-    
+
     % place an order
     % strategy: order whatever was demanded, plus one for good luck
     myOrder = demand + 1
 
     % compute cost
     cost = onhand + 2 * backlog
-    
+
     % store the updated values
     Demand(week) =  demand
     RetInv(week) = onhand
@@ -65,12 +65,12 @@ for week = 2:52
     % update inventory and backlog
     onhand = onhand - shipping + received
     backlog = totalDemand - shipping
-    
+
     % move units into production
     % strategy: start producing whatever was ordered
     % plus one for good luck
     myOrder = newOrders + 1
-    
+
     % compute cost
     cost = onhand + 2 * backlog
 
@@ -81,4 +81,3 @@ for week = 2:52
     Shipping(week) = shipping
     FacCost(week) = cost
 end
-

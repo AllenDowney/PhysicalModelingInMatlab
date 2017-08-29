@@ -21,7 +21,7 @@ function res = range(velocity, angle)
 
     options = odeset('Events', @events);
     [T, M] = ode45(@slope, [0, 100], [0, 1, vx, vy], options);
-    
+
     X = M(:,1);
     Y = M(:,2);
     plot(X, Y)
@@ -29,9 +29,9 @@ function res = range(velocity, angle)
 end
 
 function [value,isterminal,direction] = events(t,W)
-    % Locate the time when height passes through zero in a 
+    % Locate the time when height passes through zero in a
     % decreasing direction and stop integration.
-    value = W(2);        % 
+    value = W(2);        %
     isterminal = 1;      % Stop the integration
     direction = -1;      % Negative direction only
 end
@@ -42,7 +42,7 @@ function res = slope(t, W)
     R = W(1:2);
     V = W(3:4);
 
-    dRdt = V;                          
+    dRdt = V;
     dVdt = acceleration(t, R, V);
 
     res = [dRdt; dVdt];
@@ -63,7 +63,6 @@ function Fd = drag_force(V)
     rho = 1.3;    % kg / m^3
     A = 0.0042;   % m^2
     v = norm(V);  % m/s
-    
+
     Fd = - 1/2 * C * rho * A * v * V;
 end
-

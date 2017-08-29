@@ -1,12 +1,12 @@
 function dXdt = f(t, X)
-x = X(1);      
-y = X(2);      
+x = X(1);
+y = X(2);
 vx = X(3)
 vy = X(4);
 
 ax = fx(t, x, y, vx, vy)
 ay = fy(t, x, y, vx, vy)
-                          
+
 dXdt = [vx; vy; ax; ay];
 end
 

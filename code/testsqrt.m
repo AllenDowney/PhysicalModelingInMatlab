@@ -7,4 +7,3 @@ function rel_err = testsqrt(V)
         rel_err(i) = diff / theirs;
     end
 end
-

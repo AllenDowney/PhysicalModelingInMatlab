@@ -13,13 +13,13 @@ function res = rate_func(t, Q)
     resistivity = r_value * 0.1761;     % K m^2 / W
 
     deltaT = T_out - T_block;             % K (also degC)
-    
+
     % compute the rate of change for internal energy, dUdt
     dUdt = 1/resistivity * area * deltaT;   % W (aka J/s)
 
     c = 386;         % specific heat of copper in J / (kg K)
 
     % compute the rate of change in temperature, dQdt
-    dQdt = dUdt / m / c;      
+    dQdt = dUdt / m / c;
     res = dQdt;
 end

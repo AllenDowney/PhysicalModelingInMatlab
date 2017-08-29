@@ -2,7 +2,7 @@ function dWdt = proj(t, W)
     R = W(1:2);
     V = W(3:4);
 
-    dRdt = V;                          
+    dRdt = V;
     dVdt = acceleration(t, R, V);
 
     dWdt = [dRdt; dVdt];
@@ -22,6 +22,6 @@ function Fd = drag_force(V)
     rho = 1.3;    % kg / m^3
     A = 0.0042;   % m^2
     v = norm(V);  % m/s
-    
+
     Fd = - 1/2 * C * rho * A * v * V;
 end

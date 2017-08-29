@@ -4,16 +4,16 @@ function magpart(te)
     % initial conditions
     P = [-0.1 0 0]';
     V = [0.1 0.1 0]';
-    
+
     % call ode45
     [T, M] = ode45(@part, [0, te], [P; V]);
-    
+
     % plot the results
     X = M(:,1);
     Y = M(:,2);
     Z = M(:,3);
     comet3(X, Y, Z);
-    
+
     %XY = M(:, 1:2)
     %plot(T,X)
 end
@@ -22,7 +22,7 @@ function dXdt = part(t, X)
 % t is the current time; X contains the position and velocity
 % vectors; evaluate the derivative dXdt
     P = X(1:3);
-    V = X(4:6);      
+    V = X(4:6);
     A = acceleration(t, P, V);
     dXdt = [V; A];
 end

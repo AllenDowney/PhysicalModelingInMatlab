@@ -63,7 +63,7 @@ for i=1:3
 
     % make a pseudocolor plot
     h = pcolor(x,y,errs{i});
-    
+
     % or make a contour plot (prettier, but slower)
     %h = contour(x,y,errs{i});
 

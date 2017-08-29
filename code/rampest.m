@@ -4,9 +4,9 @@ function res = ramp()
     % ramp_dist is the horizontal distance from the tip of the
     % ramp to the post, so half_length is half the length of the ramp
     ramp_height = 1;
-    ramp_dist = 4;  
-    half_length = norm([ramp_height,ramp_dist]);   
-    
+    ramp_dist = 4;
+    half_length = norm([ramp_height,ramp_dist]);
+
     % compute the max and min angles
     th = atan2(ramp_height, ramp_dist);
 
@@ -19,7 +19,7 @@ function res = ramp()
 
     r2 = (I * th * ar) / (m * ath);
     r = sqrt(r2);
-    
+
     x = r * cos(th);
     y = r * sin(th);
     disp([x,y]);
@@ -27,5 +27,5 @@ function res = ramp()
     h = ramp_height + y;
     v = sqrt(2 * g * h);
     res = v;
-    
+
 end

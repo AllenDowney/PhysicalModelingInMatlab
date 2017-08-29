@@ -1,6 +1,6 @@
 function dXdt = particle(t, X)
-    P = X(1:3);      
-    V = X(4:6);      
+    P = X(1:3);
+    V = X(4:6);
 
     A = acceleration(t, P, V);
 

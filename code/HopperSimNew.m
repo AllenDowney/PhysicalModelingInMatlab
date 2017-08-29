@@ -17,13 +17,13 @@ t(1) = 0;
 
 while ry(i)>=0
    i=i + 1;
-   dt=.001; 
+   dt=.001;
    t(i)=i * dt;
-   
+
    ry(i)    =   vy(i-1)  *  dt + ry(i-1);
    vy(i)    =   ay(i-1)  *  dt + vy(i-1);
    ay(i)    =   -g - (c * (vy(i))^2) / m;
-   
+
 end
 
 plot (t,ry,'r')

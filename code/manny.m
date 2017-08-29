@@ -27,11 +27,11 @@ function res = golden_angle_func(velocity)
     a = 20;
     b = 40;
     c = 60;
-    
+
     fa = height_func(velocity, a);
     fb = height_func(velocity, b);
     fc = height_func(velocity, c);
-   
+
     for i=1:20
         if c-b > b-a
             x = (b+c) / 2;
@@ -71,7 +71,7 @@ function res = height_func(velocity, angle)
 
     options = odeset('Events', @events_func);
     [T, M] = ode45(@slope_func, [0, 100], [0, 1, vx, vy], options);
-    
+
     X = M(:,1);
     Y = M(:,2);
     %plot(X, Y)
@@ -81,7 +81,7 @@ end
 function [value,isterminal,direction] = events_func(t,W)
     % stop the integration when the ball gets to the wall.
     wall_range = 97;                  % distance to the wall in meters
-    value = W(1) - wall_range;        % equals 0 when you hit the wall 
+    value = W(1) - wall_range;        % equals 0 when you hit the wall
     isterminal = 1;
     direction = 1;
 end
@@ -92,7 +92,7 @@ function res = slope_func(t, W)
     R = W(1:2);             % position of the ball in meters
     V = W(3:4);             % velocity of the ball in m/s
 
-    dRdt = V;                          
+    dRdt = V;
     dVdt = acceleration_func(t, R, V);
 
     res = [dRdt; dVdt];
@@ -114,7 +114,7 @@ function Fd = drag_force_func(V)
     rho = 1.3;    % kg / m^3
     A = 0.0042;   % m^2
     v = norm(V);  % m/s
-    
+
     Fd = - 1/2 * C * rho * A * v * V;       % kg m / s^2
 end
 

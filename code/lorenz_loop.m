@@ -12,5 +12,3 @@ for i = 1:1000
     lorenz_update
     plot(x,y)
 end
-   
-
