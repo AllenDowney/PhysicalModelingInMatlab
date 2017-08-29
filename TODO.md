@@ -22,6 +22,4 @@ Systems" chapter.)
   style. There is currently a discrepancy between the earlier and later
   chapters of the book.
 + Create an answer key for the end of section/chapter problems.
-+ Revise the appendix containing the information from the removed
-"Nested Functions" section (was contained in the "Second Order Systems" chapter).
 + Update makefile with option to compile figures.
