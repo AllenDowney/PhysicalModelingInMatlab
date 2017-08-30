@@ -47,10 +47,3 @@ for n=1:200
 end
 hold on
 plot(SY,SX) %this has results that aren't in real world dimensions
-
-
-
-
-
-
-
