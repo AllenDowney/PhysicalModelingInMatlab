@@ -9,31 +9,6 @@ Git"](https://git-scm.com/book/en/v2) by Scott Chacon and Ben Straub is
 a great resource to learn from; the first three chapters should tell you
 everything you need to know to be Git pro.
 
-## Tree & branches
-This is the structure of the repository:
-```
-         --*-------*--------------*------*----*-- (feature 1, ongoing)
-        /                             \    \
-       /    --*--- (feature 2, done)  |    |
-      /    /      \                    \    \
-  -----------------*--------------------*----*--- (unstable)
- /                      \
-*------------------------*----------------------- (stable)
-```
-
-1. **stable** is a
-   [protected
-   branch](https://help.github.com/articles/about-protected-branches/)
-   that is always stable. Changes from **unstable** will be merged in
-   once we're confident nothing is broken.
-2. **unstable** is also a
-   [protected
-   branch](https://help.github.com/articles/about-protected-branches/)
-   that we actively merge new features into.
-3. **feature**s branch off of **unstable** and are
-   merged into **unstable** once ready (preferably through a [pull
-   request](https://help.github.com/articles/about-pull-requests/)).
-
 ## Style
 + **MATLAB** code should conform to the guidelines laid out in
   ["MATLAB Style
