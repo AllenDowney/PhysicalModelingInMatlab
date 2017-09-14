@@ -14,7 +14,7 @@ cd book
 make pdfbook
 ```
 
-and then a PDF of the book should appear on your desktop. If you prefer
+and then a PDF of the book should appear in the `book` directory. If you prefer
 a PDF tailored for print, replace `pdfbook` with `pdfprintbook`.
 
 ## Contributing improvements
