@@ -27,7 +27,7 @@
 
 \makeatletter
 
-\renewcommand{\section}{\@startsection 
+\renewcommand{\section}{\@startsection
     {section} {1} {0mm}%
     {-3.5ex \@plus -1ex \@minus -.2ex}%
     {0.7ex \@plus.2ex}%
