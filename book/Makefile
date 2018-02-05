@@ -1,3 +1,5 @@
+PDF = Physical_Modeling_In_MATLAB.pdf
+
 PDFFLAGS = -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress  \
            -dCompressPages=true -dUseFlateCompression=true  \
            -dEmbedAllFonts=true -dSubsetFonts=true -dMaxSubsetPct=100
@@ -22,7 +24,7 @@ pdfbook:	book.tex
 	latex -interaction=batchmode tempbook_
 	latex -interaction=batchmode tempbook_
 	dvips -q -Ppdf -o PhysModMatlab.ps tempbook_
-	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps Physical_Modeling_In_MATLAB.pdf
+	ps2pdf -q $(PDFFLAGS) PhysModMatlab.ps $(PDF)
 	rm tempbook_* PhysModMatlab.ps
 
 # Same as pdfbook (above) but for print instead of electronic viewing;
@@ -65,8 +67,8 @@ distrib:
 	mkdir tex
 	rsync -a $(FILES) tex
 	#rm tex/figs/*.bak
-	zip -r PhysModMatlab.zip tex
-	rsync -a PhysModMatlab.* html $(DEST)
+	#zip -r PhysModMatlab.zip tex
+	rsync -a $(PDF) html $(DEST)
 	chmod -R o+r $(DEST)/*
 	cd $(DEST)/..; sh back
 
