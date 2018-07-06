@@ -6,7 +6,7 @@ Downey](http://allendowney.com/wp/), revised and maintained by [Craig
 Scratchley](https://www.sfu.ca/engineering/faculty-and-staff/faculty/craig_scratchley.html)
 
 
-The book's site is [here](http://greenteapress.com/wp/physical-modeling-in-matlab/).
+The book's site is [here](http://greenteapress.com/wp/physical-modeling-in-matlab-2e/).
 
 ## Generating a PDF of the book
 
