@@ -6381,7 +6381,7 @@ initial values $R(0)$ and $F(0)$, and the output is a matrix
 that contains one column for $R$ and one for $F$.
 
 And here's what the rate function looks like
-with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$, and $d = 0.02$:
+with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$, and $d = 0.002$:
 
 \begin{verbatim}
 function res = lotka(t, V)
@@ -6393,7 +6393,7 @@ function res = lotka(t, V)
     a = 0.1;
     b = 0.01;
     c = 0.1;
-    d = 0.02;
+    d = 0.002;
 
     % compute the derivatives
     drdt = a*r - b*r*f;

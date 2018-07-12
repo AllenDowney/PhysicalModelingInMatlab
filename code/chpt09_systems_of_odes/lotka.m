@@ -7,11 +7,11 @@ function res = lotka(t, V)
     a = 0.1;
     b = 0.01;
     c = 0.1;
-    e = 0.2;
+    d = 0.002;
 
     % compute the derivatives
     drdt = a*r - b*r*f;
-    dfdt = e*b*r*f - c*f;
+    dfdt = -c*f + d*r*f;
 
     % pack the derivatives into a vector
     res = [drdt; dfdt];
