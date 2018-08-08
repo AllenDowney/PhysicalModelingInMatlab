@@ -229,6 +229,7 @@ for all versions of this book can be found at
 \url{https://github.com/AllenDowney/PhysicalModelingInMATLAB}.
 
 % TODO: consider making just one canonical repo
+% ABD: Have we made a decision on this?
 
 Copying, distributing, and contributing to \thetitle is encouraged.
 The above repositories are the easiest entry points for this.
@@ -298,6 +299,10 @@ Michael Cline, and Matt Wiens.
 \newpage
 
 \chapter{Preface}
+
+% TODO: Let's unify the two prefaces and update with information about
+% the revised book, Octave, and instructions for working with the code.
+
 Most books that use MATLAB are aimed at readers who know how
 to program.  This book is for people who have never programmed
 before.
@@ -335,11 +340,22 @@ the material before.
 There are small exercises within each chapter, and a few larger
 exercises at the end of some chapters.
 
+\section{Working with the code}
+
+Installing MATLAB.
+
+Working with LiveScripts?
+
+Installing Octave and JupyterLab.
+
+Working with notebooks.
+
+
 If you have suggestions and corrections, please send them to
 {\tt downey@allendowney.com}.
 
-\noindent Allen B. Downey \\
-\noindent Needham, MA \\
+% TODO: Update this to send comments to Craig?
+
 
 \newpage
 
@@ -703,8 +719,8 @@ not at the beginning.  Spaces are not allowed.  Variable names are
 
 >> LENGTH = 10;
 
->> first_name = 'allen'
-first_name = allen
+>> first_name = 'bob'
+first_name = bob
 \end{verbatim}
 
 The first two examples demonstrate the use of the semi-colon\index{Syntax!semi-colon}, which
@@ -737,6 +753,7 @@ want to compute it once and save the result.
 e = 2.7183
 \end{verbatim}
 
+% TODO: This might be a bad example because e is built-in.
 
 \item To make the connection between the code and the underlying
 mathematics more apparent.  If you are computing the area of a circle,
