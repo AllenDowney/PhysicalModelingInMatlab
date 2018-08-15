@@ -1,0 +1,10 @@
+%  Reset the chapter design to a basic one (no box, just underlined chapter title---used for the back and front matter)
+
+\renewcommand*\chapterheadstartvskip{\vspace*{-3\topskip}} 
+\renewcommand*\chapterheadendvskip{
+  \vskip-.5\baselineskip
+  \noindent
+  {\color{gray}\rule{\linewidth}{2pt}}
+  \par}
+\renewcommand*\chapterformat{}
+\renewcommand*{\chapterpagestyle}{empty}

@@ -1,0 +1,13 @@
+% Command to add some text into the bibliography (between the title and the list of referenced books)
+% See https://tex.stackexchange.com/questions/197061/text-between-index-or-bibliography-title-and-content
+\newcommand{\bibpreface}[1]{\patchcmd{\thebibliography}{\list}{#1\list}{}{}}
+
+\bibpreface{Write here the preface of your list of recommended reading titles. Delete this line to have no preface for this section.}
+
+\ifxetex
+	\printbibliography
+\else
+	\newpage
+	\bibliographystyle{plainnat}
+	\bibliography{bibliography/english}
+\fi

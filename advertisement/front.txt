@@ -1,0 +1,7 @@
+% This is just to track the current text on the front cover text. It is not included in the main.tex, instead your designer needs to take that text to create a cover file (or use Amazon's cover creator).
+
+% Title
+
+% Subtitle (optional)
+
+% Banner, etc. (optional)

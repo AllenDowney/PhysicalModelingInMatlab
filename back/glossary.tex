@@ -1,0 +1,35 @@
+% If you have added or removed any entries in the glossary directory, add them here. If a letter is missing, add a new \section*{} with the letter.
+
+\chapter{Glossary}
+
+% Special formatting for glossary 
+\setlength{\parindent}{0.7cm}
+\renewcommand{\index}[1]{}
+\renewenvironment{definition}[2][]{\textbf{#2}\ $\bullet$\ #1}
+\footnotesize
+\ifxetex
+	\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\fi
+
+\vspace{20pt}
+
+
+\section*{E}
+\begin{multicols}{2}
+\input{glossary/entity}
+\end{multicols}
+
+\section*{I}
+\begin{multicols}{2}
+\input{glossary/identity}
+\end{multicols}
+
+\section*{L}
+\begin{multicols}{2}
+\input{glossary/latex}
+\end{multicols}
+
+\section*{P}
+\begin{multicols}{2}
+\input{glossary/property}
+\end{multicols}

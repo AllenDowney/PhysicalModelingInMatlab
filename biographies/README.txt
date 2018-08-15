@@ -1,0 +1,1 @@
+% Put your biography texts into this directory, one file for each person, surrounded by \begin{biography}{Name of the person} ... \end{biography}

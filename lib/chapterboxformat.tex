@@ -1,0 +1,37 @@
+% Sets the font specifications for the chapter lead-in and title.
+\newcommand{\chapterLeadinFont}{\Large}
+\newcommand{\chapterTitleFont}{\Huge \MakeUppercase }
+%
+% Lengths used in the chapter title page setup. You can change the values I gave these using the "setlength" commands immediately following the length definitions. Most of these interact with each other. For example, increasing one of the gaps between the bounding rectangles decreases the maximum title width.
+%
+% The next three lengths adjust the size of the bounding rectangles on chapter title pages by decreasing the lengths of their sides. Increasing these lengths make the rectangles smaller. These rectangles are always centered in the text area so they should adjust to changes in your margins and paper size. The default, outer rectangle (0pt) lies on the margin. All of these lengths should be greater than or equal to zero.
+\newlength{\outerRec}\setlength{\outerRec}{0pt}
+\newlength{\middleRec}\setlength{\middleRec}{2pt}
+\newlength{\innerRec}\setlength{\innerRec}{12pt}
+%
+% The next three lengths set the edge widths of the rectangles. I did not think these and the previous lengths should interact, so, if you increase these, you may need to adjust the above; otherwise, the edges of two adjacent rectangles may overlap.
+\newlength{\outerLineWidth}\setlength{\outerLineWidth}{.5pt}
+\newlength{\middleLineWidth}\setlength{\middleLineWidth}{.5pt}
+\newlength{\innerLineWidth}\setlength{\innerLineWidth}{.5pt}
+%
+% Remark: You can comment one of the \draw commands in the code that follows if you want two rectangles. You can also give middle and inner lengths above the same values. 
+%
+% The next length sets both the left and right distances between the inside of the edge of the inner rectangle and the maximum chapter title width. A positive value ensures that the chapter title lies inside the inner rectangle. If you set this length to 0pt, a longer chapter title may touch the left and right edges of the inner rectangle.
+\newlength{\adjustTitleWidth}\setlength{\adjustTitleWidth}{.8cm}
+%
+% The next lengths, used in the \titlespacing command, set horizontal and vertical title information distances.
+\newlength{\leftMar}\setlength{\leftMar}{0pt}% Increases the left margin of the title. Normally, you should not adjust this length.
+\newlength{\beforeSep}{\setlength{\beforeSep}{45pt}}% Sets the vertical between the top margin, not the inner rectangle, and the chapter lead-in.
+\newlength{\spaceToRule}\setlength{\spaceToRule}{.45cm}% Set vertical spacing between chapter lead-in and the rule. 
+\newlength{\spaceAfterRule}{\setlength{\spaceAfterRule}{.75cm}}% Sets the vertical spacing between the rule and the chapter title.
+%
+% The next length deals with the special chapter titles "Contents" and "Bibliography". It increases the distance between the upper edge of the inner rectangle and the title text.
+\newlength{\specialMargin}\setlength{\specialMargin}{3.4cm}
+%
+\newlength{\topSep}\setlength{\topSep}{0cm}% Sets the vertical space between the top margin and the first line of text on the first text page of a chapter.
+%
+% The next length compensates for the binding margin. Normally, you should not change this value regardless of your binding margin value.
+%\newlength{\adjustForBindingMargin} %
+%    \setlength{\adjustForBindingMargin}
+%    {\oddsidemargin/2-\evensidemargin/2}
+%%%%%

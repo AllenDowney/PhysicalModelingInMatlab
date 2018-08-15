@@ -1,0 +1,17 @@
+% Fix PDF creation
+\ifxetex
+	\let\pdfstrcmp\strcmp
+\fi
+
+% this is the macro to define phrases in two languages:
+\newcommand{\babelDE}[1]{\ifnum\pdfstrcmp{\languagename}{ngerman}=0 {#1}\fi}
+\newcommand{\babelEN}[1]{\ifnum\pdfstrcmp{\languagename}{american}=0 {#1}\fi}
+
+% allow hyphenation recommendation for LaTeX with "=
+\useshorthands{"}
+\addto\extrasenglish{\languageshorthands{ngerman}}
+
+% Rename the table of contents depending on the used language.
+\babelDE{\renewcommand{\contentsname}{Inhaltsverzeichnis}}
+\babelEN{\renewcommand{\contentsname}{Table of Contents}}
+

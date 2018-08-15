@@ -1,0 +1,1 @@
+% Put your image files (.eps, .jpg, .png) into this directory. TikZ code goes into the tex-images directory.

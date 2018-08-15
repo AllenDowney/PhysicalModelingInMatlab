@@ -1,0 +1,47 @@
+% Tikz configuration. For details, see the main manual at  http://www.texample.net/media/pgf/builds/pgfmanualCVS2012-11-04.pdf
+\usepackage{tikz}
+\usepackage{tikzpagenodes}
+\usepackage{pgfplots}
+
+% Add support to force LaTeX to put figures at a certain place.
+\usepackage{float}
+
+% Set the version for tikz. You can change it to "newest" to always have the current version. The advantage of setting it to a specific version is that your images are always generated the same way, even if the tikz installation is updated. Set it to a newer version if you need functionality (or bugfixes) from that newer version. Also see https://tex.stackexchange.com/questions/139690/dos-and-donts-of-pgfplotssetcompat-newest
+\pgfplotsset{compat=1.14}
+
+% Load various tikz libraries, you might need only some of them (or additional ones).
+\usetikzlibrary{matrix,calc,positioning,shapes.arrows,shapes.symbols,decorations.pathreplacing,patterns,shapes,backgrounds,lindenmayersystems,shadings,intersections}
+
+
+% Define styles of various tikz elements.
+\tikzstyle{every node}=[font=\small,node distance=40pt and 50pt,thick]
+\tikzstyle{textbox} = [rounded corners, text width=60pt, minimum height=50pt,text centered,draw=black]
+\tikzstyle{arrow} = [thick,->,>=latex]
+\tikzstyle{largearrow} = [thick,right of=book,draw,single arrow head indent=0ex,single arrow, rotate=90,node distance=130pt,text width=160pt,text centered]
+\tikzstyle{block} = [rectangle,textbox]
+\tikzstyle{textarr} = [rectangle,align=center,fill=white]
+\tikzstyle{print} = [draw,tape,tape bend top=none,tape bend height=15pt,textbox]
+\tikzstyle{wave} = [draw,tape,tape bend height=10pt,text width=60pt, minimum height=50pt,text centered,draw=black]
+
+% Set up externalization to save all tikz pictures also as PNG files (for the ebook/html output).
+\ifxetex
+\else
+
+	\usetikzlibrary{external}
+
+	% Modify the behavior of tikzpicture: convert the generated image PDF to a png and insert that png (instead of the PDF) into the document.
+	\tikzset{png export/.style={external/system call={pdflatex \tikzexternalcheckshellescape -interaction=batchmode -jobname "\image" "\texsource"; convert -gravity center -extent 1245 -strip -quality 100 -density 300 -transparent white "\image.pdf" "\image.png"},/pgf/images/external info,/pgf/images/include external/.code=\includegraphics{##1.png}}}
+
+	% Activate "png export" configuration
+	\tikzset{png export}
+
+	% Output the pdf to an existing directory (needs to exist).
+	\tikzsetexternalprefix{tikz-cache/} 
+
+	% Activate externalization (for tex4ht output: do not generate graphics, only load them).
+	\ifx\HCode\undefined 
+		\tikzexternalize
+	\else
+		\tikzexternalize[mode=only graphics]
+	\fi
+\fi

@@ -1,0 +1,120 @@
+% Example for 'idea boxes'
+
+% Replace the Did you know? if necessary.
+% Replace Read more in... if necessary.
+% Replace the box titles and icons if necessary.
+
+% Print out listings as it is (ignoring any special characters).
+\usepackage{listings}
+
+% Format listings (grey background)
+\ifxetex
+\usepackage{color}
+\definecolor{light-grey}{RGB}{225, 225, 225}
+\lstset{
+    breaklines=true,
+    backgroundcolor=\color{light-grey},
+    tabsize=2,
+    basicstyle=\ttfamily\footnotesize
+}
+\else
+\lstset{
+    breaklines=true,
+    tabsize=2,
+    basicstyle=\ttfamily\footnotesize
+}
+\fi
+
+    % If you want to add a picture to the top right corner of a box, uncomment the line and upload the picture.
+
+\ifxetex
+
+	\usepackage[many]{tcolorbox}
+    
+	\newtcolorbox{idea}[1][]{colframe = black!30,colback  = black!5,coltitle = black!30!black,title=\babelDE{\textbf{Idee}}\babelEN{\textbf{Idea}}
+    %\hfill\smash{\raisebox{-11pt}{\includegraphics[height=1cm]{images/lightbulb-idea}}}
+    , #1,}
+
+	\newtcolorbox{example}[1][]{colframe = black!20,colback  = black!0,coltitle = black!20!black,title=\babelDE{\textbf{Beispiel}}\babelEN{\textbf{Example}}
+    %\hfill\smash{\raisebox{-11pt}{\includegraphics[height=1cm]{images/book-and-test-tube-with-supporter}}}
+    , #1,}
+
+	\newtcolorbox{problem}[1][]{colframe = black!30,colback  = black!4,coltitle = black!20!black,title=\babelDE{\textbf{Frage}}\babelEN{\textbf{Question}}
+    %\hfill\smash{\raisebox{-11pt}{\includegraphics[height=1cm]{images/speech-bubble-cloud-with-question-mark.png}}}
+    , #1,}
+    
+	\newtcolorbox{biography}[2][]{colframe = black!30,colback  = black!5,coltitle = black!30!black,title=\babelDE{Biographie -- }\babelEN{Biography---}\textbf{#2}
+    %\hfill\smash{\raisebox{-11pt}{\includegraphics[height=1cm]{images/identity-card}}}
+    , #1,}
+    
+	\newtcolorbox{preview}[2][]{colframe = black!30,colback  = black!5,fonttitle=\bfseries,coltitle = black!30!black,flushright lower, title = 
+    	\babelDE{\textbf{Wussten Sie schon?}}
+        \babelEN{\textbf{Did you know?}}
+        %\hfill\smash{\raisebox{-11pt}{\includegraphics[height=1cm]{images/text-book-opened-from-top-view}}}
+        ,after upper={\par\vspace{0.2cm}\hfill \footnotesize $\longrightarrow$
+			\babelDE{Erfahren Sie mehr in \citetitle{#2}\index{@\textsl{\citetitle{#2}}}}
+			\babelEN{Read more in \citetitle{#2}\index{@\textsl{\citetitle{#2}}}}},#1,
+        }
+        
+	% Loads the \leftbar command for the definition environment.
+	\usepackage{framed}
+	\newenvironment{definition}[2][]{\begin{leftbar}\textbf{\textsc{#2}}\ ·\ #1}{\end{leftbar}\vspace{-\baselineskip}}
+
+\else
+
+	\ifx\HCode\undefined 
+		
+        \newenvironment{idea}[1][]{\par
+        %\includegraphics[height=1cm]{images/lightbulb-idea}
+        \babelDE{\textbf{Idee}}\babelEN{\textbf{Idea}}\par\myrule #1}{\par\myrule}
+		
+        \newenvironment{biography}[2][]{\par
+        %\includegraphics[height=1cm]{images/identity-card}
+        \babelDE{Biographie -- }\babelEN{Biography---}\textbf{#2}\par\myrule #1}{\par\myrule}
+		
+        \newenvironment{problem}[1][]{\par
+        %\includegraphics[height=1cm]{images/speech-bubble-cloud-with-question-mark.png}
+        \babelDE{\textbf{Frage}}\babelEN{\textbf{Question}}\par\myrule #1}{\par\myrule}
+		
+        \newenvironment{example}[1][]{\par
+        %\includegraphics[height=1cm]{images/book-and-test-tube-with-supporter} 
+        \babelDE{\textit{Beispiel}}\babelEN{\textit{Example}}\par\myrule #1}{\par\myrule}
+		
+        \newenvironment{preview}[2][]{\par
+        %\includegraphics[height=1cm]{images/text-book-opened-from-top-view}
+        	\babelDE{\textbf{Wussten Sie schon?}}\babelEN{\textbf{Did you know?}}\par\myrule\def\previewbibid{#2} #1}
+        	{\par\hfill\footnotesize $\longrightarrow$
+				\babelDE{Erfahren Sie mehr in \citetitle{\previewbibid}\index{@\textsl{\citetitle{\previewbibid}}} \citep{\previewbibid}}
+				\babelEN{Read more in \citetitle{\previewbibid}\index{@\textsl{\citetitle{\previewbibid}}} \citep{\previewbibid}}
+				\par\myrule\par
+       		}
+
+    \else
+
+		\newenvironment{idea}[1][]{\bfseries\HCode{<b>}}{\HCode{</b>}\par}
+
+		\newenvironment{biography}[2][]{\myrule\par\textbf{\babelDE{Biographie}\babelEN{Biography}} \emdash \textbf{#2}\par}{\myrule\par}
+	
+    	\newenvironment{problem}[1][]{\bfseries\HCode{<b>}}{\HCode{</b>}\par}
+	
+    	\newenvironment{example}[1][]{\myrule\par \textbf{\babelDE{Beispiel}\babelEN{Example}}\par}{\myrule\par}
+
+		\newenvironment{preview}[2][]{\myrule
+        	\babelDE{\textbf{Wussten Sie schon?}}\babelEN{\textbf{Did you know?}}\myrule\def\previewbibid{#2} #1}
+        	{$\longrightarrow$
+				\babelDE{Erfahren Sie mehr in \citetitle{\previewbibid} \citep{\previewbibid}}
+				\babelEN{Read more in \citetitle{\previewbibid} \citep{\previewbibid}}
+				\myrule
+       		}
+
+
+	\fi
+
+	\newenvironment{definition}[2][]{\textbf{\textsc{#2}}\ ·\ #1}
+
+\fi
+
+\newcommand{\concept}[1]{\textit{#1}}
+
+
+

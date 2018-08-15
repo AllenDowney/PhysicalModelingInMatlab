@@ -1,0 +1,1 @@
+% Put your summary texts into this directory, one file for each summary, surrounded by \begin{idea} ... \end{idea}

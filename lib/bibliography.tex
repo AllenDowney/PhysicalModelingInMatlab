@@ -1,0 +1,25 @@
+% Set up bibliography.
+
+% Advanced handling of quotation marks -> important for bibliography.
+\usepackage{csquotes}
+
+\ifxetex
+% See https://www.ctan.org/pkg/biblatex for documentation.
+	\usepackage[backend=bibtex,style=authortitle,sortlocale=de_DE,natbib=true]{biblatex}
+	\babelDE{\addbibresource[datatype=bibtex]{bibliography/german.bib}}
+	\babelEN{\addbibresource[datatype=bibtex]{bibliography/english.bib}}
+\else
+	\usepackage{natbib}
+	\usepackage{usebib}
+	\babelDE{\bibinput{bibliography/german}}
+	\babelEN{\bibinput{bibliography/english}}
+
+	% \citetitle does not work with natbib / pdfLaTeX -> translate into \usebibentry
+	\newcommand{\citetitle}[2][]{\textit{\usebibentry{#2}{title}}}
+\fi
+
+% Set bibliography to footnote size
+\renewcommand{\bibfont}{\footnotesize}
+
+% Write the name of a referenced section or chapter label with \nameref{label}.
+\usepackage{nameref}

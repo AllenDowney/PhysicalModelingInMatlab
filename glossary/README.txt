@@ -1,0 +1,1 @@
+% Put your glossary texts into this directory, one file for each glossary item, surrounded by \begin{definition}{Name of the concept} ... \end{definition}

@@ -1,0 +1,1 @@
+% Put the texts of your examples into this directory, one file for each example, surrounded by \begin{example} ... \end{example}
