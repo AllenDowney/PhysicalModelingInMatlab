@@ -1,1 +1,0 @@
-% This directory contains all the back matter items that come after the ending of the last chapter.

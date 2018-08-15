@@ -1,1 +1,0 @@
-% This directory serves as the central library. Put your .bib files into this directory. Usually, a single .bib file will be sufficient, but you might want to show different bibliographies to different audiences (different languages, ebook vs. print).

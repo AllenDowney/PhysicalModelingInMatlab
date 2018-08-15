@@ -1,1 +1,0 @@
-% Put your introductory questions into this directory, one file for each question, surrounded by \begin{question} ... \end{question}

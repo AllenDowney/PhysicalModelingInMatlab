@@ -1,1 +1,0 @@
-% This directory contains all the front matter items that come before the beginning of the first chapter.

@@ -1,1 +1,0 @@
-% This directory serves as a central place in which to put all your advertisement related texts. This could be texts from your homepage, the Amazon description, and of course the front and back cover texts.
