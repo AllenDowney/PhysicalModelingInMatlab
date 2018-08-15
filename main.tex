@@ -1,0 +1,96 @@
+% TODO
+%4.	Add licensing to the template	 Sub-task	OPEN	Unassigned	
+%5.	Research possible own copyright violations / add copyrights to the template	 Sub-task	OPEN	Unassigned	
+
+% ---------- Preamble
+
+% Printed books have indexes
+\ifxetex
+	\makeindex
+\fi
+
+\begin{document}
+
+% ---------- Front matter
+\frontmatter
+
+% front matter chapter entries use roman page numbering (i, ii, iii, iv, ...)
+\pagenumbering{roman}
+
+% switch to basic chapter design
+\input{lib/chapterfont}
+
+\input{front/half-title}\newpage
+
+% the additional title with the cover is not needed for ebooks
+\ifxetex
+	\input{front/title}\newpage
+\fi
+
+\input{front/publisher}\newpage
+\input{front/dedication}\newpage
+\input{front/epigraph}\newpage
+\input{lib/tableofcontents}\newpage
+
+% use chapter boxes only for printed books
+\ifxetex
+	\input{lib/chapterbox}
+\else
+	\newcommand{\chapterbox}[1]{}
+\fi
+
+\input{front/foreword}\blankpage
+\input{front/preface}\blankpage
+
+% ---------- Main matter
+\mainmatter
+
+
+% reset to normal page numbering (1, 2, 3, ...)
+\pagenumbering{arabic}
+    
+% Add additional / remove chapters if necessary
+\input{main/firstchapter}\blankpage
+\input{main/secondchapter}\blankpage
+\input{main/thirdchapter}\blankpage
+
+% ---------- Back matter
+\backmatter
+
+\input{back/advertisement}\blankpage
+
+% list of uncited references that are still good reads (only for printed PDF)
+\ifxetex
+	\input{back/recommended}\blankpage
+\fi
+
+\input{back/author}\blankpage
+\input{back/thebooksstory}\blankpage
+
+
+% switch back to basic chapter design
+\input{lib/chapterfont}
+
+% needs to be in curly braces because parskip change.
+{
+\parskip=5pt
+\input{back/questions}\newpage
+\input{back/ideas}\newpage
+\parskip=0pt
+\input{back/glossary}\newpage
+% add separate quotations page (sources in the ebook are already included in the text body)
+\ifxetex
+	\input{back/quotations}
+\fi
+}
+
+\input{back/bibliography}
+
+% ---------- Appendix
+\appendix
+    
+\input{back/index}
+\input{back/amazon}
+\input{back/last}
+
+\end{document}

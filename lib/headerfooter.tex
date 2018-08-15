@@ -1,0 +1,15 @@
+% Header and footer configuration
+\usepackage[automark,headsepline]{scrpage2}
+\pagestyle{scrheadings}
+
+% inner and outer head (relating to pages of a book): put chapter/section title in the middle and the page numbers on the sides.
+\ihead[\headmark]{\headmark}\ohead{\pagemark}
+
+% alternating chapter / section titles at the top of the page
+\automark[section]{chapter}
+
+% Make heading of each page italics and small capitals.
+\renewcommand*{\headfont}{\itshape\scshape}
+
+% Name of the chapter (\chapapp), number of the chapter (\thechapter) and no period (\autodot)
+\renewcommand*{\chaptermarkformat}{\chapapp~\thechapter\autodot\enskip}

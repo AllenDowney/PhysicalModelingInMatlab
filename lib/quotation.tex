@@ -1,0 +1,15 @@
+% Create a new environment "myquotation" that indents a whole paragraph to show it is not part of the normally flowing text.
+\ifxetex
+	\definecolor{quotemark}{gray}{0.7}
+	\newlength\tindent
+	\setlength{\tindent}{1.0cm}
+	\renewcommand{\indent}{
+	\begin{picture}(0,0)%
+         \put(10,-5){\makebox(0,0){\scalebox{6}{\textcolor{quotemark}{``}}}}%
+         \end{picture}
+	\hspace*{\tindent}\hangindent=1.15cm}
+	\newenvironment{myquotation}{\indent}{}
+\else
+% for the HTML output for the ebook, the indentation is defined in the style.css
+	\newenvironment{myquotation}{\begin{quotation}}{\end{quotation}}
+\fi

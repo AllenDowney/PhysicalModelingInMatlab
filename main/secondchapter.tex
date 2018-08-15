@@ -1,0 +1,80 @@
+% Replace Replace with Second Chapter Name
+% Replace c2_secondchapter:cha with your chapter title label (no spaces, only lower case letters)
+% Replace the text below \end{chapterpage} and insert your own text.
+
+\begin{chapterpage}{Replace with Second Chapter Name}{c2_secondchapter:cha}
+
+\begin{myquotation} The perfect place for an introducing quotation.\par\vspace*{15mm}
+\mbox{}\hfill \emdash{}Famous Person\index{Person, Famous}
+% Add the source.
+%, \citetitle{bibitem}\index{@\citetitle{bibitem}} \ifxetex\label{famousperson-bibitem-quote}\else\citep[p.~123]{bibitem}\fi
+\par\end{myquotation}
+
+\end{chapterpage}
+
+% -------------------- replace or remove text below and paste your own text ------
+
+
+\section{Images}\label{c1_images:sec}
+
+As in Word, in \textit{LaTeX}, images are separate from the text. Images are usually packaged together with a caption and a label to reference it from the text. These three entities are packaged together into a figure. The figure itself configures the size of the image as well as where it should be put. Let us look at a code sample:
+\begin{lstlisting}
+\begin{figure}[H]
+	\centering
+	\ifxetex
+		\adjustbox{max width=.95\columnwidth, max height=.4\textheight}{
+			\includegraphics{images/ebookLatex_Cover.png}
+		}
+	\else
+		\includegraphics{images/ebookLatex_Cover.jpg}
+	\fi
+	\caption{The cover of this book.}
+	\label{c1_cover:fig}
+\end{figure}
+\end{lstlisting}
+
+Let us go through this line by line. At the core is the image, included with \textbf{\textbackslash includegraphics\{path to file\}}. It inserts the image specified by the ``path to file.'' In the example, there are two versions of \textbackslash includegraphics, one for the print output (\textbackslash ifxetex), one for the e-book. This way, we include either the larger, lossless PNG version, or a smaller, lossy JPG version of the cover. For the e-book, we do not need to provide any image size as the first output will be a HTML file with no boundaries. For the print edition, we have a clear boundary, namely the page width. With the \textbf{\textbackslash adjustbox} command, we can adjust the image size according to the page width (\textbackslash columnwidth) and page height (\textbackslash textheight). 
+
+In this case, in order to align with the caption and be able to show two images on one page, we want an image to be generally at most 95\% of the page width and 40\% of the page height.
+
+Below this \textbackslash ifxetex - \textbackslash else - \textbackslash fi construct, there is the caption and the label. \textit{LaTeX} automatically numbers each figure, so in the text, we can later refer to it with ``\textbackslash ref\{c1\_cover:fig\}'' which prints out the number of the figure. Finally, all these commands are centered with the \textbf{\textbackslash centering} command and surrounded with the figure environment. The \textbf{[H]} instructs \textit{LaTeX} to try to place the image exactly where it is in the \textit{LaTeX} code. 
+
+\begin{figure}[H]
+	\centering
+	\ifxetex
+		\adjustbox{max width=.95\columnwidth, max height=.4\textheight}{
+			\includegraphics{images/ebookLatex_Cover_highres.png}
+		}
+	\else
+		\includegraphics{images/ebookLatex_Cover.jpg}
+	\fi
+	\caption{The cover of this book.}
+	\label{c1_cover:fig}
+\end{figure}
+
+In Figure~\ref{c1_cover:fig}, you can see the result of the command.
+
+Instead of graphics, you can also include other TEX files that contain graphics (or commands to draw graphics, see chapter~\ref{c1_tikzgraphics:sec}).
+
+
+\section{TikZ Graphics}\label{c1_tikzgraphics:sec}
+
+For graphics, you can use the inbuilt TikZ graphics generator. Due to its flexibility, I even recommend images you already have for a number of reasons:
+
+\begin{itemize}
+\item TikZ graphics can very easily changed (especially for for example translations or making corrections).
+\item TikZ graphics are small and flexible. They can be easily scaled to any size and are directly integrated into your project (no time-consuming editing in an external graphics program necessary).
+\item TikZ graphics look better. As vector graphics are sent directly to the printer, we need not to worry about readability.
+\end{itemize}
+
+If you want to create a TikZ graphic, simply create a new TEX file in the \textit{tex-images} folder and include it with \textbf{\textbackslash input} (replacing \textbackslash includegraphics) where you want to. 
+
+Then, do a ``recompile from scratch'' by clicking on the top right corner of the preview window (showing Warning or Error) to regenerate the TikZ file. If ``up-to-date and saved'' is shown, delete the \textit{tikz-cache} directory and recreate it. This deletes the generated cached image files that do not show up in \textit{Overleaf} itself.
+
+For the format of the file itself, it is a series of commands surrounded by the \textbf{\textbackslash begin\{tikzpicture\} \dots \textbackslash end\{tikzpicture\}} environment. Discussing all the commands is beyond the scope of this book, so I recommend three options:
+
+\begin{itemize}
+\item Check out the PGF manual at \url{https://www.ctan.org/pkg/pgf}. It is more than 1100 pages full with documentation of each command and corresponding examples.
+\item Check out the few example TikZ pictures from my two books \citetitle{PFH1E} and \citetitle{PFH2E} in the \textit{tex-images} directory.
+\item Send us descriptions / drafts of the graphics you need. We can help you at affordable rates. Contact us at mail@lode.de.
+\end{itemize}

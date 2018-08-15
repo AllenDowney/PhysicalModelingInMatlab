@@ -1,0 +1,32 @@
+% DO NOT INCLUDE THIS .tex FILE IN THE main.tex, THIS IS JUST AS A REFERENCE FOR THE BACK COVER TEXT. Put your Amazon description here. Use it as a central place to manage your current version. You can use HTML. The text will not be included in your book.
+
+% Example text from "Better Books with LaTeX" (see https://amzn.to/2AEtMpK):
+
+Are you a <b>first-time author with a complete manuscript that you are ready to publish</b>? 
+
+Or do <b>you write novels in Word but now want to write a professional non-fiction book</b>? 
+
+Perhaps you are a <b>professional editor seeking to expand your services</b> from merely editing Word files to helping releasing books online.  Are you spending a lot of time indexing or managing bibliographical references?
+
+You may already be a <b>LaTeX expert who wants to publish your work as an ebook</b>. Are you planning a series and need to reuse text blocks? Are you looking for ways to share your work and collaborate with others? Are you looking for support to help you with diagrams and graphics?
+
+<hr />
+
+Besides providing you with a ready-to-use template to generate your first book, <i>Better Books with LaTeX and Agile</i> can teach you:
+
+<ul>
+<li>Advantages of using LaTeX instead of Word.</li>
+<li>The basics of LaTeX to get you started to make small adjustments to the template.</li>
+<li>Special requirements for final polishing (images, blank spaces, page breaks, etc.) to make a professional looking book / ebook.</li>
+<li>The legalities of writing a book (ISBN, publisher page, copyright, etc.) and what is required in the book.</li>
+</ul>
+
+And how to:
+<ul>
+<li>Convert a LaTeX document into a Kindle ebook in order to sell it on Amazon, or Google.</li>
+<li>Structure your book (foreword, preface, publisher information, TOC, glossary, ...) within a LaTeX project.</li>
+<li>Better manage bibliographical references in order to save time and reduce mistakes.</li>
+<li>Better manage indexes in order to save time during index creation and after page changes.</li>
+<li>Reuse glossary items and other text blocks to save time when writing a series.</li>
+<li>Create a book cover, add LaTeX graphics, and how a designer can help you create an appealing and selling book.</li>
+</ul>

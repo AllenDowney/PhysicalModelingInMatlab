@@ -1,0 +1,30 @@
+% Balance the contents of two columns (as opposed to filling first the left column and then the right). This is used for the glossary.
+% See https://tex.stackexchange.com/questions/241094/multicol-column-balancing-only-after-a-minimum-number-of-lines
+
+\usepackage[balancingshow]{multicol}
+
+\newcounter{multicolminlines}
+\setcounter{multicolminlines}{1}
+
+\makeatletter
+\xpatchcmd\balance@columns
+   {\ifnum\dimen@<\topskip
+     \mult@info\@ne
+       {Start value
+          \the\dimen@  \space ->
+          \the\topskip \space (corrected)}%
+     \dimen@\topskip
+   \fi}
+   {\skip@\c@multicolminlines\baselineskip
+   \advance\skip@-\baselineskip
+   \advance\skip@\topskip
+   \ifnum\dimen@<\skip@
+     \mult@info\@ne
+       {Start value
+          \the\dimen@  \space ->
+          \the\skip@ \space (corrected)}%
+     \dimen@\skip@
+   \fi
+   }
+   {\typeout{Success!}}{\patchFAILED}
+\makeatother

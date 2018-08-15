@@ -1,0 +1,18 @@
+% surrounding table of contents either with the appropriate style (PDF) or HTML commands (ebook).
+
+\ifx\HCode\undefined 
+	% put table of contents on the left side
+	\KOMAoptions{open=left}
+\else
+	\HCode{<nav epub:type="toc">}
+\fi
+
+\tableofcontents
+
+\ifx\HCode\undefined
+	\KOMAoptions{open=right}
+	% finalize page and clear pagestyle to remove header, reset to chapter beginnings on the right side
+	\thispagestyle{empty}\pagestyle{empty}\clearpage
+\else
+	\HCode{</nav>}
+\fi

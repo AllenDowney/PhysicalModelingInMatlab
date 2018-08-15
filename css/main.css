@@ -1,0 +1,149 @@
+/* CSS style sheet file for the HTML output. Note that some of the formatting will be again lost when converted into the various ebook formats (for example fonts and font sizes). */
+
+body {
+	font-family: Minion Pro, Baskerville, Garamond, EB Garamond, Georgia, serif;
+	font-size: 18px;
+	line-height: 1.5;
+	margin: 0 auto;
+    text-align:justify;
+}
+
+.titleHead, .sectionHead, .subsectionHead, .textsf {
+	font-family: Myriad Pro, Helvetica, Arial, sans-serif;
+}
+
+.texttt, .verb, .pre {
+    font-family: Inconsolata, Consolas, Courier, monospace;
+}
+
+.titleHead {
+	font-size: 32px;
+    text-align: left;
+}
+
+.sectionHead {
+	font-size: 28px;
+}
+
+.subsectionHead {
+	font-size: 24px;
+}
+
+.subsubsectionHead {
+	font-size: 20px;
+}
+
+.titlemark {
+	width: 2em;
+}
+
+.figure img {
+    display: block;
+    margin: auto;
+}
+
+.quotation {
+    margin: 0.25em 0;
+    padding: 0.35em 40px;
+    line-height: 1.45;
+    position: relative;
+    color: #383838;
+}
+
+.quotation:before {
+    display: block;
+    padding-left: 10px;
+    content: "\201C";
+    font-size: 80px;
+    position: absolute;
+    left: -15px;
+    top: -20px;
+    color: #7a7a7a;
+}
+
+.quotation cite {
+    color: #999999;
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+}
+
+.quotation cite:before {
+    content: "\2014 \2009";
+}
+
+div.center div {
+	text-align: justify;
+}
+
+div.quotation {
+    width: auto;
+}
+
+hr.figure, hr.endfigure {
+	style:none !important;
+	display:none;
+}
+
+.sc { 
+	font-variant: small-caps;
+}
+
+td {
+	white-space: normal !important;
+}
+
+.fbox {
+	border: none;
+}
+
+div.center div.fbox {
+	border: none;
+}
+
+dt.description {
+    font-weight: bold;
+}
+   
+img.icon {
+	float: left;
+    margin: 0px 15px 5px 0px;
+    width: 1cm;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-weight: bold;
+}
+
+h4 {
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 0.83em;
+    margin-top: 1.67em;
+    margin-bottom: 1.67em;
+    font-weight: bold;
+}
+
+p {
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens:auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-indent: 0.01em;
+}

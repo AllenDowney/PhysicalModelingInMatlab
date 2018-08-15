@@ -1,0 +1,147 @@
+% Replace Replace with First Chapter Name
+% Replace c1_firstchapter:cha with your chapter title label (no spaces, only lower case letters)
+% Replace the text below \end{chapterpage} and insert your own text.
+
+\begin{chapterpage}{Replace with First Chapter Name}{c1_firstchapter:cha}
+
+\begin{myquotation} The perfect place for an introducing quotation.\par\vspace*{15mm}
+\mbox{}\hfill \emdash{}Famous Person\index{Person, Famous}
+% Add the source.
+%, \citetitle{bibitem}\index{@\citetitle{bibitem}} \ifxetex\label{famousperson-bibitem-quote}\else\citep[p.~123]{bibitem}\fi
+\par\end{myquotation}
+
+\end{chapterpage}
+
+% -------------------- replace or remove text below and paste your own text ------
+
+
+\section{Basic Formatting}\label{c1_basicformatting:sec}
+
+\begin{itemize}
+
+\item \textbf{Comments}. If you want to just add a comment to a file without it being printed, add a \% (percentage) sign in front of it. The text in the affected line will be displayed in blue in \textit{Overleaf}. In the template files, you will find a number of such comments as well as deactivated commands (for example, in \textit{lib/bookformat.tex} the different options for the book size).
+
+\item \textbf{Bold formatting}. You can make your text bold by either marking it and pressing CTRL + B (in \textit{Overleaf}), or by surrounding it with the command \textbf{\textbackslash textbf\{\}}.
+
+\item \textbf{Italics formatting}. You can make your text italic by either marking it and pressing CTRL + I (in \textit{Overleaf}), or by surrounding it with the command \textbf{\textbackslash textit\{\}}.
+
+\item \textbf{Small caps}. You can change your text into small capitals by surrounding it with the command \textbf{\textbackslash textsc\{\}}.
+
+\item \textbf{Em dashes}. Em dashes are used to connect two related sentences. There is no space before or after the em dash. Within the template, use the command \textbf{\textbackslash emdash\{\}} instead of using the dash you copied over from your text file. This will also take care of issues relating to line breaks.
+
+\item \textbf{Paragraphs}. Paragraphs are handled automatically by leaving an empty line between each paragraph. Adding more than one empty line will not change anything\emdash{}remember it is not a ``what you see is what you get'' editor.
+
+\item \textbf{Empty line}. If you want to force an empty line (recommended only in special cases), you can use \textbf{\~{}\textbackslash\textbackslash} (tilde followed by two backslashes).
+
+\item \textbf{New page}. Pages are handled automatically by \textit{LaTeX}. It tries to be smart in terms of positioning paragraphs and pictures. Sometimes it is necessary to add a page break, though (ideally, at the very end when polishing the final text). For that, simply add a \textbf{\textbackslash newpage}.
+
+\item \textbf{Quotation marks}. In the normal computer character set, there are more than one type of quotation marks. It is required to change all quotation marks into \textbf{\`{}\`{}}\dots\textbf{\rq\rq} (two back ticks at the beginning and two single ticks at the end) and refrain from using "\dots" (or “\dots”) altogether. This is because Word's “\dots” uses special characters, and "\dots" do not mark the beginning and end of the quotation.
+
+\item \textbf{Horizontal line}. For a horizontal line, simply write \textbf{\textbackslash hline}.
+
+\item \textbf{Underlined text}. It is generally not recommended to use underlined text.
+
+\item \textbf{URLs}. For URLs you need a special monospaced font. Also, for URLs in e-books, you want to make them clickable. Both can be accomplished by putting the URL in the \textbf{\textbackslash url} environment, for example ``\textbackslash url\{https://www.lode.de\}''.
+
+\item \textbf{Special characters}. If you need special characters or mathematical formulas, there is a whole body of work on that subject. It is not in the scope of this book to provide you a comprehensive list.
+\end{itemize}
+
+
+
+\section{Lists}\label{c1_lists:sec}
+
+\begin{itemize}
+\item \textbf{Itemized list}. To create a bullet point list (like the list in this section), use the following construct:\begin{lstlisting}
+\begin{itemize}
+	\item Your first item.
+	\item Your second item.
+	\item Your third item.
+\end{itemize}
+\end{lstlisting}
+\item \textbf{Numbered list}. To create a numbered list, replace itemize with enumerate:\begin{lstlisting}
+\begin{enumerate}
+	\item Your first item.
+	\item Your second item.
+	\item Your third item.
+\end{enumerate}
+\end{lstlisting}
+
+The result will look like this:\begin{enumerate}
+	\item Your first item.
+	\item Your second item.
+	\item Your third item.
+\end{enumerate}
+
+
+\end{itemize}
+
+\section{Verbatim text}\label{c1_verbatim:sec}
+
+Sometimes, you do want to simply use text in a verbatim way (including special characters and \textit{LaTeX} commands). For this, simply use the \textbackslash lstlisting environment: \textbf{\textbackslash begin\{lstlisting\}} \dots \textbf{\textbackslash end\{lstlisting\}}. For example, I put the itemize and enumerate listings above into a \textbackslash lstlisting block. If I did not, \textit{LaTeX} would have displayed the list as a list, instead of displaying the code.
+
+
+
+\section{Chapters and Sections}\label{c1_chaptersandsections:sec}
+
+\textit{LaTeX} uses a hierarchy of chapters, sections, and subsections. There are also sub-subsections, but for the sake of the reader, it is best to not go that deep. If you come across a situation where it looks like you need it anyway, I recommend thinking over the structure of your book rather than using sub-subsections. 
+
+In terms of their use in the code, they are all similar:
+
+\begin{itemize}
+\item \textbf{\textbackslash chapter\{Title of the Chapter\}\textbackslash label\{c1\_chaptername:cha\}}
+\item \textbf{\textbackslash section\{Title of the Section\}\textbackslash label\{c1\_sectionname:sec\}}
+\item \textbf{\textbackslash subsection\{Title of the Subsection\}\textbackslash label\{c1\_subsectionname:sec\}}
+\end{itemize}
+
+When using these commands, obviously replace the title, but also the label. For the label, I recommend to have it start with c, followed with the current chapter number, an underscore, and the chapter, section, or subsection in one word and lowercase, followed by either ``:cha'' or ``:sec'' to specify what kind of label it is. These labels can then be used for references like we used previously for the images. For example, if you have defined a section ``\textbackslash section\{Chapters and Sections\}\textbackslash label\{c1\_chaptersandsections:sec\},'' you could write ``We will discuss chapters and sections in section \textbackslash ref\{c1\_chaptersandsections:sec\}'' which results in the document in ``We will discuss chapters and sections in section \ref{c1_chaptersandsections:sec}''.
+
+
+\section{Tables}\label{c1_tables:sec}
+
+In \textit{LaTeX}, tables are like images and put into the figure environment. As such, they have a caption, label, and a positioning like we discussed above with the images. Drawing a table requires a bit of coding:
+\begin{lstlisting}
+\begin{figure}[H]\centering
+\begin{tabular}{p{2.5cm}|p{3.5cm}|p{3.5cm}}\hline
+&\textbf{Word}&\textbf{\textit{LaTeX}}\\\hline
+
+Editor&``what you see is what you get''&source file is compiled\\\hline
+Compatibility&dependent on editor&independent of editor\\\hline
+Graphics&simple inbuilt editor&powerful but complex editor\\\hline
+Typography&optimized for speed&optimized for quality\\\hline
+Style&inbuilt style&separate style document\\\hline
+Multi-platform&only via export&possible with scripting\\\hline
+Refresh&some elements need, manual refresh&everything is refreshed with each compile\\\hline
+Formulas&basic support needs external tools&complete support\\\hline
+
+\end{tabular}
+\caption{Comparison of Word and \textit{LaTeX}}
+\label{c1_comparisonwordlatex:fig}
+\end{figure}
+\end{lstlisting}
+
+This table from the beginning of the book has the familiar figure, label, caption, and centering commands. The actual table is configured with the \textbf{\textbackslash tabular} environment. Following the tabular command, you configure the columns in curly braces. Each column is separated with a vertical line and the ``p\{\dots\}'' entry specifies the width of the column. With ``\{p\{2.5cm\}|p\{3.5cm\}|p\{3.5cm\}\},'' you would have three columns with 2.5cm width for the first column and 3.5cm width for the two others. Alternatively, you can use ``c'' instead of ``p'' and leave out the curly braces with the width. Then, \textit{LaTeX} simply calculates the required widths automatically.
+
+Then, for each line of the table, simply write ``content of the first cell\&content of the second cell\&content of the third cell\textbackslash\textbackslash\textbackslash hline''.
+
+
+\section{Footnotes}\label{c1_footnotes:sec}
+
+Finally, for footnotes, there is the command \textbf{\textbackslash footnote}. You can place it anywhere you like, \textit{LaTeX} will then automatically add the number of the footnote at that place, and put the footnote text into the footer area. For e-books, it is recommended to just use normal parentheses. This can be accomplished again with the \textbf{\textbackslash ifxetex} command: 
+\begin{lstlisting}
+\ifxetex
+	.\footnote{This
+\else{}
+	(this
+\fi{} 
+is a footnote
+\ifxetex
+	.}
+\else
+	).
+\fi{}
+
+\end{lstlisting}
+
+In the generated book, it looks like this\ifxetex.\footnote{This\else~(this\fi{} is a footnote\ifxetex.}\else).\fi{} 
+
+The challenge here relates to grammar: footnotes start with capital letters, parentheses with lower case, and the footnote comes after the period, the parentheses have to start before the period.

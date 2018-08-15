@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+\node (latex) [block] {\LaTeX{}\\document};
+\node (overleaf) [block, left=of latex] {Overleaf};
+\node (pdf) [block, above left=of overleaf] {PDF}; % xelatex
+\node (html) [block, above right=of overleaf] {HTML}; % pdfLaTeX + tex4ht
+
+\node (print) [block, above= of pdf] {Printed\\book};
+\node (mobi) [block, above left=of html] {MOBI\\(Amazon)}; % Kindle Previewer
+\node (epub) [block, above= of html] {EPUB\\(GooglePlay)}; % Calibri
+
+\draw[out=90,in=270] [arrow] (overleaf) to node[textarr] {XeLaTeX} (pdf);
+\draw[out=90,in=270] [arrow] (overleaf) to node[textarr] {pdfLaTeX\\tex4ht} (html);
+
+\draw [arrow] (latex) -- (overleaf);
+\draw [arrow] (pdf) -- (print);
+
+\draw[out=90,in=270] [arrow] (html) to node[textarr] {Kindle\\Previewer} (mobi);
+\draw [arrow] (html) -- node[textarr] {Calibri} (epub);
+
+\end{tikzpicture}

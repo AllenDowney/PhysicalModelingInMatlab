@@ -1,0 +1,19 @@
+% Selecting document class scrbook to be in the two-page mode and accommodate for the binding of a printed book.
+% The bibliography receives an entry in the table of contents but no number.
+\documentclass[pagesize=auto,bibliography=totocnumbered]{scrbook}
+\title{Clemens Lode's LaTeX Book Template}
+
+% activate babelEN
+\usepackage[american]{babel}
+
+
+% add a list of words to enforce a certain hyphenation for them.
+\usepackage{xspace}
+\usepackage{hyphenat}
+\hyphenation{}
+
+% load additional LaTeX libraries.
+\input{lib/packages}
+
+% load the actual book.
+\input{main}
