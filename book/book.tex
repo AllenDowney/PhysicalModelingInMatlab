@@ -1129,6 +1129,7 @@ the name of the letter (assuming you know it).
 \chapter{Scripts}
 
 \section{M-files}\index{Scripts!M-files}
+\label{sect:M-files}
 
 So far we have typed all of our programs ``at the prompt,'' which is
 fine if you are not writing more than a few lines.  Beyond that,
@@ -3554,14 +3555,14 @@ function res = isintegral(x)
 end
 \end{verbatim}
 
-This function is good enough for most applications, but remember
+This function is good enough for many applications, but remember
 that floating-point values are
 sometimes
 only approximately right: in some
 cases the approximation is an integer but the actual
-value is not,
-and in other cases like what we saw with fibonacci1.m,
-the actual value is an integer but the floating-point
+value should not be,
+and in other cases, like what we saw with fibonacci1.m in Section~\ref{sect:M-files} when {\tt n} was set to 10,
+the actual value should be an integer but the non-integral floating-point
 approximation is not.
 
 
