@@ -10,12 +10,7 @@ The book's site is [here](http://greenteapress.com/wp/physical-modeling-in-matla
 
 ## Generating a PDF of the book
 
-From the root of this repository run
-
-```
-cd book
-make pdfbook
-```
+Follow the instruction [here](BUILDING.md)
 
 and then a PDF of the book should appear in the `book` directory. If you prefer
 a PDF tailored for print, replace `pdfbook` with `pdfprintbook`.
