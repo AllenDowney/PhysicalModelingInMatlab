@@ -3860,6 +3860,7 @@ multiples of the $3,4,5$ triangle we already knew.
 When you change the signature of a function, you have to change all
 the places that call the function, too.  For example, suppose
 I decided to add a third input variable to {\tt hypotenuse}:
+% wcs -- talk about copying from a different file using copyfile (and waiting after copying the file)
 
 \begin{verbatim}
 function res = hypotenuse(a, b, d)
@@ -3970,10 +3971,10 @@ is a Pythagorean triple for all $n \ge 1$.
 
 \begin{ex}
 Write a function named {\tt fib\_triple} that
-takes an input variable {\tt n}, computes
-the first {\tt n} Fibonacci numbers, and then checks whether
-this formula produces Pythagorean triples for numbers
-in the sequence.
+takes an input variable {\tt nMax}, computes the sequence of 
+the first {\tt nMax} Fibonacci numbers, and then checks whether
+this formula produces a Pythagorean triple for all {\tt n} such that 
+$ 1 \leq n \leq nMax-3 $
 \end{ex}
 
 
@@ -4202,19 +4203,23 @@ same information about $x$---so why is the second one preferable
 to the first?
 
 There are two reasons.  One is that the relationship is now ``explicit
-in $x$;'' because $x$ is all alone on the left side, we can treat
-the right side as a recipe for computing $x$, assuming that we
+in $x$:'' because $x$ is all alone on the left side, we can treat
+the right side as a recipe for computing values for $x$, assuming that we
 know the value of $a$.
 
 The other reason is that the recipe is written in terms of operations
 we know how to perform.  Assuming that we know how to compute square
-roots, we can compute the value of $x$ for any value of $a$.
+roots, we can compute values for $x$ for any value of $a$.
 
 When people talk about solving an equation, what they usually mean
 is something like ``finding an equivalent relationship that is
 explicit in one of the variables.''  In the context of this book,
-that's what I will call an {\bf analytic solution}, to distinguish
-it from a {\bf numerical solution}, which is what we are going to
+that's what I will call an {\bf analytic solution}, 
+\index{Zero-finding!analytic solution}
+to distinguish
+it from a {\bf numerical solution}, 
+\index{Zero-finding!numerical solution}
+which is what we are going to
 do next.
 
 To demonstrate a numerical solution, consider the equation $x^2 - 2x =
@@ -4227,34 +4232,35 @@ This equation is not explicit, since $x$ appears on both sides, so
 it is not clear that this move did any good at all.  But suppose
 that we had some reason to expect there to be a solution near 4.
 We could start with $x=4$ as an ``initial guess,'' and then use
-the equation $x = \sqrt{2x+3}$ iteratively to compute successive
+the equation $x = + \sqrt{2x+3}$ iteratively to compute successive
 approximations of the solution.\footnote{To understand why this
 (sometimes) works, see
 \url{https://en.wikipedia.org/wiki/Fixed-point_iteration}.}
 \index{Zero-finding!fixed-point iteration}
+Because our initial guess is positive, we use the positive square root in the equation for iteration.  
 
 Here's what would happen:
 
 \begin{verbatim}
 >> x = 4;
 
->> x = sqrt(2*x+3)
+>> x = +sqrt(2*x+3)
 
 x = 3.3166
 
->> x = sqrt(2*x+3)
+>> x = +sqrt(2*x+3)
 
 x = 3.1037
 
->> x = sqrt(2*x+3)
+>> x = +sqrt(2*x+3)
 
 x = 3.0344
 
->> x = sqrt(2*x+3)
+>> x = +sqrt(2*x+3)
 
 x = 3.0114
 
->> x = sqrt(2*x+3)
+>> x = +sqrt(2*x+3)
 
 x = 3.0038
 \end{verbatim}
@@ -4264,12 +4270,17 @@ and after 5 iterations, the relative error is about 0.1\%, which
 is good enough for most purposes.
 
 Techniques that generate numerical solutions are called
-{\bf numerical methods}.  The nice thing about the method I
+{\bf numerical methods}.  
+\index{Zero-finding!numerical methods}
+The nice thing about the method I
 just demonstrated is that it is simple, but it doesn't always
-work as well as it did in this example, and it is not used
+work as well as it did above.
+For example, things don't work so well if we start with $x$ near -1. If we start with $x=-2$ and use
+the equation $x = - \sqrt{2x+3}$, for example, then we will be trying to take the square root of a negative number.  If we start with $x=-0.9$, then we will bounce back and forth around -1 but be diverging from -1.  
+
+Fixed-point iteration, shown above, is not used
 very often in practice.  We'll see one of
 the more practical alternatives in a minute.
-
 
 
 
@@ -4452,7 +4463,7 @@ Error in error_func (line 2)
     res = x^2 - 2*x -3;
 \end{verbatim}
 
-The error occurs as MATLAB treats the first argument as a function call,
+The error occurs because MATLAB treats the first argument as a function call,
 so it calls {\tt error\_func} with no arguments.
 
 Another common problem is writing an error function that never
@@ -4622,21 +4633,32 @@ For example, if you have a function named {\tt f}, and then
 try to increment a variable named {\tt f} (and if you forget to
 initialize {\tt f}), you get
 
-\begin{verbatim}
->> f = f+1
-Undefined function or variable 'f'.
-\end{verbatim}
-
-At least, that's what you get if you are lucky.  If this happens
-inside a function, MATLAB tries to call {\tt f} as a function,
-and you get this
-
+% wcs Why does there sometimes seem to be very little space in the .pdf above a verbatim section?
+% wcs   Answer is that it seems to depend on how much Latex is trying to cram on the page.
 \begin{verbatim}
 >> f = f+1
 Not enough input arguments.
 
 Error in f (line 3)
 y = x^2 - a
+\end{verbatim}
+
+At least, that's what you get if you are lucky.  If this happens
+inside a function, MATLAB tries to call {\tt f} as a function,
+and you get this
+
+% wcs We should give this verbatim section below a smaller font.  
+
+% "f" previously appeared to be used as a function or command, conflicting with its use here as the name of a variable.
+% A possible cause of this error is that you forgot to initialize the variable, or you have initialized it implicitly using load or eval.
+\begin{verbatim}
+>> calls_f
+Error: File: calls_f.m Line: 3 Column: 1
+"f" previously appeared to be used as a function or command, conflicting 
+with its use here as the name of a variable.
+A possible cause of this error is that you forgot to initialize the variable, or 
+you have initialized it implicitly using load or eval.
+
 \end{verbatim}
 
 There is no universal way to avoid these kind of
