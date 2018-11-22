@@ -4889,7 +4889,7 @@ infinity?  Goes to zero?
 So far we have only put one function in each file.  It is also possible
 to put more than one function in a file, but only the first one, the
 {\bf top-level function} can be called from the Command
-Window.\index{Functions!top-level} The other {\bf helper
+Window or functions in other files.\index{Functions!top-level} The other {\bf helper
 functions} can be called from anywhere inside the file, but not from any
 other file.
 
@@ -5239,7 +5239,7 @@ D = 2     3     4     5
 Notice that the output vector is shorter by one than the input
 vector.  As a result, MATLAB's version of {\tt diff} is not
 exactly the inverse of {\tt cumsum}.  If it were, then we would
-expect {\tt cumsum(diff(X))} to be {\tt X}:
+expect {\tt cumsum(diff(V)} to be {\tt V}:
 
 \begin{verbatim}
 >> cumsum(diff(V))
@@ -5414,7 +5414,7 @@ correspond to the elements of {\tt V}.  For each positive element of
 Logical vectors can be used like flags to store the state of
 a condition.  They are also often used with the {\tt find} function,
 which takes a logical vector and returns a vector that contains
-the indices of the elements that are ``true.''
+the indices of the elements that are not ``false.''
 
 Applying {\tt find} to {\tt L} yields
 
@@ -5424,9 +5424,9 @@ Applying {\tt find} to {\tt L} yields
 ans = 5     6     7
 \end{verbatim}
 
-which indicates that elements 5, 6 and 7 have the value 1.
+which indicates that elements 5, 6 and 7 do not have the value 0 (false).
 
-If there are no ``true'' elements, the result is an empty vector.
+If all the elements are 0 (i.e. ``false''), the result is an empty vector.
 
 \begin{verbatim}
 >> find(V>10)
