@@ -24,3 +24,4 @@
 *.synctex.gz
 *.pdf
 *.tex.bak
+book/html
