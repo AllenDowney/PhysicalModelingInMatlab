@@ -5515,9 +5515,9 @@ For example, when bacteria grow in particularly bacteria-friendly
 conditions, the rate of growth at any point in time is proportional to
 the current population.  What we might like to know is the population
 as a function of time.  Toward that end, let's define $f$ to be a
-function that maps from time, $t$, to population $y$,
-such that $y = f(t)$.  We don't
-know what it is, but we can write a differential equation
+function that maps from time, $t$, to population $y$ (in billions of cells),
+such that $y = f(t)$.  We might not
+know what the function is, but we can definitely write a differential equation
 that describes it:
 
 \begin{equation}\label{eq:exp_growth}
@@ -5569,19 +5569,19 @@ we can use that additional information to determine which of the
 infinite solutions is the (unique) one that describes a particular
 population over time.
 
-For example, if we know that $f(0) = 5$ billion cells, then we
+For example, if we know that $f(0) = 5.4$ (billion cells), then we
 can write
 
 \begin{equation}
-f(0) = 5 = b e^{a 0}
+f(0) = 5.4 = b e^{a 0}
 \end{equation}
 
 
-and solve for $b$, which is 5.  That determines what we wanted
+and solve for $b$, which is 5.4.  That determines what we wanted
 to know:
 
 \begin{equation}
-f(t) = 5 e^{at}
+f(t) = 5.4 e^{at}
 \end{equation}
 
 
@@ -5624,9 +5624,9 @@ next using these equations:
 
 \begin{eqnarray}
 \label{eq:euler1}
-T_{n+1} = T_n + \Delta t           \\
+F_{n+1} = F_n + g(T_n,F_n)~\Delta t           \\
 \label{eq:euler2}
-F_{n+1} = F_n + g(T_n,F_n)~\Delta t
+T_{n+1} = T_n + \Delta t
 \end{eqnarray}
 
 Here $\{T_i\}$ is a sequence of times where we estimate the value
@@ -5636,10 +5636,12 @@ The interval $\Delta t$ is called the {\bf time step}.
 
 Assuming that we start at $t=0$ and we have an initial condition $f(0)
 = y_0$ (where $y_0$ denotes a particular, known value), we set
-$T_0 = 0$ and $F_0 = y_0$, and then use
+$T_1 = 0$ and $F_1 = y_0$, and then use
 equations \eqref{eq:euler1} and \eqref{eq:euler2} to
-compute values of $T_i$ and $F_i$ until $T_i$
-gets to the value of $t$ we are interested in.
+compute values of $F_i$ and $T_i$ (starting at $i = 2$) until $T_i$
+gets to the value of $t$ we are interested in.  To be consistent with 
+normal MATLAB array indexing, we use index 1 for the first index of 
+the sequences.  
 
 If the rate doesn't change too fast and the time step isn't
 too big, Euler's method is accurate enough for most purposes.  One
@@ -5670,13 +5672,13 @@ $\Delta t$  &  time step            & scalar constant \\\hline
 $y$     &  population           & scalar variable \\\hline
 $r$     &  rate of change       & scalar variable \\\hline
 
-$f$     &  The unknown function specified,    &  function, f(t): $t \to y$  \\
+$f$     &  The unknown function specified,    &  function, $f(t)$: $t \to y$  \\
         &  implicitly, by an ODE.             &    \\\hline
 
-$df/dt$  &  The first time derivative of $f$  &  function, df/dt(t): $t \to r$  \\ \hline
+$df/dt$  &  The first time derivative of $f$  &  function, $df/dt$  \\ \hline
 
 $g$     &  A ``rate function,'' derived from     &  \\
-        &  the ODE \eqref{eq:g_ODE}, that computes rate of &function, g(t,y): $t, y \to r$  \\
+        &  the ODE \eqref{eq:g_ODE}, that computes rate of &function, $g(t,y)$: $t, y \to r$  \\
         &  change for any $t$, $y$.           &   \\\hline
 
 $T$     & a sequence of times, $t$, where   & sequence \\
@@ -5690,17 +5692,17 @@ time, $f(t)$ is the function evaluated at a particular time, and if we
 assign $f(t)$ to a variable, we usually call that variable $y$.
 
 Similarly, $g$ is a ``rate function'' that computes the rate of change as a
-function of time and population.
-
-$df/dt$ is the first derivative of $f$, and it maps from $t$ to a
-rate.  If we assign $df/dt(t)$ to a variable,
+function of time and population.  If we assign $g(t,y)$ to a variable,
 we can call that variable $r$.
 
+$df/dt$ is the first derivative of $f$, and it maps from $t$ to a
+rate.  
+
 It is easy to get $df/dt$ confused with $g$, but notice that they are
-not even the same type.
-$df/dt$ is more specific: it computes the rate of change for the
+not the same type.
+$df/dt$ is specific: it computes the rate of change for the
 population $f(t)$ at any time $t$;
-$g$ is more general: it computes the rate
+$g$ is general: it computes the rate
 of change for \textit{any} population $y$ at any time $t$.
 
 
@@ -5789,19 +5791,17 @@ different values of {\tt t} and {\tt y}; the result is the rate of
 change (in units of rats per day):
 
 \begin{verbatim}
->> r = rats(0, 2)
+>> r = rats(0, 2000)
 
-r = 0.0200
+r = 20
 \end{verbatim}
 
-So if there are two rats on January 1, we expect them to reproduce
-at a rate that would produce 2 more rats per hundred days. But
-if we come back in April, the rate has almost doubled:
+So if there are two thousand rats on January 1, we expect them to reproduce at a rate that would produce 20 more rats per day. But if there are two thousand rats on a day in April, the rate has almost doubled: 
 
 \begin{verbatim}
->> r = rats(120, 2)
+>> r = rats(120, 2000)
 
-r = 0.0376
+r = 37.6002
 \end{verbatim}
 
 Since the rate is constantly changing, it is not easy to predict
@@ -5809,12 +5809,12 @@ the future rat population, but that is exactly what {\tt ode45} does.
 Here's how you would use it:
 
 \begin{verbatim}
->> ode45(@rats, [0, 365], 2)
+>> ode45(@rats, [0, 365], 2000)
 \end{verbatim}
 
 The first argument is a handle for the function that
 computes $g$.  The second argument is the interval we are interested
-in, one year.  The third argument is the initial population, $f(0) = 2$.
+in, one year.  The third argument is the initial population, $f(0) = 2000$.
 
 When you call {\tt ode45} without assigning the result to a variable,
 MATLAB displays the result in a figure:
@@ -5822,7 +5822,7 @@ MATLAB displays the result in a figure:
 \beforefig \centerline{\includegraphics[height=2in]{figs/rats.eps}}
 
 The x-axis shows time from 0 to 365 days; the y-axis shows the rat
-population, which starts at 2 and grows to almost 80.  The rate
+population, which starts at 2000 and grows to almost 80,000.  The rate
 of growth is slow in the winter and summer, and faster in the
 spring and fall, but it also accelerates as the population grows.
 
@@ -5835,7 +5835,7 @@ than one output variable.  The syntax for calling it and saving
 the results is
 
 \begin{verbatim}
->> [T, Y] = ode45(@rats, [0, 365], 2);
+>> [T, Y] = ode45(@rats, [0, 365], 2000);
 \end{verbatim}
 
 The first return value is assigned to {\tt T}; the second is assigned
@@ -5848,21 +5848,24 @@ If you assign the output values to variables,
 you have to do it yourself:
 
 \begin{verbatim}
->> plot(T, Y, 'bo-')
+>> plot(T, Y, '-o')
 \end{verbatim}
 
 If you plot the elements of {\tt T}, you'll see that the
 space between the points is not quite even.  They are closer
 together at the beginning of the interval and farther apart at the end.
 
-To see the population at the end of the year, you can display the
+To see the population at the end of day 365, you can display the
 last element from each vector:
 
 \begin{verbatim}
 >> [T(end), Y(end)]
 
 ans = 365.0000   76.9530
+ans = 1.0e+04 *
+0.0365    7.6953
 \end{verbatim}
+% wcs -- should we comment on scaling of output.
 
 {\tt end} is a special word in MATLAB; when it appears as an index,
 it means ``the index of the last element.''  You can use it in an
@@ -5891,44 +5894,65 @@ don't have analytic solutions, which is the vast majority
 of nonlinear ODEs.
 
 If you are curious to know more about how {\tt ode45} works, you
-can modify {\tt rats} to display the points, $(t, y)$, where
-{\tt ode45} evaluates $g$.  Here is a simple version:
+can modify the {\tt rats} function to display the points, $(t, y)$, where
+{\tt ode45} evaluates $g$.  Here is such a version, renamed to rats\_plot.m:
 
 \begin{verbatim}
-function res = rats(t, y)
-    plot(t, y, 'bo')
+function res = rats_plot(t, y)
+    plot(t, y, 'r.')
     a = 0.01;
     omega = 2 * pi / 365;
     res = a * y * (1 + sin(omega * t));
 end
 \end{verbatim}
 
-Each time {\tt rats} is called, it plots one data point; in order
-to see all of the data points, you have to use {\tt hold on}.
+Each time {\tt rats\_plot} is called, for example by {\tt ode45}, a dot is plotted showing one data point; in order
+to see multiple data points in a figure, you have to use {\tt hold on}.
 
 \begin{verbatim}
 >> clf; hold on
->> [T, Y] = ode45(@rats, [0, 10], 2);
+>> [T, Y] = ode45(@rats_plot, [0, 365], 2000);
+>> xlim([200, 280])
 \end{verbatim}
-This figure shows the output with the simple function above:
 
-\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45_simple.eps}}
+% should we comment on <clf; hold on> -- i.e. two commands on one line?
+Note that {\tt xlim([200, 280])} selects a certain domain of time for the figure, in this case from Day 200 to 280:
 
-This figure shows the output of a more complicated script that zooms
-%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
-%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
-in on the range from Day 100 to 170:
+\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45_simple.eps}}
 
-\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45.eps}}
+The xlim call could have been placed before the ode45 call.  Experiment with different orderings of the calls and see how the figure evolves in different ways.  So the dots show the points where {\tt ode45} called {\tt rats\_plot}.  Now let's continue with these four additional lines of code.
 
-The circles show the points where {\tt ode45} called {\tt rats}.
-The lines through the circles show the slope (rate of change) calculated
-at each point.  The rectangles show the locations of the estimates
+\begin{verbatim}
+>> plot(T, Y, '-o')
+>> hold off
+>> xlabel('t (days)')
+>> ylabel('y (rat population)')
+\end{verbatim}
+
+This results in the updated figure:  
+
+\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45plotLabel.eps}}
+
+The circles show the locations of the estimates
 $(T_i, F_i)$.  Notice that {\tt ode45} typically evaluates
-$g$ several times for each estimate.  This allows it to improve the
+$g$ 
+%more times than the number of estimates
+more times than it provides estimates of $f$.  This allows it to improve the
 estimates, for one thing, but also to detect places where the errors
 are increasing so it can decrease the time step (or the other
-way around).
+way around).  The labels were produced, obviously, by the {\tt xlabel} and {\tt ylabel} calls.
+
+\begin{ex}
+Write code that creates a figure that also plots short 
+red lines through the red dots to show the slope (rate of change) calculated
+at each point, as shown below.  Note that the plotted estimates are not connected by lines in this figure.
+
+%wcs -- Not sure we want to make all the code, including solutions, available to students whose teacher chose the book.
+%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
+%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
+
+\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45.eps}}
+\end{ex}
 
 
 \section{What could go wrong?}
@@ -5986,7 +6010,7 @@ an assignment to the output variable.  If you write something
 like this:
 
 \begin{verbatim}
-function res = rats_8_7(t, y)
+function res = rats_bad(t, y)
     a = 0.01;
     omega = 2 * pi / 365;
     r = a * y * (1 + sin(omega * t))    % WRONG
@@ -5997,7 +6021,7 @@ And then call it from {\tt ode45}, you get
 
 \begin{verbatim}
 Output argument "res" (and maybe others) not assigned during call
-to "rats_8_7".
+to "rats_bad".
 
 Error in odearguments (line 87)
 f0 = feval(ode,t0,y0,args{:});   % ODE15I sets args{1} to yp0.
@@ -6007,15 +6031,14 @@ Error in ode45 (line 115)
     options, varargin);
 \end{verbatim}
 
-This might be a scary message, but if you read the first line
-and ignore the rest, you'll get the idea.
+This might be a scary set of messages, but if you read the first and ignore the rest, you’ll get the idea.
 
 Yet another mistake that people make with {\tt ode45} is leaving
 out the brackets on the second argument.  In that case, MATLAB
 thinks there are four arguments, and you get
 
 \begin{verbatim}
->> ode45(@rats, 0, 365, 2)
+>> ode45(@rats, 0, 365, 2000)
 Error using odearguments (line 21)
 When the first argument to ode45 is a function handle, the tspan
 argument must have at least two elements.
@@ -6025,7 +6048,7 @@ Error in ode45 (line 115)
     options, varargin);
 \end{verbatim}
 
-Again, if you read the first line, you should be able to figure
+Again, if you read the first message, you should be able to figure
 out the problem ({\tt tspan} stands for ``time span'', which we
 have been calling the interval).
 
@@ -6037,7 +6060,7 @@ There is yet another problem you might encounter, but if it makes you
 feel better, it might not be your fault: the problem you are trying to
 solve might be {\bf stiff}.\footnote{The following discussion is based
 partly on an article from Mathworks available at
-\url{http://www.mathworks.com/company/newsletters/news_notes/clevescorner/may03_cleve.html}.}
+\url{https://www.mathworks.com/company/newsletters/articles/stiff-differential-equations.html}.}
 
 I won't give a technical explanation of stiffness here, except
 to say that for some problems (over some intervals with some initial
