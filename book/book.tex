@@ -1,5 +1,5 @@
 % LaTeX source for textbook ``Physical Modeling in MATLAB''
-% Copyright 2014 Allen B. Downey.
+% Copyright 2018 Allen B. Downey and W. Craig Scratchley
 %
 % License: Creative Commons Attribution-NonCommercial 3.0 Unported License.
 % http://creativecommons.org/licenses/by-nc/3.0/
@@ -39,7 +39,7 @@
 \hypersetup{
     pdftitle={Physical Modeling in MATLAB},
     pdfsubject={MATLAB programming},
-    pdfauthor={Allen B. Downey},
+    pdfauthor={Allen B. Downey, W. Craig Scratchley},
     pdfcreator={LaTeX},
     ps2pdf,
 }
@@ -234,6 +234,7 @@ for all versions of this book can be found at
 Copying, distributing, and contributing to \thetitle is encouraged.
 The above repositories are the easiest entry points for this.
 
+\chapter{Preface to Version 2}
 \end{latexonly}
 
 
@@ -259,11 +260,10 @@ under the terms of the Creative Commons Attribution-NonCommercial 3.0
 Unported License, which is available at
 \url{http://creativecommons.org/licenses/by-nc/3.0/}.
 
-\setcounter{chapter}{-1}
+%\setcounter{chapter}{-1}
+\chapter*{Preface to Version 2} % prefaces appear in index.html but not html TOC
 
 \end{htmlonly}
-
-\chapter {Preface to Version 2}
 
 I've used \textit{\thetitle} as the course
 textbook for ``Introduction to Engineering Analysis'' at Simon Fraser
@@ -298,7 +298,15 @@ Michael Cline, and Matt Wiens.
 
 \newpage
 
+\begin{latexonly}
 \chapter{Preface}
+\end{latexonly}
+\begin{htmlonly}
+%\setcounter{chapter}{-1}
+\chapter*{Preface} % prefaces appear in index.html but not html TOC
+\end{htmlonly}
+%\chapter{Preface}
+% can we use htmlonly and latexonly here if needed.
 
 % TODO: Let's unify the two prefaces and update with information about
 % the revised book, Octave, and instructions for working with the code.
@@ -340,7 +348,7 @@ the material before.
 There are small exercises within each chapter, and a few larger
 exercises at the end of some chapters.
 
-\section{Working with the code}
+\section*{Working with the code}
 
 Installing MATLAB.
 
