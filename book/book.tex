@@ -5735,7 +5735,7 @@ which varies over the course of the year.
 The governing equation might be something like
 
 \begin{equation}
-\frac{df}{dt}(t) = a f(t) \left[1 + \sin (\omega t) \right]
+\frac{df}{dt}(t) = a f(t) \frac{\left[1 - \cos (\omega t) \right]}{2}
 \end{equation}
 
 %
@@ -5747,7 +5747,7 @@ example, in Exercise~\ref{ex:duck} we used parameters {\tt rho} and
 {\tt r} to quantify the density and radius of a duck.  Parameters are
 often constants, but in some models they vary in time.
 
-In this example, $a$ characterizes the reproductive rate, and
+In this example, $a$ characterizes the peak reproductive rate for a rat, and
 $\omega$ is the frequency of a periodic function that describes
 the effect of varying food supply on reproduction.
 
@@ -5759,7 +5759,7 @@ The first step is to introduce a variable,
 $y$, as another name for $f(t)$
 
 \begin{equation}
-\frac{df}{dt}(t) = a y \left[1 + \sin (\omega t) \right]
+\frac{df}{dt}(t) = a y \frac{\left[1 - \cos (\omega t) \right]}{2}
 \end{equation}
 
 This equation means that if we are given $t$ and $y$, we can
@@ -5768,21 +5768,21 @@ The next step is to express that computation as a function called
 $g$:
 
 \begin{equation}
-g(t, y) = a y \left[1 + \sin (\omega t) \right]
+g(t, y) = a y \frac{\left[1 - \cos (\omega t) \right]}{2}
 \end{equation}
 
 Writing the function this way is useful because we can use it
 with Euler's method
 or {\tt ode45} to estimate values of $f$.  All we have to
 do is write a MATLAB function that evaluates $g$.  Here's what
-that looks like using the values $a = 0.01$
-and $\omega = 2 \pi/365$ (one cycle per year):
+that looks like using the values $a = 0.02$
+and $\omega = 2 * 2 \pi/365$ (two cycles per year):
 
 \begin{verbatim}
 function res = rats(t, y)
-    a = 0.01;
-    omega = 2 * pi / 365;
-    res = a * y * (1 + sin(omega * t));
+    a = 0.02;
+    omega = 2 * 2*pi / 365;
+    res = a * y * (1 - cos(omega * t)) / 2;
 end
 \end{verbatim}
 
@@ -5791,17 +5791,20 @@ different values of {\tt t} and {\tt y}; the result is the rate of
 change (in units of rats per day):
 
 \begin{verbatim}
->> r = rats(0, 2000)
+>> r = rats(31, 2000)
 
-r = 20
+r = 10.3498
 \end{verbatim}
 
-So if there are two thousand rats on January 1, we expect them to reproduce at a rate that would produce 20 more rats per day. But if there are two thousand rats on a day in April, the rate has almost doubled: 
+So if there are two thousand rats on February 1, we expect them to 
+reproduce at a rate that would produce about 10 more rats per day. 
+But if there are two thousand rats on a certain day in April, the 
+rate has almost tripled: 
 
 \begin{verbatim}
 >> r = rats(120, 2000)
 
-r = 37.6002
+r = 30.9769
 \end{verbatim}
 
 Since the rate is constantly changing, it is not easy to predict
@@ -5823,8 +5826,10 @@ MATLAB displays the result in a figure:
 
 The x-axis shows time from 0 to 365 days; the y-axis shows the rat
 population, which starts at 2000 and grows to almost 80,000.  The rate
-of growth is slow in the winter and summer, and faster in the
-spring and fall, but it also accelerates as the population grows.
+of growth slows to zero in the winter and summer, and is fast in the
+spring and fall, but it also tends to increase as the population grows.  
+So the rate will be faster on February 1 next year than on February 
+1 this year.  
 
 
 \section{Multiple output variables}
@@ -5855,15 +5860,13 @@ If you plot the elements of {\tt T}, you'll see that the
 space between the points is not quite even.  They are closer
 together at the beginning of the interval and farther apart at the end.
 
-To see the population at the end of day 365, you can display the
-last element from each vector:
+To see the population around the beginning of the next year, 
+you can display the last element from each vector:
 
 \begin{verbatim}
 >> [T(end), Y(end)]
-
-ans = 365.0000   76.9530
 ans = 1.0e+04 *
-0.0365    7.6953
+0.0365    7.6958
 \end{verbatim}
 % wcs -- should we comment on scaling of output.
 
@@ -5895,14 +5898,15 @@ of nonlinear ODEs.
 
 If you are curious to know more about how {\tt ode45} works, you
 can modify the {\tt rats} function to display the points, $(t, y)$, where
-{\tt ode45} evaluates $g$.  Here is such a version, renamed to rats\_plot.m:
+{\tt ode45} evaluates $g$.  
+Here, instead, is a new function
+{\tt rats\_plot}
+that displays the point and then invokes the original {\tt rats} function.
 
 \begin{verbatim}
 function res = rats_plot(t, y)
     plot(t, y, 'r.')
-    a = 0.01;
-    omega = 2 * pi / 365;
-    res = a * y * (1 + sin(omega * t));
+    res = rats(t, y);
 end
 \end{verbatim}
 
@@ -5912,15 +5916,15 @@ to see multiple data points in a figure, you have to use {\tt hold on}.
 \begin{verbatim}
 >> clf; hold on
 >> [T, Y] = ode45(@rats_plot, [0, 365], 2000);
->> xlim([200, 280])
+>> xlim([280, 365])
 \end{verbatim}
 
 % should we comment on <clf; hold on> -- i.e. two commands on one line?
-Note that {\tt xlim([200, 280])} selects a certain domain of time for the figure, in this case from Day 200 to 280:
+Note that {\tt xlim([280, 365])} selects a certain domain of time for the figure, in this case from Day 280 to 365:
 
 \beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45_simple.eps}}
 
-The xlim call could have been placed before the ode45 call.  Experiment with different orderings of the calls and see how the figure evolves in different ways.  So the dots show the points where {\tt ode45} called {\tt rats\_plot}.  Now let's continue with these four additional lines of code.
+The {\tt xlim} call could have been placed before the {\tt ode45} call.  Experiment with different orderings of the calls and see how the figure evolves in different ways.  So the dots show the points where {\tt ode45} called {\tt rats\_plot}.  Now let's continue with these four additional lines of code.
 
 \begin{verbatim}
 >> plot(T, Y, '-o')
@@ -5962,11 +5966,11 @@ If you leave it out, MATLAB treats the first argument as a function
 call, and calls {\tt rats} without providing arguments.
 
 \begin{verbatim}
->> ode45(rats, [0,365], 2)
+>> ode45(rats, [0,365], 2000)
 Not enough input arguments.
 
 Error in rats (line 4)
-    res = a * y * (1 + sin(omega * t));
+    res = a * y * (1 - cos(omega * t)) / 2;
 \end{verbatim}
 
 Again, the error message is confusing, because it looks like the problem
@@ -5987,8 +5991,8 @@ You might be tempted to write this:
 
 \begin{verbatim}
 function res = rate_func(y)        % WRONG
-    a = 0.1
-    res = a * y
+    a = 0.02;
+    res = a * y;
 end
 \end{verbatim}
 
@@ -6000,8 +6004,8 @@ variable, even if you don't use it.
 
 \begin{verbatim}
 function res = rate_func(t, y)     % RIGHT
-    a = 0.1
-    res = a * y
+    a = 0.02;
+    res = a * y;
 end
 \end{verbatim}
 
@@ -6011,9 +6015,9 @@ like this:
 
 \begin{verbatim}
 function res = rats_bad(t, y)
-    a = 0.01;
-    omega = 2 * pi / 365;
-    r = a * y * (1 + sin(omega * t))    % WRONG
+    a = 0.02;
+    omega = 2 * 2*pi / 365;
+    r = a * y * (1 - cos(omega * t)) / 2;    % WRONG
 end
 \end{verbatim}
 
