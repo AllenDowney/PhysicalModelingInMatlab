@@ -5748,7 +5748,6 @@ The governing equation might be something like
 
 %
 where $t$ is time in days and $f(t)$ is the population at time $t$.
-
 $a$ and $\omega$ are {\bf parameters}.  A parameter is a value that
 quantifies a physical aspect of the scenario being modeled.  For
 example, in Exercise~\ref{ex:duck} we used parameters {\tt rho} and
@@ -5806,7 +5805,7 @@ r = 10.3498
 
 So if there are two thousand rats on February 1, we expect them to 
 reproduce at a rate that would produce about 10 more rats per day. 
-But if there are two thousand rats on a certain day in April, the 
+But if there are two thousand rats around the end of April, the 
 rate has almost tripled: 
 
 \begin{verbatim}
@@ -5825,7 +5824,9 @@ Here's how you would use it:
 
 The first argument is a handle for the function that
 computes $g$.  The second argument is the interval we are interested
-in, one year.  The third argument is the initial population, $f(0) = 2000$.
+in, in this case starting at time 0 and going for 365 days (about a year).  
+The third argument is the population at the beginning of the interval, 
+in our case $f(0) = 2000$.
 
 When you call {\tt ode45} without assigning the result to a variable,
 MATLAB displays the result in a figure:
@@ -5868,7 +5869,7 @@ If you plot the elements of {\tt T}, you'll see that the
 space between the points is not quite even.  They are closer
 together at the beginning of the interval and farther apart at the end.
 
-To see the population around the beginning of the next year, 
+To see the population at the end of the interval, 
 you can display the last element from each vector:
 
 \begin{verbatim}
