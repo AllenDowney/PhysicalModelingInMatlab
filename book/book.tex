@@ -2237,7 +2237,8 @@ total = 0
 \end{verbatim}
 
 Why?  Because the expression {\tt 1:-1} means ``all the numbers
-from 1 to -1, counting up by 1.''\index{Syntax!colon operator}  It's not immediately obvious
+from 1 to -1, counting up by 1.''\index{Syntax!colon operator}  
+It's not immediately obvious
 what that should mean, but MATLAB's interpretation is that there
 aren't any numbers that fit that description, so the result is
 
@@ -2247,8 +2248,13 @@ aren't any numbers that fit that description, so the result is
 ans = 1x0 empty double row vector
 \end{verbatim}
 
-If the matrix is empty, you might expect it to be {\tt 0x0}, but
-there you have it.  In any case, if you loop over an empty range,
+This indicates that the result is an empty row vector of 
+double-precision numbers.  An empty row vector has zero columns 
+in one row.  We will learn more about MATLAB vectors later in this
+chapter and more about the types of vectors -- row versus column --
+later in the book.
+% we should reference section 9.2
+In any case, if you loop over an empty range,
 the loop never runs at all, which is why in this example the
 value of {\tt total} is zero for any negative value of {\tt n}.
 
