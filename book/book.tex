@@ -607,8 +607,8 @@ read the documentation.
 MATLAB comes with two forms of online documentation, {\tt help}
 and {\tt doc}.\index{Documentation!{\tt doc} and {\tt help}}
 
-The help command works from the Command Window; just type {\tt help}
-followed by the name of a command.
+The help command works completely in the Command Window; just 
+type {\tt help} followed by the name of a command.
 
 \begin{verbatim}
 >> help sin
@@ -621,25 +621,17 @@ followed by the name of a command.
     Other functions named sin
 \end{verbatim}
 
-MATLAB functions are case sensitive, if you type the {\tt sin} function using capital letters
-in MATLAB, you get an error:
-
-\begin{verbatim}
->> SIN(1)
-Undefined function 'SIN' for input arguments of type 'double'.
-
-Did you mean:
->> sin(1)
-\end{verbatim}
-
-Another problem is that the help page uses vocabulary you don't
-know yet.  For example, ``the elements of X'' won't make sense until
+A likely problem for you now is that many help pages use MATLAB 
+vocabulary we haven't yet covered.  
+For example, ``the elements of X'' will likely not make sense until
 we get to vectors and matrices a few chapters from now.
 
-The doc pages are usually better.  If you type {\tt doc sin}, a
-browser appears with more detailed information about the
+The {\tt doc} pages are often better for people new to MATLAB.  
+If you type {\tt doc sin}, a
+browser window appears with more detailed information about the
 function, including examples of how to use it.  The examples often
-use vectors and arrays, so they may not make sense yet, but you can
+use vectors and matrices, so they may not make complete sense yet, 
+but you can
 get a preview of what's coming.
 
 
@@ -868,9 +860,20 @@ This example also demonstrates the Second Theorem of Debugging:
 \displaythrm{2}
 \end{quote}
 
-Beginning programmers hate error messages and do everything they
-can to make them go away.  Experienced programmers know that error
-messages are your friend.  They can be hard to understand, and even
+MATLAB functions are case sensitive, if you type the {\tt sin} function using capital letters
+in MATLAB, you get an error:
+
+\begin{verbatim}
+>> SIN(pi)
+Undefined function 'SIN' for input arguments of type 'double'.
+
+Did you mean:
+>> sin(pi)
+\end{verbatim}
+
+Beginning programmers often hate error messages and often do everything they
+can to make the messages go away.  Experienced programmers know that error
+messages are one's friends.  Such messages can be hard to understand, and even
 misleading, but it is worth making some effort to understand them.
 
 Here's another common rookie error.  If you were translating
@@ -972,9 +975,10 @@ predefined variables {\tt realmax} and {\tt realmin}
 \index{Numbers!{\tt realmax} and {\tt realmin}} contain, respectively, the
 largest and smallest number magnitudes that a MATLAB double-precision 
 floating point can handle with the full number of digits of precision.
-\footnote{The names of these variables are misleading: MATLAB
-documentation refers to ``floating-point numbers'', not ``real
-numbers''.}
+\footnote{The names of these variables are somewhat misleading: MATLAB
+documentation for them refers to ``floating-point numbers'', not ``real
+numbers''.  Also, {\tt realmin} is not using the usual definition 
+for minimum.}
 
 \begin{verbatim}
 >> realmax
