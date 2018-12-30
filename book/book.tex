@@ -486,7 +486,7 @@ ans = 45
 \end{verbatim}
 
 Speaking of spaces, you might have noticed that MATLAB puts a blank
-line between {\tt ans =} and the result.  In my examples I will leave
+line between {\tt ans =} and the result.  In many of my examples I will leave
 it out to save room.
 
 The other arithmetic operators are pretty much what you would expect.
@@ -2291,7 +2291,6 @@ aren't any numbers that fit that description, so the result is
 
 \begin{verbatim}
 >> 1:-1
-
 ans = 1x0 empty double row vector
 \end{verbatim}
 
@@ -2487,18 +2486,19 @@ of the operands are true.
 
 \section{Vectors}
 
-The values we have seen so far are all single numbers,
+The variables we have seen so far have mostly held single numbers,
 which are called {\bf scalars} to contrast them with {\bf vectors}
 and {\bf matrices}, which are collections of numbers.
 
 A vector in MATLAB is similar to a sequence in mathematics;
-it is a set of numbers that correspond to positive integers.
-What
-we called a ``range'' in the previous chapter was actually a
-vector.
+it is an ordered set of numbers that is indexed by positive integers.
+Examples of vectors are what we called ``ranges'' in the previous chapter,
+but in general any vector element can hold any number and vector elements
+often don't follow any pattern (the ranges in the previous chapter
+typically embodied a pattern, such as sequential numbers).  
 
 In general, anything you can do with a scalar, you can also do with
-a vector.  You can assign a vector value to a variable:
+a vector.  You can assign a vector to a variable:
 
 \begin{verbatim}
 >> X = 1:5
