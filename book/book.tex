@@ -899,15 +899,11 @@ or
 \end{verbatim}
 
 
-\section{Floating-point arithmetic}
+\section{Floating-point number representation}
 
-In mathematics, there are several kinds of numbers: integer, real,
-rational, irrational, imaginary, complex, etc.  MATLAB uses only one
-kind of number by default: {\bf floating-point}.\index{Numbers!floating point}
-
-You might have noticed that MATLAB expresses values in decimal
-notation.  So, for example, the rational number $1/3$ is represented
-by the floating-point value
+You might have noticed that, so far at least, MATLAB has expressed values in decimal
+notation.  So, for example, the rational number $1/3$ is represented below
+by the decimal value
 
 \begin{verbatim}
 >> 1/3
@@ -915,45 +911,68 @@ ans = 0.3333
 \end{verbatim}
 
 which is only approximately correct.  It's not quite as bad as
-it seems; MATLAB uses more digits than it shows by default.
-You can change the {\tt format} to see the other digits.\index{Numbers!{\tt format}}
+it seems: the above result actually stores more digits than it shows by default.
+You can change the output {\tt format} to see more digits.\index{Numbers!{\tt format}}
 
 \begin{verbatim}
 >> format long
 >> 1/3
-ans = 0.33333333333333
+ans = 0.333333333333333
 \end{verbatim}
 
-Internally, MATLAB uses the IEEE double-precision floating-point
-format, which provides about 15 significant digits of precision (in
-base 10).  Leading and trailing zeros don't count as ``significant''
-digits, so MATLAB can represent large and small numbers
-with the same precision.
+{\tt format short} will return to seeing fewer digits if so desired.
 
-Very large and very small values are displayed in scientific notation.
+Internally, MATLAB uses by default the IEEE double-precision floating-point
+number representation, which provides about 16 significant digits of ``precision'' (in
+base 10).
+\index{Numbers!double-precision floating point}  
+Leading zeros and some trailing zeros don't count as significant
+digits, so {\bf floating point} can represent any number, large magnitude or small magnitude,
+with the same number of significant digits of precision.\index{Numbers!floating point}
+
+Values with magnitudes that are very large or very small are displayed in 
+scientific notation.
 
 \begin{verbatim}
->> factorial(100)
-ans = 9.332621544394410e+157
+>> factorial(50)
+ans = 3.041409320171338e+64
 \end{verbatim}
 
 The {\tt e} in this notation is {\em not} the transcendental number
 known as $e$\index{Numbers!$e$}; it is just an abbreviation for ``exponent''.  So
-this means that $100!$ is approximately $9.33 \times 10^{157}$.  The
-exact solution is a 158-digit integer, but we only know the first 16
-digits.
+this means that $50!$ is approximately $3.04 \times 10^{64}$.  The
+exact solution is a 65-digit integer, but with double-precision floating-point 
+we only know the first 16
+digits. 
+If you happen to have the MATLAB Symbolic Math Toolbox installed, you can use a 
+different number representation for the calculation and see all the digits of 
+the result:
 
-You can enter numbers using the same notation.
+\begin{verbatim}
+>> sym(factorial(50))
+ans = 30414093201713375576366966406747986832057064836514787179557289984
+\end{verbatim}
+
+Note that the symbolic result takes significantly more memory space 
+than the floating point result.
+For this book, we will focus on using MATLAB's default floating-point 
+numbers, and not make use of extra MATLAB toolboxes.
+%do we need any MATLAB toolboxes for later chapters?  wcs assumes not.
+
+You can also enter numbers using scientific notation.
 
 \begin{verbatim}
 >> speed_of_light = 3.0e8
 speed_of_light = 300000000
 \end{verbatim}
 
-Although MATLAB can handle large numbers, there is a limit.  The
-predefined variables {\tt realmax} and {\tt realmin}\index{Numbers!{\tt realmax} and {\tt realmin}} contain the
-largest and smallest number magnitudes that MATLAB can
-handle.\footnote{The names of these variables are misleading: other
+Although MATLAB can handle numbers with large and small magnitudes, 
+there are limits for floating point.  The
+predefined variables {\tt realmax} and {\tt realmin}
+\index{Numbers!{\tt realmax} and {\tt realmin}} contain, respectively, the
+largest and smallest number magnitudes that a MATLAB double-precision 
+floating point can handle with the full number of digits of precision.
+\footnote{The names of these variables are misleading: MATLAB
 documentation refers to ``floating-point numbers'', not ``real
 numbers''.}
 
@@ -965,7 +984,31 @@ ans = 1.797693134862316e+308
 ans = 2.225073858507201e-308
 \end{verbatim}
 
-If the result of a computation is too big, MATLAB ``rounds up''
+MATLAB can handle a set of numbers with magnitude smaller than 
+{\tt realmin}, but with fewer (binary) digits of precision.
+
+\begin{verbatim}
+>> 1e-323
+ans = 9.881312916824931e-324
+
+>> 0.000000000000001e-308
+ans = 9.881312916824931e-324
+\end{verbatim}
+
+Note that the resulting number being returned in this rather extreme 
+case has an error of over 1\%, as there are very few digits of 
+precision left.  
+%Perhaps a warning from MATLAB would be useful for such numbers.
+
+If a number is too small, MATLAB ``rounds down'' to zero.
+
+\begin{verbatim}
+>> 1e-324
+ans = 0
+\end{verbatim}
+
+If a number -- perhaps the result of a computation -- is too big, 
+MATLAB ``rounds up''
 to infinity.\index{Numbers!{\tt Inf}}
 
 \begin{verbatim}
@@ -996,7 +1039,6 @@ which stands for ``not a number''.\index{Numbers!{\tt NaN}}
 >> 0/0
 ans = NaN
 \end{verbatim}
-
 
 
 \section{Comments}
@@ -1032,7 +1074,7 @@ code, like units in the example above, or the meaning of a variable:
 \begin{verbatim}
 >> p = 0         % position from the origin in meters
 >> v = 100       % velocity in meters / second
->> a = -9.8      % acceleration of gravity in meters / second^2
+>> a = -9.8      % acceleration due to gravity in meters / second^2
 \end{verbatim}
 
 If you use longer variable names, you might not need explanatory
@@ -1040,6 +1082,7 @@ comments, but there is a tradeoff: longer code can become harder
 to read.  Also, if you are translating from math
 that uses short variable names, it can be useful to make your
 program consistent with your math.
+
 
 \section{Glossary}
 
@@ -1089,9 +1132,13 @@ one function call as an argument for another.
 \item[string:] A value that consists of a sequence of characters (as
 opposed to a number).
 
-\item[floating-point:] The kind of number MATLAB works with.  All
-floating-point numbers can be represented with about 16 significant
-decimal digits (unlike mathematical integers and reals).
+\item[floating-point:] A style of number representation in a computer.  
+By default, MATLAB uses 
+double-precision
+floating-point numbers, which normally provide about 16 significant
+decimal digits of precision and have maximum and minimum magnitudes.
+Therefore, default MATLAB numbers cannot accurately represent all real
+or even all integer numbers, let alone any irrational number.
 
 \item[scientific notation:] A format for typing and displaying large
 and small numbers; e.g. {\tt 3.0e8}, which represents $3.0 \times 10^8$
@@ -1300,7 +1347,7 @@ us to the Third Theorem of Debugging:
 
 The variables you create are stored in the {\bf workspace}, which is a
 set of variables and their values.\index{Variables!workspace}
-The {\tt clear} command, by itself, removes any variables you may
+The {\tt clear} command, by itself, removes all variables you may
 have in the workspace.\index{Variables!{\tt clear}}
 
 \begin{verbatim}
@@ -2459,10 +2506,12 @@ a vector.  You can assign a vector value to a variable:
 X = 1     2     3     4     5
 \end{verbatim}
 
-Variables that contain vectors are often capital letters.  That's
-just a convention; MATLAB doesn't require it, but for beginning
-programmers it is a useful way to remember what is a scalar and
-what is a vector.
+In this book, we often capitalize single-letter variables that hold vectors 
+(and matrices).
+That's
+just our convention; MATLAB doesn't require it, but especially for beginning
+programmers it is a useful way to 
+differentiate single-letter variables that hold scalars versus hold vectors or matrices.
 
 Just as with sequences, the numbers that make up the vector are called
 {\bf elements}.
@@ -2510,63 +2559,74 @@ of these values as vectors, not matrices.  The problem is a slight
 mismatch between math vocabulary and MATLAB vocabulary.
 
 
-\section{Everything is a matrix}
+\section{Scalars and vectors are appropriately dimensioned matrices}
 
 In math (specifically in linear algebra) a vector is a one-dimensional
-sequence of values and a matrix is two-dimensional (and, if you want
+sequence of values (or array) and a matrix is two-dimensional (and, if you want
 to think of it that way, a scalar is zero-dimensional).  In MATLAB,
-everything is a matrix.
+all variables are arrays of different sizes.  But, in particular, 
+scalars, vectors, and matrices are all two-dimensional arrays with 
+vectors and scalars, respectively, having one or both dimensions 
+constrained to be of size 1.
 
 You can see this if you use the {\tt whos} command to display the
-variables in the workspace.  {\tt whos} is similar to {\tt who} except
-that it also displays the size and type of each variable.\index{Variables!{\tt who}}
+variables in the workspace.  {\tt whos} \index{Variables!{\tt whos}} 
+is similar to {\tt who} \index{Variables!{\tt who}} except
+that it also displays for each applicable variable the size, number 
+of bytes, class, and sometimes attributes.
 
-First I'll make one of each kind of value:
+First I'll remove any existing variables and then 
+make a scalar, a vector, and a matrix:
 
 \begin{verbatim}
 >> clear
 >> scalar = 5
-
 scalar = 5
 
 >> vector = 1:5
-
 vector = 1     2     3     4     5
 
 >> matrix = ones(2,3)
-
 matrix =
-
      1     1     1
      1     1     1
 \end{verbatim}
 
 {\tt ones} is a function that builds a new matrix with the given
-number of rows and columns, and sets all the elements to 1.
-Now let's see what we've got.\index{Matrices!{\tt ones}}
+number of rows and columns, and sets all the elements to 1.\index{Matrices!{\tt ones}}
+Now let's see what we've got.
 
 \begin{verbatim}
 >> whos
-  Name         Size                    Bytes  Class
-
-  scalar       1x1                         8  double array
-  vector       1x5                        40  double array
-  matrix       2x3                        32  double array
+  Name        Size            Bytes  Class     Attributes
+              
+  matrix      2x3                48  double              
+  scalar      1x1                 8  double              
+  vector      1x5                40  double              
 \end{verbatim}
 
-According to MATLAB, everything is a double array:  ``double''
-is another name for double-precision floating-point numbers,
-and ``array'' is another name for a matrix.
+According to MATLAB, all these variables are of class double.  ``double''
+is another name for a double-precision floating-point number.
 
-The only difference is the size, which is specified by the number of
-rows and columns.  The thing we called {\tt scalar} is, according to
-MATLAB, a matrix with one row and one column.  Our {\tt vector} is
-really a matrix with one row and 5 columns.  And, of course, {\tt
-matrix} is a matrix.
+The only difference is the size, which is specified for the above variables by the number of
+rows and columns, and the number of bytes.  The variable we called {\tt scalar} is, according to
+MATLAB, a matrix with 1 row and 1 column.  Our {\tt vector} is
+really a matrix with 1 row and 5 columns.  And, of course, our variable {\tt
+matrix} is a matrix with 2 rows and 3 columns.  In this book, we won't be
+concerned with attributes.  
 
-The point of all this is that you can think of your values as
+The point of all this is that you can think of your variables as
 scalars, vectors, and matrices, and I think you should, as long
-as you remember that MATLAB thinks everything is a matrix.
+as you aren't confused by the fact that MATLAB thinks each of these 
+variables is a matrix in some way.
+
+MATLAB also supports arrays, called MATLAB multidimensional arrays, with dimensions greater than 2.
+We won't use such arrays in this book.  A {\tt whos} entry for a 3-dimensional array, for example, 
+can look like:
+
+\begin{verbatim}          
+  threeD      3x3x2              144 double                     
+\end{verbatim}
 
 Here's another example where the error message only makes sense
 if you know what is happening under the hood:
@@ -2590,9 +2650,12 @@ matrix multiplication.  The reason the ``inner matrix dimensions
 must agree'' is that the way matrix multiplication is defined in
 linear algebra, the number of rows in {\tt X} has to equal the
 number of columns in {\tt Y} (those are the inner dimensions).\index{Matrices!multiplication}
+When you want to do matrix multiplication between combinations
+of vectors and matrices, it does make sense for each vector to
+be a matrix with one dimension constrained to be of size one.  
 
 If you don't know linear algebra, this doesn't make much sense.
-When you saw {\tt X*Y} you probably expected it to multiply each
+Instead, when you saw {\tt X*Y} you probably expected it to multiply each
 the the elements of {\tt X} by the corresponding element of
 {\tt Y} and put the results into a new vector.  That operation
 is called {\bf elementwise} multiplication, and the operator that
@@ -2606,8 +2669,6 @@ ans = 1     4     9    16    25
 
 We'll get back to the elementwise operators later; you can
 forget about them for now.
-
-
 
 
 \section{Indices}\index{Matrices!indexing}
@@ -2675,7 +2736,7 @@ There.  Now that will work for a vector of any length.
 An index can be any kind of expression, but the value of the
 expression has to be a positive integer, and it has to be
 less than or equal to the length of the vector.  If it's
-zero or negative, you get this:
+not a positive integer, you get this:
 
 \begin{verbatim}
 >> Y(0)
@@ -2698,7 +2759,7 @@ Index exceeds matrix dimensions.
 There's the ``m'' word again, but other than that, this message
 is pretty clear.
 
-Finally, don't forget that the index has to be an integer:
+Don't forget that the index has to be an integer:
 
 \begin{verbatim}
 >> Y(1.5)
