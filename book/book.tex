@@ -1078,7 +1078,7 @@ code, like units in the example above, or the meaning of a variable:
 \begin{verbatim}
 >> p = 0         % position from the origin in meters
 >> v = 100       % velocity in meters / second
->> a = -9.8      % acceleration due to gravity in meters / second^2
+>> a_g = -9.8    % acceleration due to gravity in meters / second^2
 \end{verbatim}
 
 If you use longer variable names, you might not need explanatory
@@ -6989,8 +6989,9 @@ equation \eqref{eq:vel_acc} says that the first derivative of $\vec{v}$ is $\vec
 
 Let's start with a simple example: an object in freefall in a vacuum
 (where there's no air resistance).  Near the surface of the earth, the
-acceleration of gravity is $g = -9.8$ $m/s^2$, where the minus sign
-indicates that gravity pulls down.
+acceleration due to gravity is $-9.8$ $m/s^2$, where the minus sign
+indicates that gravity pulls down.  Naturally, we consider that an 
+object's altitude decreases as it comes down, and increases as it goes up.
 
 If the object falls straight down, we can describe its position with a
 scalar value $y$ representing altitude.  So this will be a
@@ -7000,19 +7001,19 @@ Here is a rate function we can use with {\tt ode45} to solve
 this problem:
 
 \begin{verbatim}
-function res = freefall(t, X)
+function resVector = freefall(t, X)
     y = X(1);      % the first element is position
     v = X(2);      % the second element is velocity
 
     dydt = v;
     dvdt = acceleration(t, y, v);
 
-    res = [dydt; dvdt];    % pack the results in a column vector
+    resVector = [dydt; dvdt];    % pack the results in a column vector
 end
 
-function res = acceleration(t, y, v)
-    g = 9.8;      % gravity in m/s^2
-    res = -g;
+function a = acceleration(t, y, v)
+    g = 9.8;     
+    a = -g;     % acceleration due to gravity in m/s^2
 end
 \end{verbatim}
 
@@ -7059,19 +7060,20 @@ address this issue in Section~\ref{sect:events}.
 \label{sect:air_resistance}
 
 To make this simulation more realistic, we can add air resistance.
-For large objects moving quickly through air, the force due to air
+For sizable objects moving relatively quickly through air, the force due to air
 resistance, called ``drag,'' is proportional to $v^2$ and directed
-oppositely to $\uvec{v}$:
+oppositely to the motion.  So for an object falling down, drag is
+directed up.  If velocity is negative, drag force will be positive.
 
 \begin{equation}\label{eq:simpledrag}
-    \vec{F_{d}} = - b v^2 \uvec{v}
+    f_{d} = - b v^2 sgn(v)
 \end{equation}
 
 where $b$ is a drag constant that depends on the density of
 air, the cross-sectional area of the object and the surface properties
-of the object.\footnote{Notice that equation \eqref{eq:simpledrag} makes use
-of the convention $v = \norm{\vec{v}}$. See
-Section~\ref{sect:spacial}}For this problem, let's say that $b = 0.2$.
+of the object.  For this problem, let's say that $b = 0.2$.  $sgn$ is
+known as the sign or signum function, and $sgn(v)$ calculates the
+direction of motion.
 % b is used in the book "Physics for Scientists and Engineers" by Paul A. Tipler.
 
 To convert from force to acceleration, we have to know mass, so let's
@@ -7083,17 +7085,19 @@ freefall} function):
 
 \begin{verbatim}
 function res = acceleration(t, y, v)
-    a_g = -9.8;              % acceleration due to gravity in m/s^2
-    b = 0.2;                 % drag constant
-    m = 75;                  % mass in kg
-    F_d = b * v^2;           % drag force in N
-    a_d = F_d / m;           % drag acceleration in m/s^2
-    res = a_g + a_d;         % total acceleration
+    a_g = -9.8;               % acceleration due to gravity in m/s^2
+    b = 0.2;                  % drag constant
+    m = 75;                   % mass in kg
+    f_d = -b * v^2 * sign(v); % drag force in N
+    a_d = f_d / m;            % drag acceleration in m/s^2
+    res = a_g + a_d;          % total acceleration
 end
 \end{verbatim}
 
-The sign of the drag force (and ``drag acceleration'') is positive here because
-the object is falling (i.e., the velocity is in the $-y$ direction).
+We are using the {\tt sign} function to get the sign of the velocity.  The 
+product is negated so that drag force has the correct sign.  If the object
+were to start with a positive, i.e. upwards, initial velocity, everything 
+should still work out.   
 The output variable is simply the sum of the gravity and drag accelerations.
 Be careful when you are working with forces and accelerations; make sure
 you only add forces to forces or accelerations to accelerations.  In my
@@ -7128,6 +7132,15 @@ ans = -60.6143            % velocity in m/s
 \end{verbatim}
 
 \begin{ex}
+	Could we use this MATLAB model with appropriate initial conditions 
+	to model not skydiver, but a  
+	75kg sandstone cannonball being shot vertically into the air from a height of
+	3 $m$ with an initial speed of 100 $m/s$?  Does a plot using this model
+	make sense?  How might you need to change the
+	MATLAB model?
+\end{ex}
+
+\begin{ex}
 Increase the mass of the skydiver, and confirm that
 terminal velocity increases.  This relationship is the source of the
 intuition that heavy objects fall faster; in air, they do!
@@ -7141,10 +7154,11 @@ That's where parachutes come in.
 
 Modify {\tt acceleration} so that after 30 seconds of
 free-fall the skydiver deploys a parachute, which (almost) instantly
-    increases the drag constant to 2.7. Hint: see Section~\ref{sect:events}.
+    increases the drag constant to 2.7. 
 
-What is the terminal velocity now?  How long (after deployment) does
-it take to reach the ground?
+What is the terminal velocity now?  By inspecting an appropriate plot, estimate 
+how long (after deployment)
+it takes the skydiver to reach the ground.
 \end{ex}
 
 
@@ -7173,19 +7187,19 @@ Here is a general framework for computing the trajectory of a projectile
 in two dimensions using {\tt ode45}:
 
 \begin{verbatim}
-function res = projectile(t, W)
+function resVector = projectile(t, W)
     R = W(1:2);
     V = W(3:4);
 
     dRdt = V;
     dVdt = acceleration(t, R, V);
 
-    res = [dRdt; dVdt];
+    resVector = [dRdt; dVdt];
 end
 
-function res = acceleration(t, R, V)
-    g = 9.8;             % gravity in m/s^2
-    res = [0; -g];
+function A = acceleration(t, R, V)
+    g = 9.8;             
+    A = [0; -g];   % acceleration due to gravity in m/s^2
 end
 \end{verbatim}
 
@@ -7270,7 +7284,6 @@ norm}:
 
 \begin{verbatim}
 >> v = norm(V)
-
 v = 50
 \end{verbatim}
 
@@ -7279,7 +7292,6 @@ need to divide {\tt V} by its magnitude:
 
 \begin{verbatim}
 >> Vhat = V / v
-
 Vhat =  0.6  0.8
 \end{verbatim}
 
@@ -7287,7 +7299,6 @@ Let's confirm that the norm of {\tt Vhat} is unity:
 
 \begin{verbatim}
 >> norm(Vhat)
-
 ans = 1
 \end{verbatim}
 
@@ -7300,7 +7311,6 @@ $\rho$, $C_d$, and $A$; and then follow equation \eqref{eq:wikidrag}:
 >> A = 0.0042;         % m^2
 
 >> Fd = - 1/2 * rho * v^2 * Cd * A * Vhat  % N
-
 Fd =  -1.2  -1.6
 \end{verbatim}
 
@@ -7310,7 +7320,6 @@ $0.145 ~ kg$), we can compute ``drag acceleration'':
 \begin{verbatim}
 >> m = 0.145;          % kg
 >> Ad = Fd / m         % m/s^2
-
 Ad =  -8.5  -11.3
 \end{verbatim}
 
@@ -7327,7 +7336,6 @@ Finally, we compute the total acceleration by summing {\tt Ad} and {\tt Ag}:
 
 \begin{verbatim}
 >> At = Ad + Ag
-
 At =  -8.5  -1.5
 \end{verbatim}
 
@@ -7374,18 +7382,18 @@ from Section~\ref{sect:projectile}. Our rate function, {\tt
 projectile}, looked like this:
 
 \begin{verbatim}
-function res = projectile(t, W)
+function resVector = projectile(t, W)
     R = W(1:2);
     V = W(3:4);
 
     dRdt = V;
     dVdt = acceleration(t, R, V);
 
-    res = [dRdt; dVdt];
+    resVector = [dRdt; dVdt];
 end
 \end{verbatim}
 
-Suppose we want to model the effect of drag on our cannonball's
+Suppose we want to model the effect of drag on our human cannonball's
 flight. Luckily, we already did most of the work for this in
 Section~\ref{sect:spacialre}. We know that we can represent the acceleration
 due to gravity with the vector
@@ -7424,21 +7432,21 @@ acceleration} function to test your model (together with {\tt
 projectile} above):
 
 \begin{verbatim}
-function res = acceleration(t, R, V)
-    g = 9.8;             % gravity in m/s^2
+function A = acceleration(t, R, V)
+    g = 9.8;             
     rho = 1.3;           % air density in kg/m^3
     %Cd = ?
     %A = ?
     %m = ?
 
-    Ag = [0; -g];
+    Ag = [0; -g];        % acceleration due to gravity in m/s^2
 
     v = norm(V);
     Vhat = V/v;
     Fd = - 1/2 * rho * v^2 * Cd * A * Vhat;
     Ad = Fd / m;
 
-    res = Ag + Ad;
+    A = Ag + Ad;
 end
 \end{verbatim}
 
@@ -7469,15 +7477,12 @@ Here's an example of horizontal concatenation with row vectors:
 
 \begin{verbatim}
 >> x = 1:3
-
 x = 1     2     3
 
 >> y = 4:5
-
 y = 4     5
 
 >> z = [x, y]
-
 z = 1     2     3     4     5
 \end{verbatim}
 
@@ -7541,14 +7546,14 @@ Section~\ref{sect:projectile} because of the last line, which packs {\tt
 dRdt} and {\tt dVdt} into the output variable:
 
 \begin{verbatim}
-function res = projectile(t, W)
+function resVector = projectile(t, W)
     R = W(1:2);
     V = W(3:4);
 
     dRdt = V;
     dVdt = acceleration(t, R, V);
 
-    res = [dRdt; dVdt];
+    resVector = [dRdt; dVdt];
 end
 \end{verbatim}
 
@@ -7847,12 +7852,11 @@ a maximum; in this case they are angles in degrees.  {\tt optimize}
 starts by evaluating {\tt distance\_func} for each of the three values.
 We assume that {\tt distance\_func} returns the result we want to
 maximize; for the baseball best-angle-for-longest-distance problem
-it is the horizontal distance travelled by the
+it is the horizontal distance traveled by the
 ball when it hits the ground.
 
-
 Each time through the {\tt for} loop the function chooses a value
-of {\tt x4}, evaluates {\tt height\_func}, and then updates the
+of {\tt x4}, evaluates {\tt distance\_func}, and then updates the
 triplet {\tt x1}, {\tt x2}, and {\tt x3} according to the results.
 
 After the update, it computes the range of the bracket, {\tt x3-x1},
@@ -7885,11 +7889,9 @@ different function handles as arguments:
 
 \begin{verbatim}
 >> handle_func(@sin)
-
 ans = 0
 
 >> handle_func(@cos)
-
 ans = -1
 \end{verbatim}
 
@@ -7902,7 +7904,7 @@ maximized.
 The MATLAB function {\tt fminsearch} takes a function handle
 and searches for a local minimum.  Read the documentation for
 {\tt fminsearch} and use it to find the optimal launch angle
-of a baseball with a given velocity.
+of a baseball launched with a given velocity from a given height.
 
 \begin{itemize}
 
