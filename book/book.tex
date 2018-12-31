@@ -5802,12 +5802,11 @@ called {\tt ode45}.  The {\tt ode} stands for ``ordinary differential
 equation [solver]'' and the 45 indicates that it uses a combination of
 4th and 5th order formulas.
 
-In order to use {\tt ode45}, you have to write a MATLAB function
-that evaluates $g$ as a function of
-$t$ and $y$.
+In order to use {\tt ode45} for cases involving one ``population'', 
+you have to write a MATLAB function that evaluates $g$ as a function of
+$t$ and $y$ (or whatever other function and variable names are applicable to the case).
 
 % where did the rats example come from?
-
 As an example, suppose that the rate of population growth for rats
 depends on the current population and the availability of food,
 which varies over the course of the year.
@@ -5923,7 +5922,7 @@ the results is
 >> [T, Y] = ode45(@rats, [0, 365], 2000);
 \end{verbatim}
 
-The first return value is assigned to {\tt T}; the second is assigned
+The first return variable (a vector) is assigned to {\tt T}; the second is assigned
 to {\tt Y}.  Each element of {\tt T} is a time,
 $t$, where {\tt ode45} estimated the population; each element of {\tt
 Y} is an estimate of $f(t)$.
@@ -6503,63 +6502,63 @@ have on row vectors, column vectors, and scalars?
 
 The Lotka-Volterra model describes the interactions between two
 species in an ecosystem, a predator and its prey.  A common example
-is rabbits and foxes.
+is rabbits and foxes, but we are going to switch out foxes for weasels.
 
 The model is governed by the following system of differential equations:
 
 \begin{eqnarray}
-    \frac{dR}{dt} &=& a R - b R F
+    \frac{dr}{dt} &=& \alpha r - \beta r w
     \\[6pt]
-    \frac{dF}{dt} &=& - c F + d R F
+    \frac{dw}{dt} &=& - \gamma w + \delta r w
 \end{eqnarray}
 %
-where $R$ and $F$ are the respective populations of rabbits and foxes,
-and $a$, $b$, $c$, and $d$ are positive constants
+where $r$ and $w$ are the respective populations of rabbits and weasels,
+and $\alpha$, $\beta$, $\gamma$, and $\delta$ are positive constants
 governing the interactions between the two species.\footnote{See
 \url{https://en.wikipedia.org/wiki/Lotka-Volterra_equations}.}
 
 At first glance you might think you could solve these equations by
-calling {\tt ode45} once to solve for $R$ as a function of time and
-once to solve for $F$.  The problem is that each equation involves
+calling {\tt ode45} once to solve for $r$ as a function of time and
+once to solve for $w$.  The problem is that each equation involves
 both variables, which is what makes this a {\bf system of equations}
 and not just a list of unrelated equations.  To solve a system, you
 have to solve the equations simultaneously.\index{Differential equations!systems of equations}
 
 Fortunately, {\tt ode45} can handle systems of equations.  The
 difference is that the initial condition is a vector that contains
-initial values $R(0)$ and $F(0)$, and the output is a matrix
-that contains one column for $R$ and one for $F$.
+initial values $r(0)$ and $w(0)$, and the output is a matrix
+that contains one column for $r$ and one for $w$.
 
 And here's what the rate function looks like
-with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$, and $d = 0.002$:
+with the parameters $\alpha = 0.1$, $\beta = 0.01$, $\gamma = 0.1$, and $\delta = 0.002$:
 
 \begin{verbatim}
-function res = lotka(t, V)
+function rVector = lotka(t, V)
     % unpack the elements of V
     r = V(1);
-    f = V(2);
+    w = V(2);
 
     % set the parameters
-    a = 0.1;
-    b = 0.01;
-    c = 0.1;
-    d = 0.002;
+    a = 0.1;   %alpha
+    b = 0.01;  %beta
+    g = 0.1;   %gamma
+    d = 0.002; %delta
 
     % compute the derivatives
-    drdt = a*r - b*r*f;
-    dfdt = -c*f + d*r*f;
+    drdt = a*r - b*r*w;
+    dwdt = -g*w + d*r*w;
 
     % pack the derivatives into a vector
-    res = [drdt; dfdt];
+    rVector = [drdt; dwdt];
 end
 \end{verbatim}
 
-As usual, the first input variable is time.
-Even though the time variable, {\tt t},
-is not used inside the function, its presence is required for
-using the {\tt ode45} solver in order to indicate the time span.
+Remember, the first input variable must be the ``time'' variable.
+Even though time 
+is not used inside our lotka function, its presence is required by 
+the {\tt ode45} solver.
 The second input variable is a vector with two elements,
-$R(t)$ and $F(t)$.  I gave it a capital letter to remind me that it
+$r(t)$ and $w(t)$.  I gave it a capital letter to remind me that it
 is a vector.  The body of the function includes four sections,
 each explained by a comment.
 
@@ -6582,7 +6581,7 @@ as input and expects to get a vector as output.
 Sharp-eyed readers will notice something different about this line:
 
 \begin{verbatim}
-    res = [drdt; dfdt];
+    rVector = [drdt; dwdt];
 \end{verbatim}
 
 The semi-colon between the elements of the vector is not an error.  It
@@ -6594,13 +6593,14 @@ Now we can run {\tt ode45} like this:
 \begin{verbatim}
 ode45(@lotka, [0, 365], [100, 10])
 \end{verbatim}
+%might be better to have intial conditions 5x or 8x as great.  
 
 As always, the first argument is a function handle, the second is the
 time interval, and the third is the initial condition.  The initial
 condition is a vector: the first element is the number of rabbits at
-$t=0$, the second element is the number of foxes.
+$t=0$, the second element is the number of weasels.
 
-The order of these elements (rabbits and foxes) is up to you, but
+The order of these elements (rabbits and weasels) is up to you, but
 you have to be consistent.  That is, the initial conditions you
 provide when you call {\tt ode45} have to be the same as the order,
 inside {\tt lotka}, where you unpack the input vector and repack
@@ -6613,7 +6613,7 @@ But if you get the order right, you should see something like this:
 
 The x-axis is time in days; the y-axis is population.  The top
 curve shows the population of rabbits; the bottom curve shows
-foxes.  This result is one of several patterns
+weasels.  This result is one of several patterns
 this system can fall into, depending on the starting conditions
 and the parameters.  As an exercise, try experimenting with
 different values.
@@ -6654,22 +6654,18 @@ Here's what that looks like:
 >> [T, M] = ode45(@lotka, [0, 365], [100, 10]);
 \end{verbatim}
 
-You can think of the left side of this assignment as a vector
-of variables.
-
 As in previous examples, {\tt T} is a vector of time values where {\tt
 ode45} made estimates.  But unlike previous examples, the
 second output variable is a matrix containing one column for each
-variable (in this case, $R$ and $F$) and one row for each time value.
+population (in this case, $r$ and $w$) and one row for each time value in {\tt T}.
 
 \begin{verbatim}
 >> size(M)
-
 ans = 185     2
 \end{verbatim}
 
-This structure---one column per variable---is a common way to
-use matrices.  {\tt plot} understands this structure, so if you
+This organization -- one column per variable -- is a common way to
+use matrices.  {\tt plot} understands this organization, so if you
 do this:
 
 \begin{verbatim}
@@ -6684,7 +6680,7 @@ this:
 
 \begin{verbatim}
 >> R = M(:, 1);
->> F = M(:, 2);
+>> W = M(:, 2);
 \end{verbatim}
 
 In this context, the colon represents the range from 1 to {\tt end},
@@ -6693,22 +6689,19 @@ so {\tt M(:, 1)} means ``all the rows, column 1'' and
 
 \begin{verbatim}
 >> size(R)
-
 ans = 185     1
 
->> size(F)
-
+>> size(W)
 ans = 185     1
 \end{verbatim}
 
-So {\tt R} and {\tt F} are column vectors.
-
+So {\tt R} and {\tt W} are column vectors.
 
 If you plot these
 vectors against each other, like this
 
 \begin{verbatim}
->> plot(R, F)
+>> plot(R, W)
 \end{verbatim}
 
 You get a {\bf phase plot} that looks like this:
@@ -6716,10 +6709,11 @@ You get a {\bf phase plot} that looks like this:
 \beforefig \centerline{\includegraphics[height=2in]{figs/phase.eps}}
 
 Each point on this plot represents a certain number of rabbits (on the
-x axis) and a certain number of foxes (on the y axis).
+x axis) and a certain number of weasels (on the y axis).
 
 Since these are the only two variables in the system, each point in
 this plane describes the complete {\bf state} of the system.
+%do we need phase plot, state and trajectory (and plot3) entries in the index? -wcs
 
 Over time, the state moves around the plane; this figure shows
 the path traced by the state during the time interval.  This path
