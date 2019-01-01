@@ -7676,7 +7676,7 @@ form a new matrix.
 \begin{ex}
 \label{ex:baseball}
 
-In the absense of wind the flight of a baseball is governed by three forces: gravity,
+In the absence of wind the flight of a baseball is governed by three forces: gravity,
 drag due to air resistance, and Magnus force due to spin.  If
 we ignore Magnus force, the path of the baseball stays
 in a plane, so we can model it as a projectile in two
@@ -7688,7 +7688,6 @@ As presented in Section~\ref{sect:spacialre}, a simple model for the drag force
 \begin{equation}
     \vec{F_d} = - \frac{1}{2} ~ \rho v^2 C_d A \cdot \uvec{v}
 \end{equation}
-
 
 where $\vec{F_d}$ is a vector that represents the force on the baseball
     due to drag, $\rho$ is the density of air (1.3 kg/m$^3$ at sea
@@ -7710,15 +7709,15 @@ as an output variable.
 
 \item Use your implemented function to display the horizontal distance profile
 with initial velocities from 30m/s to 50m/s at a launch angle of 45 degrees
-and an initial height of 1 meter.
+and an initial height of 1m.
 Describe the relation between the horizontal distance and the initial velocity.
 
-\item Fix the initial velocity at 48m/s and initial height at 1 meter, and display
+\item Fix the initial velocity at 48m/s and initial height at 1m, and display
 the horizontal distance profile
 with launch angles from 20 to 60 degrees. Describe the relation between
 the horizontal distance and the launch angle.  Approximate the optimal
 launch angle for this problem (for present purposes, the launch angle that gives the furthest horizontal distance to the ball impacting the ground).
-You can alter the plotted launch angles if needed or desired.
+You can alter the range of launch angles plotted if needed or desired.
 
 \end{itemize}
 
@@ -7731,9 +7730,10 @@ You can alter the plotted launch angles if needed or desired.
 
 ``Optimal'' is a fancy way of saying ``best;'' what that means depends on the problem.
 In Exercise~\ref{ex:baseball}, you were asked to approximate the launch angle which
-can produce the longest horizontal distance for a ball batted at a particular speed
-and from a particular height.  This angle can be considered as the
-optimal angle.
+can produce the longest horizontal distance for a ball batted at a particular speed (48m/s)
+and from a particular height (1m).  The angle which produces the longest horizontal distance
+can be considered the
+optimal angle for that problem.
 
 The first step in any optimization problem is to define
 what ``optimal'' means.  The second step is to define a range of
@@ -7750,9 +7750,10 @@ simulation with a wide range of values and choose the one
 that yields the best result.  This
 method does not combine efficiency and accuracy,
 and that combination is especially important in a case like this where
-computing the distances is expensive.
+computing the distances is relatively expensive from the perspective
+of computer resources.
 
-A better algorithm is a Golden Section Search.
+A better way is a Golden Section Search algorithm.
 
 \section{Golden section search}
 
@@ -7848,21 +7849,30 @@ end
 \end{verbatim}
 
 The input variable is a vector that contains three values that bracket
-a maximum; in this case they are angles in degrees.  {\tt optimize}
+a maximum; in the above case of finding the longest distance of a baseball 
+the values are angles in degrees.  {\tt optimize}
 starts by evaluating {\tt distance\_func} for each of the three values.
 We assume that {\tt distance\_func} returns the result we want to
 maximize; for the baseball best-angle-for-longest-distance problem
-it is the horizontal distance traveled by the
-ball when it hits the ground.
+the result is the horizontal distance traveled by the
+ball when it hits the ground given a particular angle of departure from
+the baseball bat.  The initial velocity (48m/s) and initial height (1m) 
+are as mentioned previously.
 
 Each time through the {\tt for} loop the function chooses a value
 of {\tt x4}, evaluates {\tt distance\_func}, and then updates the
 triplet {\tt x1}, {\tt x2}, and {\tt x3} according to the results.
 
-After the update, it computes the range of the bracket, {\tt x3-x1},
-and checks whether it is small enough.  If so, it breaks out of
-the loop and returns the current triplet as a result.  In the
-worst case the loop executes 200 times.
+After the update, 
+the function checks whether the range of the bracket, {\tt x3-x1}, has 
+shrunken to zero indicating that the estimated maximum is correct to 16 
+digits, similar to the behavior of the {\tt fzero} function covered earlier
+in the book. 
+If so, it breaks out of
+the loop and returns a triplet of the estimated maximum as a result.  
+The loop is executed a maximum of 200 times and, if it isn't broken
+out of before that, the last updated triplet may be of a lesser
+correctness.
 
 \begin{ex}
 I call this algorithm a Silver Section Search because it is almost as
@@ -7901,27 +7911,17 @@ maximized.
 \end{ex}
 
 \begin{ex}
-The MATLAB function {\tt fminsearch} takes a function handle
-and searches for a local minimum.  Read the documentation for
-{\tt fminsearch} and use it to find the optimal launch angle
-of a baseball launched with a given velocity from a given height.
-
-\begin{itemize}
-
-\item Write a function that takes the initial velocity of the baseball
-as an input variable, computes the launch angle that maximizes
-the range, and returns the optimal angle and the corresponding range as output variables.
-How does the optimal launch angle vary with initial velocity?
-
-\item When the Red Sox won the World Series in 2007, they played the
+When the Red Sox won the World Series in 2007, they played the
 Colorado Rockies at their home field in Denver, Colorado.  Find an
 estimate of the density of air in the Mile High City.  What effect
 does this have on drag?  Make a prediction about what effect this will
 have on the launch angle that produces the longest horizontal flying
 distance, and then use your simulation to test
 your prediction.
+\end{ex}
 
-\item The actual drag on a baseball is more complicated than what is
+\begin{ex}
+	The actual drag on a baseball is more complicated than what is
 captured by our simple model.  In particular, the drag coefficient
 varies with velocity.  You can get some of the details from {\em The
 Physics of Baseball}\footnote{Robert K. Adair, Harper Paperbacks, 3rd
@@ -7930,6 +7930,22 @@ Either way, specify a more realistic model of drag and modify your
 program to implement it.  How big is the effect on your computed
 ranges?  How big is the effect on the launch angles that produce the
 maximum horizontal flying distance?
+\end{ex}
+
+\begin{ex}
+The MATLAB function {\tt fminsearch} takes a function handle
+and searches for a local minimum.  Read the documentation for
+{\tt fminsearch} and use the function to solve the following problems:
+
+\begin{itemize}
+
+\item Find in degrees the optimal launch angle -- giving the longest horizontal distance --
+of a baseball launched with a velocity of 48m/s from a height of 1m.
+
+\item Write a function that takes the initial velocity of the baseball
+as an input variable, computes the launch angle that maximizes
+the range, and returns the optimal angle and the corresponding range as output variables.
+How does the optimal launch angle vary with initial velocity?
 
 \end{itemize}
 \end{ex}
@@ -7939,28 +7955,32 @@ Very often, in an optimization problem, the meaning of ``optimal'' is not obviou
 
 For example, the Green Monster in Fenway Park is about 12 m high and about 97
 m from home plate along the left field line.
-%We could ask about
-What is the
-the optimal angle that the ball should leave
-the bat so that the ball clears the Green Monster with the minimum speed.
+What is the optimal angle that a baseball should leave the bat in order
+for the ball 
+to leave the bat at minimum possible spead and still clear the Green Monster?
 %We could ask about the minimum
 %speed a ball must leave the bat in order to clear the monster
 %(assuming it goes off at the optimal angle)?
 
 We may be tempted
 to choose for the optimal angle the angle that yields the longest
-range (distance from home plate when it lands).  But in this
-case we are trying to clear a 12m wall, so maybe we want
-the angle that yields the longest range when the ball falls
-through 12m.
-
-Although either definition would be good enough for some purposes,
-neither is quite right.  In this case the ``optimal'' angle is
-the one that yields the greatest height at the point where
+range (distance from home plate when it lands).  
+Although this definition would be good for some problems,
+it is not quite right for this problem.  
+For this problem, we can optimize the angle so that it
+yields the greatest ball height at the point where
 the ball reaches the wall, which is 97m from home plate.
 Remember, we are ultimately trying to minimize
 the speed that the ball needs to leave the bat.  At this minimum speed,
 the ball will just clear the wall if hit at the optimal angle.
+
+Could we also use for the ``optimal'' angle the 
+angle that yields the longest range when the ball falls
+through 12m?  Would you get the same minimum ball speed
+to get over the Green Monster in that case?
+
+Report the minimum ball speed when leaving the bat and the optimal angle
+at that speed for all strategies used to solve this problem.
 \end{ex}
 
 \section{Discrete and continuous maps}
