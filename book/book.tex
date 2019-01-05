@@ -272,7 +272,7 @@ I've used \textit{\thetitle} as the course
 textbook for ``Introduction to Engineering Analysis'' at Simon Fraser
 University (SFU) for the past two years. This book is ideal for
 first-year undergraduate students because of its clear presentation and
-delayed introduction to matricies---which is pivotal for students
+delayed introduction to matrices---which is pivotal for students
 just beginning linear algebra.  My first time using this book was an
 absolute pleasure---Downey has the talent to make ordinarily dry
 subjects come to life; however, it became apparent, both from my direct
@@ -712,9 +712,11 @@ legal variable name.  The right side can be any expression,
 including function calls.
 
 Almost any sequence of lower and upper case letters is a legal
-variable name.  Some punctuation is also legal, but the underscore,
-{\tt \_}, is the only commonly-used non-letter.  Numbers are fine, but
-not at the beginning.  Spaces are not allowed.  Variable names are
+variable name, as long as the name does not exceed 63 characters.  
+Digits are also legal, but one must not start a variable name with a digit.
+Some punctuation is also legal, but the underscore,
+{\tt \_}, is the only commonly-used non-alphanumeric character.  
+Spaces are not allowed.  Variable names are
 ``case sensitive'', so {\tt x} and {\tt X} are different variables.
 
 \begin{verbatim}
@@ -743,7 +745,7 @@ represent the imaginary unit.}
 
 \section{Why variables?}
 
-The most common reasons to use variables are\index{Variables!reasons for using}
+The most common reasons to use variables are...\index{Variables!reasons for using}
 
 \begin{itemize}
 
@@ -757,6 +759,7 @@ e = 2.7183
 \end{verbatim}
 
 % TODO: This might be a bad example because e is built-in.
+% wcs -- Really?  Is it in a certain Toolbox?  Doesn't appear in my MATLAB.
 
 \item To make the connection between the code and the underlying
 mathematics more apparent.  If you are computing the area of a circle,
@@ -773,11 +776,12 @@ area = 28.2743
 That way your code resembles the familiar formula $\pi r^2$.
 
 \item To break a long computation into a sequence of steps.
-Suppose you are evaluating a big, hairy expression like this:
+Suppose you are evaluating a big, hairy expression like this one, which is using some variables
+already in the workspace:
 
 \begin{verbatim}
-ans = ((x - theta) * sqrt(2 * pi) * sigma) ^ -1 * ...
-exp(-1/2 * (log(x - theta) - zeta)^2 / sigma^2)
+ans = ((x - 2000000) * sqrt(2 * pi) * 1000000) ^ -1 * ...
+exp(-1/2 * (log(x - 2000000) - area)^2 / 1000000^2)
 \end{verbatim}
 
 You can use an ellipsis to break the expression into multiple lines.\index{Syntax!ellipses}
@@ -788,16 +792,16 @@ But often it is better to break the computation into a sequence of
 steps and assign intermediate results to variables.
 
 \begin{verbatim}
-shiftx = x - theta
-denom = shiftx * sqrt(2 * pi) * sigma
-temp = (log(shiftx) - zeta) / sigma
+shiftx = x - 2000000
+denom = shiftx * sqrt(2 * pi) * 1000000
+temp = (log(shiftx) - area) / 1000000
 exponent = -1/2 * temp^2
 ans = exp(exponent) / denom
 \end{verbatim}
 
 The names of the intermediate variables explain their role in the
 computation.  {\tt shiftx} is the value of {\tt x} shifted by {\tt
-theta}.  It should be no surprise that {\tt exponent} is the argument
+2000000}.  It should be no surprise that {\tt exponent} is the argument
 of {\tt exp}, and {\tt denom} ends up in the denominator.  Choosing
 informative names makes the code easier to read and understand (see
 the First Theorem of Debugging).
@@ -1942,7 +1946,7 @@ A graph would be much better!
 \end{ex}
 
 
-\section{plotting}
+\section{Plotting}
 \label{sect:plotting}\index{Plotting!points}
 
 {\tt plot} is a versatile function for plotting points and lines
@@ -2054,7 +2058,7 @@ This loop computes the sequence {\bf recurrently}, which means
 that each element depends on the previous one.
 For this sequence it is also possible to compute the $i$th element
 {\bf directly}, as a function of $i$, without using the previous element.
-In math notation, $A_i = A_1 r^{i-1}$.
+In math notation, $A_i = A_1 (1/2)^{i-1}$. %\frac{1}{2}
 
 \begin{ex}
 Write a
@@ -2140,20 +2144,17 @@ of {\tt n}
 as shown in the following:
 
 \begin{verbatim}
+>> format long
 >> n=10; series
-
 total = 1.99804687500000
 
 >> n=20; series
-
 total = 1.99999809265137
 
 >> n=30; series
-
 total = 1.99999999813735
 
 >> n=40; series
-
 total = 1.99999999999818
 \end{verbatim}
 
