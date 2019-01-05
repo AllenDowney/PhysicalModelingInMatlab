@@ -737,11 +737,11 @@ in MATLAB is a number.  A sequence of characters in single quotes is
 a {\bf string}.
 
 Although {\tt i}, {\tt j}, and {\tt pi} are predefined, you are free
-to reassign them.  It is common to use {\tt i} and {\tt j} for other
+to reassign them.  It is somewhat common to use {\tt i} and {\tt j} for other
 purposes\footnote{Note that {\tt 1i} and {\tt 1j} \textit{always}
-represent the imaginary unit.}
-, but it is probably not a good idea to change the value of
-{\tt pi}!\index{Complex numbers!imaginary unit}
+represent the imaginary unit.}, but it is rare for people  
+to change the value of
+{\tt pi}.\index{Complex numbers!imaginary unit}
 
 \section{Why variables?}
 
@@ -1546,7 +1546,7 @@ code you write before you start debugging, the harder it is to find
 the problem.
 
 {\bf Incremental development} is a way of programming that tries
-to minimize the pain of debugging.  The fundamental steps are
+to minimize the pain of debugging.  The fundamental steps are...
 
 \begin{enumerate}
 
@@ -1981,7 +1981,8 @@ Other shapes include {\tt +},
 {\tt *},
 {\tt x},
 {\tt s} (for square),
-{\tt d} (for diamond), and
+{\tt d} (for diamond), 
+{\tt .} (for a dot), and
 \verb+^+ (for a triangle).
 
 When you use {\tt plot} this way, it can only plot one point at a
@@ -2000,10 +2001,10 @@ Try this:
 >> hold off
 \end{verbatim}
 
-You should see a figure with three circles.  MATLAB scales
-the plot automatically so that the axes run from the lowest value in
+You should see a figure with three circles, at (1, 1), (1, 2), and (2, 2).  MATLAB scales
+the plot automatically so that each axis runs from the lowest axis value in
 the plot to the highest.  So in this example the points are plotted in
-the corners.
+three corners.
 
 \begin{ex}
 Modify {\tt car\_loop} so that each time through the
@@ -2062,8 +2063,8 @@ In math notation, $A_i = A_1 (1/2)^{i-1}$. %\frac{1}{2}
 
 \begin{ex}
 Write a
-script named {\tt sequence} that uses a loop
-to compute elements of $A$ directly.
+script named {\tt sequence} that, in a loop, 
+computes 10 elements of $A$ directly.
 \end{ex}
 
 
