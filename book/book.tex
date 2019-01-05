@@ -7011,9 +7011,9 @@ function resVector = freefall(t, X)
     resVector = [dydt; dvdt];    % pack the results in a column vector
 end
 
-function a = acceleration(t, y, v)
+function res = acceleration(t, y, v)
     g = 9.8;     
-    a = -g;     % acceleration due to gravity in m/s^2
+    res = -g;     % acceleration due to gravity in m/s^2
 end
 \end{verbatim}
 
@@ -7084,13 +7084,13 @@ account (note that you don't have to make any changes in the {\tt
 freefall} function):
 
 \begin{verbatim}
-function res = acceleration(t, y, v)
+function a_t = acceleration(t, y, v)
     a_g = -9.8;               % acceleration due to gravity in m/s^2
     b = 0.2;                  % drag constant
     m = 75;                   % mass in kg
     f_d = -b * v^2 * sign(v); % drag force in N
     a_d = f_d / m;            % drag acceleration in m/s^2
-    res = a_g + a_d;          % total acceleration
+    a_t = a_g + a_d;          % total acceleration
 end
 \end{verbatim}
 
@@ -7197,9 +7197,9 @@ function resVector = projectile(t, W)
     resVector = [dRdt; dVdt];
 end
 
-function A = acceleration(t, R, V)
+function resVector = acceleration(t, R, V)
     g = 9.8;             
-    A = [0; -g];   % acceleration due to gravity in m/s^2
+    resVector = [0; -g];   % acceleration due to gravity in m/s^2
 end
 \end{verbatim}
 
@@ -7306,11 +7306,11 @@ Good. Now, to compute $\vec{F_d}$ we just need to recall our values for
 $\rho$, $C_d$, and $A$; and then follow equation \eqref{eq:wikidrag}:
 
 \begin{verbatim}
->> rho = 1.3;          % kg/m^3
->> Cd = 0.3;           % dimensionless
->> A = 0.0042;         % m^2
+>> rho = 1.3;          % kg/m^3 -- fluid density
+>> c_d = 0.3;          % dimensionless -- drag coefficient 
+>> a = 0.0042;         % m^2 -- cross-sectional area
 
->> Fd = - 1/2 * rho * v^2 * Cd * A * Vhat  % N
+>> Fd = - 1/2 * rho * v^2 * c_d * a * Vhat  % N
 Fd =  -1.2  -1.6
 \end{verbatim}
 
@@ -7406,25 +7406,25 @@ and we know that we can represent the acceleration due to drag with the
 vector
 
 \begin{verbatim}
->> Fd = - 1/2 * rho * v^2 * Cd * A * Vhat;
+>> Fd = - 1/2 * rho * v^2 * c_d * a * Vhat;
 >> Ad = Fd / m;
 \end{verbatim}
 
 We also know how to compute {\tt v} and {\tt Vhat} given {\tt V}. But
 what constants should we use? Sure, {\tt rho} is fairly obvious---we can
 take {\tt rho} to be the density of air at sea level ($1.3 ~
-kg/m^3$)---but what about {\tt Cd}, {\tt A}, and {\tt m}? I want
+kg/m^3$)---but what about {\tt c\_d}, {\tt a}, and {\tt m}? I want
 \textit{you} to figure out these constants: research is as much a part
 of physical modelling as math and programming are---and it's the part
 that's most fun.
 
 Visualize a human cannonball. If you can't, then look one up on
 YouTube. Look up drag coefficients to help estimate the drag
-coefficient {\tt Cd} (the ``drag coefficient'' Wikipedia page is a good
+coefficient {\tt c\_d} (the ``drag coefficient'' Wikipedia page is a good
 resource\footnote{\url{https://en.wikipedia.org/wiki/Drag_coefficient}}).
 
 Now you need to decide \textit{who} to fire out of the cannon. What's
-their waist size? What's their weight? Use these to estimate {\tt A} and
+their waist size? What's their weight? Use these to estimate {\tt a} and
 {\tt m}.
 
 Once you decide on these constants, you can use the following {\tt
@@ -7432,21 +7432,21 @@ acceleration} function to test your model (together with {\tt
 projectile} above):
 
 \begin{verbatim}
-function A = acceleration(t, R, V)
+function At = acceleration(t, R, V)
     g = 9.8;             
     rho = 1.3;           % air density in kg/m^3
-    %Cd = ?
-    %A = ?
+    %c_d = ?
+    %a = ?
     %m = ?
 
     Ag = [0; -g];        % acceleration due to gravity in m/s^2
 
     v = norm(V);
     Vhat = V/v;
-    Fd = - 1/2 * rho * v^2 * Cd * A * Vhat;
+    Fd = - 1/2 * rho * v^2 * c_d * a * Vhat;
     Ad = Fd / m;
 
-    A = Ag + Ad;
+    At = Ag + Ad;
 end
 \end{verbatim}
 
@@ -7693,8 +7693,8 @@ where $\vec{F_d}$ is a vector that represents the force on the baseball
     due to drag, $\rho$ is the density of air (1.3 kg/m$^3$ at sea
     level), $C_d$ is the drag coefficient (0.3 is a reasonable choice),
      $A$ is the baseball's cross sectional area (0.0042 m$^2$), and
-    \vec{v} is the baseball's velocity.  The baseball has a mass of
-    $0.145$ kg.
+    $\vec{v}$ is the baseball's velocity vector.  The baseball has a mass of
+    0.145 kg.
 
 \begin{itemize}
 
