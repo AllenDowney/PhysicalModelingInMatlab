@@ -3634,9 +3634,9 @@ we'll call {\tt isintegral}:
 \begin{verbatim}
 function res = isintegral(x)
     if round(x) == x
-        res = 1;
+        res = 1;       % or... res = true
     else
-        res = 0;
+        res = 0;       % or... res = false
     end
 end
 \end{verbatim}
@@ -3969,12 +3969,15 @@ Error in find_triples (line 7)
 
 So that makes it pretty easy to find the error.  This is an example of
 a development technique that is sometimes useful: rather
-than search the program for all the places that use {\tt hypotenuse},
-you can run the program and use the error messages to guide you.
+than search the code for all the places that use {\tt hypotenuse},
+you can run the program a number of times and use the error messages to guide you
+to correct the invocations of {\tt hypotenuse} as you go. 
 
-But this technique is risky, especially if the error messages make
-suggestions about what to change.  If you do what you're told, you
-might make the error message go away, but that doesn't mean the
+But, 
+if the error messages make
+suggestions about what to change,
+it can be risky to follow those suggestions.  If you do what you're told, you
+might make the error messages go away, but that doesn't mean the
 program will do the right thing.  MATLAB doesn't know what the program
 is {\em supposed} to do, but you should.
 
@@ -5134,7 +5137,6 @@ a return value; it just displays the value of the input variable:
 
 \begin{verbatim}
 >> display_vector(1:3)
-
 X = 1     2     3
 \end{verbatim}
 
@@ -5158,7 +5160,6 @@ Here's how you call it from the Command Window:
 
 \begin{verbatim}
 >> total = mysum(1:3)
-
 total = 6
 \end{verbatim}
 
@@ -5189,7 +5190,6 @@ Here's how {\tt myapply} works:
 
 \begin{verbatim}
 >> V = myapply(1:3)
-
 V = 1     4     9
 \end{verbatim}
 
@@ -5208,11 +5208,9 @@ length 1.\index{Functions!using vectors}
 
 \begin{verbatim}
 >> mysum(17)
-
 ans = 17
 
 >> myapply(9)
-
 ans = 81
 \end{verbatim}
 
@@ -5223,10 +5221,11 @@ But it might!  If the operators and functions
 you use in the body of your function work on vectors, then your
 function will probably work on vectors.
 
-For example, here is the very first function we wrote:
+For example, here is a version of the very first function we wrote:
 
 \begin{verbatim}
-function res = myfunc (x)
+% [...]
+function res = silent_myfunc(x)
     s = sin(x);
     c = cos(x);
     res = abs(s) + abs(c);
@@ -5236,16 +5235,15 @@ end
 And lo!  It turns out to work on vectors:
 
 \begin{verbatim}
->> Y = myfunc(1:3)
-
+>> Y = silent_myfunc(1:3)
 Y = 1.3818    1.3254    1.1311
 \end{verbatim}
 
 At this point, I want to take a minute to acknowledge that I
 have been a little harsh in my presentation of MATLAB, because
-there are a number of features that I think make life harder
-than it needs to be for beginners.  But here, finally,
-we are seeing features that show MATLAB's strengths.
+there are a number of features that I think make life hard 
+for beginners.  But now
+we are seeing features that begin to really show MATLAB's strengths.
 
 Some of the other functions we wrote don't work on vectors,
 but they can be patched up with just a little effort.  For example,
