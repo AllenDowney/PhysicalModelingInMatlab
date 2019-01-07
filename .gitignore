@@ -14,6 +14,7 @@
 *.gls
 *.ilg
 *.ind
+*.hind
 *.lof
 *.lot
 *.maf
@@ -23,3 +24,4 @@
 *.synctex.gz
 *.pdf
 *.tex.bak
+book/html
