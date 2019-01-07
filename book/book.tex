@@ -26,14 +26,20 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{bm}
 \usepackage{bookmark}
+\usepackage{exercise}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage{hevea}
+%\usepackage{hevea}
 \usepackage{hyperref}
 \usepackage{ifthen}
 \usepackage{makeidx}
 \usepackage{upquote}
 \usepackage{url}
+
+% to get siunitx
+% sudo apt-get install texlive-science
+\usepackage{siunitx}
+\sisetup{per-mode=symbol}
 
 %% Add pdf metadata here
 \hypersetup{
@@ -41,7 +47,6 @@
     pdfsubject={MATLAB programming},
     pdfauthor={Allen B. Downey, W. Craig Scratchley},
     pdfcreator={LaTeX},
-    ps2pdf,
 }
 
 % Tell compiler to make the index
@@ -135,14 +140,14 @@
 
 % these styles get translated in CSS for the HTML version
 % \newstyle{a:link}{color:black;}
-\newstyle{p+p}{margin-top:1em;margin-bottom:1em}
-\newstyle{img}{border:0px}
+%\newstyle{p+p}{margin-top:1em;margin-bottom:1em}
+%\newstyle{img}{border:0px}
 
 % change the arrows
-\setlinkstext
-  {\imgsrc[ALT="Previous"]{back.png}}
-  {\imgsrc[ALT="Up"]{up.png}}
-  {\imgsrc[ALT="Next"]{next.png}}
+%\setlinkstext
+%  {\imgsrc[ALT="Previous"]{back.png}}
+%  {\imgsrc[ALT="Up"]{up.png}}
+%  {\imgsrc[ALT="Next"]{next.png}}
 
 %% End of latex configuration
 
@@ -164,7 +169,7 @@ W. Craig Scratchley\\}
 \date {Version \theversion}
 
 \input{latexonly}
-\begin{latexonly}
+%\begin{latexonly}
 
 %% Title page
 
@@ -182,7 +187,7 @@ W. Craig Scratchley\\}
 
 \vspace{21em}
 
-Copyright \textcopyright \, 2014 Allen Downey
+Copyright \textcopyright \, 2018 Allen Downey
 
 \vspace{0.5em}
 
@@ -208,65 +213,29 @@ Burnaby, BC V5A 1S6
 \vspace{2em}
 
 Permission is granted to copy, distribute, and/or modify this document
-under the terms of the Creative Commons Attribution-NonCommercial 3.0 Unported
-License, which is available at \url{http://creativecommons.org/licenses/by-nc/3.0/}.
+under the terms of the Creative Commons Attribution-NonCommercial 4.0 Unported
+License, which is available at \url{http://creativecommons.org/licenses/by-nc/4.0/}.
 
 MATLAB\myreg is a registered trademark of The
 Mathworks, Inc.  The Mathworks does not warrant the accuracy
-of this book; they probably don't even like it.
+of this book.
 
 \vspace{2em}
 
-This book was typeset by the author using \LaTeX, dvips, and ps2pdf,
+This book was typeset by the authors using \LaTeX
 among other free, open-source software.
 
 Version 2.0.0 of \thetitle was released in 2017. The active Git
-    repository for developing Version 2 can be found at
-    \url{https://github.com/scratchley/PhysicalModelingInMATLAB}
+    repository for this book is at
+    \url{https://github.com/AllenDowney/PhysicalModelingInMATLAB}
 
-Version 1.0.0 was released in 2008. The top-most Git repository
-for all versions of this book can be found at
-\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB}.
-
-% TODO: consider making just one canonical repo
-% ABD: Have we made a decision on this?
+% Craig, am I right that we have converged on my repo for all development?
 
 Copying, distributing, and contributing to \thetitle is encouraged.
-The above repositories are the easiest entry points for this.
+The above repository is the easiest entry point for this.
 
 \chapter{Preface to Version 2}
-\end{latexonly}
-
-
-% HTMLONLY
-
-\begin{htmlonly}
-
-% TITLE PAGE FOR HTML VERSION
-
-{\Large \thetitle}
-
-{\large Allen B. Downey}
-
-{\large Version 2 Contributor:  W. Craig Scratchley}
-
-Version \theversion
-
-Copyright 2014 Allen B. Downey
-
-Copyright 2018 W. Craig Scratchley
-
-\vspace{0.25in}
-
-Permission is granted to copy, distribute, and/or modify this document
-under the terms of the Creative Commons Attribution-NonCommercial 3.0
-Unported License, which is available at
-\url{http://creativecommons.org/licenses/by-nc/3.0/}.
-
-%\setcounter{chapter}{-1}
-\chapter*{Preface to Version 2} % prefaces appear in index.html but not html TOC
-
-\end{htmlonly}
+% \end{latexonly}
 
 I've used \textit{\thetitle} as the course
 textbook for ``Introduction to Engineering Analysis'' at Simon Fraser
@@ -301,15 +270,7 @@ Michael Cline, and Matt Wiens.
 
 \newpage
 
-\begin{latexonly}
 \chapter{Preface}
-\end{latexonly}
-\begin{htmlonly}
-%\setcounter{chapter}{-1}
-\chapter*{Preface} % prefaces appear in index.html but not html TOC
-\end{htmlonly}
-%\chapter{Preface}
-% can we use htmlonly and latexonly here if needed.
 
 % TODO: Let's unify the two prefaces and update with information about
 % the revised book, Octave, and instructions for working with the code.
@@ -322,7 +283,7 @@ As a result, the order of presentation is unusual.  The book starts
 with scalar values and works up to vectors and matrices very
 gradually.  This approach is good for beginning programmers, because
 it is hard to understand composite objects until you understand basic
-programming semantics.  But there are problems:
+programming semantics.  But there are some challenges:
 
 \begin{itemize}
 
@@ -333,7 +294,7 @@ vocabulary early and deciphers some of the messages that
 beginners find confusing.
 
 \item Many of the examples in the first half of the book are
-not idiomatic MATLAB code.  I address this problem in the second
+not idiomatic MATLAB code.  We address this problem in the second
 half by translating the examples into a more standard style.
 
 \end{itemize}
@@ -343,10 +304,8 @@ an important mechanism for controlling program complexity, and also
 because they are useful for working with MATLAB tools like {\tt fzero}
 and {\tt ode45}.
 
-I assume that readers know calculus, differential equations, and
-physics, but not linear algebra.  I explain the math as I go along,
-but the descriptions might not be enough for someone who hasn't seen
-the material before.
+We assume that readers know calculus and physics at the high school level, but not linear algebra.
+We present differential equations and use numerical methods to solve them, but we don't assume that readers have seen differential equations before.
 
 There are small exercises within each chapter, and a few larger
 exercises at the end of some chapters.
@@ -355,9 +314,19 @@ exercises at the end of some chapters.
 
 Installing MATLAB.
 
-Working with LiveScripts?
+Working with LiveScripts
 
-Installing Octave and JupyterLab.
+Installing Octave and JupyterLab
+
+If you are using this book with Octave, we strongly recommend that you install Anaconda, which is a package management system that makes it easy to work with Octave and supporting software.
+
+Anaconda installs everything at the user level, so you can install it without admin or root permissions.  Follow the instructions for your operating system at \url{https://www.anaconda.com/download}.
+
+\begin{verbatim}
+conda create --name ModSimMatlab
+conda activate ModSimMatlab
+conda install -c conda-forge octave octave_kernel
+\end{verbatim}
 
 Working with notebooks.
 
@@ -372,59 +341,26 @@ If you have suggestions and corrections, please send them to
 
 \section*{Contributor's list}
 
-The following are some of the people who have contributed to this
-book:
+People who have found errors and helped us improve this book include
+Michael Lintz, 
+Kaelyn Stadtmueller, 
+Roydan Ongie, 
+Keerthik Omanakuttan, 
+ietro Peterlongo, 
+Li Tao, 
+Steven Zhang, 
+Elena Oleynikova, 
+Kelsey Breseman, 
+Philip Loh, 
+Harold Jaffe, 
+Vidie Pong, 
+Nik Martelaro, 
+Arjun Plakkat, 
+Zhen Gang Xiao, 
+Zavier Patrick Aguila, 
+Michael Cline.
 
-\begin{itemize}
-
-\item Michael Lintz spotted the first (of many) typos.
-
-\item Kaelyn Stadtmueller reminded me of the importance of linking
-verbs.
-
-\item Roydan Ongie knows a matrix when he sees one (and caught a typo).
-
-\item Keerthik Omanakuttan knows that acceleration is not the
-second derivative of acceleration.
-
-\item Pietro Peterlongo pointed out that Binet's formula is an
-exact expression for the $n$th Fibonacci number, not an approximation.
-
-\item Li Tao pointed out several errors.
-
-\item Steven Zhang pointed out an error and a point of confusion
-in Chapter 11.
-
-\item Elena Oleynikova pointed out the ``gotcha'' that script file names
-can't have spaces.
-
-\item Kelsey Breseman pointed out that numbers as footnote markers
-can be confused with exponents, so now I am using symbols.
-
-\item Philip Loh sent me some updates for recent revisions of MATLAB.
-
-\item Harold Jaffe spotted a typo.
-
-\item Vidie Pong pointed out the problem with spaces in filenames.
-
-\item Nik Martelaro suggested using the mcode package to make the
-code examples look better.
-
-\item Arjun Plakkat found a numerical error.
-
-\item Craig Scratchley led a project to produce a significantly
-revised version of this book, with the help of SFU students Zhen, Zavier,
-Michael, and Matt (as below).
-
-\item Zhen Gang Xiao synchronized MATLAB output with R2016b.
-
-\item Zavier Patrick Aguila consistently numbered equations.
-
-\item Michael Cline put in support for PDF bookmarks.
-
-\item Matt Wiens revised several sections of the book.
-
-\end{itemize}
+Matt Wiens revised several sections of the book.
 
 \newpage
 
@@ -435,8 +371,73 @@ Michael, and Matt (as below).
 
 \mainmatter
 
-% chap01
-\chapter{Variables and Values}
+\chapter{Modeling}
+
+This book is about modeling and simulation of physical systems.  
+The following diagram shows what I mean by ``modeling":
+
+\index{modeling}
+
+\vspace{0.2in}
+\centerline{\includegraphics[height=3in]{figs/modeling_framework.pdf}}
+
+Starting in the lower left, the {\bf system} is something in the real world we are interested in.  Often, it is something complicated, so we have to decide which details can be left out; removing details is called {\bf abstraction}.
+
+\index{system}
+
+The result of abstraction is a {\bf model}, which is a description of the system that includes only the features we think are essential.  A model can be represented in the form of diagrams and equations, which can be used for mathematical {\bf analysis}.  It can also be implemented in the form of a computer program, which can run {\bf simulations}.
+
+\index{model}
+\index{abstraction}
+\index{analysis}
+
+The result of analysis and simulation might be a {\bf prediction} about what the system will do, an {\bf explanation} of why it behaves the way it does, or a {\bf design} intended to achieve a purpose.
+
+\index{prediction}
+\index{explanation}
+\index{design}
+
+We can {\bf validate} predictions and test designs by taking {\bf measurements} from the real world and comparing the {\bf data} we get with the results from analysis and simulation. 
+
+\index{validation}
+\index{data}
+
+For any physical system, there are many possible models, each one including and excluding different features, or including different levels of detail.  The goal of the modeling process is to find the model best suited to its purpose (prediction, explanation, or design).
+
+\index{iterative modeling}
+
+Sometimes the best model is the most detailed.  If we include more features, the model is more realistic, and we expect its predictions to be more accurate.
+
+\index{realism}
+
+But often a simpler model is better.  If we include only the essential features and leave out the rest, we get models that are easier to work with, and the explanations they provide can be clearer and more compelling.
+
+\index{simplicity}
+
+As an example, suppose someone asked you why the orbit of the Earth is nearly elliptical.  If you model the Earth and Sun as point masses (ignoring their actual size), compute the gravitational force between them using Newton's law of universal gravitation, and compute the resulting orbit using Newton's laws of motion, you can show that the result is an ellipse.
+
+\index{orbit}
+\index{ellipse}
+
+Of course, the actual orbit of Earth is not a perfect ellipse, because of the gravitational forces of the Moon, Jupiter, and other objects in the solar system, and because Newton's laws of motion are only approximately true (they don't take into account relativistic effects).
+
+\index{Newton}
+\index{relativity}
+
+But adding these features to the model would not improve the explanation; more detail would only be a distraction from the fundamental cause.  However, if the goal is to predict the position of the Earth with great precision, including more details might be necessary.  
+
+Choosing the best model depends on what the model is for.  It is usually a good idea to start with a simple model, even if it is likely to be too simple, and test whether it is good enough for its purpose.  Then you can add features gradually, starting with the ones you expect to be most essential.  This process is called {\bf iterative modeling}.
+
+Comparing results of successive models provides a form of {\bf internal validation}, so you can catch conceptual, mathematical, and software errors.  And by adding and removing features, you can tell which ones have the biggest effect on the results, and which can be ignored.
+
+\index{internal validation}
+\index{validation!internal}
+\index{external validation}
+\index{validation!external}
+
+Comparing results to data from the real world provides {\bf external validation}, which is generally the strongest test.
+
+The focus of this book is simulation, and the primary tool we will use is MATLAB.
 
 \section{A glorified calculator}
 \label{sect:calc}
@@ -444,24 +445,24 @@ Michael, and Matt (as below).
 At heart, MATLAB is a glorified calculator.  When you start MATLAB
 you will see a window
 entitled {\sf MATLAB} that contains smaller windows entitled {\sf
-Current Directory}, {\sf Command History}, and {\sf Command Window}.
-The Command Window runs the MATLAB {\bf interpreter}, which allows you
-to type MATLAB {\bf commands}, then executes them and prints the
+Current Folder}, {\sf Command Window}, and {\sf Workspace}.
+In Octave, {\sf Current Folder} is called {\sf File Browser}.
+
+The Command Window runs the {\bf interpreter}, which allows you
+to type {\bf commands}, then executes them and prints the
 result.
 
 Initially, the Command Window contains a welcome message with information
-about the version of MATLAB you are running, followed by a chevron:
+about the version of the software you are running, followed by a {\bf prompt}:
 
 \begin{verbatim}
 >>
 \end{verbatim}
 
-which is the MATLAB {\bf prompt}; that is, this symbol prompts you
-to enter a command.
+This symbol prompts you to enter a command.
 
-The simplest kind of command is a mathematical {\bf expression}, which
-is made up of {\bf operands} (like numbers, for example) and
-{\bf operators} (like the plus sign, {\tt +}).
+The simplest kind of command is a mathematical {\bf expression},
+like {\tt 2 + 1}).
 
 If you type an expression and then press Enter (or Return), MATLAB
 {\bf evaluates} the expression and prints the result.
@@ -471,10 +472,10 @@ If you type an expression and then press Enter (or Return), MATLAB
 ans = 3
 \end{verbatim}
 
-Just to be clear: in the example above, MATLAB printed {\tt >>}; I
-typed {\tt 2 + 1} and then hit Enter, and MATLAB printed {\tt ans = 3}.
-And when I say ``printed,'' I really mean ``displayed on the screen,''
-which might be confusing, but it's the way people talk.
+Just to be clear: in this example, MATLAB displayed {\tt >>}; I
+typed {\tt 2 + 1} and then hit Enter, and MATLAB displayed {\tt ans = 3}.
+
+In this expression, the plus sign is an {\bf operator} and the numbers {\tt 2} and {\tt 1} are {\bf operands}.
 
 An expression can contain any number of operators and operands.  You
 don't have to put spaces between them; some people do and some people
@@ -508,10 +509,10 @@ ans = 65536
 \end{verbatim}
 
 The order of operations is what you would expect from basic algebra:
-exponentiation happens before multiplication
-and division, and
-multiplication and division happen before addition and subtraction.
-If you want to override the order of operations, you can use parentheses.\index{Operations!order of}
+exponentiation happens before multiplication and division, and multiplication and division happen before addition and subtraction.
+If you want to override the order of operations, you can use parentheses.
+
+\index{operations!order of}
 
 \begin{verbatim}
 >> 2 * (3-4) / 5
@@ -538,8 +539,10 @@ you time debugging!
 \section{Math functions}
 
 MATLAB knows how to compute pretty much every math function you've
-heard of.  It knows all the trigonometric functions\index{Math functions!trigonometric}; here's how you
+heard of.  It knows all the trigonometric functions; here's how you
 use them:
+
+\index{Math functions!trigonometric}
 
 \begin{verbatim}
 >> sin(1)
@@ -549,10 +552,11 @@ ans = 0.8415
 This command is an example of a {\bf function call}.  The name of the
 function is {\tt sin}, which is the usual abbreviation for the
 trigonometric sine.  The value in parentheses is called the {\bf argument}.
+
 The trig functions {\tt sin}, {\tt cos}, {\tt tan}---among many
 others---work in radians.\footnote{MATLAB also provides trig functions
 that work in degrees. For example, {\tt sind},{\tt cosd}, and {\tt
-tand}, compute the sine, cosine, and tangent, respectively, of an angle given in
+tand} compute the sine, cosine, and tangent of an angle given in
 degrees.}
 
 Some functions take more than one argument, in which case they are
@@ -568,16 +572,14 @@ ans = 0.7854
 If that bit of trigonometry isn't familiar to you, don't worry about
 it.  It's just an example of a function with multiple arguments.
 
-MATLAB also provides exponential functions\index{Math functions!exponential}, like {\tt exp}, which
-computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
+MATLAB also provides exponential functions\index{Math functions!exponential}, like {\tt exp}, which computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
 
 \begin{verbatim}
 >> exp(1)
 ans = 2.7183
 \end{verbatim}
 
-The inverse of {\tt exp} is {\tt log}\index{Math functions!logarithmic}, which computes the logarithm
-base $e$:
+The inverse of {\tt exp} is {\tt log}\index{Math functions!logarithmic}, which computes the logarithm base $e$:
 
 \begin{verbatim}
 >> log(exp(3))
@@ -614,25 +616,18 @@ type {\tt help} followed by the name of a command.
 >> help sin
  sin    Sine of argument in radians.
     sin(X) is the sine of the elements of X.
-
-    See also asin, sind.
-
-    Reference page for sin
-    Other functions named sin
+ 
+    See also asin, sind, sinpi.
 \end{verbatim}
 
-A likely problem for you now is that many help pages use MATLAB 
-vocabulary we haven't yet covered.  
+Some documentation uses vocabulary we haven't covered yet.  
 For example, ``the elements of X'' will likely not make sense until
 we get to vectors and matrices a few chapters from now.
 
 The {\tt doc} pages are often better for people new to MATLAB.  
-If you type {\tt doc sin}, a
-browser window appears with more detailed information about the
-function, including examples of how to use it.  The examples often
+If you type {\tt doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
 use vectors and matrices, so they may not make complete sense yet, 
-but you can
-get a preview of what's coming.
+but you can get a preview of what's coming.
 
 
 \section{Variables}
@@ -662,7 +657,7 @@ an operand in an expression:
 ans = 28.2743
 \end{verbatim}
 
-or as an argument to a function:
+Or as an argument to a function:
 
 \begin{verbatim}
 >> sin(pi/2)
@@ -705,17 +700,16 @@ x = 42
 
 This example creates a new variable named {\tt x} and assigns it the
 value of the expression {\tt 6 * 7}.  MATLAB responds with the
-variable name and the computed value.
+variable name and the computed value.  When you create a new variable, it appears in the {\sf Workspace} window.
+The ``workspace'' contains the variables you have defined and their values.
 
-In every assignment statement, the left side has to be a
-legal variable name.  The right side can be any expression,
-including function calls.
+In every assignment statement, the left side has to be a legal variable name.  The right side can be any expression, including function calls.
 
 Almost any sequence of lower and upper case letters is a legal
 variable name, as long as the name does not exceed 63 characters.  
-Digits are also legal, but one must not start a variable name with a digit.
+Digits are also legal, but not at the beginning of the name.
 Some punctuation is also legal, but the underscore,
-{\tt \_}, is the only commonly-used non-alphanumeric character.  
+{\tt \_}, is the only commonly-used punctuation mark.  
 Spaces are not allowed.  Variable names are
 ``case sensitive'', so {\tt x} and {\tt X} are different variables.
 
@@ -737,29 +731,25 @@ in MATLAB is a number.  A sequence of characters in single quotes is
 a {\bf string}.
 
 Although {\tt i}, {\tt j}, and {\tt pi} are predefined, you are free
-to reassign them.  It is somewhat common to use {\tt i} and {\tt j} for other
-purposes\footnote{Note that {\tt 1i} and {\tt 1j} \textit{always}
-represent the imaginary unit.}, but it is rare for people  
-to change the value of
+to reassign them.  It is common to use {\tt i} and {\tt j} for other
+purposes, but it is rare to assign a different value to
 {\tt pi}.\index{Complex numbers!imaginary unit}
+
 
 \section{Why variables?}
 
-The most common reasons to use variables are...\index{Variables!reasons for using}
+Some reasons to use variables are:\index{Variables!reasons for using}
 
 \begin{itemize}
 
 \item To avoid recomputing a value that is used repeatedly.  For
-example, if you are performing computations involving $e$, you might
-want to compute it once and save the result.
+example, if your computation uses $e$ frequently, you might
+want to compute it once and save the result\footnote{You don't have to do this in Octave; it is predefined.}.
 
 \begin{verbatim}
 >> e = exp(1)
 e = 2.7183
 \end{verbatim}
-
-% TODO: This might be a bad example because e is built-in.
-% wcs -- Really?  Is it in a certain Toolbox?  Doesn't appear in my MATLAB.
 
 \item To make the connection between the code and the underlying
 mathematics more apparent.  If you are computing the area of a circle,
@@ -773,12 +763,10 @@ r = 3
 area = 28.2743
 \end{verbatim}
 
-That way your code resembles the familiar formula $\pi r^2$.
+That way your code resembles the familiar formula $a = \pi r^2$.
 
 \item To break a long computation into a sequence of steps.
-Suppose you are evaluating a big, hairy expression like this one, which is using some variables
-already in the workspace:
-
+Suppose you are evaluating a big, hairy expression like this one:
 \begin{verbatim}
 ans = ((x - 2000000) * sqrt(2 * pi) * 1000000) ^ -1 * ...
 exp(-1/2 * (log(x - 2000000) - area)^2 / 1000000^2)
@@ -808,16 +796,13 @@ the First Theorem of Debugging).
 
 \end{itemize}
 
-
 \section{Errors}
 
 It's early, but now would be a good time to start making errors.
-Whenever you learn a new feature, you should try
-to make as many errors as possible, as soon as possible.
+Whenever you learn a new feature, you should try to make as many errors as possible, as soon as possible.
 
-When you make deliberate errors, you get to see what the error messages
-look like.  Later, when you make accidental errors, you will know what
-the messages mean.
+When you make deliberate errors, you see what the error messages are.
+Later, when you make accidental errors, you will know what the messages mean.
 
 A common error for beginning programmers is leaving out the {\tt *}
 for multiplication.
@@ -826,13 +811,12 @@ for multiplication.
 >> area = pi r^2
  area = pi r^2
            |
-Error: Unexpected MATLAB expression.
+Error: Invalid expression. Check for missing multiplication operator, 
+missing or unbalanced delimiters, or other syntax error.
+To construct matrices, use brackets instead of parentheses.
 \end{verbatim}
 
-The error message indicates that, after seeing the operand {\tt pi},
-MATLAB was ``expecting'' to see an operator, like {\tt *}.  Instead,
-it got a variable name, which is the ``unexpected expression'' indicated
-by the vertical line, {\tt |} (which is called a ``pipe'').
+The error message indicates that the expression in invalid and suggests several things that might be wrong.  In this case, one of its guesses is right; we are missing a multiplication operator.
 
 Another common error is to leave out the parentheses around the
 arguments of a function.  For example, in math notation, it is common
@@ -844,19 +828,16 @@ Undefined function 'sin' for input arguments of type 'char'.
 \end{verbatim}
 
 The problem is that when you leave out the parentheses, MATLAB treats
-the argument as a string (rather than as an expression).  In
-this case the {\tt sin} function generates a reasonable error message,
-but in other cases the results can be baffling.  For example, what
-do you think is going on here?
+the argument as a string (rather than as an expression).
+In this case the error message is helpful, but in other cases the results can be baffling.
+For example, if you call {\tt abs}, which computes absolute values, and forget the parentheses, you get a surprising result:
 
 \begin{verbatim}
 >> abs pi
 ans =  112   105
 \end{verbatim}
 
-There is a reason for this ``feature'', but rather than get into that
-now, let me suggest that you should {\em always} put parentheses around
-arguments.
+I won't explain this result; for now, I'll just suggest that you should {\em always} put parentheses around arguments.
 
 This example also demonstrates the Second Theorem of Debugging:
 
@@ -864,8 +845,7 @@ This example also demonstrates the Second Theorem of Debugging:
 \displaythrm{2}
 \end{quote}
 
-MATLAB functions are case sensitive, if you type the {\tt sin} function using capital letters
-in MATLAB, you get an error:
+MATLAB functions are case sensitive, if you type the {\tt sin} function using capital letters in MATLAB, you get an error:
 
 \begin{verbatim}
 >> SIN(pi)
@@ -875,221 +855,37 @@ Did you mean:
 >> sin(pi)
 \end{verbatim}
 
-Beginning programmers often hate error messages and often do everything they
+Beginning programmers often hate error messages and do everything they
 can to make the messages go away.  Experienced programmers know that error
-messages are one's friends.  Such messages can be hard to understand, and even
-misleading, but it is worth making some effort to understand them.
+messages are your friend.  They can be hard to understand, and even
+misleading, but it is worth the effort to understand them.
 
-Here's another common rookie error.  If you were translating
-the following mathematical
-expression into MATLAB:
-
-\begin{equation}
- \frac{1}{2 \sqrt \pi}
-\end{equation}
-You might be tempted to write something like this:
+Here's another common error.
+If you were translating this mathematical expression into MATLAB:
+%
+\[ \frac{1}{2 \sqrt \pi} \]
+%
+You might be tempted to write this:
 
 \begin{verbatim}
 1 / 2 * sqrt(pi)
 \end{verbatim}
 
-But that would be wrong.  So very wrong.  It should instead be
+But that would be wrong because of the order of operations.  Division and multiplication are evaluated from left to right, so this expression would multiply {\tt 1/2} by {\tt sqrt(pi)}.
+
+To keep {\tt sqrt(pi)} in the denominator, you could use parentheses:
 
 \begin{verbatim}
 1 / (2 * sqrt(pi))
 \end{verbatim}
 
-or
+or make the division explicit.
 
 \begin{verbatim}
 1 / 2 / sqrt(pi)
 \end{verbatim}
 
 
-\section{Floating-point number representation}
-
-You might have noticed that, so far at least, MATLAB has expressed values in decimal
-notation.  So, for example, the rational number $1/3$ is represented below
-by the decimal value
-
-\begin{verbatim}
->> 1/3
-ans = 0.3333
-\end{verbatim}
-
-which is only approximately correct.  It's not quite as bad as
-it seems: the above result actually stores more digits than it shows by default.
-You can change the output {\tt format} to see more digits.\index{Numbers!{\tt format}}
-
-\begin{verbatim}
->> format long
->> 1/3
-ans = 0.333333333333333
-\end{verbatim}
-
-{\tt format short} will return to seeing fewer digits if so desired.
-
-Internally, MATLAB uses by default the IEEE double-precision floating-point
-number representation, which provides about 16 significant digits of ``precision'' (in
-base 10).
-\index{Numbers!double-precision floating point}  
-Leading zeros and some trailing zeros don't count as significant
-digits, so {\bf floating point} can represent any number, large magnitude or small magnitude,
-with the same number of significant digits of precision.\index{Numbers!floating point}
-
-Values with magnitudes that are very large or very small are displayed in 
-scientific notation.
-
-\begin{verbatim}
->> factorial(50)
-ans = 3.041409320171338e+64
-\end{verbatim}
-
-The {\tt e} in this notation is {\em not} the transcendental number
-known as $e$\index{Numbers!$e$}; it is just an abbreviation for ``exponent''.  So
-this means that $50!$ is approximately $3.04 \times 10^{64}$.  The
-exact solution is a 65-digit integer, but with double-precision floating-point 
-we only know the first 16
-digits. 
-If you happen to have the MATLAB Symbolic Math Toolbox installed, you can use a 
-different number representation for the calculation and see all the digits of 
-the result:
-
-\begin{verbatim}
->> sym(factorial(50))
-ans = 30414093201713375576366966406747986832057064836514787179557289984
-\end{verbatim}
-
-Note that the symbolic result takes significantly more memory space 
-than the floating point result.
-For this book, we will focus on using MATLAB's default floating-point 
-numbers, and not make use of extra MATLAB toolboxes.
-%do we need any MATLAB toolboxes for later chapters?  wcs assumes not.
-
-You can also enter numbers using scientific notation.
-
-\begin{verbatim}
->> speed_of_light = 3.0e8
-speed_of_light = 300000000
-\end{verbatim}
-
-Although MATLAB can handle numbers with large and small magnitudes, 
-there are limits for floating point.  The
-predefined variables {\tt realmax} and {\tt realmin}
-\index{Numbers!{\tt realmax} and {\tt realmin}} contain, respectively, the
-largest and smallest number magnitudes that a MATLAB double-precision 
-floating point can handle with the full number of digits of precision.
-\footnote{The names of these variables are somewhat misleading: MATLAB
-documentation for them refers to ``floating-point numbers'', not ``real
-numbers''.  Also, {\tt realmin} is not using the usual definition 
-for minimum.}
-
-\begin{verbatim}
->> realmax
-ans = 1.797693134862316e+308
-
->> realmin
-ans = 2.225073858507201e-308
-\end{verbatim}
-
-MATLAB can handle a set of numbers with magnitude smaller than 
-{\tt realmin}, but with fewer (binary) digits of precision.
-
-\begin{verbatim}
->> 1e-323
-ans = 9.881312916824931e-324
-
->> 0.000000000000001e-308
-ans = 9.881312916824931e-324
-\end{verbatim}
-
-Note that the resulting number being returned in this rather extreme 
-case has an error of over 1\%, as there are very few digits of 
-precision left.  
-%Perhaps a warning from MATLAB would be useful for such numbers.
-
-If a number is too small, MATLAB ``rounds down'' to zero.
-
-\begin{verbatim}
->> 1e-324
-ans = 0
-\end{verbatim}
-
-If a number -- perhaps the result of a computation -- is too big, 
-MATLAB ``rounds up''
-to infinity.\index{Numbers!{\tt Inf}}
-
-\begin{verbatim}
->> factorial(170)
-ans = 7.257415615307994e+306
-
->> factorial(171)
-ans = Inf
-\end{verbatim}
-
-Division by zero also returns {\tt Inf}.
-
-\begin{verbatim}
->> 1/0
-ans = Inf
-\end{verbatim}
-
-Some older versions of MATLAB give a warning when dividing by zero.
-A warning is like an error message without teeth; the computation
-is allowed to continue.  Allowing {\tt Inf} to propagate
-through a computation doesn't always do what you expect, but if you
-are careful with how you use it, {\tt Inf} can be quite useful.
-
-For operations that are truly undefined, MATLAB returns {\tt NaN},
-which stands for ``not a number''.\index{Numbers!{\tt NaN}}
-
-\begin{verbatim}
->> 0/0
-ans = NaN
-\end{verbatim}
-
-
-\section{Comments}
-
-Along with the commands that make up a program, it is useful
-to include comments that provide additional information about the
-program.  The percent symbol {\tt \%} separates
-the comments from the code.\index{Syntax!comments}
-
-\begin{verbatim}
->> speed_of_light = 3.0e8     % meters per second
-speed_of_light = 300000000
-\end{verbatim}
-
-The comment runs from the percent symbol to the end of the line.
-In this case it specifies the units of the value.  In an ideal world,
-MATLAB would keep track of units and propagate them through the
-computation, but for now that burden falls on the programmer.
-
-Comments have no effect on the execution of the program.  They
-are there for human readers.  Good comments make programs more
-readable, but bad comments are useless or (even worse) misleading.
-
-Avoid comments that are redundant with the code:
-
-\begin{verbatim}
->> x = 5        % assign the value 5 to x
-\end{verbatim}
-
-Good comments provide additional information that is not in the
-code, like units in the example above, or the meaning of a variable:
-
-\begin{verbatim}
->> p = 0         % position from the origin in meters
->> v = 100       % velocity in meters / second
->> a_g = -9.8    % acceleration due to gravity in meters / second^2
-\end{verbatim}
-
-If you use longer variable names, you might not need explanatory
-comments, but there is a tradeoff: longer code can become harder
-to read.  Also, if you are translating from math
-that uses short variable names, it can be useful to make your
-program consistent with your math.
 
 
 \section{Glossary}
@@ -1100,7 +896,7 @@ program consistent with your math.
 
 \item[command:] A line of MATLAB code executed by the interpreter.
 
-\item[prompt:] The symbol the interpreter prints to indicate that it is
+\item[prompt:] The symbols the interpreter prints to indicate that it is
 waiting for you to type a command.
 
 \item[operator:] One of the symbols, like {\tt *} and {\tt +}, that
@@ -1140,54 +936,51 @@ one function call as an argument for another.
 \item[string:] A value that consists of a sequence of characters (as
 opposed to a number).
 
-\item[floating-point:] A style of number representation in a computer.  
-By default, MATLAB uses 
-double-precision
-floating-point numbers, which normally provide about 16 significant
-decimal digits of precision and have maximum and minimum magnitudes.
-Therefore, default MATLAB numbers cannot accurately represent all real
-or even all integer numbers, let alone any irrational number.
-
-\item[scientific notation:] A format for typing and displaying large
-and small numbers; e.g. {\tt 3.0e8}, which represents $3.0 \times 10^8$
-or 300,000,000.
-
-\item[comment:] Part of a program that provides additional information
-about the program, but does not affect its execution.
 
 \end{description}
 
 
 \section{Exercises}
 
-\newtheoremstyle{myex}% name
-     {9pt}%      Space above
-     {9pt}%      Space below
-     {\itshape}%         Body font
-     {}%         Indent amount (empty = no indent, \parindent = para indent)
-     {\bfseries}% Thm head font
-     {}%        Punctuation after thm head
-     {9pt}%     Space after thm head: " " = normal interword space;
-           %       \newline = linebreak
-     {}%         Thm head spec (can be left empty, meaning `normal')
-
-
-\theoremstyle{myex}
-\newtheorem{ex}{Exercise}[chapter]
+\newenvironment{ex}{\begin{Exercise}}{\end{Exercise}}
 
 \begin{ex}
-Write a MATLAB expression that evaluates the
-following math expression.  You can assume that the variables
-{\tt mu}, {\tt sigma}, and {\tt x} already exist.
+You might have heard that a penny dropped from the top of the Empire State Building would be going so fast when it hit the pavement that it would be embedded in the concrete; or if it hit a person, it would break their skull.
 
-\begin{equation}
-\frac{e^{- \left( \frac{x-\mu}{\sigma \sqrt{}2} \right) ^2}}
-{\sigma \sqrt{2 \pi}}
-\end{equation}
+\index{Empire State Building}
+\index{penny}
+\index{myth}
 
-Note: you can't use Greek letters in MATLAB; when translating
-math expressions with Greek letters, it is common to write out
-the name of the letter (assuming you know it).
+We can test this myth by making and analyzing a model.  To get started, we'll assume that the effect of air resistance is small.  This will turn out to be a bad assumption, but bear with me.
+
+If air resistance is negligible, the primary force acting on the penny is gravity, which causes the penny to accelerate downward.
+\index{air resistance}
+
+If the initial velocity is 0, the velocity after $t$ seconds is $a t$, and the distance the penny has dropped is
+%
+\[ h = a t^2 / 2 \]
+%
+Using algebra, we can solve for $t$:
+%
+\[ t = \sqrt{ 2 h / a} \]
+%
+Plugging in the acceleration of gravity, 
+$a = \SI{9.8}{\meter\per\second\squared}$, and the height of the Empire State Building, 
+$h = \SI{381}{\meter}$, we get 
+$t = \SI{8.8}{\second}$.  
+Then computing $v = a t$ we get a velocity on impact of $\SI{86}{\meter\per\second}$, which is about 190 miles per hour.  That sounds like it could hurt.
+
+Use MATLAB to perform these computations, and check that you get the same result.
+\end{ex}
+
+\begin{ex}
+The result in the previous exercise is not accurate it ignores air resistance.  In reality, once the penny gets to about \SI{18}{\meter\per\second}, the upward force of air resistance equals the downward force of gravity, so the penny stops accelerating.  After that, it doesn't matter how far the penny falls; it hits the sidewalk at about \SI{18}{\meter\per\second}, much less than \SI{86}{\meter\per\second}.
+
+As an exercise, compute the time it takes for the penny to reach the sidewalk if we assume that it accelerates with constant acceleration
+$a = \SI{9.8}{\meter\per\second\squared}$ until it reaches terminal velocity, then falls with constant velocity until it hits this sidewalk.
+
+The result you get is not exact, but it is a pretty good approximation.
+
 \end{ex}
 
 
@@ -1444,7 +1237,182 @@ The object of the game is to find the cause and
 fix it---not just to make the error message go away.
 
 
-\section{Pre- and post-conditions}\index{Scripts!pre- and post-conditions}
+\section{Floating-point number representation}
+
+You might have noticed that MATLAB expresses values in decimal notation.
+For example, the rational number $1/3$ is represented below
+by the decimal value
+
+\begin{verbatim}
+>> 2/3
+ans = 0.6666
+\end{verbatim}
+
+which is only approximately correct.  It's not as bad as
+it seems: MATLAB stores more digits than it shows by default.
+You can change the output {\tt format} to see more digits.\index{Numbers!{\tt format}}
+
+\begin{verbatim}
+>> format long
+>> 2/3
+ans = 0.666666666666667
+\end{verbatim}
+
+You can run
+{\tt format short} to see fewer digits, if you prefer.
+
+Internally, MATLAB uses IEEE double-precision floating-point
+numbers, which are accurate to about 15 digits of precision.  In this example, the first 14 digits are correct; the last one has been rounded off.
+
+\index{Numbers!double-precision floating point}  
+
+Leading zeros and some trailing zeros don't count as significant
+digits, so we can represent large and small numbers with the same precision.
+
+\index{Numbers!floating point}
+
+Large and small numbers are displayed in scientific notation.  For example, if we use the built in function {\tt factorial} to compute $50!$, we get the following result:
+
+\begin{verbatim}
+>> factorial(50)
+ans = 3.041409320171338e+64
+\end{verbatim}
+
+The {\tt e} in this notation is {\em not} the transcendental number
+known as $e$\index{Numbers!$e$}; it is just an abbreviation for ``exponent''.  So
+this means that $50!$ is approximately $3.04 \times 10^{64}$.  The
+exact solution is a 65-digit integer, but with double-precision floating-point 
+we only know the first 16 digits.
+
+If you have the MATLAB Symbolic Math Toolbox installed, you can use a 
+different number representation for the calculation and see all the digits of 
+the result:
+
+\begin{verbatim}
+>> sym(factorial(50))
+ans = 30414093201713375576366966406747986832057064836514787179557289984
+\end{verbatim}
+
+Compared to the floating-point result, the symbolic result takes substantially more time to compute and space to store in memory.
+In this book, we focus on floating-point computation rather than symbolic computation.
+
+You can also enter numbers using scientific notation.
+
+\begin{verbatim}
+>> speed_of_light = 3.0e8
+speed_of_light = 300000000
+\end{verbatim}
+
+Although floating-point can represent very large and small numbers, 
+there are limits.  
+The predefined variables {\tt realmax} and {\tt realmin}
+\index{Numbers!{\tt realmax} and {\tt realmin}} contain the
+largest and smallest number magnitudes that MATLAB 
+can handle.
+
+\begin{verbatim}
+>> realmax
+ans = 1.797693134862316e+308
+
+>> realmin
+ans = 2.225073858507201e-308
+\end{verbatim}
+
+Actually, MATLAB can handle a some numbers with magnitude smaller than 
+{\tt realmin}, but with fewer digits of precision.
+
+\begin{verbatim}
+>> 1e-323
+ans = 9.881312916824931e-324
+\end{verbatim}
+
+If a number is too small, MATLAB ``rounds down'' to zero.
+
+\begin{verbatim}
+>> 1e-324
+ans = 0
+\end{verbatim}
+
+If a number -- perhaps the result of a computation -- is too big, 
+MATLAB ``rounds up'' to infinity.\index{Numbers!{\tt Inf}}
+
+\begin{verbatim}
+>> factorial(170)
+ans = 7.257415615307994e+306
+
+>> factorial(171)
+ans = Inf
+\end{verbatim}
+
+Division by zero also returns {\tt Inf}.
+
+\begin{verbatim}
+>> 1/0
+ans = Inf
+\end{verbatim}
+
+Some older versions of MATLAB give a warning when dividing by zero.
+A warning is like an error message without teeth; the computation
+is allowed to continue.  Allowing {\tt Inf} to propagate
+through a computation doesn't always do what you expect, but if you
+are careful with it, {\tt Inf} can be quite useful.
+
+For operations that are truly undefined, MATLAB returns {\tt NaN},
+which stands for ``not a number''.\index{Numbers!{\tt NaN}}
+
+\begin{verbatim}
+>> 0/0
+ans = NaN
+\end{verbatim}
+
+
+\section{Comments}
+
+Along with the commands that make up a program, it is useful
+to include comments that provide additional information about the
+program.  The percent symbol {\tt \%} separates
+the comments from the code.\index{Syntax!comments}
+
+\begin{verbatim}
+>> speed_of_light = 3.0e8     % meters per second
+speed_of_light = 300000000
+\end{verbatim}
+
+The comment runs from the percent symbol to the end of the line.
+In this case it specifies the units of the value.  In an ideal world,
+MATLAB would keep track of units and propagate them through the
+computation, but for now that burden falls on the programmer.
+
+Comments have no effect on the execution of the program.  They
+are there for human readers.  Good comments make programs more
+readable; bad comments are useless or (even worse) misleading.
+
+Avoid comments that are redundant with the code:
+
+\begin{verbatim}
+>> x = 5        % assign the value 5 to x
+\end{verbatim}
+
+Good comments provide additional information that is not in the
+code, like units in the example above, or the meaning of a variable:
+
+\begin{verbatim}
+>> p = 0         % position from the origin in meters
+>> v = 100       % velocity in meters / second
+>> a_g = -9.8    % acceleration due to gravity in meters / second^2
+\end{verbatim}
+
+If you use longer variable names, you might not need explanatory
+comments, but there is a tradeoff: longer code can become harder
+to read.
+Also, if you are translating from math
+that uses short variable names, it can be useful to make your
+program consistent with your math.
+
+
+\section{Pre- and post-conditions}
+
+\index{Scripts!pre- and post-conditions}
 
 Every script should contain a comment that explains
 what it does, and what the requirements are for the workspace.  For
@@ -1687,6 +1655,15 @@ which is not part of the finished program.
 
 \item[unit testing:] A process of testing software by testing each
 component in isolation.
+
+\item[floating-point:] A way to represent numbers in a computer.
+
+\item[scientific notation:] A format for typing and displaying large
+and small numbers; e.g. {\tt 3.0e8}, which represents $3.0 \times 10^8$
+or 300,000,000.
+
+\item[comment:] Part of a program that provides additional information
+about the program, but does not affect its execution.
 
 \end{description}
 
