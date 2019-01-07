@@ -36,6 +36,12 @@
 \usepackage{upquote}
 \usepackage{url}
 
+%\usepackage{xcolor}
+%\usepackage{listings}[tcolorbox]
+
+% use minted for code listings
+\usepackage{minted}
+
 % to get siunitx
 % sudo apt-get install texlive-science
 \usepackage{siunitx}
@@ -48,6 +54,9 @@
     pdfauthor={Allen B. Downey, W. Craig Scratchley},
     pdfcreator={LaTeX},
 }
+
+% use mcode as a synonym for verb, for inline MATLAB code
+%\newcommand{\mcode{1}}{\mintinline{matlab}{#1}}
 
 % Tell compiler to make the index
 \makeindex
@@ -700,8 +709,7 @@ x = 42
 
 This example creates a new variable named {\tt x} and assigns it the
 value of the expression {\tt 6 * 7}.  MATLAB responds with the
-variable name and the computed value.  When you create a new variable, it appears in the {\sf Workspace} window.
-The ``workspace'' contains the variables you have defined and their values.
+variable name and the computed value.
 
 In every assignment statement, the left side has to be a legal variable name.  The right side can be any expression, including function calls.
 
@@ -709,7 +717,7 @@ Almost any sequence of lower and upper case letters is a legal
 variable name, as long as the name does not exceed 63 characters.  
 Digits are also legal, but not at the beginning of the name.
 Some punctuation is also legal, but the underscore,
-{\tt \_}, is the only commonly-used punctuation mark.  
+\verb"_", is the only commonly-used punctuation mark.  
 Spaces are not allowed.  Variable names are
 ``case sensitive'', so {\tt x} and {\tt X} are different variables.
 
@@ -732,8 +740,57 @@ a {\bf string}.
 
 Although {\tt i}, {\tt j}, and {\tt pi} are predefined, you are free
 to reassign them.  It is common to use {\tt i} and {\tt j} for other
-purposes, but it is rare to assign a different value to
+purposes, but rare to assign a different value to
 {\tt pi}.\index{Complex numbers!imaginary unit}
+
+
+\section{The workspace}
+
+When you create a new variable, it appears in the {\sf Workspace} window, and it is added to the {\bf workspace}, which is a
+set of variables and their values.\index{Variables!workspace}
+
+The {\tt who} command prints the
+names of the variables in the workspace.\index{Variables!{\tt who}}
+
+\begin{verbatim}
+>> x=5;
+>> y=7;
+>> z=9;
+>> who
+
+Your variables are:
+
+x  y  z
+\end{verbatim}
+
+The {\tt clear} command removes specified variables from the workspace
+
+\begin{verbatim}
+>> clear x
+>> who
+
+Your variables are:
+
+y z
+\end{verbatim}
+
+But be careful: if you don't specify any variables, {\tt clear} removes them all.
+
+To display the value of a variable, you can use the {\tt disp} function.
+
+\index{Variables!{\tt disp}}
+
+\begin{verbatim}
+>> disp(z)
+     9
+\end{verbatim}
+
+But it's easier to just type the variable name.
+
+\begin{verbatim}
+>> z
+z = 9
+\end{verbatim}
 
 
 \section{Why variables?}
@@ -990,7 +1047,7 @@ The result you get is not exact, but it is a pretty good approximation.
 \section{M-files}\index{Scripts!M-files}
 \label{sect:M-files}
 
-So far we have typed all of our programs ``at the prompt,'' which is
+So far we have typed all of our programs ``at the prompt'', which is
 fine if you are not writing more than a few lines.  Beyond that,
 you will want to store your program in a {\bf script} and then
 execute the script.
@@ -999,30 +1056,23 @@ A script is a file that contains MATLAB code.  These files are
 also called ``M-files'' because they use the extension {\tt .m},
 which is short for MATLAB.
 
-You can create and edit
-scripts with any text editor or word processor, but the simplest way
-is by selecting {\sf New}$\rightarrow${\sf Script} from the {\sf File}
-menu.  A window appears running a text editor specially designed for
-MATLAB.
+You can create and edit scripts with any text editor or word processor, but the simplest way is by clicking the {\sf New Script} button in the upper left corner.  A window appears running a text editor specially designed for MATLAB.
 
-Type the following code in the editor
+Type the following code in the editor:
 
 \begin{verbatim}
 x = 5
 \end{verbatim}
 
-and then press the (outdated) floppy disk icon, or select {\sf Save}
-from the {\sf File} menu.  Either way, a dialog box appears where you
+Then press the {\sf Save} button.  A dialog window should appears where you
 can choose the file name and the directory where it should go.  Change
-the name to {\tt myscript.m} and leave the directory unchanged.
+the name to {\tt myscript.m} and save it into any folder you like.
 
-By default, MATLAB will store your script in a directory that is on
-the {\bf search path}, which is the list of directories MATLAB
-searches for scripts.
+Now press the green {\sf Run} button.  You might get a message that says the script is not found in the current folder.  
+If so, click the button that says {\sf Change Folder} and it should run.
 
-Go back to the Command Window and type {\tt myscript} (without the
-extension) at the prompt.  MATLAB executes your script and displays
-the result.
+You can also run your script from the Command Window: type {\tt myscript} at the prompt and press Enter.  
+MATLAB executes your script and displays the result.
 
 \begin{verbatim}
 >> myscript
@@ -1032,24 +1082,19 @@ x = 5
 When you run a script, MATLAB executes the commands in the M-File, one
 after another, exactly as if you had typed them at the prompt.
 
-If something goes wrong and MATLAB can't find your script, you will
-get an error message like:
+When you run a script, you should not include the extension {\tt .m}.  If you try, you will get an error message like this:
 
 \begin{verbatim}
->> myscript
-Undefined function or variable 'myscript'.
+>> myscript.m
+Undefined variable "myscript" or class "myscript.m".
 \end{verbatim}
 
-In this case you can either save your script again in a directory
-that is on the search path, or modify the search path to include
-the directory where you keep your scripts.  You'll have to consult
-the documentation for the details (sorry!).
+When you name a new script, try to choose something meaningful and memorable. 
 
-The filename can be anything you want, but you should try to choose
-something meaningful and memorable.  You should be very careful to choose a
-name that is not already in use; if you do, you might accidentally
-replace one of MATLAB's functions with your own.
-Finally, the name of the file cannot contain spaces.  If you create
+Do not choose a name that is not already in use; if you do, you will replace one of MATLAB's functions with your own (at least temporarily).
+You might not notice right away, but you might get some confusing behavior later.
+
+Also, the name of the script cannot contain spaces.  If you create
 a file named {\tt my script.m}, MATLAB will complain when you try
 to run it:
 
@@ -1058,58 +1103,22 @@ to run it:
 Undefined function or variable 'my'.
 \end{verbatim}
 
-The problem is that it is looking for a script named {\tt my}.  The
-problem is even worse if the first word of the filename is a function
-that exists.  Just for fun, create a script named {\tt abs val.m}
-and run it.
-
 Keeping track of your scripts can be a pain.  To keep things simple,
 for now, I suggest putting all of your scripts in one
-directory of your own.
-
-\begin{ex}
-The Fibonacci sequence, denoted $F$, is described by the equations
-$F_1 = 1$, $F_2 = 1$, and for $i \ge 3$, $F_{i} = F_{i-1} + F_{i-2}$.
-The elements of this sequence occur naturally in many plants,
-particularly those with petals or scales arranged in the form of a
-logarithmic spiral.
-
-The following expression computes the
-$n$th Fibonacci number:
-
-\begin{equation}
-F_n = \frac{1}{\sqrt{5}}
-\left[
-\left( \frac{1 + \sqrt{5}}{2} \right)^{n} -
-\left( \frac{1 - \sqrt{5}}{2} \right)^{n}
-\right]
-\end{equation}
-
-Translate this expression into MATLAB and store your
-code in a file named {\tt fibonacci1.m}.  At the prompt, set the value
-of {\tt n} to 10 and then run your script.  The last line of your
-script should assign the value of $F_n$ to {\tt ans}.
-Try outputting {\tt ans} with both {\tt format short} and {\tt format long}.
-Notice, especially with the long format, that the answer is not exactly
-55 as it should be for $F_{10}$.  This is due to things like rounding errors
-as the expression was being calculated.
-\end{ex}
+directory.
 
 
 \section{Why scripts?}
 
-The most common reasons to use scripts are:\index{Scripts!reasons for using}
+The most common reasons to use scripts are:
+
+\index{Scripts!reasons for using}
 
 \begin{itemize}
 
 \item When you are writing more than a couple of lines of code, it
 might take a few tries to get everything right.  Putting your code
 in a script makes it easier to edit than typing it at the prompt.
-
-On the other hand, it can be a pain to switch back and forth between
-the Command Window and the Editor.  Try to arrange your windows so
-you can see the Editor and the Command Window at the same time, and
-use the Tab key or the mouse to switch between them.
 
 \item If you choose good names for your scripts, you will be able
 to remember which script does what, and you might be able to reuse
@@ -1120,21 +1129,17 @@ name of the script than to retype the code!
 
 \end{itemize}
 
-Unfortunately, the great power of scripts comes with great responsibility,
-which is that you have to make sure that the code you are running is
-the code you think you are running.
+But the great power of scripts comes with great responsibility:
+you have to make sure that the code you are running is the code you think you are running.
 
-First, whenever you edit your script, you have to save it before you
-run it.  If you forget to save it, you will be running the old version.
-
-Also, whenever you start a new script, start with something simple,
+Whenever you start a new script, start with something simple,
 like {\tt x=5}, that produces a visible effect.  Then run your script
-and confirm that you get what you expect.  MATLAB comes with a lot of
-predefined functions.  It is easy to write a script that has the same
-name as a MATLAB function, and if you are not careful, you might
-find yourself running the MATLAB function instead of your script.
+and confirm that you get what you expect.
 
-Either way, if the code you are running is not the code you are looking
+When you type the name of a script, MATLAB searches for the script in a {\bf path}, which is a sequence of folders.  If it doesn't find the script in the first folder, it searches the second, and so on.
+If you have scripts with the same name in different folders, you could be looking at one version and running another.
+
+If the code you are running is not the code you are looking
 at, you will find debugging a frustrating exercise!  And that brings
 us to the Third Theorem of Debugging:
 
@@ -1143,73 +1148,45 @@ us to the Third Theorem of Debugging:
 \end{quote}
 
 
+\section{Fibonacci}
 
-\section{The workspace}
+The Fibonacci sequence, denoted $F$, is described by the equations
+$F_1 = 1$, $F_2 = 1$, and for $i \gt 2$, $F_{i} = F_{i-1} + F_{i-2}$.
+The following expression computes the $n$th Fibonacci number:
 
-The variables you create are stored in the {\bf workspace}, which is a
-set of variables and their values.\index{Variables!workspace}
-The {\tt clear} command, by itself, removes all variables you may
-have in the workspace.\index{Variables!{\tt clear}}
+\begin{equation}
+F_n = \frac{1}{\sqrt{5}}
+\left[
+\left( \frac{1 + \sqrt{5}}{2} \right)^{n} -
+\left( \frac{1 - \sqrt{5}}{2} \right)^{n}
+\right]
+\end{equation}
+
+We can translate this expression into MATLAB, like this:
 
 \begin{verbatim}
->> clear
+s5 = sqrt(5);
+t1 = (1 + s5) / 2;
+t2 = (1 - s5) / 2;
+diff = t1^n - t2^n;
+ans = diff / s5
 \end{verbatim}
 
-The {\tt who} command prints the
-names of the variables in the workspace.\index{Variables!{\tt who}}
+I use temporary variables like {\tt t1} and {\tt t2} to make the code readable and the order of operations explicit.  The first four lines have a semi-colon at the end, so they don't display anything.  The last line assigns the result to {\tt ans}.
+
+If we save this script in a file named {\tt fibonacci1.m}, we can run it like this:
 
 \begin{verbatim}
->> x=5;
->> y=7;
->> z=9;
->> who
-
-Your variables are:
-
-x  y  z
+>> n = 10
+>> fibonacci1
+ans = 55.0000
 \end{verbatim}
 
-The {\tt clear} command can also remove specified variables.
+Before calling this script, you have to assign a value to {\tt n}.
+If {\tt n} is not defined, you get an error:
 
 \begin{verbatim}
->> clear x y
->> who
-
-Your variables are:
-
-z
-\end{verbatim}
-
-To display the value of a variable, you can use the {\tt disp}
-function.\index{Variables!{\tt disp}}
-
-\begin{verbatim}
->> disp(z)
-     9
-\end{verbatim}
-
-But it's easier to just type the variable name.
-
-\begin{verbatim}
->> z
-z = 9
-\end{verbatim}
-% Downey wrote:
-%(Strictly speaking, the name of a variable is an expression, so
-%evaluating it should assign a value to {\tt ans}, but MATLAB seems
-%to handle this as a special case.)
-%Zhen did not agree
-
-\section{More errors}
-
-Again, when you try something new, you should make a few mistakes
-on purpose so you'll recognize them later.
-
-The most common error with scripts is to run a script without creating
-the necessary variables.  For example, {\tt fibonacci1} requires you
-to assign a value to {\tt n}.  If you don't:
-
-\begin{verbatim}
+>> clear n
 >> fibonacci1
 Undefined function or variable 'n'.
 
@@ -1217,40 +1194,38 @@ Error in fibonacci1 (line 9)
 diff = t1^n - t2^n;
 \end{verbatim}
 
-The details of this message might be different for you, depending
-on what's in your script.  But the general idea is that {\tt n}
-is undefined.  Notice that MATLAB tells you what line of your
-program the error is in, and displays the line.
+This script only works if there is a variable named {\tt n} in the workspace; otherwise, you get an error.
+
+MATLAB tells you what line of the script the error is in, and displays the line.
 
 This information can be helpful, but beware!  MATLAB is telling you
 where the error was discovered, not where the error is.  In this
-case, the error is not in the script at all; it is, in a sense, in
-the workspace.
-
-Which brings us to the Fourth Theorem of Debugging:
+case, the error is not in the script at all, which brings us to the Fourth Theorem of Debugging:
 
 \begin{quote}
 \displaythrm{4}
 \end{quote}
 
-The object of the game is to find the cause and
-fix it---not just to make the error message go away.
+Often you have to work backwards to find the source of the problem.
 
 
-\section{Floating-point number representation}
+\section{Floating-point numbers}
 
-You might have noticed that MATLAB expresses values in decimal notation.
-For example, the rational number $1/3$ is represented below
-by the decimal value
+MATLAB uses IEEE double-precision floating-point numbers, which are accurate to about 15 digits of precision.  Most integers can be represented exactly, but most fractions cannot.
+
+For example, if you compute the fraction {\tt 2/3}:
 
 \begin{verbatim}
 >> 2/3
 ans = 0.6666
 \end{verbatim}
 
-which is only approximately correct.  It's not as bad as
-it seems: MATLAB stores more digits than it shows by default.
-You can change the output {\tt format} to see more digits.\index{Numbers!{\tt format}}
+The result is only approximate --- the correct answer has an infinite number of 6s. 
+
+It's not as bad as this example makes it seem: MATLAB stores more digits than it shows by default.
+You can change the output format to see more digits.
+
+\index{Numbers!{\tt format}}
 
 \begin{verbatim}
 >> format long
@@ -1258,16 +1233,7 @@ You can change the output {\tt format} to see more digits.\index{Numbers!{\tt fo
 ans = 0.666666666666667
 \end{verbatim}
 
-You can run
-{\tt format short} to see fewer digits, if you prefer.
-
-Internally, MATLAB uses IEEE double-precision floating-point
-numbers, which are accurate to about 15 digits of precision.  In this example, the first 14 digits are correct; the last one has been rounded off.
-
-\index{Numbers!double-precision floating point}  
-
-Leading zeros and some trailing zeros don't count as significant
-digits, so we can represent large and small numbers with the same precision.
+In this example, the first 14 digits are correct; the last one has been rounded off.
 
 \index{Numbers!floating point}
 
@@ -1366,10 +1332,10 @@ ans = NaN
 \end{verbatim}
 
 
+
 \section{Comments}
 
-Along with the commands that make up a program, it is useful
-to include comments that provide additional information about the
+Along with the commands that make up a program, it is useful to include comments that provide additional information about the
 program.  The percent symbol {\tt \%} separates
 the comments from the code.\index{Syntax!comments}
 
@@ -1410,23 +1376,21 @@ that uses short variable names, it can be useful to make your
 program consistent with your math.
 
 
-\section{Pre- and post-conditions}
-
-\index{Scripts!pre- and post-conditions}
+\section{Documentation}
 
 Every script should contain a comment that explains
 what it does, and what the requirements are for the workspace.  For
 example, I might put something like this at the beginning of
-{\tt fibonacci1}:
+{\tt fibonacci1.m}:
 
 \begin{verbatim}
-% Computes the nth Fibonacci number.
-% Precondition: you must assign a value to n before running
-% this script.  Postcondition: the result is stored in ans.
+% Computes a numerical approximation of the nth Fibonacci number.  
+% Precondition: you must assign a value to n before running this script.
+% Postcondition: the result is stored in ans.
 \end{verbatim}
 
-A {\bf precondition} is something that must be true, when the script
-starts, in order for it to work correctly.  A {\bf postcondition}
+A {\bf precondition} is something that must be true when the script
+starts in order for it to work correctly.  A {\bf postcondition}
 is something that will be true when the script completes.
 
 If there is a comment at the beginning of a script, MATLAB assumes
@@ -1436,16 +1400,21 @@ signs).
 
 \begin{verbatim}
 >> help fibonacci1
-  Computes the nth Fibonacci number.
-  Precondition: you must assign a value to n before running
-  this script.  Postcondition: the result is stored in ans.
+  Computes a numerical approximation of the nth Fibonacci number.  
+  Precondition: you must assign a value to n before running this script.
+  Postcondition: the result is stored in ans.
 \end{verbatim}
 
 That way, scripts that you write behave just like predefined scripts.
 You can even use the {\tt doc} command to see your comment in the
-Help Window.
+{\sf Help} window.
 
-\section{Assignment and equality}\index{Variables!assignment}
+
+
+
+\section{Assignment and equality}
+
+\index{Variables!assignment}
 
 In mathematics the equals sign means that the two sides of the
 equation have the same value.  In MATLAB an assignment statement
@@ -1453,8 +1422,8 @@ equation have the same value.  In MATLAB an assignment statement
 
 One difference is that the sides of an assignment statement are not
 interchangeable.  The right side can be any legal expression, but
-the left side has to be a variable, which is called the {\bf
-target} of the assignment.  So this is legal:
+the left side has to be a variable, which is called the 
+{\bf target} of the assignment.  So this is legal:
 
 \begin{verbatim}
 >> y = 1;
@@ -1468,24 +1437,23 @@ But this is not:
 >> y+1 = x
  y+1 = x
      |
-Error: The expression to the left of the equals sign is not a
-valid target for an assignment.
+Error: Incorrect use of '=' operator. 
+To assign a value to a variable, use '='. 
+To compare values for equality, use '=='.
 \end{verbatim}
 
-In this case the error message is pretty helpful, as long as you know
-what a ``target'' is.
+In this case the error message not very helpful.  The problem here is that the expression on the left side is not a valid target for an assignment.
 
-Another difference is that an assignment statement is only temporary,
-in the following sense.  When you assign {\tt x = y+1}, you get the
+Another difference between assignment and equality is that an assignment statement is only temporary, in the following sense.
+When you assign {\tt x = y+1}, you get the
 {\em current} value of {\tt y}.  If {\tt y} changes later, {\tt x}
 does not get updated.
 
 A third difference is that a mathematical equality is a statement that
-may or may not be true.  For example, $y = y+1$ is a statement that
-happens to be false for all values of $y$.  In MATLAB, {\tt y
-= y+1} is a sensible and useful assignment statement.  It reads the
-current value of {\tt y}, adds one, and replaces the old value with
-the new value.
+may or may not be true.  In mathematics, $y = y+1$ is a statement that
+happens to be false for all values of $y$.  
+In MATLAB, {\tt y = y+1} is a sensible and useful assignment statement.
+It reads the current value of {\tt y}, adds one, and replaces the old value with the new value.
 
 \begin{verbatim}
 >> y = 1;
@@ -1496,134 +1464,6 @@ y = 2
 When you read MATLAB code, you might find it helpful to pronounce
 the equals sign ``gets'' rather than ``equals.''  So {\tt x = y+1}
 is pronounced ``{\tt x} gets the value of {\tt y} plus one.''
-
-To test your understanding of assignment statements, try this
-exercise:
-
-\begin{ex}
-Write a few lines of code that swap the values of
-{\tt x} and {\tt y}.  Put your code in a script called {\tt swap}
-and test it.
-\end{ex}
-
-\section{Incremental development}\index{Scripts!incremental development}
-
-When you start writing scripts that are more than a few lines, you
-might find yourself spending more and more time debugging.  The more
-code you write before you start debugging, the harder it is to find
-the problem.
-
-{\bf Incremental development} is a way of programming that tries
-to minimize the pain of debugging.  The fundamental steps are...
-
-\begin{enumerate}
-
-\item Always start with a working program.  If you have an
-example from a book or a program you wrote that is similar to
-what you are working on, start with that.  Otherwise, start with
-something you {\em know} is correct, like {\tt x=5}.  Run the program
-and confirm that you are running the program you think you are
-running.
-
-This step is important, because in most environments there
-are lots of little things that can trip you up when you start a new
-project.  Get them out of the way so you can focus on programming.
-
-\item Make one small, testable change at a time.  A ``testable''
-change is one that displays something on the screen (or has some
-other effect) that you can check.  Ideally, you should know what
-the correct answer is, or be able to check it by performing another
-computation.
-
-\item Run the program and see if the change worked.  If so, go back
-to Step 2.  If not, you will have to do some debugging, but if the
-change you made was small, it shouldn't take long to find the problem.
-
-\end{enumerate}
-
-When this process works, you will find that your changes usually
-work the first time, or the problem is obvious.  That's a good thing,
-and it brings us to the Fifth Theorem of Debugging:
-
-\begin{quote}
-\displaythrm{5}
-\end{quote}
-
-In practice, there are two problems with incremental development:
-
-\begin{itemize}
-
-\item Sometimes you have to write extra code to
-generate visible output that you can check.  This extra code is
-called {\bf scaffolding} because you use it to build the program
-and then remove it when you are done.  But time you save on
-debugging is almost always worth the time you spend on
-scaffolding.
-
-\item When you are getting started, it is usually not obvious how to
-choose the steps that get from {\tt x=5} to the program you are trying
-to write.  There is an extended example in Section~\ref{sect:increxample}.
-
-\end{itemize}
-
-If you find yourself writing more than a few lines of code before
-you start testing, and you are spending a lot of time debugging,
-you should try incremental development.
-
-
-\section{Unit testing}
-
-In large software projects, {\bf unit testing} is the process of
-testing software components in isolation before putting
-them together.
-
-The programs we have seen so far are not
-big enough to need unit testing, but the same principle applies
-when you are working with a new function or a new language feature
-for the first time.  You should test it in isolation before you
-put it into your program.
-
-For example, suppose you know that {\tt x} is the sine of some
-angle and you want to find the angle.  You find the MATLAB function
-{\tt asin}, and you are pretty sure it computes the inverse sine
-function.  Pretty sure is not good enough; you want to be very sure.
-
-Since we know $\sin 0 = 0$, we could try
-
-\begin{verbatim}
->> asin(0)
-ans = 0
-\end{verbatim}
-
-which is correct.  Also, we know that the sine of 90 degrees is
-1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
-
-\begin{verbatim}
->> asin(1)
-ans = 1.5708
-\end{verbatim}
-
-Oops.  We forgot that the trig functions in MATLAB work in radians,
-not degrees.  So the correct answer is $\pi/2$, which we can
-confirm by dividing through by {\tt pi}:
-
-\begin{verbatim}
->> asin(1) / pi
-ans = 0.5000
-\end{verbatim}
-
-With this kind of unit testing, you are not really checking for
-errors in MATLAB, you are checking your understanding.  If you
-make an error because you are confused about how MATLAB works, it
-might take a long time to find, because when you look at the code,
-it looks right.
-
-Which brings us to the Sixth Theorem of Debugging:
-
-\begin{quote}
-\displaythrm{6}
-\end{quote}
-
 
 
 \section{Glossary}
@@ -1653,8 +1493,8 @@ of small, testable changes.
 \item[scaffolding:] Code you write to help you program or debug, but
 which is not part of the finished program.
 
-\item[unit testing:] A process of testing software by testing each
-component in isolation.
+%\item[unit testing:] A process of testing software by testing each
+%component in isolation.
 
 \item[floating-point:] A way to represent numbers in a computer.
 
@@ -1670,41 +1510,65 @@ about the program, but does not affect its execution.
 
 \section{Exercises}
 
+
+
+\begin{ex}
+To test your understanding of assignment statements, write a few lines of code that swap the values of {\tt x} and {\tt y}. 
+Put your code in a script called {\tt swap} and test it.
+
+If it works correctly, to should be able to run it like this:
+
+\begin{verbatim}
+>> x = 1
+x = 1
+
+>> y = 2
+y = 2
+
+>> swap
+
+>> x, y
+x = 2
+y = 1
+\end{verbatim}
+
+
+\end{ex}
+
+
 \begin{ex}
 \label{ex:cargame}
 
-Imagine that you are the owner of a car rental company with two
-locations, Albany, and Boston.  Some of your customers do ``one-way
-rentals,'' picking up a car in Albany and returning it in Boston, or
-the other way around.  Over time, you have observed that each week 5\%
-of the cars in Albany are dropped off in Boston, and 3\% of the cars
-in Boston get dropped off in Albany.
-At the beginning of the year, there are 150 cars at each location.
+Imagine that you are the operator of a bike share system with two
+locations: Boston and Cambridge.
 
-Write a script called {\tt car\_update} that updates the number
-of cars in each location from one week to the next.  The precondition
-is that the variables {\tt a} and {\tt b} contain the number of cars
-in each location at the beginning of the week.  The postcondition
-is that {\tt a} and {\tt b} have been modified to reflect the number
-of cars that moved.
+You observe that every day 5\%
+of the bikes in Boston are dropped off in Cambridge, and 3\% of the bikes
+in Cambridge get dropped off in Boston.
+At the beginning of the month, there are 100 bikes at each location.
 
-To test your program, initialize {\tt a} and {\tt b} at
+Write a script called \verb"bike_update" that updates the number
+of bikes in each location from one day to the next.  The precondition
+is that the variables {\tt b} and {\tt c} contain the number of bikes
+in each location at the beginning of the day.  The postcondition
+is that {\tt b} and {\tt c} have been modified to reflect net movement of bikes.
+
+To test your program, initialize {\tt b} and {\tt c} at
 the prompt and then execute the script.  The script should display
-the updated values of {\tt a} and {\tt b}, but not any intermediate
+the updated values of {\tt b} and {\tt c}, but not any intermediate
 variables.
 
-Note: cars are countable things, so {\tt a} and {\tt b} should always
+Note: bike are countable things, so {\tt b} and {\tt c} should always
 be integer values.  You might want to use the {\tt round} function
-to compute the number of cars that move during each week.
+to compute the number of bike that move each day.
 
 If you execute your script repeatedly, you can simulate the passage
-of time from week to week.  What do you think will happen to the
-number of cars?  Will all the cars end up in one place?  Will the
-number of cars reach an equilibrium, or will it oscillate from week
-to week?
+of time from day to day.  Hint: you can repeat command by pressing the {\sf Up} arrow and then {\sf Enter}.
+
+What happens to the bikes?  Do they all end up in one place?  Does the system reach an equilibrium, does it oscillate, or does it do something else?
 
 In the next chapter we will see how to execute your script automatically,
-and how to plot the values of {\tt a} and {\tt b} versus time.
+and how to plot the values of {\tt a} and {\tt b} over time.
 \end{ex}
 
 
@@ -1727,7 +1591,7 @@ the first line changes the value of {\tt a}, so when the second line
 runs, it gets the old value of {\tt b} and the new value of {\tt a}.
 As a result, the change in {\tt a} is not always the same as the
 change in {\tt b}, which violates the principle of Conversation
-of Cars!
+of Bikes!
 
 One solution is to use temporary variables {\tt anew} and {\tt bnew}:
 
@@ -2144,6 +2008,69 @@ is more general; it can compute any number of terms.
 
 This is an important idea we will come back to when we
 talk about functions.
+
+\section{Incremental development}
+
+\index{Scripts!incremental development}
+
+As you start writing longer programs, you might find yourself spending more time debugging.
+The more code you write before you start debugging, the harder it is to find
+the problem.
+
+{\bf Incremental development} is a way of programming that tries
+to minimize the pain of debugging.  The fundamental steps are:
+
+\begin{enumerate}
+
+\item Always start with a working program.  If you have an
+example from a book, or a program you wrote that is similar to
+what you are working on, start with that.  Otherwise, start with
+something you {\em know} is correct, like {\tt x=5}.  Run the program
+and confirm that you are running the program you think you are
+running.
+
+This step is important, because in most environments there
+are little things that can trip you up when you start a new
+project.  Get them out of the way so you can focus on programming.
+
+\item Make one small, testable change at a time.  A ``testable''
+change is one that displays something on the screen (or has some
+other effect) that you can check.  Ideally, you should know what
+the correct answer is, or be able to check it by performing another
+computation.
+
+\item Run the program and see if the change worked.  If so, go back
+to Step 2.  If not, you will have to do some debugging, but if the
+change you made was small, it shouldn't take long to find the problem.
+
+\end{enumerate}
+
+With incremental development, your code is more likely to work the first time; and if it doesn't the problem is more likely to be obvious.  And that brings us to the Fifth Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{5}
+\end{quote}
+
+In practice, there are two problems with incremental development:
+
+\begin{itemize}
+
+\item Sometimes you have to write extra code to
+generate visible output that you can check.  This extra code is
+called {\bf scaffolding} because you use it to build the program
+and then remove it when you are done.  But time you save on
+debugging is almost always worth the time you invest in
+scaffolding.
+
+\item When you are getting started, it might not be obvious how to
+choose the steps that get from {\tt x=5} to the program you are trying
+to write.  There is an extended example in Section~\ref{sect:increxample}.
+
+\end{itemize}
+
+If you find yourself writing more than a few lines of code before
+you start testing, and you are spending a lot of time debugging,
+you should try incremental development.
 
 
 \section{Glossary}
@@ -8800,3 +8727,62 @@ at \url{https://www.mathworks.com/help/matlab/matlab_prog/nested-functions.html}
 \printindex
 
 \end{document}
+
+
+
+% TODO: Figure out where to put this.
+
+
+\section{Unit testing}
+
+In large software projects, {\bf unit testing} is the process of
+testing software components in isolation before putting
+them together.
+
+The programs we have seen so far are not
+big enough to need unit testing, but the same principle applies
+when you are working with a new function or a new language feature
+for the first time.  You should test it in isolation before you
+put it into your program.
+
+For example, suppose you know that {\tt x} is the sine of some
+angle and you want to find the angle.  You find the MATLAB function
+{\tt asin}, and you are pretty sure it computes the inverse sine
+function.  Pretty sure is not good enough; you want to be very sure.
+
+Since we know $\sin 0 = 0$, we could try
+
+\begin{verbatim}
+>> asin(0)
+ans = 0
+\end{verbatim}
+
+which is correct.  Also, we know that the sine of 90 degrees is
+1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
+
+\begin{verbatim}
+>> asin(1)
+ans = 1.5708
+\end{verbatim}
+
+Oops.  We forgot that the trig functions in MATLAB work in radians,
+not degrees.  So the correct answer is $\pi/2$, which we can
+confirm by dividing through by {\tt pi}:
+
+\begin{verbatim}
+>> asin(1) / pi
+ans = 0.5000
+\end{verbatim}
+
+With this kind of unit testing, you are not really checking for
+errors in MATLAB, you are checking your understanding.  If you
+make an error because you are confused about how MATLAB works, it
+might take a long time to find, because when you look at the code,
+it looks right.
+
+Which brings us to the Sixth Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{6}
+\end{quote}
+
