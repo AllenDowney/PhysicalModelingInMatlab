@@ -4324,25 +4324,19 @@ Here's what would happen:
 
 \begin{verbatim}
 >> x = 4;
-
 >> x = +sqrt(2*x+3)
-
 x = 3.3166
 
 >> x = +sqrt(2*x+3)
-
 x = 3.1037
 
 >> x = +sqrt(2*x+3)
-
 x = 3.0344
 
 >> x = +sqrt(2*x+3)
-
 x = 3.0114
 
 >> x = +sqrt(2*x+3)
-
 x = 3.0038
 \end{verbatim}
 
@@ -4495,7 +4489,6 @@ you can provide both:
 
 \begin{verbatim}
 >> fzero(@error_func, [2,4])
-
 ans = 3
 \end{verbatim}
 
@@ -4563,7 +4556,6 @@ and then call it from the Command Window:
 
 \begin{verbatim}
 >> error_func(4)
-
 y = 5
 \end{verbatim}
 
@@ -4574,7 +4566,6 @@ If you try to use it with {\tt fzero}, you get
 
 \begin{verbatim}
 >> fzero(@error_func, [2,4])
-
 y = -3
 
 Error using fzero (line 231)
@@ -4595,7 +4586,6 @@ to a variable:
 
 \begin{verbatim}
 >> x = error_func(4)
-
 y = 5
 
 Output argument "res" (and maybe others) not assigned during
@@ -4702,17 +4692,18 @@ be in trouble.
 \begin{verbatim}
 >> sin = 3;
 >> sin(1)
-
 ans = 3
 \end{verbatim}
 
 Just to review, the sine of 1 is not 3!
 
-The converse error can also happen if you try to access an
-undefined variable that also happens to be the name of a function.
-For example, if you have a function named {\tt f}, and then
+The converse error can also happen if you 
+think you are accessing a variable but that variable is undefined and 
+also happens to be the name of a function.
+For example, if you have a function named {\tt f} that takes at least one
+input argument, and then
 try to increment a variable named {\tt f} (and if you forget to
-initialize {\tt f}), you get
+initialize {\tt f}), you get something like:
 
 % wcs Why does there sometimes seem to be very little space in the .pdf above a verbatim section?
 % wcs   Answer is that it seems to depend on how much Latex is trying to cram on the page.
@@ -4724,26 +4715,43 @@ Error in f (line 3)
 y = x^2 - a
 \end{verbatim}
 
-At least, that's what you get if you are lucky.  If this happens
-inside a function, MATLAB tries to call {\tt f} as a function,
-and you get this
+At least, that's what you get if you are lucky.  
+If you have a function like this:
 
-% wcs We should give this verbatim section below a smaller font.  
+\begin{verbatim}
+function y = calls_f_func
+    f = f + 1;
+    y = f;
+end
+\end{verbatim}
+
+You get this when you call it:
+% wcs We could give this verbatim section below a smaller font.  
+%     but I am now simulating below what happens if one enables "Wrap lines" in preferences for Command Window,
+%     so we are okay.
 
 % "f" previously appeared to be used as a function or command, conflicting with its use here as the name of a variable.
 % A possible cause of this error is that you forgot to initialize the variable, or you have initialized it implicitly using load or eval.
 \begin{verbatim}
->> calls_f
-Error: File: calls_f.m Line: 3 Column: 1
-"f" previously appeared to be used as a function or command, conflicting 
-with its use here as the name of a variable.
+>> calls_f_func
+Error: File: calls_f.m Line: 2 Column: 5
+"f" previously appeared to be used as a function or command, conflicting with its 
+use here as the name of a variable.
 A possible cause of this error is that you forgot to initialize the variable, or 
 you have initialized it implicitly using load or eval.
 
 \end{verbatim}
 
-There is no universal way to avoid these kind of
-collisions, but you can improve your chances by choosing
+For reference, if you don't have a function or initialized variable named {\tt g}, you can 
+get the following:
+
+\begin{verbatim}
+>> g = g+1
+Undefined function or variable 'g'.
+\end{verbatim}
+
+There is no universal way to avoid the kind of
+collisions seen in this section, but you can improve your chances by choosing
 variable names that don't shadow existing functions, and by
 choosing function names that you are unlikely to use as variables.
 That's why, in Section~\ref{sect:notation}, I called the error function
