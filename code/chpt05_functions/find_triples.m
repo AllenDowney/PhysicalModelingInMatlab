@@ -1,5 +1,7 @@
+% Find Pythagorean triples up to `n`.
+
 function res = find_triples (n)
-    for a=1:n
+    for a=1:n-1
         for b=a:n
             if gcd(a,b) > 1
                 continue
@@ -11,4 +13,3 @@ function res = find_triples (n)
         end
     end
 end
-
