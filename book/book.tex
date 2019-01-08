@@ -48,7 +48,7 @@
 %\usepackage{listings}[tcolorbox]
 
 % use minted for code listings
-\usepackage{minted}
+%\usepackage{minted}
 
 % to get siunitx
 % sudo apt-get install texlive-science
@@ -2219,7 +2219,9 @@ at least a meaningless answer) if the input value is negative.
 A better alternative is to use an {\tt if} statement.
 
 
-\section{{\tt if}}\index{Compound statements!{\tt if}}
+\section{if statements}
+
+\index{Compound statements!{\tt if}}
 
 The {\tt if} statement allows you to check for certain conditions
 and execute statements if the conditions are met.  In the previous
@@ -2860,9 +2862,7 @@ If you understand loops and you are are comfortable with the
 shortcuts, feel free to use them!  Otherwise, you can always write
 out the loop.
 
-\begin{ex}
-Write an expression that computes the square root of the sum of the squares of the elements of a vector, without using a loop.
-\end{ex}
+
 
 
 \section{Glossary}
@@ -2911,6 +2911,10 @@ elements in order until one is found that has the desired property.
 \end{description}
 
 \section{Exercises}
+
+\begin{ex}
+Write an expression that computes the square root of the sum of the squares of the elements of a vector, without using a loop.
+\end{ex}
 
 \begin{ex}
 \label{ex:fibratio}
@@ -2994,7 +2998,7 @@ How does the behavior of the system change as you vary $r$?
 
 \section{Name Collisions}
 
-All scripts run in the same workspace, so if one script changes the value of a variable, all your other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between
+All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between
 scripts become unmanageable.
 
 For example, the following (increasingly familiar) script computes the
@@ -3045,7 +3049,9 @@ unexpected interactions.
 To define a new function, you create an M-file with the name you
 want, and put a function definition in it.  For example, to create
 a function named {\tt myfunc}, create an M-file named {\tt myfunc.m}
-and put the following definition into it.\index{Functions!creating}
+and put the following definition into it.
+
+\index{Functions!creating}
 
 \begin{verbatim}
 function res = myfunc(x)
@@ -3055,19 +3061,17 @@ function res = myfunc(x)
 end
 \end{verbatim}
 
-Other than possible comments, the
-first word of the file has to be the word {\tt function}, because
+The first non-comment word of the file has to be {\tt function}, because
 that's how MATLAB tells the difference between a script and a function
 file.
 
 A function definition is a compound statement.  The first line
 is called the {\bf signature} of the function; it defines
-the inputs and outputs of the function.  In this case the {\bf input
-variable} is named {\tt x}.  When this function is called, the
+the inputs and outputs of the function.  In this case the {\bf input variable} is named {\tt x}.  When this function is called, the
 argument provided by the user will be assigned to {\tt x}.
 
 The {\bf output variable} is named {\tt res}, which is short for
-``result.''  You can call the output variable whatever you want, but
+``result''.  You can call the output variable whatever you want, but
 as a convention, I like to call it {\tt res}.  Usually the last
 thing a function does is assign a value to the output variable.
 
@@ -3107,7 +3111,9 @@ intermediate results like this, but once it is working, you will want
 to add semi-colons to make it a {\bf silent function}.  Most built-in
 functions are silent; they compute a result, but they don't display
 anything (except sometimes warning messages).
-%do we need index entry for "silent function"? -- wcs
+
+\index{silent function}
+\index{function!silent}
 
 Each function has its own workspace, which is created when the
 function starts and destroyed when the function ends.  If you try to
@@ -3143,17 +3149,18 @@ c = 1
 
 So inside a function you can use whatever variable names you
 want without worrying about collisions.
-Notice the use of the ",", which separates multiple commands on
-one line, all of which generate output.
+
 
 
 \section{Documentation}
 
 At the beginning of every function file, you should include a comment
-that explains what the function does\index{Documentation!functions}.
+that explains what the function does:
+
+\index{Documentation!functions}.
 
 \begin{verbatim}
-% res = SILENT_MYFUNC(x)
+% res = silent_myfunc(x)
 % Compute the Manhattan distance from the origin to the
 % point on the unit circle with angle (x) in radians.
 
@@ -3166,17 +3173,13 @@ function res = silent_myfunc(x)
 end
 \end{verbatim}
 
-When you ask for {\tt help}, MATLAB prints the comment you
-provided at the top of the file.
+When you ask for {\tt help}, MATLAB prints the comment you provided at the top of the file.
 
 \begin{verbatim}
 >> help silent_myfunc
-\end{verbatim}
-{\tt \ \  res = {\bf silent\_myfunc}(x) }
-\begin{verbatim}
+  res = silent_myfunc(x)
   Compute the Manhattan distance from the origin to the
   point on the unit circle with angle (x) in radians.
-
 \end{verbatim}
 
 There are lots of conventions about what should be included
@@ -3207,20 +3210,18 @@ to be an angle in radians.
 \section{Function names}
 \index{Functions!naming}
 
-There are three ``gotchas'' that come up when you start naming
-functions.  The first is that the ``real'' name of your function
-is determined by the file name, {\em not} by the name
-you put in the function signature.  As a matter of style, you
+There are a few ``gotchas'' that come up when you start defining functions.
+The first is that the ``real'' name of your function is determined by the file name, {\em not} by the name you put in the function signature.  As a matter of style, you
 should make sure that they are always the same, but if you
 make a mistake, or if you change the name of a function, it is
 easy to get confused.
 
 In the spirit of making errors on purpose, change the name of
-the function in {\tt silent\_myfunc} to {\tt something\_else}, and
+the function in \verb"silent_myfunc" to \verb"something_else", and
 then run it again.
 % or make a copy of the file -- wcs
 
-If this is what you put in {\tt silent\_myfunc.m}:
+If this is what you put in \verb"silent_myfunc.m":
 
 \begin{verbatim}
 function res = something_else (x)
@@ -3233,15 +3234,16 @@ end
 Then here's what you'll get:
 
 \begin{verbatim}
->> y = silent_myfunc(1);
->> y = something_else(1);
+>> y = silent_myfunc(1)
+y = 1.3818
+
+>> y = something_else(1)
 Undefined function or variable 'something_else'.
 \end{verbatim}
 
 The second gotcha is that the name of the file can't have spaces.
 For example, if you write a function and rename the file to {\tt my func.m},
-and then
-try to run it, you get:
+and then try to run it, you get:
 
 \begin{verbatim}
 >> y = my func(1)
@@ -3251,8 +3253,7 @@ Error: Unexpected MATLAB expression.
 \end{verbatim}
 
 The third gotcha is that your function names can collide with built-in
-MATLAB functions.  For example, if you create an M-file named {\tt
-sum.m}, and then call {\tt sum}, MATLAB might call {\em your} new
+MATLAB functions.  For example, if you create an M-file named {\tt sum.m}, and then call {\tt sum}, MATLAB might call {\em your} new
 function, not the built-in version!  Which one actually gets called
 depends on the order of the directories in the search path, and
 (in some cases) on the arguments.  As an example, put the following
@@ -3295,15 +3296,10 @@ function res = hypotenuse(a, b)
     res = (a^2 + b^2) ^ (1/2);
 end
 \end{verbatim}
-
-We could have used the {\tt sqrt} function instead of using the power 1/2, 
-but it will become apparent later in the chapter why we are formulating
-the equation in this way.  
-If you remember the Pythagorean Theorem, you probably figured out
-that this function computes the length of the hypotenuse of a right
+  
+This function computes the length of the hypotenuse of a right
 triangle if the lengths of the adjacent sides are {\tt a}
-and {\tt b}.  (There is a MATLAB function called {\tt hypot} that does
-the same thing.)
+and {\tt b}.
 
 If we call it from the Command Window with arguments 3 and 4, we can
 confirm that the length of the third side is 5.
@@ -3327,7 +3323,7 @@ Error in hypotenuse (line 2)
 \end{verbatim}
 
 This error message is slightly confusing, because it suggests that
-the problem may be in {\tt hypotenuse} rather than in the function call.
+the problem is in {\tt hypotenuse} rather than in the function call.
 Keep that in mind when you are debugging.
 
 If you provide too many arguments, you get
@@ -3351,17 +3347,14 @@ For example, {\tt isprime} checks to see whether a number is prime.
 
 \begin{verbatim}
 >> isprime(17)
-
 ans = 1
 
 >> isprime(21)
-
 ans = 0
 \end{verbatim}
 
 The functions {\tt isscalar} and {\tt isvector} check whether
-a value is a scalar or vector; if both are false, you can assume
-it is a matrix (at least for now).
+a value is a scalar or vector.
 
 To check whether a value you have computed is an integer, you might
 be tempted to use {\tt isinteger}.  But that would be wrong, so very
@@ -3371,11 +3364,9 @@ whether a floating-point value happens to be integral.
 
 \begin{verbatim}
 >> c = hypotenuse(3, 4)
-
 c = 5
 
 >> isinteger(c)
-
 ans = 0
 \end{verbatim}
 
@@ -3393,27 +3384,21 @@ end
 \end{verbatim}
 
 This function is good enough for many applications, but remember
-that floating-point values are
-sometimes
-only approximately right: in some
-cases the approximation is an integer but the actual
-value should not be,
-and in other cases, like what we saw with {\tt fibonacci1.m} in 
-Section~\ref{sect:M-files} when {\tt n} was set to 10,
-the actual value should be an integer but the 
-floating-point calculation result is not.
+that floating-point values are only approximately right:
+sometimes the approximation is an integer when the actual value is not; 
+sometimes the approximation is not an integer when the actual value is.
 
 
-\section{An incremental development example}
+\section{Incremental development}
 \label{sect:increxample}
 
-Let's say that we want to write a program to search for ``Pythagorean
-triples:'' sets of integral values, like 3, 4, and 5,
+Suppose we want to write a program to search for ``Pythagorean
+triples'': sets of integral values, like 3, 4, and 5,
 that are the lengths of the sides of a right triangle.  In other
 words, we would like to find integral values $a$, $b$, and $c$ such
 that $a^2 + b^2 = c^2$.
 
-Here are the steps we will follow to develop the program incrementally.
+Here are the steps we will follow to develop the program incrementally:
 
 \begin{itemize}
 
@@ -3442,7 +3427,7 @@ specify the range to search.
 
 \end{itemize}
 
-So the first draft of this program is {\tt x=5}, which might seem
+Starting with {\tt x=5} might seem
 silly, but if you start simple and add a little bit at a time, you
 will avoid a lot of debugging.
 
@@ -3472,7 +3457,7 @@ end
 \end{verbatim}
 
 The inner loop gets executed 3 times, once for each value of {\tt a},
-so here's what the output loops like (I adjusted the spacing to make
+so here's what the output looks like (I adjusted the spacing to make
 the structure clear):
 
 \begin{verbatim}
@@ -3505,10 +3490,7 @@ for a=1:3
 end
 \end{verbatim}
 
-To display the values of {\tt a}, {\tt b}, and {\tt c}, I am
-using a feature we haven't seen before.  The bracket operator
-creates a new matrix which, when it is displayed, shows the
-three values on one line:
+To display the values of {\tt a}, {\tt b}, and {\tt c}, I store them in a vector; here's what the output looks like:
 
 \begin{verbatim}
 >> find_triples
@@ -3527,7 +3509,7 @@ ans = 3.0000    3.0000    4.2426
 ans = 3         4         5
 \end{verbatim}
 
-Sharp-eyed readers will notice that we are wasting some effort here.
+You might notice that we are wasting some effort here.
 After checking $a=1$ and $b=2$, there is no point in checking
 $a=2$ and $b=1$.  We can eliminate the extra work by adjusting the
 range of the second loop:
@@ -3579,12 +3561,6 @@ ans = 4.2426         0
 ans = 5              1
 \end{verbatim}
 
-I chose the ranges for {\tt a} and {\tt b} to be small
-(so the amount of output is manageable), but to contain at
-least one Pythagorean triple.  A constant challenge of debugging
-is to generate enough output to demonstrate that the code is
-working (or not) without being overwhelmed.
-
 The next step is to use {\tt flag} to display only the successful
 triples:
 
@@ -3600,7 +3576,7 @@ for a=1:3
 end
 \end{verbatim}
 
-Now the output is elegant and simple:
+Now the output is minimal:
 
 \begin{verbatim}
 >> find_triples
@@ -3615,15 +3591,8 @@ ans = 3     4     5
 
 As a script, this program has the side-effect of assigning values to
 {\tt a}, {\tt b}, {\tt c}, and {\tt flag}, which would make it hard to
-use if any of those names were in use.  By wrapping the code in a
-function, we can avoid name collisions; this process is called {\bf
-encapsulation} because it isolates this program from the workspace.
-
-In order to put the code we have written inside a function, we
-have to indent the whole thing.  The MATLAB editor provides a
-shortcut for doing that, the {\sf Increase Indent} command
-under the {\sf Text} menu.  Just don't forget to unselect the
-text before you start typing!
+use if any of those names were in use.  
+By wrapping the code in a function, we can avoid name collisions; this process is called {\bf encapsulation} because it isolates this program from the workspace.
 
 The first draft of the function takes no input variables:
 
@@ -3661,7 +3630,7 @@ range of values.
 
 \begin{verbatim}
 function res = find_triples (n)
-    for a=1:n-1
+    for a=1:n
         for b=a:n
             c = hypotenuse(a, b);
             flag = isintegral(c);
@@ -3692,10 +3661,13 @@ multiples of the $3,4,5$ triangle we already knew.
 
 \section{A misstep}
 
-When you change the signature of a function, you have to change all
+When you change the signature of a function, you have to change
 the places that call the function, too.  For example, suppose
-I decided to add a third input variable to {\tt hypotenuse}:
-% wcs -- talk about copying from a different file using copyfile (and waiting after copying the file)
+you decide to add a third input variable to {\tt hypotenuse}:
+
+% wcs -- talk about copying from a different file using copyfile
+% (and waiting after copying the file)
+% ABD: not sure what you are getting at here.
 
 \begin{verbatim}
 function res = hypotenuse(a, b, d)
@@ -3703,7 +3675,7 @@ function res = hypotenuse(a, b, d)
 end
 \end{verbatim}
 
-When {\tt d} is 2, this does the same thing it did before.  There is
+When {\tt d} is 2, the function does the same thing it did before.  There is
 no practical reason to generalize the function in this way; it's just
 an example.  Now when you run {\tt find\_triples}, you get:
 
@@ -3718,25 +3690,10 @@ Error in find_triples (line 7)
             c = hypotenuse(a, b);
 \end{verbatim}
 
-So that makes it pretty easy to find the error.  This is an example of
-a development technique that is sometimes useful: rather
-than search the code for all the places that use {\tt hypotenuse},
-you can run the program a number of times and use the error messages to guide you
-to correct the invocations of {\tt hypotenuse} as you go. 
+So that makes it pretty easy to find the error.  
 
-But, 
-if the error messages make
-suggestions about what to change,
-it can be risky to follow those suggestions.  If you do what you're told, you
-might make the error messages go away, but that doesn't mean the
-program will do the right thing.  MATLAB doesn't know what the program
-is {\em supposed} to do, but you should.
-
-And that brings us to the Eighth Theorem of Debugging:
-
-\begin{quote}
-\displaythrm{8}
-\end{quote}
+% ABD: I removed the 8th theorem of debugging here because the error
+% message no longer makes a suggestion, right or wrong
 
 
 \section{{\tt continue}}
@@ -3752,7 +3709,7 @@ by the common factor yields a smaller, similar triangle that has
 already been checked.
 
 MATLAB provides a {\tt gcd} function that computes the greatest common
-divisor of two numbers.  If the result is greater than 1, then
+divisor of two numbers.  If the result is greater than 1,
 $a$ and $b$ share a common factor and we can use the {\tt continue}
 statement to skip to the next pair:
 
@@ -3778,7 +3735,7 @@ the top of the loop, and ``continue'' with the next iteration.
 
 In this case, since there are two loops, it might not be obvious
 which loop to jump to, but the rule is to jump to the inner-most
-loop (which is what we wanted).
+loop (which is what we want).
 
 I also simplified the program slightly by eliminating
 {\tt flag} and using {\tt isintegral} as the condition of the
@@ -3798,29 +3755,12 @@ ans = 12    35    37
 ans = 20    21    29
 \end{verbatim}
 
-There is an interesting connection between Fibonacci numbers and
-Pythagorean triples.  If $F$ is a Fibonacci sequence, then
-
-\begin{equation}
-(F_n F_{n+3}, 2 F_{n+1} F_{n+2}, F_{n+1}^2 + F_{n+2}^2 )
-\end{equation}
-
-is a Pythagorean triple for all $n \ge 1$.
-
-\begin{ex}
-Write a function named {\tt fib\_triple} that
-takes an input variable {\tt nMax}, computes the sequence of 
-the first {\tt nMax} Fibonacci numbers, and then checks whether
-this formula produces a Pythagorean triple for all {\tt n} such that 
-$ 1 \leq n \leq nMax-3 $
-\end{ex}
 
 
 
 \section{Mechanism and leap of faith}
 
-Let's review the sequence of steps that occur when you call
-a function:
+Let's review the sequence of steps that occur when you call a function:
 
 \begin{enumerate}
 
@@ -3853,8 +3793,7 @@ there are two ways to interpret it:
 and follow the execution of the program into the function and back, or
 
 \item You can take the ``leap of faith'': assume that the function
-works correctly, and go on to the next statement after the
-function call.
+works correctly, and go on to the next statement after the function call.
 
 \end{itemize}
 
@@ -3914,15 +3853,26 @@ function does.
 
 \end{description}
 
+
 \section{Exercises}
 
 \begin{ex}
-Take any of the scripts you have written so far, encapsulate
-the code in an appropriately-named function, and generalize
-the function by adding one or more input variables.
 
-Make the function silent and then call it from the Command
-Window and confirm that you can display the output value.
+There is an interesting connection between Fibonacci numbers and
+Pythagorean triples.  If $F$ is a Fibonacci sequence, then
+
+\begin{equation}
+(F_i F_{i+3}, 2 F_{i+1} F_{i+2}, F_{i+1}^2 + F_{i+2}^2 )
+\end{equation}
+
+is a Pythagorean triple for all $i \ge 1$.
+
+Write a function named {\tt fib\_triple} that
+takes {\tt n} as an input variable and computes 
+the first {\tt n} Fibonacci numbers, and stores them in a vector,
+then checks whether this formula produces a Pythagorean triple for all {\tt i} such that $ 1 \leq i \leq n-3 $
+
+% fib_triple.m
 \end{ex}
 
 
@@ -5988,13 +5938,11 @@ physical aspect of the scenario being modeled.
 
 \section{Exercises}
 
-%TODO: Use SI units.
-
 \begin{ex}
-Suppose that you are given an 8 ounce cup of coffee at 90 \degree C and
-a 1 ounce container of cream at room temperature, which is 20 \degree C.
+Suppose that you are given an 8 ounce cup of coffee at \SI{90}{\celsius} and
+a 1 ounce container of cream at room temperature, which is \SI{20}{\celsius}.
 You have learned from bitter experience that the hottest coffee you
-can drink comfortably is 60 \degree C.
+can drink comfortably is \SI{60}{\celsius}.
 
 Assuming that you take cream in your coffee, and that you would like
 to start drinking as soon as possible, are you better off adding
@@ -6077,7 +6025,7 @@ adding the cream, and returns the temperature of the coffee
 after mixing.
 
 \item Use {\tt fzero} to find the time $t$ that causes the
-temperature of the coffee after mixing to be 60 \degree C.
+temperature of the coffee after mixing to be \SI{60}{\celsius}.
 
 \item What do these results tell you about the answer to the original
 question?  Is the answer what you expected?  What simplifying
@@ -8632,5 +8580,20 @@ Which brings us to the Sixth Theorem of Debugging:
 
 \begin{quote}
 \displaythrm{6}
+\end{quote}
+
+
+But sometimes 
+if the error messages make
+suggestions about what to change,
+it can be risky to follow those suggestions.  If you do what you're told, you
+might make the error messages go away, but that doesn't mean the
+program will do the right thing.  MATLAB doesn't know what the program
+is {\em supposed} to do, but you should.
+
+And that brings us to the Eighth Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{8}
 \end{quote}
 
