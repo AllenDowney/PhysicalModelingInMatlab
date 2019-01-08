@@ -1,9 +1,10 @@
-function M = logmap(r, x1)
-    X(1) = x1;
+% Compute the first 20 elements of the logistic map
 
-    for i=1:19
-        X(i+1) = r * X(i) * (1 - X(i));
-    end
+clear X
+X(1) = 0.5;
 
-    M = X;
+for i=1:19
+    X(i+1) = r * X(i) * (1 - X(i));
 end
+
+plot(X)
