@@ -2203,11 +2203,10 @@ ans = 1x0 empty double row vector
 \end{verbatim}
 
 This indicates that the result is an empty row vector of 
-double-precision numbers.  An empty row vector has zero columns 
-in one row.  We will learn more about MATLAB vectors later in this
+double-precision numbers.  An empty row vector has one rows and zero columns.  We will learn more about MATLAB vectors later in this
 chapter and more about the types of vectors -- row versus column --
-later in the book.
-% we should reference section 9.2
+in Section~\ref{rowvector}.
+
 In any case, if you loop over an empty range,
 the loop never runs at all, which is why in this example the
 value of {\tt total} is zero for any negative value of {\tt n}.
@@ -2269,7 +2268,7 @@ end
 
 Statements like {\tt if} and {\tt for} that contain other statements
 are called {\bf compound} statements.  All compound statements end
-with, well, {\tt end}.
+with... {\tt end}.
 
 In this example, one of the statements in the {\tt else} clause is a
 {\tt for} loop.  Putting one compound statement inside another is
@@ -2285,13 +2284,11 @@ between two values.  The result of a relational operator is one
 of the {\bf logical values}:
 either 1, which represents ``true,''  or 0, which represents ``false.''
 
-Relational operators often appear in {\tt if} statements, but you
-can also evaluate them at the prompt:
+Relational operators often appear in {\tt if} statements, but you can also evaluate them at the prompt:
 
 \begin{verbatim}
 >> x = 5;
 >> x < 10
-
 ans = 1
 \end{verbatim}
 
@@ -2307,8 +2304,7 @@ because it flags the status of some condition.
 
 The other relational operators are {\tt <=} and {\tt >=}, which are
 self-explanatory, {\tt ==}, for ``equal,'' and
-\verb+~=+, for ``not equal.''  (In some logic notations, the tilde
-is the symbol for ``not.'')
+\verb+~=+, for ``not equal.''
 
 Don't forget that {\tt ==} is the operator that tests equality,
 and {\tt =} is the assignment operator.  If you try to use {\tt =} in
@@ -2318,14 +2314,15 @@ an {\tt if} statement, you get the following error:
 >> if x=5
  if x=5
      |
-Error: The expression to the left of the equals sign is not a valid target for an 
-assignment.
+Error: Incorrect use of '=' operator. 
+To assign a value to a variable, use '='.
+To compare values for equality, use '=='.
  
 Did you mean:
 >> x = 5
 \end{verbatim}
 
-MATLAB thinks you are making an assignment to a variable named {\tt if x}!
+In this case, the error message is pretty helpful.
 
 
 \section{Logical operators}
@@ -2392,34 +2389,31 @@ of the operands are true.
 
 \section{Vectors}
 
-The variables we have seen so far have mostly held single numbers,
+The values we have seen so far have mostly been single numbers,
 which are called {\bf scalars} to contrast them with {\bf vectors}
 and {\bf matrices}, which are collections of numbers.
 
 A vector in MATLAB is similar to a sequence in mathematics;
 it is an ordered set of numbers that is indexed by positive integers.
-Examples of vectors are what we called ``ranges'' in the previous chapter,
-but in general any vector element can hold any number and vector elements
-often don't follow any pattern (the ranges in the previous chapter
-typically embodied a pattern, such as sequential numbers).  
+There are several ways to create vectors; one of the most common is
+to put a sequence of numbers in square brackets:
+
+\begin{verbatim}
+>> [1 2 3]
+ans = 1     2     3
+\end{verbatim}
 
 In general, anything you can do with a scalar, you can also do with
 a vector.  You can assign a vector to a variable:
 
 \begin{verbatim}
->> X = 1:5
-X = 1     2     3     4     5
+>> X = [1 2 3]
+X = 1     2     3
 \end{verbatim}
 
 In this book, we often capitalize single-letter variables that hold vectors 
 (and matrices).
-That's
-just our convention; MATLAB doesn't require it, but especially for beginning
-programmers it is a useful way to 
-differentiate single-letter variables that hold scalars versus hold vectors or matrices.
-
-Just as with sequences, the numbers that make up the vector are called
-{\bf elements}.
+That's just a convention; MATLAB doesn't require it, but especially for beginning programmers, it is a useful way to distinguish vectors (and matrices) from scalars.
 
 
 \section{Vector arithmetic}
@@ -2429,8 +2423,8 @@ You can perform arithmetic with vectors, too.  If you add a scalar
 to a vector, MATLAB increments each element of the vector:
 
 \begin{verbatim}
->> Y = X+5
-Y = 6     7     8     9    10
+>> Y = X + 5
+Y = 6     7     8
 \end{verbatim}
 
 The result is a new vector; the original value of {\tt X} is not
@@ -2441,18 +2435,17 @@ vector and creates a new vector that contains the sums:
 
 \begin{verbatim}
 >> Z = X+Y
-Z = 7     9    11    13    15
+Z = 7     9    11
 \end{verbatim}
 
 But adding vectors only works if the operands are the same size.
-Otherwise:
+Otherwise you get an error:
 
 \begin{verbatim}
->> W = 1:3
+>> W = [1 2]
 W = 1     2     3
 
->> X+W
-Error using  +
+>> X + W
 Matrix dimensions must agree.
 \end{verbatim}
 
@@ -2461,23 +2454,20 @@ of these values as vectors, not matrices.  The problem is a slight
 mismatch between math vocabulary and MATLAB vocabulary.
 
 
-\section{Scalars and vectors are appropriately dimensioned matrices}
+\section{Everything is a matrix}
 
 In math (specifically in linear algebra) a vector is a one-dimensional
-sequence of values (or array) and a matrix is two-dimensional (and, if you want
-to think of it that way, a scalar is zero-dimensional).  In MATLAB,
-all variables are arrays of different sizes.  But, in particular, 
-scalars, vectors, and matrices are all two-dimensional arrays with 
-vectors and scalars, respectively, having one or both dimensions 
-constrained to be of size 1.
+sequence of values and a matrix is two-dimensional. And, if you want
+to think of it that way, a scalar is zero-dimensional.
 
+In MATLAB, the values we have seen so far are all two-dimensional matrices (except strings).
 You can see this if you use the {\tt whos} command to display the
-variables in the workspace.  {\tt whos} \index{Variables!{\tt whos}} 
-is similar to {\tt who} \index{Variables!{\tt who}} except
-that it also displays for each applicable variable the size, number 
-of bytes, class, and sometimes attributes.
+values in the workspace.  {\tt whos} is similar to {\tt who}, but it also displays the size of each value and other information.
 
-First I'll remove any existing variables and then 
+\index{Variables!{\tt whos}}
+\index{Variables!{\tt who}}
+
+To demonstrate, I'll remove any existing variables and then 
 make a scalar, a vector, and a matrix:
 
 \begin{verbatim}
@@ -2485,7 +2475,7 @@ make a scalar, a vector, and a matrix:
 >> scalar = 5
 scalar = 5
 
->> vector = 1:5
+>> vector = [1 2 3 4 5]
 vector = 1     2     3     4     5
 
 >> matrix = ones(2,3)
@@ -2494,107 +2484,113 @@ matrix =
      1     1     1
 \end{verbatim}
 
-{\tt ones} is a function that builds a new matrix with the given
-number of rows and columns, and sets all the elements to 1.\index{Matrices!{\tt ones}}
+The built-in function {\tt ones} builds a new matrix with the given
+number of rows and columns, and sets all the elements to 1.
 Now let's see what we've got.
+
+\index{Matrices!{\tt ones}}
 
 \begin{verbatim}
 >> whos
   Name        Size            Bytes  Class     Attributes
               
-  matrix      2x3                48  double              
   scalar      1x1                 8  double              
   vector      1x5                40  double              
+  matrix      2x3                48  double              
 \end{verbatim}
 
-According to MATLAB, all these variables are of class double.  ``double''
+According to MATLAB, all these variables are of class {\tt double}, which
 is another name for a double-precision floating-point number.
 
-The only difference is the size, which is specified for the above variables by the number of
-rows and columns, and the number of bytes.  The variable we called {\tt scalar} is, according to
-MATLAB, a matrix with 1 row and 1 column.  Our {\tt vector} is
-really a matrix with 1 row and 5 columns.  And, of course, our variable {\tt
-matrix} is a matrix with 2 rows and 3 columns.  In this book, we won't be
-concerned with attributes.  
+But they have difference sizes: 
+
+\begin{itemize}
+
+\item The size of {\tt scalar} is {\tt 1x1}, which means it has 1 row and 1 column.  
+
+\item {\tt vector} has 1 row and 5 columns.  
+
+\item And {\tt matrix} has 2 rows and 3 columns.
+
+\end{itemize}
 
 The point of all this is that you can think of your variables as
-scalars, vectors, and matrices, and I think you should, as long
-as you aren't confused by the fact that MATLAB thinks each of these 
-variables is a matrix in some way.
+scalars, vectors, and matrices, and I think you should.  But in MATLAB they are all matrices.
 
-MATLAB also supports arrays, called MATLAB multidimensional arrays, with dimensions greater than 2.
-We won't use such arrays in this book.  A {\tt whos} entry for a 3-dimensional array, for example, 
-can look like:
+\section{Elementwise operators}
 
-\begin{verbatim}          
-  threeD      3x3x2              144 double                     
-\end{verbatim}
-
-Here's another example where the error message only makes sense
-if you know what is happening under the hood:
+If you have two vectors with the same length, you can add and subtract them:
 
 \begin{verbatim}
->> X = 1:5
+>> X = [1 2 3]
+X = 1     2     3
 
-X = 1     2     3     4     5
+>> Y = [4 5 6]
+Y = 1     4     6
 
->> Y = 1:5
+>> X + Y
+ans = 5     7     9
 
-Y = 1     2     3     4     5
-
->> Z = X*Y
-Error using  *
-Inner matrix dimensions must agree.
+>> X - Y
+ans = -3    -3    -3
 \end{verbatim}
 
-First of all, {\tt mtimes} is the MATLAB function that performs
-matrix multiplication.  The reason the ``inner matrix dimensions
-must agree'' is that the way matrix multiplication is defined in
-linear algebra, the number of rows in {\tt X} has to equal the
-number of columns in {\tt Y} (those are the inner dimensions).\index{Matrices!multiplication}
-When you want to do matrix multiplication between combinations
-of vectors and matrices, it does make sense for each vector to
-be a matrix with one dimension constrained to be of size one.  
+These operations are performed {\bf elementwise}; that is, MATLAB adds or subtracts corresponding elements of the two vectors, and the result is a vector with the same size.
 
-If you don't know linear algebra, this doesn't make much sense.
-Instead, when you saw {\tt X*Y} you probably expected it to multiply each
-the the elements of {\tt X} by the corresponding element of
-{\tt Y} and put the results into a new vector.  That operation
-is called {\bf elementwise} multiplication, and the operator that
-performs it is {\tt .*}:\index{Matrices!elementwise multiplication}
+But if you divide two vectors, you might be surprised by the result:
+
+\begin{verbatim}
+>> X / Y
+ans = 0.4156
+\end{verbatim}
+
+MATLAB is performing a matrix operation called right division, which I will not try to explain.  If you want to divide the elements of {\tt X} by the elements of {\tt Y}, you have to use {\tt ./}, which is elementwise division:
+
+\begin{verbatim}
+>> X ./ Y
+ans = 0.2500    0.4000    0.5000
+\end{verbatim}
+
+Multiplication has the same problem.  If you use {\tt *}, MATLAB does matrix multiplication.  With these two vectors, matrix multiplication is not defined, and you get an error:
+
+\begin{verbatim}
+>> X * Y
+Error using  * 
+Incorrect dimensions for matrix multiplication. 
+Check that the number of columns in the first matrix 
+matches the number of rows in the second matrix
+To perform elementwise multiplication, use '.*'.
+\end{verbatim}
+
+In this case, the error message is pretty helpful.  As it suggests, you can use {\tt .*} to perform elementwise multiplication:
 
 \begin{verbatim}
 >> X .* Y
-
-ans = 1     4     9    16    25
+ans = 4    10    18
 \end{verbatim}
 
-We'll get back to the elementwise operators later; you can
-forget about them for now.
+As an exercise, see what happens if you use the exponentiation operator,
+\verb"^", with a vector.
 
 
 \section{Indices}\index{Matrices!indexing}
 
-You can select elements of a vector with parentheses:
+You can select an element from a vector with parentheses:
 
 \begin{verbatim}
->> Y = 6:10
-
-Y = 6     7     8     9    10
+>> Y = [6 7 8 9]
+Y = 6    7     8     9
 
 >> Y(1)
-
 ans = 6
 
->> Y(5)
-
-ans = 10
+>> Y(4)
+ans = 9
 \end{verbatim}
 
 This means that the first element of {\tt Y} is 6 and the
-fifth element is 10.  The number in parentheses is called
-the {\bf index} because it indicates which element of the
-vector you want.
+fourth element is 9.
+The number in parentheses is called the {\bf index} because it indicates which element of the vector you want.
 
 The index can be any kind of expression.
 
@@ -2602,15 +2598,13 @@ The index can be any kind of expression.
 >> i = 1;
 
 >> Y(i+1)
-
 ans = 7
 \end{verbatim}
 
-Loops and vectors go together like the storm and rain.
-For example, this loop displays the elements of {\tt Y}.
+We can use a loop to display the elements of {\tt Y}:
 
 \begin{verbatim}
-for i=1:5
+for i=1:4
      Y(i)
 end
 \end{verbatim}
@@ -2629,7 +2623,7 @@ for i=1:length(Y)
 end
 \end{verbatim}
 
-There.  Now that will work for a vector of any length.
+Now that works for a vector of any length.
 
 
 \section{Indexing errors}
@@ -2638,45 +2632,37 @@ There.  Now that will work for a vector of any length.
 An index can be any kind of expression, but the value of the
 expression has to be a positive integer, and it has to be
 less than or equal to the length of the vector.  If it's
-not a positive integer, you get this:
+not a positive integer, you get an error:
 
 \begin{verbatim}
 >> Y(0)
-Subscript indices must either be real positive integers or
-logicals.
+Array indices must be positive integers or logical values.
 \end{verbatim}
 
-``Subscript indices'' is MATLAB's longfangled way to say ``indices.''
-``Real positive integers''
-is self-explanatory.
-And you can forget about ``logicals'' for now.
-
-If the index is too big, you get this:
-
-\begin{verbatim}
->> Y(6)
-Index exceeds matrix dimensions.
-\end{verbatim}
-
-There's the ``m'' word again, but other than that, this message
-is pretty clear.
-
-Don't forget that the index has to be an integer:
+If it's not an integer, you get an error:
 
 \begin{verbatim}
 >> Y(1.5)
-Subscript indices must either be real positive integers or
-logicals.
+Array indices must be positive integers or logical values.
 \end{verbatim}
+
+If the index is too big, you also get an error:
+
+\begin{verbatim}
+>> Y(5)
+Index exceeds the number of array elements (4).
+\end{verbatim}
+
+The error messages use the word ``array'' rather than ``matrix'', but they mean the same thing, at least for now.
 
 
 \section{Vectors and sequences}
 
-Vectors and sequences go together like ice cream and apple pie.  For
-example, another way to evaluate the Fibonacci sequence is by
+Vectors and sequences go together nicely.
+For example, another way to evaluate the Fibonacci sequence is by
 storing successive values in a vector.  Again, the definition of the
 Fibonacci sequence is $F_1 = 1$, $F_2 = 1$, and $F_{i} = F_{i-1} +
-F_{i-2}$ for $i \ge 3$.  In MATLAB, that looks like
+F_{i-2}$ for $i > 2$.  In MATLAB, that looks like
 
 \begin{verbatim}
 F(1) = 1
@@ -2684,26 +2670,21 @@ F(2) = 1
 for i=3:n
     F(i) = F(i-1) + F(i-2)
 end
-ans = F(n)
 \end{verbatim}
 
-Notice that I am using a capital letter for the vector {\tt F}
+I use a capital letter for the vector {\tt F}
 and lower-case letters for the scalars {\tt i} and {\tt n}.
-At the end, the script extracts the final element of {\tt F} and
-stores it in {\tt ans}, since the result of this script is supposed
-to be the $n$th Fibonacci number, not the whole sequence.
 
 If you had any trouble with Exercise~\ref{ex:fib2}, you have to
 appreciate the simplicity of this version.  The MATLAB syntax is
 similar to the math notation, which makes it easier to check
-correctness.  The only drawbacks are
+correctness.  
 
-\begin{itemize}
+However, you have to be careful with the range of the loop.
+In the previous version, the loop runs from {\tt 3} to {\tt n},
+and each time we assign a value to the {\tt i}th element.  
 
-\item You have to be careful with the range of the
-loop.  In this version, the loop runs from {\tt 3} to {\tt n},
-and each time we assign a value to the {\tt i}th element.  It
-would also work to ``shift'' the index over by two,
+It would also work to ``shift'' the index over by two,
 running the loop from 1 to {\tt n-2}:
 
 \begin{verbatim}
@@ -2712,7 +2693,6 @@ F(2) = 1
 for i=1:n-2
     F(i+2) = F(i+1) + F(i)
 end
-ans = F(n)
 \end{verbatim}
 
 Either version is fine, but you have to choose one approach
@@ -2721,16 +2701,14 @@ get confused.  I prefer the version that has {\tt F(i)} on the
 left side of the assignment, so that each time through the loop
 it assigns the {\tt i}th element.
 
-\item If you really only want the $n$th Fibonacci number, then storing
-the whole sequence wastes some storage space.  But if wasting space
+If you only want the $n$th Fibonacci number, storing
+the whole sequence wastes some space.  But if wasting space
 makes your code easier to write and debug, that's probably ok.
-
-\end{itemize}
 
 \begin{ex}
 Write a loop that computes the first {\tt n} elements
 of the geometric sequence $A_{i+1} = A_i/2$ with $A_1 = 1$.  Notice that
-the math notation puts $A_{i+1}$ on the left side of the equality.
+math notation puts $A_{i+1}$ on the left side of the equality.
 When you translate to MATLAB, you may want to shift the index.
 \end{ex}
 
@@ -2738,11 +2716,10 @@ When you translate to MATLAB, you may want to shift the index.
 \section{Plotting vectors}
 \index{Plotting!vectors}
 
-Plotting and vectors go together like the moon and June, whatever that
-means.  If you call {\tt plot} with a single vector as an argument,
+If you call {\tt plot} with a vector as an argument,
 MATLAB plots the indices on the $x$-axis and the elements on the
-$y$-axis.  To plot the Fibonacci numbers we computed in the previous
-section:
+$y$-axis.
+To plot the Fibonacci numbers we computed in the previous section:
 
 \begin{verbatim}
 plot(F)
@@ -2752,30 +2729,11 @@ This display is often useful for debugging, especially
 if your vectors are big enough that displaying the elements on
 the screen is unwieldy.
 
-If you call {\tt plot} with two vectors as arguments, MATLAB plots
-the second one as a function of the first; that is, it treats
-the first vector as a sequence of $x$ values and the second as
-corresponding $y$ value and plots a sequence of $(x, y)$ points.
-
-\begin{verbatim}
-X = 1:5
-Y = 6:10
-plot(X, Y)
-\end{verbatim}
-
 By default, MATLAB draws a blue line, but you can override that
 setting with the same kind of string we saw in Section~\ref{sect:plotting}.
 For example, the string {\tt 'ro-'} tells MATLAB to plot a red circle
 at each data point; the hyphen means the points should be connected
 with a line.
-
-In this example, I stuck with the convention of naming the first
-argument {\tt X} (since it is plotted on the $x$-axis) and the
-second {\tt Y}.  There is nothing special about these names;
-you could just as well plot {\tt X} as a function of {\tt Y}.
-MATLAB always treats the first vector as the ``independent''
-variable, and the second as the ``dependent'' variable (if those
-terms are familiar to you).
 
 
 
@@ -2807,12 +2765,6 @@ Each time through the loop, we add
 in the {\tt i}th element of {\tt X}, so at the end of the loop
 {\tt total} contains the sum of the elements.
 
-\begin{ex}
-Write a similar loop that multiplies all the
-elements of a vector together.  You might want to call the
-accumulator {\tt product}, and you might want to think about
-the initial value you give it before the loop.
-\end{ex}
 
 
 \section{Apply}
@@ -2834,45 +2786,15 @@ for i=1:length(X)
 end
 \end{verbatim}
 
-\begin{ex}
-Write a loop that computes a vector {\tt Y} that
-contains the sines of the elements of {\tt X}.  To test your
-loop, write a script that
-
-\begin{enumerate}
-
-\item Uses {\tt linspace} (see the documentation) to assign
-to {\tt X} a vector with 100 elements running from 0 to $2 \pi$.
-
-\item Uses your loop to store the sines in {\tt Y}.
-
-\item Plots the elements of {\tt Y} as a function of the elements
-of {\tt X}.
-
-\end{enumerate}
-\end{ex}
 
 \section{Search}
 \label{sect:search}
 
 Yet another use of loops is to search the elements of a vector
 and return the index of the value you are looking for (or the
-first value that has a particular property).  For example, if
-a vector contains the computed altitude of a falling object, you
-might want to know the index where the object touches down (assuming
-that the ground is at altitude 0).
+first value that has a particular property).  
 
-To create some fake data, we'll use an extended version of the
-colon operator:
-
-\begin{verbatim}
-X = 10:-1:-10
-\end{verbatim}
-
-The values in this range run from 10 to -10, with a {\bf step size}
-of -1.  The step size is the interval between elements of the range.\index{Syntax!colon operator}
-
-The following loop finds the index of the element 0 in {\tt X}:
+For example, the following loop finds the index of the element 0 in {\tt X}:
 
 \begin{verbatim}
 for i=1:length(X)
@@ -2882,14 +2804,16 @@ for i=1:length(X)
 end
 \end{verbatim}
 
-One funny thing about this loop is that it keeps going after it
+A funny thing about this loop is that it keeps going after it
 finds what it is looking for.  That might be what you want; if the
 target value appears more than one, this loop provides the index
 of the {\em last} one.
 
 But if you want the index of the first one (or you know that there
 is only one), you can save some unnecessary looping by using the
-{\tt break} statement.\index{Compound statements!{\tt break}}
+{\tt break} statement.
+
+\index{Compound statements!{\tt break}}
 
 \begin{verbatim}
 for i=1:length(X)
@@ -2904,50 +2828,6 @@ end
 loop and proceeds immediately to the next statement after the
 loop (in this case, there isn't one, so the code ends).
 
-This example demonstrates the basic idea of a search, but it
-also demonstrates a dangerous use of the {\tt if} statement.
-Remember that floating-point values are often only approximately
-right.  That means that if you look for a perfect match, you might
-not find it.  For example, try this:
-
-\begin{verbatim}
-X = linspace(1,2)
-for i=1:length(X)
-    Y(i) = sin(X(i))
-end
-plot(X, Y)
-\end{verbatim}
-
-You can see in the plot that the value of $\sin x$ goes through
-0.9 in this range, but if you search for the index where
-{\tt Y(i) == 0.9}, you will come up empty.
-
-\begin{verbatim}
-for i=1:length(Y)
-    if Y(i) == 0.9
-        ans = i
-        break
-    end
-end
-\end{verbatim}
-
-The condition is never true, so the body of the {\tt if} statement
-is never executed.
-
-Even though the plot shows a continuous line, don't forget that {\tt
-X} and {\tt Y} are sequences of discrete (and usually approximate)
-values.  As a rule, you should (almost) never use the {\tt ==}
-operator to compare floating-point values.  There are a number of ways
-to get around this limitation; we will get to them later.
-
-\begin{ex}
-Write a loop that finds the index of the first
-negative number in a vector and stores it in {\tt ans}.  If there are
-no negative numbers, it should set {\tt ans} to -1 (which is not
-a legal index, so it is a good way to indicate the special case).
-\end{ex}
-
-
 
 \section{Spoiling the fun}
 
@@ -2958,38 +2838,30 @@ perform many reduce, filter and search operations.
 For example, the {\tt sum} function computes the sum of the elements
 in a vector and {\tt prod} computes the product.
 
-Many apply operations can be done with elementwise operators.  The
-following statement is more concise than the loop in
+Many apply operations can be done with elementwise operators.
+The following statement is more concise than the loop in
 Section~\ref{sect:apply}
 
 \begin{verbatim}
 Y = X .^ 2
 \end{verbatim}
 
-Also, most built-in MATLAB functions work with vectors:
+And {\tt find} can perform search operations:
 
 \begin{verbatim}
-X = linspace(0, 2*pi)
-Y = sin(X)
-plot(X, Y)
+>> X = [3 2 1 0]
+X = 3     2     1     0
+
+>> find(X==0)
+ans = 4
 \end{verbatim}
-
-Finally, the {\tt find} function can perform search operations, but
-understanding it requires a couple of concepts we haven't got to, so
-for now you are better off on your own.
-
-I started with simple loops because I wanted to demonstrate the basic
-concepts and give you a chance to practice.  At some point you will
-probably have to write a loop for which there is no
-MATLAB shortcut, but you have to work your way up from somewhere.
 
 If you understand loops and you are are comfortable with the
 shortcuts, feel free to use them!  Otherwise, you can always write
 out the loop.
 
 \begin{ex}
-Write an expression that computes the sum of the
-squares of the elements of a vector.
+Write an expression that computes the square root of the sum of the squares of the elements of a vector, without using a loop.
 \end{ex}
 
 
@@ -2997,7 +2869,7 @@ squares of the elements of a vector.
 
 \begin{description}
 
-\item[compound:] A statement, like {\tt if} and {\tt for}, that
+\item[compound statement:] A statement, like {\tt if} and {\tt for}, that
 contains other statements in an indented body.
 
 \item[nesting:] Putting one compound statement in the body of another.
@@ -3055,8 +2927,8 @@ it converge on?
 \end{ex}
 
 \begin{ex}
-A certain famous system of differential equations can be approximated
-by a system of difference equations that looks like this:
+A famous system of differential equations can be approximated
+by the following set of equations:
 %
 \begin{eqnarray}
 x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt  \\
@@ -3071,7 +2943,7 @@ $X$, $Y$, and $Z$ and stores them in vectors named {\tt X}, {\tt Y},
 and {\tt Z}.
 
 Use the initial values $X_1 = 1$, $Y_1 = 2$, and $Z_1 = 3$, with values
-$\sigma = 10$, $b = 8/3$, and $r = 28$, and with time step $dt = 0.01$.
+$\sigma = 10$, $b = 8/3$, and $r = 28$, and with $dt = 0.01$.
 
 \item Read the documentation for {\tt plot3} and {\tt comet3} and
 plot the results in 3 dimensions.
@@ -3088,52 +2960,32 @@ system.
 
 \end{itemize}
 
+% lorenz.m
 \end{ex}
 
 
 \begin{ex}
-The logistic map is often cited as an example of how complex, chaotic
-behaviour can arise from simple non-linear dynamical equations [some
-of this description is adapted from the Wikipedia page on the logistic
-map]. It was popularized in a seminal 1976 paper by the biologist
-Robert May.
-
-It has been used to model the biomass of a
-species in the presence of limiting factors such as food supply and
-disease.  In this case, there are two processes at work:
-(1) A reproductive process increases the biomass of the species
-in proportion to the current population.
-(2) A starvation process causes the biomass to decrease at a rate
-proportional to the carrying capacity of the environment less the
-current population.
-
-Mathematically this can be written as
+The logistic map\footnote{See \url{https://en.wikipedia.org/wiki/Logistic_map}} is described by the following equation:
 
 \begin{equation}
 X_{i+1} = r X_i (1-X_i)
 \end{equation}
 
-where $X_i$ is a number between zero and one that represents the
-biomass at year $i$, and $r$ is a positive number that represents a
-combined rate for reproduction and starvation.
+where $X_i$ is a number between zero and one and $r$ is a positive number that represents.
 
 \begin{itemize}
 
 \item Write a script named {\tt logmap} that computes the first 50
 elements of $X$ with {\tt r=3.9} and {\tt X1=0.5}, where
 {\tt r} is the parameter of the logistic map and {\tt X1} is the
-initial population.
+initial value.
 
 \item Plot the results for a range of values of $r$ from 2.4 to 4.0.
-How does the behavior of the system change as you vary $r$.
-
-\item One way to characterize the effect of $r$ is to make a plot
-with $r$ on the x-axis and biomass on the $y$ axis, and to show,
-for each value of $r$, the values of biomass that occur in steady
-state.  See if you can figure out how to generate this plot.
+How does the behavior of the system change as you vary $r$?
 
 \end{itemize}
 
+% logmap.m
 \end{ex}
 
 
@@ -3142,10 +2994,7 @@ state.  See if you can figure out how to generate this plot.
 
 \section{Name Collisions}
 
-Remember that all of your scripts run in the same workspace, so
-if one script changes the value of a variable, all your other
-scripts see the change.  With a small number of simple scripts,
-that's not a problem, but eventually the interactions between
+All scripts run in the same workspace, so if one script changes the value of a variable, all your other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between
 scripts become unmanageable.
 
 For example, the following (increasingly familiar) script computes the
@@ -6317,6 +6166,7 @@ ans = 2     3
 
 
 \section{Row and column vectors}
+\label{rowvector}
 \index{Matrices!row and column vectors}
 
 Although it is useful to think in terms of scalars, vectors and matrices,
