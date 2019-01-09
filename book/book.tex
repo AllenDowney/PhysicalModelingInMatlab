@@ -4491,7 +4491,7 @@ To summarize, here's the Ninth Theorem of Debugging:
 
 \item[analytic solution:] A way of solving an equation by performing
 algebraic operations and deriving an explicit way to
-compute a value that is only known implicitly.
+compute a value.
 
 \item[numerical solution:] A way of solving an equation by finding
 a numerical value that satisfies the equation, often approximately.
@@ -4499,23 +4499,7 @@ a numerical value that satisfies the equation, often approximately.
 \item[numerical method:] A method (or algorithm) for generating
 a numerical solution.
 
-\item[map:] A correspondence between the elements of one set (the
-range) and the elements of another (the domain).  You can think of
-sequences, vectors and functions as different kinds of maps.
-
-\item[range:] The set of values a map maps from.
-
-\item[domain:] The set of values a map maps to.
-
-\item[discrete set:] A set, like the integers, whose elements are
-countable.
-
-\item[continuous set:] A set, like the real numbers, whose elements
-are not countable.  You can think of floating-point numbers as a
-continuous set.
-
-\item[zero (of a function):] A value in the range of a function that
-maps to 0.
+\item[zero (of a function):] An argument that makes the result of a function $0$.
 
 \item[function handle:] In MATLAB, a function handle is a way of
 referring to a function by name (and passing it as an argument)
@@ -4526,6 +4510,7 @@ causes an existing definition to become invisible.  In MATLAB,
 variable names can shadow built-in functions (with hilarious results).
 
 \end{description}
+
 
 \section{Exercises}
 
@@ -4542,7 +4527,7 @@ $x$, and return
 \end{equation}
 
 \item Use {\tt ezplot} to display a graph of this function in the
-interval from 0 to 1.  Estimate the location of any zeros in this
+interval from -1 to 1.  Estimate the location of any zeros in this
 range.
 
 \item Use {\tt fzero} to find as many different roots as you can.
@@ -4550,34 +4535,30 @@ Does {\tt fzero} always find the root that is closest to the initial
 guess?
 
 \end{enumerate}
+
+% cheby6.m
 \end{ex}
 
 
 \begin{ex}
 \label{ex:duck}
 
-The density of a duck, $\rho$, is $0.3 g / cm^3$ (0.3 times the
-density of water).
-
-The volume of a sphere with radius $r$ is $\frac{4}{3} \pi r^3$.
-
-If a sphere with radius $r$ is submerged in water to a depth $d$, the
-volume of the sphere below the water line is
-
-\begin{equation}
-volume = \frac{\pi}{3} (3r d^2 - d^3) \quad
-\mbox{as long as} \quad d < 2 r
-\end{equation}
-
-An object floats at the level where the weight of the displaced water
-equals the total weight of the object.
-
-Assuming that a duck is a sphere with radius 10 cm, at what depth does
-a duck float?\footnote{This example is adapted from Gerald and Wheatley,
+When a duck is floating on water, how much of its body is submerged?\footnote{This example is adapted from Gerald and Wheatley,
 {\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
 1989.}
 
-Here are some suggestions about how to proceed:
+To estimate a solution to this problem, we'll assume that the submerged part of a duck is well approximated by a section of a sphere.
+If a sphere with radius $r$ is submerged in water to a depth $d$, the
+volume of the sphere below the water line is
+
+\[ V = \frac{\pi}{3} (3r d^2 - d^3) \quad
+\mbox{as long as} \quad d < 2 r  \]
+
+We'll also assume that the density of a duck is $\rho$, is $0.3 g / cm^3$ (0.3 times the density of water), and that its mass is $\frac{4}{3} \pi r^3 \rho$.
+
+Finally, according to the law of buoyancy, an object floats at the level where the weight of the displaced water equals the total weight of the object.
+
+Here are some suggestions for how to proceed:
 
 \begin{itemize}
 
@@ -4598,9 +4579,9 @@ Our goal is to find values of $d$ that are roots of this equation.
    doesn't work!
 
 \item Try different values of $\rho$ and $r$ and see if you get the
-effect you expect.  What happens as $\rho$ increases?  Goes to
-infinity?  Goes to zero?  What happens as $r$ increases?  Goes to
-infinity?  Goes to zero?
+  effect you expect.  What happens as $\rho$ increases?  Goes to
+  infinity?  Goes to zero?  What happens as $r$ increases?  Goes to
+  infinity?  Goes to zero?
 
 \end{itemize}
 
@@ -4618,7 +4599,7 @@ infinity?  Goes to zero?
 
 
 
-
+% TODO: Find examples where error messages are getting syntax highlighting, and put them in an output environment.
 
 
 
