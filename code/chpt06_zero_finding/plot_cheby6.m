@@ -1,3 +1,5 @@
+% Plot the 6th order Chebyshev polynomial.
+
 function plot_cheby6(low, high)
     X = linspace(low, high, 100);
     for i=1:length(X)
