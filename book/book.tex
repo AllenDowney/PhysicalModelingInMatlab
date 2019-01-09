@@ -5110,204 +5110,154 @@ operator to a vector, that contains logical values 1 and 0.
 
 
 \section{Differential equations}
+\label{diffeq}
 
 A {\bf differential equation} (DE) is an equation that describes the
 derivatives of an unknown function.  ``Solving a DE'' means finding a
 function whose derivatives satisfy the equation.
 
-For example, when bacteria grow in particularly bacteria-friendly
+For example, suppose we would like to predict the population of yeast growing in a nutrient solution.  Assume that we know the initial population is 5 billion yeast cells.
+
+When yeast grow in particularly yeast-friendly
 conditions, the rate of growth at any point in time is proportional to
-the current population.  What we might like to know is the population
-as a function of time.  Toward that end, let's define $f$ to be a
-function that maps from time, $t$, to population $y$ (in billions of cells),
-such that $y = f(t)$.  We might not
-know what the function is, but we can definitely write a differential equation
-that describes it:
+the current population.
 
-\begin{equation}\label{eq:exp_growth}
-\frac{df}{dt} = a f
-\end{equation}
-
-where $a$ is a constant that characterizes how quickly the population
-increases.
-
-Notice that both sides of the equation are functions.  To say that
-two functions are equal is to say that their values are equal at
-all times.  In other words:
-
+If we define $y(t)$ to be the population (in billions of cells) at 
+time $t$, we can write the following equation for the rate of growth:
+%
 \begin{equation}
-\forall t: \frac{df}{dt}(t) = a f(t)
+\label{eq:exp_growth}
+\frac{dy}{dt}(t) = a y(t)
 \end{equation}
+%
+where $\frac{dy}{dt}(t)$ is the derivative of $y(t)$ and
+$a$ is a constant that characterizes how quickly the population
+grows.
 
-This is an {\bf ordinary} differential equation (ODE) because all the
+This equation is a {\bf differential equation} because it relates a function to one of its derivatives.
+
+It is an {\bf ordinary} differential equation (ODE) because all the
 derivatives involved are taken with respect to the
-same variable.\index{Differential equations!ordinary}  If the equation related derivatives with respect to
+same variable.
+If it related derivatives with respect to
 different variables (partial derivatives), it would be a {\bf partial}
-differential equation.\index{Differential equations!partial}
+differential equation.
+
+\index{Differential equations!ordinary}
+\index{Differential equations!partial}
 
 This equation is {\bf first order} because it involves only first
 derivatives.  If it involved second derivatives, it would be second order,
-and so on.\index{Differential equations!order}
+and so on.
 
-This equation is {\bf linear} because each term involves $t$, $f$, or
+\index{Differential equations!order}
+
+And it is {\bf linear} because each term involves $t$, $f$, or
 $df/dt$ raised to the first power; if any of the terms involved
 products or powers of $t$, $f$, and $df/dt$ it would be
-nonlinear.\index{Differential equations!linearity}
+nonlinear.
 
-Linear, first order ODEs can be solved analytically; that is, we
-can express the solution as a function of $t$.
-This particular ODE has an infinite number of solutions, but
-they all have this form:
+\index{Differential equations!linearity}
 
-\begin{equation}\label{eq:exp_func}
-f(t) = b e^{at}
-\end{equation}
-
-
-For any values of $a$ and $b$, the function \eqref{eq:exp_func} satisfies
-the ODE \eqref{eq:exp_growth}.  If you don't believe me, take its
-derivative and check.
-
-If we know the population of bacteria at a particular point in time,
-we can use that additional information to determine which of the
-infinite solutions is the (unique) one that describes a particular
-population over time.
-
-For example, if we know that $f(0) = 5.4$ (billion cells), then we
-can write
-
-\begin{equation}
-f(0) = 5.4 = b e^{a 0}
-\end{equation}
-
-
-and solve for $b$, which is 5.4.  That determines what we wanted
-to know:
-
-\begin{equation}
-f(t) = 5.4 e^{at}
-\end{equation}
-
-
-The extra bit of information that determines $b$ is called
-the {\bf initial condition} (although it isn't always specified
-at $t=0$).\index{Differential equations!initial conditions}
-
-Unfortunately, most interesting physical systems are described by
-nonlinear DEs, most of which can't be solved analytically.  The
-alternative is to solve them numerically.
+Now suppose we want to predict the yeast population in the future.  We can do that using Euler's method.
 
 
 \section{Euler's method}
 
-The simplest numerical method for ODEs is Euler's
-method\index{Differential equations!Euler's Method}.  Here's a test to
-see if you are as smart as Euler.  Let's say that you
-arrive at time $t$ and measure the current population, $y$, and
+Here's a test to see if you are as smart as Euler.  Let's say  you arrive at time $t$ and measure the current population, $y$, and
 the rate of change, $r$.  What do you think the population will
 be after some period of time $\Delta t$ has elapsed?
 
 If you said $y + r \Delta t$, congratulations!  You just invented
 Euler's method.
 
+\index{Differential equations!Euler's Method}
+
 This estimate is based on the assumption that $r$ is constant, but
 in general it's not, so we only expect the estimate to be good if
 $r$ changes slowly and $\Delta t$ is small.
 
-But let's assume (for now) that the ODE we are interested in can
-be written so that
+So what if we want to make a prediction when $\Delta t$ is large?
+One option is to break $\Delta t$ into smaller pieces, called
+{\bf time steps}.
 
-\begin{equation}\label{eq:g_ODE}
-\frac{df}{dt}(t) = g(t, f(t))
-\end{equation}
-
-where $g$ is some function that maps $(t, y)$ onto $r$;
-that is, given the time and current population, it computes the rate
-of change.  Then we can advance from one point in time to the
-next using these equations:
+Then we can use the following equations to get from one time step to the next:
 
 \begin{eqnarray}
-\label{eq:euler1}
-F_{n+1} = F_n + g(T_n,F_n)~\Delta t           \\
 \label{eq:euler2}
-T_{n+1} = T_n + \Delta t
+T_{i+1} &=& T_i + dt                       \\
+Y_{i+1} &=& Y_i + \frac{df}{dt}(t)~dt           \\
 \end{eqnarray}
 
 Here $\{T_i\}$ is a sequence of times where we estimate the value
-of $f$, and $\{F_i\}$ is the sequence of estimates.  For each
-index $i$, $F_i$ is an estimate of $f(T_i)$.
-The interval $\Delta t$ is called the {\bf time step}.
-
-Assuming that we start at $t=0$ and we have an initial condition $f(0)
-= y_0$ (where $y_0$ denotes a particular, known value), we set
-$T_1 = 0$ and $F_1 = y_0$, and then use
-equations \eqref{eq:euler1} and \eqref{eq:euler2} to
-compute values of $F_i$ and $T_i$ (starting at $i = 2$) until $T_i$
-gets to the value of $t$ we are interested in.  To be consistent with 
-normal MATLAB array indexing, we use index 1 for the first index of 
-the sequences.  
+of $y$, and $\{Y_i\}$ is the sequence of estimates.  For each
+index $i$, $Y_i$ is an estimate of $y(T_i)$.
 
 If the rate doesn't change too fast and the time step isn't
 too big, Euler's method is accurate enough for most purposes.  One
-way to check is to run it once with time step $\Delta t$ and then run it
-again with time step $\Delta t/2$.  If the results are the same, they are
-probably accurate; otherwise, cut the time step again.
-
-Euler's method is {\bf first order}, which means that each time you
-cut the time step in half, you expect the estimation error to drop by
-half.  With a second-order method, you expect the error to drop by a
-factor of 4; third-order drops by 8, etc.  The price of higher order
-methods is that they have to evaluate $g$ more times per time step.
+way to check is to run it once with time step $dt$ and then run it
+again with time step $dt/2$.  If the results are the same, they are
+probably accurate; otherwise, we can cut the time step again.
 
 
-\section{Another note on notation}
+\section{Implementing Euler's method}
 
-There's a lot of math notation in this chapter so I want to pause to
-review what we have so far.  Here are the variables and their meanings,
-which are presented according to their types:
+As an example I'll use Euler's method to solve the equation from Section~\ref{diffeq}:
 
-\begin{tabular}{|l|l|l|}
-\hline
-Name     &  Meaning             &  Type  \\
-\hline \hline
-$t$     &  time                 & scalar variable \\\hline
-$\Delta t$  &  time step            & scalar constant \\\hline
+\[ \frac{dy}{dt}(t) = a y(t) \]
 
-$y$     &  population           & scalar variable \\\hline
-$r$     &  rate of change       & scalar variable \\\hline
+With the initial condition $y(0) = 5$ billion cells and
+the growth parameter $a = 0.2$ per hour. 
 
-$f$     &  The unknown function specified,    &  function, $f(t)$: $t \to y$  \\
-        &  implicitly, by an ODE.             &    \\\hline
+As a first step, I created a file named {\tt euler.m} with a top-level function and a helper function:
 
-$df/dt$  &  The first time derivative of $f$  &  function, $df/dt$  \\ \hline
+\begin{code}
+function res = euler()
+    T(1) = 0;
+    Y(1) = 5;
+    r = rate_func(T(1), Y(1))
+end
 
-$g$     &  A ``rate function,'' derived from     &  \\
-        &  the ODE \eqref{eq:g_ODE}, that computes rate of &function, $g(t,y)$: $t, y \to r$  \\
-        &  change for any $t$, $y$.           &   \\\hline
+function res = rate_func(t, y)
+   a = 0.2;
+   res = a * y;
+end
+\end{code}
 
-$T$     & a sequence of times, $t$, where   & sequence \\
-              & we estimate $f(t)$    &           \\\hline
-$F$     & a sequence of estimates for $f(t)$  & sequence \\
-\hline
-\end{tabular}
+In {\tt euler} I initialize the initial conditions and then call \verb"rate_func".  In \verb"rate_func" I compute the rate of change in the population.
 
-So $f$ is a function that computes the population as a function of
-time, $f(t)$ is the function evaluated at a particular time, and if we
-assign $f(t)$ to a variable, we usually call that variable $y$.
+After testing these functions, I added code to {\tt euler} to implement these difference equations:
 
-Similarly, $g$ is a ``rate function'' that computes the rate of change as a
-function of time and population.  If we assign $g(t,y)$ to a variable,
-we can call that variable $r$.
+\begin{eqnarray}
+T_{i+1} &=& T_i + \Delta t                 \\
+Y_{i+1} &=& Y_i + r \Delta t           \\
+\end{eqnarray}
+%
+where $r$ is the rate of population growth computed by \verb"rate_func".
+Here's the code:
 
-$df/dt$ is the first derivative of $f$, and it maps from $t$ to a
-rate.  
+\begin{code}
+function res = euler()
+    T(1) = 0;
+    Y(1) = 5;
+    dt = 0.1;
+    
+    for i=1:100
+        r = rate_func(T(i), Y(i));
+        T(i+1) = T(i) + dt;
+        Y(i+1) = Y(i) + r * dt;
+    end
+    plot(T, Y)
+end
+\end{code}
 
-It is easy to get $df/dt$ confused with $g$, but notice that they are
-not the same type.
-$df/dt$ is specific: it computes the rate of change for the
-population $f(t)$ at any time $t$;
-$g$ is general: it computes the rate
-of change for \textit{any} population $y$ at any time $t$.
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/euler.eps}}
+\caption{Solution to a simple differential equation by Euler's method.}
+\label{fig:euler}
+\end{figure}
+
+The result is a plot of population over time, shown in Figure~\ref{fig:euler}.  The population doubles in a little less than 4 hours.
 
 
 \section{{\tt ode45}}
@@ -5319,276 +5269,165 @@ one iteration to the next.  But some parts of the solution are
 harder to estimate than others; if the time step is small enough to
 get the hard parts right, it is doing more work than necessary on the
 easy parts.  The ideal solution is to adjust the time step as you go
-along.  Methods that do that are called {\bf adaptive}, and one of the
+along.  
+
+Methods that do that are called {\bf adaptive}, and one of the
 best adaptive methods is the Dormand-Prince pair of Runge-Kutta
-formulas.  You don't have to know what that means,
-because the nice people at Mathworks have implemented it in a function
-called {\tt ode45}.  The {\tt ode} stands for ``ordinary differential
-equation [solver]'' and the 45 indicates that it uses a combination of
-4th and 5th order formulas.
+formulas.  
+You can read about this method at \url{https://en.wikipedia.org/wiki/Dormand-Prince_method}, but you don't have to know the details, because MATLAB provides a function that implements it, called {\tt ode45}.
 
-In order to use {\tt ode45} for cases involving one ``population'', 
-you have to write a MATLAB function that evaluates $g$ as a function of
-$t$ and $y$ (or whatever other function and variable names are applicable to the case).
-
-% where did the rats example come from?
-As an example, suppose that the rate of population growth for rats
-depends on the current population and the availability of food,
-which varies over the course of the year.
-The governing equation might be something like
-
-\begin{equation}
-\frac{df}{dt}(t) = a f(t) \frac{\left[1 - \cos (\omega t) \right]}{2}
-\end{equation}
-
-%
-where $t$ is time in days and $f(t)$ is the population at time $t$.
-$a$ and $\omega$ are {\bf parameters}.  A parameter is a value that
-quantifies a physical aspect of the scenario being modeled.  For
-example, in Exercise~\ref{ex:duck} we used parameters {\tt rho} and
-{\tt r} to quantify the density and radius of a duck.  Parameters are
-often constants, but in some models they vary in time.
-
-In this example, $a$ characterizes the peak reproductive rate for a rat, and
-$\omega$ is the frequency of a periodic function that describes
-the effect of varying food supply on reproduction.
-
-This equation specifies a relationship between a
-function and its derivative.  In order to estimate values of
-$f$ numerically, we have to transform it into a rate function.
-
-The first step is to introduce a variable,
-$y$, as another name for $f(t)$
-
-\begin{equation}
-\frac{df}{dt}(t) = a y \frac{\left[1 - \cos (\omega t) \right]}{2}
-\end{equation}
-
-This equation means that if we are given $t$ and $y$, we can
-compute $df/dt(t)$, which is the rate of change of $f$.
-The next step is to express that computation as a function called
-$g$:
-
-\begin{equation}
-g(t, y) = a y \frac{\left[1 - \cos (\omega t) \right]}{2}
-\end{equation}
-
-Writing the function this way is useful because we can use it
-with Euler's method
-or {\tt ode45} to estimate values of $f$.  All we have to
-do is write a MATLAB function that evaluates $g$.  Here's what
-that looks like using the values $a = 0.02$
-and $\omega = 2 \cdot 2 \pi/365$ (two cycles per year):
+In order to use {\tt ode45}, you have to write a MATLAB function that evaluates $g$ as a function of $t$ and $y$.  Fortunately, we already have one, \verb"rate_func":
 
 \begin{code}
-function res = rats(t, y)
-    a = 0.02;
-    omega = 2 * 2*pi / 365;
-    res = a * y * (1 - cos(omega * t)) / 2;
+function res = rate_func(t, y)
+   a = 0.2;
+   res = a * y;
 end
 \end{code}
 
-You can test this function from the Command Window by calling it with
-different values of {\tt t} and {\tt y}; the result is the rate of
-change (in units of rats per day):
+We can call {\tt ode45} from the {\sf Command Window} like this:
 
 \begin{code}
->> r = rats(31, 2000)
-
-r = 10.3498
+[T, Y] = ode45(@rate_func, [0, 4], 5);
+plot(T, Y)
 \end{code}
 
-So if there are two thousand rats on February 1, we expect them to 
-reproduce at a rate that would produce about 10 more rats per day. 
-But if there are two thousand rats around the end of April, the 
-rate has almost tripled: 
+The first argument is a function handle, as we saw in Section~\ref{sect:fzero}.  The second argument is the time interval where we want to evaluate the solution; in this case the interval is from $t=0$ to $t=4$ hours.  The third argument is the initial population, 5 billion cells.
+
+{\tt ode45} is the first function we have seen that returns {\em two} output variables.  In order to store them, we have to assign them to two variables, {\tt T} and {\tt Y}.
+
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/runge.eps}}
+\caption{Solutions to a simple differential equation by Euler's method and {\tt ode45}.}
+\label{fig:runge}
+\end{figure}
+
+Figure~\ref{fig:runge} shows the results.  The solid line is the estimate we computed with Euler's method; the dashed line is the solution from {\tt ode45}.
+
+For the first 4-5 hours, the two solutions are indistinguishable.  But as the rate of growth increases, Euler's method gets less accurate.
+
+In general, you should use {\tt ode45} instead of Euler's method.  It is almost always more accurate.  
+
+
+\section{Time dependence}
+
+Looking at \verb"rate_func" in the previous section, you might notice that it takes {\tt t} as an input variables but doesn't use it.  That's because the growth rate does not depend on time; that's because bacteria don't know what time it is.
+
+But rats do.  Or, at least, they know what season it is.
+Suppose that the population growth rate for rats
+depends on the current population and the availability of food,
+which varies over the course of the year.
+The differential equation might be something like
+%
+\begin{equation}
+\frac{dy}{dt}(t) = a y(t) \left(1 - \cos (\omega t) \right)
+\end{equation}
+%
+where $t$ is time in days and $y(t)$ is the population at time $t$.
+
+$a$ and $\omega$ are {\bf parameters}.  A parameter is a value that
+quantifies a physical aspect of the scenario being modeled.  Parameters are often constants, but in some models they vary in time.
+
+In this example, $a$ characterizes the peak reproductive rate per day, and
+$\omega$ is the frequency of a periodic function that describes
+the effect of varying food supply on reproduction.
+
+We'll use the values $a = 0.002$
+and $\omega = 2 \pi/365$ (one cycle per year).
+The growth rate is lowest at $t=0$, on January 1, and highest at $t=365/2$, on June 1.
+
+Now we can write a function that evaluates the growth rate:
 
 \begin{code}
->> r = rats(120, 2000)
-
-r = 30.9769
+function res = rate_func(t, y)
+    a = 0.002;
+    omega = 2*pi / 365;
+    res = a * y * (1 - cos(omega * t));
+end
 \end{code}
 
-Since the rate is constantly changing, it is not easy to predict
+To test this function, I put it in a file called {\tt rats.m} with a top-level function called {\tt rats}:
+
+\begin{code}
+function res = rats()
+    t = 31;
+    y = 2000;
+    res = rate_func(t, y);
+end
+\end{code}
+
+Suppose there are 2000 rats at $t=31$.  We can compute the growth rate like this:
+
+\begin{code}
+>> r = rats
+
+r = 0.5562
+\end{code}
+
+So if there are 2000 rats on January 31, we expect them to 
+reproduce at a rate that would produce about one new rat every two days. 
+
+Since the growth rate is constantly changing, it is not easy to predict
 the future rat population, but that is exactly what {\tt ode45} does.
-Here's how you would use it:
+Here's how:
 
 \begin{code}
->> ode45(@rats, [0, 365], 2000)
+[T, Y] = ode45(@rate_func, [0, 365], 2000)
+plot(T, Y)
 \end{code}
 
-The first argument is a handle for the function that
-computes $g$.  The second argument is the interval we are interested
+The first argument is a function handle, again.  The second argument is the interval we are interested
 in, in this case starting at time 0 and going for 365 days (about a year).  
 The third argument is the population at the beginning of the interval, 
-in our case $f(0) = 2000$.
+in our case $y(0) = 2000$.
 
-When you call {\tt ode45} without assigning the result to a variable,
-MATLAB displays the result in a figure:
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/rats.eps}}
+\caption{Solutions to a simple differential equation by Euler's method and {\tt ode45}.}
+\label{fig:rats}
+\end{figure}
 
-\beforefig \centerline{\includegraphics[height=2in]{figs/rats.eps}}
-
-The x-axis shows time from 0 to 365 days; the y-axis shows the rat
-population, which starts at 2000 and grows to almost 80,000.  The rate
-of growth slows to zero in the winter and summer, and is fast in the
-spring and fall, but it also tends to increase as the population grows.  
-So the rate will be faster on February 1 next year than on February 
-1 this year.  
-
-
-\section{Multiple output variables}
-\label{sect:rats}
-
-{\tt ode45} is one of many MATLAB functions that return more
-than one output variable.  The syntax for calling it and saving
-the results is
-
-\begin{code}
->> [T, Y] = ode45(@rats, [0, 365], 2000);
-\end{code}
-
-The first return variable (a vector) is assigned to {\tt T}; the second is assigned
-to {\tt Y}.  Each element of {\tt T} is a time,
-$t$, where {\tt ode45} estimated the population; each element of {\tt
-Y} is an estimate of $f(t)$.
-
-If you assign the output values to variables,
-{\tt ode45} doesn't draw the figure;
-you have to do it yourself:
-
-\begin{code}
->> plot(T, Y, '-o')
-\end{code}
-
-If you plot the elements of {\tt T}, you'll see that the
-space between the points is not quite even.  They are closer
-together at the beginning of the interval and farther apart at the end.
+Figure~\ref{fig:rats} shows the results.  The population grows slowly during the winter, quickly during the summer, and the slowly again in the fall.
 
 To see the population at the end of the interval, 
 you can display the last element from each vector:
 
 \begin{code}
->> [T(end), Y(end)]
-ans = 1.0e+04 *
-0.0365    7.6958
+Y(end)
+4.1502e+03
 \end{code}
-% wcs -- should we comment on scaling of output.
 
 {\tt end} is a special word in MATLAB; when it appears as an index,
-it means ``the index of the last element.''  You can use it in an
+it means ``the index of the last element''.  You can use it in an
 expression, so {\tt Y(end-1)} is the second-to-last element of
 {\tt Y}.
-
-How much does the final population change if you double the initial
-population?  How much does it change if you double the interval
-to two years?  How much does it change if you double the value
-of $a$?
-
-
-\section{Analytic or numerical?}
-
-When you solve an ODE analytically, the result is a function, $f$,
-that allows you to compute the population, $f(t)$, for any value of
-$t$.  When you solve an ODE numerically, you get two vectors.  You can
-think of these vectors as a discrete approximation of the continuous
-function $f$: ``discrete'' because it is only defined for certain
-values of $t$, and ``approximate'' because each value $F_i$
-is only an estimate of the true value $f(t)$.
-
-So those are the limitations of numerical solutions.  The primary
-advantage is that you can compute numerical solutions to ODEs that
-don't have analytic solutions, which is the vast majority
-of nonlinear ODEs.
-
-If you are curious to know more about how {\tt ode45} works, you
-can modify the {\tt rats} function to display the points, $(t, y)$, where
-{\tt ode45} evaluates $g$.  
-Here, instead, is a new function
-{\tt rats\_plot}
-that displays the point and then invokes the original {\tt rats} function.
-
-\begin{code}
-function res = rats_plot(t, y)
-    plot(t, y, 'r.')
-    res = rats(t, y);
-end
-\end{code}
-
-Each time {\tt rats\_plot} is called, for example by {\tt ode45}, a dot is plotted showing one data point; in order
-to see multiple data points in a figure, you have to use {\tt hold on}.
-
-\begin{code}
->> clf; hold on
->> [T, Y] = ode45(@rats_plot, [0, 365], 2000);
->> xlim([280, 365])
-\end{code}
-
-% should we comment on <clf; hold on> -- i.e. two commands on one line?
-Note that {\tt xlim([280, 365])} selects a certain domain of time for the figure, in this case from Day 280 to 365:
-
-\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45_simple.eps}}
-
-The {\tt xlim} call could have been placed before the {\tt ode45} call.  Experiment with different orderings of the calls and see how the figure evolves in different ways.  So the dots show the points where {\tt ode45} called {\tt rats\_plot}.  Now let's continue with these four additional lines of code.
-
-\begin{code}
->> plot(T, Y, '-o')
->> hold off
->> xlabel('t (days)')
->> ylabel('y (rat population)')
-\end{code}
-
-This results in the updated figure:  
-
-\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45plotLabel.eps}}
-
-The circles show the locations of the estimates
-$(T_i, F_i)$.  Notice that {\tt ode45} typically evaluates
-$g$ 
-%more times than the number of estimates
-more times than it provides estimates of $f$.  This allows it to improve the
-estimates, for one thing, but also to detect places where the errors
-are increasing so it can decrease the time step (or the other
-way around).  The labels were produced, obviously, by the {\tt xlabel} and {\tt ylabel} calls.
-
-\begin{ex}
-Write code that creates a figure that also plots short 
-red lines through the red dots to show the slope (rate of change) calculated
-at each point, as shown below.  Note that the plotted estimates are not connected by lines in this figure.
-
-%wcs -- Not sure we want to make all the code, including solutions, available to students whose teacher chose the book.
-%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
-%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
-
-\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45.eps}}
-\end{ex}
 
 
 \section{What could go wrong?}
 
 Don't forget the {\tt @} on the function handle.
 If you leave it out, MATLAB treats the first argument as a function
-call, and calls {\tt rats} without providing arguments.
+call, and calls \verb"rate_func" without providing arguments.
 
 \begin{code}
->> ode45(rats, [0,365], 2000)
 Not enough input arguments.
 
-Error in rats (line 4)
-    res = a * y * (1 - cos(omega * t)) / 2;
+Error in rats>rate_func (line 18)
+    res = a * y * (1 - cos(omega * t));
+
+Error in rats (line 6)
+    [T, Y] = ode45(rate_func, [0, 365], 2000);
 \end{code}
 
-Again, the error message is confusing, because it looks like the problem
-is in {\tt rats}.  You've been warned!
-
 Also, remember that the function you write will be called by
-{\tt ode45}, which means it has to have the signature {\tt ode45}
-expects: it should take two input variables, {\tt t} and {\tt y},
-in that order, and return one output variable, {\tt r}.
+{\tt ode45}, which means has to take two input variables, 
+{\tt t} and {\tt y}, in that order, and return one output variable, 
+{\tt r}.
 
 If you are working with a rate function like this:
 
 \begin{equation}
-g(t, y) = a y
+\frac{dy}{dt}(t) = a y(t)
 \end{equation}
 
 You might be tempted to write this:
@@ -5618,10 +5457,10 @@ an assignment to the output variable.  If you write something
 like this:
 
 \begin{code}
-function res = rats_bad(t, y)
+function res = rate_func(t, y)
     a = 0.02;
-    omega = 2 * 2*pi / 365;
-    r = a * y * (1 - cos(omega * t)) / 2;    % WRONG
+    omega = 2*pi / 365;
+    r = a * y * (1 - cos(omega * t));    % WRONG
 end
 \end{code}
 
@@ -5629,86 +5468,43 @@ And then call it from {\tt ode45}, you get
 
 \begin{code}
 Output argument "res" (and maybe others) not assigned during call
-to "rats_bad".
-
-Error in odearguments (line 87)
-f0 = feval(ode,t0,y0,args{:});   % ODE15I sets args{1} to yp0.
-
-Error in ode45 (line 115)
-    odearguments(FcnHandlesUsed, solver_name, ode, tspan, y0,
-    options, varargin);
+to "rate_func".
 \end{code}
 
-This might be a scary set of messages, but if you read the first and ignore the rest, you’ll get the idea.
+I hope these warnings save you some time debugging.
 
-Yet another mistake that people make with {\tt ode45} is leaving
-out the brackets on the second argument.  In that case, MATLAB
-thinks there are four arguments, and you get
+
+\section{Labeling axes}
+
+The plots in this chapter have labels on the axes, and one of them has a legend, but I didn't show you how to do that.
+
+The functions to label the axes are {\tt xlabel} and {\tt ylabel}:
 
 \begin{code}
->> ode45(@rats, 0, 365, 2000)
-Error using odearguments (line 21)
-When the first argument to ode45 is a function handle, the tspan
-argument must have at least two elements.
-
-Error in ode45 (line 115)
-    odearguments(FcnHandlesUsed, solver_name, ode, tspan, y0,
-    options, varargin);
+xlabel('Time (hours)')
+ylabel('Population (billions of cells)')
 \end{code}
 
-Again, if you read the first message, you should be able to figure
-out the problem ({\tt tspan} stands for ``time span'', which we
-have been calling the interval).
+The function to generate a legend is {\tt legend}:
 
+\begin{code}
+legend('euler', 'ode45')
+\end{code}
 
-\section{Stiffness}
-\index{Differential equations!stiffness}
+The arguments are the labels for the lines, in the order they were drawn.  Usually the legend is in the upper right corner, but you can move it by providing an optional argument called {\tt Location}:
 
-There is yet another problem you might encounter, but if it makes you
-feel better, it might not be your fault: the problem you are trying to
-solve might be {\bf stiff}.\footnote{The following discussion is based
-partly on an article from Mathworks available at
-\url{https://www.mathworks.com/company/newsletters/articles/stiff-differential-equations.html}.}
+\begin{code}
+legend('euler', 'ode45', 'Location', 'northwest')
+\end{code}
 
-I won't give a technical explanation of stiffness here, except
-to say that for some problems (over some intervals with some initial
-conditions) the time step needed to control the error is very small,
-which means that the computation takes a long time.  Here's one
-example:
+Finally, I saved the figures using {\tt saveas}:
 
-\begin{equation}
-\frac{df}{dt} = f^2 - f^3
-\end{equation}
+\begin{code}
+saveas(gcf, 'runge.eps', 'epsc')
+\end{code}
 
-If you solve this ODE with the initial condition $f(0) = \delta$ over
-the interval from 0 to $2/\delta$, with $\delta = 0.01$, you should
-see something like this:
+The first argument is the figure we want to save; {\tt gcf}, is a MATLAB command that stands for ``get current figure'', which is the figure we just drew.  The second argument is the filename.  The extension specifies the format we want, which is Encapulated PostScript.  The third argument tells MATLAB what ``driver'' to use.  The details aren't important, but {\tt epsc} generates figures in color.
 
-\beforefig \centerline{\includegraphics[height=2in]{figs/stiff.eps}}
-
-After the transition from 0 to 1, the time step is very small and the
-computation goes slowly.  For smaller values of $\delta$, the
-situation is even worse.
-
-In this case, the problem is easy to fix: instead of {\tt ode45} you can
-use {\tt ode23s}, an ODE solver that tends to perform well on stiff
-problems (that's what the ``s'' stands for).
-
-In general, if you find that {\tt ode45} is taking a long time, you
-might want to try one of the stiff solvers.  It won't always solve
-the problem, but if the problem is stiffness, the improvement can
-be striking.
-
-\begin{ex}
-Write a rate function for this ODE and use
-{\tt ode45} to solve it with the given initial condition and interval.
-Start with $\delta = 0.1$ and decrease it by multiples of 10.  If
-you get tired of waiting for a computation to complete, you can
-press the Stop button in the Figure window or press Control-C in
-the Command Window.
-
-Now replace {\tt ode45} with {\tt ode23s} and try again!
-\end{ex}
 
 
 
@@ -5733,14 +5529,7 @@ function and its derivatives.
 \item[time step:] The interval in time between successive estimates
 in the numerical solution of a DE.
 
-\item[first order numerical method:] A method whose error is expected
-to halve when the time step is halved.
-
 \item[adaptive:] A method that adjusts the time step to control error.
-
-\item[stiffness:] A characteristic of some ODEs that makes some ODE
-solvers run slowly (or generate bad estimates).  Some ODE solvers,
-like {\tt ode23s}, are designed to work on stiff problems.
 
 \item[parameter:] A value that appears in a model to quantify some
 physical aspect of the scenario being modeled.
@@ -5750,101 +5539,53 @@ physical aspect of the scenario being modeled.
 \section{Exercises}
 
 \begin{ex}
-Suppose that you are given an 8 ounce cup of coffee at \SI{90}{\celsius} and
-a 1 ounce container of cream at room temperature, which is \SI{20}{\celsius}.
+Suppose that you are given an 8 ounce cup of coffee at \SI{90}{\celsius}.
 You have learned from bitter experience that the hottest coffee you
-can drink comfortably is \SI{60}{\celsius}.
+can drink comfortably is \SI{60}{\celsius}.  
 
-Assuming that you take cream in your coffee, and that you would like
-to start drinking as soon as possible, are you better off adding
-the cream immediately or waiting?  And if you should wait, then how
-long?
+If the temperature of the coffee drops by \SI{0.7}{\celsius} during the first minute, how long will you have to wait to drink your coffee?
 
-To answer this question, you have to model the cooling process
-of a hot liquid in air.  Hot coffee transfers heat to the environment
-by conduction, radiation, and evaporative cooling.  Quantifying these
-effects individually would be challenging and unnecessary to answer
-the question as posed.
-
-As a simplification, we can use Newton's Law of
-Cooling:
-
-\begin{equation}
-\frac{df}{dt} = -r (f - e)
-\end{equation}
-
+You can answer this question with Newton's Law of Cooling\footnote{See \url{https://en.wikipedia.org/wiki/Newton's_law_of_cooling}.}:
 %
-where $f$ is the temperature of the coffee as a function of time and
-$df/dt$ is its time derivative; $e$ is the temperature of the
-environment, which is a constant in this case, and $r$ is a parameter
-(also constant) that characterizes the rate of heat
-transfer.\footnote{\url{https://en.wikipedia.org/wiki/Newton's_law_of_cooling}}
+\begin{equation*}
+\frac{dy}{dt}(t) = -k (y(t) - e)
+\end{equation*}
+%
+where $y(t)$ is the temperature of the coffee at time $t$,
+$e$ is the temperature of the environment, and $k$ is a parameter
+that characterizes the rate of heat transfer from the coffee from the environment.
 
-It would be easy to estimate $r$ for a given coffee cup by making
-a few measurements over time.  Let's assume that that has been
-done and $r$ has been found to be $0.001$ in units of inverse
-seconds, $1/s$.
+Let's assume that $e$ is \SI{20}{\celsius} and constant; that is, the coffee does not warm up the room.
+
+Let's also assume $k$ is constant.  In that case, we can estimate it based on the information we have.  If the temperature drops \SI{0.5}{\celsius} during the first minute, when the coffee is \SI{90}{\celsius}, we can write
+%
+\begin{equation*}
+-0.7 = -k (90 - 20)
+\end{equation*}
+%
+Solving this equation yields $k = 0.01$.
+
+Here are some suggestions for getting started:
 
 \begin{itemize}
 
-\item Using mathematical notation, write the rate function, $g$,
-as a function of $y$, where $y$ is the temperature of the
-coffee at a particular point in time.
+\item Create a file named {\tt coffee.m} and write a function
+called {\tt coffee} that takes no input variables.  Put a simple statement like {\tt x=5} in the body of the function and invoke {\tt coffee} from the {\sf Command Window}.
 
-\item Create an M-file named {\tt coffee} and write a function
-called {\tt coffee} that takes no input variables and returns no
-output value.  Put a simple statement like {\tt x=5} in the body
-of the function and invoke {\tt coffee()} from the Command Window.
+\item Add a function called {\tt rate\_func} that takes {\tt t} and {\tt y} and computes $\frac{dy}{dt}$.  In this case {\tt rate\_func} does not actually depend on $t$; nevertheless, your function has to take $t$ as
+the first input variable in order to work with {\tt ode45}.
 
-\item Add a function called
-{\tt rate\_func} that takes {\tt t} and {\tt y} and computes
-$g(t,y)$.  Notice that in this case $g$ does not actually
-depend on $t$; nevertheless, your function has to take $t$ as
-the first input argument in order to work with {\tt ode45}.
+\item Test your function by adding a line like {\tt rate\_func(0,90)}
+to {\tt coffee}, then call {\tt coffee} from the {\sf Command Window}.
+Confirm that the initial rate is \SI{-0.7}{\celsius \per \minute}.
 
-Test your function by adding a line like {\tt rate\_func(0,90)}
-to {\tt coffee}, the call {\tt coffee} from the Command Window.
-
-\item Once you get {\tt rate\_func(0,90)} working, modify
+\item Once you get {\tt rate\_func} working, modify
 {\tt coffee} to use {\tt ode45} to compute the temperature
-of the coffee (ignoring the cream) for 60 minutes.  Confirm that
+of the coffee for 60 minutes.  Confirm that
 the coffee cools quickly at first, then more slowly, and reaches
-room temperature (approximately) after about an hour.
+room temperature after about an hour.
 
-\item Write a function called {\tt mix\_func} that computes
-the final temperature of a mixture of two liquids.  It should
-take the volumes and temperatures of the liquids as parameters.
-
-In general, the final temperature of a mixture depends on the specific
-heat\footnote{\url{https://en.wikipedia.org/wiki/Heat_capacity}}
-of the two substances.  But if we make the simplifying
-assumption that coffee and cream
-have the same density and specific heat, then the final temperature is
-$(v_1 y_1 + v_2 y_2) / (v_1 + v_2)$, where $v_1$ and $v_2$ are
-the volumes of the liquids, and $y_1$ and $y_2$ are their
-temperatures.
-
-Add code to {\tt coffee} to test {\tt mix\_func}.
-
-\item Use {\tt mix\_func} and {\tt ode45} to compute the
-time until the coffee is drinkable if you add the cream
-immediately.
-
-\item Modify {\tt coffee} so it takes an input variable $t$ that
-determines how many seconds the coffee is allowed to cool before
-adding the cream, and returns the temperature of the coffee
-after mixing.
-
-\item Use {\tt fzero} to find the time $t$ that causes the
-temperature of the coffee after mixing to be \SI{60}{\celsius}.
-
-\item What do these results tell you about the answer to the original
-question?  Is the answer what you expected?  What simplifying
-assumptions does this answer depend on?  Which of them do you think
-has the biggest effect?  Do you think it is big enough to affect the
-outcome?  Overall, how confident are you that this model can give
-a definitive answer to this question?  What might you do to improve
-it?
+\item Plot the results and estimate the time when the temperature reaches \SI{60}{\celsius}.
 
 \end{itemize}
 
@@ -5854,6 +5595,8 @@ it?
 % chap09
 \chapter{Systems of ODEs}
 
+%TODO: intro
+
 \section{Matrices}
 
 A matrix is a two-dimensional version of a vector.  Like a vector,
@@ -5862,7 +5605,9 @@ is that the elements are arranged in rows and columns, so it takes
 {\em two} indices to identify an element.
 
 One of many ways to create a matrix is the {\tt magic} function,
-which returns a ``magic'' matrix with the given size:\index{Matrices!{\tt magic}}
+which returns a ``magic'' matrix with the given size:
+
+\index{Matrices!{\tt magic}}
 
 \begin{code}
 >> M = magic(3)
@@ -8464,3 +8209,137 @@ end
 
 I'll explain soon why this function is called {\tt error\_func}.
 Now, back to our regularly-scheduled programming.
+
+
+\section{How ode45 works}
+
+If you are curious to know more about how {\tt ode45} works, you
+can modify the {\tt rats} function to display the points, $(t, y)$, where
+{\tt ode45} evaluates $g$.  
+Here, instead, is a new function
+{\tt rats\_plot}
+that displays the point and then invokes the original {\tt rats} function.
+
+\begin{code}
+function res = rats_plot(t, y)
+    plot(t, y, 'r.')
+    res = rats(t, y);
+end
+\end{code}
+
+Each time {\tt rats\_plot} is called, for example by {\tt ode45}, a dot is plotted showing one data point; in order
+to see multiple data points in a figure, you have to use {\tt hold on}.
+
+\begin{code}
+>> clf; hold on
+>> [T, Y] = ode45(@rats_plot, [0, 365], 2000);
+>> xlim([280, 365])
+\end{code}
+
+% should we comment on <clf; hold on> -- i.e. two commands on one line?
+Note that {\tt xlim([280, 365])} selects a certain domain of time for the figure, in this case from Day 280 to 365:
+
+\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45_simple.eps}}
+
+The {\tt xlim} call could have been placed before the {\tt ode45} call.  Experiment with different orderings of the calls and see how the figure evolves in different ways.  So the dots show the points where {\tt ode45} called {\tt rats\_plot}.  Now let's continue with these four additional lines of code.
+
+\begin{code}
+>> plot(T, Y, '-o')
+>> hold off
+>> xlabel('t (days)')
+>> ylabel('y (rat population)')
+\end{code}
+
+This results in the updated figure:  
+
+\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45plotLabel.eps}}
+
+The circles show the locations of the estimates
+$(T_i, F_i)$.  Notice that {\tt ode45} typically evaluates
+$g$ 
+%more times than the number of estimates
+more times than it provides estimates of $f$.  This allows it to improve the
+estimates, for one thing, but also to detect places where the errors
+are increasing so it can decrease the time step (or the other
+way around).  The labels were produced, obviously, by the {\tt xlabel} and {\tt ylabel} calls.
+
+\begin{ex}
+Write code that creates a figure that also plots short 
+red lines through the red dots to show the slope (rate of change) calculated
+at each point, as shown below.  Note that the plotted estimates are not connected by lines in this figure.
+
+%wcs -- Not sure we want to make all the code, including solutions, available to students whose teacher chose the book.
+%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
+%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
+
+\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45.eps}}
+\end{ex}
+
+
+\section{Analytic or numerical?}
+
+When you solve an ODE analytically, the result is a function, $f$,
+that allows you to compute the population, $y = f(t)$, for any value of
+$t$.  When you solve an ODE numerically, you get two vectors.  You can
+think of these vectors as a discrete approximation of the continuous
+function $f$: ``discrete'' because it is only defined for certain
+values of $t$, and ``approximate'' because each value $F_i$
+is only an estimate of the true value $f(t)$.
+
+So those are the limitations of numerical solutions.  The primary
+advantage is that you can compute numerical solutions to ODEs that
+don't have analytic solutions, which is the vast majority
+of nonlinear ODEs.
+
+
+
+
+\section{Stiffness}
+\index{Differential equations!stiffness}
+
+There is yet another problem you might encounter, but if it makes you
+feel better, it might not be your fault: the problem you are trying to
+solve might be {\bf stiff}.\footnote{The following discussion is based
+partly on an article from Mathworks available at
+\url{https://www.mathworks.com/company/newsletters/articles/stiff-differential-equations.html}.}
+
+I won't give a technical explanation of stiffness here, except
+to say that for some problems (over some intervals with some initial
+conditions) the time step needed to control the error is very small,
+which means that the computation takes a long time.  Here's one
+example:
+
+\begin{equation}
+\frac{df}{dt} = f^2 - f^3
+\end{equation}
+
+If you solve this ODE with the initial condition $f(0) = \delta$ over
+the interval from 0 to $2/\delta$, with $\delta = 0.01$, you should
+see something like this:
+
+\beforefig \centerline{\includegraphics[height=2in]{figs/stiff.eps}}
+
+After the transition from 0 to 1, the time step is very small and the
+computation goes slowly.  For smaller values of $\delta$, the
+situation is even worse.
+
+In this case, the problem is easy to fix: instead of {\tt ode45} you can
+use {\tt ode23s}, an ODE solver that tends to perform well on stiff
+problems (that's what the ``s'' stands for).
+
+In general, if you find that {\tt ode45} is taking a long time, you
+might want to try one of the stiff solvers.  It won't always solve
+the problem, but if the problem is stiffness, the improvement can
+be striking.
+
+\begin{ex}
+Write a rate function for this ODE and use
+{\tt ode45} to solve it with the given initial condition and interval.
+Start with $\delta = 0.1$ and decrease it by multiples of 10.  If
+you get tired of waiting for a computation to complete, you can
+press the Stop button in the Figure window or press Control-C in
+the Command Window.
+
+Now replace {\tt ode45} with {\tt ode23s} and try again!
+\end{ex}
+
