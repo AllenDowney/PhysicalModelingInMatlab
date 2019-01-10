@@ -5595,7 +5595,8 @@ room temperature after about an hour.
 % chap09
 \chapter{Systems of ODEs}
 
-%TODO: intro
+In the previous chapter we used Euler's method and {\tt ode45} to solve a single first-order differential equation.  In this chapter we'll move on to systems of ODEs and implement a model of a predator-prey system.  But first, we have to learn about matrices.
+
 
 \section{Matrices}
 
@@ -5605,9 +5606,10 @@ is that the elements are arranged in rows and columns, so it takes
 {\em two} indices to identify an element.
 
 One of many ways to create a matrix is the {\tt magic} function,
-which returns a ``magic'' matrix with the given size:
+which returns a ``magic square'' with the given size 
+\footnote{See \url{https://en.wikipedia.org/wiki/Magic_square}.}:
 
-\index{Matrices!{\tt magic}}
+\index{magic square}
 
 \begin{code}
 >> M = magic(3)
@@ -5626,7 +5628,9 @@ display it:
   M           3x3                        72  double array
 \end{code}
 
-Or the {\tt size} function, which returns a vector:\index{Matrices!{\tt size}}
+Or the {\tt size} function, which returns a vector:
+
+\index{Matrices!{\tt size}}
 
 \begin{code}
 >> V = size(M)
@@ -5716,9 +5720,7 @@ ans = 3     1
 \end{code}
 
 The difference between row and column vectors is important in
-linear algebra, but for
-most basic vector operations, it doesn't matter.  When you
-index the elements of a vector, you don't have to know what kind
+linear algebra, but for most basic vector operations, it doesn't matter.  When you index the elements of a vector, you don't have to know what kind
 it is:
 
 \begin{code}
@@ -5770,8 +5772,7 @@ have on row vectors, column vectors, and scalars?
 \label{sect:lotka}
 
 The Lotka-Volterra model describes the interactions between two
-species in an ecosystem, a predator and its prey.  A common example
-is rabbits and foxes, but we are going to switch out foxes for weasels.
+species in an ecosystem, a predator and its prey.  As an example, we'll consider weasels and rabbits.
 
 The model is governed by the following system of differential equations:
 
@@ -5781,8 +5782,8 @@ The model is governed by the following system of differential equations:
     \frac{dw}{dt} &=& - \gamma w + \delta r w
 \end{eqnarray}
 %
-where $r$ and $w$ are the respective populations of rabbits and weasels,
-and $\alpha$, $\beta$, $\gamma$, and $\delta$ are positive constants
+where $r$ and $w$ are the populations of rabbits and weasels,
+and $\alpha$, $\beta$, $\gamma$, and $\delta$ are parameters
 governing the interactions between the two species.\footnote{See
 \url{https://en.wikipedia.org/wiki/Lotka-Volterra_equations}.}
 
@@ -5791,18 +5792,21 @@ calling {\tt ode45} once to solve for $r$ as a function of time and
 once to solve for $w$.  The problem is that each equation involves
 both variables, which is what makes this a {\bf system of equations}
 and not just a list of unrelated equations.  To solve a system, you
-have to solve the equations simultaneously.\index{Differential equations!systems of equations}
+have to solve the equations simultaneously.
+
+\index{Differential equations!systems of equations}
 
 Fortunately, {\tt ode45} can handle systems of equations.  The
 difference is that the initial condition is a vector that contains
 initial values $r(0)$ and $w(0)$, and the output is a matrix
 that contains one column for $r$ and one for $w$.
 
-And here's what the rate function looks like
-with the parameters $\alpha = 0.1$, $\beta = 0.01$, $\gamma = 0.1$, and $\delta = 0.002$:
+Here's what the rate function looks like
+with the parameters $\alpha = 0.1$, $\beta = 0.01$, $\gamma = 0.1$, 
+and $\delta = 0.002$:
 
 \begin{code}
-function rVector = lotka(t, V)
+function res = rate_func(t, V)
     % unpack the elements of V
     r = V(1);
     w = V(2);
@@ -5818,14 +5822,13 @@ function rVector = lotka(t, V)
     dwdt = -g*w + d*r*w;
 
     % pack the derivatives into a vector
-    rVector = [drdt; dwdt];
+    res = [drdt; dwdt];
 end
 \end{code}
 
 Remember, the first input variable must be the ``time'' variable.
-Even though time 
-is not used inside our lotka function, its presence is required by 
-the {\tt ode45} solver.
+Even though time is not used in this rate function, its presence is required by the {\tt ode45} solver.
+
 The second input variable is a vector with two elements,
 $r(t)$ and $w(t)$.  I gave it a capital letter to remind me that it
 is a vector.  The body of the function includes four sections,
@@ -5850,83 +5853,48 @@ as input and expects to get a vector as output.
 Sharp-eyed readers will notice something different about this line:
 
 \begin{code}
-    rVector = [drdt; dwdt];
+    res = [drdt; dwdt];
 \end{code}
 
 The semi-colon between the elements of the vector is not an error.  It
 is necessary in this case because {\tt ode45} requires the result of
 this function to be a column vector.
 
+As always, it is a good idea to test your rate function before you call {\tt ode45}.  I created a file named {\tt lotka.m} with the following top-level function:
+
+\begin{code}
+function res = lotka()
+    t = 0;
+    V_init = [80, 20];
+    rate_func(t, V_init)
+end
+\end{code}
+
+\verb"V_init" is a vector that represents the initial condition, 80 rabbits and 20 weasels.  The result from \verb"rate_func" is:
+
+\begin{code}
+-8.0000
+ 1.2000
+ \end{code}
+  
+Which means that with these initial conditions, we expect the rabbit population to decline initially at a rate of 8 per week, and the weasel population to increase by 1.2 per week.  
+  
 Now we can run {\tt ode45} like this:
 
 \begin{code}
-ode45(@lotka, [0, 365], [100, 10])
-\end{code}
-%might be better to have intial conditions 5x or 8x as great.  
-
-As always, the first argument is a function handle, the second is the
-time interval, and the third is the initial condition.  The initial
-condition is a vector: the first element is the number of rabbits at
-$t=0$, the second element is the number of weasels.
-
-The order of these elements (rabbits and weasels) is up to you, but
-you have to be consistent.  That is, the initial conditions you
-provide when you call {\tt ode45} have to be the same as the order,
-inside {\tt lotka}, where you unpack the input vector and repack
-the output vector.  MATLAB doesn't know what these values mean;
-it is up to you as the programmer to keep track.
-
-But if you get the order right, you should see something like this:
-
-\beforefig \centerline{\includegraphics[height=2in]{figs/lotka.eps}}
-
-The x-axis is time in days; the y-axis is population.  The top
-curve shows the population of rabbits; the bottom curve shows
-weasels.  This result is one of several patterns
-this system can fall into, depending on the starting conditions
-and the parameters.  As an exercise, try experimenting with
-different values.
-
-
-\section{What could go wrong?}
-
-The output vector from the rate function
-has to be a column vector; otherwise you get
-
-\begin{code}
-Error using odearguments (line 90)
-LOTKA must return a column vector.
-
-Error in ode45 (line 115)
-    odearguments(FcnHandlesUsed, solver_name, ode,...
-    tspan, y0, options, varargin);
+tspan = [0, 200]
+[T, M] = ode45(@rate_func, tspan, V_init)
 \end{code}
 
-Which is pretty good as error messages go.  It's not clear {\em why}
-it needs to be a column vector, but that's not our problem.
-
-Another possible error is reversing the order of the elements in the
-initial conditions, or the vectors inside {\tt lotka}.  Again, MATLAB
-doesn't know what the elements are supposed to mean, so it can't catch
-errors like this; it will just produce incorrect results.
+The first argument is the function handle for the rate function.
+The second argument is the time span, from 0 to 200 weeks.
+The third argument is the initial condition.
 
 
 \section{Output matrices}
 
-As we saw before, if you call {\tt ode45} without assigning the
-results to variables, it plots the results.
-If you assign
-the results to variables, it suppresses the figure.
-Here's what that looks like:
-
-\begin{code}
->> [T, M] = ode45(@lotka, [0, 365], [100, 10]);
-\end{code}
-
-As in previous examples, {\tt T} is a vector of time values where {\tt
-ode45} made estimates.  But unlike previous examples, the
-second output variable is a matrix containing one column for each
-population (in this case, $r$ and $w$) and one row for each time value in {\tt T}.
+{\tt ode45} returns two values: {\tt T}, which is a vector of time values, and {\tt M}, which is a matrix with one column for each
+population and one row for each time value in {\tt T}.
 
 \begin{code}
 >> size(M)
@@ -5966,35 +5934,92 @@ ans = 185     1
 
 So {\tt R} and {\tt W} are column vectors.
 
-If you plot these
-vectors against each other, like this
+Now we can plot these vectors separately, which makes it easier to give them different style strings:
+
+\begin{code}
+>> plot(T, R, '-')
+>> plot(T, W, '--')
+\end{code}
+
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/lotka.eps}}
+\caption{Solution for the Lotka-Volterra model.}
+\label{fig:lotka}
+\end{figure}
+
+Figure~\ref{fig:lotka} shows the results. The x-axis is time in weeks; the y-axis is population.  The top curve shows the population of rabbits; the bottom curve shows weasels.
+
+Initially there are too many weasels, so the rabbit population declines.  Then there are not enough rabbits, and the weasel population declines.  That allows the rabbit population to recover, and the pattern repeats.
+
+This cycle of ``boom and bust'' is typical of the Lotka-Volterra model.
+
+\section{Phase plot}
+
+Instead of plotting the two populations over time, it is sometimes useful to plot them against each other, like this:
 
 \begin{code}
 >> plot(R, W)
 \end{code}
 
-You get a {\bf phase plot} that looks like this:
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/phase.eps}}
+\caption{Phase plot from the Lotka-Volterra model.}
+\label{fig:phase}
+\end{figure}
 
-\beforefig \centerline{\includegraphics[height=2in]{figs/phase.eps}}
-
-Each point on this plot represents a certain number of rabbits (on the
+Figure~\ref{fig:phase} shows the result.  Each point on this plot represents a certain number of rabbits (on the
 x axis) and a certain number of weasels (on the y axis).
 
 Since these are the only two variables in the system, each point in
 this plane describes the complete {\bf state} of the system.
-%do we need phase plot, state and trajectory (and plot3) entries in the index? -wcs
+
+\index{phase plot}
+\index{trajectory}
+\index{state}
 
 Over time, the state moves around the plane; this figure shows
-the path traced by the state during the time interval.  This path
+the path traced by the state over time; this path
 is called a {\bf trajectory}.
 
-Since the behavior of this system is periodic, the resulting
+Since the behavior of this system is periodic, the
 trajectory is a loop.
 
 If there are 3 variables in the system, we need 3 dimensions to show
 the state of the system, so the trajectory is a 3-D curve.
 You can use {\tt plot3} to trace trajectories in 3 dimensions,
 but for 4 or more variables, you are on your own.
+
+
+\section{What could go wrong?}
+
+The output vector from the rate function has to be a column vector; otherwise you get an error:
+
+\begin{code}
+Error using odearguments (line 93)
+RATE_FUNC must return a column vector.
+
+Error in ode45 (line 115)
+  odearguments(FcnHandlesUsed, solver_name, ode, tspan, y0, 
+               options, varargin);
+
+Error in lotka (line 7)
+    [T, M] = ode45(@rate_func, tspan, V_init);
+\end{code}
+
+Which is pretty good as error messages go.  It's not clear {\em why}
+it needs to be a column vector, but that's not our problem.
+
+Another possible error is reversing the order of the elements in the
+initial conditions, or the vectors inside {\tt lotka}.  MATLAB
+doesn't know what the elements are supposed to mean, so it can't catch
+errors like this; it will just produce incorrect results.
+
+The order of the elements (rabbits and weasels) is up to you, but
+you have to be consistent.  That is, the initial conditions you
+provide when you call {\tt ode45} have to be the same as the order,
+inside \verb"rate_func", where you unpack the input vector and repack
+the output vector.
+
 
 
 \section{Glossary}
@@ -6041,7 +6066,7 @@ non-linear three-dimensional deterministic dynamical system derived
 from the simplified equations of convection rolls arising in the
 dynamical equations of the atmosphere. For a certain set of parameters
 the system exhibits chaotic behavior and displays what is today called
-a strange attractor...''\footnote{\url{https://en.wikipedia.org/wiki/Lorenz_attractor}}
+a strange attractor...''\footnote{See \url{https://en.wikipedia.org/wiki/Lorenz_attractor}.}
 
 The system is described by this system of differential equations:
 %
@@ -6059,19 +6084,18 @@ system of equations.
 
 \begin{enumerate}
 
-\item  The first step is to write a function named {\tt lorenz} that
+\item Create a file named {\tt lorentz.m} with a top-level function named {\tt lorenz} and a helper function named \verb"rate_func".
+
+\item  The rate function should
 takes {\tt t} and {\tt V} as input variables, where the components
 of {\tt V} are understood to be the current values of {\tt x},
 {\tt y} and {\tt z}.  It should compute the corresponding derivatives
 and return them in a single column vector.
 
-\item The next step is to test your function by calling it from
-the command line with values like
-$t=0$, $x=1$, $y=2$, and $z=3$?  Once you get your function working,
-you should make it a silent function before calling {\tt ode45}.
+\item Test the function by calling it from the top-level function with values like $t=0$, $x=1$, $y=2$, and $z=3$.  Once you get your function working, you should make it a silent function before calling {\tt ode45}.
 
-\item Assuming that Step 2 works, you can use {\tt ode45}
-to estimate the solution for the time interval $t_0 = 0$, $t_e = 30$
+\item Use {\tt ode45}
+to estimate the solution for the time span $[0, 30]$
 with the initial condition $x=1$, $y=2$, and $z=3$.
 
 \item Use {\tt plot3} to plot the trajectory of
