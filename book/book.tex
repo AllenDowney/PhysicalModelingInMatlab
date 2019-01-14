@@ -6644,6 +6644,7 @@ The simulation ends just before the ball lands, having traveled almost \SI{250}{
 
 
 \section{Drag force}
+\label{sect:drag}
 
 A simple model for the drag force on a baseball is:
 
@@ -6690,10 +6691,18 @@ end
 \end{code}
 
 As in Section~\ref{sect:projectile}, {\tt acceleration} represents acceleration due to gravity with a vector that has magnitude {\tt g} and direction along the negative $y$ axis.
-
 But now it also computes drag force, then divides by the mass of the baseball to get acceleration due to drag.
-
 Finally, it adds \verb"a_gravity" and \verb"a_drag" to get the total acceleration of the baseball.
+
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/vector3.eps}}
+\caption{Diagram of velocity, $\vec{V}$, acceleration due to drag force, 
+$\vec{D}$, acceleration due to gravity, $\vec{G}$, and total acceleration, $\vec{A}$.}
+\label{fig:vector3}
+\end{figure}
+
+Figure~\ref{fig:vector3} shows these quantities graphically.  Acceleration due to drag, $\vec{D}$, is in the opposite direction of velocity, $\vec{V}$.  Acceleration of gravity, $\vec{G}$, is straight down.  Total acceleration, $\vec{A}$, is the sum of $\vec{D}$ and $\vec{G}$.
+
 
 \begin{figure}
 \centerline{\includegraphics[height=3in]{figs/baseball2.eps}}
@@ -6701,7 +6710,7 @@ Finally, it adds \verb"a_gravity" and \verb"a_drag" to get the total acceleratio
 \label{fig:baseball2}
 \end{figure}
 
-Figure~\ref{fig:baseball2} shows the results.  The ball lands after about \SI{5}{\second}, having traveled less than \SI{150}{\meter}, substantially less than what we got without air resistance, about \SI{250}{\meter}.
+Figure~\ref{fig:baseball2} shows the results from {\tt ode45}.  The ball lands after about \SI{5}{\second}, having traveled less than \SI{150}{\meter}, substantially less than what we got without air resistance, about \SI{250}{\meter}.
 
 This result suggests that ignoring air resistance is not a good choice for modeling a baseball.
 
@@ -6833,12 +6842,35 @@ form a new matrix.
 \section{Exercises}
 
 \begin{ex}
-label{ex:cannon}
+When the Red Sox won the World Series in 2007, they played the
+Colorado Rockies at their home field in Denver, Colorado.  Find an
+estimate of the density of air in the Mile High City.  What effect
+does this have on drag?  What effect does it have on the distance the baseball travels?
+\end{ex}
+
+\begin{ex}
+The actual drag on a baseball is more complicated than what is
+captured by our simple model.  In particular, the drag coefficient
+depends on velocity.  You can get some of the details from {\em The
+Physics of Baseball}\footnote{Robert K. Adair, Harper Paperbacks, 3rd
+Edition, 2002.}; the figure you need is reproduced at \url{https://github.com/AllenDowney/ModSimMatlab/blob/master/code/data/baseball_drag.png}.
+
+Use this data to specify a more realistic model of drag and modify your
+program to implement it.  How big is the effect on the distance the baseball travels?
+\end{ex}
+
+
+\begin{ex}
+\label{ex:cannon}
 According to Wikipedia, the record distance for a human cannonball is 59.05 meters\footnote{See \url{https://en.wikipedia.org/wiki/Human_cannonball}.}.
 
 Modify the example from this chapter to simulate the flight of a human cannonball.  You might have to do some research to find the drag coefficient and cross sectional area for a flying human.
 
 Find the initial velocity (both magnitude and direction) you would need to break this record.  You might have to experiment to find the optimal launch angle.
+\end{ex}
+
+\begin{ex}
+TODO: celestial mechanics
 \end{ex}
 
 
@@ -6877,626 +6909,186 @@ Find the initial velocity (both magnitude and direction) you would need to break
 % chap11
 \chapter{Optimization}
 
-``Optimal'' is a fancy way of saying ``best''.  For example, in Exercise~\ref{ex:cannon}, you were asked to find the optimal angle for a human cannonball, which means the angle that yields the highest range distance traveled before landing.  But ``optimal'' means different things for different problems.
+In Exercise~\ref{ex:cannon}, you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  In this chapter, we solve a similar problem, finding the best launch angle for a baseball.
 
-The first step in any optimization problem is to define
-what ``optimal'' means.  The second step is to define a range of
-values where you want to search. In this case the range of
-feasible values is between 0 degrees (parallel to the ground)
-and 90 degrees (straight up).  We might guess that the
-optimal angle be near to 45 degrees, but we might not be sure
-how far from 45 degrees to look.  To play it safe, we could
-start with the widest feasible range.
+We'll solve the problem two ways, first by running simulations with a range of values and plotting the results; then using a MATLAB function, {\tt fminsearch}.
 
-In many cases,
-the simplest way to get close to an optimal value is to run the
-simulation with a wide range of values and choose the one
-that yields the best result.  This
-method does not combine efficiency and accuracy,
-and that combination is especially important in a case like this where
-computing the distances is relatively expensive from the perspective
-of computer resources.
 
-A better way is a Golden Section Search algorithm.
+\section{Optimal baseball}
 
-\section{Golden section search}
+In the previous chapter we wrote functions to simulate the flight of a baseball with a known initial velocity.  Now we'll use that code to find the launch angle that maximizes ``range'', that is, the distance the ball travels before landing.
 
-To present the main ideas behind
-the Golden Section Search, I will present a simplified
-search algorithm I'll call a Silver Section Search.  The basic idea is similar to
-the methods for zero-finding we saw in Section~\ref{sect:zero}.  In the
-case of zero-finding, we had a picture like this:
-
-\beforefig \centerline{\includegraphics[height=1.5in]{figs/secant.eps}}
-
-We are given a function, $f$, that we can evaluate, and
-we want to find a root of $f$; that is, a value of $x$ that makes
-$f(x)=0$.  If we can find a value, $x_1$, that makes $f(x_1)$ positive
-and another value, $x_2$, that makes $f(x_2)$ negative, then there has
-to be a root in between (as long as $f$ is continuous).  In this
-case we say that $x_1$ and $x_2$ ``bracket'' the root.
-
-The algorithm proceeds by choosing a third value, $x_3$, between
-$x_1$ and $x_2$ and then evaluating $y = f(x_3)$.  If $y$ is
-positive, we can form a new pair, $(x_3, x_2)$, that brackets the
-root.  If $y$ is negative then the pair $(x_1, x_3)$ brackets the root.
-Either way the size of the bracket gets smaller, so our
-estimate of the location of the root gets better.
-
-So that was root-finding.  The Silver Section Search is similar, but
-we have to start with three values, and the picture looks like
-this:
-
-\beforefig \centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
-
-This diagram shows that we have evaluated $f$ in three places,
-$x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the highest
-value.  If $f$ is continuous, then there has to be at least one
-local maximum between $x_1$ and $x_3$, so we would say that the
-triple $(x_1, x_2, x_3)$ brackets a maximum.
-
-The next step is to choose a fourth point, $x_4$, and evaluate
-$f(x_4)$.  There are two possible outcomes, depending on whether
-$f(x_4)$ is greater than $f(x_2)$:
-
-\beforefig \centerline{\includegraphics[height=1.5in]{figs/golden2.eps}}
-
-If $f(x_4)$ is less than than $f(x_2)$ (shown on the left), then the
-new triple $(x_1, x_2, x_4)$ brackets the maximum.  If $f(x_4)$ is
-greater than $f(x_2)$ (shown on the right), then $(x_2, x_4, x_3)$
-brackets the maximum.  Either way the range gets smaller and our
-estimate of the optimal value of $x$ gets better.
-
-This method works for almost any value of $x_4$, but some choices
-are better than others.  In the example, I chose to bisect the
-bigger of the ranges $(x_1, x_2)$, and $(x_2, x_3)$.
-
-Here's what that looks like in MATLAB:
+First we need an event function to stop the simulation when the ball lands.
 
 \begin{code}
-function res = optimize(V)
-    x1 = V(1);
-    x2 = V(2);
-    x3 = V(3);
+function [value, isterminal, direction] = event_func(t, W)
+    value = W(2);
+    isterminal = 1;
+    direction = -1;
+end
+\end{code}
 
-    fx1 = distance_func(x1);
-    fx2 = distance_func(x2);
-    fx3 = distance_func(x3);
+This is similar to the event function we saw in Section~\ref{sect:events}, except that it uses {\tt W(2)} as the event value, which is the $y$ coordinate.  This event function stops the simulation when the altitude of the ball is 0 and falling.
 
-    for i=1:200
-        if x3-x2 > x2-x1
-            x4 = (x2+x3) / 2;
-            fx4 = distance_func(x4);
-            if fx4 > fx2
-                x1 = x2;  fx1 = fx2;
-                x2 = x4;  fx2 = fx4;
-            else
-                x3 = x4;  fx3 = fx4;
-            end
-        else
-            x4 = (x1+x2) / 2;
-            fx4 = distance_func(x4);
-            if fx4 > fx2
-                x3 = x2;  fx3 = fx2;
-                x2 = x4;  fx2 = fx4;
-            else
-                x1 = x4;  fx1 = fx4;
-            end
-        end
+Now we can call {\tt ode45} like this:
 
-        if x1 == x3
-            break
-        end
+\begin{code}
+    P = [0; 1];       % initial position in m
+    V = [40; 30];     % initial velocity in m/s
+    W = [P; V];       % initial condition
+    
+    tspan = [0 10];
+    options = odeset('Events', @event_func);
+    [T, M] = ode45(@rate_func, tspan, W, options);
+\end{code}
+
+The initial position of the ball is \SI{1}{\meter} above home plate.  Its initial velocity is \SI{40}{\meter\per\second} in the $x$ direction and \SI{30}{\meter\per\second} in the $y$ direction.
+
+The maximum duration of the simulation is \SI{10}{\second}, but we expect an event to stop the simulation first.  We can get the final values of the simulation like this:
+    
+\begin{code}
+    T(end)
+    M(end, :)
+\end{code}
+
+The final time is \SI{5.1}{\second}.  The final $x$ position is \SI{131}{\meter}; the final $y$ position is 0, as expected.
+
+
+\section{Trajectory}
+
+Now we can extract the $x$ and $y$ positions:
+
+\begin{code}
+    X = M(:, 1);
+    Y = M(:, 2);
+\end{code}
+
+In Section~\ref{sect:projectile} we plotted {\tt X} and {\tt Y} separately as functions of time.  Alternatively we can plot them against each other, like this:
+
+\begin{code}
+    plot(X, Y)
+\end{code}
+
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/baseball3.eps}}
+\caption{Simulated flight of a baseball plotted as a trajectory.}
+\label{fig:baseball3}
+\end{figure}
+
+Figure~\ref{fig:baseball3} shows the result, which is the {\bf trajectory} of the baseball from launch, on the left, to landing, on the right.
+
+
+\section{Range versus angle}
+
+Now we'd like to simulate the trajectory of the baseball with a range of launch angles.  First, I'll take the code we have and wrap it in a function that takes the launch angle as an input variable, runs the simulation, and returns the distance the ball travels.
+
+\begin{code}
+function res = baseball_range(theta)
+    P = [0; 1];       
+    v = 50;           
+    [vx, vy] = pol2cart(theta, v);
+    
+    V = [vx; vy];     % initial velocity in m/s
+    W = [P; V];       % initial condition
+    
+    tspan = [0 10];
+    options = odeset('Events', @event_func);
+    [T, M] = ode45(@rate_func, tspan, W, options);
+    
+    res = M(end, 1);
+end
+\end{code}
+
+The launch angle, {\tt theta}, is in radians.  The magnitude of velocity is always \SI{50}{\meter\per\second}.  I use {\tt pol2cart} to convert the angle and magnitude to Cartesian components, {\tt vx} and {\tt vy}.
+
+After running the simulation, I extract the final $x$ position and return it as an output variable.  
+
+We can run this function for a range of angles like this:
+
+\begin{code}
+    thetas = linspace(0, pi/2);
+    for i = 1:length(thetas)
+        ranges(i) = baseball_range(thetas(i));
     end
-    res = [x1 x2 x3];
+\end{code}
+
+And then plot {\tt ranges} as a function of {\tt thetas}:
+
+\begin{code}
+    plot(thetas, ranges)
+\end{code}
+
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/baseball4.eps}}
+\caption{Simulated flight of a baseball plotted as a trajectory.}
+\label{fig:baseball4}
+\end{figure}
+
+Figure~\ref{fig:baseball4} shows the result.  As expected, the ball does not travel far if it is hit nearly horizontal or vertical. 
+The peak is apparently near \SI{0.7}{\radian}.
+
+Considering that our model is only approximate, this result might be good enough.  But if we want to find the peak more precisely, we can use {\tt fminsearch}.
+
+
+\section{{\tt fminsearch}}
+
+{\tt fminsearch} is similar to {\tt fzero}, which we saw in Section\ref{sect:fzero}.  Recall that {\tt fzero} takes a function handle and an initial guess, and returns a root of the function.
+As an example, to find a root of this function:
+
+\begin{code}
+function res = error_func(x)
+    res = x^2 - 2;
 end
 \end{code}
 
-The input variable is a vector that contains three values that bracket
-a maximum; in the above case of finding the longest distance of a baseball 
-the values are angles in degrees.  {\tt optimize}
-starts by evaluating {\tt distance\_func} for each of the three values.
-We assume that {\tt distance\_func} returns the result we want to
-maximize; for the baseball best-angle-for-longest-distance problem
-the result is the horizontal distance traveled by the
-ball when it hits the ground given a particular angle of departure from
-the baseball bat.  The initial velocity (48m/s) and initial height (1m) 
-are as mentioned previously.
-
-Each time through the {\tt for} loop the function chooses a value
-of {\tt x4}, evaluates {\tt distance\_func}, and then updates the
-triplet {\tt x1}, {\tt x2}, and {\tt x3} according to the results.
-
-After the update, 
-the function checks whether the range of the bracket, {\tt x3-x1}, has 
-shrunken to zero indicating that the estimated maximum is correct to 16 
-digits, similar to the behavior of the {\tt fzero} function covered earlier
-in the book. 
-If so, it breaks out of
-the loop and returns a triplet of the estimated maximum as a result.  
-The loop is executed a maximum of 200 times and, if it isn't broken
-out of before that, the last updated triplet may be of a lesser
-correctness.
-
-\begin{ex}
-I call this algorithm a Silver Section Search because it is almost as
-good as a Golden Section Search.  Read the Wikipedia page about the
-Golden Section Search
-(\url{https://en.wikipedia.org/wiki/Golden_section_search}) and then
-modify this code to implement it.
-\end{ex}
-
-\begin{ex}
-You can write functions that take function handles as input
-variables, just as {\tt fzero} and {\tt ode45} do.
-For example, {\tt handle\_func} takes a function handle called
-{\tt func} and calls it, passing {\tt pi} as an argument.
+We can call {\tt fzero} like this:
 
 \begin{code}
-function res = handle_func(func)
-    func(pi)
+>> x = fzero(@error_func, 1)
+ans = 1.4142
+\end{code}
+
+The result is near the square root of 2.  If we call {\tt fminsearch} with the same function:
+
+\begin{code}
+>> x = fminsearch(@error_func, 1)
+x = -8.8818e-16
+\end{code}
+
+The result is close to 0, which is where this function is minimized.  Optionally, {\tt fminsearch} returns two values:
+
+\begin{code}
+>> [x, fval] = fminsearch(@error_func, 1)
+x = -8.8818e-16
+
+fval = -2
+\end{code}
+
+{\tt x} is the location of the minimum; {\tt fval} is the value of the function evaluated at {\tt x}.
+
+We can use {\tt fminsearch} to find the {\em maximum} of a function by writing a short function that negates the function we want to maximize:
+
+\begin{code}
+function res = min_func(angle)
+    res = -baseball_range(angle);
 end
 \end{code}
 
-You can call {\tt handle\_func} from the Command Window and pass
-different function handles as arguments:
+Now we can call {\tt fminsearch} like this:
 
 \begin{code}
->> handle_func(@sin)
-ans = 0
+>> [x, fval] = fminsearch(@min_func, pi/4)
 
->> handle_func(@cos)
-ans = -1
+x = 0.6921
+
+fval = -131.5851
 \end{code}
 
-Modify {\tt optimize} so that it takes a function handle
-as an input variable and uses it as the function to be
-maximized.
-\end{ex}
+The optimal launch angle for the baseball is \SI{0.69}{\radian}; launched at that angle, the ball travels about \SI{132}{\meter}.
 
-\begin{ex}
-When the Red Sox won the World Series in 2007, they played the
-Colorado Rockies at their home field in Denver, Colorado.  Find an
-estimate of the density of air in the Mile High City.  What effect
-does this have on drag?  Make a prediction about what effect this will
-have on the launch angle that produces the longest horizontal flying
-distance, and then use your simulation to test
-your prediction.
-\end{ex}
+The following sections explain how {\tt fminsearch} works.
 
-\begin{ex}
-	The actual drag on a baseball is more complicated than what is
-captured by our simple model.  In particular, the drag coefficient
-varies with velocity.  You can get some of the details from {\em The
-Physics of Baseball}\footnote{Robert K. Adair, Harper Paperbacks, 3rd
-Edition, 2002.}; you also might find information on the web.
-Either way, specify a more realistic model of drag and modify your
-program to implement it.  How big is the effect on your computed
-ranges?  How big is the effect on the launch angles that produce the
-maximum horizontal flying distance?
-\end{ex}
 
-\begin{ex}
-The MATLAB function {\tt fminsearch} takes a function handle
-and searches for a local minimum.  Read the documentation for
-{\tt fminsearch} and use the function to solve the following problems:
-
-\begin{itemize}
-
-\item Find in degrees the optimal launch angle -- giving the longest horizontal distance --
-of a baseball launched with a velocity of 48m/s from a height of 1m.
-
-\item Write a function that takes the initial velocity of the baseball
-as an input variable, computes the launch angle that maximizes
-the range, and returns the optimal angle and the corresponding range as output variables.
-How does the optimal launch angle vary with initial velocity?
-
-\end{itemize}
-\end{ex}
-
-\begin{ex}
-Very often, in an optimization problem, the meaning of ``optimal'' is not obvious.
-
-For example, the Green Monster in Fenway Park is about 12 m high and about 97
-m from home plate along the left field line.
-What is the optimal angle that a baseball should leave the bat in order
-for the ball 
-to leave the bat at minimum possible spead and still clear the Green Monster?
-%We could ask about the minimum
-%speed a ball must leave the bat in order to clear the monster
-%(assuming it goes off at the optimal angle)?
-
-We may be tempted
-to choose for the optimal angle the angle that yields the longest
-range (distance from home plate when it lands).  
-Although this definition would be good for some problems,
-it is not quite right for this problem.  
-For this problem, we can optimize the angle so that it
-yields the greatest ball height at the point where
-the ball reaches the wall, which is 97m from home plate.
-Remember, we are ultimately trying to minimize
-the speed that the ball needs to leave the bat.  At this minimum speed,
-the ball will just clear the wall if hit at the optimal angle.
-
-Could we also use for the ``optimal'' angle the 
-angle that yields the longest range when the ball falls
-through 12m?  Would you get the same minimum ball speed
-to get over the Green Monster in that case?
-
-Report the minimum ball speed when leaving the bat and the optimal angle
-at that speed for all strategies used to solve this problem.
-\end{ex}
-
-\section{Discrete and continuous maps}
-
-When you solve an ODE analytically, the result is a function,
-which you can think of as a continuous map.  When you use an
-ODE solver, you get two vectors (or a vector and a matrix), which
-you can think of as a discrete map.
-
-For example, in Section~\ref{sect:ode45}, we used the following rate
-function to estimate the population of rats as a function of time:
-
-\begin{code}
-function res = rats(t, y)
-    a = 0.01;
-    omega = 2 * pi / 365;
-    res = a * y * (1 + sin(omega * t));
-end
-\end{code}
-
-The result from {\tt ode45} is two vectors:
-
-\begin{code}
->> [T, Y] = ode45(@rats, [0, 365], 2);
-\end{code}
-
-{\tt T} contains the time values where {\tt ode45} estimated the
-population; {\tt Y} contains the population estimates.
-
-Now suppose we would like to know the population on the 180th day
-of the year.  We could search {\tt T} for the value 180:
-
-\begin{code}
->> find(T==180)
-
-ans = Empty matrix: 1x0
-\end{code}
-
-But there is no guarantee that any particular value appears in
-{\tt T}.  We can find the index where {\tt T} crosses 180:
-
-\begin{code}
->> I = find(T>180); I(1)
-
-ans = 23
-\end{code}
-
-{\tt I} gets the indices of all elements of {\tt T} greater
-than 180, so {\tt I(1)} is the index of the {\em first} one.
-
-Then we find the corresponding value from {\tt Y}:
-
-\begin{code}
->> [T(23), Y(23)]
-
-ans = 184.3451   40.3742
-\end{code}
-
-That gives us a coarse estimate of the population on Day 180.
-If we wanted to do a little better, we could also find the last value
-before Day 180:
-
-\begin{code}
->> [T(22), Y(22)]
-
-ans = 175.2201   36.6973
-\end{code}
-
-So the population on Day 180 was between 36.6973 and 40.3742.
-
-But where in this range is the best estimate?  A simple option is to
-choose whichever time value is closer to 180 and use the corresponding
-population estimate.  In the example, that's not a great choice
-because the time value we want is right in the middle.
-
-
-\section{Interpolation}
-
-A better option is to draw a straight line between the two points that
-bracket Day 180 and use the line to estimate the value in between.
-This process is called {\bf linear interpolation}, and MATLAB provides
-a function named {\tt interp1} that does it:\index{Interpolation!{\tt interpl}}
-
-\begin{code}
->> pop = interp1(T, Y, 180)
-
-pop = 38.6233
-\end{code}
-
-The first two arguments specify a discrete map from the values in
-{\tt T} to the values in {\tt Y}.  The third argument is the
-time value where we want to interpolate.  The result is what
-we expected, about halfway between the values that bracket it.
-
-{\tt interp1} can also take a fourth argument that specifies what
-kind of interpolation you want.  The default is {\tt 'linear'}, which
-does linear interpolation.  Other choices include {\tt 'spline'}
-which uses a spline curve to fit two points on either side,
-and {\tt 'pchip'}, which uses piecewise cubic Hermite interpolation.
-
-\begin{code}
->> pop = interp1(T, Y, 180, 'spline')
-
-pop = 38.6486
-
->> pop = interp1(T, Y, 180, 'pchip')
-
-pop = 38.6491
-\end{code}
-
-In this case we expect the spline and cubic interpolations to be
-better than linear, because they use more of the data, and we know the
-function isn't linear.  But we have no reason to expect the spline to
-be more accurate than the cubic, or the other way around.
-Fortunately, they are not very different.
-
-We can also use {\tt interp1} to project the rat population out
-beyond the values in {\tt T}:
-
-\begin{code}
->> [T(end), Y(end)]
-
-ans = 365.0000   76.9530
-
->> pop = interp1(T, Y, 370, 'pchip')
-
-pop = 80.9971
-\end{code}
-
-This process is called {\bf extrapolation}.  For time values near
-365, extrapolation may be reasonable, but as we go farther into
-the ``future,'' we expect them to be less accurate.
-For example, here is the estimate we get by extrapolating for a whole
-year:
-
-\begin{code}
->> pop = interp1(T, Y, 365*2, 'pchip')
-
-pop = -4.8879e+03
-\end{code}
-
-And that's wrong.  So very wrong.
-
-
-\section{Interpolating the inverse function}
-
-We have used {\tt interp1} to find population as a function of time;
-by reversing the roles of {\tt T} and {\tt Y}, we can also interpolate
-time as a function of population.  For example, we might want to know
-how long it takes the population to reach 20.
-
-\begin{code}
->> interp1(Y, T, 20)
-
-ans = 133.4128
-\end{code}
-
-This use of {\tt interp1} might be confusing if you think of the
-arguments as $x$ and $y$.  You might find it helpful to think of them
-as the range and domain of a map (where the third argument is
-an element of the range).
-
-The following plot shows $f$ ({\tt Y} plotted as a function of {\tt T})
-and the inverse of $f$ ({\tt T} plotted as a function of {\tt Y}).
-
-\beforefig
-\centerline{\includegraphics[height=2.2in,width=4.6in]{figs/ratplot.eps}}
-
-In this case we can use {\tt interp1} either way because $f$ is
-a {\bf single-valued mapping}, which means that for each value in
-the domain, there is only one value in the range that maps to it.
-
-If we reduce the food supply so that the rat population decreases
-during the winter, we might see something like this:
-
-\beforefig
-\centerline{\includegraphics[height=2in,width=4in]{figs/ratplot2.eps}}
-
-We can still use {\tt interp1} to map from {\tt T} to {\tt Y}:
-
-\begin{code}
->> interp1(T, Y, 260)
-
-ans = 15.0309
-\end{code}
-
-So on Day 260, the population is about 15, but if we ask on what
-day the population was 15, there are two possible answers, 172.44
-and 260.44.  If we try to use {\tt interp1}, we get the wrong answer:
-
-\begin{code}
->> interp1(Y, T, 15)
-
-ans = 196.3833                % WRONG
-\end{code}
-
-On Day 196, the population is actually 16.8, so {\tt interp1} isn't
-even close!  The problem is that {\tt T} as a function of {\tt Y} is a
-{\bf multivalued mapping}; for some values in the range there are more
-than one values in the domain.  This causes {\tt interp1} to fail.
-% Downey couldn't find documentation for this limitation.  Zhen, did you
-% find documentation about this?  If so, where is it? *** wcs ***
-
-
-\section{Field mice}
-
-As we've seen, one use of interpolation is to interpret the results
-of a numerical computation; another is to fill in the gaps between
-discrete measurements.
-
-For example\footnote{This example is adapted from Gerald and Wheatley,
-{\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
-1989.}, suppose that the population of field mice is governed by this
-rate equation:
-
-\begin{equation}
-g(t, y) = ay - b(t) y^{1.7}
-\end{equation}
-
-where $t$ is time in months, $y$ is population, $a$ is a parameter
-that characterizes population growth in the absence of limitations,
-and $b$ is a function of time that characterizes the effect of the
-food supply on the death rate.
-
-Although $b$ appears in the equation as a continuous function, we
-might not know $b(t)$ for all $t$.  Instead, we might only have discrete
-measurements:
-
-\begin{code}
-t          b(t)
--          ----
-0          0.0070
-1          0.0036
-2          0.0011
-3          0.0001
-4          0.0004
-5          0.0013
-6          0.0028
-7          0.0043
-8          0.0056
-\end{code}
-
-If we use {\tt ode45} to solve the differential equation, then we
-don't get to choose the values of $t$ where the rate function
-(and therefore $b$) gets evaluated.  We need to provide a function
-that can evaluate $b$ everywhere:
-
-\begin{code}
-function res = interpolate_b(t)
-    T = 0:8;
-    B = [70 36 11 1 4 13 28 43 56] * 1e-4;
-    res = interp1(T, B, t);
-end
-\end{code}
-
-Abstractly, this function uses a discrete map to implement a
-continuous map.
-
-\begin{ex}
-Write a rate function that uses
-{\tt interpolate\_b} to evaluate $g$ and then
-use {\tt ode45} to compute the population of field mice
-from $t=0$ to $t=8$ with an initial population of 100 and
-$a=0.9$.
-
-Then modify {\tt interpolate\_b} to use spline interpolation
-and run {\tt ode45} again to see how much effect the interpolation
-has on the results.
-\end{ex}
-
-\section{Glossary}
-
-\begin{description}
-
-\item[interpolation:] Estimating the value of a function using
-known values on either side.
-
-\item[extrapolation:] Estimating the value of a function using
-known values that don't bracket the desired value.
-
-\item[single-valued mapping:] A mapping where each value in the
-range maps to a single value in the domain.
-
-\item[multivalued mapping:] A mapping where at least one value in
-the range maps to more than one value in the domain.
-
-\end{description}
-
-
-\section{Exercises}
-
-\begin{ex}
-\label{ex:golf}
-
-A golf ball hit with backspin
-generates lift, which might increase the range, but the energy that
-goes into generating spin probably comes at the cost of lower initial
-velocity.\footnote{See \url{https://en.wikipedia.org/wiki/Golf_ball}.}
-Write a simulation of the flight of a golf ball and use it to find
-the launch angle and allocation of spin and initial velocity
-(for a fixed energy budget) that maximizes the horizontal range of the
-ball in the air.
-
-The lift of a spinning ball is due to the Magnus force\footnote{See
-\url{https://en.wikipedia.org/wiki/Magnus_effect}.}, which is
-perpendicular to the axis of spin and the path of flight.  The
-coefficient of lift is proportional to the spin rate; for a ball
-spinning at 3000 rpm it is about 0.1.  The coefficient of drag of a
-golf ball is about 0.2 as long as the ball is moving faster than 20 m/s.
-\end{ex}
-
-
-
-%chap12
-\chapter{Celestial Mechanics}
-
-\section{Celestial mechanics}
-
-Modeling celestial mechanics is a good opportunity
-to compute with spatial vectors.
-Imagine a star with mass $m_1$ at a point in space described by the
-vector $\vec{P_1}$, and a planet with mass $m_2$ at point $\vec{P_2}$.
-The magnitude of the gravitational force between them is
-
-\begin{equation}
-F_g = G \frac{m_1 m_2}{r^2}
-\end{equation}
-
-where $r$ is the distance between them and $G$ is the universal
-gravitational constant, which is about $6.67 \times 10^{-11} N m^2 /
-kg^2$.\footnote{See \url{https://en.wikipedia.org/wiki/Gravity}.}
-Remember that when using this
-value of $G$ it is easiest to directly specify
-%is the appropriate value of $G$ only if the
-masses
-%are
-in kilograms and distances in meters, and forces are calculated in Newtons.
-
-The direction of the force on the star at $\vec{P_1}$ is in the
-direction toward $\vec{P_2}$.  We can compute relative direction $\vec{r}$ by
-subtracting vectors; if we compute $\vec{r} = \vec{P_2} - \vec{P_1}$, then
-the direction of $\vec{r}$ is from $\vec{P_1}$ to $\vec{P_2}$.
-
-The distance between the planet and star is the length of $\vec{r}$:
-
-\begin{code}
-r = norm(R)
-\end{code}
-
-The direction of the force on the star is $\uvec{r}$:
-
-\begin{code}
-Rhat = R / r
-\end{code}
-
-\begin{ex}
-Write a sequence of MATLAB statements that computes $\vec{F_{12}}$, a vector
-that represents the force on the star due to the planet, and
-$\vec{F_{21}}$, the force on the planet due to the star. Encapsulate
-these statements in a function named {\tt gravity\_force\_func} that
-takes {\tt P1}, {\tt m1}, {\tt P2}, and {\tt m2} as input variables
-and returns {\tt F12} and {\tt F21}.
-\end{ex}
-
-\begin{ex}
-\label{ex:jupiter}
-Write a simulation of the orbit of Jupiter around the Sun.  The mass
-of the Sun is about $2.0 \times 10^{30}$ kg.  You can get the mass of
-Jupiter, its distance from the Sun and orbital velocity from
-\url{https://en.wikipedia.org/wiki/Jupiter}.  Confirm that it takes
-about 4332 days for Jupiter to orbit the Sun.
-\end{ex}
 
 \section{Animation}
 
@@ -7626,6 +7218,203 @@ about 4.3 seconds.
 \end{ex}
 
 
+
+\section{Glossary}
+
+\begin{description}
+
+\item[interpolation:] Estimating the value of a function using
+known values on either side.
+
+\item[extrapolation:] Estimating the value of a function using
+known values that don't bracket the desired value.
+
+\item[single-valued mapping:] A mapping where each value in the
+range maps to a single value in the domain.
+
+\item[multivalued mapping:] A mapping where at least one value in
+the range maps to more than one value in the domain.
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+\label{ex:golf}
+
+A golf ball hit with backspin
+generates lift, which might increase the range, but the energy that
+goes into generating spin probably comes at the cost of lower initial
+velocity.\footnote{See \url{https://en.wikipedia.org/wiki/Golf_ball}.}
+Write a simulation of the flight of a golf ball and use it to find
+the launch angle and allocation of spin and initial velocity
+(for a fixed energy budget) that maximizes the horizontal range of the
+ball in the air.
+
+The lift of a spinning ball is due to the Magnus force\footnote{See
+\url{https://en.wikipedia.org/wiki/Magnus_effect}.}, which is
+perpendicular to the axis of spin and the path of flight.  The
+coefficient of lift is proportional to the spin rate; for a ball
+spinning at 3000 rpm it is about 0.1.  The coefficient of drag of a
+golf ball is about 0.2 as long as the ball is moving faster than 20 m/s.
+\end{ex}
+
+
+
+\begin{ex}
+I call this algorithm a Silver Section Search because it is almost as
+good as a Golden Section Search.  Read the Wikipedia page about the
+Golden Section Search
+(\url{https://en.wikipedia.org/wiki/Golden_section_search}) and then
+modify this code to implement it.
+\end{ex}
+
+\begin{ex}
+You can write functions that take function handles as input
+variables, just as {\tt fzero} and {\tt ode45} do.
+For example, {\tt handle\_func} takes a function handle called
+{\tt func} and calls it, passing {\tt pi} as an argument.
+
+\begin{code}
+function res = handle_func(func)
+    func(pi)
+end
+\end{code}
+
+You can call {\tt handle\_func} from the Command Window and pass
+different function handles as arguments:
+
+\begin{code}
+>> handle_func(@sin)
+ans = 0
+
+>> handle_func(@cos)
+ans = -1
+\end{code}
+
+Modify {\tt optimize} so that it takes a function handle
+as an input variable and uses it as the function to be
+maximized.
+\end{ex}
+
+
+\begin{ex}
+The MATLAB function {\tt fminsearch} takes a function handle
+and searches for a local minimum.  Read the documentation for
+{\tt fminsearch} and use the function to solve the following problems:
+
+\begin{itemize}
+
+\item Find in degrees the optimal launch angle -- giving the longest horizontal distance --
+of a baseball launched with a velocity of 48m/s from a height of 1m.
+
+\item Write a function that takes the initial velocity of the baseball
+as an input variable, computes the launch angle that maximizes
+the range, and returns the optimal angle and the corresponding range as output variables.
+How does the optimal launch angle vary with initial velocity?
+
+\end{itemize}
+\end{ex}
+
+\begin{ex}
+Very often, in an optimization problem, the meaning of ``optimal'' is not obvious.
+
+For example, the Green Monster in Fenway Park is about 12 m high and about 97
+m from home plate along the left field line.
+What is the optimal angle that a baseball should leave the bat in order
+for the ball 
+to leave the bat at minimum possible spead and still clear the Green Monster?
+%We could ask about the minimum
+%speed a ball must leave the bat in order to clear the monster
+%(assuming it goes off at the optimal angle)?
+
+We may be tempted
+to choose for the optimal angle the angle that yields the longest
+range (distance from home plate when it lands).  
+Although this definition would be good for some problems,
+it is not quite right for this problem.  
+For this problem, we can optimize the angle so that it
+yields the greatest ball height at the point where
+the ball reaches the wall, which is 97m from home plate.
+Remember, we are ultimately trying to minimize
+the speed that the ball needs to leave the bat.  At this minimum speed,
+the ball will just clear the wall if hit at the optimal angle.
+
+Could we also use for the ``optimal'' angle the 
+angle that yields the longest range when the ball falls
+through 12m?  Would you get the same minimum ball speed
+to get over the Green Monster in that case?
+
+Report the minimum ball speed when leaving the bat and the optimal angle
+at that speed for all strategies used to solve this problem.
+\end{ex}
+
+
+
+
+
+%chap12
+\chapter{Celestial Mechanics}
+
+\section{Celestial mechanics}
+
+Modeling celestial mechanics is a good opportunity
+to compute with spatial vectors.
+Imagine a star with mass $m_1$ at a point in space described by the
+vector $\vec{P_1}$, and a planet with mass $m_2$ at point $\vec{P_2}$.
+The magnitude of the gravitational force between them is
+
+\begin{equation}
+F_g = G \frac{m_1 m_2}{r^2}
+\end{equation}
+
+where $r$ is the distance between them and $G$ is the universal
+gravitational constant, which is about $6.67 \times 10^{-11} N m^2 /
+kg^2$.\footnote{See \url{https://en.wikipedia.org/wiki/Gravity}.}
+Remember that when using this
+value of $G$ it is easiest to directly specify
+%is the appropriate value of $G$ only if the
+masses
+%are
+in kilograms and distances in meters, and forces are calculated in Newtons.
+
+The direction of the force on the star at $\vec{P_1}$ is in the
+direction toward $\vec{P_2}$.  We can compute relative direction $\vec{r}$ by
+subtracting vectors; if we compute $\vec{r} = \vec{P_2} - \vec{P_1}$, then
+the direction of $\vec{r}$ is from $\vec{P_1}$ to $\vec{P_2}$.
+
+The distance between the planet and star is the length of $\vec{r}$:
+
+\begin{code}
+r = norm(R)
+\end{code}
+
+The direction of the force on the star is $\uvec{r}$:
+
+\begin{code}
+Rhat = R / r
+\end{code}
+
+\begin{ex}
+Write a sequence of MATLAB statements that computes $\vec{F_{12}}$, a vector
+that represents the force on the star due to the planet, and
+$\vec{F_{21}}$, the force on the planet due to the star. Encapsulate
+these statements in a function named {\tt gravity\_force\_func} that
+takes {\tt P1}, {\tt m1}, {\tt P2}, and {\tt m2} as input variables
+and returns {\tt F12} and {\tt F21}.
+\end{ex}
+
+\begin{ex}
+\label{ex:jupiter}
+Write a simulation of the orbit of Jupiter around the Sun.  The mass
+of the Sun is about $2.0 \times 10^{30}$ kg.  You can get the mass of
+Jupiter, its distance from the Sun and orbital velocity from
+\url{https://en.wikipedia.org/wiki/Jupiter}.  Confirm that it takes
+about 4332 days for Jupiter to orbit the Sun.
+\end{ex}
+
+
 \section{Conservation of Energy}
 
 A useful way to check the accuracy of an ODE solver is to
@@ -7680,174 +7469,197 @@ and see if any of them conserve energy.
 
 
 %chap13
-\chapter{Final Thoughts}
+\chapter{How does it work?}
 
-\section{Dot and cross products}
 
-Multiplying a vector by a scalar is a straightforward operation;
-so is adding two vectors.  But multiplying two vectors is more
-subtle.  It turns out that there are two vector operations that
-resemble multiplication: the {\bf dot product}
-and the {\bf cross product}.
+\section{How {\tt ode45} works}
 
-The dot product of vectors $\vec{u}$ and $\vec{v}$ is a scalar:\index{Spatial vectors!dot product}
-
-\begin{equation}
-    \vec{u} \cdot \vec{v} = \norm{\vec{u}} \norm{\vec{v}} \cos \theta
-\end{equation}
-
-where $\theta$ is the smallest angle between $\vec{u}$ and
-$\vec{v}$. We already know how to compute magnitudes, and you could
-probably figure out how to compute $\theta$, but you don't have to.
-MATLAB provides a function, {\tt dot}, that computes dot products:
+If you are curious to know more about how {\tt ode45} works, you
+can modify the {\tt rats} function to display the points, $(t, y)$, where
+{\tt ode45} evaluates $g$.  
+Here, instead, is a new function
+{\tt rats\_plot}
+that displays the point and then invokes the original {\tt rats} function.
 
 \begin{code}
-d = dot(U, V)
+function res = rats_plot(t, y)
+    plot(t, y, 'r.')
+    res = rats(t, y);
+end
 \end{code}
 
-{\tt dot} works in any number of dimensions, as long as {\tt U}
-and {\tt V} have the same number of elements.
-
-If one of the operands is a unit vector, you can use the dot
-product to compute the component of a vector $\vec{u}$ that is in
-the direction of a unit vector, $\uvec{r}$:
+Each time {\tt rats\_plot} is called, for example by {\tt ode45}, a dot is plotted showing one data point; in order
+to see multiple data points in a figure, you have to use {\tt hold on}.
 
 \begin{code}
-s = dot(U, Rhat)
+>> clf; hold on
+>> [T, Y] = ode45(@rats_plot, [0, 365], 2000);
+>> xlim([280, 365])
 \end{code}
 
-In this example, $s$ is the {\bf scalar projection} of $\vec{u}$
-onto $\uvec{r}$.  The {\bf vector projection} is the vector
-that has magnitude $s$ in the direction of $\uvec{r}$:
+% should we comment on <clf; hold on> -- i.e. two commands on one line?
+Note that {\tt xlim([280, 365])} selects a certain domain of time for the figure, in this case from Day 280 to 365:
+
+\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45_simple.eps}}
+
+The {\tt xlim} call could have been placed before the {\tt ode45} call.  Experiment with different orderings of the calls and see how the figure evolves in different ways.  So the dots show the points where {\tt ode45} called {\tt rats\_plot}.  Now let's continue with these four additional lines of code.
 
 \begin{code}
-V = dot(U, Rhat) * Rhat
+>> plot(T, Y, '-o')
+>> hold off
+>> xlabel('t (days)')
+>> ylabel('y (rat population)')
 \end{code}
 
-The cross product of vectors $\vec{u}$ and $\vec{v}$ is a vector whose
-direction is perpendicular to $\vec{u}$ and $\vec{v}$
-(with orientation determined by the right-hand
-rule\footnote{\url{https://en.wikipedia.org/wiki/Right-hand_rule}})
-and whose magnitude is\index{Spatial vectors!cross product}
+This results in the updated figure:  
 
-\begin{equation}
-    \norm{\vec{u} \times \vec{v}} = \norm{\vec{u}} \norm{\vec{v}} \sin \theta
-\end{equation}
+\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45plotLabel.eps}}
 
-where (again) $\theta$ is the smallest angle between $\vec{u}$ and
-$\vec{v}$. MATLAB provides a function, {\tt cross}, that computes cross
-products.
+The circles show the locations of the estimates
+$(T_i, F_i)$.  Notice that {\tt ode45} typically evaluates
+$g$ 
+%more times than the number of estimates
+more times than it provides estimates of $f$.  This allows it to improve the
+estimates, for one thing, but also to detect places where the errors
+are increasing so it can decrease the time step (or the other
+way around).  The labels were produced, obviously, by the {\tt xlabel} and {\tt ylabel} calls.
+
+\begin{ex}
+Write code that creates a figure that also plots short 
+red lines through the red dots to show the slope (rate of change) calculated
+at each point, as shown below.  Note that the plotted estimates are not connected by lines in this figure.
+
+%wcs -- Not sure we want to make all the code, including solutions, available to students whose teacher chose the book.
+%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
+%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
+
+\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45.eps}}
+\end{ex}
+
+
+\section{How {\tt fzero} works}
+
+\section{How {\tt fminsearch} works}
+
+To present the main ideas behind
+the Golden Section Search, I will present a simplified
+search algorithm I'll call a Silver Section Search.  The basic idea is similar to
+the methods for zero-finding we saw in Section~\ref{sect:zero}.  In the
+case of zero-finding, we had a picture like this:
+
+\beforefig \centerline{\includegraphics[height=1.5in]{figs/secant.eps}}
+
+We are given a function, $f$, that we can evaluate, and
+we want to find a root of $f$; that is, a value of $x$ that makes
+$f(x)=0$.  If we can find a value, $x_1$, that makes $f(x_1)$ positive
+and another value, $x_2$, that makes $f(x_2)$ negative, then there has
+to be a root in between (as long as $f$ is continuous).  In this
+case we say that $x_1$ and $x_2$ ``bracket'' the root.
+
+The algorithm proceeds by choosing a third value, $x_3$, between
+$x_1$ and $x_2$ and then evaluating $y = f(x_3)$.  If $y$ is
+positive, we can form a new pair, $(x_3, x_2)$, that brackets the
+root.  If $y$ is negative then the pair $(x_1, x_3)$ brackets the root.
+Either way the size of the bracket gets smaller, so our
+estimate of the location of the root gets better.
+
+So that was root-finding.  The Silver Section Search is similar, but
+we have to start with three values, and the picture looks like
+this:
+
+\beforefig \centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
+
+This diagram shows that we have evaluated $f$ in three places,
+$x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the highest
+value.  If $f$ is continuous, then there has to be at least one
+local maximum between $x_1$ and $x_3$, so we would say that the
+triple $(x_1, x_2, x_3)$ brackets a maximum.
+
+The next step is to choose a fourth point, $x_4$, and evaluate
+$f(x_4)$.  There are two possible outcomes, depending on whether
+$f(x_4)$ is greater than $f(x_2)$:
+
+\beforefig \centerline{\includegraphics[height=1.5in]{figs/golden2.eps}}
+
+If $f(x_4)$ is less than than $f(x_2)$ (shown on the left), then the
+new triple $(x_1, x_2, x_4)$ brackets the maximum.  If $f(x_4)$ is
+greater than $f(x_2)$ (shown on the right), then $(x_2, x_4, x_3)$
+brackets the maximum.  Either way the range gets smaller and our
+estimate of the optimal value of $x$ gets better.
+
+This method works for almost any value of $x_4$, but some choices
+are better than others.  In the example, I chose to bisect the
+bigger of the ranges $(x_1, x_2)$, and $(x_2, x_3)$.
+
+Here's what that looks like in MATLAB:
 
 \begin{code}
-C = cross(U, V)
+function res = optimize(V)
+    x1 = V(1);
+    x2 = V(2);
+    x3 = V(3);
+
+    fx1 = distance_func(x1);
+    fx2 = distance_func(x2);
+    fx3 = distance_func(x3);
+
+    for i=1:200
+        if x3-x2 > x2-x1
+            x4 = (x2+x3) / 2;
+            fx4 = distance_func(x4);
+            if fx4 > fx2
+                x1 = x2;  fx1 = fx2;
+                x2 = x4;  fx2 = fx4;
+            else
+                x3 = x4;  fx3 = fx4;
+            end
+        else
+            x4 = (x1+x2) / 2;
+            fx4 = distance_func(x4);
+            if fx4 > fx2
+                x3 = x2;  fx3 = fx2;
+                x2 = x4;  fx2 = fx4;
+            else
+                x1 = x4;  fx1 = fx4;
+            end
+        end
+
+        if x1 == x3
+            break
+        end
+    end
+    res = [x1 x2 x3];
+end
 \end{code}
 
-{\tt cross} calculates the cross product of corresponding vectors along
-the first array dimension whose size equals 3.
+The input variable is a vector that contains three values that bracket
+a maximum; in the above case of finding the longest distance of a baseball 
+the values are angles in degrees.  {\tt optimize}
+starts by evaluating {\tt distance\_func} for each of the three values.
+We assume that {\tt distance\_func} returns the result we want to
+maximize; for the baseball best-angle-for-longest-distance problem
+the result is the horizontal distance traveled by the
+ball when it hits the ground given a particular angle of departure from
+the baseball bat.  The initial velocity (48m/s) and initial height (1m) 
+are as mentioned previously.
 
-A common use of {\tt cross} is to compute torques.  If you represent
-a moment arm $\vec{R}$ and a force $\vec{F}$ as vectors with size equal
-to 3, then the torque is just
+Each time through the {\tt for} loop the function chooses a value
+of {\tt x4}, evaluates {\tt distance\_func}, and then updates the
+triplet {\tt x1}, {\tt x2}, and {\tt x3} according to the results.
 
-\begin{code}
-Tau = cross(R, F)
-\end{code}
-
-If the components of {\tt R} are in meters and the components
-of {\tt F} are in Newtons, then the torques in {\tt Tau} are
-in Newton-meters.
-
-
-% \section{Scaling}
-
-% \section{Polar coordinates}
-
-\section{What is a model for?}
-
-In Section~\ref{sect:modeling} I defined a ``model'' as a simplified
-description of a physical system, and said that a good model
-lends itself to analysis and simulation, and makes predictions
-that are good enough for the intended purpose.
-
-Since then, we have seen a number of examples; now we can
-say more about what models are for.  The goals of a model tend
-to fall into three categories.
-
-\begin{description}
-
-\item[prediction:] Some models make predictions about physical
-systems.  As a simple example, the duck model in
-Exercise~\ref{ex:duck} predicts the level a duck floats at.  At the other
-end of the spectrum, global climate models try to predict the weather
-tens or hundreds of years in the future.
-
-\item[design:] Models are useful for engineering design, especially
-for testing the feasibility of a design and for optimization.  For
-example, in Exercise~\ref{ex:golf} you were asked to design the golf
-swing with the perfect combination of launch angle, velocity and spin.
-
-\item[explanation:] Models can answer scientific questions.  For
-example, the Lotka-Volterra model in Section~\ref{sect:lotka} offers a
-possible explanation of the dynamics of animal populations systems in
-terms of interactions between predator and prey species.
-
-\end{description}
-
-The exercises at the end of this chapter include one model of
-each type.
-
-
-\section{Glossary}
-
-\begin{description}
-
-\item[dot product:] A scalar product of two vectors, proportional to the
-norms of the vectors and the cosine of the smallest angle between them.
-
-\item[cross product:] A vector product of two vectors with norm
-proportional to the norms of the vectors and the sine of the angle
-between them, and direction perpendicular to both.
-
-\item[projection:] The component of one vector that is in the
-direction of the other (might be used to mean ``scalar projection'' or
-``vector projection'').
-
-\end{description}
+After the update, 
+the function checks whether the range of the bracket, {\tt x3-x1}, has 
+shrunken to zero indicating that the estimated maximum is correct to 16 
+digits, similar to the behavior of the {\tt fzero} function covered earlier
+in the book. 
+If so, it breaks out of
+the loop and returns a triplet of the estimated maximum as a result.  
+The loop is executed a maximum of 200 times and, if it isn't broken
+out of before that, the last updated triplet may be of a lesser
+correctness.
 
 
 \section{Exercises}
-
-\begin{ex}
-If you put two identical bowls of water into a freezer, one at
-room temperature and one boiling, which one freezes first?
-
-Hint: you might want to do some research on the Mpemba effect.
-
-% You might have to do some research on thermal expansion\footnote{See
-% \url{https://en.wikipedia.org/wiki/Thermal_expansion}.},
-% cooling\footnote{See
-% \url{https://en.wikipedia.org/wiki/Heat_conduction}.},
-% evaporation\footnote{See
-% \url{https://en.wikipedia.org/wiki/Evaporation}.} and
-% freezing\footnote{See \url{https://en.wikipedia.org/wiki/Freezing}.},
-% and think about which factors you have to include in the model and
-% which you can ignore.
-\end{ex}
-
-\begin{ex}
-You have been asked to design a new skateboard ramp; unlike a typical
-skateboard ramp, this one is free to pivot about a support point.
-Skateboarders approach the ramp on a flat surface and then coast up
-the ramp; they are not allowed to put their feet down while on the
-ramp.  If they go fast enough, the ramp will rotate and they will
-gracefully ride down the rotating ramp.  Technical and artistic
-display will be assessed by the usual panel of talented judges.
-
-Your job is to design a ramp that will allow a rider to accomplish
-this feat, and to create a physical model of the system, a
-simulation that computes the behavior of a rider on the ramp, and an
-animation of the result.
-\end{ex}
 
 \begin{ex}
 \label{ex:binary}
@@ -7867,6 +7679,9 @@ available from \url{http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.255.4
 Read this paper and then modify your planetary simulation to
 replicate or extend the results.
 \end{ex}
+
+
+
 
 \begin{appendices}
 \chapter{The Nine Theorems of Debugging}
@@ -8029,192 +7844,134 @@ And that brings us to the Eighth Theorem of Debugging:
 \end{quote}
 
 
-\section{Maps}
-\label{sect:map}
+\section{Dot and cross products}
 
-In mathematics, a {\bf map} is a correspondence between one
-set called the {\bf range} and another set called the
-{\bf domain}.  For each element of the range, the map specifies
-the corresponding element of the domain.
+Multiplying a vector by a scalar is a straightforward operation;
+so is adding two vectors.  But multiplying two vectors is more
+subtle.  It turns out that there are two vector operations that
+resemble multiplication: the {\bf dot product}
+and the {\bf cross product}.
 
-You can think of a sequence as a map from positive integers
-to elements.  You can think of a vector
-as a map from indices to elements.  In these cases the maps
-are {\bf discrete} because the elements of the range are countable.
-
-You can also think of a function as a map from inputs to outputs, but
-in this case the range is {\bf continuous} because the inputs can take
-any value, not just integers.  (Strictly speaking, the set of
-floating-point numbers is discrete, but since floating-point numbers
-are meant to represent real numbers, we think of them as continuous.)
-
-
-\section{A note on notation}
-\label{sect:notation}
-
-In this chapter I need to start talking about mathematical
-functions, and I am going to use a notation you might not have
-seen before.
-
-If you have studied functions in a math class, you have probably
-seen something like
+The dot product of vectors $\vec{u}$ and $\vec{v}$ is a scalar:\index{Spatial vectors!dot product}
 
 \begin{equation}
-f(x) = x^2 - 2x -3
+    \vec{u} \cdot \vec{v} = \norm{\vec{u}} \norm{\vec{v}} \cos \theta
 \end{equation}
 
-which is supposed to mean that $f$ is a function that maps from
-$x$ to $x^2 - 2x -3$.  The problem is that $f(x)$ is also used to mean
-the value of $f$ that corresponds to a particular value of $x$.  So I
-don't like this notation.  I prefer
+where $\theta$ is the smallest angle between $\vec{u}$ and
+$\vec{v}$. We already know how to compute magnitudes, and you could
+probably figure out how to compute $\theta$, but you don't have to.
+MATLAB provides a function, {\tt dot}, that computes dot products:
+
+\begin{code}
+d = dot(U, V)
+\end{code}
+
+{\tt dot} works in any number of dimensions, as long as {\tt U}
+and {\tt V} have the same number of elements.
+
+If one of the operands is a unit vector, you can use the dot
+product to compute the component of a vector $\vec{u}$ that is in
+the direction of a unit vector, $\uvec{r}$:
+
+\begin{code}
+s = dot(U, Rhat)
+\end{code}
+
+In this example, $s$ is the {\bf scalar projection} of $\vec{u}$
+onto $\uvec{r}$.  The {\bf vector projection} is the vector
+that has magnitude $s$ in the direction of $\uvec{r}$:
+
+\begin{code}
+V = dot(U, Rhat) * Rhat
+\end{code}
+
+The cross product of vectors $\vec{u}$ and $\vec{v}$ is a vector whose
+direction is perpendicular to $\vec{u}$ and $\vec{v}$
+(with orientation determined by the right-hand
+rule\footnote{\url{https://en.wikipedia.org/wiki/Right-hand_rule}})
+and whose magnitude is\index{Spatial vectors!cross product}
 
 \begin{equation}
-f : x \to x^2 - 2x -3
+    \norm{\vec{u} \times \vec{v}} = \norm{\vec{u}} \norm{\vec{v}} \sin \theta
 \end{equation}
 
-which means ``f is the function that maps from
-$x$ to $x^2 - 2x -3$.''  In MATLAB, this would be expressed
-like this:
+where (again) $\theta$ is the smallest angle between $\vec{u}$ and
+$\vec{v}$. MATLAB provides a function, {\tt cross}, that computes cross
+products.
 
 \begin{code}
-function res = error_func(x)
-    res = x^2 - 2*x -3;
-end
+C = cross(U, V)
 \end{code}
 
-I'll explain soon why this function is called {\tt error\_func}.
-Now, back to our regularly-scheduled programming.
+{\tt cross} calculates the cross product of corresponding vectors along
+the first array dimension whose size equals 3.
 
-
-\section{How ode45 works}
-
-If you are curious to know more about how {\tt ode45} works, you
-can modify the {\tt rats} function to display the points, $(t, y)$, where
-{\tt ode45} evaluates $g$.  
-Here, instead, is a new function
-{\tt rats\_plot}
-that displays the point and then invokes the original {\tt rats} function.
+A common use of {\tt cross} is to compute torques.  If you represent
+a moment arm $\vec{R}$ and a force $\vec{F}$ as vectors with size equal
+to 3, then the torque is just
 
 \begin{code}
-function res = rats_plot(t, y)
-    plot(t, y, 'r.')
-    res = rats(t, y);
-end
+Tau = cross(R, F)
 \end{code}
 
-Each time {\tt rats\_plot} is called, for example by {\tt ode45}, a dot is plotted showing one data point; in order
-to see multiple data points in a figure, you have to use {\tt hold on}.
-
-\begin{code}
->> clf; hold on
->> [T, Y] = ode45(@rats_plot, [0, 365], 2000);
->> xlim([280, 365])
-\end{code}
-
-% should we comment on <clf; hold on> -- i.e. two commands on one line?
-Note that {\tt xlim([280, 365])} selects a certain domain of time for the figure, in this case from Day 280 to 365:
-
-\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45_simple.eps}}
-
-The {\tt xlim} call could have been placed before the {\tt ode45} call.  Experiment with different orderings of the calls and see how the figure evolves in different ways.  So the dots show the points where {\tt ode45} called {\tt rats\_plot}.  Now let's continue with these four additional lines of code.
-
-\begin{code}
->> plot(T, Y, '-o')
->> hold off
->> xlabel('t (days)')
->> ylabel('y (rat population)')
-\end{code}
-
-This results in the updated figure:  
-
-\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45plotLabel.eps}}
-
-The circles show the locations of the estimates
-$(T_i, F_i)$.  Notice that {\tt ode45} typically evaluates
-$g$ 
-%more times than the number of estimates
-more times than it provides estimates of $f$.  This allows it to improve the
-estimates, for one thing, but also to detect places where the errors
-are increasing so it can decrease the time step (or the other
-way around).  The labels were produced, obviously, by the {\tt xlabel} and {\tt ylabel} calls.
-
-\begin{ex}
-Write code that creates a figure that also plots short 
-red lines through the red dots to show the slope (rate of change) calculated
-at each point, as shown below.  Note that the plotted estimates are not connected by lines in this figure.
-
-%wcs -- Not sure we want to make all the code, including solutions, available to students whose teacher chose the book.
-%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
-%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
-
-\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45.eps}}
-\end{ex}
+If the components of {\tt R} are in meters and the components
+of {\tt F} are in Newtons, then the torques in {\tt Tau} are
+in Newton-meters.
 
 
-\section{Analytic or numerical?}
+% \section{Scaling}
 
-When you solve an ODE analytically, the result is a function, $f$,
-that allows you to compute the population, $y = f(t)$, for any value of
-$t$.  When you solve an ODE numerically, you get two vectors.  You can
-think of these vectors as a discrete approximation of the continuous
-function $f$: ``discrete'' because it is only defined for certain
-values of $t$, and ``approximate'' because each value $F_i$
-is only an estimate of the true value $f(t)$.
+% \section{Polar coordinates}
 
-So those are the limitations of numerical solutions.  The primary
-advantage is that you can compute numerical solutions to ODEs that
-don't have analytic solutions, which is the vast majority
-of nonlinear ODEs.
+\section{What is a model for?}
+
+In Section~\ref{sect:modeling} I defined a ``model'' as a simplified
+description of a physical system, and said that a good model
+lends itself to analysis and simulation, and makes predictions
+that are good enough for the intended purpose.
+
+Since then, we have seen a number of examples; now we can
+say more about what models are for.  The goals of a model tend
+to fall into three categories.
+
+\begin{description}
+
+\item[prediction:] Some models make predictions about physical
+systems.  As a simple example, the duck model in
+Exercise~\ref{ex:duck} predicts the level a duck floats at.  At the other
+end of the spectrum, global climate models try to predict the weather
+tens or hundreds of years in the future.
+
+\item[design:] Models are useful for engineering design, especially
+for testing the feasibility of a design and for optimization.  For
+example, in Exercise~\ref{ex:golf} you were asked to design the golf
+swing with the perfect combination of launch angle, velocity and spin.
+
+\item[explanation:] Models can answer scientific questions.  For
+example, the Lotka-Volterra model in Section~\ref{sect:lotka} offers a
+possible explanation of the dynamics of animal populations systems in
+terms of interactions between predator and prey species.
+
+\end{description}
+
+The exercises at the end of this chapter include one model of
+each type.
 
 
+\section{Glossary}
 
+\begin{description}
 
-\section{Stiffness}
-\index{Differential equations!stiffness}
+\item[dot product:] A scalar product of two vectors, proportional to the
+norms of the vectors and the cosine of the smallest angle between them.
 
-There is yet another problem you might encounter, but if it makes you
-feel better, it might not be your fault: the problem you are trying to
-solve might be {\bf stiff}.\footnote{The following discussion is based
-partly on an article from Mathworks available at
-\url{https://www.mathworks.com/company/newsletters/articles/stiff-differential-equations.html}.}
+\item[cross product:] A vector product of two vectors with norm
+proportional to the norms of the vectors and the sine of the angle
+between them, and direction perpendicular to both.
 
-I won't give a technical explanation of stiffness here, except
-to say that for some problems (over some intervals with some initial
-conditions) the time step needed to control the error is very small,
-which means that the computation takes a long time.  Here's one
-example:
+\item[projection:] The component of one vector that is in the
+direction of the other (might be used to mean ``scalar projection'' or
+``vector projection'').
 
-\begin{equation}
-\frac{df}{dt} = f^2 - f^3
-\end{equation}
-
-If you solve this ODE with the initial condition $f(0) = \delta$ over
-the interval from 0 to $2/\delta$, with $\delta = 0.01$, you should
-see something like this:
-
-\beforefig \centerline{\includegraphics[height=2in]{figs/stiff.eps}}
-
-After the transition from 0 to 1, the time step is very small and the
-computation goes slowly.  For smaller values of $\delta$, the
-situation is even worse.
-
-In this case, the problem is easy to fix: instead of {\tt ode45} you can
-use {\tt ode23s}, an ODE solver that tends to perform well on stiff
-problems (that's what the ``s'' stands for).
-
-In general, if you find that {\tt ode45} is taking a long time, you
-might want to try one of the stiff solvers.  It won't always solve
-the problem, but if the problem is stiffness, the improvement can
-be striking.
-
-\begin{ex}
-Write a rate function for this ODE and use
-{\tt ode45} to solve it with the given initial condition and interval.
-Start with $\delta = 0.1$ and decrease it by multiples of 10.  If
-you get tired of waiting for a computation to complete, you can
-press the Stop button in the Figure window or press Control-C in
-the Command Window.
-
-Now replace {\tt ode45} with {\tt ode23s} and try again!
-\end{ex}
-
+\end{description}
