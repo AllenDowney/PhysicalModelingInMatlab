@@ -1,10 +1,10 @@
 function baseball()
-    P = [0; 1];       % initial position in m
-    V = [30; 40];     % initial velocity in m/s
+    P = [0; 3];       % initial position in m
+    V = [40; 30];     % initial velocity in m/s
     W = [P; V];       % initial condition
     rate_func(0, W)
     
-    tspan = [0 8];
+    tspan = [0 6];
     [T, M] = ode45(@rate_func, tspan, W);
     
     X = M(:, 1);
@@ -17,7 +17,7 @@ function baseball()
     xlabel('Time (s)')
     ylabel('Position (m)')
     legend('X position', 'Y position', 'Location', 'northwest')
-    saveas(gcf, '../../book/figs/baseball1.eps', 'epsc')
+    saveas(gcf, '../../book/figs/baseball2.eps', 'epsc')
 end
 
 function res = rate_func(t, W)
@@ -32,7 +32,19 @@ end
 
 function res = acceleration(t, P, V)
     g = 9.8;                       % acceleration of gravity in m/s^2
-    gravity = [0; -g];
-    res = gravity;
+    a_gravity = [0; -g];
+
+    m = 0.145;                     % mass in kilograms
+    a_drag = drag_force(V) / m;
+    res = a_gravity + a_drag;
+end
+
+function res = drag_force(V)
+    C_d = 0.3;      % dimensionless
+    rho = 1.3;      % kg / m^3
+    A = 0.0042;     % m^2
+    v = norm(V);    % m/s
+
+    res = - 1/2 * C_d * rho * A * v * V;
 end
 
