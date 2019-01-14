@@ -6477,376 +6477,234 @@ describes the state of a physical system.  When you call
 vector.  Then when {\tt ode45} calls your rate function, it
 gives you a state vector.
 
-\item[time series:] In Section~\ref{sect:rats}, the results from {\tt ode45} are vectors, {\tt T} and {\tt Y}, that represent a time series, that is, a mapping from the time values in {\tt T} to the population values in {\tt Y}.
+\item[time series:] The results from {\tt ode45} are vectors, {\tt T} and {\tt Y}, that represent a time series, that is, a mapping from the time values in {\tt T} to the values in {\tt Y}.
 
 \end{description}
 
 In this chapter we will see another use of MATLAB vectors: representing
-{\bf spatial vectors}.  A spatial vector is a geometric object that can be used to represent a multidimensional physical quantity like position, velocity, acceleration, or force.
+{\bf spatial vectors}.  A spatial vector represents a multidimensional physical quantity like position, velocity, acceleration, or force.
 
 \index{Spatial vectors!coordinate representation}
 
-These quantities cannot be described with a single number because they
-contain multiple components.  For example,
-in three-dimensional Cartesian coordinates, it takes three numbers
-to specify a position in space; these numbers are usually called $x$,
-$y$, and $z$ coordinates.  So we can write a position vector $\vec{r}(t)$, representing an object's location at time $t$, as
-%
-\begin{equation}\label{eq:position_vec}
-    \vec{r}(t) = (x(t), y(t), z(t))
-\end{equation}
-%
-As another example, in two-dimensional polar coordinates, it takes two
-numbers to specify a position in space: a radial distance $\rho$ and an
-angle $\theta$. Here we can write a two-dimensional velocity vector
-$\vec{v}(t)$, representing an object's velocity at time $t$, as
-%
-\begin{equation}
-    \vec{v}(t) = (v_\rho(t), v_\theta(t))
-\end{equation}
-%
-Notice that both vectors $\vec{r}(t)$ and $\vec{v}(t)$ are presented in bold, indicating that they are vectors.
+For example, to represent a position in two-dimensional space, we can use a vector with two elements:
 
-An equivalent way of describing a spatial vector is with a magnitude\footnote{
-    Magnitude is also called ``length'' but I will avoid that term
-    because it gets confused with the {\tt length} function, which
-    returns the number of elements in a MATLAB vector.} and a
-direction.  If
-you imagine the vector $\vec{r}(t)$ from equation
-\eqref{eq:position_vec} as an arrow starting from the origin and
-terminating at the point $(x(t),y(t),z(t))$, then the magnitude of
-$\vec{r}(t)$ is how long the arrow is and the direction of $\vec{r}(t)$
-is where the arrow points.
+\begin{code}
+>> P = [3 4]
+\end{code}
 
-\index{Spatial vectors!directed line-segment repesentation}
+To interpret this vector, we have to know what coordinate system it is defined in.  Most commonly, we use a Cartesian system where the x-axis points east and the y-axis points north.  In that case {\tt P} represents a point 3 units east and 4 units north of the origin.
 
-The magnitude of a vector is usually written as $\norm{\vec{r}(t)}$.
+Spatial vector represent the magnitude and direction of a physical quantity.  For example, the magnitude of {\tt P} is the distance from the origin to {\tt P}, which is the hypotenuse of the triangle with sides 3 and 4.  We can compute it using the Pythagorean theorem:
 
-The direction of a vector is represented by a {\bf unit vector}, which is a vector with length 1.  Given a vector, $\vec{r}$
+\begin{code}
+>> sqrt(sum(P.*P))
+ans = 5
+\end{code}
 
-The direction of $\vec{r}(t)$ is conveniently described by
+Or more simply by using the function {\tt norm}, which computes the
+``Euclidean norm'' of a vector, which is its magnitude:
 
-\begin{equation}\label{eq:vec_u_unit}
-    \uvec{r}(t) = \frac{\vec{r}(t)}{\norm{\vec{r}(t)}}
-\end{equation}
+\begin{code}
+>> norm(P)
+ans = 5
+\end{code}
 
-where $\uvec{r}(t)$ is a {\bf unit vector}, as indicated by its hat.\index{Spatial vectors!unit vectors}
-Notice this equation \eqref{eq:vec_u_unit} contains the product of a
-vector $\vec{r}(t)$ and a scalar $\frac{1}{\norm{\vec{r}(t)}}$; this
-operation is called scalar multiplication, wherein the scalar multiplies
-(or \textit{scales}) the magnitude of the vector without changing its
-direction.\footnote{See
-\url{https://en.wikipedia.org/wiki/Scalar_multiplication}.} For unit vectors
-we always have
+There are two ways to get the direction of a vector.  One convention is to compute the angle between the vector and the x-axis:
 
-\begin{equation}
-    \norm{\uvec{r}(t)} = 1
-\end{equation}
+\begin{code}
+>> atan2(P(2), P(1))
+ans = 0.9273
+\end{code}
 
-which is why unit vectors are so convenient for representing directions.
+In this example, the angle is about \SI{0.9}{\radian}.  But for computational purposes, we often represent direction with a {\bf unit vector}, which is a vector with length 1.  To get a unit vector we can divide a vector by its length:
+
+\begin{code}
+function res = hat(V)
+    res = V / norm(V)
+end
+\end{code}
+ 
+This function takes a vector, {\tt V}, and returns a unit vector with the same direction as {\tt V}.  It is called {\tt hat} because in mathematical notation, unit vectors are written with a ``hat'' symbol.  
+For example, the unit vector with the same direction as $\vec{P}$ would be written $\uvec{P}$. 
 
 
-\section{Two dimensions}
+\section{Adding vectors}
+
+Vectors are particularly useful for representing quantities like force and acceleration because we can add them up without having to think explicitly about direction.
+
+As an example, suppose we have two vectors representing forces:
+
+\begin{code}
+>> A = [2, 4];
+>> B = [2, -2];
+\end{code}
+
+{\tt A} represents a force pulling northeast; {\tt B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}
+
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/vector2.eps}}
+\caption{The sum of two forces represented by vectors.}
+\label{fig:vector2}
+\end{figure}
+
+To compute the sum of these forces, all we have to do is add the vectors:
+
+\begin{code}
+>> A + B
+ans = 4     2
+\end{code}
+
+This will come in handy later in the chapter.
+
+
+\section{ODEs in two dimensions}
 \label{sect:projectile}
 
-So far we have used {\tt ode45} for a system of first-order
-equations and for a single second-order equation.  The next logical
-step is a system of second-order equations, and the next logical example
-is a projectile.  A ``projectile'' is an object propelled
-through space, usually toward,
-and often to the detriment of,
-a target.
+So far we have used {\tt ode45} to solve a system of first-order equations and a single second-order equation.  Now we'll take one more step, solving a system of second-order equations.
 
-If a projectile stays in a plane, we can think of the system as
+As an example, we'll simulate the flight of a baseball.
+Assuming there is no wind and no spin on the ball, it should travel in a vertical plane, so we can think of the system as
 two-dimensional, with $x$ representing the horizontal distance
-traveled and $y$ representing the height or altitude.  So now
-instead of a skydiver, think of a circus performer being fired
-out of a cannon.
+traveled and $y$ representing height or altitude.
 
-According to Wikipedia, the record distance for a human cannonball is
-59.05 meters (almost 194
-feet).\footnote{\url{https://en.wikipedia.org/wiki/Human_cannonball}}
-
-Here is a general framework for computing the trajectory of a projectile
-in two dimensions using {\tt ode45}:
+Here's a rate function we can use to simulate this system with {\tt ode45}:
 
 \begin{code}
-function resVector = projectile(t, W)
-    R = W(1:2);
+function res = rate_func(t, W)
+    P = W(1:2);
     V = W(3:4);
 
-    dRdt = V;
-    dVdt = acceleration(t, R, V);
+    dPdt = V;
+    dVdt = acceleration(t, P, V);
 
-    resVector = [dRdt; dVdt];
+    res = [dPdt; dVdt];
 end
 
-function resVector = acceleration(t, R, V)
-    g = 9.8;             
-    resVector = [0; -g];   % acceleration due to gravity in m/s^2
+function res = acceleration(t, P, V)
+    g = 9.8;             % acceleration of gravity in m/s^2
+    a_gravity = [0; -g];
+    res = a_gravity;
 end
 \end{code}
 
-The second argument of the rate function is understood to be a vector,
-{\tt W}, with four elements.  The first two are assigned to {\tt R},
+The second argument of \verb"rate_func" is understood to be a vector,
+{\tt W}, with four elements.  The first two are assigned to {\tt P},
 which represents position; the last two are assigned to {\tt V}, which
-represents velocity. Both {\tt R} and {\tt V} have two elements
-representing the $x$ and $y$ components of the projectile's motion.
+represents velocity. Both {\tt P} and {\tt V} have two elements
+representing the $x$ and $y$ components.
 
-The result from
-{\tt acceleration} is also a vector; ignoring air resistance
-(for now), the acceleration in the $x$ direction is 0; in
-the $y$ direction it's $-g$.
-Other than that, this code is similar to what we saw in
-Section~\ref{sect:freefall}.
+The goal of the rate function is to compute the derivative of {\tt W}, so the output has to be a vector with four elements, where the first two represent the derivative of {\tt P}  and the last two represent the derivative of {\tt V}.
 
-If we launch the human projectile from an initial height of
-3 meters, with velocities 40 m/s and 30 m/s in the $x$ and $y$
-% for record holder, the velocity was around 33.3 m/s (assume in direction of flight)   *** wcs ***
-directions, the {\tt ode45} call looks like
-this:
+The derivative of {\tt P} is velocity.  We don't have to compute it; we were given it as part of {\tt W}.
 
+The derivative of {\tt V} is acceleration.  To compute it, we call {\tt acceleration}, which takes as input variables time, position and velocity.  In this example, we don't use any of the input variables, but we will soon.
+
+For now we'll ignore air resistance, so the only force on the baseball is gravity.  We represent acceleration due to gravity with a vector that has magnitude {\tt g} and direction along the negative $y$ axis.
+
+Let's assume that a ball is batted from an initial position \SI{1}{\meter} above home plate, with an initial velocity of \SI{30}{\meter\per\second} in the horizontal and \SI{40}{\meter\per\second} in the vertical direction.
+
+Here's how we can call {\tt ode45} with these initial conditions:
+ 
 \begin{code}
-ode45(@projectile, [0,10], [0, 3, 40, 30]);
-\end{code}
-% should we change the above from 10 to 7?  *** wcs ***
-
-And the result looks like this:
-
-\beforefig \centerline{\includegraphics[height=2in]{figs/proj1_10s.eps}}
-
-You might have to think a little to figure out which line is
-which.  It looks like the flight time is about 6 seconds.
-
-\begin{ex}
-Extract the $x$ and $y$ components of
-position, plot the trajectory of the projectile, and estimate the
-horizontal distance traveled.
-% along the ground? *** wcs ***
-\end{ex}
-
-
-\section{Spacial vectors revisited}
-\label{sect:spacialre}
-
-Let's talk about spacial vectors again, this time by way of example.
-Suppose that you are given the velocity of a baseball in the form of a
-MATLAB vector with two elements, $v_x$ and $v_y$, which are the
-components of velocity in the $x$ and $y$ directions.
-
-\begin{code}
->> V = [30; 40];       % velocity in m/s
+    P = [0; 3];       % initial position in m
+    V = [40; 30];     % initial velocity in m/s
+    W = [P; V];       % initial condition
+    
+    tspan = [0 8]
+    [T, M] = ode45(@rate_func, tspan, W);
 \end{code}
 
-Also suppose you are asked to compute the total acceleration of the ball
-due to drag and gravity. Wikipedia specifies the drag force as follows
-(cf. equation \eqref{eq:simpledrag}):
+{\tt P} and {\tt V} are column vectors because we put semi-colons between the elements.  So {\tt W} is a column vector with four elements.
+{\tt tspan} specifies that we want to run the simulation for \SI{6}{\second}.
 
-\begin{equation}\label{eq:wikidrag}
-    \vec{F_d} = - \frac{1}{2} ~ \rho v^2 C_d A ~ \uvec{v}
-\end{equation}
+The output variables from {\tt ode45} are a vector, 
+{\tt T}, that contains time values and a matrix, {\tt M}, with four columns: the first two are position; the last two are velocity.
 
-where $\rho$, $C_d$, and $A$ are scalars representing fluid density
-($1.3 ~ kg/m^3$ for air at sea level), a dimensionless drag coefficient
-($0.3$ is reasonable for a baseball), and cross-sectional area ($0.0042
-~ m^2$ for a baseball).\footnote{
-    \url{https://en.wikipedia.org/wiki/Drag_(physics)}.}
-
-To use equation \eqref{eq:wikidrag}, we need both the magnitude and the
-direction of {\tt V}. The magnitude of a spacial vector \vec{u} in
-two-dimensional Cartesian coordinates is
-
-\begin{equation}\label{eq:cartesiannorm}
-    \norm{\vec{u}} = \sqrt{u_x^2 + u_y^2}
-\end{equation}
-
-You could compute the magnitude using equation
-\eqref{eq:cartesiannorm} with {\tt hypotenuse} from
-Section~\ref{sect:hypotenuse}, or you could use the MATLAB function {\tt
-norm} ({\bf norm} is another name for magnitude); let's use {\tt
-norm}:
+Here's how we can plot position as a function of time:
 
 \begin{code}
->> v = norm(V)
-v = 50
+	X = M(:, 1);
+    Y = M(:, 2);
+    
+    plot(T, X)
+    plot(T, Y)
 \end{code}
 
-To find the unit vector {\tt Vhat} corresponding to {\tt V}, we simply
-need to divide {\tt V} by its magnitude:
+{\tt X} and {\tt Y} get the first and second columns from {\tt M}, which are the $x$ and $y$ coordinates of position.
 
-\begin{code}
->> Vhat = V / v
-Vhat =  0.6  0.8
-\end{code}
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/baseball1.eps}}
+\caption{Simulated flight of a baseball neglecting drag force.}
+\label{fig:baseball1}
+\end{figure}
 
-Let's confirm that the norm of {\tt Vhat} is unity:
+Figure~\ref{fig:baseball1} shows what they look like.  The $x$ coordinate increases linearly because the $x$ velocity is constant.  The $y$ coordinate goes up and down, as we expect.
 
-\begin{code}
->> norm(Vhat)
-ans = 1
-\end{code}
+The simulation ends just before the ball lands, having traveled almost \SI{250}{\meter}.  That's substantially farther than a real baseball would travel, because we have ignored air resistance, or ``drag force''.
 
-Good. Now, to compute $\vec{F_d}$ we just need to recall our values for
-$\rho$, $C_d$, and $A$; and then follow equation \eqref{eq:wikidrag}:
 
-\begin{code}
->> rho = 1.3;          % kg/m^3 -- fluid density
->> c_d = 0.3;          % dimensionless -- drag coefficient 
->> a = 0.0042;         % m^2 -- cross-sectional area
+\section{Drag force}
 
->> Fd = - 1/2 * rho * v^2 * c_d * a * Vhat  % N
-Fd =  -1.2  -1.6
-\end{code}
-
-Remembering Newton's second law (and taking the mass $m$ of a baseball to be
-$0.145 ~ kg$), we can compute ``drag acceleration'':
-
-\begin{code}
->> m = 0.145;          % kg
->> Ad = Fd / m         % m/s^2
-Ad =  -8.5  -11.3
-\end{code}
-
-To represent acceleration due to gravity, we create a vector
-with two components:
-
-\begin{code}
->> Ag = [0; -9.8];
-\end{code}
-
-The $x$ component of acceleration due to gravity is 0; the $y$ component is $-9.8 ~ m/s^2$.
-
-Finally, we compute the total acceleration by summing {\tt Ad} and {\tt Ag}:
-
-\begin{code}
->> At = Ad + Ag
-At =  -8.5  -1.5
-\end{code}
-
-One nice thing about this computation is that we didn't have to think
-much about the components of the vectors.  By treating spatial vectors
-as basic quantities, we can express complicated computations concisely.
-
-\begin{ex}
-Suppose the baseball lands in a lake, and breaks the water's surface
-    with velocity
+A simple model for the drag force on a baseball is:
 
 \begin{equation}
-    v_0 = (25, -25) ~  m/s
+    \vec{F_d} = - \frac{1}{2} ~ \rho v^2 C_d A \uvec{V}
 \end{equation}
 
-How long will it take to resurface?
+where $\vec{F_d}$ is a vector that represents the force on the baseball
+due to drag, 
+$\rho$ is the density of air, 
+$C_d$ is the drag coefficient, and
+$A$ is the cross-sectional area .
 
-Consider the baseball to be fully
-    submerged when it enters the water. You will need to account for the
-    gravitational force and the drag force (given in equation
-    \eqref{eq:wikidrag}). You will also need to consider the force due
-    to ``bouyancy'' which is given by Archimedes' principle:
+$\vec{V}$ is the baseball's velocity vector; $v$ is the magnitude of $V$ and $\uvec{V}$ is a unit vector in the same direction as $V$.  The minus sign at the beginning means that the result is in the opposite direction as $V$.
 
-\begin{equation}
-    \vec{F_b} = \rho V g ~ \uvec{j}
-\end{equation}
-
-where $\rho$ is the density of the fluid (for water this is $1000 ~ kg /
-    m^3$), $V$ is the volume of the fluid displaced (equal to the volume
-    of the baseball---take this to be $0.000213 ~ m^3$), and $g$ the
-    familiar gravitational constant; $\uvec{j}$ is the unit vector that
-    points straight up:
-
-\begin{equation}
-    \uvec{j} = (0, 1)
-\end{equation}
-
-\end{ex}
-
-\section{Putting it all together}
-
-Let's return to our two-dimensional simulation of the human cannonball
-from Section~\ref{sect:projectile}. Our rate function, {\tt
-projectile}, looked like this:
+The following function computes the drag force on a baseball:
 
 \begin{code}
-function resVector = projectile(t, W)
-    R = W(1:2);
-    V = W(3:4);
+ function res = drag_force(V)
+    C_d = 0.3;      % dimensionless
+    rho = 1.3;      % kg / m^3
+    A = 0.0042;     % m^2
+    v = norm(V);    % m/s
 
-    dRdt = V;
-    dVdt = acceleration(t, R, V);
+    res = - 1/2 * C * rho * A * v * V;
+end
+\end{code}
+  
+The drag coefficient for a baseball is about 0.3.  
+The density of air at sea level is about \SI{1.3}{\kilogram\per\meter\cubed}.
+The cross-sectional area of a baseball is \SI{0.0042}{\meter\squared}.
 
-    resVector = [dRdt; dVdt];
+Now we have to update {\tt acceleration} to take drag into account:
+
+\begin{code}
+function res = acceleration(t, P, V)
+    g = 9.8;                       % acceleration of gravity in m/s^2
+    a_gravity = [0; -g];
+
+    m = 0.145;                     % mass in kilograms
+    a_drag = drag_force(V) / m;
+    res = a_gravity + a_drag;
 end
 \end{code}
 
-Suppose we want to model the effect of drag on our human cannonball's
-flight. Luckily, we already did most of the work for this in
-Section~\ref{sect:spacialre}. We know that we can represent the acceleration
-due to gravity with the vector
+As in Section~\ref{sect:projectile}, {\tt acceleration} represents acceleration due to gravity with a vector that has magnitude {\tt g} and direction along the negative $y$ axis.
 
-\begin{code}
->> Ag = [0; -9.8];
-\end{code}
+But now it also computes drag force, then divides by the mass of the baseball to get acceleration due to drag.
 
-and we know that we can represent the acceleration due to drag with the
-vector
+Finally, it adds \verb"a_gravity" and \verb"a_drag" to get the total acceleration of the baseball.
 
-\begin{code}
->> Fd = - 1/2 * rho * v^2 * c_d * a * Vhat;
->> Ad = Fd / m;
-\end{code}
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/baseball2.eps}}
+\caption{Simulated flight of a baseball including drag force.}
+\label{fig:baseball2}
+\end{figure}
 
-We also know how to compute {\tt v} and {\tt Vhat} given {\tt V}. But
-what constants should we use? Sure, {\tt rho} is fairly obvious---we can
-take {\tt rho} to be the density of air at sea level ($1.3 ~
-kg/m^3$)---but what about {\tt c\_d}, {\tt a}, and {\tt m}? I want
-\textit{you} to figure out these constants: research is as much a part
-of physical modelling as math and programming are---and it's the part
-that's most fun.
+Figure~\ref{fig:baseball2} shows the results.  The ball lands after about \SI{5}{\second}, having traveled less than \SI{150}{\meter}, substantially less than what we got without air resistance, about \SI{250}{\meter}.
 
-Visualize a human cannonball. If you can't, then look one up on
-YouTube. Look up drag coefficients to help estimate the drag
-coefficient {\tt c\_d} (the ``drag coefficient'' Wikipedia page is a good
-resource\footnote{\url{https://en.wikipedia.org/wiki/Drag_coefficient}}).
+This result suggests that ignoring air resistance is not a good choice for modeling a baseball.
 
-Now you need to decide \textit{who} to fire out of the cannon. What's
-their waist size? What's their weight? Use these to estimate {\tt a} and
-{\tt m}.
-
-Once you decide on these constants, you can use the following {\tt
-acceleration} function to test your model (together with {\tt
-projectile} above):
-
-\begin{code}
-function At = acceleration(t, R, V)
-    g = 9.8;             
-    rho = 1.3;           % air density in kg/m^3
-    %c_d = ?
-    %a = ?
-    %m = ?
-
-    Ag = [0; -g];        % acceleration due to gravity in m/s^2
-
-    v = norm(V);
-    Vhat = V/v;
-    Fd = - 1/2 * rho * v^2 * c_d * a * Vhat;
-    Ad = Fd / m;
-
-    At = Ag + Ad;
-end
-\end{code}
-
-Use the following to run the simulation:
-
-\begin{code}
->> T = [0,10];            % time-span; change this if needed
->> W0 = [0, 3, 40, 30];   % initial position and velocity
-                          % think: is this reasonable?
-
->> ode45(@projectile, T, W0)
-\end{code}
-
-How did it go? Were your results reasonable? Why or why not? Consider our
-initial discussion of modeling from Section~\ref{sect:modeling} . Is this
-model a good choice to simulate a human cannonball?
 
 \section{What could go wrong?}
 
@@ -6909,13 +6767,11 @@ b =  1
 
 >> c = [a, b]
 Error using horzcat
-Dimensions of matrices being concatenated are not
-consistent.
+Dimensions of matrices being concatenated are not consistent.
 
 >> c = [a; b]
 Error using vertcat
-Dimensions of matrices being concatenated are not
-consistent.
+Dimensions of matrices being concatenated are not consistent.
 \end{code}
 
 In this example, {\tt a} is a row vector and {\tt b} is a column
@@ -6925,40 +6781,37 @@ Reading the error messages, you probably guessed that {\tt horzcat}
 is the function that performs horizontal concatenation, and likewise
 with {\tt vertcat} and vertical concatenation.
 
-These operations are relevant to our rate function {\tt projectile} from
-Section~\ref{sect:projectile} because of the last line, which packs {\tt
-dRdt} and {\tt dVdt} into the output variable:
+In Section~\ref{sect:projectile} we use horizontal concatenation to packs {\tt dRdt} and {\tt dVdt} into the output variable:
 
 \begin{code}
-function resVector = projectile(t, W)
-    R = W(1:2);
+function res = rate_func(t, W)
+    P = W(1:2);
     V = W(3:4);
 
-    dRdt = V;
-    dVdt = acceleration(t, R, V);
+    dPdt = V;
+    dVdt = acceleration(t, P, V);
 
-    resVector = [dRdt; dVdt];
+    res = [dPdt; dVdt];
 end
 \end{code}
 
-As long as both {\tt dRdt} and {\tt dVdt} are column vectors,
+As long as {\tt dRdt} and {\tt dVdt} are column vectors,
 the semi-colon performs vertical concatenation, and the result is
 a column vector with four elements.  But if either of them is a
 row vector, that's trouble.
 
-{\tt ode45} expects the result from {\tt projectile} to be a
+{\tt ode45} expects the result from \verb"rate_func" to be a
 column vector, so if you are working with {\tt ode45}, it is
 probably a good idea to make {\em everything} a column vector.
 
-In general, if you run into problems with {\tt horzcat} and {\tt
-vertcat}, use {\tt size} to display the dimensions of the operands,
+In general, if you run into problems with {\tt horzcat} and
+{\tt vertcat}, use {\tt size} to display the dimensions of the operands,
 and make sure you are clear on which way your vectors go.
 
 
 \section{Glossary}
 
 \begin{description}
-
 
 \item[spatial vector:] A value that represents a
 multidimensional physical quantity like position, velocity,
@@ -6970,6 +6823,7 @@ direction.
 \item[norm:] The magnitude of a vector.  Sometimes called ``length,''
 but not to be confused with the number of elements in a MATLAB
 vector.
+
 \item[concatenation:] The operation of joining two matrices end-to-end to
 form a new matrix.
 
@@ -6979,68 +6833,51 @@ form a new matrix.
 \section{Exercises}
 
 \begin{ex}
-\label{ex:baseball}
+label{ex:cannon}
+According to Wikipedia, the record distance for a human cannonball is 59.05 meters\footnote{See \url{https://en.wikipedia.org/wiki/Human_cannonball}.}.
 
-In the absence of wind the flight of a baseball is governed by three forces: gravity,
-drag due to air resistance, and Magnus force due to spin.  If
-we ignore Magnus force, the path of the baseball stays
-in a plane, so we can model it as a projectile in two
-dimensions.
+Modify the example from this chapter to simulate the flight of a human cannonball.  You might have to do some research to find the drag coefficient and cross sectional area for a flying human.
 
-As presented in Section~\ref{sect:spacialre}, a simple model for the drag force
-    on a baseball is:
-
-\begin{equation}
-    \vec{F_d} = - \frac{1}{2} ~ \rho v^2 C_d A \cdot \uvec{v}
-\end{equation}
-
-where $\vec{F_d}$ is a vector that represents the force on the baseball
-    due to drag, $\rho$ is the density of air (1.3 kg/m$^3$ at sea
-    level), $C_d$ is the drag coefficient (0.3 is a reasonable choice),
-     $A$ is the baseball's cross sectional area (0.0042 m$^2$), and
-    $\vec{v}$ is the baseball's velocity vector.  The baseball has a mass of
-    0.145 kg.
-
-\begin{itemize}
-
-\item Write a function that takes
-as input variables
-the initial velocity, the initial height, and the launch angle of the baseball,
-%as input variables,
-uses {\tt ode45} to compute
-the trajectory, and returns the range (horizontal distance in flight until
-the ball impacts the ground)
-as an output variable.
-
-\item Use your implemented function to display the horizontal distance profile
-with initial velocities from 30m/s to 50m/s at a launch angle of 45 degrees
-and an initial height of 1m.
-Describe the relation between the horizontal distance and the initial velocity.
-
-\item Fix the initial velocity at 48m/s and initial height at 1m, and display
-the horizontal distance profile
-with launch angles from 20 to 60 degrees. Describe the relation between
-the horizontal distance and the launch angle.  Approximate the optimal
-launch angle for this problem (for present purposes, the launch angle that gives the furthest horizontal distance to the ball impacting the ground).
-You can alter the range of launch angles plotted if needed or desired.
-
-\end{itemize}
-
+Find the initial velocity (both magnitude and direction) you would need to break this record.  You might have to experiment to find the optimal launch angle.
 \end{ex}
 
 
+% ABD: I am commenting this out for now because the drag equation is
+% probably not a good model for this scenario.
+
+%\begin{ex}
+%Suppose the baseball lands in a lake, and breaks the water's surface
+%with velocity
+%
+%\begin{equation}
+%    v_0 = (25, -25) ~  m/s
+%\end{equation}
+%
+%How long will it take to resurface?
+%
+%Consider the baseball to be fully submerged when it enters the water. You will need to account for the gravitational force and the drag force (given in equation \eqref{eq:wikidrag}). You will also need to consider the force due to ``buoyancy'' which is given by Archimedes' principle:
+%
+%\begin{equation}
+%    \vec{F_b} = \rho V g ~ \uvec{j}
+%\end{equation}
+%
+%where $\rho$ is the density of the fluid (for water this is $1000 ~ kg /
+%m^3$), $V$ is the volume of the fluid displaced (equal to the volume
+%of the baseball---take this to be $0.000213 ~ m^3$), and $g$ the
+%familiar gravitational constant; $\uvec{j}$ is the unit vector that
+%points straight up:
+%
+%\begin{equation}
+%    \uvec{j} = (0, 1)
+%\end{equation}
+%
+%\end{ex}
 
 
 % chap11
-\chapter{Optimization and Interpolation}
-\section{Optimization}
+\chapter{Optimization}
 
-``Optimal'' is a fancy way of saying ``best;'' what that means depends on the problem.
-In Exercise~\ref{ex:baseball}, you were asked to approximate the launch angle which
-can produce the longest horizontal distance for a ball batted at a particular speed (48m/s)
-and from a particular height (1m).  The angle which produces the longest horizontal distance
-can be considered the
-optimal angle for that problem.
+``Optimal'' is a fancy way of saying ``best''.  For example, in Exercise~\ref{ex:cannon}, you were asked to find the optimal angle for a human cannonball, which means the angle that yields the highest range distance traveled before landing.  But ``optimal'' means different things for different problems.
 
 The first step in any optimization problem is to define
 what ``optimal'' means.  The second step is to define a range of
