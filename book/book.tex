@@ -4082,7 +4082,7 @@ of the original equation.
 
 \item The next step is to find values of $x$ that make
 $f(x) = 0$.  These values are called zeros of the
-function, or {\bf roots'}.
+function, or {\bf roots}.
 
 \end{itemize}
 
@@ -4090,32 +4090,7 @@ Zero-finding lends itself to numerical solution because we can
 use the values of $f$, evaluated at various values of $x$, to
 make reasonable inferences about where to look for zeros.
 
-For example, if we can find two values $x_1$ and $x_2$ such that
-$f(x_1) > 0$ and $f(x_2) < 0$, then we can be certain that there is at
-least one zero between $x_1$ and $x_2$ (provided that we know that $f$
-is continuous).  In this case we would say that $x_1$ and $x_2$
-{\bf bracket} a zero.
-
-Here's what this scenario might look like on a graph:
-
-\beforefig \centerline{\includegraphics[height=1.5in]{figs/secant.eps}}
-
-If this was all you knew about $f$, where would you go looking for
-a zero?  If you said ``halfway between $x_1$ and $x_2$,'' then
-congratulations!  You just invented a numerical method called
-{\bf bisection}!
-
-If you said, ``I would connect the dots with a straight line
-and compute the zero of the line,'' then
-congratulations!  You just invented the {\bf secant method}!
-
-And if you said, ``I would evaluate $f$ at a third point, find the
-parabola that passes through all three points, and compute the zeros
-of the parabola,'' then... well, you probably didn't say that.
-
-Finally, if you said, ``I would use a built-in MATLAB function that
-combines the best features of several efficient and robust
-numerical methods'', then you are ready to go on to the next section.
+% TODO: patch this
 
 
 \section{{\tt fzero}}
@@ -4209,12 +4184,11 @@ x = 3
 ans = 3
 \end{code}
 
-Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a point in the interval, $2.75$ and evaluates $f$ there.  After each iteration, the interval that brackets gets smaller and the guess gets closer to the true root.
-
+Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a point in the interval, $2.75$ and evaluates $f$ there.  After each iteration, the interval gets smaller and the guess gets closer to the true root.
 {\tt fzero} stops when the interval is so small that the estimated
-zero is correct to 16 digits.  If you
-don't need that much precision, you can tell {\tt fzero} to give
-you a quicker, dirtier answer (see \url{https://www.mathworks.com/help/matlab/ref/fzero.html}).
+zero is correct to about 15 digits.
+ 
+If you would like to know more about how {\tt fzero} works, see Section~\ref{sect:fzero}.
 
 
 \section{What could go wrong?}
@@ -6454,7 +6428,7 @@ Use {\tt ode45} to answer this question.  Here are some suggestions about how to
 \end{ex}
 
 
-
+% chpt11
 \chapter{Two dimensions}
 
 \section{Spatial vectors}
@@ -6869,9 +6843,30 @@ Modify the example from this chapter to simulate the flight of a human cannonbal
 Find the initial velocity (both magnitude and direction) you would need to break this record.  You might have to experiment to find the optimal launch angle.
 \end{ex}
 
+
 \begin{ex}
-TODO: celestial mechanics
+
+If you did Exercise~\ref{ex:earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now let's simulate the Earth orbiting the Sun in two dimensions.
+
+To keep things simple, we'll consider only the effect of the Sun on the Earth, and ignore the effect of the Earth on the Sun.  So we'll place the Sun at the origin and use the vector $\vec{P}$ to represent the position of the Earth relative to the Sun.
+
+Given the mass of the Sun, $m1$, and the mass of the Earth, $m2$, the gravitational force between them is
+
+\begin{equation*}
+\vec{F_g} = -G \frac{m_1 m_2}{r^2} \uvec{P}
+\end{equation*}
+
+$G$ is the universal gravitational constant\footnote{See \url{https://en.wikipedia.org/wiki/Gravity}.},
+$r$ is the distance of Earth from the Sun, and
+$\uvec{P}$ is a unit vector in the direction of $\vec{P}$.
+
+Write a simulation of Earth orbiting the Sun.  You can look up the orbital velocity of the Earth, or search for the initial velocity that causes the earth to make one complete orbit in one year.
+
+One warning: {\tt ode45} does not work well for this kind of problem; in particular, it does not conserve energy.  If you run the simulation for a few years, you will see that the Earth spirals toward the Sun, or away.  
+If you try one of the other ODE solvers, like {\tt ode23}, you might get a better solution.
+
 \end{ex}
+
 
 
 % ABD: I am commenting this out for now because the drag equation is
@@ -6906,7 +6901,7 @@ TODO: celestial mechanics
 %\end{ex}
 
 
-% chap11
+% chap12
 \chapter{Optimization}
 
 In Exercise~\ref{ex:cannon}, you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  In this chapter, we solve a similar problem, finding the best launch angle for a baseball.
@@ -7086,8 +7081,7 @@ fval = -131.5851
 
 The optimal launch angle for the baseball is \SI{0.69}{\radian}; launched at that angle, the ball travels about \SI{132}{\meter}.
 
-The following sections explain how {\tt fminsearch} works.
-
+If you are curious about how {\tt fminsearch} works, see Section~\ref{sect:fminsearch}.
 
 
 \section{Animation}
@@ -7097,36 +7091,33 @@ model.  If something is wrong, animation can make it obvious.
 There are two ways to do animation in MATLAB.  One is to use
 {\tt getframe} to capture a series of images and {\tt movie} to
 play them back.
-The more informal way is to draw a series of plots.
-Here is an example I wrote for Exercise~\ref{ex:jupiter}:
+
+The more informal way is to draw a series of plots.  Here is a function that animates the results of a baseball simulation:
 
 \begin{code}
-function animate_func(T,M)
-    % ANIMATE_FUNC(T,M)
-    % animate the positions of the planets, assuming that the
-    % columns of M are x1, y1, x2, y2.
-    X1 = M(:,1);
-    Y1 = M(:,2);
-    X2 = M(:,3);
-    Y2 = M(:,4);
+function animate(T,M)
+    X = M(:,1);
+    Y = M(:,2);
 
-    minmax = [min([X1;X2]), max([X1;X2]), min([Y1;Y2]), max([Y1;Y2])];
+    minmax = [min([X]), max([X]), min([Y]), max([Y])];
 
     for i=1:length(T)
-        clf;
-        axis(minmax);
-        hold on;
-        draw_func(X1(i), Y1(i), X2(i), Y2(i));
+        clf
+        axis(minmax)
+        plot(X(i), Y(i), 'o')
         drawnow;
+        
+        if i < length(T)
+            dt = T(i+1) - T(i);
+            pause(dt);
+        end
     end
 end
 \end{code}
 
 The input variables are the output from {\tt ode45}, a vector
 {\tt T} and a matrix {\tt M}.  The columns of {\tt M} are the
-positions and velocities of the Sun and Jupiter, so
-{\tt X1} and {\tt Y1} get the coordinates of the Sun;
-{\tt X2} and {\tt Y2} get the coordinates of Jupiter.
+$x$ and $y$ coordinates of the baseball.
 
 {\tt minmax} is a vector of four elements which is used inside
 the loop to set the axes of the figure.  This is necessary because
@@ -7134,35 +7125,22 @@ otherwise MATLAB scales the figure each time through the loop,
 so the axes keep changing, which makes the animation hard
 to watch.
 
-Each time through the loop, {\tt animate\_func} uses {\tt clf}
-to clear the figure and {\tt axis} to reset the axes.  {\tt hold
-on} makes it possible to put more than one plot onto the same
-axes (otherwise MATLAB clears the figure each time you call
-{\tt plot}).
+Each time through the loop, {\tt animate} uses {\tt clf}
+to clear the figure and {\tt axis} to reset the axes.  Then it plot a circle to represent the position of the baseball.
 
 Each time through the loop, we have to call {\tt drawnow} so
 that MATLAB actually displays each plot.  Otherwise it waits
 until you finish drawing all the figures and {\em then} updates
 the display.
 
-{\tt draw\_func} is the function that actually makes the
-plot:
+We can call {\tt animate} like this:
 
 \begin{code}
-function draw_func(x1, y1, x2, y2)
-    plot(x1, y1, 'r.', 'MarkerSize', 50);
-    plot(x2, y2, 'b.', 'MarkerSize', 20);
-end
+    tspan = [0 10];
+    W = [0 1 30 40];
+    [T, M] = ode45(@rate_func, tspan, W);
+    animate(T, M)
 \end{code}
-
-The input variables are the position of the Sun and Jupiter.
-{\tt draw\_func} uses {\tt plot} to draw
-the Sun as a large red marker and Jupiter as a smaller blue one.
-
-\begin{ex}
-To make sure you understand how {\tt animate\_func} works,
-try commenting out some of the lines to see what happens.
-\end{ex}
 
 One limitation of this kind of animation is that the speed
 of the animation depends on how fast your computer can generate
@@ -7171,248 +7149,31 @@ equally spaced in time, your animation might slow down where
 {\tt ode45} takes small time steps and speed up where the time
 step is larger.
 
-There are two ways to fix this problem:
-
-\begin{enumerate}
-
-\item When you call {\tt ode45} you can give it a vector of
-points in time where it should generate estimates.  Here is
-an example:
+One way to fix this problem is to change the way to specify {\tt tspan}.
+Here is an example:
 
 \begin{code}
-end_time = 1000;
-step = end_time/200;
-[T, M] = ode45(@rate_func, [0:step:end_time], W);
+    tspan = 0:0.1:10;
 \end{code}
 
-The second argument is a range vector that goes from 0 to 1000 with a
-step size determined by {\tt step}.  Since {\tt step} is {\tt
-end\_time/200}, there will be about 200 rows in {\tt T} and {\tt M}
-(201 to be precise).
+The result vector that goes from 0 to 10 with a
+step size of 0.1.  This option does not affect the accuracy of the results; {\tt ode45} still uses variable time steps to generate the estimates, but then it interpolates them before returning the results.
 
-This option does not affect the accuracy of the results; {\tt ode45}
-still uses variable time steps to generate the estimates, but then it
-interpolates them before returning the results.
+With equal time steps, the animation should be smoother.
 
-\item You can use {\tt pause} to play the animation in
+Another option is to use {\tt pause} to play the animation in
 real time.  After drawing each frame and calling
 {\tt drawnow}, you can compute the time
 until the next frame and use {\tt pause} to wait:
 
 \begin{code}
-dt = T(i+1) - T(i);
-pause(dt);
+    dt = T(i+1) - T(i);
+    pause(dt);
 \end{code}
 
 A limitation of this method is that it ignores the time required to
 draw the figure, so it tends to run slow, especially if the figure is
 complex or the time step is small.
-
-\end{enumerate}
-
-\begin{ex}
-Use {\tt animate\_func} and {\tt draw\_func} to visualize your
-simulation of Jupiter.  Modify it so it shows one day of simulated
-time in 0.001 seconds of real time---one revolution should take
-about 4.3 seconds.
-\end{ex}
-
-
-
-\section{Glossary}
-
-\begin{description}
-
-\item[interpolation:] Estimating the value of a function using
-known values on either side.
-
-\item[extrapolation:] Estimating the value of a function using
-known values that don't bracket the desired value.
-
-\item[single-valued mapping:] A mapping where each value in the
-range maps to a single value in the domain.
-
-\item[multivalued mapping:] A mapping where at least one value in
-the range maps to more than one value in the domain.
-
-\end{description}
-
-
-\section{Exercises}
-
-\begin{ex}
-\label{ex:golf}
-
-A golf ball hit with backspin
-generates lift, which might increase the range, but the energy that
-goes into generating spin probably comes at the cost of lower initial
-velocity.\footnote{See \url{https://en.wikipedia.org/wiki/Golf_ball}.}
-Write a simulation of the flight of a golf ball and use it to find
-the launch angle and allocation of spin and initial velocity
-(for a fixed energy budget) that maximizes the horizontal range of the
-ball in the air.
-
-The lift of a spinning ball is due to the Magnus force\footnote{See
-\url{https://en.wikipedia.org/wiki/Magnus_effect}.}, which is
-perpendicular to the axis of spin and the path of flight.  The
-coefficient of lift is proportional to the spin rate; for a ball
-spinning at 3000 rpm it is about 0.1.  The coefficient of drag of a
-golf ball is about 0.2 as long as the ball is moving faster than 20 m/s.
-\end{ex}
-
-
-
-\begin{ex}
-I call this algorithm a Silver Section Search because it is almost as
-good as a Golden Section Search.  Read the Wikipedia page about the
-Golden Section Search
-(\url{https://en.wikipedia.org/wiki/Golden_section_search}) and then
-modify this code to implement it.
-\end{ex}
-
-\begin{ex}
-You can write functions that take function handles as input
-variables, just as {\tt fzero} and {\tt ode45} do.
-For example, {\tt handle\_func} takes a function handle called
-{\tt func} and calls it, passing {\tt pi} as an argument.
-
-\begin{code}
-function res = handle_func(func)
-    func(pi)
-end
-\end{code}
-
-You can call {\tt handle\_func} from the Command Window and pass
-different function handles as arguments:
-
-\begin{code}
->> handle_func(@sin)
-ans = 0
-
->> handle_func(@cos)
-ans = -1
-\end{code}
-
-Modify {\tt optimize} so that it takes a function handle
-as an input variable and uses it as the function to be
-maximized.
-\end{ex}
-
-
-\begin{ex}
-The MATLAB function {\tt fminsearch} takes a function handle
-and searches for a local minimum.  Read the documentation for
-{\tt fminsearch} and use the function to solve the following problems:
-
-\begin{itemize}
-
-\item Find in degrees the optimal launch angle -- giving the longest horizontal distance --
-of a baseball launched with a velocity of 48m/s from a height of 1m.
-
-\item Write a function that takes the initial velocity of the baseball
-as an input variable, computes the launch angle that maximizes
-the range, and returns the optimal angle and the corresponding range as output variables.
-How does the optimal launch angle vary with initial velocity?
-
-\end{itemize}
-\end{ex}
-
-\begin{ex}
-Very often, in an optimization problem, the meaning of ``optimal'' is not obvious.
-
-For example, the Green Monster in Fenway Park is about 12 m high and about 97
-m from home plate along the left field line.
-What is the optimal angle that a baseball should leave the bat in order
-for the ball 
-to leave the bat at minimum possible spead and still clear the Green Monster?
-%We could ask about the minimum
-%speed a ball must leave the bat in order to clear the monster
-%(assuming it goes off at the optimal angle)?
-
-We may be tempted
-to choose for the optimal angle the angle that yields the longest
-range (distance from home plate when it lands).  
-Although this definition would be good for some problems,
-it is not quite right for this problem.  
-For this problem, we can optimize the angle so that it
-yields the greatest ball height at the point where
-the ball reaches the wall, which is 97m from home plate.
-Remember, we are ultimately trying to minimize
-the speed that the ball needs to leave the bat.  At this minimum speed,
-the ball will just clear the wall if hit at the optimal angle.
-
-Could we also use for the ``optimal'' angle the 
-angle that yields the longest range when the ball falls
-through 12m?  Would you get the same minimum ball speed
-to get over the Green Monster in that case?
-
-Report the minimum ball speed when leaving the bat and the optimal angle
-at that speed for all strategies used to solve this problem.
-\end{ex}
-
-
-
-
-
-%chap12
-\chapter{Celestial Mechanics}
-
-\section{Celestial mechanics}
-
-Modeling celestial mechanics is a good opportunity
-to compute with spatial vectors.
-Imagine a star with mass $m_1$ at a point in space described by the
-vector $\vec{P_1}$, and a planet with mass $m_2$ at point $\vec{P_2}$.
-The magnitude of the gravitational force between them is
-
-\begin{equation}
-F_g = G \frac{m_1 m_2}{r^2}
-\end{equation}
-
-where $r$ is the distance between them and $G$ is the universal
-gravitational constant, which is about $6.67 \times 10^{-11} N m^2 /
-kg^2$.\footnote{See \url{https://en.wikipedia.org/wiki/Gravity}.}
-Remember that when using this
-value of $G$ it is easiest to directly specify
-%is the appropriate value of $G$ only if the
-masses
-%are
-in kilograms and distances in meters, and forces are calculated in Newtons.
-
-The direction of the force on the star at $\vec{P_1}$ is in the
-direction toward $\vec{P_2}$.  We can compute relative direction $\vec{r}$ by
-subtracting vectors; if we compute $\vec{r} = \vec{P_2} - \vec{P_1}$, then
-the direction of $\vec{r}$ is from $\vec{P_1}$ to $\vec{P_2}$.
-
-The distance between the planet and star is the length of $\vec{r}$:
-
-\begin{code}
-r = norm(R)
-\end{code}
-
-The direction of the force on the star is $\uvec{r}$:
-
-\begin{code}
-Rhat = R / r
-\end{code}
-
-\begin{ex}
-Write a sequence of MATLAB statements that computes $\vec{F_{12}}$, a vector
-that represents the force on the star due to the planet, and
-$\vec{F_{21}}$, the force on the planet due to the star. Encapsulate
-these statements in a function named {\tt gravity\_force\_func} that
-takes {\tt P1}, {\tt m1}, {\tt P2}, and {\tt m2} as input variables
-and returns {\tt F12} and {\tt F21}.
-\end{ex}
-
-\begin{ex}
-\label{ex:jupiter}
-Write a simulation of the orbit of Jupiter around the Sun.  The mass
-of the Sun is about $2.0 \times 10^{30}$ kg.  You can get the mass of
-Jupiter, its distance from the Sun and orbital velocity from
-\url{https://en.wikipedia.org/wiki/Jupiter}.  Confirm that it takes
-about 4332 days for Jupiter to orbit the Sun.
-\end{ex}
 
 
 \section{Conservation of Energy}
@@ -7466,201 +7227,6 @@ Run your simulation with one of the other ODE solvers MATLAB provides
 and see if any of them conserve energy.
 \end{ex}
 
-
-
-%chap13
-\chapter{How does it work?}
-
-
-\section{How {\tt ode45} works}
-
-If you are curious to know more about how {\tt ode45} works, you
-can modify the {\tt rats} function to display the points, $(t, y)$, where
-{\tt ode45} evaluates $g$.  
-Here, instead, is a new function
-{\tt rats\_plot}
-that displays the point and then invokes the original {\tt rats} function.
-
-\begin{code}
-function res = rats_plot(t, y)
-    plot(t, y, 'r.')
-    res = rats(t, y);
-end
-\end{code}
-
-Each time {\tt rats\_plot} is called, for example by {\tt ode45}, a dot is plotted showing one data point; in order
-to see multiple data points in a figure, you have to use {\tt hold on}.
-
-\begin{code}
->> clf; hold on
->> [T, Y] = ode45(@rats_plot, [0, 365], 2000);
->> xlim([280, 365])
-\end{code}
-
-% should we comment on <clf; hold on> -- i.e. two commands on one line?
-Note that {\tt xlim([280, 365])} selects a certain domain of time for the figure, in this case from Day 280 to 365:
-
-\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45_simple.eps}}
-
-The {\tt xlim} call could have been placed before the {\tt ode45} call.  Experiment with different orderings of the calls and see how the figure evolves in different ways.  So the dots show the points where {\tt ode45} called {\tt rats\_plot}.  Now let's continue with these four additional lines of code.
-
-\begin{code}
->> plot(T, Y, '-o')
->> hold off
->> xlabel('t (days)')
->> ylabel('y (rat population)')
-\end{code}
-
-This results in the updated figure:  
-
-\beforefig \centerline{\includegraphics[height=2.2in]{figs/ode45plotLabel.eps}}
-
-The circles show the locations of the estimates
-$(T_i, F_i)$.  Notice that {\tt ode45} typically evaluates
-$g$ 
-%more times than the number of estimates
-more times than it provides estimates of $f$.  This allows it to improve the
-estimates, for one thing, but also to detect places where the errors
-are increasing so it can decrease the time step (or the other
-way around).  The labels were produced, obviously, by the {\tt xlabel} and {\tt ylabel} calls.
-
-\begin{ex}
-Write code that creates a figure that also plots short 
-red lines through the red dots to show the slope (rate of change) calculated
-at each point, as shown below.  Note that the plotted estimates are not connected by lines in this figure.
-
-%wcs -- Not sure we want to make all the code, including solutions, available to students whose teacher chose the book.
-%A more comprehensive version of the script, "rats2.m", can be obtained from the textbook's website.\footnote{
-%\url{https://github.com/AllenDowney/PhysicalModelingInMATLAB/blob/master/code/rats2.m}}
-
-\beforefig \centerline{\includegraphics[width=6.0in]{figs/ode45.eps}}
-\end{ex}
-
-
-\section{How {\tt fzero} works}
-
-\section{How {\tt fminsearch} works}
-
-To present the main ideas behind
-the Golden Section Search, I will present a simplified
-search algorithm I'll call a Silver Section Search.  The basic idea is similar to
-the methods for zero-finding we saw in Section~\ref{sect:zero}.  In the
-case of zero-finding, we had a picture like this:
-
-\beforefig \centerline{\includegraphics[height=1.5in]{figs/secant.eps}}
-
-We are given a function, $f$, that we can evaluate, and
-we want to find a root of $f$; that is, a value of $x$ that makes
-$f(x)=0$.  If we can find a value, $x_1$, that makes $f(x_1)$ positive
-and another value, $x_2$, that makes $f(x_2)$ negative, then there has
-to be a root in between (as long as $f$ is continuous).  In this
-case we say that $x_1$ and $x_2$ ``bracket'' the root.
-
-The algorithm proceeds by choosing a third value, $x_3$, between
-$x_1$ and $x_2$ and then evaluating $y = f(x_3)$.  If $y$ is
-positive, we can form a new pair, $(x_3, x_2)$, that brackets the
-root.  If $y$ is negative then the pair $(x_1, x_3)$ brackets the root.
-Either way the size of the bracket gets smaller, so our
-estimate of the location of the root gets better.
-
-So that was root-finding.  The Silver Section Search is similar, but
-we have to start with three values, and the picture looks like
-this:
-
-\beforefig \centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
-
-This diagram shows that we have evaluated $f$ in three places,
-$x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the highest
-value.  If $f$ is continuous, then there has to be at least one
-local maximum between $x_1$ and $x_3$, so we would say that the
-triple $(x_1, x_2, x_3)$ brackets a maximum.
-
-The next step is to choose a fourth point, $x_4$, and evaluate
-$f(x_4)$.  There are two possible outcomes, depending on whether
-$f(x_4)$ is greater than $f(x_2)$:
-
-\beforefig \centerline{\includegraphics[height=1.5in]{figs/golden2.eps}}
-
-If $f(x_4)$ is less than than $f(x_2)$ (shown on the left), then the
-new triple $(x_1, x_2, x_4)$ brackets the maximum.  If $f(x_4)$ is
-greater than $f(x_2)$ (shown on the right), then $(x_2, x_4, x_3)$
-brackets the maximum.  Either way the range gets smaller and our
-estimate of the optimal value of $x$ gets better.
-
-This method works for almost any value of $x_4$, but some choices
-are better than others.  In the example, I chose to bisect the
-bigger of the ranges $(x_1, x_2)$, and $(x_2, x_3)$.
-
-Here's what that looks like in MATLAB:
-
-\begin{code}
-function res = optimize(V)
-    x1 = V(1);
-    x2 = V(2);
-    x3 = V(3);
-
-    fx1 = distance_func(x1);
-    fx2 = distance_func(x2);
-    fx3 = distance_func(x3);
-
-    for i=1:200
-        if x3-x2 > x2-x1
-            x4 = (x2+x3) / 2;
-            fx4 = distance_func(x4);
-            if fx4 > fx2
-                x1 = x2;  fx1 = fx2;
-                x2 = x4;  fx2 = fx4;
-            else
-                x3 = x4;  fx3 = fx4;
-            end
-        else
-            x4 = (x1+x2) / 2;
-            fx4 = distance_func(x4);
-            if fx4 > fx2
-                x3 = x2;  fx3 = fx2;
-                x2 = x4;  fx2 = fx4;
-            else
-                x1 = x4;  fx1 = fx4;
-            end
-        end
-
-        if x1 == x3
-            break
-        end
-    end
-    res = [x1 x2 x3];
-end
-\end{code}
-
-The input variable is a vector that contains three values that bracket
-a maximum; in the above case of finding the longest distance of a baseball 
-the values are angles in degrees.  {\tt optimize}
-starts by evaluating {\tt distance\_func} for each of the three values.
-We assume that {\tt distance\_func} returns the result we want to
-maximize; for the baseball best-angle-for-longest-distance problem
-the result is the horizontal distance traveled by the
-ball when it hits the ground given a particular angle of departure from
-the baseball bat.  The initial velocity (48m/s) and initial height (1m) 
-are as mentioned previously.
-
-Each time through the {\tt for} loop the function chooses a value
-of {\tt x4}, evaluates {\tt distance\_func}, and then updates the
-triplet {\tt x1}, {\tt x2}, and {\tt x3} according to the results.
-
-After the update, 
-the function checks whether the range of the bracket, {\tt x3-x1}, has 
-shrunken to zero indicating that the estimated maximum is correct to 16 
-digits, similar to the behavior of the {\tt fzero} function covered earlier
-in the book. 
-If so, it breaks out of
-the loop and returns a triplet of the estimated maximum as a result.  
-The loop is executed a maximum of 200 times and, if it isn't broken
-out of before that, the last updated triplet may be of a lesser
-correctness.
-
-
-\section{Exercises}
-
 \begin{ex}
 \label{ex:binary}
 
@@ -7682,6 +7248,217 @@ replicate or extend the results.
 
 
 
+\section{Exercises}
+
+\begin{ex}
+\label{ex:golf}
+
+A golf ball hit with backspin
+generates lift, which might increase the distance it travels, but the energy that goes into generating spin probably comes at the cost of lower initial velocity.
+
+Write a simulation of the flight of a golf ball and use it to find
+the launch angle and allocation of spin and initial velocity
+(for a fixed energy budget) that maximizes the horizontal range of the
+ball in the air.
+
+The lift of a spinning ball is due to the Magnus force\footnote{See
+\url{https://en.wikipedia.org/wiki/Magnus_effect}.}, which is
+perpendicular to the axis of spin and the path of flight.  The
+coefficient of lift is proportional to the spin rate; for a ball
+spinning at 3000 rpm it is about 0.1.  The coefficient of drag of a
+golf ball is about 0.2 as long as the ball is moving faster than \SI{20}{\meter\per\second}.
+
+\end{ex}
+
+
+
+
+
+
+
+\begin{ex}
+%TODO
+For example, the Green Monster in Fenway Park is about 12 m high and about 97 m from home plate along the left field line.
+What is the optimal angle that a baseball should leave the bat in order
+for the ball 
+to leave the bat at minimum possible spead and still clear the Green Monster?
+%We could ask about the minimum
+%speed a ball must leave the bat in order to clear the monster
+%(assuming it goes off at the optimal angle)?
+
+We may be tempted
+to choose for the optimal angle the angle that yields the longest
+range (distance from home plate when it lands).  
+Although this definition would be good for some problems,
+it is not quite right for this problem.  
+For this problem, we can optimize the angle so that it
+yields the greatest ball height at the point where
+the ball reaches the wall, which is 97m from home plate.
+Remember, we are ultimately trying to minimize
+the speed that the ball needs to leave the bat.  At this minimum speed,
+the ball will just clear the wall if hit at the optimal angle.
+
+Could we also use for the ``optimal'' angle the 
+angle that yields the longest range when the ball falls
+through 12m?  Would you get the same minimum ball speed
+to get over the Green Monster in that case?
+
+Report the minimum ball speed when leaving the bat and the optimal angle
+at that speed for all strategies used to solve this problem.
+\end{ex}
+
+
+%chap13
+\chapter{How does it work?}
+
+In this chapter we ``open the hood'', looking more closely at how some of the tool we have used --- {\tt ode45}, {\tt fzero}, and {\tt fminsearch} --- work.
+
+
+\section{How {\tt ode45} works}
+\label{sect:ode45}
+
+According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair''.  You can read about it at \url{https://en.wikipedia.org/wiki/Runge-Kutta_methods}, but I'll try to give you a sense of it here.
+
+The key idea behind all Runge-Kutta methods is to evaluate the rate function several times at each time step, and use a weighted average of the computed slopes to estimate the value at the next time step.  The details are in where the rate function is called and how the slopes are averages.
+
+As an example, I'll solve the following differential equation:
+
+\[ \frac{dy}{dt}(t) = y \sin t \] 
+
+Given a differential equation, it is usually straightforward to write a rate function:
+
+\begin{code}
+function res = rate_func(t, y)
+    dydt = y * sin(t);
+    res = dydt;
+end
+\end{code}
+
+And we can call it like this:
+
+\begin{code}
+    y0 = 1;
+    tspan=[0 4];
+    options = odeset('Refine', 1);
+    [T, Y] = ode45(@rate_func, tspan, y0, options);
+\end{code}
+
+For this example I use {\tt odeset} to set the {\tt Refine} option to 1, which tells {\tt ode45} to return only the time steps it computed, rather than interpolating between them.
+
+Now I can modify the rate function to plot the places where it gets evaluated:
+
+\begin{code}
+function res = rate_func(t, y)
+    dydt = y * sin(t);
+    res = dydt;
+
+    plot(t, y, 'ro')
+    dt = 0.01;
+    ts = [t t+dt];
+    ys = [y y+dydt*dt];
+    plot(ts, ys, 'r-')
+end
+\end{code}
+
+Now when \verb"rate_func" runs it plot a red circle at each location, and a short red line showing the computed slope.
+
+Figure~\ref{fig:odeplot1} shows the result.  {\tt ode45} computes 10 time steps (not counting the initial condition) and evaluates the rate function 61 times.
+
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/odeplot1.eps}}
+\caption{Points where {\tt ode45} evaluates the rate function.}
+\label{fig:odeplot1}
+\end{figure}
+
+Figure~\ref{fig:odeplot2} shows the same plot, zoomed in on a single time step, from $0.8$ to $1.2$.  We can see that {\tt ode45} evaluates the rate function several times per time step, at several times between the end points.  
+
+\begin{figure}
+\centerline{\includegraphics[height=3in]{figs/odeplot2.eps}}
+\caption{Points where {\tt ode45} evaluates the rate function, zoomed in.}
+\label{fig:odeplot2}
+\end{figure}
+
+One important thing to take away from this figure: most of the places where {\tt ode45} evaluates the rate function are not part of the solution it returns, and they are not always good estimates of the solution.
+
+
+
+\section{How {\tt fzero} works}
+\label{sect:fzero}
+
+According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of bisection, secant, and inverse quadratic interpolation methods''.
+
+To understand what that means, suppose we are trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two place, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
+
+\begin{figure}
+\centerline{\includegraphics[height=1.6in]{figs/secant.eps}}
+\caption{Initial state of a root-finding search.}
+\label{fig:secant}
+\end{figure}
+
+As long as $f$ is continuous, there must be at least one root in this interval.  In this case we would say that $x_1$ and $x_2$
+{\bf bracket} a zero.
+
+If this was all you knew about $f$, where would you go looking for
+a root?  If you said ``halfway between $x_1$ and $x_2$'',
+congratulations!  You just invented a numerical method called
+{\bf bisection}!
+
+If you said, ``I would connect the dots with a straight line
+and compute the zero of the line,''
+congratulations!  You just invented the {\bf secant method}!
+
+And if you said, ``I would evaluate $f$ at a third point, find the
+parabola that passes through all three points, and compute the zeros
+of the parabola,'' then congratulations, you just invented inverse quadratic interpolation.
+
+That's most of how {\tt fzero} works.  The details of how these methods are combined are interesting, but beyond the scope of this book.  You can read more at \url{https://en.wikipedia.org/wiki/Brents_method}.  
+
+
+\section{How {\tt fminsearch} works}
+\label{sect:fminsearch}
+
+According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead_method}, but you might find it overwhelming.
+
+To give you a sense of how it works, I will present a simpler algorithm, the {\bf golden-section search}.  Suppose we are trying to find the minimum of a function of a single variable, $f(x)$.  As a starting place, assume that we have evaluated the function at three places, 
+$x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
+value. Figure~\ref{fig:golden1} shows this initial state.
+
+\begin{figure}
+\centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
+\caption{Initial state of a golden-section search.}
+\label{fig:golden1}
+\end{figure}
+
+If $f$ is continuous, there has to be at least one
+minimum point between $x_1$ and $x_3$.
+
+The next step is to choose a fourth point, $x_4$, and evaluate
+$f(x_4)$.  There are two possible outcomes, depending on whether
+$f(x_4)$ is greater than $f(x_2)$.
+Figure~\ref{fig:golden2} shows the two possible states.
+
+\begin{figure}
+\centerline{\includegraphics[height=1.5in]{figs/golden2.eps}}
+\caption{Possible states of a golden-section search after evaluating $f(x_4)$.}
+\label{fig:golden2}
+\end{figure}
+
+If $f(x_4)$ is less than than $f(x_2)$ (shown on the left), the
+local minimum must be between $x_2$ and $x_3$, so we would discard $x_1$ and proceed with the new triple $(x_2, x_4, x_3)$.
+
+If $f(x_4)$ is greater than $f(x_2)$ (shown on the right), the
+local minimum must be between $x_1$ and $x_4$, so we would discard $x_3$ and proceed with the new triple $(x_1, x_2, x_4)$.
+
+Either way the range gets smaller and our estimate of the optimal value of $x$ gets better.
+
+This method works for almost any value of $x_4$, but some choices
+are better than others.  You might be tempted to bisect the interval between $x_2$ and $x_3$, but that turns out not to be the best choice.  You can read about a better option at \url{https://en.wikipedia.org/wiki/Golden-section_search#Probe_point_selection}.
+
+
+
+
+
+
 
 \begin{appendices}
 \chapter{The Nine Theorems of Debugging}
@@ -7698,71 +7475,8 @@ replicate or extend the results.
     \item \displaythrm{9}
 \end{enumerate}
 
-\chapter{Nested Functions}
-\label{chpt:nestedfuns}
-\index{Functions!nested}
 
-This appendix provides an alternative way to structure code that
-involves helper functions, which were discussed in Section~\ref{sect:funfiles};
-there, we saw an example of an M-file with more than one function:
 
-\begin{code}
-function res = duck()
-    error = error_func(10)
-end
-
-function res = error_func(h)
-    rho = 0.3;      % density in g / cm^3
-    r = 10;         % radius in cm
-    res = ...
-end
-\end{code}
-
-Because the first function ends before the second begins, these
-functions are at the same level of indentation.  Functions like
-these are parallel, as opposed to nested.  A nested function is
-defined inside another, like this:
-
-\begin{code}
-function res = duck()
-    error = error_func(10)
-
-    function res = error_func(h)
-        rho = 0.3;      % density in g / cm^3
-        r = 10;         % radius in cm
-        res = ...
-    end
-end
-\end{code}
-
-The function {\tt duck} is the enclosing function and {\tt
-error\_func} is the nested function.
-
-Nesting functions is useful because the variables of the outer
-function can be accessed from the inner function.  This is not
-possible with parallel functions.
-
-In this example, using a nested function makes it possible to
-move the parameters {\tt rho} and {\tt r} out of {\tt error\_func}.
-
-\begin{code}
-function res = duck(rho)
-    r = 10;
-    error = error_func(10)
-
-    function res = error_func(h)
-        res = ...
-    end
-end
-\end{code}
-
-Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
-By making {\tt rho} an input argument, we made it easier to test
-{\tt duck} with different parameter values.
-
-Nested functions can also help de-clutter code (but not always). For
-more information on nested functions, please consult the official documentation
-at \url{https://www.mathworks.com/help/matlab/matlab_prog/nested-functions.html}.
 
 \end{appendices}
 
@@ -7975,3 +7689,69 @@ direction of the other (might be used to mean ``scalar projection'' or
 ``vector projection'').
 
 \end{description}
+
+\chapter{Nested Functions}
+\label{chpt:nestedfuns}
+\index{Functions!nested}
+
+This appendix provides an alternative way to structure code that
+involves helper functions, which were discussed in Section~\ref{sect:funfiles};
+there, we saw an example of an M-file with more than one function:
+
+\begin{code}
+function res = duck()
+    error = error_func(10)
+end
+
+function res = error_func(h)
+    rho = 0.3;      % density in g / cm^3
+    r = 10;         % radius in cm
+    res = ...
+end
+\end{code}
+
+Because the first function ends before the second begins, these
+functions are at the same level of indentation.  Functions like
+these are parallel, as opposed to nested.  A nested function is
+defined inside another, like this:
+
+\begin{code}
+function res = duck()
+    error = error_func(10)
+
+    function res = error_func(h)
+        rho = 0.3;      % density in g / cm^3
+        r = 10;         % radius in cm
+        res = ...
+    end
+end
+\end{code}
+
+The function {\tt duck} is the enclosing function and {\tt
+error\_func} is the nested function.
+
+Nesting functions is useful because the variables of the outer
+function can be accessed from the inner function.  This is not
+possible with parallel functions.
+
+In this example, using a nested function makes it possible to
+move the parameters {\tt rho} and {\tt r} out of {\tt error\_func}.
+
+\begin{code}
+function res = duck(rho)
+    r = 10;
+    error = error_func(10)
+
+    function res = error_func(h)
+        res = ...
+    end
+end
+\end{code}
+
+Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
+By making {\tt rho} an input argument, we made it easier to test
+{\tt duck} with different parameter values.
+
+Nested functions can also help de-clutter code (but not always). For
+more information on nested functions, please consult the official documentation
+at \url{https://www.mathworks.com/help/matlab/matlab_prog/nested-functions.html}.
