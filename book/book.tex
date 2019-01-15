@@ -1,8 +1,9 @@
 % LaTeX source for textbook ``Physical Modeling in MATLAB''
 % Copyright 2018 Allen B. Downey and W. Craig Scratchley
 %
-% License: Creative Commons Attribution-NonCommercial 3.0 Unported License.
-% http://creativecommons.org/licenses/by-nc/3.0/
+% License: Creative Commons Attribution-NonCommercial 
+% 4.0 Unported License.
+% http://creativecommons.org/licenses/by-nc/4.0/
 %
 % Labels within this document are prefixed with
 % "ex:", "eqn:", "chpt:", "sect:"
@@ -140,25 +141,25 @@
         {The only thing worse than getting an error message is {\em
          not} getting an error message.}{%
     \ifthenelse{\equal{#1}{3}}%
-        {You must always be 100\% sure that the code you are running
+        {Be sure that the code you are running
          is the code you think you are running.}{%
     \ifthenelse{\equal{#1}{4}}%
         {Error messages tell you where the problem was discovered,
          not where it was caused.}{%
     \ifthenelse{\equal{#1}{5}}%
-        {The best kind of debugging is the kind you don't have to do.}{%
-    \ifthenelse{\equal{#1}{6}}%
-        {The worst bugs aren't in your code; they are in your head.}{%
-    \ifthenelse{\equal{#1}{7}}%
         {The best way to avoid a bug is to make it impossible.}{%
+    \ifthenelse{\equal{#1}{6}}%
+        {The best kind of debugging is the kind you don't have to do.}{%
+    \ifthenelse{\equal{#1}{7}}%
+        {The worst bugs aren't in your code; they are in your head.}{%
     \ifthenelse{\equal{#1}{8}}%
-        {Error messages sometimes tell you what's wrong, but they
-         seldom tell you what to do (and when they try, they're usually
-         wrong).}{%
-    \ifthenelse{\equal{#1}{9}}%
         {Finding a hard bug requires reading, running, ruminating,
          and sometimes retreating.  If you get stuck on one of these
          activities, try the others.}{%
+    \ifthenelse{\equal{#1}{9}}%
+        {Error messages sometimes tell you what's wrong, but they
+         seldom tell you what to do (and when they try, they're usually
+         wrong).}{%
     {}% default case
 }}}}}}}}}}% all the closing braces for displaythrm
 
@@ -896,11 +897,8 @@ ans = exp(exponent) / denom
 \end{code}
 
 The names of the intermediate variables explain their role in the
-computation.  {\tt shiftx} is the value of {\tt x} shifted by {\tt
-2000000}.  It should be no surprise that {\tt exponent} is the argument
-of {\tt exp}, and {\tt denom} ends up in the denominator.  Choosing
-informative names makes the code easier to read and understand (see
-the First Theorem of Debugging).
+computation.  {\tt shiftx} is the value of {\tt x} shifted by 
+{\tt 2000000}.  It should be no surprise that {\tt exponent} is the argument of {\tt exp}, and {\tt denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes them easier to debug.
 
 \end{itemize}
 
@@ -1666,11 +1664,11 @@ c = c + b_to_c
 
 It is easy to look at this code and confirm that it obeys Conversation
 of Bikes.  Even if the value of \verb"b_to_c" is wrong, at least the total
-number of bikes is right.  And that brings us to the Seventh Theorem of
+number of bikes is right.  And that brings us to the Fifth Theorem of
 Debugging:
 
 \begin{quote}
-\displaythrm{7}
+\displaythrm{5}
 \end{quote}
 
 In this case, removing redundancy also eliminates the opportunity for
@@ -2085,10 +2083,10 @@ change you made was small, it shouldn't take long to find the problem.
 
 \end{enumerate}
 
-With incremental development, your code is more likely to work the first time; and if it doesn't the problem is more likely to be obvious.  And that brings us to the Fifth Theorem of Debugging:
+With incremental development, your code is more likely to work the first time; and if it doesn't the problem is more likely to be obvious.  And that brings us to the Sixth Theorem of Debugging:
 
 \begin{quote}
-\displaythrm{5}
+\displaythrm{6}
 \end{quote}
 
 In practice, there are two problems with incremental development:
@@ -2910,6 +2908,7 @@ out the loop.
 
 
 
+
 \section{Glossary}
 
 \begin{description}
@@ -3704,52 +3703,51 @@ $5,12,13$ and $8,15,17$ are ``new,'' but the others are just
 multiples of the $3,4,5$ triangle we already knew.
 
 
-\section{A misstep}
-
-When you change the signature of a function, you have to change
-the places that call the function, too.  For example, suppose
-you decide to add a third input variable to {\tt hypotenuse}:
-
-% wcs -- talk about copying from a different file using copyfile
-% (and waiting after copying the file)
-% ABD: not sure what you are getting at here.
-
-\begin{code}
-function res = hypotenuse(a, b, d)
-    res = (a^d + b^d) ^ (1/d);
-end
-\end{code}
-
-When {\tt d} is 2, the function does the same thing it did before.  There is
-no practical reason to generalize the function in this way; it's just
-an example.  Now when you run {\tt find\_triples}, you get:
-
-\begin{code}
->> find_triples(20)
-Not enough input arguments.
-
-Error in hypotenuse (line 2)
-    res = (a^d + b^d)^(1/d);
-
-Error in find_triples (line 7)
-            c = hypotenuse(a, b);
-\end{code}
-
-So that makes it pretty easy to find the error.  
-
-% ABD: I removed the 8th theorem of debugging here because the error
-% message no longer makes a suggestion, right or wrong
+%\section{A misstep}
+%
+%When you change the signature of a function, you have to change
+%the places that call the function, too.  For example, suppose
+%you decide to add a third input variable to {\tt hypotenuse}:
+%
+%% wcs -- talk about copying from a different file using copyfile
+%% (and waiting after copying the file)
+%% ABD: not sure what you are getting at here.
+%
+%\begin{code}
+%function res = hypotenuse(a, b, d)
+%    res = (a^d + b^d) ^ (1/d);
+%end
+%\end{code}
+%
+%When {\tt d} is 2, the function does the same thing it did before.  There is no practical reason to generalize the function in this way; it's just
+%an example.  Now when you run {\tt find\_triples}, you get:
+%
+%\begin{code}
+%>> find_triples(20)
+%Not enough input arguments.
+%
+%Error in hypotenuse (line 2)
+%    res = (a^d + b^d)^(1/d);
+%
+%Error in find_triples (line 7)
+%            c = hypotenuse(a, b);
+%\end{code}
+%
+%So that makes it pretty easy to find the error.  
+%
+%% ABD: I removed the 8th theorem of debugging here because the error
+%% message no longer makes a suggestion, right or wrong
 
 
 \section{{\tt continue}}
 \index{Compound statements!{\tt continue}}
 
-As one final improvement, let's modify the function so that it only
+As a final improvement, let's modify the function so it only
 displays the ``lowest'' of each Pythagorean triple, and not the
 multiples.
 
 The simplest way to eliminate the multiples is to check whether
-$a$ and $b$ share a common factor.  If they do, then dividing both
+$a$ and $b$ share a common factor.  If they do, dividing both
 by the common factor yields a smaller, similar triangle that has
 already been checked.
 
@@ -3775,16 +3773,11 @@ end
 \end{code}
 
 {\tt continue} causes the program to end the current iteration
-immediately (without executing the rest of the body), jump to
-the top of the loop, and ``continue'' with the next iteration.
+immediately, jump to the top of the loop, and ``continue'' with the next iteration.
 
-In this case, since there are two loops, it might not be obvious
-which loop to jump to, but the rule is to jump to the inner-most
-loop (which is what we want).
+In this case, since there are two loops, it might not be obvious which loop to jump to, but the rule is to jump to the inner-most loop (which is what we want).
 
-I also simplified the program slightly by eliminating
-{\tt flag} and using {\tt isintegral} as the condition of the
-{\tt if} statement.
+I also simplified the program slightly by eliminating {\tt flag} and using {\tt isintegral} as the condition of the {\tt if} statement.
 
 Here are the results with {\tt n=40}:
 
@@ -3799,8 +3792,6 @@ ans =  9    40    41
 ans = 12    35    37
 ans = 20    21    29
 \end{code}
-
-
 
 
 \section{Mechanism and leap of faith}
@@ -3904,13 +3895,13 @@ function does.
 \begin{ex}
 
 There is an interesting connection between Fibonacci numbers and
-Pythagorean triples.  If $F$ is a Fibonacci sequence, then
+Pythagorean triples.  If $F$ is a Fibonacci sequence,
 
 \begin{equation}
 (F_i F_{i+3}, 2 F_{i+1} F_{i+2}, F_{i+1}^2 + F_{i+2}^2 )
 \end{equation}
 
-is a Pythagorean triple for all $i \ge 1$.
+is a Pythagorean triple, for all $i \ge 1$.
 
 Write a function named {\tt fib\_triple} that
 takes {\tt n} as an input variable and computes 
@@ -4188,7 +4179,7 @@ Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a 
 {\tt fzero} stops when the interval is so small that the estimated
 zero is correct to about 15 digits.
  
-If you would like to know more about how {\tt fzero} works, see Section~\ref{sect:fzero}.
+If you would like to know more about how {\tt fzero} works, see Section~\ref{sect:howfzero}.
 
 
 \section{What could go wrong?}
@@ -4397,74 +4388,52 @@ You can avoid these problems by choosing function names carefully:
 \end{itemize}
 
 
-\section{Debugging in four acts}
+\section{Debugging your head}
 
-When you are debugging a program, and especially if you are working on a hard bug, there are four things to try:
+When you are working with a new function or a new language feature
+for the first time, you should test it in isolation before you
+put it into your program.
 
-\begin{description}
+For example, suppose you know that {\tt x} is the sine of some
+angle and you want to find the angle.  You find the MATLAB function
+{\tt asin}, and you are pretty sure it computes the inverse sine
+function.  Pretty sure is not good enough; you want to be very sure.
 
-\item[reading:] Examine your code, read it back to yourself, and
-check that it means what you meant to say.
+Since we know $\sin 0 = 0$, we could try
 
-\item[running:] Experiment by making changes and running different
-versions.  Often if you display the right thing at the right place
-in the program, the problem becomes obvious, but you might have to invest time building scaffolding.
+\begin{code}
+>> asin(0)
+ans = 0
+\end{code}
 
-\item[ruminating:] Take some time to think!  What kind of error
-is it: syntax, run-time, or logical?  What information can you get from
-the error messages, or from the output of the program?  What kind of
-error could cause the problem you're seeing?  What did you change
-last, before the problem appeared?
+which is correct.  Now, we also know that the sine of 90 degrees is
+1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
 
-\item[retreating:] At some point, the best thing to do is back
-off, undoing recent changes, until you get back to a program that
-works, and that you understand.  Then you can starting rebuilding.
+\begin{code}
+>> asin(1)
+ans = 1.5708
+\end{code}
 
-\end{description}
+Oops.  We forgot that the trig functions in MATLAB work in radians,
+not degrees.  So the correct answer is $\pi/2$, which we can
+confirm by dividing through by {\tt pi}:
 
-Beginning programmers sometimes get stuck on one of these activities
-and forget the others.  Each activity comes with its own failure
-mode.
+\begin{code}
+>> asin(1) / pi
+ans = 0.5000
+\end{code}
 
-For example, reading your code might help if the problem is a
-typographical error, but not if the problem is a conceptual
-misunderstanding.  If you don't understand what your program does, you
-can read it 100 times and never see the error, because the error is in
-your head.
+With this kind of testing, you are not really checking for
+errors in MATLAB, you are checking your understanding.  If you
+make an error because you are confused about how MATLAB works, it
+might take a long time to find, because when you look at the code,
+it looks right.
 
-Running experiments can help, especially if you run small, simple
-tests.  But if you run experiments without thinking or reading your
-code, you might fall into a pattern I call ``random walk programming,''
-which is the process of making random changes until the program
-does the right thing.  Needless to say, random walk programming
-can take a long time.
-
-The way out is to take more time to think.  Debugging is like an
-experimental science.  You should have at least one hypothesis about
-what the problem is.  If there are two or more possibilities, try to
-think of a test that would eliminate one of them.
-
-Taking a break sometimes helps with the thinking.  So does talking.
-If you explain the problem to someone else (or even yourself), you
-will sometimes find the answer before you finish asking the question.
-
-But even the best debugging techniques will fail if there are too many
-errors, or if the code you are trying to fix is too big and
-complicated.  Sometimes the best option is to retreat, simplifying the
-program until you get to something that works, and then rebuild.
-
-Beginning programmers are often reluctant to retreat, because
-they can't stand to delete a line of code (even if it's wrong).
-If it makes you feel better, copy your program into another file
-before you start stripping it down.  Then you can paste the pieces
-back in a little bit at a time.
-
-To summarize, here's the Ninth Theorem of Debugging:
+Which brings us to the Seventh Theorem of Debugging:
 
 \begin{quote}
-\displaythrm{9}
+\displaythrm{6}
 \end{quote}
-
 
 
 \section{Glossary}
@@ -5048,6 +5017,74 @@ Write a version of {\tt forall} using {\tt find}.
 \end{ex}
 
 
+\section{Debugging in four acts}
+
+When you are debugging a program, and especially if you are working on a hard bug, there are four things to try:
+
+\begin{description}
+
+\item[reading:] Examine your code, read it back to yourself, and
+check that it means what you meant to say.
+
+\item[running:] Experiment by making changes and running different
+versions.  Often if you display the right thing at the right place
+in the program, the problem becomes obvious, but you might have to invest time building scaffolding.
+
+\item[ruminating:] Take some time to think!  What kind of error
+is it: syntax, run-time, or logical?  What information can you get from
+the error messages, or from the output of the program?  What kind of
+error could cause the problem you're seeing?  What did you change
+last, before the problem appeared?
+
+\item[retreating:] At some point, the best thing to do is back
+off, undoing recent changes, until you get back to a program that
+works, and that you understand.  Then you can starting rebuilding.
+
+\end{description}
+
+Beginning programmers sometimes get stuck on one of these activities
+and forget the others.  Each activity comes with its own failure
+mode.
+
+For example, reading your code might help if the problem is a
+typographical error, but not if the problem is a conceptual
+misunderstanding.  If you don't understand what your program does, you
+can read it 100 times and never see the error, because the error is in
+your head.
+
+Running experiments can help, especially if you run small, simple
+tests.  But if you run experiments without thinking or reading your
+code, you might fall into a pattern I call ``random walk programming,''
+which is the process of making random changes until the program
+does the right thing.  Needless to say, random walk programming
+can take a long time.
+
+The way out is to take more time to think.  Debugging is like an
+experimental science.  You should have at least one hypothesis about
+what the problem is.  If there are two or more possibilities, try to
+think of a test that would eliminate one of them.
+
+Taking a break sometimes helps with the thinking.  So does talking.
+If you explain the problem to someone else (or even yourself), you
+will sometimes find the answer before you finish asking the question.
+
+But even the best debugging techniques will fail if there are too many
+errors, or if the code you are trying to fix is too big and
+complicated.  Sometimes the best option is to retreat, simplifying the
+program until you get to something that works, and then rebuild.
+
+Beginning programmers are often reluctant to retreat, because
+they can't stand to delete a line of code (even if it's wrong).
+If it makes you feel better, copy your program into another file
+before you start stripping it down.  Then you can paste the pieces
+back in a little bit at a time.
+
+To summarize, here's the Eighth Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{8}
+\end{quote}
+
 
 \section{Glossary}
 
@@ -5078,6 +5115,8 @@ operator to a vector, that contains logical values 1 and 0.
 
 %\begin{ex}
 %\end{ex}
+
+%TODO: any exercises for this chapter?
 
 
 % chap08
@@ -5195,7 +5234,8 @@ end
 
 function res = rate_func(t, y)
    a = 0.2;
-   res = a * y;
+   dydt = a * y;
+   res = dydt;
 end
 \end{code}
 
@@ -5204,7 +5244,7 @@ In {\tt euler} I initialize the initial conditions and then call \verb"rate_func
 After testing these functions, I added code to {\tt euler} to implement these difference equations:
 
 \begin{eqnarray}
-T_{i+1} &=& T_i + \Delta t                 \\
+T_{i+1} &=& T_i + \Delta t             \\
 Y_{i+1} &=& Y_i + r \Delta t           \\
 \end{eqnarray}
 %
@@ -5239,24 +5279,17 @@ The result is a plot of population over time, shown in Figure~\ref{fig:euler}.  
 \label{sect:ode45}
 \index{Differential equations!{\tt ode45}}
 
-A limitation of Euler's method is that the time step is constant from
-one iteration to the next.  But some parts of the solution are
-harder to estimate than others; if the time step is small enough to
-get the hard parts right, it is doing more work than necessary on the
-easy parts.  The ideal solution is to adjust the time step as you go
-along.  
+A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that is not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and they are much more accurate. 
 
-Methods that do that are called {\bf adaptive}, and one of the
-best adaptive methods is the Dormand-Prince pair of Runge-Kutta
-formulas.  
-You can read about this method at \url{https://en.wikipedia.org/wiki/Dormand-Prince_method}, but you don't have to know the details, because MATLAB provides a function that implements it, called {\tt ode45}.
+MATLAB provides a function called {\tt ode45} that implements one of these methods.  In this section I'll explain how to use it; you can read more about how it works in Section~\ref{sect:howode45}.
 
-In order to use {\tt ode45}, you have to write a MATLAB function that evaluates $g$ as a function of $t$ and $y$.  Fortunately, we already have one, \verb"rate_func":
+In order to use {\tt ode45}, you have to write a function that evaluates $dy/dt$ as a function of $t$ and $y$.  Fortunately, we already have one, \verb"rate_func":
 
 \begin{code}
 function res = rate_func(t, y)
    a = 0.2;
-   res = a * y;
+   dydt = a * y;
+   res = dydt;
 end
 \end{code}
 
@@ -6406,6 +6439,8 @@ What is the lowest altitude where the skydiver can open the parachute and still 
 
 
 \begin{ex}
+\label{ex:earth}
+
 Here's a question from the web site {\em Ask an Astronomer}\footnote{\url{https://web.archive.org/web/20180617133223/http://curious.astro.cornell.edu/about-us/39-our-solar-system/the-earth/other-catastrophes/57-how-long-would-it-take-the-earth-to-fall-into-the-sun-intermediate}}:
 
 \begin{quote}
@@ -7081,7 +7116,7 @@ fval = -131.5851
 
 The optimal launch angle for the baseball is \SI{0.69}{\radian}; launched at that angle, the ball travels about \SI{132}{\meter}.
 
-If you are curious about how {\tt fminsearch} works, see Section~\ref{sect:fminsearch}.
+If you are curious about how {\tt fminsearch} works, see Section~\ref{sect:howfminsearch}.
 
 
 \section{Animation}
@@ -7315,7 +7350,7 @@ In this chapter we ``open the hood'', looking more closely at how some of the to
 
 
 \section{How {\tt ode45} works}
-\label{sect:ode45}
+\label{sect:howode45}
 
 According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair''.  You can read about it at \url{https://en.wikipedia.org/wiki/Runge-Kutta_methods}, but I'll try to give you a sense of it here.
 
@@ -7383,7 +7418,7 @@ One important thing to take away from this figure: most of the places where {\tt
 
 
 \section{How {\tt fzero} works}
-\label{sect:fzero}
+\label{sect:howfzero}
 
 According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of bisection, secant, and inverse quadratic interpolation methods''.
 
@@ -7415,7 +7450,7 @@ That's most of how {\tt fzero} works.  The details of how these methods are comb
 
 
 \section{How {\tt fminsearch} works}
-\label{sect:fminsearch}
+\label{sect:howfminsearch}
 
 According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead_method}, but you might find it overwhelming.
 
@@ -7456,12 +7491,8 @@ are better than others.  You might be tempted to bisect the interval between $x_
 
 
 
-
-
-
-
 \begin{appendices}
-\chapter{The Nine Theorems of Debugging}
+\chapter{The Theorems of Debugging}
 
 \begin{enumerate}
     \item \displaythrm{1}
@@ -7472,7 +7503,7 @@ are better than others.  You might be tempted to bisect the interval between $x_
     \item \displaythrm{6}
     \item \displaythrm{7}
     \item \displaythrm{8}
-    \item \displaythrm{9}
+    %\item \displaythrm{9}
 \end{enumerate}
 
 
@@ -7487,61 +7518,6 @@ are better than others.  You might be tempted to bisect the interval between $x_
 
 
 % TODO: Figure out where to put this.
-
-
-\section{Unit testing}
-
-In large software projects, {\bf unit testing} is the process of
-testing software components in isolation before putting
-them together.
-
-The programs we have seen so far are not
-big enough to need unit testing, but the same principle applies
-when you are working with a new function or a new language feature
-for the first time.  You should test it in isolation before you
-put it into your program.
-
-For example, suppose you know that {\tt x} is the sine of some
-angle and you want to find the angle.  You find the MATLAB function
-{\tt asin}, and you are pretty sure it computes the inverse sine
-function.  Pretty sure is not good enough; you want to be very sure.
-
-Since we know $\sin 0 = 0$, we could try
-
-\begin{code}
->> asin(0)
-ans = 0
-\end{code}
-
-which is correct.  Also, we know that the sine of 90 degrees is
-1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
-
-\begin{code}
->> asin(1)
-ans = 1.5708
-\end{code}
-
-Oops.  We forgot that the trig functions in MATLAB work in radians,
-not degrees.  So the correct answer is $\pi/2$, which we can
-confirm by dividing through by {\tt pi}:
-
-\begin{code}
->> asin(1) / pi
-ans = 0.5000
-\end{code}
-
-With this kind of unit testing, you are not really checking for
-errors in MATLAB, you are checking your understanding.  If you
-make an error because you are confused about how MATLAB works, it
-might take a long time to find, because when you look at the code,
-it looks right.
-
-Which brings us to the Sixth Theorem of Debugging:
-
-\begin{quote}
-\displaythrm{6}
-\end{quote}
-
 
 But sometimes 
 if the error messages make
