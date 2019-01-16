@@ -33,15 +33,9 @@
 %\usepackage{hevea}
 \usepackage{hyperref}
 \usepackage{ifthen}
+\usepackage{makeidx}
 \usepackage{upquote}
 \usepackage{url}
-
-% Tell compiler to make the index
-\usepackage{imakeidx}
-\makeindex
-
-% Include index in ToC
-\usepackage[totoc]{idxlayout}
 
 % Configure exercise environment
 \numberwithin{Answer}{chapter}
@@ -84,7 +78,6 @@
 \lstnewenvironment{code}
 {\minipage{\linewidth}}
 {\endminipage}
-
 \lstnewenvironment{stdout}
 {\lstset{commentstyle=,keywordstyle=,stringstyle=}\minipage{\linewidth}}
 {\endminipage}
@@ -108,7 +101,11 @@
 % use mcode as a synonym for verb, for inline MATLAB code
 %\newcommand{\mcode{1}}{\mintinline{matlab}{#1}}
 
+% Tell compiler to make the index
+\makeindex
 
+% Include index in ToC
+\usepackage[totoc]{idxlayout}
 
 %% Macros and redefinitions
 
@@ -371,9 +368,12 @@ exercises at the end of some chapters.
 
 Installing MATLAB.
 
-Working with LiveScripts
+All code in this book has been tested with the latest version of MATLAB (R2019a).  But the features we are using have been in MATLAB for a long time; we would expect our code to work with older versions.
 
-Installing Octave and JupyterLab
+
+Working with LiveScripts.
+
+Installing Octave and JupyterLab.
 
 If you are using this book with Octave, we strongly recommend that you install Anaconda, which is a package management system that makes it easy to work with Octave and supporting software.
 
@@ -443,7 +443,7 @@ The following diagram shows what I mean by ``modeling":
 \index{modeling}
 
 \vspace{0.2in}
-\centerline{\includegraphics[height=2.8in]{figs/modeling_framework.pdf}}
+\centerline{\includegraphics[height=3in]{figs/modeling_framework.pdf}}
 
 Starting in the lower left, the {\bf system} is something in the real world we are interested in.  Often, it is something complicated, so we have to decide which details can be left out; removing details is called {\bf abstraction}.
 
@@ -492,6 +492,8 @@ But adding these features to the model would not improve the explanation; more d
 
 Choosing the best model depends on what the model is for.  It is usually a good idea to start with a simple model, even if it is likely to be too simple, and test whether it is good enough for its purpose.  Then you can add features gradually, starting with the ones you expect to be most essential.  This process is called {\bf iterative modeling}.
 
+\index{iterative modeling}
+
 Comparing results of successive models provides a form of {\bf internal validation}, so you can catch conceptual, mathematical, and software errors.  And by adding and removing features, you can tell which ones have the biggest effect on the results, and which can be ignored.
 
 \index{internal validation}
@@ -503,7 +505,8 @@ Comparing results to data from the real world provides {\bf external validation}
 
 The focus of this book is simulation, and the primary tool we will use is MATLAB.
 
-\section{MATLAB}
+
+\section{A glorified calculator}
 \label{sect:calc}
 
 At heart, MATLAB is a glorified calculator.  When you start MATLAB
@@ -512,9 +515,16 @@ entitled {\sf MATLAB} that contains smaller windows entitled {\sf
 Current Folder}, {\sf Command Window}, and {\sf Workspace}.
 In Octave, {\sf Current Folder} is called {\sf File Browser}.
 
+\index{Command Window}
+\index{Workspace}
+\index{interpreter}
+\index{command}
+
 The Command Window runs the {\bf interpreter}, which allows you
 to type {\bf commands}, then executes them and prints the
 result.
+
+\index{prompt}
 
 Initially, the Command Window contains a welcome message with information
 about the version of the software you are running, followed by a {\bf prompt}:
@@ -528,6 +538,8 @@ This symbol prompts you to enter a command.
 The simplest kind of command is a mathematical {\bf expression},
 like {\tt 2 + 1}).
 
+\index{expression}
+
 If you type an expression and then press Enter (or Return), MATLAB
 {\bf evaluates} the expression and prints the result.
 
@@ -538,6 +550,9 @@ ans = 3
 
 Just to be clear: in this example, MATLAB displayed {\tt >>}; I
 typed {\tt 2 + 1} and then hit Enter, and MATLAB displayed {\tt ans = 3}.
+
+\index{operator}
+\index{operand}
 
 In this expression, the plus sign is an {\bf operator} and the numbers {\tt 2} and {\tt 1} are {\bf operands}.
 
@@ -551,8 +566,12 @@ ans = 45
 \end{code}
 
 Speaking of spaces, you might have noticed that MATLAB puts a blank
-line between {\tt ans =} and the result.  In many of my examples I will leave
-it out to save room.
+line between {\tt ans =} and the result.  In many of my examples I will leave it out to save room.
+
+\index{multiplication}
+\index{division}
+\index{arithmetic operator}
+\index{exponentiation}
 
 The other arithmetic operators are pretty much what you would expect.
 Subtraction is denoted by a minus sign, {\tt -}; multiplication by
@@ -577,7 +596,8 @@ exponentiation happens before multiplication and division, and multiplication an
 If you want to override the order of operations, you can use parentheses.
 
 \index{operations!order of}
-
+\index{order of operations}
+\index{parentheses}
 
 \begin{code}
 >> 2 * (3-4) / 5
@@ -590,6 +610,8 @@ of many style guidelines I will recommend for making your programs
 easier to read.  Style doesn't change what the program does; the MATLAB
 interpreter doesn't check for style.  But human readers do, and the
 most important human who will read your code is you.
+
+\index{debugging!First Theorem}
 
 And that brings us to the First Theorem of Debugging:
 
@@ -607,7 +629,7 @@ MATLAB knows how to compute pretty much every math function you've
 heard of.  It knows all the trigonometric functions; here's how you
 use them:
 
-\index{Math functions!trigonometric}
+\index{math function!trigonometric}
 
 \begin{code}
 >> sin(1)
@@ -617,6 +639,9 @@ ans = 0.8415
 This command is an example of a {\bf function call}.  The name of the
 function is {\tt sin}, which is the usual abbreviation for the
 trigonometric sine.  The value in parentheses is called the {\bf argument}.
+
+\index{argument}
+\index{function!argument}
 
 The trig functions {\tt sin}, {\tt cos}, {\tt tan}---among many
 others---work in radians.\footnote{MATLAB also provides trig functions
@@ -637,14 +662,19 @@ ans = 0.7854
 If that bit of trigonometry isn't familiar to you, don't worry about
 it.  It's just an example of a function with multiple arguments.
 
-MATLAB also provides exponential functions\index{Math functions!exponential}, like {\tt exp}, which computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
+\index{trigonometry}
+\index{math function!exponential}
+
+MATLAB also provides exponential functions, like {\tt exp}, which computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
 
 \begin{code}
 >> exp(1)
 ans = 2.7183
 \end{code}
 
-The inverse of {\tt exp} is {\tt log}\index{Math functions!logarithmic}, which computes the logarithm base $e$:
+\index{math function!logarithm}
+
+The inverse of {\tt exp} is {\tt log}, which computes the logarithm base $e$:
 
 \begin{code}
 >> log(exp(3))
@@ -655,6 +685,10 @@ This example also demonstrates that function calls can be {\bf nested};
 that is, you can use the result from one function as an argument for
 another.
 
+\index{nested function call}
+\index{function call!nested}
+\index{operand}
+
 More generally, you can use a function call as an operand in an expression.
 
 \begin{code}
@@ -664,6 +698,8 @@ ans = 1
 
 As you probably guessed, {\tt sqrt} computes the square root.
 
+\index{mathematical function!square root}
+
 There are lots of other math functions, but this is not meant to
 be a reference manual.  To learn about other functions, you should
 read the documentation.
@@ -672,7 +708,10 @@ read the documentation.
 \section{Documentation}
 
 MATLAB comes with two forms of online documentation, {\tt help}
-and {\tt doc}.\index{Documentation!{\tt doc} and {\tt help}}
+and {\tt doc}.
+
+\index{documentation!doc@{\tt doc}}
+\index{documentation!doc@{\tt help}}
 
 The help command works completely in the Command Window; just 
 type {\tt help} followed by the name of a command.
@@ -689,6 +728,10 @@ Some documentation uses vocabulary we haven't covered yet.
 For example, ``the elements of X'' will likely not make sense until
 we get to vectors and matrices a few chapters from now.
 
+\index{element}
+\index{vector}
+\index{matrix}
+
 The {\tt doc} pages are often better for people new to MATLAB.  
 If you type {\tt doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
 use vectors and matrices, so they may not make complete sense yet, 
@@ -701,7 +744,11 @@ One of the features that makes MATLAB more powerful than a calculator
 is the ability to give a name to a value.  A named value is called
 a {\bf variable}.
 
-MATLAB comes with a few predefined variables.\index{Variables!predefined}  For
+\index{variable}
+\index{variable!predefined}
+\index{predefined variable}
+ 
+MATLAB comes with a few predefined variables. For
 example, the name {\tt pi} refers to the
 mathematical quantity $\pi$, which is approximately
 
@@ -712,7 +759,11 @@ ans = 3.1416
 
 And if you do anything with complex numbers, you might find it
 convenient that both {\tt i} and {\tt j} are predefined as the square
-root of $-1$\index{Complex numbers!imaginary unit}.
+root of $-1$.
+
+\index{complex number!imaginary unit}
+\index{operand}
+\index{expression}
 
 You can use a variable name anywhere you can use a number; for example, as
 an operand in an expression:
@@ -732,10 +783,19 @@ ans = 1
 ans = -1.0000 + 0.0000i
 \end{code}
 
-As the second example shows, many MATLAB functions work with
-complex numbers.  This example demonstrates Euler's Equality\index{Complex numbers!Euler's Equality}:
-$e^{i \pi} = -1$.
+\index{argument}
+\index{function call}
+\index{complex number!Euler's equality}
+\index{Euler's equality}
+\index{ans@{\tt ans}}
 
+As the second example shows, many MATLAB functions work with
+complex numbers.  This example demonstrates Euler's Equality:
+%
+\begin{equation*}
+e^{i \pi} = -1
+\end{equation*}
+%
 Whenever you evaluate an expression, MATLAB assigns the result to
 a variable named {\tt ans}.  You can use {\tt ans} in a subsequent
 calculation as shorthand for ``the value of the previous expression''.
@@ -756,7 +816,11 @@ you evaluate an expression.
 
 You can create your own variables, and give them values, with
 an {\bf assignment statement}.  The assignment operator is the
-equals sign, {\tt =}\index{Variables!assignment}.
+equals sign, {\tt =}.
+
+\index{assignment operator}
+\index{operator!assignment}
+\index{statement!assignment}
 
 \begin{code}
 >> x = 6 * 7
@@ -767,7 +831,14 @@ This example creates a new variable named {\tt x} and assigns it the
 value of the expression {\tt 6 * 7}.  MATLAB responds with the
 variable name and the computed value.
 
+\index{expression}
+
 In every assignment statement, the left side has to be a legal variable name.  The right side can be any expression, including function calls.
+
+\index{variable name}
+\index{name!variable}
+\index{underscore}
+\index{case sensitive}
 
 Almost any sequence of lower and upper case letters is a legal
 variable name, as long as the name does not exceed 63 characters.  
@@ -775,7 +846,7 @@ Digits are also legal, but not at the beginning of the name.
 Some punctuation is also legal, but the underscore,
 \verb"_", is the only commonly-used punctuation mark.  
 Spaces are not allowed.  Variable names are
-``case sensitive'', so {\tt x} and {\tt X} are different variables.
+{\bf case sensitive}, so {\tt x} and {\tt X} are different variables.
 
 \begin{code}
 >> fibonacci0 = 1;
@@ -786,27 +857,44 @@ Spaces are not allowed.  Variable names are
 first_name = bob
 \end{code}
 
-The first two examples demonstrate the use of the semi-colon\index{Syntax!semi-colon}, which
+The first two examples demonstrate the use of the semi-colon, which
 suppresses the output from a command.  In this case MATLAB creates the
 variables and assigns them values, but displays nothing.
 
+\index{syntax!semi-colon}
+\index{semi-colon}
+\index{suppress output}
+\index{output!suppress}
+
 The third example demonstrates that not everything
-in MATLAB is a number.  A sequence of characters in single quotes is
+in MATLAB is a number.
+A sequence of characters in single quotes is
 a {\bf string}.
+
+\index{string}
+\index{character}
 
 Although {\tt i}, {\tt j}, and {\tt pi} are predefined, you are free
 to reassign them.  It is common to use {\tt i} and {\tt j} for other
 purposes, but rare to assign a different value to
-{\tt pi}.\index{Complex numbers!imaginary unit}
+{\tt pi}.
+
+\index{complex number!imaginary unit}
 
 
 \section{The workspace}
 
 When you create a new variable, it appears in the {\sf Workspace} window, and it is added to the {\bf workspace}, which is a
-set of variables and their values.\index{Variables!workspace}
+set of variables and their values.
+
+\index{variable}
+\index{workspace}
 
 The {\tt who} command prints the
-names of the variables in the workspace.\index{Variables!{\tt who}}
+names of the variables in the workspace.
+
+\index{who@{\tt who}}
+\index{command!{\tt who}}
 
 \begin{code}
 >> x=5;
@@ -832,9 +920,10 @@ y z
 
 But be careful: if you don't specify any variables, {\tt clear} removes them all.
 
-To display the value of a variable, you can use the {\tt disp} function.
+\index{clear@{\tt clear}}
+\index{disp@{\tt disp}}
 
-\index{Variables!{\tt disp}}
+To display the value of a variable, you can use the {\tt disp} function.
 
 \begin{code}
 >> disp(z)
@@ -851,7 +940,9 @@ z = 9
 
 \section{Why variables?}
 
-Some reasons to use variables are:\index{Variables!reasons for using}
+Some reasons to use variables are:
+
+\index{variable!reasons for}
 
 \begin{itemize}
 
@@ -885,9 +976,12 @@ ans = ((x - 2000000) * sqrt(2 * pi) * 1000000) ^ -1 * ...
 exp(-1/2 * (log(x - 2000000) - area)^2 / 1000000^2)
 \end{code}
 
-You can use an ellipsis to break the expression into multiple lines.\index{Syntax!ellipses}
+You can use an ellipsis to break the expression into multiple lines.
 Just type {\tt ...} at the end of the first line and continue on the
 next.
+
+\index{syntax!{\tt ...}}
+\index{ellipsis}
 
 But often it is better to break the computation into a sequence of
 steps and assign intermediate results to variables.
@@ -904,9 +998,14 @@ The names of the intermediate variables explain their role in the
 computation.  {\tt shiftx} is the value of {\tt x} shifted by 
 {\tt 2000000}.  It should be no surprise that {\tt exponent} is the argument of {\tt exp}, and {\tt denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes them easier to debug.
 
+\index{numerator}
+\index{denominator}
+
 \end{itemize}
 
 \section{Errors}
+
+\index{error}
 
 It's early, but now would be a good time to start making errors.
 Whenever you learn a new feature, you should try to make as many errors as possible, as soon as possible.
@@ -926,7 +1025,12 @@ missing or unbalanced delimiters, or other syntax error.
 To construct matrices, use brackets instead of parentheses.
 \end{code}
 
+\index{invalid expression}
+\index{expression!invalid}
+
 The error message indicates that the expression in invalid and suggests several things that might be wrong.  In this case, one of its guesses is right; we are missing a multiplication operator.
+
+\index{parentheses}
 
 Another common error is to leave out the parentheses around the
 arguments of a function.  For example, in math notation, it is common
@@ -949,6 +1053,8 @@ ans =  112   105
 
 I won't explain this result; for now, I'll just suggest that you should {\em always} put parentheses around arguments.
 
+\index{debugging!Second Theorem}
+
 This example also demonstrates the Second Theorem of Debugging:
 
 \begin{quote}
@@ -956,6 +1062,8 @@ This example also demonstrates the Second Theorem of Debugging:
 \end{quote}
 
 MATLAB functions are case sensitive, if you type the {\tt sin} function using capital letters in MATLAB, you get an error:
+
+\index{case sensitive}
 
 \begin{code}
 >> SIN(pi)
@@ -970,6 +1078,8 @@ can to make the messages go away.  Experienced programmers know that error
 messages are your friend.  They can be hard to understand, and even
 misleading, but it is worth the effort to understand them.
 
+\index{error message}
+
 Here's another common error.
 If you were translating this mathematical expression into MATLAB:
 %
@@ -983,6 +1093,9 @@ You might be tempted to write this:
 
 But that would be wrong because of the order of operations.  Division and multiplication are evaluated from left to right, so this expression would multiply {\tt 1/2} by {\tt sqrt(pi)}.
 
+\index{order of operations}
+\index{denominator}
+
 To keep {\tt sqrt(pi)} in the denominator, you could use parentheses:
 
 \begin{code}
@@ -995,7 +1108,7 @@ or make the division explicit.
 1 / 2 / sqrt(pi)
 \end{code}
 
-
+\index{division}
 
 
 \section{Glossary}
@@ -1065,6 +1178,7 @@ You might have heard that a penny dropped from the top of the Empire State Build
 We can test this myth by making and analyzing a model.  To get started, we'll assume that the effect of air resistance is small.  This will turn out to be a bad assumption, but bear with me.
 
 If air resistance is negligible, the primary force acting on the penny is gravity, which causes the penny to accelerate downward.
+
 \index{air resistance}
 
 If the initial velocity is 0, the velocity after $t$ seconds is $a t$, and the distance the penny has dropped is
@@ -1085,7 +1199,7 @@ Use MATLAB to perform these computations, and check that you get the same result
 \end{ex}
 
 \begin{ex}
-The result in the previous exercise is not accurate it ignores air resistance.  In reality, once the penny gets to about \SI{18}{\meter\per\second}, the upward force of air resistance equals the downward force of gravity, so the penny stops accelerating.  After that, it doesn't matter how far the penny falls; it hits the sidewalk at about \SI{18}{\meter\per\second}, much less than \SI{86}{\meter\per\second}.
+The result in the previous exercise is not accurate because it ignores air resistance.  In reality, once the penny gets to about \SI{18}{\meter\per\second}, the upward force of air resistance equals the downward force of gravity, so the penny stops accelerating.  After that, it doesn't matter how far the penny falls; it hits the sidewalk at about \SI{18}{\meter\per\second}, much less than \SI{86}{\meter\per\second}.
 
 As an exercise, compute the time it takes for the penny to reach the sidewalk if we assume that it accelerates with constant acceleration
 $a = \SI{9.8}{\meter\per\second\squared}$ until it reaches terminal velocity, then falls with constant velocity until it hits this sidewalk.
@@ -1106,6 +1220,10 @@ fine if you are not writing more than a few lines.  Beyond that,
 you will want to store your program in a {\bf script} and then
 execute the script.
 
+\index{script}
+\index{m-file}
+\index{file extension}
+
 A script is a file that contains MATLAB code.  These files are
 also called ``M-files'' because they use the extension {\tt .m},
 which is short for MATLAB.
@@ -1119,11 +1237,13 @@ x = 5
 \end{code}
 
 Then press the {\sf Save} button.  A dialog window should appears where you
-can choose the file name and the directory where it should go.  Change
+can choose the file name and the folder where it should go.  Change
 the name to {\tt myscript.m} and save it into any folder you like.
 
 Now press the green {\sf Run} button.  You might get a message that says the script is not found in the current folder.  
 If so, click the button that says {\sf Change Folder} and it should run.
+
+\index{Command Window}
 
 You can also run your script from the Command Window: type {\tt myscript} at the prompt and press Enter.  
 MATLAB executes your script and displays the result.
@@ -1148,6 +1268,8 @@ When you name a new script, try to choose something meaningful and memorable.
 Do not choose a name that is not already in use; if you do, you will replace one of MATLAB's functions with your own (at least temporarily).
 You might not notice right away, but you might get some confusing behavior later.
 
+\index{script file name}
+
 Also, the name of the script cannot contain spaces.  If you create
 a file named {\tt my script.m}, MATLAB will complain when you try
 to run it:
@@ -1158,15 +1280,14 @@ Undefined function or variable 'my'.
 \end{code}
 
 Keeping track of your scripts can be a pain.  To keep things simple,
-for now, I suggest putting all of your scripts in one
-directory.
+for now, I suggest putting all of your scripts in one folder.
 
 
 \section{Why scripts?}
 
 The most common reasons to use scripts are:
 
-\index{Scripts!reasons for using}
+\index{script!reasons for}
 
 \begin{itemize}
 
@@ -1190,8 +1311,13 @@ Whenever you start a new script, start with something simple,
 like {\tt x=5}, that produces a visible effect.  Then run your script
 and confirm that you get what you expect.
 
-When you type the name of a script, MATLAB searches for the script in a {\bf path}, which is a sequence of folders.  If it doesn't find the script in the first folder, it searches the second, and so on.
+When you type the name of a script, MATLAB searches for the script in a {\bf search path}, which is a sequence of folders.  If it doesn't find the script in the first folder, it searches the second, and so on.
 If you have scripts with the same name in different folders, you could be looking at one version and running another.
+
+\index{search path}
+\index{folder}
+
+\index{debugging!Third Theorem}
 
 If the code you are running is not the code you are looking
 at, you will find debugging a frustrating exercise!  And that brings
@@ -1204,18 +1330,21 @@ us to the Third Theorem of Debugging:
 
 \section{Fibonacci}
 
+\index{Fibonacci number}
+\index{sequence!Fibonacci}
+
 The Fibonacci sequence, denoted $F$, is described by the equations
 $F_1 = 1$, $F_2 = 1$, and for $i > 2$, $F_{i} = F_{i-1} + F_{i-2}$.
 The following expression computes the $n$th Fibonacci number:
-
-\begin{equation}
+%
+\begin{equation*}
 F_n = \frac{1}{\sqrt{5}}
 \left[
 \left( \frac{1 + \sqrt{5}}{2} \right)^{n} -
 \left( \frac{1 - \sqrt{5}}{2} \right)^{n}
 \right]
-\end{equation}
-
+\end{equation*}
+%
 We can translate this expression into MATLAB, like this:
 
 \begin{code}
@@ -1227,6 +1356,8 @@ ans = diff / s5
 \end{code}
 
 I use temporary variables like {\tt t1} and {\tt t2} to make the code readable and the order of operations explicit.  The first four lines have a semi-colon at the end, so they don't display anything.  The last line assigns the result to {\tt ans}.
+
+\index{semi-colon}
 
 If we save this script in a file named {\tt fibonacci1.m}, we can run it like this:
 
@@ -1250,7 +1381,11 @@ diff = t1^n - t2^n;
 
 This script only works if there is a variable named {\tt n} in the workspace; otherwise, you get an error.
 
+\index{workspace}
+
 MATLAB tells you what line of the script the error is in, and displays the line.
+
+\index{debugging!Fourth Theorem}
 
 This information can be helpful, but beware!  MATLAB is telling you
 where the error was discovered, not where the error is.  In this
@@ -1267,6 +1402,9 @@ Often you have to work backwards to find the source of the problem.
 
 MATLAB uses IEEE double-precision floating-point numbers, which are accurate to about 15 digits of precision.  Most integers can be represented exactly, but most fractions cannot.
 
+\index{floating-point}
+\index{number!floating-point}
+
 For example, if you compute the fraction {\tt 2/3}:
 
 \begin{code}
@@ -1279,7 +1417,7 @@ The result is only approximate --- the correct answer has an infinite number of 
 It's not as bad as this example makes it seem: MATLAB stores more digits than it shows by default.
 You can change the output format to see more digits.
 
-\index{Numbers!{\tt format}}
+\index{format@{\tt format}}
 
 \begin{code}
 >> format long
@@ -1289,7 +1427,8 @@ ans = 0.666666666666667
 
 In this example, the first 14 digits are correct; the last one has been rounded off.
 
-\index{Numbers!floating point}
+\index{scientific notation}
+\index{factorial@{\tt factorial}}
 
 Large and small numbers are displayed in scientific notation.  For example, if we use the built in function {\tt factorial} to compute $50!$, we get the following result:
 
@@ -1299,22 +1438,25 @@ ans = 3.041409320171338e+64
 \end{code}
 
 The {\tt e} in this notation is {\em not} the transcendental number
-known as $e$\index{Numbers!$e$}; it is just an abbreviation for ``exponent''.  So
+known as $e$; it is just an abbreviation for ``exponent''.  So
 this means that $50!$ is approximately $3.04 \times 10^{64}$.  The
 exact solution is a 65-digit integer, but with double-precision floating-point 
 we only know the first 16 digits.
 
-If you have the MATLAB Symbolic Math Toolbox installed, you can use a 
-different number representation for the calculation and see all the digits of 
-the result:
+\index{transcendental number}
+\index{exponent}
 
-\begin{code}
->> sym(factorial(50))
-ans = 30414093201713375576366966406747986832057064836514787179557289984
-\end{code}
-
-Compared to the floating-point result, the symbolic result takes substantially more time to compute and space to store in memory.
-In this book, we focus on floating-point computation rather than symbolic computation.
+%If you have the MATLAB Symbolic Math Toolbox installed, you can use a 
+%different number representation for the calculation and see all the digits of 
+%the result:
+%
+%\begin{code}
+%>> sym(factorial(50))
+%ans = 30414093201713375576366966406747986832057064836514787179557289984
+%\end{code}
+%
+%Compared to the floating-point result, the symbolic result takes substantially more time to compute and space to store in memory.
+%In this book, we focus on floating-point computation rather than symbolic computation.
 
 You can also enter numbers using scientific notation.
 
@@ -1326,9 +1468,11 @@ speed_of_light = 300000000
 Although floating-point can represent very large and small numbers, 
 there are limits.  
 The predefined variables {\tt realmax} and {\tt realmin}
-\index{Numbers!{\tt realmax} and {\tt realmin}} contain the
-largest and smallest number magnitudes that MATLAB 
+contain the largest and smallest number magnitudes that MATLAB 
 can handle.
+
+\index{realmin@{\tt realmin}}
+\index{realmax@{\tt realmax}}
 
 \begin{code}
 >> realmax
@@ -1338,13 +1482,13 @@ ans = 1.797693134862316e+308
 ans = 2.225073858507201e-308
 \end{code}
 
-Actually, MATLAB can handle a some numbers with magnitude smaller than 
-{\tt realmin}, but with fewer digits of precision.
-
-\begin{code}
->> 1e-323
-ans = 9.881312916824931e-324
-\end{code}
+%Actually, MATLAB can handle a some numbers with magnitude smaller than 
+%{\tt realmin}, but with fewer digits of precision.
+%
+%\begin{code}
+%>> 1e-323
+%ans = 9.881312916824931e-324
+%\end{code}
 
 If a number is too small, MATLAB ``rounds down'' to zero.
 
@@ -1354,7 +1498,9 @@ ans = 0
 \end{code}
 
 If a number -- perhaps the result of a computation -- is too big, 
-MATLAB ``rounds up'' to infinity.\index{Numbers!{\tt Inf}}
+MATLAB ``rounds up'' to infinity.
+
+\index{Inf@{\tt Inf}}
 
 \begin{code}
 >> factorial(170)
@@ -1371,14 +1517,21 @@ Division by zero also returns {\tt Inf}.
 ans = Inf
 \end{code}
 
-Some older versions of MATLAB give a warning when dividing by zero.
-A warning is like an error message without teeth; the computation
-is allowed to continue.  Allowing {\tt Inf} to propagate
-through a computation doesn't always do what you expect, but if you
-are careful with it, {\tt Inf} can be quite useful.
+\index{division by zero}
+\index{zero!division by}
 
-For operations that are truly undefined, MATLAB returns {\tt NaN},
-which stands for ``not a number''.\index{Numbers!{\tt NaN}}
+%Some older versions of MATLAB give a warning when dividing by zero.
+%A warning is like an error message without teeth; the computation
+%is allowed to continue.  Allowing {\tt Inf} to propagate
+%through a computation doesn't always do what you expect, but if you
+%are careful with it, {\tt Inf} can be quite useful.
+
+For operations that are undefined, MATLAB returns {\tt NaN},
+which stands for ``not a number''.
+
+\index{NaN@{\tt NaN}}
+\index{not a number}
+\index{undefined operation}
 
 \begin{code}
 >> 0/0
@@ -1391,7 +1544,11 @@ ans = NaN
 
 Along with the commands that make up a program, it is useful to include comments that provide additional information about the
 program.  The percent symbol {\tt \%} separates
-the comments from the code.\index{Syntax!comments}
+the comments from the code.
+
+\index{comment}
+\index{\%@{\tt \%}}
+\index{percent sign}
 
 \begin{code}
 >> speed_of_light = 3.0e8     % meters per second
@@ -1402,6 +1559,8 @@ The comment runs from the percent symbol to the end of the line.
 In this case it specifies the units of the value.  In an ideal world,
 MATLAB would keep track of units and propagate them through the
 computation, but for now that burden falls on the programmer.
+
+\index{unit}
 
 Comments have no effect on the execution of the program.  They
 are there for human readers.  Good comments make programs more
@@ -1423,12 +1582,13 @@ code, like units in the example above, or the meaning of a variable:
 \end{code}
 
 If you use longer variable names, you might not need explanatory
-comments, but there is a tradeoff: longer code can become harder
+comments, but there is a trade-off: longer code can become harder
 to read.
 Also, if you are translating from math
 that uses short variable names, it can be useful to make your
 program consistent with your math.
 
+\index{variable name}
 
 \section{Documentation}
 
@@ -1436,6 +1596,9 @@ Every script should contain a comment that explains
 what it does, and what the requirements are for the workspace.  For
 example, I might put something like this at the beginning of
 {\tt fibonacci1.m}:
+
+\index{documentation!function}
+\index{function!documentation}
 
 \begin{code}
 % Computes a numerical approximation of the nth Fibonacci number.  
@@ -1446,6 +1609,9 @@ example, I might put something like this at the beginning of
 A {\bf precondition} is something that must be true when the script
 starts in order for it to work correctly.  A {\bf postcondition}
 is something that will be true when the script completes.
+
+\index{precondition}
+\index{postcondition}
 
 If there is a comment at the beginning of a script, MATLAB assumes
 it is the documentation for the script, so if you type {\tt help
@@ -1468,7 +1634,9 @@ You can even use the {\tt doc} command to see your comment in the
 
 \section{Assignment and equality}
 
-\index{Variables!assignment}
+\index{variable!assignment}
+\index{assignment!target}
+\index{equality}
 
 In mathematics the equals sign means that the two sides of the
 equation have the same value.  In MATLAB an assignment statement
@@ -1497,6 +1665,8 @@ To compare values for equality, use '=='.
 \end{code}
 
 In this case the error message not very helpful.  The problem here is that the expression on the left side is not a valid target for an assignment.
+
+\index{error message}
 
 Another difference between assignment and equality is that an assignment statement is only temporary, in the following sense.
 When you assign {\tt x = y+1}, you get the
@@ -1540,12 +1710,6 @@ starts, in order for it to work correctly.
 completes.
 
 \item[target:] The variable on the left side of an assignment statement.
-
-\item[incremental development:] A way of programming by making a series
-of small, testable changes.
-
-\item[scaffolding:] Code you write to help you program or debug, but
-which is not part of the finished program.
 
 %\item[unit testing:] A process of testing software by testing each
 %component in isolation.
@@ -1665,6 +1829,8 @@ b_to_c = 0.05*b - 0.03*c
 b = b - b_to_c
 c = c + b_to_c
 \end{code}
+
+\index{debugging!Fifth Theorem}
 
 It is easy to look at this code and confirm that it obeys Conversation
 of Bikes.  Even if the value of \verb"b_to_c" is wrong, at least the total
@@ -2087,6 +2253,8 @@ change you made was small, it shouldn't take long to find the problem.
 
 \end{enumerate}
 
+\index{debugging!Sixth Theorem}
+
 With incremental development, your code is more likely to work the first time; and if it doesn't the problem is more likely to be obvious.  And that brings us to the Sixth Theorem of Debugging:
 
 \begin{quote}
@@ -2156,6 +2324,12 @@ a little bit at a time.
 \item[generalization:] A way to make a program more versatile, for
 example by replacing a specific value with a variable that can have
 any value.
+
+\item[incremental development:] A way of programming by making a series
+of small, testable changes.
+
+\item[scaffolding:] Code you write to help you program or debug, but
+which is not part of the finished program.
 
 \end{description}
 
@@ -4433,6 +4607,8 @@ make an error because you are confused about how MATLAB works, it
 might take a long time to find, because when you look at the code,
 it looks right.
 
+\index{debugging!Seventh Theorem}
+
 Which brings us to the Seventh Theorem of Debugging:
 
 \begin{quote}
@@ -5082,6 +5258,8 @@ they can't stand to delete a line of code (even if it's wrong).
 If it makes you feel better, copy your program into another file
 before you start stripping it down.  Then you can paste the pieces
 back in a little bit at a time.
+
+\index{debugging!Eighth Theorem}
 
 To summarize, here's the Eighth Theorem of Debugging:
 
@@ -7356,7 +7534,7 @@ In the previous case study we simulated a bungee jump with a model that took int
 
 It is tempting to say that the cord has no effect because it falls along with the jumper, but that intuition is incorrect.  As the cord falls, it transfers energy to the jumper.
 
-At \url{http://modsimpy.com/bungee} you'll find a paper\footnote{Heck, Uylings, and Kedzierska, ``Understanding the physics of bungee jumping", Physics Education, Volume 45, Number 1, 2010.} that explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
+At \url{http://modsimpy.com/bungee} you'll find a paper\footnote{Heck, Uylings, and Kędzierska, ``Understanding the physics of bungee jumping", Physics Education, Volume 45, Number 1, 2010.} that explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
 \[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
 %
@@ -7531,7 +7709,7 @@ According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of 
 To understand what that means, suppose we are trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two place, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.1in]{figs/secant.eps}}
+\centerline{\includegraphics[height=1.6in]{figs/secant.eps}}
 \caption{Initial state of a root-finding search.}
 \label{fig:secant}
 \end{figure}
@@ -7565,7 +7743,7 @@ $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.1in]{figs/golden1.eps}}
+\centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
 \caption{Initial state of a golden-section search.}
 \label{fig:golden1}
 \end{figure}
@@ -7579,7 +7757,7 @@ $f(x_4)$ is greater than $f(x_2)$.
 Figure~\ref{fig:golden2} shows the two possible states.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.1in]{figs/golden2.eps}}
+\centerline{\includegraphics[height=1.5in]{figs/golden2.eps}}
 \caption{Possible states of a golden-section search after evaluating $f(x_4)$.}
 \label{fig:golden2}
 \end{figure}
@@ -7600,6 +7778,9 @@ are better than others.  You might be tempted to bisect the interval between $x_
 \begin{appendices}
 \chapter{The Theorems of Debugging}
 
+\index{theorems of debugging}
+\index{debugging!list of theorems}
+
 \begin{enumerate}
     \item \displaythrm{1}
     \item \displaythrm{2}
@@ -7612,16 +7793,18 @@ are better than others.  You might be tempted to bisect the interval between $x_
     %\item \displaythrm{9}
 \end{enumerate}
 
+
+
+
 \end{appendices}
 
-% Print the index
 \printindex
-
 
 \end{document}
 
 
 
+% TODO: Figure out where to put this.
 
 But sometimes 
 if the error messages make
