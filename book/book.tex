@@ -33,9 +33,15 @@
 %\usepackage{hevea}
 \usepackage{hyperref}
 \usepackage{ifthen}
-\usepackage{makeidx}
 \usepackage{upquote}
 \usepackage{url}
+
+% Tell compiler to make the index
+\usepackage{imakeidx}
+\makeindex
+
+% Include index in ToC
+\usepackage[totoc]{idxlayout}
 
 % Configure exercise environment
 \numberwithin{Answer}{chapter}
@@ -78,6 +84,7 @@
 \lstnewenvironment{code}
 {\minipage{\linewidth}}
 {\endminipage}
+
 \lstnewenvironment{stdout}
 {\lstset{commentstyle=,keywordstyle=,stringstyle=}\minipage{\linewidth}}
 {\endminipage}
@@ -101,11 +108,7 @@
 % use mcode as a synonym for verb, for inline MATLAB code
 %\newcommand{\mcode{1}}{\mintinline{matlab}{#1}}
 
-% Tell compiler to make the index
-\makeindex
 
-% Include index in ToC
-\usepackage[totoc]{idxlayout}
 
 %% Macros and redefinitions
 
@@ -440,7 +443,7 @@ The following diagram shows what I mean by ``modeling":
 \index{modeling}
 
 \vspace{0.2in}
-\centerline{\includegraphics[height=3in]{figs/modeling_framework.pdf}}
+\centerline{\includegraphics[height=2.8in]{figs/modeling_framework.pdf}}
 
 Starting in the lower left, the {\bf system} is something in the real world we are interested in.  Often, it is something complicated, so we have to decide which details can be left out; removing details is called {\bf abstraction}.
 
@@ -500,7 +503,7 @@ Comparing results to data from the real world provides {\bf external validation}
 
 The focus of this book is simulation, and the primary tool we will use is MATLAB.
 
-\section{A glorified calculator}
+\section{MATLAB}
 \label{sect:calc}
 
 At heart, MATLAB is a glorified calculator.  When you start MATLAB
@@ -574,6 +577,7 @@ exponentiation happens before multiplication and division, and multiplication an
 If you want to override the order of operations, you can use parentheses.
 
 \index{operations!order of}
+
 
 \begin{code}
 >> 2 * (3-4) / 5
@@ -7352,7 +7356,7 @@ In the previous case study we simulated a bungee jump with a model that took int
 
 It is tempting to say that the cord has no effect because it falls along with the jumper, but that intuition is incorrect.  As the cord falls, it transfers energy to the jumper.
 
-At \url{http://modsimpy.com/bungee} you'll find a paper\footnote{Heck, Uylings, and Kędzierska, ``Understanding the physics of bungee jumping", Physics Education, Volume 45, Number 1, 2010.} that explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
+At \url{http://modsimpy.com/bungee} you'll find a paper\footnote{Heck, Uylings, and Kedzierska, ``Understanding the physics of bungee jumping", Physics Education, Volume 45, Number 1, 2010.} that explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
 \[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
 %
@@ -7527,7 +7531,7 @@ According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of 
 To understand what that means, suppose we are trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two place, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.6in]{figs/secant.eps}}
+\centerline{\includegraphics[height=1.1in]{figs/secant.eps}}
 \caption{Initial state of a root-finding search.}
 \label{fig:secant}
 \end{figure}
@@ -7561,7 +7565,7 @@ $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
+\centerline{\includegraphics[height=1.1in]{figs/golden1.eps}}
 \caption{Initial state of a golden-section search.}
 \label{fig:golden1}
 \end{figure}
@@ -7575,7 +7579,7 @@ $f(x_4)$ is greater than $f(x_2)$.
 Figure~\ref{fig:golden2} shows the two possible states.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/golden2.eps}}
+\centerline{\includegraphics[height=1.1in]{figs/golden2.eps}}
 \caption{Possible states of a golden-section search after evaluating $f(x_4)$.}
 \label{fig:golden2}
 \end{figure}
@@ -7608,18 +7612,16 @@ are better than others.  You might be tempted to bisect the interval between $x_
     %\item \displaythrm{9}
 \end{enumerate}
 
-
-
-
 \end{appendices}
 
+% Print the index
 \printindex
+
 
 \end{document}
 
 
 
-% TODO: Figure out where to put this.
 
 But sometimes 
 if the error messages make
