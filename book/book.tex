@@ -1698,7 +1698,7 @@ is pronounced ``{\tt x} gets the value of {\tt y} plus one.''
 
 \item[script:] An M-file that contains a sequence of MATLAB commands.
 
-\item[search path:] The list of directories where MATLAB looks for
+\item[search path:] The list of folder where MATLAB looks for
 M-files.
 
 \item[workspace:] A set of variables and their values.
@@ -1754,6 +1754,7 @@ y = 1
 
 \begin{ex}
 \label{ex:bikegame}
+\index{bike share system}
 
 Imagine that you are the operator of a bike share system with two
 locations: Boston and Cambridge.
@@ -1774,8 +1775,7 @@ the prompt and then execute the script.  The script should display
 the updated values of {\tt b} and {\tt c}, but not any intermediate
 variables.
 
-Remember that bikes are countable things, so {\tt b} and {\tt c} should always
-be integer values.  You might want to use the {\tt round} function
+Remember that bikes are countable things, so {\tt b} and {\tt c} should always be integer values.  You might want to use the {\tt round} function
 to compute the number of bikes that move each day.
 
 If you execute your script repeatedly, you can simulate the passage
@@ -1796,6 +1796,8 @@ and how to plot the values of {\tt a} and {\tt b} over time.
 
 In Exercise~\ref{ex:bikegame}, you might have been tempted to write something
 like
+
+\index{bike share system}
 
 \begin{code}
 b = b - 0.05*b + 0.03*c
@@ -1820,6 +1822,8 @@ c = c_new
 
 This has the effect of updating the variables ``simultaneously;'' that
 is, it reads both old values before writing either new value.
+
+\index{update}
 
 The following is an alternative solution that
 has the added advantage of simplifying the computation:
@@ -1848,6 +1852,11 @@ a bug.
 \section{Bug taxonomy}
 
 There are four kinds of bugs:
+
+\index{syntax error}
+\index{runtime error}
+\index{logical error}
+\index{numerical error}
 
 \begin{description}
 
@@ -1885,13 +1894,14 @@ know what the program is supposed to do, so only you can check it.
 From MATLAB's point of view, there's nothing wrong with the program;
 the bug is in your head!
 
+\index{bug}
+
 Numerical errors can be tricky because it's not clear whether the
 problem is your fault.  For most simple computations, MATLAB produces
 the floating-point value that is closest to the exact solution, which
 means that the first 15 significant digits should be correct.  
 
-But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct
-digits can be smaller.  Sometimes MATLAB can warn you that
+But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct digits can be smaller.  Sometimes MATLAB can warn you that
 this is happening, but not always!  Precision (the number of digits
 in the answer) does not imply accuracy (the number of digits that
 are right).
@@ -1901,6 +1911,9 @@ are right).
 
 There are two ways of thinking about numerical errors, called {\bf
 absolute} and {\bf relative}.
+
+\index{absolute error}
+\index{relative error}
 
 \begin{description}
 
@@ -1933,7 +1946,9 @@ For many purposes, being off by 1\% is good enough.
 
 \section{for loops}
 
-\index{Compound statements!{\tt for}}
+\index{compound statement}
+\index{for loop@{\tt for} loop}
+\index{loop}
 
 A {\bf loop} is a part of a program that executes repeatedly;
 a {\bf for loop} is the kind of loop that uses the {\tt for}
@@ -1958,7 +1973,14 @@ first time it runs, it creates the variable {\tt i} and assigns it the
 value 1.  The second time, {\tt i} gets the value 2, and so on, up to
 and including 30.
 
-The colon operator, {\tt :}, specifies a {\bf range} of integers.\index{Syntax!colon operator}  You can create a range at the prompt:
+\index{assignment statement}
+\index{statement!assignment}
+\index{colon operator}
+\index{operator!colon}
+\index{range}
+
+The colon operator, {\tt :}, specifies a {\bf range} of integers.
+You can create a range at the prompt:
 
 \begin{code}
 >> 1:5
@@ -1969,10 +1991,18 @@ The variable you use in the for statement is called the {\bf loop
 variable}.  It is common to use the names {\tt i},
 {\tt j}, and {\tt k} as loop variables.
 
+\index{body of loop}
+\index{loop body}
+\index{loop variable}
+\index{variable!loop}
+
 The statements inside the loop are called the {\bf body}.  By convention,
 they are indented to show that they are inside the loop, but the
 indentation does not affect the execution of the program.
 The {\tt end} statement marks the end of the loop.
+
+\index{end statement@{\tt end} statement}
+\index{statement!{\tt end}}
 
 To see the loop in action you can run a loop that displays the
 loop variable:
@@ -2006,6 +2036,8 @@ A graph would be much better!
 \section{Plotting}
 \label{sect:plotting}\index{Plotting!points}
 
+\index{plot@{\tt plot}}
+
 {\tt plot} is a versatile function for plotting points and lines
 on a two-dimensional graph.  Unfortunately, it is so versatile
 that it can be hard to use (and hard to read the documentation).
@@ -2020,7 +2052,10 @@ To plot a single point, type
 A {\sf Figure Window} should appear with a graph and a single, blue circle
 at $x$ position 1 and $y$ position 2.  
 
-The letter in single quotes is a string that specifies how the
+\index{Figure Window}
+\index{style string}
+
+The letter in single quotes is a {\bf style string} that specifies how the
 point should be plotted.
 Other shapes include {\tt +},
 {\tt *},
@@ -2045,6 +2080,8 @@ the new plot.  The {\tt hold} command lets you override that behavior.
 {\tt hold on} tells MATLAB not to clear the figure when it makes a new
 plot; {\tt hold off} returns to the default behavior.
 
+\index{hold@{\tt hold}}
+
 Try this:
 
 \begin{code}
@@ -2057,6 +2094,9 @@ Try this:
 \end{code}
 
 The {\tt clf} command clears the figure before we start plotting.
+
+\index{clear figure}
+\index{clf@{\tt clf}}
 
 You should see a figure with three circles, at (1, 1), (1, 2), and (2, 2).  MATLAB scales the plot automatically so that each axis runs from the lowest axis value in the plot to the highest.
 
@@ -2075,6 +2115,11 @@ to the positive integers.  The numbers in the sequence are
 called {\bf elements}.  In math notation, the elements
 are denoted with subscripts, so the first element of the series $A$ is
 $A_1$, followed by $A_2$, and so on.
+
+\index{sequence}
+\index{element}
+\index{loop}
+\index{geometric sequence}
 
 {\tt for} loops are a natural way to compute the elements of a sequence.
 As an example, in a geometric sequence, each element is a constant
@@ -2104,6 +2149,9 @@ other elements are displayed on the screen, but they are not saved
 in a variable.  Later, we will see how to save the elements
 of a sequence in a vector.
 
+\index{direct computation}
+\index{recurrent computation}
+
 This loop computes the sequence {\bf recurrently}, which means
 that each element depends on the previous one.
 For this sequence it is also possible to compute the $i$th element
@@ -2126,6 +2174,9 @@ math, a sequence is a set of numbers, and a series is an expression
 (a sum) that has a single value.  In math notation, a series
 is often written using the summation symbol $\sum$.
 
+\index{series}
+\index{sum}
+
 For example, the sum of the first 10 elements of $A$ is
 \begin{equation}
 \sum_{i=1}^{10} A_i
@@ -2147,6 +2198,8 @@ ans = total
 {\tt A1} is the first element of the sequence; each time
 through the loop {\tt a} is the $i$th element.
 
+\index{accumulator}
+
 The way we are using {\tt total} is sometimes called an {\bf
 accumulator}; that is, a variable that accumulates a result a little
 bit at a time.  
@@ -2167,6 +2220,8 @@ have to be careful about where you start and stop the loop.
 
 
 \section{Generalization}
+
+\index{generalization}
 
 As written, the previous example always adds up the first 10
 elements of the sequence, but we might be curious to know what
@@ -2219,7 +2274,7 @@ This is an important idea we will come back to when we talk about functions.
 
 \section{Incremental development}
 
-\index{Scripts!incremental development}
+\index{incremental development}
 
 As you start writing longer programs, you might find yourself spending more time debugging.
 The more code you write before you start debugging, the harder it is to find
@@ -2271,6 +2326,8 @@ called {\bf scaffolding} because you use it to build the program
 and then remove it when you are done.  But time you save on
 debugging is almost always worth the time you invest in
 scaffolding.
+
+\index{scaffolding}
 
 \item When you are getting started, it might not be obvious how to
 choose the steps that get from {\tt x=5} to the program you are trying
@@ -2387,7 +2444,9 @@ order of the updates!
 \label{chpt:vectors}
 
 \section{Checking preconditions}
-\index{Scripts!pre- and post-conditions}
+
+\index{pre-condition}
+\index{post-condition}
 
 Some of the loops in the previous chapter don't work
 if the value of {\tt n} isn't set correctly before the loop runs.
@@ -2412,10 +2471,13 @@ total = 0
 \end{code}
 
 Why?  Because the expression {\tt 1:-1} means ``all the numbers
-from 1 to -1, counting up by 1.''\index{Syntax!colon operator}  
+from 1 to -1, counting up by 1.''  
 It's not immediately obvious
 what that should mean, but MATLAB's interpretation is that there
 aren't any numbers that fit that description, so the result is
+
+\index{colon operator}
+\index{operator!colon}
 
 \begin{code}
 >> 1:-1
@@ -2423,9 +2485,11 @@ ans = 1x0 empty double row vector
 \end{code}
 
 This indicates that the result is an empty row vector of 
-double-precision numbers.  An empty row vector has one rows and zero columns.  We will learn more about MATLAB vectors later in this
-chapter and more about the types of vectors -- row versus column --
-in Section~\ref{rowvector}.
+double-precision numbers.  An empty row vector has one row and zero columns.  We will learn more about MATLAB vectors later in this
+chapter.
+
+\index{vector}
+\index{range}
 
 In any case, if you loop over an empty range,
 the loop never runs at all, which is why in this example the
@@ -2441,7 +2505,8 @@ A better alternative is to use an {\tt if} statement.
 
 \section{if statements}
 
-\index{Compound statements!{\tt if}}
+\index{if statement@{\tt if} statement}
+\index{conditional statement}
 
 The {\tt if} statement allows you to check for certain conditions
 and execute statements if the conditions are met.  In the previous
@@ -2459,18 +2524,25 @@ are asking if {\tt n} is negative.  If it is, MATLAB executes
 the body of the statement, which is the indented sequence of
 statements between the {\tt if} and the {\tt end}.
 
+\index{indentation}
+
 MATLAB doesn't require you to indent the body of an {\tt if}
-statement, but it makes your code more readable, so you should do it,
-and don't make me tell you again.
+statement, but it makes your code more readable, so you should do it.
+Don't make me tell you again.
 
 In this example, the ``right'' thing to do if {\tt n} is negative
 is to set {\tt ans = NaN}, which is a standard way to indicate that
 the result is undefined (not a number).
 
+\index{NaN}
+\index{not a number}
+
 If the condition is not satisfied, the statements in the body are
 not executed.  Sometimes there are alternative statements to
 execute when the condition is false.  In that case you can extend
 the {\tt if} statement with an {\tt else} clause.
+
+\index{else clause@{\tt else} clause}
 
 The complete version of the previous example might look like this:
 
@@ -2492,9 +2564,14 @@ Statements like {\tt if} and {\tt for} that contain other statements
 are called {\bf compound} statements.  All compound statements end
 with... {\tt end}.
 
+\index{compound statement}
+\index{statement!compound}
+
 In this example, one of the statements in the {\tt else} clause is a
 {\tt for} loop.  Putting one compound statement inside another is
 legal and common, and sometimes called {\bf nesting}.
+
+\index{nesting}
 
 
 \section{Relational operators}
@@ -2505,6 +2582,11 @@ called {\bf relational operators} because they test the relationship
 between two values.  The result of a relational operator is one
 of the {\bf logical values}:
 either 1, which represents ``true,''  or 0, which represents ``false.''
+
+\index{relational operator}
+\index{operator!relational}
+\index{logical value}
+\index{value!logical}
 
 Relational operators often appear in {\tt if} statements, but you can also evaluate them at the prompt:
 
@@ -2524,6 +2606,9 @@ flag = 0
 A variable that contains a logical value is often called a {\bf flag}
 because it flags the status of some condition.
 
+\index{flag}
+\index{variable!flag}
+
 The other relational operators are {\tt <=} and {\tt >=}, which are
 self-explanatory, {\tt ==}, for ``equal,'' and
 \verb+~=+, for ``not equal.''
@@ -2531,6 +2616,9 @@ self-explanatory, {\tt ==}, for ``equal,'' and
 Don't forget that {\tt ==} is the operator that tests equality,
 and {\tt =} is the assignment operator.  If you try to use {\tt =} in
 an {\tt if} statement, you get the following error:
+
+\index{equality}
+\index{assignment}
 
 \begin{code}
 >> if x=5
@@ -2549,7 +2637,10 @@ In this case, the error message is pretty helpful.
 
 \section{Logical operators}
 \label{sect:logop}
-\index{Operations!logical}
+
+\index{logical operator}
+\index{operator!logical}
+\index{interval}
 
 To test if a number falls in an interval, you might be
 tempted to write something like {\tt 0 < x < 10}, but that
@@ -2578,6 +2669,8 @@ is 1.  Then it compares the logical value 1 (not the value of
 {\tt x} is not in the interval.
 
 For beginning programmers, this is an evil, evil bug!
+
+\index{nesting}
 
 One way around this problem is to use a nested {\tt if} statement to
 check the two conditions separately:
@@ -2608,12 +2701,24 @@ The result of AND is true if {\em both} of the operands are
 true.  The OR operator, {\tt ||}, is true if {\em either or both}
 of the operands are true.
 
+\index{AND operator}
+\index{operator!AND}
+\index{operator!{\tt \&\&}}
+
+\index{OR operator}
+\index{operator!OR}
+\index{operator!{\tt ||}}
+
 
 \section{Vectors}
 
 The values we have seen so far have mostly been single numbers,
 which are called {\bf scalars} to contrast them with {\bf vectors}
 and {\bf matrices}, which are collections of numbers.
+
+\index{scalar}
+\index{vector}
+\index{matrix}
 
 A vector in MATLAB is similar to a sequence in mathematics;
 it is an ordered set of numbers that is indexed by positive integers.
@@ -2637,9 +2742,13 @@ In this book, we often capitalize single-letter variables that hold vectors
 (and matrices).
 That's just a convention; MATLAB doesn't require it, but especially for beginning programmers, it is a useful way to distinguish vectors (and matrices) from scalars.
 
+\index{variable name}
+
 
 \section{Vector arithmetic}
-\index{Matrices!addition}
+
+\index{vector arithmetic}
+\index{arithmetic!vector}
 
 You can perform arithmetic with vectors, too.  If you add a scalar
 to a vector, MATLAB increments each element of the vector:
@@ -2682,12 +2791,16 @@ In math (specifically in linear algebra) a vector is a one-dimensional
 sequence of values and a matrix is two-dimensional. And, if you want
 to think of it that way, a scalar is zero-dimensional.
 
+\index{matrix}
+\index{linear algebra}
+\index{whos command@{\tt whos} command}
+\index{command!{\tt whos}}
+
 In MATLAB, the values we have seen so far are all two-dimensional matrices (except strings).
 You can see this if you use the {\tt whos} command to display the
 values in the workspace.  {\tt whos} is similar to {\tt who}, but it also displays the size of each value and other information.
 
-\index{Variables!{\tt whos}}
-\index{Variables!{\tt who}}
+\index{variable}
 
 To demonstrate, I'll remove any existing variables and then 
 make a scalar, a vector, and a matrix:
@@ -2710,7 +2823,7 @@ The built-in function {\tt ones} builds a new matrix with the given
 number of rows and columns, and sets all the elements to 1.
 Now let's see what we've got.
 
-\index{Matrices!{\tt ones}}
+\index{ones@{\tt ones}}
 
 \begin{code}
 >> whos
@@ -2723,6 +2836,10 @@ Now let's see what we've got.
 
 According to MATLAB, all these variables are of class {\tt double}, which
 is another name for a double-precision floating-point number.
+
+\index{floating-point number}
+\index{number!floating-point}
+\index{double precision}
 
 But they have difference sizes: 
 
@@ -2739,8 +2856,12 @@ But they have difference sizes:
 The point of all this is that you can think of your variables as
 scalars, vectors, and matrices, and I think you should.  But in MATLAB they are all matrices.
 
+
 \section{Elementwise operators}
 \label{elementwise}
+
+\index{elementwise operator}
+\index{operator!elementwise}
 
 If you have two vectors with the same length, you can add and subtract them:
 
@@ -2787,6 +2908,9 @@ To perform elementwise multiplication, use '.*'.
 
 In this case, the error message is pretty helpful.  As it suggests, you can use {\tt .*} to perform elementwise multiplication:
 
+\index{matrix multiplication}
+\index{multiplication!matrix}
+
 \begin{code}
 >> X .* Y
 ans = 4    10    18
@@ -2796,7 +2920,10 @@ As an exercise, see what happens if you use the exponentiation operator,
 \verb"^", with a vector.
 
 
-\section{Indices}\index{Matrices!indexing}
+\section{Indices}
+
+\index{element}
+\index{parentheses}
 
 You can select an element from a vector with parentheses:
 
@@ -2815,6 +2942,8 @@ This means that the first element of {\tt Y} is 6 and the
 fourth element is 9.
 The number in parentheses is called the {\bf index} because it indicates which element of the vector you want.
 
+\index{index}
+
 The index can be any kind of expression.
 
 \begin{code}
@@ -2826,6 +2955,8 @@ ans = 7
 
 We can use a loop to display the elements of {\tt Y}:
 
+\index{loop}
+
 \begin{code}
 for i=1:4
      Y(i)
@@ -2834,6 +2965,9 @@ end
 
 Each time through the loop we use a different value of {\tt i}
 as an index into {\tt Y}.
+
+\index{length function@{\tt length} function}
+\index{function!{\tt length}}
 
 A limitation of this example is that we had to know the number
 of elements in {\tt Y}.  We can make it more general by using
@@ -2850,7 +2984,9 @@ Now that works for a vector of any length.
 
 
 \section{Indexing errors}
-\index{Errors!indexing}
+
+\index{index}
+\index{expression}
 
 An index can be any kind of expression, but the value of the
 expression has to be a positive integer, and it has to be
@@ -2878,8 +3014,14 @@ Index exceeds the number of array elements (4).
 
 The error messages use the word ``array'' rather than ``matrix'', but they mean the same thing, at least for now.
 
+\index{array}
+
 
 \section{Vectors and sequences}
+
+\index{vector}
+\index{sequence}
+\index{Fibonacci}
 
 Vectors and sequences go together nicely.
 For example, another way to evaluate the Fibonacci sequence is by
@@ -2902,6 +3044,9 @@ If you had any trouble with Exercise~\ref{ex:fib2}, you have to
 appreciate the simplicity of this version.  The MATLAB syntax is
 similar to the math notation, which makes it easier to check
 correctness.  
+
+\index{range}
+\index{loop}
 
 However, you have to be careful with the range of the loop.
 In the previous version, the loop runs from {\tt 3} to {\tt n},
@@ -2937,7 +3082,10 @@ When you translate to MATLAB, you may want to shift the index.
 
 
 \section{Plotting vectors}
-\index{Plotting!vectors}
+
+\index{plotting vector}
+\index{vector!plotting}
+\index{plot@{\tt plot}}
 
 If you call {\tt plot} with a vector as an argument,
 MATLAB plots the indices on the $x$-axis and the elements on the
@@ -2952,8 +3100,11 @@ This display is often useful for debugging, especially
 if your vectors are big enough that displaying the elements on
 the screen is unwieldy.
 
+\index{style string}
+\index{string!style}
+
 By default, MATLAB draws a blue line, but you can override that
-setting with the same kind of string we saw in Section~\ref{sect:plotting}.
+setting with a style string, as we saw in Section~\ref{sect:plotting}.
 For example, the string {\tt 'ro-'} tells MATLAB to plot a red circle
 at each data point; the hyphen means the points should be connected
 with a line.
@@ -2968,6 +3119,10 @@ and add them up, or multiply them together, or compute the sum
 of their squares, etc.  This kind of operation is called {\bf reduce},
 because it reduces a vector with multiple elements down to a single
 scalar.
+
+\index{reduce}
+\index{vector}
+\index{scalar}
 
 For example, this loop adds up the elements of a vector named {\tt X}
 (which we assume has been defined).
@@ -2988,7 +3143,8 @@ Each time through the loop, we add
 in the {\tt i}th element of {\tt X}, so at the end of the loop
 {\tt total} contains the sum of the elements.
 
-
+\index{accumulator}
+\index{length function@{\tt length} function}
 
 \section{Apply}
 \label{sect:apply}
@@ -2998,6 +3154,8 @@ a vector, perform some operation on the elements, and create
 a new vector with the results.  This kind of operation is called
 {\bf apply}, because you apply the operation to each element in
 the vector.
+
+\index{apply}
 
 For example, the following loop computes a vector {\tt Y} that
 contains the squares of the elements of {\tt X} (assuming, again,
@@ -3017,7 +3175,10 @@ Yet another use of loops is to search the elements of a vector
 and return the index of the value you are looking for (or the
 first value that has a particular property).  
 
-For example, the following loop finds the index of the element 0 in {\tt X}:
+\index{search}
+
+For example, the following loop finds the index of the element 0 in 
+{\tt X}:
 
 \begin{code}
 for i=1:length(X)
@@ -3032,11 +3193,12 @@ finds what it is looking for.  That might be what you want; if the
 target value appears more than one, this loop provides the index
 of the {\em last} one.
 
+\index{break statement@{\tt break} statement}
+\index{statement!{\tt break}}
+
 But if you want the index of the first one (or you know that there
 is only one), you can save some unnecessary looping by using the
 {\tt break} statement.
-
-\index{Compound statements!{\tt break}}
 
 \begin{code}
 for i=1:length(X)
@@ -3057,6 +3219,11 @@ loop (in this case, there isn't one, so the code ends).
 Experienced MATLAB programmers would never write the kind of loops
 in this chapter, because MATLAB provides simpler and faster ways to
 perform many reduce, filter and search operations.
+
+\index{sum function@{\tt sum} function}
+\index{function!{\tt sum}}
+\index{prod function@{\tt prod} function}
+\index{function!{\tt prod}}
 
 For example, the {\tt sum} function computes the sum of the elements
 in a vector and {\tt prod} computes the product.
@@ -3136,6 +3303,8 @@ elements in order until one is found that has the desired property.
 
 \begin{ex}
 Write an expression that computes the square root of the sum of the squares of the elements of a vector, without using a loop.
+
+\index{square root}
 \end{ex}
 
 \begin{ex}
@@ -3149,12 +3318,13 @@ vector that contains the ratios of consecutive Fibonacci numbers.
 Plot this vector to see if it seems to converge.  What value does
 it converge on?
 
+\index{Fibonacci}
+
 % fibonacci4.m
 \end{ex}
 
 \begin{ex}
-A famous system of differential equations can be approximated
-by the following set of equations:
+The following set of equations is based on a famous example of a chaotic system, the Lorenz attractor\footnote{See \url{https://en.wikipedia.org/wiki/Lorenz_system}.}:
 %
 \begin{eqnarray}
 x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt  \\
@@ -3186,12 +3356,15 @@ system.
 
 \end{itemize}
 
+\index{Lorenz attractor}
 % lorenz.m
 \end{ex}
 
 
 \begin{ex}
 The logistic map\footnote{See \url{https://en.wikipedia.org/wiki/Logistic_map}} is described by the following equation:
+
+\index{logistic map}
 
 \begin{equation}
 X_{i+1} = r X_i (1-X_i)
