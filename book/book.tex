@@ -1612,6 +1612,7 @@ is something that will be true when the script completes.
 
 \index{precondition}
 \index{postcondition}
+\index{Fibonacci}
 
 If there is a comment at the beginning of a script, MATLAB assumes
 it is the documentation for the script, so if you type {\tt help
@@ -1627,10 +1628,11 @@ signs).
 
 That way, scripts that you write behave just like predefined scripts.
 You can even use the {\tt doc} command to see your comment in the
-{\sf Help} window.
+{\sf Help Window}.
 
-
-
+\index{Help Window}
+\index{doc@{\tt doc}}
+\index{help@{\tt dhelpoc}}
 
 \section{Assignment and equality}
 
@@ -2445,8 +2447,8 @@ order of the updates!
 
 \section{Checking preconditions}
 
-\index{pre-condition}
-\index{post-condition}
+\index{precondition}
+\index{postcondition}
 
 Some of the loops in the previous chapter don't work
 if the value of {\tt n} isn't set correctly before the loop runs.
@@ -3393,8 +3395,11 @@ How does the behavior of the system change as you vary $r$?
 
 \section{Name Collisions}
 
-All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between
-scripts become unmanageable.
+\index{name collision}
+\index{collision!name}
+\index{workspace}
+
+All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between scripts become unmanageable.
 
 For example, the following (increasingly familiar) script computes the
 sum of the first {\tt n} terms in a geometric sequence, but it also
@@ -3418,6 +3423,8 @@ the same variable names, you might find that they work separately
 and then break when you try to combine them.  This kind of
 interaction is called a {\bf name collision}.
 
+\index{script}
+
 As the number of scripts you write increases, and they get longer
 and more complex, name collisions become more of a problem.  Avoiding
 this problem is one of the motivations for functions.
@@ -3425,7 +3432,8 @@ this problem is one of the motivations for functions.
 
 \section{Functions}
 \label{sect:functions}
-\index{Functions!reasons for using}
+
+\index{function}
 
 A {\bf function} is like a script, except
 
@@ -3446,7 +3454,9 @@ want, and put a function definition in it.  For example, to create
 a function named {\tt myfunc}, create an M-file named {\tt myfunc.m}
 and put the following definition into it.
 
-\index{Functions!creating}
+\index{M-file}
+\index{script}
+\index{function definition}
 
 \begin{code}
 function res = myfunc(x)
@@ -3460,15 +3470,27 @@ The first non-comment word of the file has to be {\tt function}, because
 that's how MATLAB tells the difference between a script and a function
 file.
 
+\index{compound statement}
+\index{definition!function}
+
 A function definition is a compound statement.  The first line
 is called the {\bf signature} of the function; it defines
 the inputs and outputs of the function.  In this case the {\bf input variable} is named {\tt x}.  When this function is called, the
 argument provided by the user will be assigned to {\tt x}.
 
+\index{input variable}
+\index{variable!input}
+
+\index{output variable}
+\index{variable!output}
+
 The {\bf output variable} is named {\tt res}, which is short for
 ``result''.  You can call the output variable whatever you want, but
 as a convention, I like to call it {\tt res}.  Usually the last
 thing a function does is assign a value to the output variable.
+
+\index{res@{\tt res}}
+\index{ans@{\tt ans}}
 
 Once you have defined a new function, you call it the same way you
 call built-in MATLAB functions.  If you call the function as a statement,
@@ -3509,6 +3531,7 @@ anything (except sometimes warning messages).
 
 \index{silent function}
 \index{function!silent}
+\index{workspace}
 
 Each function has its own workspace, which is created when the
 function starts and destroyed when the function ends.  If you try to
@@ -3545,9 +3568,14 @@ c = 1
 So inside a function you can use whatever variable names you
 want without worrying about collisions.
 
+\index{name collision}
+\index{collision!name}
 
 
 \section{Documentation}
+
+\index{documentation}
+\index{comment}
 
 At the beginning of every function file, you should include a comment
 that explains what the function does:
@@ -3569,6 +3597,8 @@ end
 \end{code}
 
 When you ask for {\tt help}, MATLAB prints the comment you provided at the top of the file.
+
+\index{help@{\tt help}}
 
 \begin{code}
 >> help silent_myfunc
@@ -3600,6 +3630,8 @@ to be an angle in radians.
 
 \end{itemize}
 
+\index{precondition}
+\index{postcondition}
 
 
 \section{Function names}
@@ -3610,6 +3642,9 @@ The first is that the ``real'' name of your function is determined by the file n
 should make sure that they are always the same, but if you
 make a mistake, or if you change the name of a function, it is
 easy to get confused.
+
+\index{function name}
+\index{name!function}
 
 In the spirit of making errors on purpose, change the name of
 the function in \verb"silent_myfunc" to \verb"something_else", and
@@ -3654,6 +3689,9 @@ depends on the order of the directories in the search path, and
 (in some cases) on the arguments.  As an example, put the following
 code in a file named {\tt sum.m}:
 
+\index{name collision}
+\index{collision!name}
+
 \begin{code}
 function res = sum(x)
    res = 7;
@@ -3682,6 +3720,9 @@ another name!
 \section{Multiple input variables}
 \label{sect:hypotenuse}
 
+\index{input variable}
+\index{variable!input}
+
 Functions can, and often do, take more than one input variable.
 For example, the following function takes two input variables,
 {\tt a} and {\tt b}:
@@ -3696,7 +3737,7 @@ This function computes the length of the hypotenuse of a right
 triangle if the lengths of the adjacent sides are {\tt a}
 and {\tt b}.
 
-If we call it from the Command Window with arguments 3 and 4, we can
+If we call it from the {\sf Command Window} with arguments 3 and 4, we can
 confirm that the length of the third side is 5.
 
 \begin{code}
@@ -3737,6 +3778,11 @@ Which is a better message.
 In Section~\ref{sect:logop} we used logical operators to compare values.
 MATLAB also provides {\bf logical functions} that check for certain
 conditions and return logical values: 1 for ``true'' and 0 for ``false''.
+
+\index{logical function}
+\index{function!logical}
+\index{logical value}
+\index{value!logical}
 
 For example, {\tt isprime} checks to see whether a number is prime.
 
@@ -3783,6 +3829,8 @@ that floating-point values are only approximately right:
 sometimes the approximation is an integer when the actual value is not; 
 sometimes the approximation is not an integer when the actual value is.
 
+\index{floating-point}
+
 
 \section{Incremental development}
 \label{sect:increxample}
@@ -3792,6 +3840,9 @@ triples'': sets of integral values, like 3, 4, and 5,
 that are the lengths of the sides of a right triangle.  In other
 words, we would like to find integral values $a$, $b$, and $c$ such
 that $a^2 + b^2 = c^2$.
+
+\index{Pythagorean triple}
+\index{incremental development}
 
 Here are the steps we will follow to develop the program incrementally:
 
@@ -3839,6 +3890,9 @@ visible effect) that you can check.
 
 
 \section{Nested loops}
+
+\index{nested loop}
+\index{loop!nested}
 
 The third draft contains a nested loop:
 
@@ -3924,6 +3978,9 @@ the expected effect.
 
 \section{Conditions and flags}
 
+\index{condition}
+\index{flag}
+
 The next step is to check for integral values of $c$.  This
 loop calls {\tt isintegral} and prints the resulting logical
 value.
@@ -3989,6 +4046,9 @@ As a script, this program has the side-effect of assigning values to
 use if any of those names were in use.  
 By wrapping the code in a function, we can avoid name collisions; this process is called {\bf encapsulation} because it isolates this program from the workspace.
 
+\index{encapsulation}
+\index{generalization}
+
 The first draft of the function takes no input variables:
 
 \begin{code}
@@ -4017,6 +4077,9 @@ that it is a function, not a script:
 The output variable isn't strictly necessary, either; it
 never gets assigned a value.  But I put it there as a matter of
 habit, and also so my function signatures all have the same structure.
+
+\index{output variable}
+\index{variable!output}
 
 The next step is to generalize this function by adding input
 variables.  The natural generalization is to replace the constant
@@ -4091,7 +4154,8 @@ multiples of the $3,4,5$ triangle we already knew.
 
 
 \section{{\tt continue}}
-\index{Compound statements!{\tt continue}}
+
+\index{continue@{\tt continue}}
 
 As a final improvement, let's modify the function so it only
 displays the ``lowest'' of each Pythagorean triple, and not the
@@ -4101,6 +4165,9 @@ The simplest way to eliminate the multiples is to check whether
 $a$ and $b$ share a common factor.  If they do, dividing both
 by the common factor yields a smaller, similar triangle that has
 already been checked.
+
+\index{gcd function@{\tt gcd} function}
+\index{function!{\tt gcd}}
 
 MATLAB provides a {\tt gcd} function that computes the greatest common
 divisor of two numbers.  If the result is greater than 1,
@@ -4128,6 +4195,8 @@ immediately, jump to the top of the loop, and ``continue'' with the next iterati
 
 In this case, since there are two loops, it might not be obvious which loop to jump to, but the rule is to jump to the inner-most loop (which is what we want).
 
+\index{flag}
+
 I also simplified the program slightly by eliminating {\tt flag} and using {\tt isintegral} as the condition of the {\tt if} statement.
 
 Here are the results with {\tt n=40}:
@@ -4147,12 +4216,16 @@ ans = 20    21    29
 
 \section{Mechanism and leap of faith}
 
+\index{function call}
+\index{leap of faith}
+
 Let's review the sequence of steps that occur when you call a function:
 
 \begin{enumerate}
 
 \item Before the function starts running, MATLAB creates a new
 workspace for it.
+\index{workspace}
 
 \item MATLAB evaluates each of the arguments and assigns
 the resulting values, in order, to the input variables (which
@@ -4190,11 +4263,14 @@ MATLAB functions work, and in part because you don't
 generally have access to the code in the body of the function.
 
 But when you start writing your own functions, you will probably
-find yourself following the ``flow of execution.''  This can
+find yourself following the ``flow of execution''.  This can
 be useful while you are learning, but as you gain experience, you
 should get more comfortable with the idea of writing a function,
 testing it to make sure it works, and then forgetting about the
 details of how it works.
+
+\index{flow of execution}
+\index{abstraction}
 
 Forgetting about details is called {\bf abstraction}; in the context
 of functions, abstraction means forgetting about {\em how} a function
@@ -4244,6 +4320,8 @@ function does.
 \section{Exercises}
 
 \begin{ex}
+\index{Fibonacci number}
+\index{Pythagorean triple}
 
 There is an interesting connection between Fibonacci numbers and
 Pythagorean triples.  If $F$ is a Fibonacci sequence,
@@ -4267,9 +4345,11 @@ then checks whether this formula produces a Pythagorean triple for all {\tt i} s
 % chap06
 \chapter{Zero-finding}
 
+In this chapter we'll use the MATLAB function {\tt fzero} to find roots of nonlinear equations.  But first let's talk more about functions.
 
 \section{Why functions?}
-\index{Functions!reasons for using}
+
+\index{function!reasons for}
 
 The previous chapter explained some of the benefits of functions,
 including
@@ -4302,10 +4382,10 @@ differential equations.
 
 
 
-
-
-
 \section{Nonlinear equations}
+
+\index{nonlinear equation}
+\index{equation!nonlinear}
 
 What does it mean to ``solve'' an equation?  That may seem like an
 obvious question, but I want to take a minute to think about it,
@@ -4318,6 +4398,8 @@ equation: you take the square root of both sides and get
 $x = \pm \sqrt{a}$.  Then, with the satisfaction of a job well done,
 you move on to the next problem.
 
+\index{square root}
+
 But what have you really done?  The relationship you derived is
 equivalent to the relationship you started with---they contain the
 same information about $x$---so why is the second one preferable
@@ -4327,6 +4409,9 @@ There are two reasons.  One is that the relationship is now {\bf explicit}
 in $x$: because $x$ is all alone on the left side, we can treat
 the right side as a recipe for computing values for $x$, assuming that we
 know the value of $a$.
+
+\index{explicit computation}
+\index{computation!explicit}
 
 The other reason is that the recipe is written in terms of operations
 we know how to perform.  Assuming that we know how to compute square
@@ -4339,8 +4424,8 @@ that's what I will call an {\bf analytic solution}, to distinguish
 it from a {\bf numerical solution}, which is what we are going to
 do next.
 
-\index{Zero-finding!analytic solution}
-\index{Zero-finding!numerical solution}
+\index{analytic solution}
+\index{numerical solution}
 
 To demonstrate a numerical solution, consider the equation $x^2 - 2x =
 3$.  You could solve this analytically, either by factoring it or by
@@ -4356,7 +4441,7 @@ the equation $x = \sqrt{2x+3}$ iteratively to compute successive
 approximations of the solution.\footnote{To understand why this
 (sometimes) works, see \url{https://en.wikipedia.org/wiki/Fixed-point_iteration}.}
 
-\index{Zero-finding!fixed-point iteration}
+\index{fixed-point iteration}
 
 Here's what happens:
 
@@ -4382,7 +4467,7 @@ After each iteration, {\tt x} is closer to the correct answer,
 and after 5 iterations, the relative error is about 0.1\%, which
 is good enough for most purposes.
 
-\index{Zero-finding!numerical methods}
+\index{numerical method}
 
 Techniques that generate numerical solutions are called
 {\bf numerical methods}.  
@@ -4403,7 +4488,7 @@ any other value is a non-solution.  But for any given non-solution,
 there is no sense of whether it is close or far from a solution,
 or where we might look to find one.
 
-\index{Zero-finding!procedure}
+\index{zero-finding}
 
 To address this limitation, it is useful to
 rewrite non-linear equations as zero-finding problems:
@@ -4422,9 +4507,14 @@ f(x) = x^2 - 2x -3
 Any value of $x$ that makes $f(x) = 0$ is also a solution
 of the original equation.
 
+\index{error function}
+\index{function!error}
+
 \item The next step is to find values of $x$ that make
 $f(x) = 0$.  These values are called zeros of the
-function, or {\bf roots}.
+function, also called {\bf roots}.
+
+\index{root}
 
 \end{itemize}
 
@@ -4432,16 +4522,13 @@ Zero-finding lends itself to numerical solution because we can
 use the values of $f$, evaluated at various values of $x$, to
 make reasonable inferences about where to look for zeros.
 
-% TODO: patch this
+And one of the best numerical methods is available as a built-in MATLAB function, {\tt fzero}.
 
 
 \section{{\tt fzero}}
 \label{sect:fzero}
-\index{Zero-finding!{\tt fzero}}
 
-{\tt fzero} is a built-in MATLAB function that
-combines the best features of several efficient and robust
-numerical methods.
+\index{fzero@{\tt fzero}}
 
 In order to use {\tt fzero}, you have to define a MATLAB function
 that computes the error function you derived from the original
@@ -4467,7 +4554,7 @@ ans = 0
 ans = 0
 \end{code}
 
-But let's pretend that we don't know exactly where
+But let's pretend that we don't know where
 the roots are; we only know that one of them is near 4.  Then
 we could call {\tt fzero} like this:
 
@@ -4486,7 +4573,8 @@ that you are not actually calling {\tt error\_func} directly;
 you are just telling {\tt fzero} where it is.  In turn, {\tt fzero}
 calls your error function --- more than once, in fact.
 
-\index{Functions!handles}
+\index{function handle}
+\index{handle!function}
 
 The second argument is the initial guess.  If we provide a different
 initial guess, we get a different root (at least sometimes).
@@ -4505,6 +4593,8 @@ ans = 3
 \end{code}
 
 The second argument is a vector that contains two elements.  
+
+\index{vector}
 
 You might be curious to know how many times {\tt fzero} calls your
 function, and where.  If you modify {\tt error\_func} so that it displays
@@ -4546,8 +4636,10 @@ Error in error_func (line 2)
     res = x^2 - 2*x -3;
 \end{code}
 
-The error occurs because MATLAB treats the first argument as a function call,
-so it calls {\tt error\_func} with no arguments.
+The error occurs because MATLAB treats the first argument as a function call, so it calls {\tt error\_func} with no arguments.
+
+\index{output variable}
+\index{variable!output}
 
 Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
@@ -4588,6 +4680,9 @@ to "error_func".
 If you read it carefully, this is a pretty good error message,
 provided you understand that ``output argument'' and ``output variable'' are the same thing.
 
+\index{argument}
+\index{output argument}
+
 You would have seen the same error message when you called {\tt
 error\_func} from the interpreter, if you had assigned the result
 to a variable:
@@ -4604,14 +4699,14 @@ You can avoid all of this if you remember these two rules:
 
 \begin{itemize}
 
-\item Functions should always assign values to their output
+\item Functions should assign values to their output
 variables.\footnote{Well, ok, there are exceptions, including {\tt
 find\_triples}. Functions that don't return a value are sometimes
-called ``commands,'' because they do something (like display
+called ``commands'', because they do something (like display
 values or generate a figure) but either don't have an output
 variable or don't make an assignment to it.}
 
-\item When you call a function, you should always do something with
+\item When you call a function, you should do something with
 the result (either assign it to a variable or use it as part of an
 expression, etc.).
 
@@ -4630,6 +4725,8 @@ Error using fzero (line 272)
 The function values at the interval endpoints must differ in sign.
 \end{code}
 
+\index{interval}
+
 There is one other thing that can go wrong when you use {\tt fzero}, but
 this one is less likely to be your fault.  It is possible that {\tt fzero}
 won't be able to find a root.
@@ -4646,6 +4743,9 @@ need.
 When you are solving problems in the real world, you will usually
 have some intuition about the answer.  This intuition is often enough
 to provide a good initial guess.
+
+\index{ezplot@{\tt ezplot}}
+\index{plot!{\tt ezplot}}
 
 Another approach is to plot the function and see if you can
 approximate the zeros visually.  If you have a function, like
@@ -4665,6 +4765,9 @@ By examining the plot, you can estimate the location of the two roots.
 
 \section{Vectorizing functions}
 
+\index{vectorizing}
+\index{function!vectorizing}
+
 With this example, you might get the following warning\footnote{In Octave it's an error, so you have to vectorize the function.}:
 
 \begin{code}
@@ -4675,6 +4778,9 @@ avoid the need to loop over array elements.
 
 This means that MATLAB tried to call \verb"error_func" with a vector, and it failed. 
 The problem is that it uses \verb"*" and \verb"^" operators; as we saw in Section~\ref{elementwise}, those operators don't do what we want, which is {\em elementwise} multiplication and exponentiation.
+
+\index{elementwise operator}
+\index{operator!elementwise}
 
 If you rewrite \verb"error_func" like this:
 
@@ -4690,10 +4796,14 @@ The warning message goes away, and {\tt ezplot} runs faster, for what it's worth
 
 \section{More name collisions}
 
-Functions and variables occupy the same {\bf namespace}, which means
+Functions and variables occupy the same workspace, which means
 that whenever a name appears in an expression, MATLAB starts by looking
 for a variable with that name, and if there isn't one, it looks for
 a function.
+
+\index{name collision}
+\index{collision!name}
+\index{shadow}
 
 As a result, if you have a variable with the same name as a function,
 the variable {\bf shadows} the function.  For example, if you assign
@@ -4711,9 +4821,7 @@ If this is unintentional, use 'clear sin' to remove
 the variable 'sin' from the workspace.
 \end{code}
 
-Since the value we assigned to {\tt sin}
-is a scalar, and a scalar is really a 1x1 matrix, MATLAB tries to
-access the 5th element of the matrix and finds that there isn't one.
+Since the value we assigned to {\tt sin} is a scalar, and a scalar is really a 1x1 matrix, MATLAB tries to access the 5th element of the matrix and finds that there isn't one.
 
 In this case MATLAB is able to detect the error, and the error message is pretty helpful.
 But if the value of {\tt sin} was a vector, or if the value of {\tt x} was smaller, you would be in trouble.  For example:
@@ -4744,6 +4852,8 @@ You can avoid these problems by choosing function names carefully:
 When you are working with a new function or a new language feature
 for the first time, you should test it in isolation before you
 put it into your program.
+
+\index{debugging}
 
 For example, suppose you know that {\tt x} is the sine of some
 angle and you want to find the angle.  You find the MATLAB function
@@ -4822,6 +4932,9 @@ variable names can shadow built-in functions (with hilarious results).
 
 \begin{enumerate}
 
+\index{Chebyshev polynomial}
+\index{ezplot@{\tt ezplot}}
+
 \item Write a function called {\tt cheby6} that evaluates the
 6th Chebyshev polynomial.  It should take an input variable,
 $x$, and return
@@ -4849,6 +4962,9 @@ guess?
 
 When a duck is floating on water, how much of its body is submerged?
 
+\index{duck}
+\index{sphere}
+
 To estimate a solution to this problem\footnote{This example is adapted from Gerald and Wheatley,
 {\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
 1989.}, we'll assume that the submerged part of a duck is well approximated by a section of a sphere.
@@ -4861,6 +4977,9 @@ volume of the sphere below the water line is
 We'll also assume that the density of a duck is $\rho$, is $0.3 g / cm^3$ (0.3 times the density of water), and that its mass is $\frac{4}{3} \pi r^3 \rho$.
 
 Finally, according to the law of buoyancy, an object floats at the level where the weight of the displaced water equals the total weight of the object.
+
+\index{density}
+\index{buoyancy}
 
 Here are some suggestions for how to proceed:
 
@@ -4903,7 +5022,7 @@ Our goal is to find values of $d$ that are roots of this equation.
 
 
 
-% TODO: Find examples where error messages are getting syntax highlighting, and put them in a verbatim environment.
+% TODO: Find places in the book where error messages are getting syntax highlighting, and put them in a verbatim environment.
 
 
 
