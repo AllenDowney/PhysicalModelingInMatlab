@@ -33,6 +33,7 @@
 %\usepackage{hevea}
 \usepackage{hyperref}
 \usepackage{ifthen}
+\usepackage{makeidx}
 \usepackage{upquote}
 \usepackage{url}
 
@@ -84,7 +85,6 @@
 \lstnewenvironment{code}
 {\minipage{\linewidth}}
 {\endminipage}
-
 \lstnewenvironment{stdout}
 {\lstset{commentstyle=,keywordstyle=,stringstyle=}\minipage{\linewidth}}
 {\endminipage}
@@ -108,7 +108,11 @@
 % use mcode as a synonym for verb, for inline MATLAB code
 %\newcommand{\mcode{1}}{\mintinline{matlab}{#1}}
 
+% Tell compiler to make the index
+\makeindex
 
+% Include index in ToC
+\usepackage[totoc]{idxlayout}
 
 %% Macros and redefinitions
 
@@ -371,9 +375,12 @@ exercises at the end of some chapters.
 
 Installing MATLAB.
 
-Working with LiveScripts
+All code in this book has been tested with the latest version of MATLAB (R2019a).  But the features we are using have been in MATLAB for a long time; we would expect our code to work with older versions.
 
-Installing Octave and JupyterLab
+
+Working with LiveScripts.
+
+Installing Octave and JupyterLab.
 
 If you are using this book with Octave, we strongly recommend that you install Anaconda, which is a package management system that makes it easy to work with Octave and supporting software.
 
@@ -443,7 +450,7 @@ The following diagram shows what I mean by ``modeling":
 \index{modeling}
 
 \vspace{0.2in}
-\centerline{\includegraphics[height=2.8in]{figs/modeling_framework.pdf}}
+\centerline{\includegraphics[height=3in]{figs/modeling_framework.pdf}}
 
 Starting in the lower left, the {\bf system} is something in the real world we are interested in.  Often, it is something complicated, so we have to decide which details can be left out; removing details is called {\bf abstraction}.
 
@@ -492,6 +499,8 @@ But adding these features to the model would not improve the explanation; more d
 
 Choosing the best model depends on what the model is for.  It is usually a good idea to start with a simple model, even if it is likely to be too simple, and test whether it is good enough for its purpose.  Then you can add features gradually, starting with the ones you expect to be most essential.  This process is called {\bf iterative modeling}.
 
+\index{iterative modeling}
+
 Comparing results of successive models provides a form of {\bf internal validation}, so you can catch conceptual, mathematical, and software errors.  And by adding and removing features, you can tell which ones have the biggest effect on the results, and which can be ignored.
 
 \index{internal validation}
@@ -503,7 +512,8 @@ Comparing results to data from the real world provides {\bf external validation}
 
 The focus of this book is simulation, and the primary tool we will use is MATLAB.
 
-\section{MATLAB}
+
+\section{A glorified calculator}
 \label{sect:calc}
 
 At heart, MATLAB is a glorified calculator.  When you start MATLAB
@@ -512,9 +522,16 @@ entitled {\sf MATLAB} that contains smaller windows entitled {\sf
 Current Folder}, {\sf Command Window}, and {\sf Workspace}.
 In Octave, {\sf Current Folder} is called {\sf File Browser}.
 
+\index{Command Window}
+\index{Workspace}
+\index{interpreter}
+\index{command}
+
 The Command Window runs the {\bf interpreter}, which allows you
 to type {\bf commands}, then executes them and prints the
 result.
+
+\index{prompt}
 
 Initially, the Command Window contains a welcome message with information
 about the version of the software you are running, followed by a {\bf prompt}:
@@ -528,6 +545,8 @@ This symbol prompts you to enter a command.
 The simplest kind of command is a mathematical {\bf expression},
 like {\tt 2 + 1}).
 
+\index{expression}
+
 If you type an expression and then press Enter (or Return), MATLAB
 {\bf evaluates} the expression and prints the result.
 
@@ -538,6 +557,9 @@ ans = 3
 
 Just to be clear: in this example, MATLAB displayed {\tt >>}; I
 typed {\tt 2 + 1} and then hit Enter, and MATLAB displayed {\tt ans = 3}.
+
+\index{operator}
+\index{operand}
 
 In this expression, the plus sign is an {\bf operator} and the numbers {\tt 2} and {\tt 1} are {\bf operands}.
 
@@ -551,8 +573,12 @@ ans = 45
 \end{code}
 
 Speaking of spaces, you might have noticed that MATLAB puts a blank
-line between {\tt ans =} and the result.  In many of my examples I will leave
-it out to save room.
+line between {\tt ans =} and the result.  In many of my examples I will leave it out to save room.
+
+\index{multiplication}
+\index{division}
+\index{arithmetic operator}
+\index{exponentiation}
 
 The other arithmetic operators are pretty much what you would expect.
 Subtraction is denoted by a minus sign, {\tt -}; multiplication by
@@ -577,7 +603,8 @@ exponentiation happens before multiplication and division, and multiplication an
 If you want to override the order of operations, you can use parentheses.
 
 \index{operations!order of}
-
+\index{order of operations}
+\index{parentheses}
 
 \begin{code}
 >> 2 * (3-4) / 5
@@ -590,6 +617,8 @@ of many style guidelines I will recommend for making your programs
 easier to read.  Style doesn't change what the program does; the MATLAB
 interpreter doesn't check for style.  But human readers do, and the
 most important human who will read your code is you.
+
+\index{debugging!First Theorem}
 
 And that brings us to the First Theorem of Debugging:
 
@@ -607,7 +636,7 @@ MATLAB knows how to compute pretty much every math function you've
 heard of.  It knows all the trigonometric functions; here's how you
 use them:
 
-\index{Math functions!trigonometric}
+\index{math function!trigonometric}
 
 \begin{code}
 >> sin(1)
@@ -617,6 +646,9 @@ ans = 0.8415
 This command is an example of a {\bf function call}.  The name of the
 function is {\tt sin}, which is the usual abbreviation for the
 trigonometric sine.  The value in parentheses is called the {\bf argument}.
+
+\index{argument}
+\index{function!argument}
 
 The trig functions {\tt sin}, {\tt cos}, {\tt tan}---among many
 others---work in radians.\footnote{MATLAB also provides trig functions
@@ -637,14 +669,19 @@ ans = 0.7854
 If that bit of trigonometry isn't familiar to you, don't worry about
 it.  It's just an example of a function with multiple arguments.
 
-MATLAB also provides exponential functions\index{Math functions!exponential}, like {\tt exp}, which computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
+\index{trigonometry}
+\index{math function!exponential}
+
+MATLAB also provides exponential functions, like {\tt exp}, which computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
 
 \begin{code}
 >> exp(1)
 ans = 2.7183
 \end{code}
 
-The inverse of {\tt exp} is {\tt log}\index{Math functions!logarithmic}, which computes the logarithm base $e$:
+\index{math function!logarithm}
+
+The inverse of {\tt exp} is {\tt log}, which computes the logarithm base $e$:
 
 \begin{code}
 >> log(exp(3))
@@ -655,6 +692,10 @@ This example also demonstrates that function calls can be {\bf nested};
 that is, you can use the result from one function as an argument for
 another.
 
+\index{nested function call}
+\index{function call!nested}
+\index{operand}
+
 More generally, you can use a function call as an operand in an expression.
 
 \begin{code}
@@ -664,6 +705,8 @@ ans = 1
 
 As you probably guessed, {\tt sqrt} computes the square root.
 
+\index{mathematical function!square root}
+
 There are lots of other math functions, but this is not meant to
 be a reference manual.  To learn about other functions, you should
 read the documentation.
@@ -672,7 +715,10 @@ read the documentation.
 \section{Documentation}
 
 MATLAB comes with two forms of online documentation, {\tt help}
-and {\tt doc}.\index{Documentation!{\tt doc} and {\tt help}}
+and {\tt doc}.
+
+\index{documentation!doc@{\tt doc}}
+\index{documentation!doc@{\tt help}}
 
 The help command works completely in the Command Window; just 
 type {\tt help} followed by the name of a command.
@@ -689,6 +735,10 @@ Some documentation uses vocabulary we haven't covered yet.
 For example, ``the elements of X'' will likely not make sense until
 we get to vectors and matrices a few chapters from now.
 
+\index{element}
+\index{vector}
+\index{matrix}
+
 The {\tt doc} pages are often better for people new to MATLAB.  
 If you type {\tt doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
 use vectors and matrices, so they may not make complete sense yet, 
@@ -701,7 +751,11 @@ One of the features that makes MATLAB more powerful than a calculator
 is the ability to give a name to a value.  A named value is called
 a {\bf variable}.
 
-MATLAB comes with a few predefined variables.\index{Variables!predefined}  For
+\index{variable}
+\index{variable!predefined}
+\index{predefined variable}
+ 
+MATLAB comes with a few predefined variables. For
 example, the name {\tt pi} refers to the
 mathematical quantity $\pi$, which is approximately
 
@@ -712,7 +766,11 @@ ans = 3.1416
 
 And if you do anything with complex numbers, you might find it
 convenient that both {\tt i} and {\tt j} are predefined as the square
-root of $-1$\index{Complex numbers!imaginary unit}.
+root of $-1$.
+
+\index{complex number!imaginary unit}
+\index{operand}
+\index{expression}
 
 You can use a variable name anywhere you can use a number; for example, as
 an operand in an expression:
@@ -732,10 +790,19 @@ ans = 1
 ans = -1.0000 + 0.0000i
 \end{code}
 
-As the second example shows, many MATLAB functions work with
-complex numbers.  This example demonstrates Euler's Equality\index{Complex numbers!Euler's Equality}:
-$e^{i \pi} = -1$.
+\index{argument}
+\index{function call}
+\index{complex number!Euler's equality}
+\index{Euler's equality}
+\index{ans@{\tt ans}}
 
+As the second example shows, many MATLAB functions work with
+complex numbers.  This example demonstrates Euler's Equality:
+%
+\begin{equation*}
+e^{i \pi} = -1
+\end{equation*}
+%
 Whenever you evaluate an expression, MATLAB assigns the result to
 a variable named {\tt ans}.  You can use {\tt ans} in a subsequent
 calculation as shorthand for ``the value of the previous expression''.
@@ -756,7 +823,11 @@ you evaluate an expression.
 
 You can create your own variables, and give them values, with
 an {\bf assignment statement}.  The assignment operator is the
-equals sign, {\tt =}\index{Variables!assignment}.
+equals sign, {\tt =}.
+
+\index{assignment operator}
+\index{operator!assignment}
+\index{statement!assignment}
 
 \begin{code}
 >> x = 6 * 7
@@ -767,7 +838,14 @@ This example creates a new variable named {\tt x} and assigns it the
 value of the expression {\tt 6 * 7}.  MATLAB responds with the
 variable name and the computed value.
 
+\index{expression}
+
 In every assignment statement, the left side has to be a legal variable name.  The right side can be any expression, including function calls.
+
+\index{variable name}
+\index{name!variable}
+\index{underscore}
+\index{case sensitive}
 
 Almost any sequence of lower and upper case letters is a legal
 variable name, as long as the name does not exceed 63 characters.  
@@ -775,7 +853,7 @@ Digits are also legal, but not at the beginning of the name.
 Some punctuation is also legal, but the underscore,
 \verb"_", is the only commonly-used punctuation mark.  
 Spaces are not allowed.  Variable names are
-``case sensitive'', so {\tt x} and {\tt X} are different variables.
+{\bf case sensitive}, so {\tt x} and {\tt X} are different variables.
 
 \begin{code}
 >> fibonacci0 = 1;
@@ -786,27 +864,44 @@ Spaces are not allowed.  Variable names are
 first_name = bob
 \end{code}
 
-The first two examples demonstrate the use of the semi-colon\index{Syntax!semi-colon}, which
+The first two examples demonstrate the use of the semi-colon, which
 suppresses the output from a command.  In this case MATLAB creates the
 variables and assigns them values, but displays nothing.
 
+\index{syntax!semi-colon}
+\index{semi-colon}
+\index{suppress output}
+\index{output!suppress}
+
 The third example demonstrates that not everything
-in MATLAB is a number.  A sequence of characters in single quotes is
+in MATLAB is a number.
+A sequence of characters in single quotes is
 a {\bf string}.
+
+\index{string}
+\index{character}
 
 Although {\tt i}, {\tt j}, and {\tt pi} are predefined, you are free
 to reassign them.  It is common to use {\tt i} and {\tt j} for other
 purposes, but rare to assign a different value to
-{\tt pi}.\index{Complex numbers!imaginary unit}
+{\tt pi}.
+
+\index{complex number!imaginary unit}
 
 
 \section{The workspace}
 
 When you create a new variable, it appears in the {\sf Workspace} window, and it is added to the {\bf workspace}, which is a
-set of variables and their values.\index{Variables!workspace}
+set of variables and their values.
+
+\index{variable}
+\index{workspace}
 
 The {\tt who} command prints the
-names of the variables in the workspace.\index{Variables!{\tt who}}
+names of the variables in the workspace.
+
+\index{who@{\tt who}}
+\index{command!{\tt who}}
 
 \begin{code}
 >> x=5;
@@ -832,9 +927,10 @@ y z
 
 But be careful: if you don't specify any variables, {\tt clear} removes them all.
 
-To display the value of a variable, you can use the {\tt disp} function.
+\index{clear@{\tt clear}}
+\index{disp@{\tt disp}}
 
-\index{Variables!{\tt disp}}
+To display the value of a variable, you can use the {\tt disp} function.
 
 \begin{code}
 >> disp(z)
@@ -851,7 +947,9 @@ z = 9
 
 \section{Why variables?}
 
-Some reasons to use variables are:\index{Variables!reasons for using}
+Some reasons to use variables are:
+
+\index{variable!reasons for}
 
 \begin{itemize}
 
@@ -885,9 +983,12 @@ ans = ((x - 2000000) * sqrt(2 * pi) * 1000000) ^ -1 * ...
 exp(-1/2 * (log(x - 2000000) - area)^2 / 1000000^2)
 \end{code}
 
-You can use an ellipsis to break the expression into multiple lines.\index{Syntax!ellipses}
+You can use an ellipsis to break the expression into multiple lines.
 Just type {\tt ...} at the end of the first line and continue on the
 next.
+
+\index{syntax!{\tt ...}}
+\index{ellipsis}
 
 But often it is better to break the computation into a sequence of
 steps and assign intermediate results to variables.
@@ -904,9 +1005,14 @@ The names of the intermediate variables explain their role in the
 computation.  {\tt shiftx} is the value of {\tt x} shifted by 
 {\tt 2000000}.  It should be no surprise that {\tt exponent} is the argument of {\tt exp}, and {\tt denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes them easier to debug.
 
+\index{numerator}
+\index{denominator}
+
 \end{itemize}
 
 \section{Errors}
+
+\index{error}
 
 It's early, but now would be a good time to start making errors.
 Whenever you learn a new feature, you should try to make as many errors as possible, as soon as possible.
@@ -926,7 +1032,12 @@ missing or unbalanced delimiters, or other syntax error.
 To construct matrices, use brackets instead of parentheses.
 \end{code}
 
+\index{invalid expression}
+\index{expression!invalid}
+
 The error message indicates that the expression in invalid and suggests several things that might be wrong.  In this case, one of its guesses is right; we are missing a multiplication operator.
+
+\index{parentheses}
 
 Another common error is to leave out the parentheses around the
 arguments of a function.  For example, in math notation, it is common
@@ -949,6 +1060,8 @@ ans =  112   105
 
 I won't explain this result; for now, I'll just suggest that you should {\em always} put parentheses around arguments.
 
+\index{debugging!Second Theorem}
+
 This example also demonstrates the Second Theorem of Debugging:
 
 \begin{quote}
@@ -956,6 +1069,8 @@ This example also demonstrates the Second Theorem of Debugging:
 \end{quote}
 
 MATLAB functions are case sensitive, if you type the {\tt sin} function using capital letters in MATLAB, you get an error:
+
+\index{case sensitive}
 
 \begin{code}
 >> SIN(pi)
@@ -970,6 +1085,8 @@ can to make the messages go away.  Experienced programmers know that error
 messages are your friend.  They can be hard to understand, and even
 misleading, but it is worth the effort to understand them.
 
+\index{error message}
+
 Here's another common error.
 If you were translating this mathematical expression into MATLAB:
 %
@@ -983,6 +1100,9 @@ You might be tempted to write this:
 
 But that would be wrong because of the order of operations.  Division and multiplication are evaluated from left to right, so this expression would multiply {\tt 1/2} by {\tt sqrt(pi)}.
 
+\index{order of operations}
+\index{denominator}
+
 To keep {\tt sqrt(pi)} in the denominator, you could use parentheses:
 
 \begin{code}
@@ -995,7 +1115,7 @@ or make the division explicit.
 1 / 2 / sqrt(pi)
 \end{code}
 
-
+\index{division}
 
 
 \section{Glossary}
@@ -1065,6 +1185,7 @@ You might have heard that a penny dropped from the top of the Empire State Build
 We can test this myth by making and analyzing a model.  To get started, we'll assume that the effect of air resistance is small.  This will turn out to be a bad assumption, but bear with me.
 
 If air resistance is negligible, the primary force acting on the penny is gravity, which causes the penny to accelerate downward.
+
 \index{air resistance}
 
 If the initial velocity is 0, the velocity after $t$ seconds is $a t$, and the distance the penny has dropped is
@@ -1085,7 +1206,7 @@ Use MATLAB to perform these computations, and check that you get the same result
 \end{ex}
 
 \begin{ex}
-The result in the previous exercise is not accurate it ignores air resistance.  In reality, once the penny gets to about \SI{18}{\meter\per\second}, the upward force of air resistance equals the downward force of gravity, so the penny stops accelerating.  After that, it doesn't matter how far the penny falls; it hits the sidewalk at about \SI{18}{\meter\per\second}, much less than \SI{86}{\meter\per\second}.
+The result in the previous exercise is not accurate because it ignores air resistance.  In reality, once the penny gets to about \SI{18}{\meter\per\second}, the upward force of air resistance equals the downward force of gravity, so the penny stops accelerating.  After that, it doesn't matter how far the penny falls; it hits the sidewalk at about \SI{18}{\meter\per\second}, much less than \SI{86}{\meter\per\second}.
 
 As an exercise, compute the time it takes for the penny to reach the sidewalk if we assume that it accelerates with constant acceleration
 $a = \SI{9.8}{\meter\per\second\squared}$ until it reaches terminal velocity, then falls with constant velocity until it hits this sidewalk.
@@ -1106,6 +1227,10 @@ fine if you are not writing more than a few lines.  Beyond that,
 you will want to store your program in a {\bf script} and then
 execute the script.
 
+\index{script}
+\index{m-file}
+\index{file extension}
+
 A script is a file that contains MATLAB code.  These files are
 also called ``M-files'' because they use the extension {\tt .m},
 which is short for MATLAB.
@@ -1119,11 +1244,13 @@ x = 5
 \end{code}
 
 Then press the {\sf Save} button.  A dialog window should appears where you
-can choose the file name and the directory where it should go.  Change
+can choose the file name and the folder where it should go.  Change
 the name to {\tt myscript.m} and save it into any folder you like.
 
 Now press the green {\sf Run} button.  You might get a message that says the script is not found in the current folder.  
 If so, click the button that says {\sf Change Folder} and it should run.
+
+\index{Command Window}
 
 You can also run your script from the Command Window: type {\tt myscript} at the prompt and press Enter.  
 MATLAB executes your script and displays the result.
@@ -1148,6 +1275,8 @@ When you name a new script, try to choose something meaningful and memorable.
 Do not choose a name that is not already in use; if you do, you will replace one of MATLAB's functions with your own (at least temporarily).
 You might not notice right away, but you might get some confusing behavior later.
 
+\index{script file name}
+
 Also, the name of the script cannot contain spaces.  If you create
 a file named {\tt my script.m}, MATLAB will complain when you try
 to run it:
@@ -1158,15 +1287,14 @@ Undefined function or variable 'my'.
 \end{code}
 
 Keeping track of your scripts can be a pain.  To keep things simple,
-for now, I suggest putting all of your scripts in one
-directory.
+for now, I suggest putting all of your scripts in one folder.
 
 
 \section{Why scripts?}
 
 The most common reasons to use scripts are:
 
-\index{Scripts!reasons for using}
+\index{script!reasons for}
 
 \begin{itemize}
 
@@ -1190,8 +1318,13 @@ Whenever you start a new script, start with something simple,
 like {\tt x=5}, that produces a visible effect.  Then run your script
 and confirm that you get what you expect.
 
-When you type the name of a script, MATLAB searches for the script in a {\bf path}, which is a sequence of folders.  If it doesn't find the script in the first folder, it searches the second, and so on.
+When you type the name of a script, MATLAB searches for the script in a {\bf search path}, which is a sequence of folders.  If it doesn't find the script in the first folder, it searches the second, and so on.
 If you have scripts with the same name in different folders, you could be looking at one version and running another.
+
+\index{search path}
+\index{folder}
+
+\index{debugging!Third Theorem}
 
 If the code you are running is not the code you are looking
 at, you will find debugging a frustrating exercise!  And that brings
@@ -1204,18 +1337,21 @@ us to the Third Theorem of Debugging:
 
 \section{Fibonacci}
 
+\index{Fibonacci number}
+\index{sequence!Fibonacci}
+
 The Fibonacci sequence, denoted $F$, is described by the equations
 $F_1 = 1$, $F_2 = 1$, and for $i > 2$, $F_{i} = F_{i-1} + F_{i-2}$.
 The following expression computes the $n$th Fibonacci number:
-
-\begin{equation}
+%
+\begin{equation*}
 F_n = \frac{1}{\sqrt{5}}
 \left[
 \left( \frac{1 + \sqrt{5}}{2} \right)^{n} -
 \left( \frac{1 - \sqrt{5}}{2} \right)^{n}
 \right]
-\end{equation}
-
+\end{equation*}
+%
 We can translate this expression into MATLAB, like this:
 
 \begin{code}
@@ -1227,6 +1363,8 @@ ans = diff / s5
 \end{code}
 
 I use temporary variables like {\tt t1} and {\tt t2} to make the code readable and the order of operations explicit.  The first four lines have a semi-colon at the end, so they don't display anything.  The last line assigns the result to {\tt ans}.
+
+\index{semi-colon}
 
 If we save this script in a file named {\tt fibonacci1.m}, we can run it like this:
 
@@ -1250,7 +1388,11 @@ diff = t1^n - t2^n;
 
 This script only works if there is a variable named {\tt n} in the workspace; otherwise, you get an error.
 
+\index{workspace}
+
 MATLAB tells you what line of the script the error is in, and displays the line.
+
+\index{debugging!Fourth Theorem}
 
 This information can be helpful, but beware!  MATLAB is telling you
 where the error was discovered, not where the error is.  In this
@@ -1267,6 +1409,9 @@ Often you have to work backwards to find the source of the problem.
 
 MATLAB uses IEEE double-precision floating-point numbers, which are accurate to about 15 digits of precision.  Most integers can be represented exactly, but most fractions cannot.
 
+\index{floating-point}
+\index{number!floating-point}
+
 For example, if you compute the fraction {\tt 2/3}:
 
 \begin{code}
@@ -1279,7 +1424,7 @@ The result is only approximate --- the correct answer has an infinite number of 
 It's not as bad as this example makes it seem: MATLAB stores more digits than it shows by default.
 You can change the output format to see more digits.
 
-\index{Numbers!{\tt format}}
+\index{format@{\tt format}}
 
 \begin{code}
 >> format long
@@ -1289,7 +1434,8 @@ ans = 0.666666666666667
 
 In this example, the first 14 digits are correct; the last one has been rounded off.
 
-\index{Numbers!floating point}
+\index{scientific notation}
+\index{factorial@{\tt factorial}}
 
 Large and small numbers are displayed in scientific notation.  For example, if we use the built in function {\tt factorial} to compute $50!$, we get the following result:
 
@@ -1299,22 +1445,25 @@ ans = 3.041409320171338e+64
 \end{code}
 
 The {\tt e} in this notation is {\em not} the transcendental number
-known as $e$\index{Numbers!$e$}; it is just an abbreviation for ``exponent''.  So
+known as $e$; it is just an abbreviation for ``exponent''.  So
 this means that $50!$ is approximately $3.04 \times 10^{64}$.  The
 exact solution is a 65-digit integer, but with double-precision floating-point 
 we only know the first 16 digits.
 
-If you have the MATLAB Symbolic Math Toolbox installed, you can use a 
-different number representation for the calculation and see all the digits of 
-the result:
+\index{transcendental number}
+\index{exponent}
 
-\begin{code}
->> sym(factorial(50))
-ans = 30414093201713375576366966406747986832057064836514787179557289984
-\end{code}
-
-Compared to the floating-point result, the symbolic result takes substantially more time to compute and space to store in memory.
-In this book, we focus on floating-point computation rather than symbolic computation.
+%If you have the MATLAB Symbolic Math Toolbox installed, you can use a 
+%different number representation for the calculation and see all the digits of 
+%the result:
+%
+%\begin{code}
+%>> sym(factorial(50))
+%ans = 30414093201713375576366966406747986832057064836514787179557289984
+%\end{code}
+%
+%Compared to the floating-point result, the symbolic result takes substantially more time to compute and space to store in memory.
+%In this book, we focus on floating-point computation rather than symbolic computation.
 
 You can also enter numbers using scientific notation.
 
@@ -1326,9 +1475,11 @@ speed_of_light = 300000000
 Although floating-point can represent very large and small numbers, 
 there are limits.  
 The predefined variables {\tt realmax} and {\tt realmin}
-\index{Numbers!{\tt realmax} and {\tt realmin}} contain the
-largest and smallest number magnitudes that MATLAB 
+contain the largest and smallest number magnitudes that MATLAB 
 can handle.
+
+\index{realmin@{\tt realmin}}
+\index{realmax@{\tt realmax}}
 
 \begin{code}
 >> realmax
@@ -1338,13 +1489,13 @@ ans = 1.797693134862316e+308
 ans = 2.225073858507201e-308
 \end{code}
 
-Actually, MATLAB can handle a some numbers with magnitude smaller than 
-{\tt realmin}, but with fewer digits of precision.
-
-\begin{code}
->> 1e-323
-ans = 9.881312916824931e-324
-\end{code}
+%Actually, MATLAB can handle a some numbers with magnitude smaller than 
+%{\tt realmin}, but with fewer digits of precision.
+%
+%\begin{code}
+%>> 1e-323
+%ans = 9.881312916824931e-324
+%\end{code}
 
 If a number is too small, MATLAB ``rounds down'' to zero.
 
@@ -1354,7 +1505,9 @@ ans = 0
 \end{code}
 
 If a number -- perhaps the result of a computation -- is too big, 
-MATLAB ``rounds up'' to infinity.\index{Numbers!{\tt Inf}}
+MATLAB ``rounds up'' to infinity.
+
+\index{Inf@{\tt Inf}}
 
 \begin{code}
 >> factorial(170)
@@ -1371,14 +1524,21 @@ Division by zero also returns {\tt Inf}.
 ans = Inf
 \end{code}
 
-Some older versions of MATLAB give a warning when dividing by zero.
-A warning is like an error message without teeth; the computation
-is allowed to continue.  Allowing {\tt Inf} to propagate
-through a computation doesn't always do what you expect, but if you
-are careful with it, {\tt Inf} can be quite useful.
+\index{division by zero}
+\index{zero!division by}
 
-For operations that are truly undefined, MATLAB returns {\tt NaN},
-which stands for ``not a number''.\index{Numbers!{\tt NaN}}
+%Some older versions of MATLAB give a warning when dividing by zero.
+%A warning is like an error message without teeth; the computation
+%is allowed to continue.  Allowing {\tt Inf} to propagate
+%through a computation doesn't always do what you expect, but if you
+%are careful with it, {\tt Inf} can be quite useful.
+
+For operations that are undefined, MATLAB returns {\tt NaN},
+which stands for ``not a number''.
+
+\index{NaN@{\tt NaN}}
+\index{not a number}
+\index{undefined operation}
 
 \begin{code}
 >> 0/0
@@ -1391,7 +1551,11 @@ ans = NaN
 
 Along with the commands that make up a program, it is useful to include comments that provide additional information about the
 program.  The percent symbol {\tt \%} separates
-the comments from the code.\index{Syntax!comments}
+the comments from the code.
+
+\index{comment}
+\index{\%@{\tt \%}}
+\index{percent sign}
 
 \begin{code}
 >> speed_of_light = 3.0e8     % meters per second
@@ -1402,6 +1566,8 @@ The comment runs from the percent symbol to the end of the line.
 In this case it specifies the units of the value.  In an ideal world,
 MATLAB would keep track of units and propagate them through the
 computation, but for now that burden falls on the programmer.
+
+\index{unit}
 
 Comments have no effect on the execution of the program.  They
 are there for human readers.  Good comments make programs more
@@ -1423,12 +1589,13 @@ code, like units in the example above, or the meaning of a variable:
 \end{code}
 
 If you use longer variable names, you might not need explanatory
-comments, but there is a tradeoff: longer code can become harder
+comments, but there is a trade-off: longer code can become harder
 to read.
 Also, if you are translating from math
 that uses short variable names, it can be useful to make your
 program consistent with your math.
 
+\index{variable name}
 
 \section{Documentation}
 
@@ -1436,6 +1603,9 @@ Every script should contain a comment that explains
 what it does, and what the requirements are for the workspace.  For
 example, I might put something like this at the beginning of
 {\tt fibonacci1.m}:
+
+\index{documentation!function}
+\index{function!documentation}
 
 \begin{code}
 % Computes a numerical approximation of the nth Fibonacci number.  
@@ -1446,6 +1616,10 @@ example, I might put something like this at the beginning of
 A {\bf precondition} is something that must be true when the script
 starts in order for it to work correctly.  A {\bf postcondition}
 is something that will be true when the script completes.
+
+\index{precondition}
+\index{postcondition}
+\index{Fibonacci}
 
 If there is a comment at the beginning of a script, MATLAB assumes
 it is the documentation for the script, so if you type {\tt help
@@ -1461,14 +1635,17 @@ signs).
 
 That way, scripts that you write behave just like predefined scripts.
 You can even use the {\tt doc} command to see your comment in the
-{\sf Help} window.
+{\sf Help Window}.
 
-
-
+\index{Help Window}
+\index{doc@{\tt doc}}
+\index{help@{\tt dhelpoc}}
 
 \section{Assignment and equality}
 
-\index{Variables!assignment}
+\index{variable!assignment}
+\index{assignment!target}
+\index{equality}
 
 In mathematics the equals sign means that the two sides of the
 equation have the same value.  In MATLAB an assignment statement
@@ -1497,6 +1674,8 @@ To compare values for equality, use '=='.
 \end{code}
 
 In this case the error message not very helpful.  The problem here is that the expression on the left side is not a valid target for an assignment.
+
+\index{error message}
 
 Another difference between assignment and equality is that an assignment statement is only temporary, in the following sense.
 When you assign {\tt x = y+1}, you get the
@@ -1528,7 +1707,7 @@ is pronounced ``{\tt x} gets the value of {\tt y} plus one.''
 
 \item[script:] An M-file that contains a sequence of MATLAB commands.
 
-\item[search path:] The list of directories where MATLAB looks for
+\item[search path:] The list of folder where MATLAB looks for
 M-files.
 
 \item[workspace:] A set of variables and their values.
@@ -1540,12 +1719,6 @@ starts, in order for it to work correctly.
 completes.
 
 \item[target:] The variable on the left side of an assignment statement.
-
-\item[incremental development:] A way of programming by making a series
-of small, testable changes.
-
-\item[scaffolding:] Code you write to help you program or debug, but
-which is not part of the finished program.
 
 %\item[unit testing:] A process of testing software by testing each
 %component in isolation.
@@ -1590,6 +1763,7 @@ y = 1
 
 \begin{ex}
 \label{ex:bikegame}
+\index{bike share system}
 
 Imagine that you are the operator of a bike share system with two
 locations: Boston and Cambridge.
@@ -1610,8 +1784,7 @@ the prompt and then execute the script.  The script should display
 the updated values of {\tt b} and {\tt c}, but not any intermediate
 variables.
 
-Remember that bikes are countable things, so {\tt b} and {\tt c} should always
-be integer values.  You might want to use the {\tt round} function
+Remember that bikes are countable things, so {\tt b} and {\tt c} should always be integer values.  You might want to use the {\tt round} function
 to compute the number of bikes that move each day.
 
 If you execute your script repeatedly, you can simulate the passage
@@ -1632,6 +1805,8 @@ and how to plot the values of {\tt a} and {\tt b} over time.
 
 In Exercise~\ref{ex:bikegame}, you might have been tempted to write something
 like
+
+\index{bike share system}
 
 \begin{code}
 b = b - 0.05*b + 0.03*c
@@ -1657,6 +1832,8 @@ c = c_new
 This has the effect of updating the variables ``simultaneously;'' that
 is, it reads both old values before writing either new value.
 
+\index{update}
+
 The following is an alternative solution that
 has the added advantage of simplifying the computation:
 
@@ -1665,6 +1842,8 @@ b_to_c = 0.05*b - 0.03*c
 b = b - b_to_c
 c = c + b_to_c
 \end{code}
+
+\index{debugging!Fifth Theorem}
 
 It is easy to look at this code and confirm that it obeys Conversation
 of Bikes.  Even if the value of \verb"b_to_c" is wrong, at least the total
@@ -1682,6 +1861,11 @@ a bug.
 \section{Bug taxonomy}
 
 There are four kinds of bugs:
+
+\index{syntax error}
+\index{runtime error}
+\index{logical error}
+\index{numerical error}
 
 \begin{description}
 
@@ -1719,13 +1903,14 @@ know what the program is supposed to do, so only you can check it.
 From MATLAB's point of view, there's nothing wrong with the program;
 the bug is in your head!
 
+\index{bug}
+
 Numerical errors can be tricky because it's not clear whether the
 problem is your fault.  For most simple computations, MATLAB produces
 the floating-point value that is closest to the exact solution, which
 means that the first 15 significant digits should be correct.  
 
-But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct
-digits can be smaller.  Sometimes MATLAB can warn you that
+But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct digits can be smaller.  Sometimes MATLAB can warn you that
 this is happening, but not always!  Precision (the number of digits
 in the answer) does not imply accuracy (the number of digits that
 are right).
@@ -1735,6 +1920,9 @@ are right).
 
 There are two ways of thinking about numerical errors, called {\bf
 absolute} and {\bf relative}.
+
+\index{absolute error}
+\index{relative error}
 
 \begin{description}
 
@@ -1767,7 +1955,9 @@ For many purposes, being off by 1\% is good enough.
 
 \section{for loops}
 
-\index{Compound statements!{\tt for}}
+\index{compound statement}
+\index{for loop@{\tt for} loop}
+\index{loop}
 
 A {\bf loop} is a part of a program that executes repeatedly;
 a {\bf for loop} is the kind of loop that uses the {\tt for}
@@ -1792,7 +1982,14 @@ first time it runs, it creates the variable {\tt i} and assigns it the
 value 1.  The second time, {\tt i} gets the value 2, and so on, up to
 and including 30.
 
-The colon operator, {\tt :}, specifies a {\bf range} of integers.\index{Syntax!colon operator}  You can create a range at the prompt:
+\index{assignment statement}
+\index{statement!assignment}
+\index{colon operator}
+\index{operator!colon}
+\index{range}
+
+The colon operator, {\tt :}, specifies a {\bf range} of integers.
+You can create a range at the prompt:
 
 \begin{code}
 >> 1:5
@@ -1803,10 +2000,18 @@ The variable you use in the for statement is called the {\bf loop
 variable}.  It is common to use the names {\tt i},
 {\tt j}, and {\tt k} as loop variables.
 
+\index{body of loop}
+\index{loop body}
+\index{loop variable}
+\index{variable!loop}
+
 The statements inside the loop are called the {\bf body}.  By convention,
 they are indented to show that they are inside the loop, but the
 indentation does not affect the execution of the program.
 The {\tt end} statement marks the end of the loop.
+
+\index{end statement@{\tt end} statement}
+\index{statement!{\tt end}}
 
 To see the loop in action you can run a loop that displays the
 loop variable:
@@ -1840,6 +2045,8 @@ A graph would be much better!
 \section{Plotting}
 \label{sect:plotting}\index{Plotting!points}
 
+\index{plot@{\tt plot}}
+
 {\tt plot} is a versatile function for plotting points and lines
 on a two-dimensional graph.  Unfortunately, it is so versatile
 that it can be hard to use (and hard to read the documentation).
@@ -1854,7 +2061,10 @@ To plot a single point, type
 A {\sf Figure Window} should appear with a graph and a single, blue circle
 at $x$ position 1 and $y$ position 2.  
 
-The letter in single quotes is a string that specifies how the
+\index{Figure Window}
+\index{style string}
+
+The letter in single quotes is a {\bf style string} that specifies how the
 point should be plotted.
 Other shapes include {\tt +},
 {\tt *},
@@ -1879,6 +2089,8 @@ the new plot.  The {\tt hold} command lets you override that behavior.
 {\tt hold on} tells MATLAB not to clear the figure when it makes a new
 plot; {\tt hold off} returns to the default behavior.
 
+\index{hold@{\tt hold}}
+
 Try this:
 
 \begin{code}
@@ -1891,6 +2103,9 @@ Try this:
 \end{code}
 
 The {\tt clf} command clears the figure before we start plotting.
+
+\index{clear figure}
+\index{clf@{\tt clf}}
 
 You should see a figure with three circles, at (1, 1), (1, 2), and (2, 2).  MATLAB scales the plot automatically so that each axis runs from the lowest axis value in the plot to the highest.
 
@@ -1909,6 +2124,11 @@ to the positive integers.  The numbers in the sequence are
 called {\bf elements}.  In math notation, the elements
 are denoted with subscripts, so the first element of the series $A$ is
 $A_1$, followed by $A_2$, and so on.
+
+\index{sequence}
+\index{element}
+\index{loop}
+\index{geometric sequence}
 
 {\tt for} loops are a natural way to compute the elements of a sequence.
 As an example, in a geometric sequence, each element is a constant
@@ -1938,6 +2158,9 @@ other elements are displayed on the screen, but they are not saved
 in a variable.  Later, we will see how to save the elements
 of a sequence in a vector.
 
+\index{direct computation}
+\index{recurrent computation}
+
 This loop computes the sequence {\bf recurrently}, which means
 that each element depends on the previous one.
 For this sequence it is also possible to compute the $i$th element
@@ -1960,6 +2183,9 @@ math, a sequence is a set of numbers, and a series is an expression
 (a sum) that has a single value.  In math notation, a series
 is often written using the summation symbol $\sum$.
 
+\index{series}
+\index{sum}
+
 For example, the sum of the first 10 elements of $A$ is
 \begin{equation}
 \sum_{i=1}^{10} A_i
@@ -1981,6 +2207,8 @@ ans = total
 {\tt A1} is the first element of the sequence; each time
 through the loop {\tt a} is the $i$th element.
 
+\index{accumulator}
+
 The way we are using {\tt total} is sometimes called an {\bf
 accumulator}; that is, a variable that accumulates a result a little
 bit at a time.  
@@ -2001,6 +2229,8 @@ have to be careful about where you start and stop the loop.
 
 
 \section{Generalization}
+
+\index{generalization}
 
 As written, the previous example always adds up the first 10
 elements of the sequence, but we might be curious to know what
@@ -2053,7 +2283,7 @@ This is an important idea we will come back to when we talk about functions.
 
 \section{Incremental development}
 
-\index{Scripts!incremental development}
+\index{incremental development}
 
 As you start writing longer programs, you might find yourself spending more time debugging.
 The more code you write before you start debugging, the harder it is to find
@@ -2087,6 +2317,8 @@ change you made was small, it shouldn't take long to find the problem.
 
 \end{enumerate}
 
+\index{debugging!Sixth Theorem}
+
 With incremental development, your code is more likely to work the first time; and if it doesn't the problem is more likely to be obvious.  And that brings us to the Sixth Theorem of Debugging:
 
 \begin{quote}
@@ -2103,6 +2335,8 @@ called {\bf scaffolding} because you use it to build the program
 and then remove it when you are done.  But time you save on
 debugging is almost always worth the time you invest in
 scaffolding.
+
+\index{scaffolding}
 
 \item When you are getting started, it might not be obvious how to
 choose the steps that get from {\tt x=5} to the program you are trying
@@ -2156,6 +2390,12 @@ a little bit at a time.
 \item[generalization:] A way to make a program more versatile, for
 example by replacing a specific value with a variable that can have
 any value.
+
+\item[incremental development:] A way of programming by making a series
+of small, testable changes.
+
+\item[scaffolding:] Code you write to help you program or debug, but
+which is not part of the finished program.
 
 \end{description}
 
@@ -2213,7 +2453,9 @@ order of the updates!
 \label{chpt:vectors}
 
 \section{Checking preconditions}
-\index{Scripts!pre- and post-conditions}
+
+\index{precondition}
+\index{postcondition}
 
 Some of the loops in the previous chapter don't work
 if the value of {\tt n} isn't set correctly before the loop runs.
@@ -2238,10 +2480,13 @@ total = 0
 \end{code}
 
 Why?  Because the expression {\tt 1:-1} means ``all the numbers
-from 1 to -1, counting up by 1.''\index{Syntax!colon operator}  
+from 1 to -1, counting up by 1.''  
 It's not immediately obvious
 what that should mean, but MATLAB's interpretation is that there
 aren't any numbers that fit that description, so the result is
+
+\index{colon operator}
+\index{operator!colon}
 
 \begin{code}
 >> 1:-1
@@ -2249,9 +2494,11 @@ ans = 1x0 empty double row vector
 \end{code}
 
 This indicates that the result is an empty row vector of 
-double-precision numbers.  An empty row vector has one rows and zero columns.  We will learn more about MATLAB vectors later in this
-chapter and more about the types of vectors -- row versus column --
-in Section~\ref{rowvector}.
+double-precision numbers.  An empty row vector has one row and zero columns.  We will learn more about MATLAB vectors later in this
+chapter.
+
+\index{vector}
+\index{range}
 
 In any case, if you loop over an empty range,
 the loop never runs at all, which is why in this example the
@@ -2267,7 +2514,8 @@ A better alternative is to use an {\tt if} statement.
 
 \section{if statements}
 
-\index{Compound statements!{\tt if}}
+\index{if statement@{\tt if} statement}
+\index{conditional statement}
 
 The {\tt if} statement allows you to check for certain conditions
 and execute statements if the conditions are met.  In the previous
@@ -2285,18 +2533,25 @@ are asking if {\tt n} is negative.  If it is, MATLAB executes
 the body of the statement, which is the indented sequence of
 statements between the {\tt if} and the {\tt end}.
 
+\index{indentation}
+
 MATLAB doesn't require you to indent the body of an {\tt if}
-statement, but it makes your code more readable, so you should do it,
-and don't make me tell you again.
+statement, but it makes your code more readable, so you should do it.
+Don't make me tell you again.
 
 In this example, the ``right'' thing to do if {\tt n} is negative
 is to set {\tt ans = NaN}, which is a standard way to indicate that
 the result is undefined (not a number).
 
+\index{NaN}
+\index{not a number}
+
 If the condition is not satisfied, the statements in the body are
 not executed.  Sometimes there are alternative statements to
 execute when the condition is false.  In that case you can extend
 the {\tt if} statement with an {\tt else} clause.
+
+\index{else clause@{\tt else} clause}
 
 The complete version of the previous example might look like this:
 
@@ -2318,9 +2573,14 @@ Statements like {\tt if} and {\tt for} that contain other statements
 are called {\bf compound} statements.  All compound statements end
 with... {\tt end}.
 
+\index{compound statement}
+\index{statement!compound}
+
 In this example, one of the statements in the {\tt else} clause is a
 {\tt for} loop.  Putting one compound statement inside another is
 legal and common, and sometimes called {\bf nesting}.
+
+\index{nesting}
 
 
 \section{Relational operators}
@@ -2331,6 +2591,11 @@ called {\bf relational operators} because they test the relationship
 between two values.  The result of a relational operator is one
 of the {\bf logical values}:
 either 1, which represents ``true,''  or 0, which represents ``false.''
+
+\index{relational operator}
+\index{operator!relational}
+\index{logical value}
+\index{value!logical}
 
 Relational operators often appear in {\tt if} statements, but you can also evaluate them at the prompt:
 
@@ -2350,6 +2615,9 @@ flag = 0
 A variable that contains a logical value is often called a {\bf flag}
 because it flags the status of some condition.
 
+\index{flag}
+\index{variable!flag}
+
 The other relational operators are {\tt <=} and {\tt >=}, which are
 self-explanatory, {\tt ==}, for ``equal,'' and
 \verb+~=+, for ``not equal.''
@@ -2357,6 +2625,9 @@ self-explanatory, {\tt ==}, for ``equal,'' and
 Don't forget that {\tt ==} is the operator that tests equality,
 and {\tt =} is the assignment operator.  If you try to use {\tt =} in
 an {\tt if} statement, you get the following error:
+
+\index{equality}
+\index{assignment}
 
 \begin{code}
 >> if x=5
@@ -2375,7 +2646,10 @@ In this case, the error message is pretty helpful.
 
 \section{Logical operators}
 \label{sect:logop}
-\index{Operations!logical}
+
+\index{logical operator}
+\index{operator!logical}
+\index{interval}
 
 To test if a number falls in an interval, you might be
 tempted to write something like {\tt 0 < x < 10}, but that
@@ -2404,6 +2678,8 @@ is 1.  Then it compares the logical value 1 (not the value of
 {\tt x} is not in the interval.
 
 For beginning programmers, this is an evil, evil bug!
+
+\index{nesting}
 
 One way around this problem is to use a nested {\tt if} statement to
 check the two conditions separately:
@@ -2434,12 +2710,24 @@ The result of AND is true if {\em both} of the operands are
 true.  The OR operator, {\tt ||}, is true if {\em either or both}
 of the operands are true.
 
+\index{AND operator}
+\index{operator!AND}
+\index{operator!{\tt \&\&}}
+
+\index{OR operator}
+\index{operator!OR}
+\index{operator!{\tt \|\|}}
+
 
 \section{Vectors}
 
 The values we have seen so far have mostly been single numbers,
 which are called {\bf scalars} to contrast them with {\bf vectors}
 and {\bf matrices}, which are collections of numbers.
+
+\index{scalar}
+\index{vector}
+\index{matrix}
 
 A vector in MATLAB is similar to a sequence in mathematics;
 it is an ordered set of numbers that is indexed by positive integers.
@@ -2463,9 +2751,13 @@ In this book, we often capitalize single-letter variables that hold vectors
 (and matrices).
 That's just a convention; MATLAB doesn't require it, but especially for beginning programmers, it is a useful way to distinguish vectors (and matrices) from scalars.
 
+\index{variable name}
+
 
 \section{Vector arithmetic}
-\index{Matrices!addition}
+
+\index{vector arithmetic}
+\index{arithmetic!vector}
 
 You can perform arithmetic with vectors, too.  If you add a scalar
 to a vector, MATLAB increments each element of the vector:
@@ -2508,12 +2800,16 @@ In math (specifically in linear algebra) a vector is a one-dimensional
 sequence of values and a matrix is two-dimensional. And, if you want
 to think of it that way, a scalar is zero-dimensional.
 
+\index{matrix}
+\index{linear algebra}
+\index{whos command@{\tt whos} command}
+\index{command!{\tt whos}}
+
 In MATLAB, the values we have seen so far are all two-dimensional matrices (except strings).
 You can see this if you use the {\tt whos} command to display the
 values in the workspace.  {\tt whos} is similar to {\tt who}, but it also displays the size of each value and other information.
 
-\index{Variables!{\tt whos}}
-\index{Variables!{\tt who}}
+\index{variable}
 
 To demonstrate, I'll remove any existing variables and then 
 make a scalar, a vector, and a matrix:
@@ -2536,7 +2832,7 @@ The built-in function {\tt ones} builds a new matrix with the given
 number of rows and columns, and sets all the elements to 1.
 Now let's see what we've got.
 
-\index{Matrices!{\tt ones}}
+\index{ones@{\tt ones}}
 
 \begin{code}
 >> whos
@@ -2549,6 +2845,10 @@ Now let's see what we've got.
 
 According to MATLAB, all these variables are of class {\tt double}, which
 is another name for a double-precision floating-point number.
+
+\index{floating-point number}
+\index{number!floating-point}
+\index{double precision}
 
 But they have difference sizes: 
 
@@ -2565,8 +2865,12 @@ But they have difference sizes:
 The point of all this is that you can think of your variables as
 scalars, vectors, and matrices, and I think you should.  But in MATLAB they are all matrices.
 
+
 \section{Elementwise operators}
 \label{elementwise}
+
+\index{elementwise operator}
+\index{operator!elementwise}
 
 If you have two vectors with the same length, you can add and subtract them:
 
@@ -2613,6 +2917,9 @@ To perform elementwise multiplication, use '.*'.
 
 In this case, the error message is pretty helpful.  As it suggests, you can use {\tt .*} to perform elementwise multiplication:
 
+\index{matrix multiplication}
+\index{multiplication!matrix}
+
 \begin{code}
 >> X .* Y
 ans = 4    10    18
@@ -2622,7 +2929,10 @@ As an exercise, see what happens if you use the exponentiation operator,
 \verb"^", with a vector.
 
 
-\section{Indices}\index{Matrices!indexing}
+\section{Indices}
+
+\index{element}
+\index{parentheses}
 
 You can select an element from a vector with parentheses:
 
@@ -2641,6 +2951,8 @@ This means that the first element of {\tt Y} is 6 and the
 fourth element is 9.
 The number in parentheses is called the {\bf index} because it indicates which element of the vector you want.
 
+\index{index}
+
 The index can be any kind of expression.
 
 \begin{code}
@@ -2652,6 +2964,8 @@ ans = 7
 
 We can use a loop to display the elements of {\tt Y}:
 
+\index{loop}
+
 \begin{code}
 for i=1:4
      Y(i)
@@ -2660,6 +2974,9 @@ end
 
 Each time through the loop we use a different value of {\tt i}
 as an index into {\tt Y}.
+
+\index{length function@{\tt length} function}
+\index{function!{\tt length}}
 
 A limitation of this example is that we had to know the number
 of elements in {\tt Y}.  We can make it more general by using
@@ -2676,7 +2993,9 @@ Now that works for a vector of any length.
 
 
 \section{Indexing errors}
-\index{Errors!indexing}
+
+\index{index}
+\index{expression}
 
 An index can be any kind of expression, but the value of the
 expression has to be a positive integer, and it has to be
@@ -2704,8 +3023,14 @@ Index exceeds the number of array elements (4).
 
 The error messages use the word ``array'' rather than ``matrix'', but they mean the same thing, at least for now.
 
+\index{array}
+
 
 \section{Vectors and sequences}
+
+\index{vector}
+\index{sequence}
+\index{Fibonacci}
 
 Vectors and sequences go together nicely.
 For example, another way to evaluate the Fibonacci sequence is by
@@ -2728,6 +3053,9 @@ If you had any trouble with Exercise~\ref{ex:fib2}, you have to
 appreciate the simplicity of this version.  The MATLAB syntax is
 similar to the math notation, which makes it easier to check
 correctness.  
+
+\index{range}
+\index{loop}
 
 However, you have to be careful with the range of the loop.
 In the previous version, the loop runs from {\tt 3} to {\tt n},
@@ -2763,7 +3091,10 @@ When you translate to MATLAB, you may want to shift the index.
 
 
 \section{Plotting vectors}
-\index{Plotting!vectors}
+
+\index{plotting vector}
+\index{vector!plotting}
+\index{plot@{\tt plot}}
 
 If you call {\tt plot} with a vector as an argument,
 MATLAB plots the indices on the $x$-axis and the elements on the
@@ -2778,8 +3109,11 @@ This display is often useful for debugging, especially
 if your vectors are big enough that displaying the elements on
 the screen is unwieldy.
 
+\index{style string}
+\index{string!style}
+
 By default, MATLAB draws a blue line, but you can override that
-setting with the same kind of string we saw in Section~\ref{sect:plotting}.
+setting with a style string, as we saw in Section~\ref{sect:plotting}.
 For example, the string {\tt 'ro-'} tells MATLAB to plot a red circle
 at each data point; the hyphen means the points should be connected
 with a line.
@@ -2794,6 +3128,10 @@ and add them up, or multiply them together, or compute the sum
 of their squares, etc.  This kind of operation is called {\bf reduce},
 because it reduces a vector with multiple elements down to a single
 scalar.
+
+\index{reduce}
+\index{vector}
+\index{scalar}
 
 For example, this loop adds up the elements of a vector named {\tt X}
 (which we assume has been defined).
@@ -2814,7 +3152,8 @@ Each time through the loop, we add
 in the {\tt i}th element of {\tt X}, so at the end of the loop
 {\tt total} contains the sum of the elements.
 
-
+\index{accumulator}
+\index{length function@{\tt length} function}
 
 \section{Apply}
 \label{sect:apply}
@@ -2824,6 +3163,8 @@ a vector, perform some operation on the elements, and create
 a new vector with the results.  This kind of operation is called
 {\bf apply}, because you apply the operation to each element in
 the vector.
+
+\index{apply}
 
 For example, the following loop computes a vector {\tt Y} that
 contains the squares of the elements of {\tt X} (assuming, again,
@@ -2843,7 +3184,10 @@ Yet another use of loops is to search the elements of a vector
 and return the index of the value you are looking for (or the
 first value that has a particular property).  
 
-For example, the following loop finds the index of the element 0 in {\tt X}:
+\index{search}
+
+For example, the following loop finds the index of the element 0 in 
+{\tt X}:
 
 \begin{code}
 for i=1:length(X)
@@ -2858,11 +3202,12 @@ finds what it is looking for.  That might be what you want; if the
 target value appears more than one, this loop provides the index
 of the {\em last} one.
 
+\index{break statement@{\tt break} statement}
+\index{statement!{\tt break}}
+
 But if you want the index of the first one (or you know that there
 is only one), you can save some unnecessary looping by using the
 {\tt break} statement.
-
-\index{Compound statements!{\tt break}}
 
 \begin{code}
 for i=1:length(X)
@@ -2883,6 +3228,11 @@ loop (in this case, there isn't one, so the code ends).
 Experienced MATLAB programmers would never write the kind of loops
 in this chapter, because MATLAB provides simpler and faster ways to
 perform many reduce, filter and search operations.
+
+\index{sum function@{\tt sum} function}
+\index{function!{\tt sum}}
+\index{prod function@{\tt prod} function}
+\index{function!{\tt prod}}
 
 For example, the {\tt sum} function computes the sum of the elements
 in a vector and {\tt prod} computes the product.
@@ -2962,6 +3312,8 @@ elements in order until one is found that has the desired property.
 
 \begin{ex}
 Write an expression that computes the square root of the sum of the squares of the elements of a vector, without using a loop.
+
+\index{square root}
 \end{ex}
 
 \begin{ex}
@@ -2975,12 +3327,13 @@ vector that contains the ratios of consecutive Fibonacci numbers.
 Plot this vector to see if it seems to converge.  What value does
 it converge on?
 
+\index{Fibonacci}
+
 % fibonacci4.m
 \end{ex}
 
 \begin{ex}
-A famous system of differential equations can be approximated
-by the following set of equations:
+The following set of equations is based on a famous example of a chaotic system, the Lorenz attractor\footnote{See \url{https://en.wikipedia.org/wiki/Lorenz_system}.}:
 %
 \begin{eqnarray}
 x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt  \\
@@ -3012,12 +3365,15 @@ system.
 
 \end{itemize}
 
+\index{Lorenz attractor}
 % lorenz.m
 \end{ex}
 
 
 \begin{ex}
 The logistic map\footnote{See \url{https://en.wikipedia.org/wiki/Logistic_map}} is described by the following equation:
+
+\index{logistic map}
 
 \begin{equation}
 X_{i+1} = r X_i (1-X_i)
@@ -3046,8 +3402,11 @@ How does the behavior of the system change as you vary $r$?
 
 \section{Name Collisions}
 
-All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between
-scripts become unmanageable.
+\index{name collision}
+\index{collision!name}
+\index{workspace}
+
+All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between scripts become unmanageable.
 
 For example, the following (increasingly familiar) script computes the
 sum of the first {\tt n} terms in a geometric sequence, but it also
@@ -3071,6 +3430,8 @@ the same variable names, you might find that they work separately
 and then break when you try to combine them.  This kind of
 interaction is called a {\bf name collision}.
 
+\index{script}
+
 As the number of scripts you write increases, and they get longer
 and more complex, name collisions become more of a problem.  Avoiding
 this problem is one of the motivations for functions.
@@ -3078,7 +3439,8 @@ this problem is one of the motivations for functions.
 
 \section{Functions}
 \label{sect:functions}
-\index{Functions!reasons for using}
+
+\index{function}
 
 A {\bf function} is like a script, except
 
@@ -3099,7 +3461,9 @@ want, and put a function definition in it.  For example, to create
 a function named {\tt myfunc}, create an M-file named {\tt myfunc.m}
 and put the following definition into it.
 
-\index{Functions!creating}
+\index{M-file}
+\index{script}
+\index{function definition}
 
 \begin{code}
 function res = myfunc(x)
@@ -3113,15 +3477,27 @@ The first non-comment word of the file has to be {\tt function}, because
 that's how MATLAB tells the difference between a script and a function
 file.
 
+\index{compound statement}
+\index{definition!function}
+
 A function definition is a compound statement.  The first line
 is called the {\bf signature} of the function; it defines
 the inputs and outputs of the function.  In this case the {\bf input variable} is named {\tt x}.  When this function is called, the
 argument provided by the user will be assigned to {\tt x}.
 
+\index{input variable}
+\index{variable!input}
+
+\index{output variable}
+\index{variable!output}
+
 The {\bf output variable} is named {\tt res}, which is short for
 ``result''.  You can call the output variable whatever you want, but
 as a convention, I like to call it {\tt res}.  Usually the last
 thing a function does is assign a value to the output variable.
+
+\index{res@{\tt res}}
+\index{ans@{\tt ans}}
 
 Once you have defined a new function, you call it the same way you
 call built-in MATLAB functions.  If you call the function as a statement,
@@ -3162,6 +3538,7 @@ anything (except sometimes warning messages).
 
 \index{silent function}
 \index{function!silent}
+\index{workspace}
 
 Each function has its own workspace, which is created when the
 function starts and destroyed when the function ends.  If you try to
@@ -3198,9 +3575,14 @@ c = 1
 So inside a function you can use whatever variable names you
 want without worrying about collisions.
 
+\index{name collision}
+\index{collision!name}
 
 
 \section{Documentation}
+
+\index{documentation}
+\index{comment}
 
 At the beginning of every function file, you should include a comment
 that explains what the function does:
@@ -3222,6 +3604,8 @@ end
 \end{code}
 
 When you ask for {\tt help}, MATLAB prints the comment you provided at the top of the file.
+
+\index{help@{\tt help}}
 
 \begin{code}
 >> help silent_myfunc
@@ -3253,6 +3637,8 @@ to be an angle in radians.
 
 \end{itemize}
 
+\index{precondition}
+\index{postcondition}
 
 
 \section{Function names}
@@ -3263,6 +3649,9 @@ The first is that the ``real'' name of your function is determined by the file n
 should make sure that they are always the same, but if you
 make a mistake, or if you change the name of a function, it is
 easy to get confused.
+
+\index{function name}
+\index{name!function}
 
 In the spirit of making errors on purpose, change the name of
 the function in \verb"silent_myfunc" to \verb"something_else", and
@@ -3307,6 +3696,9 @@ depends on the order of the directories in the search path, and
 (in some cases) on the arguments.  As an example, put the following
 code in a file named {\tt sum.m}:
 
+\index{name collision}
+\index{collision!name}
+
 \begin{code}
 function res = sum(x)
    res = 7;
@@ -3335,6 +3727,9 @@ another name!
 \section{Multiple input variables}
 \label{sect:hypotenuse}
 
+\index{input variable}
+\index{variable!input}
+
 Functions can, and often do, take more than one input variable.
 For example, the following function takes two input variables,
 {\tt a} and {\tt b}:
@@ -3349,7 +3744,7 @@ This function computes the length of the hypotenuse of a right
 triangle if the lengths of the adjacent sides are {\tt a}
 and {\tt b}.
 
-If we call it from the Command Window with arguments 3 and 4, we can
+If we call it from the {\sf Command Window} with arguments 3 and 4, we can
 confirm that the length of the third side is 5.
 
 \begin{code}
@@ -3390,6 +3785,11 @@ Which is a better message.
 In Section~\ref{sect:logop} we used logical operators to compare values.
 MATLAB also provides {\bf logical functions} that check for certain
 conditions and return logical values: 1 for ``true'' and 0 for ``false''.
+
+\index{logical function}
+\index{function!logical}
+\index{logical value}
+\index{value!logical}
 
 For example, {\tt isprime} checks to see whether a number is prime.
 
@@ -3436,6 +3836,8 @@ that floating-point values are only approximately right:
 sometimes the approximation is an integer when the actual value is not; 
 sometimes the approximation is not an integer when the actual value is.
 
+\index{floating-point}
+
 
 \section{Incremental development}
 \label{sect:increxample}
@@ -3445,6 +3847,9 @@ triples'': sets of integral values, like 3, 4, and 5,
 that are the lengths of the sides of a right triangle.  In other
 words, we would like to find integral values $a$, $b$, and $c$ such
 that $a^2 + b^2 = c^2$.
+
+\index{Pythagorean triple}
+\index{incremental development}
 
 Here are the steps we will follow to develop the program incrementally:
 
@@ -3492,6 +3897,9 @@ visible effect) that you can check.
 
 
 \section{Nested loops}
+
+\index{nested loop}
+\index{loop!nested}
 
 The third draft contains a nested loop:
 
@@ -3577,6 +3985,9 @@ the expected effect.
 
 \section{Conditions and flags}
 
+\index{condition}
+\index{flag}
+
 The next step is to check for integral values of $c$.  This
 loop calls {\tt isintegral} and prints the resulting logical
 value.
@@ -3642,6 +4053,9 @@ As a script, this program has the side-effect of assigning values to
 use if any of those names were in use.  
 By wrapping the code in a function, we can avoid name collisions; this process is called {\bf encapsulation} because it isolates this program from the workspace.
 
+\index{encapsulation}
+\index{generalization}
+
 The first draft of the function takes no input variables:
 
 \begin{code}
@@ -3670,6 +4084,9 @@ that it is a function, not a script:
 The output variable isn't strictly necessary, either; it
 never gets assigned a value.  But I put it there as a matter of
 habit, and also so my function signatures all have the same structure.
+
+\index{output variable}
+\index{variable!output}
 
 The next step is to generalize this function by adding input
 variables.  The natural generalization is to replace the constant
@@ -3744,7 +4161,8 @@ multiples of the $3,4,5$ triangle we already knew.
 
 
 \section{{\tt continue}}
-\index{Compound statements!{\tt continue}}
+
+\index{continue@{\tt continue}}
 
 As a final improvement, let's modify the function so it only
 displays the ``lowest'' of each Pythagorean triple, and not the
@@ -3754,6 +4172,9 @@ The simplest way to eliminate the multiples is to check whether
 $a$ and $b$ share a common factor.  If they do, dividing both
 by the common factor yields a smaller, similar triangle that has
 already been checked.
+
+\index{gcd function@{\tt gcd} function}
+\index{function!{\tt gcd}}
 
 MATLAB provides a {\tt gcd} function that computes the greatest common
 divisor of two numbers.  If the result is greater than 1,
@@ -3781,6 +4202,8 @@ immediately, jump to the top of the loop, and ``continue'' with the next iterati
 
 In this case, since there are two loops, it might not be obvious which loop to jump to, but the rule is to jump to the inner-most loop (which is what we want).
 
+\index{flag}
+
 I also simplified the program slightly by eliminating {\tt flag} and using {\tt isintegral} as the condition of the {\tt if} statement.
 
 Here are the results with {\tt n=40}:
@@ -3800,12 +4223,16 @@ ans = 20    21    29
 
 \section{Mechanism and leap of faith}
 
+\index{function call}
+\index{leap of faith}
+
 Let's review the sequence of steps that occur when you call a function:
 
 \begin{enumerate}
 
 \item Before the function starts running, MATLAB creates a new
 workspace for it.
+\index{workspace}
 
 \item MATLAB evaluates each of the arguments and assigns
 the resulting values, in order, to the input variables (which
@@ -3843,11 +4270,14 @@ MATLAB functions work, and in part because you don't
 generally have access to the code in the body of the function.
 
 But when you start writing your own functions, you will probably
-find yourself following the ``flow of execution.''  This can
+find yourself following the ``flow of execution''.  This can
 be useful while you are learning, but as you gain experience, you
 should get more comfortable with the idea of writing a function,
 testing it to make sure it works, and then forgetting about the
 details of how it works.
+
+\index{flow of execution}
+\index{abstraction}
 
 Forgetting about details is called {\bf abstraction}; in the context
 of functions, abstraction means forgetting about {\em how} a function
@@ -3897,6 +4327,8 @@ function does.
 \section{Exercises}
 
 \begin{ex}
+\index{Fibonacci number}
+\index{Pythagorean triple}
 
 There is an interesting connection between Fibonacci numbers and
 Pythagorean triples.  If $F$ is a Fibonacci sequence,
@@ -3920,9 +4352,11 @@ then checks whether this formula produces a Pythagorean triple for all {\tt i} s
 % chap06
 \chapter{Zero-finding}
 
+In this chapter we'll use the MATLAB function {\tt fzero} to find roots of nonlinear equations.  But first let's talk more about functions.
 
 \section{Why functions?}
-\index{Functions!reasons for using}
+
+\index{function!reasons for}
 
 The previous chapter explained some of the benefits of functions,
 including
@@ -3955,10 +4389,10 @@ differential equations.
 
 
 
-
-
-
 \section{Nonlinear equations}
+
+\index{nonlinear equation}
+\index{equation!nonlinear}
 
 What does it mean to ``solve'' an equation?  That may seem like an
 obvious question, but I want to take a minute to think about it,
@@ -3971,6 +4405,8 @@ equation: you take the square root of both sides and get
 $x = \pm \sqrt{a}$.  Then, with the satisfaction of a job well done,
 you move on to the next problem.
 
+\index{square root}
+
 But what have you really done?  The relationship you derived is
 equivalent to the relationship you started with---they contain the
 same information about $x$---so why is the second one preferable
@@ -3980,6 +4416,9 @@ There are two reasons.  One is that the relationship is now {\bf explicit}
 in $x$: because $x$ is all alone on the left side, we can treat
 the right side as a recipe for computing values for $x$, assuming that we
 know the value of $a$.
+
+\index{explicit computation}
+\index{computation!explicit}
 
 The other reason is that the recipe is written in terms of operations
 we know how to perform.  Assuming that we know how to compute square
@@ -3992,8 +4431,8 @@ that's what I will call an {\bf analytic solution}, to distinguish
 it from a {\bf numerical solution}, which is what we are going to
 do next.
 
-\index{Zero-finding!analytic solution}
-\index{Zero-finding!numerical solution}
+\index{analytic solution}
+\index{numerical solution}
 
 To demonstrate a numerical solution, consider the equation $x^2 - 2x =
 3$.  You could solve this analytically, either by factoring it or by
@@ -4009,7 +4448,7 @@ the equation $x = \sqrt{2x+3}$ iteratively to compute successive
 approximations of the solution.\footnote{To understand why this
 (sometimes) works, see \url{https://en.wikipedia.org/wiki/Fixed-point_iteration}.}
 
-\index{Zero-finding!fixed-point iteration}
+\index{fixed-point iteration}
 
 Here's what happens:
 
@@ -4035,7 +4474,7 @@ After each iteration, {\tt x} is closer to the correct answer,
 and after 5 iterations, the relative error is about 0.1\%, which
 is good enough for most purposes.
 
-\index{Zero-finding!numerical methods}
+\index{numerical method}
 
 Techniques that generate numerical solutions are called
 {\bf numerical methods}.  
@@ -4056,7 +4495,7 @@ any other value is a non-solution.  But for any given non-solution,
 there is no sense of whether it is close or far from a solution,
 or where we might look to find one.
 
-\index{Zero-finding!procedure}
+\index{zero-finding}
 
 To address this limitation, it is useful to
 rewrite non-linear equations as zero-finding problems:
@@ -4075,9 +4514,14 @@ f(x) = x^2 - 2x -3
 Any value of $x$ that makes $f(x) = 0$ is also a solution
 of the original equation.
 
+\index{error function}
+\index{function!error}
+
 \item The next step is to find values of $x$ that make
 $f(x) = 0$.  These values are called zeros of the
-function, or {\bf roots}.
+function, also called {\bf roots}.
+
+\index{root}
 
 \end{itemize}
 
@@ -4085,16 +4529,13 @@ Zero-finding lends itself to numerical solution because we can
 use the values of $f$, evaluated at various values of $x$, to
 make reasonable inferences about where to look for zeros.
 
-% TODO: patch this
+And one of the best numerical methods is available as a built-in MATLAB function, {\tt fzero}.
 
 
 \section{{\tt fzero}}
 \label{sect:fzero}
-\index{Zero-finding!{\tt fzero}}
 
-{\tt fzero} is a built-in MATLAB function that
-combines the best features of several efficient and robust
-numerical methods.
+\index{fzero@{\tt fzero}}
 
 In order to use {\tt fzero}, you have to define a MATLAB function
 that computes the error function you derived from the original
@@ -4120,7 +4561,7 @@ ans = 0
 ans = 0
 \end{code}
 
-But let's pretend that we don't know exactly where
+But let's pretend that we don't know where
 the roots are; we only know that one of them is near 4.  Then
 we could call {\tt fzero} like this:
 
@@ -4139,7 +4580,8 @@ that you are not actually calling {\tt error\_func} directly;
 you are just telling {\tt fzero} where it is.  In turn, {\tt fzero}
 calls your error function --- more than once, in fact.
 
-\index{Functions!handles}
+\index{function handle}
+\index{handle!function}
 
 The second argument is the initial guess.  If we provide a different
 initial guess, we get a different root (at least sometimes).
@@ -4158,6 +4600,8 @@ ans = 3
 \end{code}
 
 The second argument is a vector that contains two elements.  
+
+\index{vector}
 
 You might be curious to know how many times {\tt fzero} calls your
 function, and where.  If you modify {\tt error\_func} so that it displays
@@ -4199,8 +4643,10 @@ Error in error_func (line 2)
     res = x^2 - 2*x -3;
 \end{code}
 
-The error occurs because MATLAB treats the first argument as a function call,
-so it calls {\tt error\_func} with no arguments.
+The error occurs because MATLAB treats the first argument as a function call, so it calls {\tt error\_func} with no arguments.
+
+\index{output variable}
+\index{variable!output}
 
 Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
@@ -4241,6 +4687,9 @@ to "error_func".
 If you read it carefully, this is a pretty good error message,
 provided you understand that ``output argument'' and ``output variable'' are the same thing.
 
+\index{argument}
+\index{output argument}
+
 You would have seen the same error message when you called {\tt
 error\_func} from the interpreter, if you had assigned the result
 to a variable:
@@ -4257,14 +4706,14 @@ You can avoid all of this if you remember these two rules:
 
 \begin{itemize}
 
-\item Functions should always assign values to their output
+\item Functions should assign values to their output
 variables.\footnote{Well, ok, there are exceptions, including {\tt
 find\_triples}. Functions that don't return a value are sometimes
-called ``commands,'' because they do something (like display
+called ``commands'', because they do something (like display
 values or generate a figure) but either don't have an output
 variable or don't make an assignment to it.}
 
-\item When you call a function, you should always do something with
+\item When you call a function, you should do something with
 the result (either assign it to a variable or use it as part of an
 expression, etc.).
 
@@ -4283,6 +4732,8 @@ Error using fzero (line 272)
 The function values at the interval endpoints must differ in sign.
 \end{code}
 
+\index{interval}
+
 There is one other thing that can go wrong when you use {\tt fzero}, but
 this one is less likely to be your fault.  It is possible that {\tt fzero}
 won't be able to find a root.
@@ -4299,6 +4750,9 @@ need.
 When you are solving problems in the real world, you will usually
 have some intuition about the answer.  This intuition is often enough
 to provide a good initial guess.
+
+\index{ezplot@{\tt ezplot}}
+\index{plot!{\tt ezplot}}
 
 Another approach is to plot the function and see if you can
 approximate the zeros visually.  If you have a function, like
@@ -4318,6 +4772,9 @@ By examining the plot, you can estimate the location of the two roots.
 
 \section{Vectorizing functions}
 
+\index{vectorizing}
+\index{function!vectorizing}
+
 With this example, you might get the following warning\footnote{In Octave it's an error, so you have to vectorize the function.}:
 
 \begin{code}
@@ -4328,6 +4785,9 @@ avoid the need to loop over array elements.
 
 This means that MATLAB tried to call \verb"error_func" with a vector, and it failed. 
 The problem is that it uses \verb"*" and \verb"^" operators; as we saw in Section~\ref{elementwise}, those operators don't do what we want, which is {\em elementwise} multiplication and exponentiation.
+
+\index{elementwise operator}
+\index{operator!elementwise}
 
 If you rewrite \verb"error_func" like this:
 
@@ -4343,10 +4803,14 @@ The warning message goes away, and {\tt ezplot} runs faster, for what it's worth
 
 \section{More name collisions}
 
-Functions and variables occupy the same {\bf namespace}, which means
+Functions and variables occupy the same workspace, which means
 that whenever a name appears in an expression, MATLAB starts by looking
 for a variable with that name, and if there isn't one, it looks for
 a function.
+
+\index{name collision}
+\index{collision!name}
+\index{shadow}
 
 As a result, if you have a variable with the same name as a function,
 the variable {\bf shadows} the function.  For example, if you assign
@@ -4364,9 +4828,7 @@ If this is unintentional, use 'clear sin' to remove
 the variable 'sin' from the workspace.
 \end{code}
 
-Since the value we assigned to {\tt sin}
-is a scalar, and a scalar is really a 1x1 matrix, MATLAB tries to
-access the 5th element of the matrix and finds that there isn't one.
+Since the value we assigned to {\tt sin} is a scalar, and a scalar is really a 1x1 matrix, MATLAB tries to access the 5th element of the matrix and finds that there isn't one.
 
 In this case MATLAB is able to detect the error, and the error message is pretty helpful.
 But if the value of {\tt sin} was a vector, or if the value of {\tt x} was smaller, you would be in trouble.  For example:
@@ -4397,6 +4859,8 @@ You can avoid these problems by choosing function names carefully:
 When you are working with a new function or a new language feature
 for the first time, you should test it in isolation before you
 put it into your program.
+
+\index{debugging}
 
 For example, suppose you know that {\tt x} is the sine of some
 angle and you want to find the angle.  You find the MATLAB function
@@ -4432,6 +4896,8 @@ errors in MATLAB, you are checking your understanding.  If you
 make an error because you are confused about how MATLAB works, it
 might take a long time to find, because when you look at the code,
 it looks right.
+
+\index{debugging!Seventh Theorem}
 
 Which brings us to the Seventh Theorem of Debugging:
 
@@ -4473,6 +4939,9 @@ variable names can shadow built-in functions (with hilarious results).
 
 \begin{enumerate}
 
+\index{Chebyshev polynomial}
+\index{ezplot@{\tt ezplot}}
+
 \item Write a function called {\tt cheby6} that evaluates the
 6th Chebyshev polynomial.  It should take an input variable,
 $x$, and return
@@ -4500,6 +4969,9 @@ guess?
 
 When a duck is floating on water, how much of its body is submerged?
 
+\index{duck}
+\index{sphere}
+
 To estimate a solution to this problem\footnote{This example is adapted from Gerald and Wheatley,
 {\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
 1989.}, we'll assume that the submerged part of a duck is well approximated by a section of a sphere.
@@ -4512,6 +4984,9 @@ volume of the sphere below the water line is
 We'll also assume that the density of a duck is $\rho$, is $0.3 g / cm^3$ (0.3 times the density of water), and that its mass is $\frac{4}{3} \pi r^3 \rho$.
 
 Finally, according to the law of buoyancy, an object floats at the level where the weight of the displaced water equals the total weight of the object.
+
+\index{density}
+\index{buoyancy}
 
 Here are some suggestions for how to proceed:
 
@@ -4554,7 +5029,7 @@ Our goal is to find values of $d$ that are roots of this equation.
 
 
 
-% TODO: Find examples where error messages are getting syntax highlighting, and put them in a verbatim environment.
+% TODO: Find places in the book where error messages are getting syntax highlighting, and put them in a verbatim environment.
 
 
 
@@ -4571,12 +5046,16 @@ to put more than one function in a file, but only the first one, the
 Window} or functions in other files. 
 The other {\bf helper functions} can be called from anywhere inside the file, but not from any other file.
 
-\index{Functions!top-level}
+\index{function!top-level}
+\index{top-level function}
 
 Large programs almost always require more than one function; keeping
 multiple functions in one file is convenient, but it makes debugging
 difficult because you can't call helper functions from the {\sf Command
 Window}.
+
+\index{helper function}
+\index{function!helper}
 
 To help with this problem, I often use the top-level function
 to develop and test my helper functions.  For example, to write
@@ -4588,6 +5067,8 @@ Then I would write a function named {\tt error\_func} to
 evaluate the error function for {\tt fzero}.  To test
 {\tt error\_func} I would call it from {\tt duck} and then
 call {\tt duck} from the {\sf Command Window}.
+
+\index{incremental development}
 
 Here's what my first draft might look like:
 
@@ -4619,6 +5100,9 @@ Since many of the built-in functions take vectors as arguments,
 it should come as no surprise that you can write functions that
 take vectors.  Here's a simple (silly) example:
 
+\index{vector}
+\index{input variable}
+
 \begin{code}
 function res = display_vector(X)
     X
@@ -4629,8 +5113,7 @@ There's nothing special about this function at.  The only
 difference from the scalar functions we've seen is that I used
 a capital letter to remind me that {\tt X} is a vector.
 
-This is another example of a function that doesn't actually have
-a return value; it just displays the value of the input variable:
+This is another example of a function that doesn't actually return a value; it just displays the value of the input variable:
 
 \begin{code}
 >> display_vector(1:3)
@@ -4639,6 +5122,8 @@ X = 1     2     3
 
 Here's a more interesting example that encapsulates the code
 from Section~\ref{sect:reduce} that adds up the elements of a vector:
+
+\index{encapsulation}
 
 \begin{code}
 function res = mysum(X)
@@ -4653,6 +5138,8 @@ end
 I called it {\tt mysum} to avoid a collision with the built-in
 function {\tt sum}, which does pretty much the same thing.
 
+\index{sum@{\tt sum}}
+
 Here's how you call it from the {\sf Command Window}:
 
 \begin{code}
@@ -4660,8 +5147,10 @@ Here's how you call it from the {\sf Command Window}:
 total = 6
 \end{code}
 
-Because this function has a return value, I made a
+Because this function has an output variable, I made a
 point of assigning it to a variable.
+
+\index{output variable}
 
 
 \section{Vectors as output variables}
@@ -4679,11 +5168,8 @@ function res = myapply(X)
 end
 \end{code}
 
-Ideally I would have changed the name of the output variable to
-{\tt Res}, as a reminder that it is supposed to get a vector value,
-but I didn't.
-
 Here's how {\tt myapply} works:
+\index{apply}
 
 \begin{code}
 >> V = myapply(1:3)
@@ -4697,11 +5183,15 @@ location of a target value in a vector.
 \end{ex}
 
 
+
 \section{Vectorizing functions}
 
 Functions that work on vectors will almost always work on scalars
 as well, because MATLAB considers a scalar to be a vector with
-length 1.\index{Functions!using vectors}
+length 1.
+
+\index{vectorizing}
+\index{function!vectorizing}
 
 \begin{code}
 >> mysum(17)
@@ -4749,6 +5239,8 @@ This doesn't work on vectors because the \verb+^+ operator
 tries to do matrix exponentiation, which only works on
 square matrices.
 
+\index{matrix exponentiation}
+
 \begin{code}
 >> hypotenuse(1:3, 1:3)
 Error using  ^  (line 51)
@@ -4759,6 +5251,8 @@ To perform elementwise matrix powers, use '.^'.
 
 But if you replace \verb+^+ with the elementwise operator
 \verb+.^+, it works!
+
+\index{elementwise operator}
 
 \begin{code}
 >> A = [3,5,8];
@@ -4784,6 +5278,9 @@ vector as an input and computes a new vector that contains all of the
 partial sums of the original.  In math notation, if $V$ is the
 original vector, then the elements of the cumulative sum, $C$, are:
 
+\index{cumulative sum}
+\index{sum!cumulative}
+
 \begin{equation}
 C_i = \sum_{j=1}^i V_j
 \end{equation}
@@ -4791,6 +5288,8 @@ C_i = \sum_{j=1}^i V_j
 In other words, the $i$th element of $C$ is the sum of the first
 $i$ elements from $V$.  MATLAB provides a function named {\tt cumsum}
 that computes cumulative sums:
+
+\index{cumsum@{\tt cumsum}}
 
 \begin{code}
 >> V = 1:5
@@ -4804,6 +5303,8 @@ C = 1     3     6    10    15
 
 The inverse operation of {\tt cumsum} is {\tt diff}, which computes
 the difference between successive elements of the input vector.
+
+\index{diff@{\tt diff}}
 
 \begin{code}
 >> D = diff(C)
@@ -4838,6 +5339,10 @@ inverse of {\tt cumsum}, so that {\tt cumsum(mydiff(X))} and
 The multiplicative version of {\tt cumsum} is {\tt cumprod},
 which computes the {\bf cumulative product}.  In math notation,
 that's:
+
+\index{cumulative product}
+\index{product!cumulative}
+\index{cumprod@{\tt cumprod}}
 
 \begin{equation}
 P_i = \prod_{j=1}^i V_j
@@ -4880,6 +5385,9 @@ Exercise~\ref{ex:fibratio}).
 
 \section{Existential quantification}
 
+\index{existential quantification}
+\index{quantification!existential}
+
 It is often useful to check the elements of a vector to see if there
 are any that satisfy a condition.  For example, you might want to
 know if there are any positive elements.  In logic, this condition
@@ -4913,12 +5421,18 @@ as we find a positive element, we know the answer (it exists!) and
 we can end the function immediately without looking at the rest
 of the elements.
 
+\index{return statement@{\tt return} statement}
+\index{statement!{\tt return}}
+
 If we get to the end of the loop, that means we didn't find what
 we were looking for, so the result is 0.
 
 
 
 \section{Universal quantification}
+
+\index{universal quantification}
+\index{quantification!universal}
 
 Another common operation on vectors is to check whether {\em all}
 of the elements satisfy a condition, which is known to
@@ -4965,6 +5479,9 @@ When you apply a logical operator to a vector, the result is a
 {\bf logical vector}; that is, a vector whose elements are the logical
 values 1 and 0.
 
+\index{logical vector}
+\index{vector!logical}
+
 \begin{code}
 >> V = -3:3
 
@@ -4983,6 +5500,9 @@ Logical vectors can be used like flags to store the state of
 a condition.  And they are often used with the {\tt find} function,
 which takes a logical vector and returns a vector that contains
 the indices of the elements that are not ``false.''
+
+\index{flag}
+\index{find@{\tt find}}
 
 Applying {\tt find} to {\tt L} yields
 
@@ -5022,6 +5542,12 @@ Write a version of {\tt forall} using {\tt find}.
 
 
 \section{Debugging in four acts}
+
+\index{debugging}
+\index{reading}
+\index{running}
+\index{ruminating}
+\index{retreating}
 
 When you are debugging a program, and especially if you are working on a hard bug, there are four things to try:
 
@@ -5063,10 +5589,14 @@ which is the process of making random changes until the program
 does the right thing.  Needless to say, random walk programming
 can take a long time.
 
+\index{random walk programming}
+
 The way out is to take more time to think.  Debugging is like an
 experimental science.  You should have at least one hypothesis about
 what the problem is.  If there are two or more possibilities, try to
 think of a test that would eliminate one of them.
+
+\index{hypothesis}
 
 Taking a break sometimes helps with the thinking.  So does talking.
 If you explain the problem to someone else (or even yourself), you
@@ -5082,6 +5612,8 @@ they can't stand to delete a line of code (even if it's wrong).
 If it makes you feel better, copy your program into another file
 before you start stripping it down.  Then you can paste the pieces
 back in a little bit at a time.
+
+\index{debugging!Eighth Theorem}
 
 To summarize, here's the Eighth Theorem of Debugging:
 
@@ -5134,6 +5666,9 @@ A {\bf differential equation} (DE) is an equation that describes the
 derivatives of an unknown function.  ``Solving a DE'' means finding a
 function whose derivatives satisfy the equation.
 
+\index{differential equation}
+\index{equation!differential}
+
 For example, suppose we would like to predict the population of yeast growing in a nutrient solution.  Assume that we know the initial population is 5 billion yeast cells.
 
 When yeast grow in particularly yeast-friendly
@@ -5152,7 +5687,9 @@ where $\frac{dy}{dt}(t)$ is the derivative of $y(t)$ and
 $a$ is a constant that characterizes how quickly the population
 grows.
 
-This equation is a {\bf differential equation} because it relates a function to one of its derivatives.
+This equation is ``differential'' because it relates a function to one of its derivatives.
+
+\index{ordinary differential equation}
 
 It is an {\bf ordinary} differential equation (ODE) because all the
 derivatives involved are taken with respect to the
@@ -5161,21 +5698,18 @@ If it related derivatives with respect to
 different variables (partial derivatives), it would be a {\bf partial}
 differential equation.
 
-\index{Differential equations!ordinary}
-\index{Differential equations!partial}
+\index{first-order differential equation}
 
-This equation is {\bf first order} because it involves only first
+This equation is {\bf first-order} because it involves only first
 derivatives.  If it involved second derivatives, it would be second order,
 and so on.
 
-\index{Differential equations!order}
+\index{linear differential equation}
 
 And it is {\bf linear} because each term involves $t$, $f$, or
 $df/dt$ raised to the first power; if any of the terms involved
 products or powers of $t$, $f$, and $df/dt$ it would be
 nonlinear.
-
-\index{Differential equations!linearity}
 
 Now suppose we want to predict the yeast population in the future.  We can do that using Euler's method.
 
@@ -5189,7 +5723,7 @@ be after some period of time $\Delta t$ has elapsed?
 If you said $y + r \Delta t$, congratulations!  You just invented
 Euler's method.
 
-\index{Differential equations!Euler's Method}
+\index{Euler's Method}
 
 This estimate is based on the assumption that $r$ is constant, but
 in general it's not, so we only expect the estimate to be good if
@@ -5211,6 +5745,8 @@ Here $\{T_i\}$ is a sequence of times where we estimate the value
 of $y$, and $\{Y_i\}$ is the sequence of estimates.  For each
 index $i$, $Y_i$ is an estimate of $y(T_i)$.
 
+\index{time step}
+
 If the rate doesn't change too fast and the time step isn't
 too big, Euler's method is accurate enough for most purposes.  One
 way to check is to run it once with time step $dt$ and then run it
@@ -5226,6 +5762,8 @@ As an example I'll use Euler's method to solve the equation from Section~\ref{di
 
 With the initial condition $y(0) = 5$ billion cells and
 the growth parameter $a = 0.2$ per hour. 
+
+\index{top-level function}
 
 As a first step, I created a file named {\tt euler.m} with a top-level function and a helper function:
 
@@ -5244,6 +5782,8 @@ end
 \end{code}
 
 In {\tt euler} I initialize the initial conditions and then call \verb"rate_func".  In \verb"rate_func" I compute the rate of change in the population.
+
+\index{initial condition}
 
 After testing these functions, I added code to {\tt euler} to implement these difference equations:
 
@@ -5281,11 +5821,17 @@ The result is a plot of population over time, shown in Figure~\ref{fig:euler}.  
 
 \section{{\tt ode45}}
 \label{sect:ode45}
-\index{Differential equations!{\tt ode45}}
 
-A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that is not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and they are much more accurate. 
+
+A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that is not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and they are much more accurate.
+
+\index{time step} 
+\index{ode45@{\tt ode45}}
 
 MATLAB provides a function called {\tt ode45} that implements one of these methods.  In this section I'll explain how to use it; you can read more about how it works in Section~\ref{sect:howode45}.
+
+\index{rate function}
+\index{function!rate}
 
 In order to use {\tt ode45}, you have to write a function that evaluates $dy/dt$ as a function of $t$ and $y$.  Fortunately, we already have one, \verb"rate_func":
 
@@ -5306,6 +5852,11 @@ plot(T, Y)
 
 The first argument is a function handle, as we saw in Section~\ref{sect:fzero}.  The second argument is the time interval where we want to evaluate the solution; in this case the interval is from $t=0$ to $t=4$ hours.  The third argument is the initial population, 5 billion cells.
 
+\index{function handle}
+\index{handle!function}
+\index{output variable}
+\index{variable!output}
+
 {\tt ode45} is the first function we have seen that returns {\em two} output variables.  In order to store them, we have to assign them to two variables, {\tt T} and {\tt Y}.
 
 \begin{figure}
@@ -5325,6 +5876,8 @@ In general, you should use {\tt ode45} instead of Euler's method.  It is almost 
 
 Looking at \verb"rate_func" in the previous section, you might notice that it takes {\tt t} as an input variables but doesn't use it.  That's because the growth rate does not depend on time; that's because bacteria don't know what time it is.
 
+\index{time dependence}
+
 But rats do.  Or, at least, they know what season it is.
 Suppose that the population growth rate for rats
 depends on the current population and the availability of food,
@@ -5339,6 +5892,8 @@ where $t$ is time in days and $y(t)$ is the population at time $t$.
 
 $a$ and $\omega$ are {\bf parameters}.  A parameter is a value that
 quantifies a physical aspect of the scenario being modeled.  Parameters are often constants, but in some models they vary in time.
+
+\index{parameter}
 
 In this example, $a$ characterizes the peak reproductive rate per day, and
 $\omega$ is the frequency of a periodic function that describes
@@ -5393,6 +5948,9 @@ in, in this case starting at time 0 and going for 365 days (about a year).
 The third argument is the population at the beginning of the interval, 
 in our case $y(0) = 2000$.
 
+\index{interval}
+\index{time span}
+
 \begin{figure}
 \centerline{\includegraphics[height=3in]{figs/rats.eps}}
 \caption{Solutions to a simple differential equation by Euler's method and {\tt ode45}.}
@@ -5401,8 +5959,7 @@ in our case $y(0) = 2000$.
 
 Figure~\ref{fig:rats} shows the results.  The population grows slowly during the winter, quickly during the summer, and the slowly again in the fall.
 
-To see the population at the end of the interval, 
-you can display the last element from each vector:
+To see the population at the end of the interval, you can display the last element from each vector:
 
 \begin{code}
 Y(end)
@@ -5414,12 +5971,18 @@ it means ``the index of the last element''.  You can use it in an
 expression, so {\tt Y(end-1)} is the second-to-last element of
 {\tt Y}.
 
+\index{end@{\tt end}}
+\index{index!{\tt end}}
+
 
 \section{What could go wrong?}
 
 Don't forget the {\tt @} on the function handle.
 If you leave it out, MATLAB treats the first argument as a function
 call, and calls \verb"rate_func" without providing arguments.
+
+\index{rate function}
+\index{function handle}
 
 \begin{code}
 Not enough input arguments.
@@ -5434,7 +5997,9 @@ Error in rats (line 6)
 Also, remember that the function you write will be called by
 {\tt ode45}, which means has to take two input variables, 
 {\tt t} and {\tt y}, in that order, and return one output variable, 
-{\tt r}.
+{\tt res}.
+
+\index{output variable}
 
 If you are working with a rate function like this:
 
@@ -5456,6 +6021,8 @@ when {\tt ode45} calls {\tt rate\_func}, it provides two arguments.
 If you only take one input variable, you'll get an error.  So
 you have to write a function that takes {\tt t} as an input
 variable, even if you don't use it.
+
+\index{input variable}
 
 \begin{code}
 function res = rate_func(t, y)     % RIGHT
@@ -5490,6 +6057,11 @@ I hope these warnings save you some time debugging.
 
 The plots in this chapter have labels on the axes, and one of them has a legend, but I didn't show you how to do that.
 
+\index{labeling axes}
+\index{axes}
+\index{xlabel@{\tt xlabel}}
+\index{ylabel@{\tt ylabel}}
+
 The functions to label the axes are {\tt xlabel} and {\tt ylabel}:
 
 \begin{code}
@@ -5502,6 +6074,8 @@ The function to generate a legend is {\tt legend}:
 \begin{code}
 legend('euler', 'ode45')
 \end{code}
+
+\index{legend@{\tt legend}}
 
 The arguments are the labels for the lines, in the order they were drawn.  Usually the legend is in the upper right corner, but you can move it by providing an optional argument called {\tt Location}:
 
@@ -5517,6 +6091,10 @@ saveas(gcf, 'runge.eps', 'epsc')
 
 The first argument is the figure we want to save; {\tt gcf}, is a MATLAB command that stands for ``get current figure'', which is the figure we just drew.  The second argument is the filename.  The extension specifies the format we want, which is Encapulated PostScript.  The third argument tells MATLAB what ``driver'' to use.  The details aren't important, but {\tt epsc} generates figures in color.
 
+\index{figure}
+\index{get current figure}
+\index{gcf@{\tt gcf}}
+\index{saveas@{\tt saveas}}
 
 
 
@@ -5530,10 +6108,10 @@ derivatives of an unknown function.
 \item[ordinary DE (ODE):] A DE in which all derivatives are taken with
 respect to the same variable.
 
-\item[partial DE:] A DE that includes derivatives with respect to
+\item[partial DE (PDE):] A DE that includes derivatives with respect to
 more than one variable
 
-\item[first order DE:] A DE that includes only first derivatives.
+\item[first-order DE:] A DE that includes only first derivatives.
 
 \item[linear DE:] A DE that includes no products or powers of the
 function and its derivatives.
@@ -5541,16 +6119,20 @@ function and its derivatives.
 \item[time step:] The interval in time between successive estimates
 in the numerical solution of a DE.
 
-\item[adaptive:] A method that adjusts the time step to control error.
-
 \item[parameter:] A value that appears in a model to quantify some
 physical aspect of the scenario being modeled.
 
 \end{description}
 
+
 \section{Exercises}
 
 \begin{ex}
+
+\index{coffee}
+\index{cooling}
+\index{Newton's law of cooling}
+
 Suppose that you are given an 8 ounce cup of coffee at \SI{90}{\celsius}.
 You have learned from bitter experience that the hottest coffee you
 can drink comfortably is \SI{60}{\celsius}.  
@@ -5617,6 +6199,9 @@ it contains elements that are identified by indices.  The difference
 is that the elements are arranged in rows and columns, so it takes
 {\em two} indices to identify an element.
 
+\index{matrix}
+\index{index}
+
 One of many ways to create a matrix is the {\tt magic} function,
 which returns a ``magic square'' with the given size 
 \footnote{See \url{https://en.wikipedia.org/wiki/Magic_square}.}:
@@ -5642,7 +6227,8 @@ display it:
 
 Or the {\tt size} function, which returns a vector:
 
-\index{Matrices!{\tt size}}
+\index{whos@{\tt whos}}
+\index{size@{\tt size}}
 
 \begin{code}
 >> V = size(M)
@@ -5652,6 +6238,10 @@ V = 3     3
 
 The first element is the number of rows, the second is the number of
 columns.
+
+\index{row}
+\index{column}
+\index{element}
 
 To read an element of a matrix, you specify the row and column numbers:
 
@@ -5684,10 +6274,16 @@ D =  1     2     3
 ans = 2     3
 \end{code}
 
+\index{semi-colon}
+
 
 \section{Row and column vectors}
 \label{rowvector}
-\index{Matrices!row and column vectors}
+
+\index{row vectors}
+\index{column vector}
+\index{vector!row}
+\index{vector!column}
 
 Although it is useful to think in terms of scalars, vectors and matrices,
 from MATLAB's point of view, everything is a matrix.  A scalar
@@ -5735,6 +6331,8 @@ The difference between row and column vectors is important in
 linear algebra, but for most basic vector operations, it doesn't matter.  When you index the elements of a vector, you don't have to know what kind
 it is:
 
+\index{linear algebra}
+
 \begin{code}
 >> R(2)
 
@@ -5754,6 +6352,8 @@ The transpose operator, which looks remarkably like an apostrophe,
 computes the {\bf transpose} of a matrix, which is a new matrix
 that has all of the elements of the original, but with each row
 transformed into a column (or you can think of it the other way around).
+
+\index{transpose operator}
 
 In this example:
 
@@ -5786,6 +6386,11 @@ have on row vectors, column vectors, and scalars?
 The Lotka-Volterra model describes the interactions between two
 species in an ecosystem, a predator and its prey.  As an example, we'll consider weasels and rabbits.
 
+\index{Lotka-Volterra model}
+\index{rabbit}
+\index{weasel}
+\index{system of ODEs}
+
 The model is governed by the following system of differential equations:
 
 \begin{eqnarray}
@@ -5806,12 +6411,15 @@ both variables, which is what makes this a {\bf system of equations}
 and not just a list of unrelated equations.  To solve a system, you
 have to solve the equations simultaneously.
 
-\index{Differential equations!systems of equations}
+\index{system of equations}
+\index{ode45@{\tt ode45}}
 
 Fortunately, {\tt ode45} can handle systems of equations.  The
 difference is that the initial condition is a vector that contains
 initial values $r(0)$ and $w(0)$, and the output is a matrix
 that contains one column for $r$ and one for $w$.
+
+\index{rate function}
 
 Here's what the rate function looks like
 with the parameters $\alpha = 0.1$, $\beta = 0.01$, $\gamma = 0.1$, 
@@ -5852,11 +6460,16 @@ these values helps me remember what's what.  It also makes the third
 section, where we compute the derivatives, resemble the mathematical
 equations we were given, which helps prevent errors.
 
+\index{pack vector}
+\index{unpack vector}
+
 The second section sets the parameters that describe the
 reproductive rates of rabbits and foxes, and the characteristics of
 their interactions.  If we were studying a real system, these values
 would come from observations of real animals, but for this example
 I chose values that yield interesting results.
+
+\index{parameter}
 
 The last section {\bf packs} the computed derivatives back into a
 vector.  When {\tt ode45} calls this function, it provides a vector
@@ -5872,6 +6485,8 @@ The semi-colon between the elements of the vector is not an error.  It
 is necessary in this case because {\tt ode45} requires the result of
 this function to be a column vector.
 
+\index{semi-colon}
+
 As always, it is a good idea to test your rate function before you call {\tt ode45}.  I created a file named {\tt lotka.m} with the following top-level function:
 
 \begin{code}
@@ -5881,6 +6496,8 @@ function res = lotka()
     rate_func(t, V_init)
 end
 \end{code}
+
+\index{initial condition}
 
 \verb"V_init" is a vector that represents the initial condition, 80 rabbits and 20 weasels.  The result from \verb"rate_func" is:
 
@@ -5901,6 +6518,9 @@ tspan = [0, 200]
 The first argument is the function handle for the rate function.
 The second argument is the time span, from 0 to 200 weeks.
 The third argument is the initial condition.
+
+\index{function handle}
+\index{handle!function}
 
 
 \section{Output matrices}
@@ -5924,6 +6544,8 @@ do this:
 MATLAB understands that it should plot each column from {\tt M}
 versus {\tt T}.
 
+\index{colon}
+
 You can copy the columns of {\tt M} into other variables like
 this:
 
@@ -5946,6 +6568,8 @@ ans = 185     1
 
 So {\tt R} and {\tt W} are column vectors.
 
+\index{column vector}
+
 Now we can plot these vectors separately, which makes it easier to give them different style strings:
 
 \begin{code}
@@ -5961,9 +6585,12 @@ Now we can plot these vectors separately, which makes it easier to give them dif
 
 Figure~\ref{fig:lotka} shows the results. The x-axis is time in weeks; the y-axis is population.  The top curve shows the population of rabbits; the bottom curve shows weasels.
 
+\index{boom and bust}
+
 Initially there are too many weasels, so the rabbit population declines.  Then there are not enough rabbits, and the weasel population declines.  That allows the rabbit population to recover, and the pattern repeats.
 
 This cycle of ``boom and bust'' is typical of the Lotka-Volterra model.
+
 
 \section{Phase plot}
 
@@ -5993,13 +6620,14 @@ Over time, the state moves around the plane; this figure shows
 the path traced by the state over time; this path
 is called a {\bf trajectory}.
 
-Since the behavior of this system is periodic, the
-trajectory is a loop.
+Since the behavior of this system is periodic, the trajectory is a loop.
 
 If there are 3 variables in the system, we need 3 dimensions to show
 the state of the system, so the trajectory is a 3-D curve.
 You can use {\tt plot3} to trace trajectories in 3 dimensions,
 but for 4 or more variables, you are on your own.
+
+\index{plot3@{\tt plot3}}
 
 
 \section{What could go wrong?}
@@ -6020,6 +6648,8 @@ Error in lotka (line 7)
 
 Which is pretty good as error messages go.  It's not clear {\em why}
 it needs to be a column vector, but that's not our problem.
+
+\index{column vector}
 
 Another possible error is reversing the order of the elements in the
 initial conditions, or the vectors inside {\tt lotka}.  MATLAB
@@ -6067,6 +6697,8 @@ a system changes over time.
 \section{Exercises}
 
 \begin{ex}
+
+\index{Lorenz attractor}
 
 Based on the examples we have seen so far, you would think that
 all ODEs describe population as
@@ -6126,6 +6758,8 @@ $x$, $y$, and $z$.
 
 So far we have seen first-order differential equations and systems of first-order ODEs.  In this chapter we introduce second-order systems, which are particularly useful for modeling Newtonian motion.
 
+\index{Newtonian motion}
+\index{Newton's law of motion}
 
 \section{Newtonian motion}
 
@@ -6142,6 +6776,10 @@ This equation suggests
 that if you know $m$ and $a$ you can compute force, which is true,
 but in most physical simulations it is the other way around:  based on a
 physical model, you know $F$ and $m$, and you compute $a$.
+
+\index{second derivative}
+\index{second-order differential equation}
+\index{differential equation!second-order}
 
 So if we know acceleration as a function of time, how do we
 find the position of the object, $r$?  Well, we know that acceleration
@@ -6182,6 +6820,9 @@ If you drop a penny from the top of the Empire State Building, how long does it 
 
 We'll start with no air resistance; then we'll add air resistance to the model and see what effect it has.
 
+\index{air resistance}
+\index{gravity}
+
 Near the surface of the earth,
 acceleration due to gravity is $-9.8$ $m/s^2$, where the minus sign
 indicates that gravity pulls down.
@@ -6189,6 +6830,9 @@ indicates that gravity pulls down.
 If the object falls straight down, we can describe its position with a
 scalar value $y$, representing altitude.
 
+\index{position}
+\index{velocity}
+\index{rate function }
 Here is a rate function we can use with {\tt ode45} to solve
 this problem:
 
@@ -6211,8 +6855,12 @@ The rate function takes {\tt t} and {\tt X} as input variables, where the elemen
 It returns a column vector that contains {\tt dydt} and {\tt dvdt}, which
 are velocity and acceleration, respectively.
 
+\index{column vector}
+
 Since velocity is the second element of {\tt X}, we can simply assign this value to {\tt dydt}.
 And since the derivative of velocity is acceleration, we can assign the acceleration of gravity to {\tt dvdt}.
+
+\index{acceleration}
 
 As always, we should test the rate function before we call {\tt ode45}.  Here's the top-level function we can use to test it:
 
@@ -6225,6 +6873,9 @@ end
 \end{code}
 
 The initial condition of {\tt X} is the initial position, which is the height of the Empire State Building, about \SI{381}{\meter}, and the initial velocity, which is \SI{0}{\meter \per \second}.
+
+\index{Empire State Building}
+\index{penny}
 
 The result from \verb"rate_func" is:
 
@@ -6245,6 +6896,10 @@ tspan = [0, 10]
 As always, the first argument is the function handle, the second
 is the time span (30 seconds) and the third is the initial
 condition.
+
+\index{function handle}
+\index{time span}
+\index{matrix}
 
 The result is a vector, {\tt T}, that contains the time values, and a matrix, {\tt M}, that contains two columns, one for altitude and one for velocity.
 
@@ -6270,9 +6925,13 @@ Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and pic
 
 \index{ODE events}
 
-%Normally when you call {\tt ode45} you specify a start time and
+Normally when you call {\tt ode45} you specify a start time and
 an end time.  But sometimes you don't know ahead of time when the
 simulation should end.  MATLAB provides a way to deal with this problem; here's how it works:
+
+\index{event function}
+\index{function!event}
+\index{ODE event}
 
 \begin{enumerate}
 
@@ -6296,6 +6955,9 @@ If {\tt direction} is 0, the event always occurs.
 If {\tt isterminal} is 1, the event causes the simulation to end; otherwise the simulation continues.
 
 This event function uses the altitude of the penny as {\tt value}, so an event occurs when the altitude is decreasing and passes through 0.  When it does, the simulation ends.
+
+\index{odeset@{\tt odeset}}
+\index{options@{\tt options}}
 
 \item Use {\tt odeset} to create an object called {\tt options}:
 
@@ -6334,6 +6996,9 @@ The last row of {\tt M} indicates that the final altitude is 0, which is what we
 \section{Air resistance}
 \label{sect:air_resistance}
 
+\index{drag}
+\index{air resistance}
+
 To make this simulation more realistic, we can add air resistance.
 For sizable objects moving relatively quickly through air, the force due to air resistance, called ``drag'', is proportional to velocity squared.  
 For an object falling down, drag is
@@ -6352,6 +7017,11 @@ of the object.
 
 $sgn$ is the sign or signum function, which is 1 for positive values of 
 $v$ and -1 for negative values.  So $f_d$ is always in the opposite direction of $v$.
+
+\index{signum function}
+\index{sgn@{\tt sgn}}
+\index{mass}
+\index{terminal velocity}
 
 To convert from force to acceleration, we have to know mass, but that's easy to find: the mass of a penny is about \SI{2.5}{\gram}.  It's not as easy to find the drag constant, but I have estimated\footnote{Based on reports that the terminal velocity of a penny is about \SI{18}{\meter \per \second}.} that it is about \SI{75e-6}{\kilogram \per \meter}.
 
@@ -6374,6 +7044,9 @@ end
 The first three lines compute force due to drag.
 The next two lines compute acceleration due to drag.
 The last two lines compute total acceleration due to drag and gravity.
+
+\index{acceleration}
+\index{force}
 
 Be careful when you are working with forces and accelerations; make sure
 you only add forces to forces or accelerations to accelerations.  In my
@@ -6401,11 +7074,10 @@ end
 \label{fig:penny2}
 \end{figure}
 
-Everything else is the same.
-Figure~\ref{fig:penny2} shows the result. 
+Everything else is the same.  Figure~\ref{fig:penny2} shows the result. 
 
 Air resistance makes a big difference!  Velocity increases until
-the drag acceleration equals $g$; after that, velocity is constant and position decreases linearly (and much more slowly than it would in a vacuum). 
+the drag acceleration equals $g$; after that, velocity is constant and position decreases linearly (and much more slowly than it would in a vacuum).
 
 With air resistance, the time until the penny hits the sidewalk is \SI{22.4}{\second}, substantially longer than before (\SI{8.8}{\second}).
 
@@ -6427,6 +7099,10 @@ And the final velocity is \SI{18.1}{\meter \per \second}, substantially slower t
 
 
 \begin{ex}
+
+\index{skydiver}
+\index{parachute}
+
 The drag constant for a skydiver without a parachute is about \SI{0.2}{\kilogram \meter}.  Modify the penny code from this chapter to simulate the descent of a \SI{75}{\kilogram} skydiver from an initial altitude of \SI{4000}{\meter}.  What is the velocity of the skydiver on impact?
 
 After opening a parachute, the velocity of the skydiver slows to about \SI{5}{\meter\per\second}.  Use your simulation to find the drag constant that yields a terminal velocity of \SI{5}{\meter\per\second}.
@@ -6444,6 +7120,10 @@ What is the lowest altitude where the skydiver can open the parachute and still 
 
 \begin{ex}
 \label{ex:earth}
+
+\index{Earth}
+\index{Sun}
+\index{Law of Universal Gravitation}
 
 Here's a question from the web site {\em Ask an Astronomer}\footnote{\url{https://web.archive.org/web/20180617133223/http://curious.astro.cornell.edu/about-us/39-our-solar-system/the-earth/other-catastrophes/57-how-long-would-it-take-the-earth-to-fall-into-the-sun-intermediate}}:
 
@@ -6470,6 +7150,11 @@ Use {\tt ode45} to answer this question.  Here are some suggestions about how to
 % chpt11
 \chapter{Two dimensions}
 
+In the previous chapter, we solved a one-dimensional problem, a penny falling from the Empire State Building.  Now we'll solve a two-dimensional problem, finding the trajectory of a baseball.
+
+\index{baseball}
+
+
 \section{Spatial vectors}
 \label{sect:spacial}
 
@@ -6494,10 +7179,16 @@ gives you a state vector.
 
 \end{description}
 
+\index{vector!spatial}
+\index{spatial vector}
+\index{sequence}
+\index{state}
+\index{time series}
+
 In this chapter we will see another use of MATLAB vectors: representing
 {\bf spatial vectors}.  A spatial vector represents a multidimensional physical quantity like position, velocity, acceleration, or force.
 
-\index{Spatial vectors!coordinate representation}
+\index{position}
 
 For example, to represent a position in two-dimensional space, we can use a vector with two elements:
 
@@ -6507,7 +7198,12 @@ For example, to represent a position in two-dimensional space, we can use a vect
 
 To interpret this vector, we have to know what coordinate system it is defined in.  Most commonly, we use a Cartesian system where the x-axis points east and the y-axis points north.  In that case {\tt P} represents a point 3 units east and 4 units north of the origin.
 
-Spatial vector represent the magnitude and direction of a physical quantity.  For example, the magnitude of {\tt P} is the distance from the origin to {\tt P}, which is the hypotenuse of the triangle with sides 3 and 4.  We can compute it using the Pythagorean theorem:
+\index{Cartesian system}
+\index{magnitude}
+\index{direction}
+\index{Pythagorean theorem}
+
+Spatial vectors represent the magnitude and direction of a physical quantity.  For example, the magnitude of {\tt P} is the distance from the origin to {\tt P}, which is the hypotenuse of the triangle with sides 3 and 4.  We can compute it using the Pythagorean theorem:
 
 \begin{code}
 >> sqrt(sum(P.*P))
@@ -6516,6 +7212,9 @@ ans = 5
 
 Or more simply by using the function {\tt norm}, which computes the
 ``Euclidean norm'' of a vector, which is its magnitude:
+
+\index{norm@{\tt norm}}
+\index{Euclidean norm}
 
 \begin{code}
 >> norm(P)
@@ -6540,10 +7239,15 @@ end
 This function takes a vector, {\tt V}, and returns a unit vector with the same direction as {\tt V}.  It is called {\tt hat} because in mathematical notation, unit vectors are written with a ``hat'' symbol.  
 For example, the unit vector with the same direction as $\vec{P}$ would be written $\uvec{P}$. 
 
+\index{unit vector}
+\index{vector!unit}
 
 \section{Adding vectors}
 
 Vectors are particularly useful for representing quantities like force and acceleration because we can add them up without having to think explicitly about direction.
+
+\index{force}
+\index{acceleration}
 
 As an example, suppose we have two vectors representing forces:
 
@@ -6580,6 +7284,10 @@ Assuming there is no wind and no spin on the ball, it should travel in a vertica
 two-dimensional, with $x$ representing the horizontal distance
 traveled and $y$ representing height or altitude.
 
+\index{baseball}
+\index{altitude}
+\index{rate function}
+
 Here's a rate function we can use to simulate this system with {\tt ode45}:
 
 \begin{code}
@@ -6606,15 +7314,23 @@ which represents position; the last two are assigned to {\tt V}, which
 represents velocity. Both {\tt P} and {\tt V} have two elements
 representing the $x$ and $y$ components.
 
+\index{derivative}
+\index{velocity}
+
 The goal of the rate function is to compute the derivative of {\tt W}, so the output has to be a vector with four elements, where the first two represent the derivative of {\tt P}  and the last two represent the derivative of {\tt V}.
 
 The derivative of {\tt P} is velocity.  We don't have to compute it; we were given it as part of {\tt W}.
 
 The derivative of {\tt V} is acceleration.  To compute it, we call {\tt acceleration}, which takes as input variables time, position and velocity.  In this example, we don't use any of the input variables, but we will soon.
 
+\index{air resistance}
+\index{gravity}
+
 For now we'll ignore air resistance, so the only force on the baseball is gravity.  We represent acceleration due to gravity with a vector that has magnitude {\tt g} and direction along the negative $y$ axis.
 
 Let's assume that a ball is batted from an initial position \SI{1}{\meter} above home plate, with an initial velocity of \SI{30}{\meter\per\second} in the horizontal and \SI{40}{\meter\per\second} in the vertical direction.
+
+\index{initial condition}
 
 Here's how we can call {\tt ode45} with these initial conditions:
  
@@ -6629,6 +7345,9 @@ Here's how we can call {\tt ode45} with these initial conditions:
 
 {\tt P} and {\tt V} are column vectors because we put semi-colons between the elements.  So {\tt W} is a column vector with four elements.
 {\tt tspan} specifies that we want to run the simulation for \SI{6}{\second}.
+
+\index{time span}
+\index{output variable}
 
 The output variables from {\tt ode45} are a vector, 
 {\tt T}, that contains time values and a matrix, {\tt M}, with four columns: the first two are position; the last two are velocity.
@@ -6659,6 +7378,9 @@ The simulation ends just before the ball lands, having traveled almost \SI{250}{
 \section{Drag force}
 \label{sect:drag}
 
+\index{drag}
+\index{force!drag}
+
 A simple model for the drag force on a baseball is:
 
 \begin{equation}
@@ -6671,7 +7393,12 @@ $\rho$ is the density of air,
 $C_d$ is the drag coefficient, and
 $A$ is the cross-sectional area .
 
+\index{drag coefficient}
+\index{coefficient!drag}
+
 $\vec{V}$ is the baseball's velocity vector; $v$ is the magnitude of $V$ and $\uvec{V}$ is a unit vector in the same direction as $V$.  The minus sign at the beginning means that the result is in the opposite direction as $V$.
+
+\index{unit vector}
 
 The following function computes the drag force on a baseball:
 
@@ -6689,6 +7416,9 @@ end
 The drag coefficient for a baseball is about 0.3.  
 The density of air at sea level is about \SI{1.3}{\kilogram\per\meter\cubed}.
 The cross-sectional area of a baseball is \SI{0.0042}{\meter\squared}.
+
+\index{density}
+\index{cross-sectional area}
 
 Now we have to update {\tt acceleration} to take drag into account:
 
@@ -6716,6 +7446,7 @@ $\vec{D}$, acceleration due to gravity, $\vec{G}$, and total acceleration, $\vec
 
 Figure~\ref{fig:vector3} shows these quantities graphically.  Acceleration due to drag, $\vec{D}$, is in the opposite direction of velocity, $\vec{V}$.  Acceleration of gravity, $\vec{G}$, is straight down.  Total acceleration, $\vec{A}$, is the sum of $\vec{D}$ and $\vec{G}$.
 
+\index{acceleration}
 
 \begin{figure}
 \centerline{\includegraphics[height=3in]{figs/baseball2.eps}}
@@ -6737,6 +7468,10 @@ the operation of joining two matrices into a larger matrix.
 top of each other; ``horizontal concatenation'' lays them
 side by side.
 
+\index{concatenation}
+\index{vertical concatenation}
+\index{vertcat@{\tt vertcat}}
+
 Here's an example of horizontal concatenation with row vectors:
 
 \begin{code}
@@ -6753,6 +7488,9 @@ z = 1     2     3     4     5
 Inside brackets, the comma operator performs horizontal concatenation.
 The vertical concatenation operator is the semi-colon.  Here is an
 example with matrices:
+
+\index{comma operator}
+\index{operator!comma}
 
 \begin{code}
 >> X = zeros(2,3)
@@ -6803,7 +7541,9 @@ Reading the error messages, you probably guessed that {\tt horzcat}
 is the function that performs horizontal concatenation, and likewise
 with {\tt vertcat} and vertical concatenation.
 
-In Section~\ref{sect:projectile} we use horizontal concatenation to packs {\tt dRdt} and {\tt dVdt} into the output variable:
+\index{horzcat@{\tt horzcat}}
+
+In Section~\ref{sect:projectile} we use horizontal concatenation to pack {\tt dRdt} and {\tt dVdt} into the output variable:
 
 \begin{code}
 function res = rate_func(t, W)
@@ -6821,6 +7561,8 @@ As long as {\tt dRdt} and {\tt dVdt} are column vectors,
 the semi-colon performs vertical concatenation, and the result is
 a column vector with four elements.  But if either of them is a
 row vector, that's trouble.
+
+\index{column vector}
 
 {\tt ode45} expects the result from \verb"rate_func" to be a
 column vector, so if you are working with {\tt ode45}, it is
@@ -6855,13 +7597,22 @@ form a new matrix.
 \section{Exercises}
 
 \begin{ex}
-When the Red Sox won the World Series in 2007, they played the
+
+\index{Boston Red Sox}
+\index{density}
+
+When the Boston Red Sox won the World Series in 2007, they played the
 Colorado Rockies at their home field in Denver, Colorado.  Find an
 estimate of the density of air in the Mile High City.  What effect
 does this have on drag?  What effect does it have on the distance the baseball travels?
 \end{ex}
 
 \begin{ex}
+
+\index{drag}
+\index{air resistance}
+\index{coefficient of drag}
+
 The actual drag on a baseball is more complicated than what is
 captured by our simple model.  In particular, the drag coefficient
 depends on velocity.  You can get some of the details from {\em The
@@ -6875,6 +7626,10 @@ program to implement it.  How big is the effect on the distance the baseball tra
 
 \begin{ex}
 \label{ex:cannon}
+
+\index{cannon}
+\index{human cannonball}
+
 According to Wikipedia, the record distance for a human cannonball is 59.05 meters\footnote{See \url{https://en.wikipedia.org/wiki/Human_cannonball}.}.
 
 Modify the example from this chapter to simulate the flight of a human cannonball.  You might have to do some research to find the drag coefficient and cross sectional area for a flying human.
@@ -6923,12 +7678,19 @@ Find the initial velocity (both magnitude and direction) you would need to break
 
 In Exercise~\ref{ex:cannon}, you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  In this chapter, we solve a similar problem, finding the best launch angle for a baseball.
 
+\index{baseball}
+\index{launch angle}
+
 We'll solve the problem two ways, first by running simulations with a range of values and plotting the results; then using a MATLAB function, {\tt fminsearch}.
 
 
 \section{Optimal baseball}
 
 In the previous chapter we wrote functions to simulate the flight of a baseball with a known initial velocity.  Now we'll use that code to find the launch angle that maximizes ``range'', that is, the distance the ball travels before landing.
+
+\index{optimization}
+\index{velocity}
+\index{range}
 
 First we need an event function to stop the simulation when the ball lands.
 
@@ -6939,6 +7701,10 @@ function [value, isterminal, direction] = event_func(t, W)
     direction = -1;
 end
 \end{code}
+
+\index{event function}
+\index{ODE event}
+\index{odeset@{\tt odeset}}
 
 This is similar to the event function we saw in Section~\ref{sect:events}, except that it uses {\tt W(2)} as the event value, which is the $y$ coordinate.  This event function stops the simulation when the altitude of the ball is 0 and falling.
 
@@ -6955,6 +7721,8 @@ Now we can call {\tt ode45} like this:
 \end{code}
 
 The initial position of the ball is \SI{1}{\meter} above home plate.  Its initial velocity is \SI{40}{\meter\per\second} in the $x$ direction and \SI{30}{\meter\per\second} in the $y$ direction.
+
+\index{initial condition}
 
 The maximum duration of the simulation is \SI{10}{\second}, but we expect an event to stop the simulation first.  We can get the final values of the simulation like this:
     
@@ -6989,10 +7757,15 @@ In Section~\ref{sect:projectile} we plotted {\tt X} and {\tt Y} separately as fu
 
 Figure~\ref{fig:baseball3} shows the result, which is the {\bf trajectory} of the baseball from launch, on the left, to landing, on the right.
 
+\index{trajectory}
+
 
 \section{Range versus angle}
 
 Now we'd like to simulate the trajectory of the baseball with a range of launch angles.  First, I'll take the code we have and wrap it in a function that takes the launch angle as an input variable, runs the simulation, and returns the distance the ball travels.
+
+\index{range}
+\index{launch angle}
 
 \begin{code}
 function res = baseball_range(theta)
@@ -7012,6 +7785,11 @@ end
 \end{code}
 
 The launch angle, {\tt theta}, is in radians.  The magnitude of velocity is always \SI{50}{\meter\per\second}.  I use {\tt pol2cart} to convert the angle and magnitude to Cartesian components, {\tt vx} and {\tt vy}.
+
+\index{radian}
+\index{pol2cart@{\tt pol2cart}}
+\index{Cartesian coordinates}
+\index{polar coordinates}
 
 After running the simulation, I extract the final $x$ position and return it as an output variable.  
 
@@ -7046,6 +7824,9 @@ Considering that our model is only approximate, this result might be good enough
 
 {\tt fminsearch} is similar to {\tt fzero}, which we saw in Section\ref{sect:fzero}.  Recall that {\tt fzero} takes a function handle and an initial guess, and returns a root of the function.
 As an example, to find a root of this function:
+
+\index{fminsearch@{\tt fminsearch}}
+\index{fzero@{\tt fzero}}
 
 \begin{code}
 function res = error_func(x)
@@ -7109,6 +7890,9 @@ There are two ways to do animation in MATLAB.  One is to use
 {\tt getframe} to capture a series of images and {\tt movie} to
 play them back.
 
+\index{animation}
+\index{getframe@{\tt getframe}}
+
 The more informal way is to draw a series of plots.  Here is a function that animates the results of a baseball simulation:
 
 \begin{code}
@@ -7136,14 +7920,21 @@ The input variables are the output from {\tt ode45}, a vector
 {\tt T} and a matrix {\tt M}.  The columns of {\tt M} are the
 $x$ and $y$ coordinates of the baseball.
 
+\index{axis@{\tt axis}}
+
 {\tt minmax} is a vector of four elements which is used inside
 the loop to set the axes of the figure.  This is necessary because
 otherwise MATLAB scales the figure each time through the loop,
 so the axes keep changing, which makes the animation hard
 to watch.
 
+\index{clf@{\tt clf}}
+\index{clear figure}
+
 Each time through the loop, {\tt animate} uses {\tt clf}
 to clear the figure and {\tt axis} to reset the axes.  Then it plot a circle to represent the position of the baseball.
+
+\index{drawnow@{\tt drawnow}}
 
 Each time through the loop, we have to call {\tt drawnow} so
 that MATLAB actually displays each plot.  Otherwise it waits
@@ -7166,6 +7957,9 @@ equally spaced in time, your animation might slow down where
 {\tt ode45} takes small time steps and speed up where the time
 step is larger.
 
+\index{ode45@{\tt ode45}}
+\index{time span}
+
 One way to fix this problem is to change the way to specify {\tt tspan}.
 Here is an example:
 
@@ -7175,6 +7969,9 @@ Here is an example:
 
 The result vector that goes from 0 to 10 with a
 step size of 0.1.  This option does not affect the accuracy of the results; {\tt ode45} still uses variable time steps to generate the estimates, but then it interpolates them before returning the results.
+
+\index{step size}
+\index{pause@{\tt pause}}
 
 With equal time steps, the animation should be smoother.
 
@@ -7193,17 +7990,19 @@ draw the figure, so it tends to run slow, especially if the figure is
 complex or the time step is small.
 
 
-
-
-
 \section{Exercises}
 
 
-
 \begin{ex}
+
+\index{Manny Ramirez}
+\index{Boston Red Sox}
+
 Manny Ramirez is a former member of the Boston Red Sox (an American baseball team) who was famous for his relaxed attitude.  The goal of this exercise is to solve the following Manny-inspired problem:
 
 {\it What is the minimum effort required to hit a home run in Fenway Park?}
+
+\index{Fenway Park}
 
 Fenway Park is a baseball stadium in Boston, Massachusetts.  One of its most famous features is the ``Green Monster", which is a wall in left field that is unusually close to home plate, only 310 feet away.  To compensate for the short distance, the wall is unusually high, at 37 feet.
 
@@ -7229,6 +8028,10 @@ You can solve this problem in two steps:
 
 \begin{ex}
 \label{ex:golf}
+
+\index{golf ball}
+\index{force!Magnus}
+\index{Magnus force}
 
 A golf ball hit with backspin generates lift, which might increase the distance it travels, but the energy that goes into generating spin probably comes at the cost of lower initial velocity.
 
@@ -7356,7 +8159,7 @@ In the previous case study we simulated a bungee jump with a model that took int
 
 It is tempting to say that the cord has no effect because it falls along with the jumper, but that intuition is incorrect.  As the cord falls, it transfers energy to the jumper.
 
-At \url{http://modsimpy.com/bungee} you'll find a paper\footnote{Heck, Uylings, and Kedzierska, ``Understanding the physics of bungee jumping", Physics Education, Volume 45, Number 1, 2010.} that explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
+At \url{http://modsimpy.com/bungee} you'll find a paper\footnote{Heck, Uylings, and Kędzierska, ``Understanding the physics of bungee jumping", Physics Education, Volume 45, Number 1, 2010.} that explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
 \[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
 %
@@ -7531,7 +8334,7 @@ According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of 
 To understand what that means, suppose we are trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two place, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.1in]{figs/secant.eps}}
+\centerline{\includegraphics[height=1.6in]{figs/secant.eps}}
 \caption{Initial state of a root-finding search.}
 \label{fig:secant}
 \end{figure}
@@ -7565,7 +8368,7 @@ $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.1in]{figs/golden1.eps}}
+\centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
 \caption{Initial state of a golden-section search.}
 \label{fig:golden1}
 \end{figure}
@@ -7579,7 +8382,7 @@ $f(x_4)$ is greater than $f(x_2)$.
 Figure~\ref{fig:golden2} shows the two possible states.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.1in]{figs/golden2.eps}}
+\centerline{\includegraphics[height=1.5in]{figs/golden2.eps}}
 \caption{Possible states of a golden-section search after evaluating $f(x_4)$.}
 \label{fig:golden2}
 \end{figure}
@@ -7600,6 +8403,9 @@ are better than others.  You might be tempted to bisect the interval between $x_
 \begin{appendices}
 \chapter{The Theorems of Debugging}
 
+\index{theorems of debugging}
+\index{debugging!list of theorems}
+
 \begin{enumerate}
     \item \displaythrm{1}
     \item \displaythrm{2}
@@ -7612,16 +8418,18 @@ are better than others.  You might be tempted to bisect the interval between $x_
     %\item \displaythrm{9}
 \end{enumerate}
 
+
+
+
 \end{appendices}
 
-% Print the index
 \printindex
-
 
 \end{document}
 
 
 
+% TODO: Figure out where to put this.
 
 But sometimes 
 if the error messages make
