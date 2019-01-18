@@ -521,7 +521,7 @@ The following diagram shows what I mean by ``modeling":
 \index{modeling}
 
 \vspace{0.2in}
-\centerline{\includegraphics[height=3in]{figs/modeling_framework.pdf}}
+\centerline{\includegraphics[height=3in]{book/figs/modeling_framework.pdf}}
 
 Starting in the lower left, the {\bf system} is something in the real world we are interested in.  Often, it is something complicated, so we have to decide which details can be left out; removing details is called {\bf abstraction}.
 
@@ -5882,7 +5882,7 @@ end
 \end{code}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/euler.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/euler.eps}}
 \caption{Solution to a simple differential equation by Euler's method.}
 \label{fig:euler}
 \end{figure}
@@ -5931,7 +5931,7 @@ The first argument is a function handle, as we saw in Section~\ref{sect:fzero}. 
 {\tt ode45} is the first function we have seen that returns {\em two} output variables.  In order to store them, we have to assign them to two variables, {\tt T} and {\tt Y}.
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/runge.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/runge.eps}}
 \caption{Solutions to a simple differential equation by Euler's method and {\tt ode45}.}
 \label{fig:runge}
 \end{figure}
@@ -6023,7 +6023,7 @@ in our case $y(0) = 2000$.
 \index{time span}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/rats.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/rats.eps}}
 \caption{Solutions to a simple differential equation by Euler's method and {\tt ode45}.}
 \label{fig:rats}
 \end{figure}
@@ -6649,7 +6649,7 @@ Now we can plot these vectors separately, which makes it easier to give them dif
 \end{code}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/lotka.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/lotka.eps}}
 \caption{Solution for the Lotka-Volterra model.}
 \label{fig:lotka}
 \end{figure}
@@ -6672,7 +6672,7 @@ Instead of plotting the two populations over time, it is sometimes useful to plo
 \end{code}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/phase.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/phase.eps}}
 \caption{Phase plot from the Lotka-Volterra model.}
 \label{fig:phase}
 \end{figure}
@@ -6983,7 +6983,7 @@ plot(T, Y)
 
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/penny.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/penny.eps}}
 \caption{Altitude versus time for an object in free fall.}
 \label{fig:penny}
 \end{figure}
@@ -7140,7 +7140,7 @@ end
 \end{code}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/penny2.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/penny2.eps}}
 \caption{Altitude versus time for an penny in free fall with air resistance.}
 \label{fig:penny2}
 \end{figure}
@@ -7330,7 +7330,7 @@ As an example, suppose we have two vectors representing forces:
 {\tt A} represents a force pulling northeast; {\tt B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/vector2.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/vector2.eps}}
 \caption{The sum of two forces represented by vectors.}
 \label{fig:vector2}
 \end{figure}
@@ -7436,7 +7436,7 @@ Here's how we can plot position as a function of time:
 {\tt X} and {\tt Y} get the first and second columns from {\tt M}, which are the $x$ and $y$ coordinates of position.
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/baseball1.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/baseball1.eps}}
 \caption{Simulated flight of a baseball neglecting drag force.}
 \label{fig:baseball1}
 \end{figure}
@@ -7509,7 +7509,7 @@ But now it also computes drag force, then divides by the mass of the baseball to
 Finally, it adds \verb"a_gravity" and \verb"a_drag" to get the total acceleration of the baseball.
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/vector3.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/vector3.eps}}
 \caption{Diagram of velocity, $\vec{V}$, acceleration due to drag force, 
 $\vec{D}$, acceleration due to gravity, $\vec{G}$, and total acceleration, $\vec{A}$.}
 \label{fig:vector3}
@@ -7520,7 +7520,7 @@ Figure~\ref{fig:vector3} shows these quantities graphically.  Acceleration due t
 \index{acceleration}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/baseball2.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/baseball2.eps}}
 \caption{Simulated flight of a baseball including drag force.}
 \label{fig:baseball2}
 \end{figure}
@@ -7821,7 +7821,7 @@ In Section~\ref{sect:projectile} we plotted {\tt X} and {\tt Y} separately as fu
 \end{code}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/baseball3.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/baseball3.eps}}
 \caption{Simulated flight of a baseball plotted as a trajectory.}
 \label{fig:baseball3}
 \end{figure}
@@ -7880,7 +7880,7 @@ And then plot {\tt ranges} as a function of {\tt thetas}:
 \end{code}
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/baseball4.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/baseball4.eps}}
 \caption{Simulated flight of a baseball plotted as a trajectory.}
 \label{fig:baseball4}
 \end{figure}
@@ -8252,7 +8252,7 @@ shown in Figure~\ref{spiderman}.
 \index{Empire State Building}
 
 \begin{figure}
-\centerline{\includegraphics[height=2.5in]{figs/spiderman.pdf}}
+\centerline{\includegraphics[height=2.5in]{book/figs/spiderman.pdf}}
 \caption{Diagram of the initial state for the Spider-Man case study.}
 \label{spiderman}
 \end{figure}
@@ -8380,7 +8380,7 @@ Now when \verb"rate_func" runs it plot a red circle at each location, and a shor
 Figure~\ref{fig:odeplot1} shows the result.  {\tt ode45} computes 10 time steps (not counting the initial condition) and evaluates the rate function 61 times.
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/odeplot1.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/odeplot1.eps}}
 \caption{Points where {\tt ode45} evaluates the rate function.}
 \label{fig:odeplot1}
 \end{figure}
@@ -8388,7 +8388,7 @@ Figure~\ref{fig:odeplot1} shows the result.  {\tt ode45} computes 10 time steps 
 Figure~\ref{fig:odeplot2} shows the same plot, zoomed in on a single time step, from $0.8$ to $1.2$.  We can see that {\tt ode45} evaluates the rate function several times per time step, at several times between the end points.  
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{figs/odeplot2.eps}}
+\centerline{\includegraphics[height=3in]{book/figs/odeplot2.eps}}
 \caption{Points where {\tt ode45} evaluates the rate function, zoomed in.}
 \label{fig:odeplot2}
 \end{figure}
@@ -8405,7 +8405,7 @@ According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of 
 To understand what that means, suppose we are trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two place, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.6in]{figs/secant.eps}}
+\centerline{\includegraphics[height=1.6in]{book/figs/secant.eps}}
 \caption{Initial state of a root-finding search.}
 \label{fig:secant}
 \end{figure}
@@ -8439,7 +8439,7 @@ $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/golden1.eps}}
+\centerline{\includegraphics[height=1.5in]{book/figs/golden1.eps}}
 \caption{Initial state of a golden-section search.}
 \label{fig:golden1}
 \end{figure}
@@ -8453,7 +8453,7 @@ $f(x_4)$ is greater than $f(x_2)$.
 Figure~\ref{fig:golden2} shows the two possible states.
 
 \begin{figure}
-\centerline{\includegraphics[height=1.5in]{figs/golden2.eps}}
+\centerline{\includegraphics[height=1.5in]{book/figs/golden2.eps}}
 \caption{Possible states of a golden-section search after evaluating $f(x_4)$.}
 \label{fig:golden2}
 \end{figure}
