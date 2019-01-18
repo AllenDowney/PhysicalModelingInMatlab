@@ -37,6 +37,13 @@
 \usepackage{upquote}
 \usepackage{url}
 
+% Tell compiler to make the index
+\usepackage{imakeidx}
+\makeindex[intoc]
+
+% Include index in ToC (not needed with imakeidx)
+%\usepackage[totoc]{idxlayout}
+
 % Configure exercise environment
 \numberwithin{Answer}{chapter}
 \numberwithin{Exercise}{chapter}
