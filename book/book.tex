@@ -38,10 +38,10 @@
 
 % Tell compiler to make the index
 \usepackage{imakeidx}
-\makeindex
+\makeindex[intoc]
 
-% Include index in ToC
-\usepackage[totoc]{idxlayout}
+% Include index in ToC (not needed with imakeidx)
+%\usepackage[totoc]{idxlayout}
 
 % Configure exercise environment
 \numberwithin{Answer}{chapter}
