@@ -2709,7 +2709,7 @@ of the operands are true.
 
 \index{OR operator}
 \index{operator!OR}
-\index{operator!{\tt ||}}
+\index{operator!{\tt \|\|}}
 
 
 \section{Vectors}
@@ -5039,12 +5039,16 @@ to put more than one function in a file, but only the first one, the
 Window} or functions in other files. 
 The other {\bf helper functions} can be called from anywhere inside the file, but not from any other file.
 
-\index{Functions!top-level}
+\index{function!top-level}
+\index{top-level function}
 
 Large programs almost always require more than one function; keeping
 multiple functions in one file is convenient, but it makes debugging
 difficult because you can't call helper functions from the {\sf Command
 Window}.
+
+\index{helper function}
+\index{function!helper}
 
 To help with this problem, I often use the top-level function
 to develop and test my helper functions.  For example, to write
@@ -5056,6 +5060,8 @@ Then I would write a function named {\tt error\_func} to
 evaluate the error function for {\tt fzero}.  To test
 {\tt error\_func} I would call it from {\tt duck} and then
 call {\tt duck} from the {\sf Command Window}.
+
+\index{incremental development}
 
 Here's what my first draft might look like:
 
@@ -5087,6 +5093,9 @@ Since many of the built-in functions take vectors as arguments,
 it should come as no surprise that you can write functions that
 take vectors.  Here's a simple (silly) example:
 
+\index{vector}
+\index{input variable}
+
 \begin{code}
 function res = display_vector(X)
     X
@@ -5097,8 +5106,7 @@ There's nothing special about this function at.  The only
 difference from the scalar functions we've seen is that I used
 a capital letter to remind me that {\tt X} is a vector.
 
-This is another example of a function that doesn't actually have
-a return value; it just displays the value of the input variable:
+This is another example of a function that doesn't actually return a value; it just displays the value of the input variable:
 
 \begin{code}
 >> display_vector(1:3)
@@ -5107,6 +5115,8 @@ X = 1     2     3
 
 Here's a more interesting example that encapsulates the code
 from Section~\ref{sect:reduce} that adds up the elements of a vector:
+
+\index{encapsulation}
 
 \begin{code}
 function res = mysum(X)
@@ -5121,6 +5131,8 @@ end
 I called it {\tt mysum} to avoid a collision with the built-in
 function {\tt sum}, which does pretty much the same thing.
 
+\index{sum@{\tt sum}}
+
 Here's how you call it from the {\sf Command Window}:
 
 \begin{code}
@@ -5128,8 +5140,10 @@ Here's how you call it from the {\sf Command Window}:
 total = 6
 \end{code}
 
-Because this function has a return value, I made a
+Because this function has an output variable, I made a
 point of assigning it to a variable.
+
+\index{output variable}
 
 
 \section{Vectors as output variables}
@@ -5147,11 +5161,8 @@ function res = myapply(X)
 end
 \end{code}
 
-Ideally I would have changed the name of the output variable to
-{\tt Res}, as a reminder that it is supposed to get a vector value,
-but I didn't.
-
 Here's how {\tt myapply} works:
+\index{apply}
 
 \begin{code}
 >> V = myapply(1:3)
@@ -5165,11 +5176,15 @@ location of a target value in a vector.
 \end{ex}
 
 
+
 \section{Vectorizing functions}
 
 Functions that work on vectors will almost always work on scalars
 as well, because MATLAB considers a scalar to be a vector with
-length 1.\index{Functions!using vectors}
+length 1.
+
+\index{vectorizing}
+\index{function!vectorizing}
 
 \begin{code}
 >> mysum(17)
@@ -5217,6 +5232,8 @@ This doesn't work on vectors because the \verb+^+ operator
 tries to do matrix exponentiation, which only works on
 square matrices.
 
+\index{matrix exponentiation}
+
 \begin{code}
 >> hypotenuse(1:3, 1:3)
 Error using  ^  (line 51)
@@ -5227,6 +5244,8 @@ To perform elementwise matrix powers, use '.^'.
 
 But if you replace \verb+^+ with the elementwise operator
 \verb+.^+, it works!
+
+\index{elementwise operator}
 
 \begin{code}
 >> A = [3,5,8];
@@ -5252,6 +5271,9 @@ vector as an input and computes a new vector that contains all of the
 partial sums of the original.  In math notation, if $V$ is the
 original vector, then the elements of the cumulative sum, $C$, are:
 
+\index{cumulative sum}
+\index{sum!cumulative}
+
 \begin{equation}
 C_i = \sum_{j=1}^i V_j
 \end{equation}
@@ -5259,6 +5281,8 @@ C_i = \sum_{j=1}^i V_j
 In other words, the $i$th element of $C$ is the sum of the first
 $i$ elements from $V$.  MATLAB provides a function named {\tt cumsum}
 that computes cumulative sums:
+
+\index{cumsum@{\tt cumsum}}
 
 \begin{code}
 >> V = 1:5
@@ -5272,6 +5296,8 @@ C = 1     3     6    10    15
 
 The inverse operation of {\tt cumsum} is {\tt diff}, which computes
 the difference between successive elements of the input vector.
+
+\index{diff@{\tt diff}}
 
 \begin{code}
 >> D = diff(C)
@@ -5306,6 +5332,10 @@ inverse of {\tt cumsum}, so that {\tt cumsum(mydiff(X))} and
 The multiplicative version of {\tt cumsum} is {\tt cumprod},
 which computes the {\bf cumulative product}.  In math notation,
 that's:
+
+\index{cumulative product}
+\index{product!cumulative}
+\index{cumprod@{\tt cumprod}}
 
 \begin{equation}
 P_i = \prod_{j=1}^i V_j
@@ -5348,6 +5378,9 @@ Exercise~\ref{ex:fibratio}).
 
 \section{Existential quantification}
 
+\index{existential quantification}
+\index{quantification!existential}
+
 It is often useful to check the elements of a vector to see if there
 are any that satisfy a condition.  For example, you might want to
 know if there are any positive elements.  In logic, this condition
@@ -5381,12 +5414,18 @@ as we find a positive element, we know the answer (it exists!) and
 we can end the function immediately without looking at the rest
 of the elements.
 
+\index{return statement@{\tt return} statement}
+\index{statement!{\tt return}}
+
 If we get to the end of the loop, that means we didn't find what
 we were looking for, so the result is 0.
 
 
 
 \section{Universal quantification}
+
+\index{universal quantification}
+\index{quantification!universal}
 
 Another common operation on vectors is to check whether {\em all}
 of the elements satisfy a condition, which is known to
@@ -5433,6 +5472,9 @@ When you apply a logical operator to a vector, the result is a
 {\bf logical vector}; that is, a vector whose elements are the logical
 values 1 and 0.
 
+\index{logical vector}
+\index{vector!logical}
+
 \begin{code}
 >> V = -3:3
 
@@ -5451,6 +5493,9 @@ Logical vectors can be used like flags to store the state of
 a condition.  And they are often used with the {\tt find} function,
 which takes a logical vector and returns a vector that contains
 the indices of the elements that are not ``false.''
+
+\index{flag}
+\index{find@{\tt find}}
 
 Applying {\tt find} to {\tt L} yields
 
@@ -5490,6 +5535,12 @@ Write a version of {\tt forall} using {\tt find}.
 
 
 \section{Debugging in four acts}
+
+\index{debugging}
+\index{reading}
+\index{running}
+\index{ruminating}
+\index{retreating}
 
 When you are debugging a program, and especially if you are working on a hard bug, there are four things to try:
 
@@ -5531,10 +5582,14 @@ which is the process of making random changes until the program
 does the right thing.  Needless to say, random walk programming
 can take a long time.
 
+\index{random walk programming}
+
 The way out is to take more time to think.  Debugging is like an
 experimental science.  You should have at least one hypothesis about
 what the problem is.  If there are two or more possibilities, try to
 think of a test that would eliminate one of them.
+
+\index{hypothesis}
 
 Taking a break sometimes helps with the thinking.  So does talking.
 If you explain the problem to someone else (or even yourself), you
@@ -5604,6 +5659,9 @@ A {\bf differential equation} (DE) is an equation that describes the
 derivatives of an unknown function.  ``Solving a DE'' means finding a
 function whose derivatives satisfy the equation.
 
+\index{differential equation}
+\index{equation!differential}
+
 For example, suppose we would like to predict the population of yeast growing in a nutrient solution.  Assume that we know the initial population is 5 billion yeast cells.
 
 When yeast grow in particularly yeast-friendly
@@ -5622,7 +5680,9 @@ where $\frac{dy}{dt}(t)$ is the derivative of $y(t)$ and
 $a$ is a constant that characterizes how quickly the population
 grows.
 
-This equation is a {\bf differential equation} because it relates a function to one of its derivatives.
+This equation is ``differential'' because it relates a function to one of its derivatives.
+
+\index{ordinary differential equation}
 
 It is an {\bf ordinary} differential equation (ODE) because all the
 derivatives involved are taken with respect to the
@@ -5631,21 +5691,18 @@ If it related derivatives with respect to
 different variables (partial derivatives), it would be a {\bf partial}
 differential equation.
 
-\index{Differential equations!ordinary}
-\index{Differential equations!partial}
+\index{first-order differential equation}
 
-This equation is {\bf first order} because it involves only first
+This equation is {\bf first-order} because it involves only first
 derivatives.  If it involved second derivatives, it would be second order,
 and so on.
 
-\index{Differential equations!order}
+\index{linear differential equation}
 
 And it is {\bf linear} because each term involves $t$, $f$, or
 $df/dt$ raised to the first power; if any of the terms involved
 products or powers of $t$, $f$, and $df/dt$ it would be
 nonlinear.
-
-\index{Differential equations!linearity}
 
 Now suppose we want to predict the yeast population in the future.  We can do that using Euler's method.
 
@@ -5659,7 +5716,7 @@ be after some period of time $\Delta t$ has elapsed?
 If you said $y + r \Delta t$, congratulations!  You just invented
 Euler's method.
 
-\index{Differential equations!Euler's Method}
+\index{Euler's Method}
 
 This estimate is based on the assumption that $r$ is constant, but
 in general it's not, so we only expect the estimate to be good if
@@ -5681,6 +5738,8 @@ Here $\{T_i\}$ is a sequence of times where we estimate the value
 of $y$, and $\{Y_i\}$ is the sequence of estimates.  For each
 index $i$, $Y_i$ is an estimate of $y(T_i)$.
 
+\index{time step}
+
 If the rate doesn't change too fast and the time step isn't
 too big, Euler's method is accurate enough for most purposes.  One
 way to check is to run it once with time step $dt$ and then run it
@@ -5696,6 +5755,8 @@ As an example I'll use Euler's method to solve the equation from Section~\ref{di
 
 With the initial condition $y(0) = 5$ billion cells and
 the growth parameter $a = 0.2$ per hour. 
+
+\index{top-level function}
 
 As a first step, I created a file named {\tt euler.m} with a top-level function and a helper function:
 
@@ -5714,6 +5775,8 @@ end
 \end{code}
 
 In {\tt euler} I initialize the initial conditions and then call \verb"rate_func".  In \verb"rate_func" I compute the rate of change in the population.
+
+\index{initial condition}
 
 After testing these functions, I added code to {\tt euler} to implement these difference equations:
 
@@ -5751,11 +5814,17 @@ The result is a plot of population over time, shown in Figure~\ref{fig:euler}.  
 
 \section{{\tt ode45}}
 \label{sect:ode45}
-\index{Differential equations!{\tt ode45}}
 
-A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that is not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and they are much more accurate. 
+
+A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that is not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and they are much more accurate.
+
+\index{time step} 
+\index{ode45@{\tt ode45}}
 
 MATLAB provides a function called {\tt ode45} that implements one of these methods.  In this section I'll explain how to use it; you can read more about how it works in Section~\ref{sect:howode45}.
+
+\index{rate function}
+\index{function!rate}
 
 In order to use {\tt ode45}, you have to write a function that evaluates $dy/dt$ as a function of $t$ and $y$.  Fortunately, we already have one, \verb"rate_func":
 
@@ -5776,6 +5845,11 @@ plot(T, Y)
 
 The first argument is a function handle, as we saw in Section~\ref{sect:fzero}.  The second argument is the time interval where we want to evaluate the solution; in this case the interval is from $t=0$ to $t=4$ hours.  The third argument is the initial population, 5 billion cells.
 
+\index{function handle}
+\index{handle!function}
+\index{output variable}
+\index{variable!output}
+
 {\tt ode45} is the first function we have seen that returns {\em two} output variables.  In order to store them, we have to assign them to two variables, {\tt T} and {\tt Y}.
 
 \begin{figure}
@@ -5795,6 +5869,8 @@ In general, you should use {\tt ode45} instead of Euler's method.  It is almost 
 
 Looking at \verb"rate_func" in the previous section, you might notice that it takes {\tt t} as an input variables but doesn't use it.  That's because the growth rate does not depend on time; that's because bacteria don't know what time it is.
 
+\index{time dependence}
+
 But rats do.  Or, at least, they know what season it is.
 Suppose that the population growth rate for rats
 depends on the current population and the availability of food,
@@ -5809,6 +5885,8 @@ where $t$ is time in days and $y(t)$ is the population at time $t$.
 
 $a$ and $\omega$ are {\bf parameters}.  A parameter is a value that
 quantifies a physical aspect of the scenario being modeled.  Parameters are often constants, but in some models they vary in time.
+
+\index{parameter}
 
 In this example, $a$ characterizes the peak reproductive rate per day, and
 $\omega$ is the frequency of a periodic function that describes
@@ -5863,6 +5941,9 @@ in, in this case starting at time 0 and going for 365 days (about a year).
 The third argument is the population at the beginning of the interval, 
 in our case $y(0) = 2000$.
 
+\index{interval}
+\index{time span}
+
 \begin{figure}
 \centerline{\includegraphics[height=3in]{figs/rats.eps}}
 \caption{Solutions to a simple differential equation by Euler's method and {\tt ode45}.}
@@ -5871,8 +5952,7 @@ in our case $y(0) = 2000$.
 
 Figure~\ref{fig:rats} shows the results.  The population grows slowly during the winter, quickly during the summer, and the slowly again in the fall.
 
-To see the population at the end of the interval, 
-you can display the last element from each vector:
+To see the population at the end of the interval, you can display the last element from each vector:
 
 \begin{code}
 Y(end)
@@ -5884,12 +5964,18 @@ it means ``the index of the last element''.  You can use it in an
 expression, so {\tt Y(end-1)} is the second-to-last element of
 {\tt Y}.
 
+\index{end@{\tt end}}
+\index{index!{\tt end}}
+
 
 \section{What could go wrong?}
 
 Don't forget the {\tt @} on the function handle.
 If you leave it out, MATLAB treats the first argument as a function
 call, and calls \verb"rate_func" without providing arguments.
+
+\index{rate function}
+\index{function handle}
 
 \begin{code}
 Not enough input arguments.
@@ -5904,7 +5990,9 @@ Error in rats (line 6)
 Also, remember that the function you write will be called by
 {\tt ode45}, which means has to take two input variables, 
 {\tt t} and {\tt y}, in that order, and return one output variable, 
-{\tt r}.
+{\tt res}.
+
+\index{output variable}
 
 If you are working with a rate function like this:
 
@@ -5926,6 +6014,8 @@ when {\tt ode45} calls {\tt rate\_func}, it provides two arguments.
 If you only take one input variable, you'll get an error.  So
 you have to write a function that takes {\tt t} as an input
 variable, even if you don't use it.
+
+\index{input variable}
 
 \begin{code}
 function res = rate_func(t, y)     % RIGHT
@@ -5960,6 +6050,11 @@ I hope these warnings save you some time debugging.
 
 The plots in this chapter have labels on the axes, and one of them has a legend, but I didn't show you how to do that.
 
+\index{labeling axes}
+\index{axes}
+\index{xlabel@{\tt xlabel}}
+\index{ylabel@{\tt ylabel}}
+
 The functions to label the axes are {\tt xlabel} and {\tt ylabel}:
 
 \begin{code}
@@ -5972,6 +6067,8 @@ The function to generate a legend is {\tt legend}:
 \begin{code}
 legend('euler', 'ode45')
 \end{code}
+
+\index{legend@{\tt legend}}
 
 The arguments are the labels for the lines, in the order they were drawn.  Usually the legend is in the upper right corner, but you can move it by providing an optional argument called {\tt Location}:
 
@@ -5987,6 +6084,10 @@ saveas(gcf, 'runge.eps', 'epsc')
 
 The first argument is the figure we want to save; {\tt gcf}, is a MATLAB command that stands for ``get current figure'', which is the figure we just drew.  The second argument is the filename.  The extension specifies the format we want, which is Encapulated PostScript.  The third argument tells MATLAB what ``driver'' to use.  The details aren't important, but {\tt epsc} generates figures in color.
 
+\index{figure}
+\index{get current figure}
+\index{gcf@{\tt gcf}}
+\index{saveas@{\tt saveas}}
 
 
 
@@ -6000,10 +6101,10 @@ derivatives of an unknown function.
 \item[ordinary DE (ODE):] A DE in which all derivatives are taken with
 respect to the same variable.
 
-\item[partial DE:] A DE that includes derivatives with respect to
+\item[partial DE (PDE):] A DE that includes derivatives with respect to
 more than one variable
 
-\item[first order DE:] A DE that includes only first derivatives.
+\item[first-order DE:] A DE that includes only first derivatives.
 
 \item[linear DE:] A DE that includes no products or powers of the
 function and its derivatives.
@@ -6011,16 +6112,20 @@ function and its derivatives.
 \item[time step:] The interval in time between successive estimates
 in the numerical solution of a DE.
 
-\item[adaptive:] A method that adjusts the time step to control error.
-
 \item[parameter:] A value that appears in a model to quantify some
 physical aspect of the scenario being modeled.
 
 \end{description}
 
+
 \section{Exercises}
 
 \begin{ex}
+
+\index{coffee}
+\index{cooling}
+\index{Newton's law of cooling}
+
 Suppose that you are given an 8 ounce cup of coffee at \SI{90}{\celsius}.
 You have learned from bitter experience that the hottest coffee you
 can drink comfortably is \SI{60}{\celsius}.  
