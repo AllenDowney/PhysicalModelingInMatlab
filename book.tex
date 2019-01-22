@@ -367,121 +367,80 @@ Version 2.0.0 of \thetitle was released in 2017. The active Git
 Copying, distributing, and contributing to \thetitle is encouraged.
 The above repository is the easiest entry point for this.
 
-\chapter{Preface to Version 2}
 
-I've used \textit{\thetitle} as the course
-textbook for ``Introduction to Engineering Analysis'' at Simon Fraser
-University (SFU) for the past two years. This book is ideal for
-first-year undergraduate students because of its clear presentation and
-delayed introduction to matrices---which is pivotal for students
-just beginning linear algebra.  My first time using this book was an
-absolute pleasure---Downey has the talent to make ordinarily dry
-subjects come to life; however, it became apparent, both from my direct
-experience teaching and from the feedback of my students, that
-significant revisions were needed to fully realize the effectiveness
-of this book.
-
-Hence the creation of Version 2 of this book: the entire text
-has been edited for clarity, correctness, and readibility; the
-arrangement of chapters and sections has been improved;
-and all MATLAB\myreg output has been made consistent
-with the 2016 releases. There are many other
-changes, too, but there's only so much room here.
-
-Many thanks go to Allen Downey for writing this book and making it open
-source; to SFU for funding this revision through the Open Educational
-Resources Grant; and to the following students for helping me transform
-this book into its current form: Zhen Gang Xiao, Zavier Patrick Aguila,
-Michael Cline, and Matt Wiens.
-
-\noindent W. Craig Scratchley
-\\
-\noindent Vancouver, BC
-\\
-{\tt craig\_scratchley@alumni.sfu.ca}
-
-\newpage
 
 \chapter{Preface}
 
-% TODO: Let's unify the two prefaces and update with information about
-% the revised book, Octave, and instructions for working with the code.
+Modeling and simulation are powerful tools for explaining the world, making predictions, designing things that work, and making them work better.  Learning to use these tools can be difficult; this book is my attempt to make the experience as enjoyable and productive as possible.
 
-Most books that use MATLAB are aimed at readers who know how
-to program.  This book is for people who have never programmed
-before.
-
-As a result, the order of presentation is unusual.  The book starts
-with scalar values and works up to vectors and matrices very
-gradually.  This approach is good for beginning programmers, because
-it is hard to understand composite objects until you understand basic
-programming semantics.  But there are some challenges:
+By reading this book --- and working on the exercises --- you will learn some programming, some modeling, and some simulation:
 
 \begin{itemize}
 
-\item The MATLAB documentation is written in terms of matrices,
-and so are the error messages.
-To mitigate this problem, the book explains the necessary
-vocabulary early and deciphers some of the messages that
-beginners find confusing.
+\item With basic programming skills, you can create models for a wide range of physical systems.
+My goal is to help you develop these skills in a way you can apply immediately to real-world problems.
 
-\item Many of the examples in the first half of the book are
-not idiomatic MATLAB code.  We address this problem in the second
-half by translating the examples into a more standard style.
+\item This book presents the entire modeling process, including model selection, analysis, simulation, and validation.  I explain this process in Chapter~\ref{chpt:modeling}, and there are examples throughout the book.
+
+\item Simulation is an approach to modeling that uses computer programs to  implement models and generate predictions.  This book shows how simulations are used to run experiments, answer questions, and guide decision-making.
 
 \end{itemize}
 
-The book puts a lot of emphasis on functions, in part because they are
-an important mechanism for controlling program complexity, and also
-because they are useful for working with MATLAB tools like {\tt fzero}
-and {\tt ode45}.
+To make this book accessible to the widest possible audience, I try to minimize the ``prerequisites''.  
 
-We assume that readers know calculus and physics at the high school level, but not linear algebra.
-We present differential equations and use numerical methods to solve them, but we don't assume that readers have seen differential equations before.
+This book is intended for people who have never programmed before.  I start from the beginning, define new terms when they are introduced, and present only the features you need, when you need them.
 
-There are small exercises within each chapter, and a few larger
-exercises at the end of some chapters.
+I assume that you know trigonometry and some calculus, but not much.  If you understand that a derivative represents a rate of change, that's enough.  You will learn about differential equations and some linear algebra, but I will explain what you need to know as we go along.
+
+I assume you know basic physics, in particular the concepts of force, acceleration, velocity, and position.  If you know Newton's second law of motion in the form $F = m a$, that's enough.
+
+You will learn to use numerical methods to search for roots of non-linear equations, to solve differential equations, and to search for optimal solutions.  You will learn how to use these methods first; then in Chapter~\ref{chpt:how} you will learn more about how they work.  But if you can't stand the suspense, you can look ``under the hood'' whenever you want.
+
+I have tried to identify the smallest set of tools that provides the most versatility and power.  And I have tried to present them as clearly as possible, and to give you the chance to practice what you learn.
+
+I hope you enjoy the book and find it valuable.
+
 
 \section*{Working with the code}
 
-Installing MATLAB.
+This book is based on MATLAB, a programming language originally developed at the University of New Mexico, and now produced by MathWorks, Inc.  MATLAB is a high-level language with features that make it well-suited for modeling and simulation.  And it comes with a program development environment that makes it well-suited for beginners.
 
-All code in this book has been tested with the latest version of MATLAB (R2019a).  But the features we are using have been in MATLAB for a long time; we would expect our code to work with older versions.
+However, one challenge for beginners is that MATLAB uses vectors and matrices for almost everything, which can make it hard to get started.  The organization of this book is meant to help: we start with simple numerical computations, adding vectors in Chapter~\ref{chpt:vectors} and matrices in Chapter~\ref{chpt:systems}.
 
+Another drawback of MATLAB is that it is ``proprietary''; that is, it belongs to MathWorks, and you can only use it with a license, which can be expensive.
 
-Working with LiveScripts.
+Fortunately, the GNU Project has developed a free, open-source alternative called Octave.  Most programs written in MATLAB can run in Octave without modification, and the other way around.  All programs in this book have been tested with Octave, so if you don't have access to MATLAB, you should be able to work with Octave.  The biggest difference you are likely to see is in the error messages.
 
-Installing Octave and JupyterLab.
+To install and run MATLAB, see \url{https://www.mathworks.com/downloads/web_downloads/}.
 
-If you are using this book with Octave, we strongly recommend that you install Anaconda, which is a package management system that makes it easy to work with Octave and supporting software.
+To install Octave, we strongly recommend that you use Anaconda, which is a package management system that makes it easy to work with Octave and supporting software.
 
 Anaconda installs everything at the user level, so you can install it without admin or root permissions.  Follow the instructions for your operating system at \url{https://www.anaconda.com/download}.
 
-\begin{code}
-conda create --name ModSimMatlab
-conda activate ModSimMatlab
-conda install -c conda-forge octave octave_kernel
-\end{code}
-
-Might have to add this:
+Once you have Anaconda, you can install Octave by launching the Jupyter Prompt (on Windows) or a Terminal (on Mac OS or Linux) and running:
 
 \begin{code}
-export QT_STYLE_OVERRIDE=gtk2
+conda install -c conda-forge octave
 \end{code}
 
+Then you can launch it from the command line like this:
 
-Working with notebooks.
+\begin{code}
+octave
+\end{code}
+
+The first time you run it, a start window should appear to guide you through some configuration.
 
 
-If you have suggestions and corrections, please send them to
-{\tt downey@allendowney.com}.
-
-% TODO: Update this to send comments to Craig?
 
 
 \newpage
 
 \section*{Contributor's list}
+
+If you have suggestions and corrections, please send them to:\\
+\verb"mod_sim_matlab@greenteapress.com".
+
 
 People who have found errors and helped us improve this book include
 Michael Lintz, 
@@ -511,9 +470,18 @@ Matt Wiens revised several sections of the book.
 \pdfbookmark[chapter]{\contentsname}{toc}
 \tableofcontents
 
+
+% Start the book!
+
 \mainmatter
 
-\chapter{Modeling}
+\chapter{Modeling and simulation}
+\label{chpt:modeling}
+
+This chapter presents the modeling process and introduces MATLAB, the programming language we will use to represent models and run simulations.
+
+
+\section{Modeling}
 
 This book is about modeling and simulation of physical systems.  
 The following diagram shows what I mean by ``modeling":
@@ -1290,6 +1258,9 @@ The result you get is not exact, but it is a pretty good approximation.
 % chap02
 \chapter{Scripts}
 
+In this chapter we introduce scripts, floating-point numbers, and as a warm-up exercise, Fibonacci numbers.
+
+
 \section{M-files}\index{Scripts!M-files}
 \label{sect:M-files}
 
@@ -1871,6 +1842,8 @@ and how to plot the values of {\tt a} and {\tt b} over time.
 
 % chap03
 \chapter{Loops}
+
+This chapter introduces one of the most important programming language features, the {\tt for} loop, the mathematical concepts sequence and series, and a process for writing programs, incremental development.
 
 \section{Updating variables}
 
@@ -2522,6 +2495,9 @@ order of the updates!
 % chap04
 \chapter{Vectors}
 \label{chpt:vectors}
+
+This chapter presents conditional statements and vectors, and three patterns for working with data: reduce, apply, and search.
+
 
 \section{Checking preconditions}
 
@@ -3329,7 +3305,41 @@ shortcuts, feel free to use them!  Otherwise, you can always write
 out the loop.
 
 
+\section{Name Collisions}
 
+\index{name collision}
+\index{collision!name}
+\index{workspace}
+
+All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between scripts become unmanageable.
+
+For example, the following (increasingly familiar) script computes the
+sum of the first {\tt n} terms in a geometric sequence, but it also
+has the {\bf side-effect} of assigning values to {\tt A1}, {\tt total},
+{\tt i}, and {\tt a}.
+
+\begin{code}
+A1 = 1;
+total = 0;
+for i=1:10
+    a = A1 * 0.5^(i-1);
+    total = total + a;
+end
+ans = total
+\end{code}
+
+If you were using any of those variable names before calling this
+script, you might be surprised to find, after running the script,
+that their values had changed.  If you have two scripts that use
+the same variable names, you might find that they work separately
+and then break when you try to combine them.  This kind of
+interaction is called a {\bf name collision}.
+
+\index{script}
+
+As the number of scripts you write increases, and they get longer
+and more complex, name collisions become more of a problem.  Avoiding
+this problem is one of the motivations for functions.
 
 
 \section{Glossary}
@@ -3374,6 +3384,9 @@ results.
 
 \item[search:] A way of processing a vector by examining the
 elements in order until one is found that has the desired property.
+
+\item[name collision:] The scenario where two scripts that use the
+same variable name interfere with each other.
 
 \end{description}
 
@@ -3468,46 +3481,9 @@ How does the behavior of the system change as you vary $r$?
 
 % chap05
 \chapter{Functions}
+\label{chpt:functions}
 
-\section{Name Collisions}
-
-\index{name collision}
-\index{collision!name}
-\index{workspace}
-
-All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between scripts become unmanageable.
-
-For example, the following (increasingly familiar) script computes the
-sum of the first {\tt n} terms in a geometric sequence, but it also
-has the {\bf side-effect} of assigning values to {\tt A1}, {\tt total},
-{\tt i}, and {\tt a}.
-
-\begin{code}
-A1 = 1;
-total = 0;
-for i=1:10
-    a = A1 * 0.5^(i-1);
-    total = total + a;
-end
-ans = total
-\end{code}
-
-If you were using any of those variable names before calling this
-script, you might be surprised to find, after running the script,
-that their values had changed.  If you have two scripts that use
-the same variable names, you might find that they work separately
-and then break when you try to combine them.  This kind of
-interaction is called a {\bf name collision}.
-
-\index{script}
-
-As the number of scripts you write increases, and they get longer
-and more complex, name collisions become more of a problem.  Avoiding
-this problem is one of the motivations for functions.
-
-
-\section{Functions}
-\label{sect:functions}
+This chapter introduces the most important idea in computer programming: functions!
 
 \index{function}
 
@@ -4290,6 +4266,9 @@ ans = 20    21    29
 \end{code}
 
 
+
+
+
 \section{Mechanism and leap of faith}
 
 \index{function call}
@@ -4353,15 +4332,45 @@ of functions, abstraction means forgetting about {\em how} a function
 works, and just assuming (after appropriate testing) that it works.
 
 
+\section{Why functions?}
+
+\index{function!reasons for}
+
+For many people, it takes some time to get comfortable with functions.  If you are one of them, you might be tempted to avoid functions, and sometimes you can get by without them.
+
+But experienced programmers use functions extensively, for several good reasons:
+
+\begin{itemize}
+
+\item Each function has its own workspace, so using functions helps
+avoid name collisions.
+
+\item Functions lend themselves to incremental development: you can
+debug the body of the function first (as a script), then encapsulate
+it as a function, and then generalize it by adding input variables.
+
+\item Functions allow you to divide a large problem into small
+pieces, work on the pieces one at a time, and then assemble a
+complete solution.
+
+\item Once you have a function working, you can forget about the
+details of how it works and concentrate on what it does.  This
+process of abstraction is an important tool for managing the
+complexity of large programs.
+
+\end{itemize}
+
+Another reason to use functions is that many of the tools provided by MATLAB require them.
+For example, in the next chapter we will use {\tt fzero} to find solutions of nonlinear equations.  Later we will use {\tt ode45} to approximate solutions to
+differential equations.
+
+
 \section{Glossary}
 
 \begin{description}
 
 \item[side-effect:] An effect, like modifying the workspace, that
 is not the primary purpose of a script.
-
-\item[name collision:] The scenario where two scripts that use the
-same variable name interfere with each other.
 
 \item[input variable:] A variable in a function that gets its value,
 when the function is called, from one of the arguments.
@@ -4421,41 +4430,7 @@ then checks whether this formula produces a Pythagorean triple for all {\tt i} s
 % chap06
 \chapter{Zero-finding}
 
-In this chapter we'll use the MATLAB function {\tt fzero} to find roots of nonlinear equations.  But first let's talk more about functions.
-
-\section{Why functions?}
-
-\index{function!reasons for}
-
-The previous chapter explained some of the benefits of functions,
-including
-
-\begin{itemize}
-
-\item Each function has its own workspace, so using functions helps
-avoid name collisions.
-
-\item Functions lend themselves to incremental development: you can
-debug the body of the function first (as a script), then encapsulate
-it as a function, and then generalize it by adding input variables.
-
-\item Functions allow you to divide a large problem into small
-pieces, work on the pieces one at a time, and then assemble a
-complete solution.
-
-\item Once you have a function working, you can forget about the
-details of how it works and concentrate on what it does.  This
-process of abstraction is an important tool for managing the
-complexity of large programs.
-
-\end{itemize}
-
-Another reason to use functions is that many of the
-tools provided by MATLAB require them.  For example,
-in this chapter we will use {\tt fzero} to find solutions of nonlinear
-equations.  Later we will use {\tt ode45} to approximate solutions to
-differential equations.
-
+In this chapter we'll use the MATLAB function {\tt fzero} to find roots of nonlinear equations.
 
 
 \section{Nonlinear equations}
@@ -4923,6 +4898,8 @@ You can avoid these problems by choosing function names carefully:
 \end{itemize}
 
 
+
+
 \section{Debugging your head}
 
 When you are working with a new function or a new language feature
@@ -5105,6 +5082,7 @@ Our goal is to find values of $d$ that are roots of this equation.
 % chap07
 \chapter{Functions of Vectors}
 
+Now that we have functions and vectors, we'll put them together to write functions that take vectors as input variables and return vectors as output variables.  And you'll see two patterns for computing with vectors, existential and universal quantification.  But first, let's talk about organizing functions and files.
 
 \section{Functions and files}
 \label{sect:funfiles}
@@ -5727,6 +5705,8 @@ operator to a vector, that contains logical values 1 and 0.
 % chap08
 \chapter{Ordinary Differential Equations}
 
+In this chapter you'll learn about a mathematical tool for describing physical systems, differential equations, and two computation tools for solving them, Euler's method and {\tt ode45}.
+
 
 \section{Differential equations}
 \label{diffeq}
@@ -6257,6 +6237,7 @@ room temperature after about an hour.
 
 % chap09
 \chapter{Systems of ODEs}
+\label{chpt:systems}
 
 In the previous chapter we used Euler's method and {\tt ode45} to solve a single first-order differential equation.  In this chapter we'll move on to systems of ODEs and implement a model of a predator-prey system.  But first, we have to learn about matrices.
 
@@ -7750,7 +7731,7 @@ In Exercise~\ref{ex:cannon}, you were asked to find the best launch angle for a 
 \index{baseball}
 \index{launch angle}
 
-We'll solve the problem two ways, first by running simulations with a range of values and plotting the results; then using a MATLAB function, {\tt fminsearch}.
+We'll solve the problem two ways, first running simulations with a range of values and plotting the results; then using a MATLAB function, {\tt fminsearch}.
 
 
 \section{Optimal baseball}
@@ -8370,6 +8351,7 @@ We'll use the following parameters:
 
 %chap14
 \chapter{How does it work?}
+\label{chpt:how}
 
 In this chapter we ``open the hood'', looking more closely at how some of the tools we have used --- {\tt ode45}, {\tt fzero}, and {\tt fminsearch} --- work.
 
@@ -8573,7 +8555,7 @@ are better than others.  You might be tempted to bisect the interval between $x_
 
 
 
-% TODO: Figure out where to put this.
+% Leftover material that's been cut.
 
 But sometimes 
 if the error messages make
