@@ -2783,11 +2783,9 @@ of the operands are true.
 
 \index{AND operator}
 \index{operator!AND}
-\index{operator!{\tt \&\&}}
 
 \index{OR operator}
 \index{operator!OR}
-\index{operator!{\tt \|\|}}
 
 
 \section{Vectors}
@@ -8127,10 +8125,21 @@ This chapter includes additional exercises where you can apply what you have lea
 
 \section{Celestial mechanics}
 
+\index{celestial mechanics}
+\index{mechanics!celestial}
+
 {\bf Celestial mechanics} describes how objects move in outer space.
 If you did Exercise~\ref{ex:earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now we'll simulate the Earth orbiting the Sun in two dimensions.
 
+\index{Earth}
+\index{Sun}
+
 To keep things simple, we'll consider only the effect of the Sun on the Earth, and ignore the effect of the Earth on the Sun.  So we'll place the Sun at the origin and use a spatial vector, $\vec{P}$, to represent the position of the Earth relative to the Sun.
+
+\index{position}
+\index{spatial vector}
+\index{mass}
+\index{Law of universal gravitation}
 
 Given the mass of the Sun, $m1$, and the mass of the Earth, $m2$, the gravitational force between them is
 
@@ -8142,13 +8151,23 @@ where $G$ is the universal gravitational constant\footnote{See \url{https://en.w
 $r$ is the distance of Earth from the Sun, and
 $\uvec{P}$ is a unit vector in the direction of $\vec{P}$.
 
+\index{universal gravitation constant}
+
 Write a simulation of Earth orbiting the Sun.  You can look up the orbital velocity of the Earth, or search for the initial velocity that causes the earth to make one complete orbit in one year.  Optionally, use {\tt fminsearch} to find the velocity that gets the Earth as close as possible to the starting place after one year.
 
+\index{velocity}
+\index{fminsearch{\tt fminsearch}}
 
 
 \section{Conservation of Energy}
 
 A useful way to check the accuracy of an ODE solver is to see whether it conserves energy.  For planetary motion, it turns out that {\tt ode45} does not.
+
+\index{ode45@{\tt ode45}}
+\index{conservation of energy}
+\index{energy}
+\index{kinetic energy}
+\index{potential energy}
 
 The kinetic energy of a moving body is
 
@@ -8171,6 +8190,9 @@ position and velocity.
 Plot the result as a function of time and
 check whether it increases or  decreases over the course of the simulation.
 
+\index{tolerance}
+\index{odeset@{\tt odeset}}
+
 You can reduce the rate of energy loss by decreasing {\tt ode45}'s
 tolerance option using {\tt odeset} (see Section~\ref{sect:events}):
 
@@ -8184,9 +8206,13 @@ The default value is {\tt 1e-3} or 0.001.  Smaller values
 make {\tt ode45} less ``tolerant,'' so it does more work to
 make the errors smaller.
 
+\index{RelTol@{\tt RelTol}}
+
 Run {\tt ode45} with a range of values for {\tt RelTol} and confirm
 that as the tolerance gets smaller, the rate of energy loss
 decreases.
+
+\index{ode23@{\tt ode23}}
 
 Along with {\tt ode45}, MATLAB provides several other ODE solvers (see \url{https://www.mathworks.com/help/matlab/math/choose-an-ode-solver.html}).
 Run your simulation with one of the other ODE solvers MATLAB provides
@@ -8195,6 +8221,10 @@ and see if any of them conserve energy.  You might find that {\tt ode23} works s
 
 \section{Bungee jumping}
 \label{bungee}
+
+\index{bungee jump}
+\index{cookie}
+\index{tea}
 
 Suppose you want to set the world record for the highest ``bungee dunk", which is a stunt in which a bungee jumper dunks a cookie in a cup of tea at the lowest point of a jump.  An example is shown in this video: \url{http://modsimpy.com/dunk}.
 
@@ -8216,6 +8246,10 @@ Since the record is \SI{70}{\meter}, let's design a jump for \SI{80}{\meter}.  W
 
 Our objective is to choose the length of the cord, {\tt L}, and its spring constant, {\tt k}, so that the jumper falls all the way to the tea cup, but no farther!
 
+\index{spring constant}
+
+%TODO: do we ever present Hooke's law?
+
 We'll start with the length of the bungee cord, {\tt L} at \SI{25}{\meter} and spring constant, {\tt k} at \SI{40}{\newton \per \meter}.
 
 Assume that the jumper has a cross-sectional area of \SI{1}{\meter} and a terminal velocity of \SI{60}{\meter\per\second}, and weighs \SI{75}{\kilogram}.
@@ -8223,12 +8257,16 @@ Assume that the jumper has a cross-sectional area of \SI{1}{\meter} and a termin
 
 \section{Bungee revisited}
 
+\index{bungee jump}
+
 In the previous case study we simulated a bungee jump with a model that took into account gravity, air resistance, and the spring force of the bungee cord, but we ignored the weight of the cord.
 
 \index{bungee jump}
 \index{bungee cord}
 
 It is tempting to say that the cord has no effect because it falls along with the jumper, but that intuition is incorrect.  As the cord falls, it transfers energy to the jumper.
+
+\index{acceleration}
 
 At \url{http://modsimpy.com/bungee} you'll find a paper\footnote{Heck, Uylings, and Kędzierska, ``Understanding the physics of bungee jumping", Physics Education, Volume 45, Number 1, 2010.} that explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
@@ -8248,7 +8286,7 @@ springy cable of webbing attached to the top of the Empire State
 Building.  Initially, Spider-Man is at the top of a nearby building, as
 shown in Figure~\ref{spiderman}.
 
-\index{Spider-man}
+\index{Spider-Man}
 \index{Empire State Building}
 
 \begin{figure}
@@ -8263,7 +8301,8 @@ to the building, relative to {\tt O}. The vector {\tt P} is the
 position of Spider-Man relative to {\tt O}. And {\tt L} is the
 vector from the attachment point to Spider-Man.
 
-\index{vector}
+\index{vector addition}
+\index{addition!vector}
 
 By following the arrows from {\tt O}, along {\tt H}, and along
 {\tt L}, we can see that
@@ -8284,21 +8323,24 @@ The goals of this case study are:
 
 \item
   Implement a model of this scenario to predict Spider-Man's trajectory.
+
 \index{trajectory}
 
 \item
   Choose the right time for Spider-Man to let go of the webbing in order
   to maximize the distance he travels before landing.
+
 \index{range}
 
 \item
-  Choose the best angle for Spider-Man to jump off the building, and let
-  go of the webbing, to maximize range.
+  Choose the best angle for Spider-Man to jump off the building, and the best time to let go of the webbing, to maximize range.
+
 \index{optimization}  
   
 \end{enumerate}
 
 We'll use the following parameters:
+
 \index{parameter}
 
 \begin{enumerate}
@@ -8307,6 +8349,7 @@ We'll use the following parameters:
 
 \item
   Let's assume his terminal velocity is \SI{60}{\meter\per\second}.
+
 \index{terminal velocity}
 
 \item
@@ -8318,6 +8361,8 @@ We'll use the following parameters:
 
 \item
   The spring constant of the web is \SI{40}{\newton\per\meter} when the cord is stretched, and 0 when it's compressed.
+  
+\index{spring constant}
 
 \end{enumerate}
 
@@ -8326,7 +8371,7 @@ We'll use the following parameters:
 %chap14
 \chapter{How does it work?}
 
-In this chapter we ``open the hood'', looking more closely at how some of the tool we have used --- {\tt ode45}, {\tt fzero}, and {\tt fminsearch} --- work.
+In this chapter we ``open the hood'', looking more closely at how some of the tools we have used --- {\tt ode45}, {\tt fzero}, and {\tt fminsearch} --- work.
 
 
 \section{How {\tt ode45} works}
@@ -8334,7 +8379,15 @@ In this chapter we ``open the hood'', looking more closely at how some of the to
 
 According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair''.  You can read about it at \url{https://en.wikipedia.org/wiki/Runge-Kutta_methods}, but I'll try to give you a sense of it here.
 
+\index{Runge-Kutta}
+\index{ode45@{\tt ode45}}
+\index{Dormand-Prince}
+
 The key idea behind all Runge-Kutta methods is to evaluate the rate function several times at each time step, and use a weighted average of the computed slopes to estimate the value at the next time step.  The details are in where the rate function is called and how the slopes are averages.
+
+\index{differential equation}
+\index{rate function}
+\index{function!rate}
 
 As an example, I'll solve the following differential equation:
 
@@ -8358,7 +8411,9 @@ And we can call it like this:
     [T, Y] = ode45(@rate_func, tspan, y0, options);
 \end{code}
 
-For this example I use {\tt odeset} to set the {\tt Refine} option to 1, which tells {\tt ode45} to return only the time steps it computed, rather than interpolating between them.
+For this example I use {\tt odeset} to set the {\tt Refine} option to 1, which tells {\tt ode45} to return only the time steps it computes, rather than interpolating between them.
+
+\index{odeset@{\tt odeset}}
 
 Now I can modify the rate function to plot the places where it gets evaluated:
 
@@ -8375,7 +8430,9 @@ function res = rate_func(t, y)
 end
 \end{code}
 
-Now when \verb"rate_func" runs it plot a red circle at each location, and a short red line showing the computed slope.
+When \verb"rate_func" runs it plot a red circle at each location, and a short red line showing the computed slope.
+
+\index{time step}
 
 Figure~\ref{fig:odeplot1} shows the result.  {\tt ode45} computes 10 time steps (not counting the initial condition) and evaluates the rate function 61 times.
 
@@ -8385,7 +8442,7 @@ Figure~\ref{fig:odeplot1} shows the result.  {\tt ode45} computes 10 time steps 
 \label{fig:odeplot1}
 \end{figure}
 
-Figure~\ref{fig:odeplot2} shows the same plot, zoomed in on a single time step, from $0.8$ to $1.2$.  We can see that {\tt ode45} evaluates the rate function several times per time step, at several times between the end points.  
+Figure~\ref{fig:odeplot2} shows the same plot, zoomed in on a single time step, from $0.8$ to $1.2$.  We can see that {\tt ode45} evaluates the rate function several times per time step, at several places between the end points.  
 
 \begin{figure}
 \centerline{\includegraphics[height=3in]{book/figs/odeplot2.eps}}
@@ -8395,12 +8452,21 @@ Figure~\ref{fig:odeplot2} shows the same plot, zoomed in on a single time step, 
 
 One important thing to take away from this figure: most of the places where {\tt ode45} evaluates the rate function are not part of the solution it returns, and they are not always good estimates of the solution.
 
+At each time step, {\tt ode45} actually computes {\em two} estimates of the next value.  By comparing them, it can estimate the magnitude of the error, which is uses to adjust the time step.  If the error is too big, it uses a smaller time step; if the error is small enough, it uses a bigger time step.  Because {\tt ode45} is {\bf adaptive} in this way, it minimizes the number of times it calls the rate function to achieve a given level of accuracy.
+
+\index{adaptive}
 
 
 \section{How {\tt fzero} works}
 \label{sect:howfzero}
 
 According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of bisection, secant, and inverse quadratic interpolation methods''.
+
+\index{fzero@{\tt fzero}}
+\index{bisection}
+\index{secant method}
+\index{inverse quadratic interpolation
+\index{root}}
 
 To understand what that means, suppose we are trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two place, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
@@ -8412,6 +8478,8 @@ To understand what that means, suppose we are trying to find a root of a functio
 
 As long as $f$ is continuous, there must be at least one root in this interval.  In this case we would say that $x_1$ and $x_2$
 {\bf bracket} a zero.
+
+\index{bracket}
 
 If this was all you knew about $f$, where would you go looking for
 a root?  If you said ``halfway between $x_1$ and $x_2$'',
@@ -8432,7 +8500,12 @@ That's most of how {\tt fzero} works.  The details of how these methods are comb
 \section{How {\tt fminsearch} works}
 \label{sect:howfminsearch}
 
-According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead_method}, but you might find it overwhelming.
+According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead_method}, but you might find it 
+overwhelming.
+
+\index{fminsearch@{\tt fminsearch}}
+\index{Nelder-Mead}
+\index{golden section search}
 
 To give you a sense of how it works, I will present a simpler algorithm, the {\bf golden-section search}.  Suppose we are trying to find the minimum of a function of a single variable, $f(x)$.  As a starting place, assume that we have evaluated the function at three places, 
 $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
@@ -8446,6 +8519,8 @@ value. Figure~\ref{fig:golden1} shows this initial state.
 
 If $f$ is continuous, there has to be at least one
 minimum point between $x_1$ and $x_3$.
+
+\index{minimum}
 
 The next step is to choose a fourth point, $x_4$, and evaluate
 $f(x_4)$.  There are two possible outcomes, depending on whether
@@ -8488,8 +8563,6 @@ are better than others.  You might be tempted to bisect the interval between $x_
     \item \displaythrm{8}
     %\item \displaythrm{9}
 \end{enumerate}
-
-
 
 
 \end{appendices}
@@ -8648,6 +8721,7 @@ direction of the other (might be used to mean ``scalar projection'' or
 ``vector projection'').
 
 \end{description}
+
 
 \chapter{Nested Functions}
 \label{chpt:nestedfuns}
