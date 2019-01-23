@@ -55,7 +55,7 @@
 
 % colors for code listings and output
 \usepackage{xcolor}
-\definecolor{bgcolor}{HTML}{FAFAFA}
+\definecolor{bgcolor}{HTML}{F0F0F0}
 \definecolor{comment}{HTML}{007C00}
 \definecolor{keyword}{HTML}{0000FF}
 \definecolor{strings}{HTML}{B20000}
@@ -82,12 +82,16 @@
 }
 
 % code listing environments
-\lstnewenvironment{code}
-{\minipage{\linewidth}}
-{\endminipage}
-\lstnewenvironment{stdout}
-{\lstset{commentstyle=,keywordstyle=,stringstyle=}\minipage{\linewidth}}
-{\endminipage}
+%\lstnewenvironment{code}
+%{\minipage{\linewidth}}
+%{\endminipage}
+
+%\lstnewenvironment{stdout}
+%{\lstset{commentstyle=,keywordstyle=,stringstyle=}\minipage{\linewidth}}
+%{\endminipage}
+
+\lstnewenvironment{code}{}{}
+\lstnewenvironment{stdout}{\lstset{commentstyle=,keywordstyle=,stringstyle=}}{}
 
 % inline syntax formatting
 \newcommand{\mcode}[1]{\lstinline{#1}}%{
@@ -388,7 +392,7 @@ My goal is to help you develop these skills in a way you can apply immediately t
 
 To make this book accessible to the widest possible audience, I try to minimize the ``prerequisites''.  
 
-This book is intended for people who have never programmed before.  I start from the beginning, define new terms when they are introduced, and present only the features you need, when you need them.
+In particular, this book is intended for people who have never programmed before.  I start from the beginning, define new terms when they are introduced, and present only the features you need, when you need them.
 
 I assume that you know trigonometry and some calculus, but not much.  If you understand that a derivative represents a rate of change, that's enough.  You will learn about differential equations and some linear algebra, but I will explain what you need to know as we go along.
 
@@ -396,20 +400,24 @@ I assume you know basic physics, in particular the concepts of force, accelerati
 
 You will learn to use numerical methods to search for roots of non-linear equations, to solve differential equations, and to search for optimal solutions.  You will learn how to use these methods first; then in Chapter~\ref{chpt:how} you will learn more about how they work.  But if you can't stand the suspense, you can look ``under the hood'' whenever you want.
 
-I have tried to identify the smallest set of tools that provides the most versatility and power.  And I have tried to present them as clearly as possible, and to give you the chance to practice what you learn.
+I have tried to present a small set of tools that provides the most versatility and power, to explain them as clearly as possible, and to give you chances to practice what you learn.
 
 I hope you enjoy the book and find it valuable.
 
 
 \section*{Installing software}
 
-This book is based on MATLAB, a programming language originally developed at the University of New Mexico, and now produced by MathWorks, Inc.  MATLAB is a high-level language with features that make it well-suited for modeling and simulation.  And it comes with a program development environment that makes it well-suited for beginners.
+This book is based on MATLAB, a programming language originally developed at the University of New Mexico and now produced by MathWorks, Inc.  
+
+MATLAB is a high-level language with features that make it well-suited for modeling and simulation, and it comes with a program development environment that makes it well-suited for beginners.
 
 However, one challenge for beginners is that MATLAB uses vectors and matrices for almost everything, which can make it hard to get started.  The organization of this book is meant to help: we start with simple numerical computations, adding vectors in Chapter~\ref{chpt:vectors} and matrices in Chapter~\ref{chpt:systems}.
 
 Another drawback of MATLAB is that it is ``proprietary''; that is, it belongs to MathWorks, and you can only use it with a license, which can be expensive.
 
-Fortunately, the GNU Project has developed a free, open-source alternative called Octave.  Most programs written in MATLAB can run in Octave without modification, and the other way around.  All programs in this book have been tested with Octave, so if you don't have access to MATLAB, you should be able to work with Octave.  The biggest difference you are likely to see is in the error messages.
+Fortunately, the GNU Project has developed a free, open-source alternative called Octave (see \url{https://www.gnu.org/software/octave/}).  
+
+Most programs written in MATLAB can run in Octave without modification, and the other way around.  All programs in this book have been tested with Octave, so if you don't have access to MATLAB, you should be able to work with Octave.  The biggest difference you are likely to see is in the error messages.
 
 To install and run MATLAB, see \url{https://www.mathworks.com/downloads/web_downloads/}.
 
@@ -467,7 +475,7 @@ Michael Lintz,
 Kaelyn Stadtmueller, 
 Roydan Ongie, 
 Keerthik Omanakuttan, 
-ietro Peterlongo, 
+Pietro Peterlongo, 
 Li Tao, 
 Steven Zhang, 
 Elena Oleynikova, 
@@ -782,13 +790,18 @@ and {\tt doc}.
 The help command works completely in the Command Window; just 
 type {\tt help} followed by the name of a command.
 
+% Here's an example where the output is in a stdout environment to
+% avoid nonsensical syntax highlighting.
+
 \begin{code}
 >> help sin
+\end{code}
+\begin{stdout}
  sin    Sine of argument in radians.
     sin(X) is the sine of the elements of X.
  
     See also asin, sind, sinpi.
-\end{code}
+\end{stdout}
 
 Some documentation uses vocabulary we haven't covered yet.  
 For example, ``the elements of X'' will likely not make sense until
