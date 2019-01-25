@@ -1,0 +1,630 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Functions of Vectors}
+
+Now that we have functions and vectors, we'll put them together to write functions that take vectors as input variables and return vectors as output variables.  And you'll see two patterns for computing with vectors, existential and universal quantification.  But first, let's talk about organizing functions and files.
+
+\section{Functions and files}
+\label{sect:funfiles}
+
+So far we have only put one function in each file.  It is also possible
+to put more than one function in a file, but only the first one, the
+{\bf top-level function} can be called from the {\sf Command
+Window} or functions in other files. 
+The other {\bf helper functions} can be called from anywhere inside the file, but not from any other file.
+
+\index{function!top-level}
+\index{top-level function}
+
+Large programs almost always require more than one function; keeping
+multiple functions in one file is convenient, but it makes debugging
+difficult because you can't call helper functions from the {\sf Command
+Window}.
+
+\index{helper function}
+\index{function!helper}
+
+To help with this problem, I often use the top-level function
+to develop and test my helper functions.  For example, to write
+a program for Exercise~\ref{ex:duck}, I would create a file named
+{\tt duck.m} and start with a top-level function named {\tt duck}
+that takes no input variables and returns no output value.
+
+Then I would write a function named {\tt error\_func} to
+evaluate the error function for {\tt fzero}.  To test
+{\tt error\_func} I would call it from {\tt duck} and then
+call {\tt duck} from the {\sf Command Window}.
+
+\index{incremental development}
+
+Here's what my first draft might look like:
+
+\begin{code}
+function res = duck()
+    error = error_func(10)
+end
+
+function res = error_func(d)
+    rho = 0.3;      % density in g / cm^3
+    r = 10;         % radius in cm
+    res = d;
+end
+\end{code}
+
+The line {\tt res = d} isn't finished yet, but this
+is enough code to test.
+Once I finished and tested {\tt error\_func}, I would modify
+{\tt duck} to use {\tt fzero}.
+
+For this problem we might only need two functions, but if there
+were more, I could write and test them one at a time, and then
+combine them into a working program.
+
+
+\section{Vectors as input variables}
+
+Since many of the built-in functions take vectors as arguments,
+it should come as no surprise that you can write functions that
+take vectors.  Here's a simple (silly) example:
+
+\index{vector}
+\index{input variable}
+
+\begin{code}
+function res = display_vector(X)
+    X
+end
+\end{code}
+
+There's nothing special about this function at.  The only
+difference from the scalar functions we've seen is that I used
+a capital letter to remind me that {\tt X} is a vector.
+
+This is another example of a function that doesn't actually return a value; it just displays the value of the input variable:
+
+\begin{code}
+>> display_vector(1:3)
+X = 1     2     3
+\end{code}
+
+Here's a more interesting example that encapsulates the code
+from Section~\ref{sect:reduce} that adds up the elements of a vector:
+
+\index{encapsulation}
+
+\begin{code}
+function res = mysum(X)
+    total = 0;
+    for i=1:length(X)
+        total = total + X(i);
+    end
+    res = total;
+end
+\end{code}
+
+I called it {\tt mysum} to avoid a collision with the built-in
+function {\tt sum}, which does pretty much the same thing.
+
+\index{sum@{\tt sum}}
+
+Here's how you call it from the {\sf Command Window}:
+
+\begin{code}
+>> total = mysum(1:3)
+total = 6
+\end{code}
+
+Because this function has an output variable, I made a
+point of assigning it to a variable.
+
+\index{output variable}
+
+
+\section{Vectors as output variables}
+
+There's also nothing wrong with assigning a vector to an output
+variable.  Here's an example that encapsulates the code from
+Section~\ref{sect:apply}:
+
+\begin{code}
+function res = myapply(X)
+    for i=1:length(X)
+        Y(i) = X(i)^2;
+    end
+    res = Y;
+end
+\end{code}
+
+Here's how {\tt myapply} works:
+\index{apply}
+
+\begin{code}
+>> V = myapply(1:3)
+V = 1     4     9
+\end{code}
+
+\begin{ex}
+Write a function named {\tt myfind} that
+encapsulates the code, from Section~\ref{sect:search}, that finds the
+location of a target value in a vector.
+\end{ex}
+
+
+
+\section{Vectorizing functions}
+
+Functions that work on vectors will almost always work on scalars
+as well, because MATLAB considers a scalar to be a vector with
+length 1.
+
+\index{vectorizing}
+\index{function!vectorizing}
+
+\begin{code}
+>> mysum(17)
+ans = 17
+
+>> myapply(9)
+ans = 81
+\end{code}
+
+Unfortunately, the converse is not always true.  If you write
+a function with scalar inputs in mind, it might not work on vectors.
+
+But it might!  If the operators and functions
+you use in the body of your function work on vectors, then your
+function will probably work on vectors.
+
+For example, here is a version of the very first function we wrote:
+
+\begin{code}
+function res = myfunc(x)
+    s = sin(x);
+    c = cos(x);
+    res = abs(s) + abs(c);
+end
+\end{code}
+
+And lo!  It turns out to work on vectors:
+
+\begin{code}
+>> Y = myfunc(1:3)
+Y = 1.3818    1.3254    1.1311
+\end{code}
+
+Some of the other functions we wrote don't work on vectors,
+but they can be patched up with just a little effort.  For example,
+here's {\tt hypotenuse} from Section~\ref{sect:hypotenuse}:
+
+\begin{code}
+function res = hypotenuse(a, b)
+    res = sqrt(a^2 + b^2);
+end
+\end{code}
+
+This doesn't work on vectors because the \verb+^+ operator
+tries to do matrix exponentiation, which only works on
+square matrices.
+
+\index{matrix exponentiation}
+
+\begin{code}
+>> hypotenuse(1:3, 1:3)
+Error using  ^  (line 51)
+Incorrect dimensions for raising a matrix to a power. 
+Check that the matrix is square and the power is a scalar. 
+To perform elementwise matrix powers, use '.^'.
+\end{code}
+
+But if you replace \verb+^+ with the elementwise operator
+\verb+.^+, it works!
+
+\index{elementwise operator}
+
+\begin{code}
+>> A = [3,5,8];
+>> B = [4,12,15];
+>> C = hypotenuse(A, B)
+
+C = 5    13    17
+\end{code}
+
+The function matches up corresponding elements from the two
+input vectors, so the elements of {\tt C} are the hypotenuses of
+the pairs $(3,4)$, $(5,12)$, and $(8,15)$, respectively.
+
+In general, if you write a function using only elementwise
+operators and functions that work on vectors, the new
+function will also work on vectors.
+
+
+\section{Sums and differences}
+
+Another common vector operation is {\bf cumulative sum}, which takes a
+vector as an input and computes a new vector that contains all of the
+partial sums of the original.  In math notation, if $V$ is the
+original vector, then the elements of the cumulative sum, $C$, are:
+
+\index{cumulative sum}
+\index{sum!cumulative}
+
+\begin{equation}
+C_i = \sum_{j=1}^i V_j
+\end{equation}
+
+In other words, the $i$th element of $C$ is the sum of the first
+$i$ elements from $V$.  MATLAB provides a function named {\tt cumsum}
+that computes cumulative sums:
+
+\index{cumsum@{\tt cumsum}}
+
+\begin{code}
+>> V = 1:5
+
+V = 1     2     3     4     5
+
+>> C = cumsum(V)
+
+C = 1     3     6    10    15
+\end{code}
+
+The inverse operation of {\tt cumsum} is {\tt diff}, which computes
+the difference between successive elements of the input vector.
+
+\index{diff@{\tt diff}}
+
+\begin{code}
+>> D = diff(C)
+
+D = 2     3     4     5
+\end{code}
+
+Notice that the output vector is shorter by one than the input
+vector.  As a result, MATLAB's version of {\tt diff} is not
+exactly the inverse of {\tt cumsum}.  If it were, then we would
+expect {\tt cumsum(diff(V)} to be {\tt V}:
+
+\begin{code}
+>> cumsum(diff(V))
+
+ans = 1     2     3     4
+\end{code}
+
+But it isn't.
+
+\begin{ex}
+Write a function named {\tt mydiff} that computes the
+inverse of {\tt cumsum}, so that {\tt cumsum(mydiff(X))} and
+{\tt mydiff(cumsum(X))} both return {\tt X}.
+
+% mydiff.m
+\end{ex}
+
+
+\section{Products and ratios}
+
+The multiplicative version of {\tt cumsum} is {\tt cumprod},
+which computes the {\bf cumulative product}.  In math notation,
+that's:
+
+\index{cumulative product}
+\index{product!cumulative}
+\index{cumprod@{\tt cumprod}}
+
+\begin{equation}
+P_i = \prod_{j=1}^i V_j
+\end{equation}
+
+In MATLAB, that looks like:
+
+\begin{code}
+>> V = 1:5
+
+V = 1     2     3     4     5
+
+>> P = cumprod(V)
+
+P = 1     2     6    24   120
+\end{code}
+
+MATLAB doesn't provide the multiplicative version
+of {\tt diff}, which would be called {\tt ratio}, and which would
+compute the ratio of successive elements of the input vector.
+
+\begin{ex}
+Write a function named {\tt myratio} that computes the
+inverse of {\tt cumprod}, so that {\tt cumprod(myratio(X))} and
+{\tt myratio(cumprod(X))} both
+return {\tt X}.
+
+You can use a loop, or if you want to be clever, you can take
+advantage of the fact that $e^{\ln a + \ln b} = a b$.
+
+If you apply {\tt myratio} to a vector that contains Fibonacci
+numbers, you can confirm that the ratio of successive elements
+converges on the golden ratio, $(1+\sqrt{5})/2$ (see
+Exercise~\ref{ex:fibratio}).
+
+% TODO
+\end{ex}
+
+
+
+\section{Existential quantification}
+
+\index{existential quantification}
+\index{quantification!existential}
+
+It is often useful to check the elements of a vector to see if there
+are any that satisfy a condition.  For example, you might want to
+know if there are any positive elements.  In logic, this condition
+is called {\bf existential quantification}, and it is denoted with
+the symbol $\exists$, which is pronounced ``there exists.''  For example,
+this expression
+%
+\[ \exists x \mbox{~in~} S: x>0  \]
+%
+means, ``there exists some element $x$ in the set $S$ such that
+$x>0$.''  In MATLAB it is natural to express this idea with a logical
+function, like {\tt exists}, that returns 1 if there is such an
+element and 0 if there is not.
+
+\begin{code}
+function res = exists(X)
+    for i=1:length(X)
+        if X(i) > 0
+            res = 1;
+            return
+        end
+    end
+    res = 0;
+end
+\end{code}
+
+We haven't seen the {\tt return} statement before; it is similar
+to {\tt break} except that it breaks out of the whole function, not
+just the loop.  That behavior is what we want here because as soon
+as we find a positive element, we know the answer (it exists!) and
+we can end the function immediately without looking at the rest
+of the elements.
+
+\index{return statement@{\tt return} statement}
+\index{statement!{\tt return}}
+
+If we get to the end of the loop, that means we didn't find what
+we were looking for, so the result is 0.
+
+
+
+\section{Universal quantification}
+
+\index{universal quantification}
+\index{quantification!universal}
+
+Another common operation on vectors is to check whether {\em all}
+of the elements satisfy a condition, which is known to
+logicians as {\bf universal quantification}, denoted with
+the symbol $\forall$, and pronounced ``for all.''  So this
+expression
+%
+\[ \forall x \mbox{~in~} S: x>0 \]
+%
+means ``for all elements, $x$, in the set $S$, $x>0$.''
+
+One way evaluate this expression in MATLAB is to
+count the number of elements that satisfy the condition.
+A better way is to reduce the problem to
+existential quantification; that is, to rewrite
+
+\begin{equation}
+\forall x \mbox{~in~} S: x>0
+\end{equation}
+
+as
+
+\begin{equation}
+\sim \exists x \mbox{~in~} S: x \le 0
+\end{equation}
+
+Where $\sim \exists$ means ``does not exist.''
+In other words, checking that all the elements are positive is
+the same as checking that there are no elements
+that are non-positive.
+
+\begin{ex}
+Write a function named {\tt forall} that
+takes a vector and returns 1 if all of the elements are positive
+and 0 if there are any non-positive elements.
+\end{ex}
+
+
+
+
+\section{Logical vectors}
+
+When you apply a logical operator to a vector, the result is a 
+{\bf logical vector}; that is, a vector whose elements are the logical
+values 1 and 0.
+
+\index{logical vector}
+\index{vector!logical}
+
+\begin{code}
+>> V = -3:3
+
+V = -3    -2    -1     0     1     2     3
+
+>> L = V>0
+
+L =  0     0     0     0     1     1     1
+\end{code}
+
+In this example, {\tt L} is a logical vector whose elements
+correspond to the elements of {\tt V}.  For each positive element of
+{\tt V}, the corresponding element of {\tt L} is 1.
+
+Logical vectors can be used like flags to store the state of
+a condition.  And they are often used with the {\tt find} function,
+which takes a logical vector and returns a vector that contains
+the indices of the elements that are not ``false.''
+
+\index{flag}
+\index{find@{\tt find}}
+
+Applying {\tt find} to {\tt L} yields
+
+\begin{code}
+>> find(L)
+
+ans = 5     6     7
+\end{code}
+
+which indicates that elements 5, 6 and 7 do not have the value 0 (false).
+
+If the elements are all 0, the result is an empty vector.
+
+\begin{code}
+>> find(V>10)
+
+ans = Empty matrix: 1x0
+\end{code}
+
+This example computes the logical vector and passes it as an
+argument to {\tt find} without assigning it to an intermediate
+variable.  You can read this version abstractly as ``find
+the indices of elements of {\tt V} that are greater than 10.''
+
+We can also use {\tt find} to write {\tt exists} more concisely:
+
+\begin{code}
+function res = exists(X)
+    L = find(X>0)
+    res = length(L) > 0
+end
+\end{code}
+
+\begin{ex}
+Write a version of {\tt forall} using {\tt find}.
+\end{ex}
+
+
+\section{Debugging in four acts}
+
+\index{debugging}
+\index{reading}
+\index{running}
+\index{ruminating}
+\index{retreating}
+
+When you are debugging a program, and especially if you are working on a hard bug, there are four things to try:
+
+\begin{description}
+
+\item[reading:] Examine your code, read it back to yourself, and
+check that it means what you meant to say.
+
+\item[running:] Experiment by making changes and running different
+versions.  Often if you display the right thing at the right place
+in the program, the problem becomes obvious, but you might have to invest time building scaffolding.
+
+\item[ruminating:] Take some time to think!  What kind of error
+is it: syntax, run-time, or logical?  What information can you get from
+the error messages, or from the output of the program?  What kind of
+error could cause the problem you're seeing?  What did you change
+last, before the problem appeared?
+
+\item[retreating:] At some point, the best thing to do is back
+off, undoing recent changes, until you get back to a program that
+works, and that you understand.  Then you can starting rebuilding.
+
+\end{description}
+
+Beginning programmers sometimes get stuck on one of these activities
+and forget the others.  Each activity comes with its own failure
+mode.
+
+For example, reading your code might help if the problem is a
+typographical error, but not if the problem is a conceptual
+misunderstanding.  If you don't understand what your program does, you
+can read it 100 times and never see the error, because the error is in
+your head.
+
+Running experiments can help, especially if you run small, simple
+tests.  But if you run experiments without thinking or reading your
+code, you might fall into a pattern I call ``random walk programming,''
+which is the process of making random changes until the program
+does the right thing.  Needless to say, random walk programming
+can take a long time.
+
+\index{random walk programming}
+
+The way out is to take more time to think.  Debugging is like an
+experimental science.  You should have at least one hypothesis about
+what the problem is.  If there are two or more possibilities, try to
+think of a test that would eliminate one of them.
+
+\index{hypothesis}
+
+Taking a break sometimes helps with the thinking.  So does talking.
+If you explain the problem to someone else (or even yourself), you
+will sometimes find the answer before you finish asking the question.
+
+But even the best debugging techniques will fail if there are too many
+errors, or if the code you are trying to fix is too big and
+complicated.  Sometimes the best option is to retreat, simplifying the
+program until you get to something that works, and then rebuild.
+
+Beginning programmers are often reluctant to retreat, because
+they can't stand to delete a line of code (even if it's wrong).
+If it makes you feel better, copy your program into another file
+before you start stripping it down.  Then you can paste the pieces
+back in a little bit at a time.
+
+\index{debugging!Eighth Theorem}
+
+To summarize, here's the Eighth Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{8}
+\end{quote}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[top-level function:]  The first function in an M-file;
+it is the only function that can be called from the Command
+Window or from another file.
+
+\item[helper function:] A function in an M-file that is not
+the top-level function; it only be called from another function
+in the same file.
+
+\item[existential quantification:] A logical condition that expresses
+the idea that ``there exists'' an element of a set with a certain
+property.
+
+\item[universal quantification:] A logical condition that expresses
+the idea that all elements of a set have a certain property.
+
+\item[logical vector:] A vector, usually the result of applying a logical
+operator to a vector, that contains logical values 1 and 0.
+
+
+\end{description}
+
+%\section{Exercises}
+
+%\begin{ex}
+%\end{ex}
+
+%TODO: any exercises for this chapter?
+
+
+% chap08
+
+
+\end{document}

@@ -1,0 +1,661 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Loops}
+
+This chapter introduces one of the most important programming language features, the {\tt for} loop, the mathematical concepts sequence and series, and a process for writing programs, incremental development.
+
+\section{Updating variables}
+
+In Exercise~\ref{ex:bikegame}, you might have been tempted to write something
+like
+
+\index{bike share system}
+
+\begin{code}
+b = b - 0.05*b + 0.03*c
+c = c + 0.05*b - 0.03*c
+\end{code}
+
+But that would be wrong, so very wrong.  Why?  The problem is that
+the first line changes the value of {\tt a}, so when the second line
+runs, it gets the old value of {\tt b} and the new value of {\tt a}.
+As a result, the change in {\tt a} is not always the same as the
+change in {\tt b}, which violates the principle of Conversation
+of Bikes!
+
+One solution is to use temporary variables {\tt anew} and {\tt bnew}:
+
+\begin{code}
+b_new = b - 0.05*b + 0.03*c
+c_new = c + 0.05*b - 0.03*c
+b = b_new
+c = c_new
+\end{code}
+
+This has the effect of updating the variables ``simultaneously;'' that
+is, it reads both old values before writing either new value.
+
+\index{update}
+
+The following is an alternative solution that
+has the added advantage of simplifying the computation:
+
+\begin{code}
+b_to_c = 0.05*b - 0.03*c
+b = b - b_to_c
+c = c + b_to_c
+\end{code}
+
+\index{debugging!Fifth Theorem}
+
+It is easy to look at this code and confirm that it obeys Conversation
+of Bikes.  Even if the value of \verb"b_to_c" is wrong, at least the total
+number of bikes is right.  And that brings us to the Fifth Theorem of
+Debugging:
+
+\begin{quote}
+\displaythrm{5}
+\end{quote}
+
+In this case, removing redundancy also eliminates the opportunity for
+a bug.
+
+
+\section{Bug taxonomy}
+
+There are four kinds of bugs:
+
+\index{syntax error}
+\index{runtime error}
+\index{logical error}
+\index{numerical error}
+
+\begin{description}
+
+\item[Syntax error:] You have written a command that cannot
+execute because it violates one of the rules of syntax.  For example,
+you can't have two operands in a row without an operator, so
+\verb+pi r^2+ contains a syntax error.  When the interpreter finds a syntax
+error, it prints an error message and stops running your program.\index{Errors!syntax}
+
+\item[Runtime error:] Your program starts running, but something goes
+wrong along the way.  For example, if you try to access a variable
+that doesn't exist, that's a runtime error.  When the interpreter detects the
+problem, it prints an error message and stops.\index{Errors!runtime}
+
+\item[Logical error:] Your program runs without generating any error
+messages, but it doesn't do the right thing.  The problem in the
+previous section, where we changed the value of {\tt b} before
+reading the old value, is a logical error.\index{Errors!logical}
+
+\item[Numerical error:] Most computations in MATLAB are only
+approximately right.  Most of the time the errors are small enough
+that we don't care, but in some cases the round-off errors are a problem.\index{Errors!numerical}
+
+\end{description}
+
+Syntax errors are usually the easiest.  Sometimes the error messages
+are confusing, but MATLAB can usually tell you where the error is, at
+least roughly.
+
+Runtime errors are harder because, as I mentioned before, MATLAB
+can tell you where it detected the problem, but not what caused it.
+
+Logical errors are hard because MATLAB can't help at all.  Only you
+know what the program is supposed to do, so only you can check it.
+From MATLAB's point of view, there's nothing wrong with the program;
+the bug is in your head!
+
+\index{bug}
+
+Numerical errors can be tricky because it's not clear whether the
+problem is your fault.  For most simple computations, MATLAB produces
+the floating-point value that is closest to the exact solution, which
+means that the first 15 significant digits should be correct.  
+
+But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct digits can be smaller.  Sometimes MATLAB can warn you that
+this is happening, but not always!  Precision (the number of digits
+in the answer) does not imply accuracy (the number of digits that
+are right).
+
+
+\section{Absolute and relative error}
+
+There are two ways of thinking about numerical errors, called {\bf
+absolute} and {\bf relative}.
+
+\index{absolute error}
+\index{relative error}
+
+\begin{description}
+
+\item[Absolute error:] The difference between the correct value and
+the approximation.  We often write the magnitude of the error,
+ignoring its sign, when it doesn't matter whether the approximation
+is too high or too low.\index{Errors!absolute}
+
+\item[Relative error:] The error expressed as a fraction (or percentage)
+of the exact value.\index{Errors!relative}
+\end{description}
+
+For example, we might want to estimate $9!$ using the formula $\sqrt
+{18 \pi} ( 9 / e)^9$.  The exact answer is $9 \cdot 8 \cdot 7 \cdot 6
+\cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 362,880$.  The approximation
+is $359,536.87$.  So the absolute error is 3,343.13.
+
+At first glance, that sounds like a lot---we're off by three
+thousand --- but we should consider the size of the
+thing we are estimating.  For example, \$3000 matters a lot
+if we are talking about my annual salary, but not at all if we
+are talking about the national debt.
+
+A natural way to handle this problem is to use relative
+error.
+In this case, we would divide the error
+by 362,880, yielding $.00921$, which is just less than 1\%.
+For many purposes, being off by 1\% is good enough.
+
+
+\section{for loops}
+
+\index{compound statement}
+\index{for loop@{\tt for} loop}
+\index{loop}
+
+A {\bf loop} is a part of a program that executes repeatedly;
+a {\bf for loop} is the kind of loop that uses the {\tt for}
+statement.
+
+The simplest use of a {\tt for} loop is to execute one or more
+lines a fixed number of times.
+For example, in the last chapter
+we wrote a script named \verb"bike_update" that simulates a
+day in the life of a bike share service.  To simulate an entire
+month, we have to run it 30 times:
+
+\begin{code}
+for i=1:30
+    bike_update
+end
+\end{code}
+
+The first line looks like an assignment statement, and it {\em is}
+like an assignment statement, except that it runs more than once.  The
+first time it runs, it creates the variable {\tt i} and assigns it the
+value 1.  The second time, {\tt i} gets the value 2, and so on, up to
+and including 30.
+
+\index{assignment statement}
+\index{statement!assignment}
+\index{colon operator}
+\index{operator!colon}
+\index{range}
+
+The colon operator, {\tt :}, specifies a {\bf range} of integers.
+You can create a range at the prompt:
+
+\begin{code}
+>> 1:5
+ans =  1     2     3     4     5
+\end{code}
+
+The variable you use in the for statement is called the {\bf loop
+variable}.  It is common to use the names {\tt i},
+{\tt j}, and {\tt k} as loop variables.
+
+\index{body of loop}
+\index{loop body}
+\index{loop variable}
+\index{variable!loop}
+
+The statements inside the loop are called the {\bf body}.  By convention,
+they are indented to show that they are inside the loop, but the
+indentation does not affect the execution of the program.
+The {\tt end} statement marks the end of the loop.
+
+\index{end statement@{\tt end} statement}
+\index{statement!{\tt end}}
+
+To see the loop in action you can run a loop that displays the
+loop variable:
+
+\begin{code}
+>> for i=1:5
+    i
+end
+
+i = 1
+i = 2
+i = 3
+i = 4
+i = 5
+\end{code}
+
+As this example shows, you {\em can} run a for loop from the
+command line, but it's much more common to put it in a script.
+
+\begin{ex}
+Create a script named \verb"bike_loop" that uses a {\tt for} loop to run \verb"bike_update" 30 times.  Before you run it, you have to assign values to {\tt b} and {\tt c}.
+For this exercise, start with the values {\tt b = 100} and {\tt c = 100}.
+
+If everything goes smoothly, your script will display a long stream
+of numbers on the screen.  It is probably too long
+to fit, and even if it fit, it would be hard to interpret.
+A graph would be much better!
+\end{ex}
+
+
+\section{Plotting}
+\label{sect:plotting}\index{Plotting!points}
+
+\index{plot@{\tt plot}}
+
+{\tt plot} is a versatile function for plotting points and lines
+on a two-dimensional graph.  Unfortunately, it is so versatile
+that it can be hard to use (and hard to read the documentation).
+We will start simple and work our way up.
+
+To plot a single point, type
+
+\begin{code}
+>> plot(1, 2, 'o')
+\end{code}
+
+A {\sf Figure Window} should appear with a graph and a single, blue circle
+at $x$ position 1 and $y$ position 2.  
+
+\index{Figure Window}
+\index{style string}
+
+The letter in single quotes is a {\bf style string} that specifies how the
+point should be plotted.
+Other shapes include {\tt +},
+{\tt *},
+{\tt x},
+{\tt s} (for square),
+{\tt d} (for diamond), 
+{\tt .} (for a dot), and
+\verb+^+ (for a triangle).
+
+You can also specify the color:
+
+\begin{code}
+>> plot(1, 2, 'ro')
+\end{code}
+
+{\tt r} stands for red; the other colors include {\bf g}reen, {\bf
+b}lue, {\bf c}yan, {\bf m}agenta, {\bf y}ellow, and blac{\bf k}.
+
+When you use {\tt plot} this way, it can only plot one point at a
+time.  If you run {\tt plot} again, it clears the figure before making
+the new plot.  The {\tt hold} command lets you override that behavior.
+{\tt hold on} tells MATLAB not to clear the figure when it makes a new
+plot; {\tt hold off} returns to the default behavior.
+
+\index{hold@{\tt hold}}
+
+Try this:
+
+\begin{code}
+>> clf
+>> hold on
+>> plot(1, 1, 'ro')
+>> plot(2, 2, 'go')
+>> plot(3, 3, 'bo')
+>> hold off
+\end{code}
+
+The {\tt clf} command clears the figure before we start plotting.
+
+\index{clear figure}
+\index{clf@{\tt clf}}
+
+You should see a figure with three circles, at (1, 1), (1, 2), and (2, 2).  MATLAB scales the plot automatically so that each axis runs from the lowest axis value in the plot to the highest.
+
+\begin{ex}
+Modify \verb"bike_loop" so that it clears the figure before running the loop.  Then, each time through the
+loop, it should plot the value of {\tt b} versus the value of {\tt i} with a red circle..
+
+Once you get that working, modify it so it plots the values of {\tt c} with blue diamonds.
+\end{ex}
+
+
+\section{Sequences}
+
+In mathematics a {\bf sequence} is a set of numbers that corresponds
+to the positive integers.  The numbers in the sequence are
+called {\bf elements}.  In math notation, the elements
+are denoted with subscripts, so the first element of the series $A$ is
+$A_1$, followed by $A_2$, and so on.
+
+\index{sequence}
+\index{element}
+\index{loop}
+\index{geometric sequence}
+
+{\tt for} loops are a natural way to compute the elements of a sequence.
+As an example, in a geometric sequence, each element is a constant
+multiple of the previous element.  As a more specific example, let's
+look at the sequence with $A_1 = 1$ and the ratio $A_{i+1} = A_i/2$,
+for all $i$.  In other words, each element is half as big as the one
+before it.
+
+The following loop computes the first 10 elements of $A$:
+
+\begin{code}
+a = 1
+for i=2:10
+    a = a/2
+end
+\end{code}
+
+Each time through the loop, we find the next value of {\tt a}
+by dividing the previous value by 2.  Notice that the loop
+range starts at 2 because the initial value of {\tt a} corresponds
+to $A_1$, so the first time through the loop we are computing
+$A_2$.
+
+Each time through the loop, we replace the previous element with
+the next, so at the end, {\tt a} contains the 10th element.  The
+other elements are displayed on the screen, but they are not saved
+in a variable.  Later, we will see how to save the elements
+of a sequence in a vector.
+
+\index{direct computation}
+\index{recurrent computation}
+
+This loop computes the sequence {\bf recurrently}, which means
+that each element depends on the previous one.
+For this sequence it is also possible to compute the $i$th element
+{\bf directly}, as a function of $i$, without using the previous element.
+In math notation, $A_i = A_1 (1/2)^{i-1}$. 
+
+\begin{ex}
+Write a script named {\tt sequence} that, in a loop, 
+computes 10 elements of $A$ directly.
+\end{ex}
+
+
+\section{Series}
+\label{sect:series}
+
+In mathematics, a {\bf series} is the sum of the elements of
+a sequence.  It's a terrible name, because in common English,
+``sequence'' and ``series'' mean pretty much the same thing, but in
+math, a sequence is a set of numbers, and a series is an expression
+(a sum) that has a single value.  In math notation, a series
+is often written using the summation symbol $\sum$.
+
+\index{series}
+\index{sum}
+
+For example, the sum of the first 10 elements of $A$ is
+\begin{equation}
+\sum_{i=1}^{10} A_i
+\end{equation}
+
+A {\tt for} loop is a natural way to compute the value of this
+series:
+
+\begin{code}
+A1 = 1;
+total = 0;
+for i=1:10
+    a = A1 * (1/2)^(i-1);
+    total = total + a;
+end
+ans = total
+\end{code}
+
+{\tt A1} is the first element of the sequence; each time
+through the loop {\tt a} is the $i$th element.
+
+\index{accumulator}
+
+The way we are using {\tt total} is sometimes called an {\bf
+accumulator}; that is, a variable that accumulates a result a little
+bit at a time.  
+Before the loop we initialize it to 0.  
+Each time
+through the loop we add in the $i$th element.  
+At the end of the loop
+{\tt total} contains the sum of the elements.  
+Since that's the value
+we were looking for, we assign it to {\tt ans}.
+
+\begin{ex}
+This example computes the terms of the series directly; as
+an exercise, write a script named {\tt series} that computes
+the same sum by computing the elements recurrently.  You will
+have to be careful about where you start and stop the loop.
+\end{ex}
+
+
+\section{Generalization}
+
+\index{generalization}
+
+As written, the previous example always adds up the first 10
+elements of the sequence, but we might be curious to know what
+happens to {\tt total} as we increase the
+number of terms in the series.  If you have studied geometric
+series, you might know that this series converges on 2; that is,
+as the number of terms goes to infinity, the sum approaches
+2 asymptotically.
+
+To see if that's true for our program, we can replace the
+constant, 10, with a variable named {\tt n}:
+
+\begin{code}
+A1 = 1;
+total = 0;
+for i=1:n
+    a = A1 * 0.5^(i-1);
+    total = total + a;
+end
+ans = total
+\end{code}
+
+The code above can now compute any number of terms, with the
+precondition that you have to set {\tt n} before you execute
+the code.  
+I put this code in a file named {\tt series.m}, then
+ran it with different values of {\tt n}:
+
+\begin{code}
+>> format long
+>> n=10; series
+total = 1.99804687500000
+
+>> n=20; series
+total = 1.99999809265137
+
+>> n=30; series
+total = 1.99999999813735
+
+>> n=40; series
+total = 1.99999999999818
+\end{code}
+
+It sure looks like it's converging on 2.
+
+Replacing a constant with a variable is called {\bf generalization}.
+Instead of computing a fixed, specific number of terms, the new script
+is more general; it can compute any number of terms.
+This is an important idea we will come back to when we talk about functions.
+
+\section{Incremental development}
+
+\index{incremental development}
+
+As you start writing longer programs, you might find yourself spending more time debugging.
+The more code you write before you start debugging, the harder it is to find
+the problem.
+
+{\bf Incremental development} is a way of programming that tries
+to minimize the pain of debugging.  The fundamental steps are:
+
+\begin{enumerate}
+
+\item Always start with a working program.  If you have an
+example from a book, or a program you wrote that is similar to
+what you are working on, start with that.  Otherwise, start with
+something you {\em know} is correct, like {\tt x=5}.  Run the program
+and confirm that you are running the program you think you are
+running.
+
+This step is important, because in most environments there
+are little things that can trip you up when you start a new
+project.  Get them out of the way so you can focus on programming.
+
+\item Make one small, testable change at a time.  A ``testable''
+change is one that displays something on the screen (or has some
+other effect) that you can check.  Ideally, you should know what
+the correct answer is, or be able to check it by performing another
+computation.
+
+\item Run the program and see if the change worked.  If so, go back
+to Step 2.  If not, you will have to do some debugging, but if the
+change you made was small, it shouldn't take long to find the problem.
+
+\end{enumerate}
+
+\index{debugging!Sixth Theorem}
+
+With incremental development, your code is more likely to work the first time; and if it doesn't the problem is more likely to be obvious.  And that brings us to the Sixth Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{6}
+\end{quote}
+
+In practice, there are two problems with incremental development:
+
+\begin{itemize}
+
+\item Sometimes you have to write extra code to
+generate visible output that you can check.  This extra code is
+called {\bf scaffolding} because you use it to build the program
+and then remove it when you are done.  But time you save on
+debugging is almost always worth the time you invest in
+scaffolding.
+
+\index{scaffolding}
+
+\item When you are getting started, it might not be obvious how to
+choose the steps that get from {\tt x=5} to the program you are trying
+to write.  There is an extended example in Section~\ref{sect:increxample}.
+
+\end{itemize}
+
+If you find yourself writing more than a few lines of code before
+you start testing, and you are spending a lot of time debugging,
+you should try incremental development.
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[absolute error:] The difference between an approximation and
+an exact answer.
+
+\item[relative error:] The difference between an approximation and
+an exact answer, expressed as a fraction or percentage of the exact
+answer.
+
+\item[loop:] A part of a program that runs repeatedly.
+
+\item[loop variable:] A variable, defined in a {\tt for} statement,
+that gets assigned a different value each time through the loop.
+
+\item[range:] The set of values assigned to the loop variable, often
+specified with the colon operator; for example {\tt 1:5}.
+
+\item[body:] The statements inside the for loop that are run
+repeatedly.
+
+\item[sequence:] In mathematics, a set of numbers that correspond
+to the positive integers.
+
+\item[element:] A member of the set of numbers in a sequence.
+
+\item[recurrently:] A way of computing the next element of a sequence
+based on previous elements.
+
+\item[directly:] A way of computing an element in a sequence without
+using previous elements.
+
+\item[series:] The sum of the elements in a sequence.
+
+\item[accumulator:] A variable that is used to accumulate a result
+a little bit at a time.
+
+\item[generalization:] A way to make a program more versatile, for
+example by replacing a specific value with a variable that can have
+any value.
+
+\item[incremental development:] A way of programming by making a series
+of small, testable changes.
+
+\item[scaffolding:] Code you write to help you program or debug, but
+which is not part of the finished program.
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+Years ago I was in a fudge shop and saw a sign that said ``Buy one pound of fudge, get another quarter pound free.''  That's simple enough.
+
+But if I ran the fudge shop, I would offer a special deal to anyone who can solve the following problem:
+
+\begin{quote}
+If you buy a pound of fudge, we'll give you another quarter pound free.  And then we'll give you a quarter of a quarter pound, or 1/16.  And then we'll give you a quarter of that, and so on.  How much fudge would you get in total?
+\end{quote}
+
+Write a script called {\tt fudge.m} that solves this problem.  Hint: start with {\tt series.m} and generalize it by replacing the ratio {\tt 1/2} with a variable, {\tt r}.
+
+% fudge.m
+\end{ex}
+
+
+
+\begin{ex}
+\label{ex:fib2}
+
+We have already seen the Fibonacci sequence, $F$, which
+is defined recurrently as
+
+\[ for~~i \ge 3, ~~  F_{i} = F_{i-1} + F_{i-2} \]
+
+In order to get started, you have to specify the first two
+elements, but once you have those, you can compute the rest.
+The most common Fibonacci sequence starts with $F_1 = 1$ and $F_2 = 1$.
+
+Write a script called {\tt fibonacci2} that uses a for loop
+to compute the first 10 elements of this Fibonacci sequence.
+As a postcondition, your script should assign the 10th element to
+{\tt ans}.
+
+Now generalize your script so that it computes the $n$th element
+for any value of {\tt n}, with the precondition that you have to
+set {\tt n} before you run the script.  To keep things simple for
+now, you can assume that {\tt n} is greater than 0.
+
+Hint: you will have to use two variables to keep track of the
+previous two elements of the sequence.  You might want to call
+them {\tt prev1} and {\tt prev2}.  Initially, {\tt prev1 =} $F_1$
+and {\tt prev2 =} $F_2$.  At the end of the loop, you will have
+to update {\tt prev1} and {\tt prev2}; think carefully about the
+order of the updates!
+\end{ex}
+
+
+
+% chap04
+
+
+\end{document}

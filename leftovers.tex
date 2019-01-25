@@ -1,0 +1,217 @@
+
+
+% Leftover material that's been cut.
+
+But sometimes 
+if the error messages make
+suggestions about what to change,
+it can be risky to follow those suggestions.  If you do what you're told, you
+might make the error messages go away, but that doesn't mean the
+program will do the right thing.  MATLAB doesn't know what the program
+is {\em supposed} to do, but you should.
+
+And that brings us to the Eighth Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{8}
+\end{quote}
+
+
+\section{Dot and cross products}
+
+Multiplying a vector by a scalar is a straightforward operation;
+so is adding two vectors.  But multiplying two vectors is more
+subtle.  It turns out that there are two vector operations that
+resemble multiplication: the {\bf dot product}
+and the {\bf cross product}.
+
+The dot product of vectors $\vec{u}$ and $\vec{v}$ is a scalar:\index{Spatial vectors!dot product}
+
+\begin{equation}
+    \vec{u} \cdot \vec{v} = \norm{\vec{u}} \norm{\vec{v}} \cos \theta
+\end{equation}
+
+where $\theta$ is the smallest angle between $\vec{u}$ and
+$\vec{v}$. We already know how to compute magnitudes, and you could
+probably figure out how to compute $\theta$, but you don't have to.
+MATLAB provides a function, {\tt dot}, that computes dot products:
+
+\begin{code}
+d = dot(U, V)
+\end{code}
+
+{\tt dot} works in any number of dimensions, as long as {\tt U}
+and {\tt V} have the same number of elements.
+
+If one of the operands is a unit vector, you can use the dot
+product to compute the component of a vector $\vec{u}$ that is in
+the direction of a unit vector, $\uvec{r}$:
+
+\begin{code}
+s = dot(U, Rhat)
+\end{code}
+
+In this example, $s$ is the {\bf scalar projection} of $\vec{u}$
+onto $\uvec{r}$.  The {\bf vector projection} is the vector
+that has magnitude $s$ in the direction of $\uvec{r}$:
+
+\begin{code}
+V = dot(U, Rhat) * Rhat
+\end{code}
+
+The cross product of vectors $\vec{u}$ and $\vec{v}$ is a vector whose
+direction is perpendicular to $\vec{u}$ and $\vec{v}$
+(with orientation determined by the right-hand
+rule\footnote{\url{https://en.wikipedia.org/wiki/Right-hand_rule}})
+and whose magnitude is\index{Spatial vectors!cross product}
+
+\begin{equation}
+    \norm{\vec{u} \times \vec{v}} = \norm{\vec{u}} \norm{\vec{v}} \sin \theta
+\end{equation}
+
+where (again) $\theta$ is the smallest angle between $\vec{u}$ and
+$\vec{v}$. MATLAB provides a function, {\tt cross}, that computes cross
+products.
+
+\begin{code}
+C = cross(U, V)
+\end{code}
+
+{\tt cross} calculates the cross product of corresponding vectors along
+the first array dimension whose size equals 3.
+
+A common use of {\tt cross} is to compute torques.  If you represent
+a moment arm $\vec{R}$ and a force $\vec{F}$ as vectors with size equal
+to 3, then the torque is just
+
+\begin{code}
+Tau = cross(R, F)
+\end{code}
+
+If the components of {\tt R} are in meters and the components
+of {\tt F} are in Newtons, then the torques in {\tt Tau} are
+in Newton-meters.
+
+
+% \section{Scaling}
+
+% \section{Polar coordinates}
+
+\section{What is a model for?}
+
+In Section~\ref{sect:modeling} I defined a ``model'' as a simplified
+description of a physical system, and said that a good model
+lends itself to analysis and simulation, and makes predictions
+that are good enough for the intended purpose.
+
+Since then, we have seen a number of examples; now we can
+say more about what models are for.  The goals of a model tend
+to fall into three categories.
+
+\begin{description}
+
+\item[prediction:] Some models make predictions about physical
+systems.  As a simple example, the duck model in
+Exercise~\ref{ex:duck} predicts the level a duck floats at.  At the other
+end of the spectrum, global climate models try to predict the weather
+tens or hundreds of years in the future.
+
+\item[design:] Models are useful for engineering design, especially
+for testing the feasibility of a design and for optimization.  For
+example, in Exercise~\ref{ex:golf} you were asked to design the golf
+swing with the perfect combination of launch angle, velocity and spin.
+
+\item[explanation:] Models can answer scientific questions.  For
+example, the Lotka-Volterra model in Section~\ref{sect:lotka} offers a
+possible explanation of the dynamics of animal populations systems in
+terms of interactions between predator and prey species.
+
+\end{description}
+
+The exercises at the end of this chapter include one model of
+each type.
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[dot product:] A scalar product of two vectors, proportional to the
+norms of the vectors and the cosine of the smallest angle between them.
+
+\item[cross product:] A vector product of two vectors with norm
+proportional to the norms of the vectors and the sine of the angle
+between them, and direction perpendicular to both.
+
+\item[projection:] The component of one vector that is in the
+direction of the other (might be used to mean ``scalar projection'' or
+``vector projection'').
+
+\end{description}
+
+
+\chapter{Nested Functions}
+\label{chpt:nestedfuns}
+\index{Functions!nested}
+
+This appendix provides an alternative way to structure code that
+involves helper functions, which were discussed in Section~\ref{sect:funfiles};
+there, we saw an example of an M-file with more than one function:
+
+\begin{code}
+function res = duck()
+    error = error_func(10)
+end
+
+function res = error_func(h)
+    rho = 0.3;      % density in g / cm^3
+    r = 10;         % radius in cm
+    res = ...
+end
+\end{code}
+
+Because the first function ends before the second begins, these
+functions are at the same level of indentation.  Functions like
+these are parallel, as opposed to nested.  A nested function is
+defined inside another, like this:
+
+\begin{code}
+function res = duck()
+    error = error_func(10)
+
+    function res = error_func(h)
+        rho = 0.3;      % density in g / cm^3
+        r = 10;         % radius in cm
+        res = ...
+    end
+end
+\end{code}
+
+The function {\tt duck} is the enclosing function and {\tt
+error\_func} is the nested function.
+
+Nesting functions is useful because the variables of the outer
+function can be accessed from the inner function.  This is not
+possible with parallel functions.
+
+In this example, using a nested function makes it possible to
+move the parameters {\tt rho} and {\tt r} out of {\tt error\_func}.
+
+\begin{code}
+function res = duck(rho)
+    r = 10;
+    error = error_func(10)
+
+    function res = error_func(h)
+        res = ...
+    end
+end
+\end{code}
+
+Both {\tt rho} and {\tt r} can be accessed from {\tt error\_func}.
+By making {\tt rho} an input argument, we made it easier to test
+{\tt duck} with different parameter values.
+
+Nested functions can also help de-clutter code (but not always). For
+more information on nested functions, please consult the official documentation
+at \url{https://www.mathworks.com/help/matlab/matlab_prog/nested-functions.html}.

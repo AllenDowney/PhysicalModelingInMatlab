@@ -1,0 +1,958 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Functions}
+\label{chpt:functions}
+
+This chapter introduces the most important idea in computer programming: functions!
+
+\index{function}
+
+A {\bf function} is like a script, except
+
+\begin{itemize}
+
+\item Each function has its own workspace, so any variables defined
+inside a function only exist while the function is running, and don't
+interfere with variables in other workspaces, even if they have the
+same name.
+
+\item Function inputs and outputs are defined carefully to avoid
+unexpected interactions.
+
+\end{itemize}
+
+To define a new function, you create an M-file with the name you
+want, and put a function definition in it.  For example, to create
+a function named {\tt myfunc}, create an M-file named {\tt myfunc.m}
+and put the following definition into it.
+
+\index{M-file}
+\index{script}
+\index{function definition}
+
+\begin{code}
+function res = myfunc(x)
+    s = sin(x)
+    c = cos(x)
+    res = abs(s) + abs(c)
+end
+\end{code}
+
+The first non-comment word of the file has to be {\tt function}, because
+that's how MATLAB tells the difference between a script and a function
+file.
+
+\index{compound statement}
+\index{definition!function}
+
+A function definition is a compound statement.  The first line
+is called the {\bf signature} of the function; it defines
+the inputs and outputs of the function.  In this case the {\bf input variable} is named {\tt x}.  When this function is called, the
+argument provided by the user will be assigned to {\tt x}.
+
+\index{input variable}
+\index{variable!input}
+
+\index{output variable}
+\index{variable!output}
+
+The {\bf output variable} is named {\tt res}, which is short for
+``result''.  You can call the output variable whatever you want, but
+as a convention, I like to call it {\tt res}.  Usually the last
+thing a function does is assign a value to the output variable.
+
+\index{res@{\tt res}}
+\index{ans@{\tt ans}}
+
+Once you have defined a new function, you call it the same way you
+call built-in MATLAB functions.  If you call the function as a statement,
+MATLAB puts the result into {\tt ans}:
+
+\begin{code}
+>> myfunc(1)
+
+s = 0.84147098480790
+
+c = 0.54030230586814
+
+res = 1.38177329067604
+
+ans = 1.38177329067604
+\end{code}
+
+But it is more common (and better style) to assign the result to
+a variable:
+
+\begin{code}
+>> y = myfunc(1)
+
+s = 0.84147098480790
+
+c = 0.54030230586814
+
+res = 1.38177329067604
+
+y = 1.38177329067604
+\end{code}
+
+While you are debugging a new function, you might want to display
+intermediate results like this, but once it is working, you will want
+to add semi-colons to make it a {\bf silent function}.  Most built-in
+functions are silent; they compute a result, but they don't display
+anything (except sometimes warning messages).
+
+\index{silent function}
+\index{function!silent}
+\index{workspace}
+
+Each function has its own workspace, which is created when the
+function starts and destroyed when the function ends.  If you try to
+access (read or write) the variables defined inside a function, you
+will find that they don't exist.
+
+\begin{code}
+>> clear
+>> y = myfunc(1);
+>> who
+Your variables are: y
+
+>> s
+Undefined function or variable 's'.
+\end{code}
+
+The only value from the function that you can access is the result,
+which in this case is assigned to {\tt y}.
+
+If you have variables named {\tt s} or {\tt c} in your workspace
+before you call {\tt myfunc}, they will still be there when the
+function completes.
+
+\begin{code}
+>> s = 1;
+>> c = 1;
+>> y = myfunc(1);
+>> s, c
+
+s = 1
+c = 1
+\end{code}
+
+So inside a function you can use whatever variable names you
+want without worrying about collisions.
+
+\index{name collision}
+\index{collision!name}
+
+
+\section{Documentation}
+
+\index{documentation}
+\index{comment}
+
+At the beginning of every function file, you should include a comment
+that explains what the function does:
+
+\index{Documentation!functions}.
+
+\begin{code}
+% res = silent_myfunc(x)
+% Compute the Manhattan distance from the origin to the
+% point on the unit circle with angle (x) in radians.
+
+function res = silent_myfunc(x)
+% this is not part of documentation given by help function
+
+    s = sin(x);
+    c = cos(x);
+    res = abs(s) + abs(c);
+end
+\end{code}
+
+When you ask for {\tt help}, MATLAB prints the comment you provided at the top of the file.
+
+\index{help@{\tt help}}
+
+\begin{code}
+>> help silent_myfunc
+  res = silent_myfunc(x)
+  Compute the Manhattan distance from the origin to the
+  point on the unit circle with angle (x) in radians.
+\end{code}
+
+There are lots of conventions about what should be included
+in these comments.  Among other things, it is a good idea to
+include
+
+\begin{itemize}
+
+\item The signature of the function, which includes the name
+of the function, the input variable(s) and the output variable(s).
+
+\item A clear, concise, abstract description of what the function does.
+An {\bf abstract} description is one that leaves out the
+details of {\em how} the function works, and includes only information
+that someone using the function needs to know.  You can put additional
+comments inside the function that explain the details.
+
+\item An explanation of what the input variables mean; for example,
+in this case it is important to note that {\tt x} is considered
+to be an angle in radians.
+
+\item Any preconditions and postconditions.
+
+\end{itemize}
+
+\index{precondition}
+\index{postcondition}
+
+
+\section{What could go wrong?}
+\index{Functions!naming}
+
+There are a few ``gotchas'' that come up when you start defining functions.
+The first is that the ``real'' name of your function is determined by the file name, {\em not} by the name you put in the function signature.  As a matter of style, you
+should make sure that they are always the same, but if you
+make a mistake, or if you change the name of a function, it is
+easy to get confused.
+
+\index{function name}
+\index{name!function}
+
+In the spirit of making errors on purpose, change the name of
+the function in \verb"myfunc" to \verb"something_else", and
+then run it again.
+
+If this is what you put in \verb"myfunc.m":
+
+\begin{code}
+function res = something_else (x)
+    s = sin(x);
+    c = cos(x);
+    res = abs(s) + abs(c);
+end
+\end{code}
+
+Here's what you'll get:
+
+\begin{code}
+>> y = myfunc(1)
+y = 1.3818
+
+>> y = something_else(1)
+Undefined function or variable 'something_else'.
+\end{code}
+
+{\tt myfunc} still works because that's the name of the file.
+\verb"something_else" doesn't work because the name of the function is ignored.
+
+The second gotcha is that the name of the file can't have spaces.
+For example, if you write a function and rename the file to 
+{\tt my func.m},
+and then try to run it, you get:
+
+\begin{code}
+>> y = my func(1)
+ y = my func(1)
+        |
+Error: Unexpected MATLAB expression.
+\end{code}
+
+The third gotcha is that your function names can collide with built-in
+MATLAB functions.  For example, if you create an M-file named {\tt sum.m}, and then call {\tt sum}, MATLAB might call {\em your} new
+function, not the built-in version!  Which one actually gets called
+depends on the order of the directories in the search path, and
+(in some cases) on the arguments.  As an example, put the following
+code in a file named {\tt sum.m}:
+
+\index{name collision}
+\index{collision!name}
+
+\begin{code}
+function res = sum(x)
+   res = 7;
+end
+\end{code}
+
+And then try this:
+
+\begin{code}
+>> sum(1:3)
+
+ans = 6
+
+>> sum
+
+ans = 7
+\end{code}
+
+In the first case MATLAB used the built-in function; in the second
+case it ran your function!  This kind of interaction can be very
+confusing.  Before you create a new function, check to see if there is
+already a MATLAB function with the same name.  If there is, choose
+another name!
+
+
+\section{Multiple input variables}
+\label{sect:hypotenuse}
+
+\index{input variable}
+\index{variable!input}
+
+Functions can, and often do, take more than one input variable.
+For example, the following function takes two input variables,
+{\tt a} and {\tt b}:
+
+\begin{code}
+function res = hypotenuse(a, b)
+    res = (a^2 + b^2) ^ (1/2);
+end
+\end{code}
+  
+This function computes the length of the hypotenuse of a right
+triangle if the lengths of the adjacent sides are {\tt a}
+and {\tt b}.
+
+If we call it from the {\sf Command Window} with arguments 3 and 4, we can
+confirm that the length of the third side is 5.
+
+\begin{code}
+>> c = hypotenuse(3, 4)
+c = 5
+\end{code}
+
+The arguments you provide are assigned to the input variables in
+order, so in this case 3 is assigned to {\tt a} and 4 is assigned to
+{\tt b}.  MATLAB checks that you provide the right number of arguments;
+if you provide too few, you get
+
+\begin{code}
+>> c = hypotenuse(3)
+Not enough input arguments.
+
+Error in hypotenuse (line 2)
+    res = (a^2 + b^2) ^ (1/2);
+\end{code}
+
+This error message is slightly confusing, because it suggests that
+the problem is in {\tt hypotenuse} rather than in the function call.
+Keep that in mind when you are debugging.
+
+If you provide too many arguments, you get
+
+\begin{code}
+>> c = hypotenuse(3, 4, 5)
+Error using hypotenuse
+Too many input arguments.
+\end{code}
+
+Which is a better message.
+
+
+\section{Logical functions}
+
+In Section~\ref{sect:logop} we used logical operators to compare values.
+MATLAB also provides {\bf logical functions} that check for certain
+conditions and return logical values: 1 for ``true'' and 0 for ``false''.
+
+\index{logical function}
+\index{function!logical}
+\index{logical value}
+\index{value!logical}
+
+For example, {\tt isprime} checks to see whether a number is prime.
+
+\begin{code}
+>> isprime(17)
+ans = 1
+
+>> isprime(21)
+ans = 0
+\end{code}
+
+The functions {\tt isscalar} and {\tt isvector} check whether
+a value is a scalar or vector.
+
+To check whether a value you have computed is an integer, you might
+be tempted to use {\tt isinteger}.  But that would be wrong, so very
+wrong.  {\tt isinteger} checks whether a value belongs to one of
+the integer types (a topic we have not discussed); it doesn't check
+whether a floating-point value happens to be integral.
+
+\begin{code}
+>> c = hypotenuse(3, 4)
+c = 5
+
+>> isinteger(c)
+ans = 0
+\end{code}
+
+To do that, we have to write our own logical function, which
+we'll call {\tt isintegral}:
+
+\begin{code}
+function res = isintegral(x)
+    if round(x) == x
+        res = 1;       % or... res = true
+    else
+        res = 0;       % or... res = false
+    end
+end
+\end{code}
+
+This function is good enough for many applications, but remember
+that floating-point values are only approximately right:
+sometimes the approximation is an integer when the actual value is not; 
+sometimes the approximation is not an integer when the actual value is.
+
+\index{floating-point}
+
+
+\section{Incremental development}
+\label{sect:increxample}
+
+Suppose we want to write a program to search for ``Pythagorean
+triples'': sets of integral values, like 3, 4, and 5,
+that are the lengths of the sides of a right triangle.  In other
+words, we would like to find integral values $a$, $b$, and $c$ such
+that $a^2 + b^2 = c^2$.
+
+\index{Pythagorean triple}
+\index{incremental development}
+
+Here are the steps we will follow to develop the program incrementally:
+
+\begin{itemize}
+
+\item Write a script named {\tt find\_triples} and start with a simple
+statement like {\tt x=5}.
+
+\item Write a loop that enumerates values of $a$ from 1 to 3, and
+displays them.
+
+\item Write a nested loop that enumerates values of $b$ from 1 to 4,
+and displays them.
+
+\item Inside the loop, call {\tt hypotenuse} to compute $c$ and
+display it.
+
+\item Use {\tt isintegral} to check whether $c$ is an integral
+value.
+
+\item Use an if statement to print only the triples $a$, $b$, and $c$
+that pass the test.
+
+\item Transform the script into a function.
+
+\item Generalize the function to take input variables that
+specify the range to search.
+
+\end{itemize}
+
+Starting with {\tt x=5} might seem
+silly, but if you start simple and add a little bit at a time, you
+will avoid a lot of debugging.
+
+Here's the second draft:
+
+\begin{code}
+for a=1:3
+    a
+end
+\end{code}
+
+At each step, the program is testable: it produces output (or another
+visible effect) that you can check.
+
+
+\section{Nested loops}
+
+\index{nested loop}
+\index{loop!nested}
+
+The third draft contains a nested loop:
+
+\begin{code}
+for a=1:3
+    a
+    for b=1:4
+        b
+    end
+end
+\end{code}
+
+The inner loop gets executed 3 times, once for each value of {\tt a},
+so here's what the output looks like (I adjusted the spacing to make
+the structure clear):
+
+\begin{code}
+>> find_triples
+
+a = 1   b = 1
+        b = 2
+        b = 3
+        b = 4
+
+a = 2   b = 1
+        b = 2
+        b = 3
+        b = 4
+
+a = 3   b = 1
+        b = 2
+        b = 3
+        b = 4
+\end{code}
+
+The next step is to compute $c$ for each pair of values $a$ and $b$.
+
+\begin{code}
+for a=1:3
+    for b=1:4
+        c = hypotenuse(a, b);
+        [a, b, c]
+    end
+end
+\end{code}
+
+To display the values of {\tt a}, {\tt b}, and {\tt c}, I store them in a vector; here's what the output looks like:
+
+\begin{code}
+>> find_triples
+
+ans = 1.0000    1.0000    1.4142
+ans = 1.0000    2.0000    2.2361
+ans = 1.0000    3.0000    3.1623
+ans = 1.0000    4.0000    4.1231
+ans = 2.0000    1.0000    2.2361
+ans = 2.0000    2.0000    2.8284
+ans = 2.0000    3.0000    3.6056
+ans = 2.0000    4.0000    4.4721
+ans = 3.0000    1.0000    3.1623
+ans = 3.0000    2.0000    3.6056
+ans = 3.0000    3.0000    4.2426
+ans = 3         4         5
+\end{code}
+
+You might notice that we are wasting some effort here.
+After checking $a=1$ and $b=2$, there is no point in checking
+$a=2$ and $b=1$.  We can eliminate the extra work by adjusting the
+range of the second loop:
+
+\begin{code}
+for a=1:3
+    for b=a:4
+        c = hypotenuse(a, b);
+        [a, b, c]
+    end
+end
+\end{code}
+
+If you are following along, run this version to make sure it has
+the expected effect.
+
+
+\section{Conditions and flags}
+
+\index{condition}
+\index{flag}
+
+The next step is to check for integral values of $c$.  This
+loop calls {\tt isintegral} and prints the resulting logical
+value.
+
+\begin{code}
+for a=1:3
+    for b=a:4
+        c = hypotenuse(a, b);
+        flag = isintegral(c);
+        [c, flag]
+    end
+end
+\end{code}
+
+By not displaying {\tt a} and {\tt b} I made it easy to scan the
+output to make sure that the values of {\tt c} and {\tt flag}
+look right.
+
+\begin{code}
+>> find_triples
+
+ans = 1.4142         0
+ans = 2.2361         0
+ans = 3.1623         0
+ans = 4.1231         0
+ans = 2.8284         0
+ans = 3.6056         0
+ans = 4.4721         0
+ans = 4.2426         0
+ans = 5              1
+\end{code}
+
+The next step is to use {\tt flag} to display only the successful
+triples:
+
+\begin{code}
+for a=1:3
+    for b=a:4
+        c = hypotenuse(a, b);
+        flag = isintegral(c);
+        if flag
+            [a, b, c]
+        end
+    end
+end
+\end{code}
+
+Now the output is minimal:
+
+\begin{code}
+>> find_triples
+
+ans = 3     4     5
+\end{code}
+
+
+
+
+\section{Encapsulation and generalization}
+
+As a script, this program has the side-effect of assigning values to
+{\tt a}, {\tt b}, {\tt c}, and {\tt flag}, which would make it hard to
+use if any of those names were in use.  
+By wrapping the code in a function, we can avoid name collisions; this process is called {\bf encapsulation} because it isolates this program from the workspace.
+
+\index{encapsulation}
+\index{generalization}
+
+The first draft of the function takes no input variables:
+
+\begin{code}
+function res = find_triples ()
+    for a=1:3
+        for b=a:4
+            c = hypotenuse(a, b);
+            flag = isintegral(c);
+            if flag
+                [a, b, c]
+            end
+        end
+    end
+end
+\end{code}
+
+The empty parentheses in the signature are not strictly necessary, but
+they make it apparent that there are no input variables.  Similarly,
+when I call the new function, I like to use parentheses to remind me
+that it is a function, not a script:
+
+\begin{code}
+>> find_triples()
+\end{code}
+
+The output variable isn't strictly necessary, either; it
+never gets assigned a value.  But I put it there as a matter of
+habit, and also so my function signatures all have the same structure.
+
+\index{output variable}
+\index{variable!output}
+
+The next step is to generalize this function by adding input
+variables.  The natural generalization is to replace the constant
+values 3 and 4 with a variable so we can search an arbitrarily large
+range of values.
+
+\begin{code}
+function res = find_triples (n)
+    for a=1:n
+        for b=a:n
+            c = hypotenuse(a, b);
+            flag = isintegral(c);
+            if flag
+                [a, b, c]
+            end
+        end
+    end
+end
+\end{code}
+
+Here are the results for the range from 1 to 15:
+
+\begin{code}
+>> find_triples(15)
+
+ans = 3     4     5
+ans = 5    12    13
+ans = 6     8    10
+ans = 8    15    17
+ans = 9    12    15
+\end{code}
+
+Some of these are more interesting than others.  The triples
+$5,12,13$ and $8,15,17$ are ``new,'' but the others are just
+multiples of the $3,4,5$ triangle we already knew.
+
+
+%\section{A misstep}
+%
+%When you change the signature of a function, you have to change
+%the places that call the function, too.  For example, suppose
+%you decide to add a third input variable to {\tt hypotenuse}:
+%
+%% wcs -- talk about copying from a different file using copyfile
+%% (and waiting after copying the file)
+%% ABD: not sure what you are getting at here.
+%
+%\begin{code}
+%function res = hypotenuse(a, b, d)
+%    res = (a^d + b^d) ^ (1/d);
+%end
+%\end{code}
+%
+%When {\tt d} is 2, the function does the same thing it did before.  There is no practical reason to generalize the function in this way; it's just
+%an example.  Now when you run {\tt find\_triples}, you get:
+%
+%\begin{code}
+%>> find_triples(20)
+%Not enough input arguments.
+%
+%Error in hypotenuse (line 2)
+%    res = (a^d + b^d)^(1/d);
+%
+%Error in find_triples (line 7)
+%            c = hypotenuse(a, b);
+%\end{code}
+%
+%So that makes it pretty easy to find the error.  
+%
+%% ABD: I removed the 8th theorem of debugging here because the error
+%% message no longer makes a suggestion, right or wrong
+
+
+\section{{\tt continue}}
+
+\index{continue@{\tt continue}}
+
+As a final improvement, let's modify the function so it only
+displays the ``lowest'' of each Pythagorean triple, and not the
+multiples.
+
+The simplest way to eliminate the multiples is to check whether
+$a$ and $b$ share a common factor.  If they do, dividing both
+by the common factor yields a smaller, similar triangle that has
+already been checked.
+
+\index{gcd function@{\tt gcd} function}
+\index{function!{\tt gcd}}
+
+MATLAB provides a {\tt gcd} function that computes the greatest common
+divisor of two numbers.  If the result is greater than 1,
+$a$ and $b$ share a common factor and we can use the {\tt continue}
+statement to skip to the next pair:
+
+\begin{code}
+function res = find_triples (n)
+    for a=1:n-1
+        for b=a:n
+            if gcd(a,b) > 1
+                continue
+            end
+            c = hypotenuse(a, b);
+            if isintegral(c)
+                [a, b, c]
+            end
+        end
+    end
+end
+\end{code}
+
+{\tt continue} causes the program to end the current iteration
+immediately, jump to the top of the loop, and ``continue'' with the next iteration.
+
+In this case, since there are two loops, it might not be obvious which loop to jump to, but the rule is to jump to the inner-most loop (which is what we want).
+
+\index{flag}
+
+I also simplified the program slightly by eliminating {\tt flag} and using {\tt isintegral} as the condition of the {\tt if} statement.
+
+Here are the results with {\tt n=40}:
+
+\begin{code}
+>> find_triples(40)
+
+ans =  3     4     5
+ans =  5    12    13
+ans =  7    24    25
+ans =  8    15    17
+ans =  9    40    41
+ans = 12    35    37
+ans = 20    21    29
+\end{code}
+
+
+
+
+
+\section{Mechanism and leap of faith}
+
+\index{function call}
+\index{leap of faith}
+
+Let's review the sequence of steps that occur when you call a function:
+
+\begin{enumerate}
+
+\item Before the function starts running, MATLAB creates a new
+workspace for it.
+\index{workspace}
+
+\item MATLAB evaluates each of the arguments and assigns
+the resulting values, in order, to the input variables (which
+live in the {\em new} workspace).
+
+\item The body of the code executes.  Somewhere in the body
+(often the last line) a value gets assigned to the output variable.
+
+\item The function's workspace is destroyed; the only thing
+that remains is the value of the output variable and any side
+effects the function had (like displaying values or creating
+a figure).
+
+\item The program resumes from where it left off.  The value
+of the function call is the value of the output variable.
+
+\end{enumerate}
+
+When you are reading a program and you come to a function call,
+there are two ways to interpret it:
+
+\begin{itemize}
+
+\item You can think about the mechanism I just described,
+and follow the execution of the program into the function and back, or
+
+\item You can take the ``leap of faith'': assume that the function
+works correctly, and go on to the next statement after the function call.
+
+\end{itemize}
+
+When you use built-in functions, it is natural to take the leap
+of faith, in part because you expect that most
+MATLAB functions work, and in part because you don't
+generally have access to the code in the body of the function.
+
+But when you start writing your own functions, you will probably
+find yourself following the ``flow of execution''.  This can
+be useful while you are learning, but as you gain experience, you
+should get more comfortable with the idea of writing a function,
+testing it to make sure it works, and then forgetting about the
+details of how it works.
+
+\index{flow of execution}
+\index{abstraction}
+
+Forgetting about details is called {\bf abstraction}; in the context
+of functions, abstraction means forgetting about {\em how} a function
+works, and just assuming (after appropriate testing) that it works.
+
+
+\section{Why functions?}
+
+\index{function!reasons for}
+
+For many people, it takes some time to get comfortable with functions.  If you are one of them, you might be tempted to avoid functions, and sometimes you can get by without them.
+
+But experienced programmers use functions extensively, for several good reasons:
+
+\begin{itemize}
+
+\item Each function has its own workspace, so using functions helps
+avoid name collisions.
+
+\item Functions lend themselves to incremental development: you can
+debug the body of the function first (as a script), then encapsulate
+it as a function, and then generalize it by adding input variables.
+
+\item Functions allow you to divide a large problem into small
+pieces, work on the pieces one at a time, and then assemble a
+complete solution.
+
+\item Once you have a function working, you can forget about the
+details of how it works and concentrate on what it does.  This
+process of abstraction is an important tool for managing the
+complexity of large programs.
+
+\end{itemize}
+
+Another reason to use functions is that many of the tools provided by MATLAB require them.
+For example, in the next chapter we will use {\tt fzero} to find solutions of nonlinear equations.  Later we will use {\tt ode45} to approximate solutions to
+differential equations.
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[side-effect:] An effect, like modifying the workspace, that
+is not the primary purpose of a script.
+
+\item[input variable:] A variable in a function that gets its value,
+when the function is called, from one of the arguments.
+
+\item[output variable:] A variable in a function that is used to
+return a value from the function to the caller.
+
+\item[signature:] The first line of a function definition, which
+specifies the names of the function, the input variables and the
+output variables.
+
+\item[silent function:] A function that doesn't display anything
+or generate a figure, or have any other side-effects.
+
+\item[logical function:] A function that returns a logical value
+(1 for ``true'' or 0 for ``false'').
+
+\item[encapsulation:] The process of wrapping part of a program in
+a function in order to limit interactions (including name collisions)
+between the function and the rest of the program.
+
+\item[generalization:] Making a function more versatile by replacing
+specific values with input variables.
+
+\item[abstraction:] The process of ignoring the details of how
+a function works in order to focus on a simpler model of what the
+function does.
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+\index{Fibonacci number}
+\index{Pythagorean triple}
+
+There is an interesting connection between Fibonacci numbers and
+Pythagorean triples.  If $F$ is a Fibonacci sequence,
+
+\begin{equation}
+(F_i F_{i+3}, 2 F_{i+1} F_{i+2}, F_{i+1}^2 + F_{i+2}^2 )
+\end{equation}
+
+is a Pythagorean triple, for all $i \ge 1$.
+
+Write a function named {\tt fib\_triple} that
+takes {\tt n} as an input variable and computes 
+the first {\tt n} Fibonacci numbers, and stores them in a vector,
+then checks whether this formula produces a Pythagorean triple for all {\tt i} such that $ 1 \leq i \leq n-3 $
+
+% fib_triple.m
+\end{ex}
+
+
+
+% chap06
+
+
+\end{document}

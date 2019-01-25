@@ -1,0 +1,257 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Case studies}
+
+This chapter includes additional exercises where you can apply what you have learned.
+
+\section{Celestial mechanics}
+
+\index{celestial mechanics}
+\index{mechanics!celestial}
+
+{\bf Celestial mechanics} describes how objects move in outer space.
+If you did Exercise~\ref{ex:earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now we'll simulate the Earth orbiting the Sun in two dimensions.
+
+\index{Earth}
+\index{Sun}
+
+To keep things simple, we'll consider only the effect of the Sun on the Earth, and ignore the effect of the Earth on the Sun.  So we'll place the Sun at the origin and use a spatial vector, $\vec{P}$, to represent the position of the Earth relative to the Sun.
+
+\index{position}
+\index{spatial vector}
+\index{mass}
+\index{Law of universal gravitation}
+
+Given the mass of the Sun, $m1$, and the mass of the Earth, $m2$, the gravitational force between them is
+
+\begin{equation*}
+\vec{F_g} = -G \frac{m_1 m_2}{r^2} \uvec{P}
+\end{equation*}
+
+where $G$ is the universal gravitational constant\footnote{See \url{https://en.wikipedia.org/wiki/Gravity}.},
+$r$ is the distance of Earth from the Sun, and
+$\uvec{P}$ is a unit vector in the direction of $\vec{P}$.
+
+\index{universal gravitation constant}
+
+Write a simulation of Earth orbiting the Sun.  You can look up the orbital velocity of the Earth, or search for the initial velocity that causes the earth to make one complete orbit in one year.  Optionally, use {\tt fminsearch} to find the velocity that gets the Earth as close as possible to the starting place after one year.
+
+\index{velocity}
+\index{fminsearch{\tt fminsearch}}
+
+
+\section{Conservation of Energy}
+
+A useful way to check the accuracy of an ODE solver is to see whether it conserves energy.  For planetary motion, it turns out that {\tt ode45} does not.
+
+\index{ode45@{\tt ode45}}
+\index{conservation of energy}
+\index{energy}
+\index{kinetic energy}
+\index{potential energy}
+
+The kinetic energy of a moving body is
+
+\begin{equation*}
+KE = m v^2 / 2
+\end{equation*}
+
+The potential energy of a sun with mass $m_1$ and a
+planet with mass $m_2$ and a distance $r$ between them is
+
+\begin{equation}
+PE = -G \frac{m_1 m_2}{r}
+\end{equation}
+
+Write a function called {\tt energy\_func} that takes the output of
+your Earth simulation and computes the total
+energy (kinetic and potential) of the system for each estimated
+position and velocity.
+
+Plot the result as a function of time and
+check whether it increases or  decreases over the course of the simulation.
+
+\index{tolerance}
+\index{odeset@{\tt odeset}}
+
+You can reduce the rate of energy loss by decreasing {\tt ode45}'s
+tolerance option using {\tt odeset} (see Section~\ref{sect:events}):
+
+\begin{code}
+options = odeset('RelTol', 1e-5);
+[T, M] = ode45(@rate_func, tspan, W, options);
+\end{code}
+
+The name of the option is {\tt RelTol} for ``relative tolerance.''
+The default value is {\tt 1e-3} or 0.001.  Smaller values
+make {\tt ode45} less ``tolerant,'' so it does more work to
+make the errors smaller.
+
+\index{RelTol@{\tt RelTol}}
+
+Run {\tt ode45} with a range of values for {\tt RelTol} and confirm
+that as the tolerance gets smaller, the rate of energy loss
+decreases.
+
+\index{ode23@{\tt ode23}}
+
+Along with {\tt ode45}, MATLAB provides several other ODE solvers (see \url{https://www.mathworks.com/help/matlab/math/choose-an-ode-solver.html}).
+Run your simulation with one of the other ODE solvers MATLAB provides
+and see if any of them conserve energy.  You might find that {\tt ode23} works surprisingly well (although technically it does not conserve energy either).
+
+
+\section{Bungee jumping}
+\label{bungee}
+
+\index{bungee jump}
+\index{cookie}
+\index{tea}
+
+Suppose you want to set the world record for the highest ``bungee dunk", which is a stunt in which a bungee jumper dunks a cookie in a cup of tea at the lowest point of a jump.  An example is shown in this video: \url{http://modsimpy.com/dunk}.
+
+Since the record is \SI{70}{\meter}, let's design a jump for \SI{80}{\meter}.  We'll start with the following modeling assumptions:
+
+\begin{itemize}
+
+\item  Initially the bungee cord hangs from a crane with the attachment point \SI{80}{\meter} above a cup of tea.
+
+\item Until the cord is fully extended, it applies no force to the jumper.  It turns out this might not be a good assumption; we will revisit it.
+
+\item After the cord is fully extended, it obeys Hooke's Law; that is, it applies a force to the jumper proportional to the extension of the cord beyond its resting length.  See \url{http://modsimpy.com/hooke}. 
+
+\item The mass of the jumper is \SI{75}{\kilogram}.
+
+\item The jumper is subject to drag force, as in the previous model, so that their terminal velocity is \SI{60}{\meter \per \second}.
+
+\end{itemize}
+
+Our objective is to choose the length of the cord, {\tt L}, and its spring constant, {\tt k}, so that the jumper falls all the way to the tea cup, but no farther!
+
+\index{spring constant}
+
+%TODO: do we ever present Hooke's law?
+
+We'll start with the length of the bungee cord, {\tt L} at \SI{25}{\meter} and spring constant, {\tt k} at \SI{40}{\newton \per \meter}.
+
+Assume that the jumper has a cross-sectional area of \SI{1}{\meter} and a terminal velocity of \SI{60}{\meter\per\second}, and weighs \SI{75}{\kilogram}.
+
+
+\section{Bungee revisited}
+
+\index{bungee jump}
+
+In the previous case study we simulated a bungee jump with a model that took into account gravity, air resistance, and the spring force of the bungee cord, but we ignored the weight of the cord.
+
+\index{bungee jump}
+\index{bungee cord}
+
+It is tempting to say that the cord has no effect because it falls along with the jumper, but that intuition is incorrect.  As the cord falls, it transfers energy to the jumper.
+
+\index{acceleration}
+
+At \url{http://modsimpy.com/bungee} you'll find a paper\footnote{Heck, Uylings, and Kędzierska, ``Understanding the physics of bungee jumping", Physics Education, Volume 45, Number 1, 2010.} that explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
+%
+\[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
+%
+where $g$ is acceleration due to gravity, $L$ is the length of the cord, and $\mu$ is the ratio of the mass of the cord, $m$, and the mass of the jumper, $M$.
+
+If you don't believe that their model is correct, this video might convince you: \url{http://modsimpy.com/drop}.
+
+Modify your solution to the previous problem to model this effect.  How does the behavior of the system change as we vary the mass of the cord?  When the mass of the cord equals the mass of the jumper, what is the net effect on the lowest point in the jump?
+
+
+\section{Spider-Man}
+
+In this case study we'll develop a model of Spider-Man swinging from a
+springy cable of webbing attached to the top of the Empire State
+Building.  Initially, Spider-Man is at the top of a nearby building, as
+shown in Figure~\ref{spiderman}.
+
+\index{Spider-Man}
+\index{Empire State Building}
+
+\begin{figure}
+\centerline{\includegraphics[height=2.5in]{book/figs/spiderman.pdf}}
+\caption{Diagram of the initial state for the Spider-Man case study.}
+\label{spiderman}
+\end{figure}
+
+The origin, {\tt O}, is at the base of the Empire State Building. The
+vector {\tt H} represents the position where the webbing is attached
+to the building, relative to {\tt O}. The vector {\tt P} is the
+position of Spider-Man relative to {\tt O}. And {\tt L} is the
+vector from the attachment point to Spider-Man.
+
+\index{vector addition}
+\index{addition!vector}
+
+By following the arrows from {\tt O}, along {\tt H}, and along
+{\tt L}, we can see that
+
+\begin{code}
+H + L = P
+\end{code}
+
+So we can compute {\tt L} like this:
+
+\begin{code}
+L = P - H
+\end{code}
+
+The goals of this case study are:
+
+\begin{enumerate}
+
+\item
+  Implement a model of this scenario to predict Spider-Man's trajectory.
+
+\index{trajectory}
+
+\item
+  Choose the right time for Spider-Man to let go of the webbing in order
+  to maximize the distance he travels before landing.
+
+\index{range}
+
+\item
+  Choose the best angle for Spider-Man to jump off the building, and the best time to let go of the webbing, to maximize range.
+
+\index{optimization}  
+  
+\end{enumerate}
+
+We'll use the following parameters:
+
+\index{parameter}
+
+\begin{enumerate}
+
+\item According to the Spider-Man Wiki\footnote{\url{http://modsimpy.com/spider}}, Spider-Man weighs \SI{76}{\kg}.
+
+\item
+  Let's assume his terminal velocity is \SI{60}{\meter\per\second}.
+
+\index{terminal velocity}
+
+\item
+  The length of the web is \SI{100}{\meter}.
+
+\item
+  The initial angle of the web is \SI{45}{\degree} to the left of straight
+  down.
+
+\item
+  The spring constant of the web is \SI{40}{\newton\per\meter} when the cord is stretched, and 0 when it's compressed.
+  
+\index{spring constant}
+
+\end{enumerate}
+
+
+
+%chap14
+
+
+\end{document}

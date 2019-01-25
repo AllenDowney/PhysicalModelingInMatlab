@@ -1,0 +1,590 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Scripts}
+
+In this chapter we introduce scripts, floating-point numbers, and as a warm-up exercise, Fibonacci numbers.
+
+
+\section{M-files}\index{Scripts!M-files}
+\label{sect:M-files}
+
+So far we have typed all of our programs ``at the prompt'', which is
+fine if you are not writing more than a few lines.  Beyond that,
+you will want to store your program in a {\bf script} and then
+execute the script.
+
+\index{script}
+\index{m-file}
+\index{file extension}
+
+A script is a file that contains MATLAB code.  These files are
+also called ``M-files'' because they use the extension {\tt .m},
+which is short for MATLAB.
+
+You can create and edit scripts with any text editor or word processor, but the simplest way is by clicking the {\sf New Script} button in the upper left corner.  A window appears running a text editor specially designed for MATLAB.
+
+Type the following code in the editor:
+
+\begin{code}
+x = 5
+\end{code}
+
+Then press the {\sf Save} button.  A dialog window should appears where you
+can choose the file name and the folder where it should go.  Change
+the name to {\tt myscript.m} and save it into any folder you like.
+
+Now press the green {\sf Run} button.  You might get a message that says the script is not found in the current folder.  
+If so, click the button that says {\sf Change Folder} and it should run.
+
+\index{Command Window}
+
+You can also run your script from the Command Window: type {\tt myscript} at the prompt and press Enter.  
+MATLAB executes your script and displays the result.
+
+\begin{code}
+>> myscript
+x = 5
+\end{code}
+
+When you run a script, MATLAB executes the commands in the M-File, one
+after another, exactly as if you had typed them at the prompt.
+
+When you run a script, you should not include the extension {\tt .m}.  If you try, you will get an error message like this:
+
+\begin{code}
+>> myscript.m
+Undefined variable "myscript" or class "myscript.m".
+\end{code}
+
+When you name a new script, try to choose something meaningful and memorable. 
+
+Do not choose a name that is not already in use; if you do, you will replace one of MATLAB's functions with your own (at least temporarily).
+You might not notice right away, but you might get some confusing behavior later.
+
+\index{script file name}
+
+Also, the name of the script cannot contain spaces.  If you create
+a file named {\tt my script.m}, MATLAB will complain when you try
+to run it:
+
+\begin{code}
+>> my script
+Undefined function or variable 'my'.
+\end{code}
+
+Keeping track of your scripts can be a pain.  To keep things simple,
+for now, I suggest putting all of your scripts in one folder.
+
+
+\section{Why scripts?}
+
+The most common reasons to use scripts are:
+
+\index{script!reasons for}
+
+\begin{itemize}
+
+\item When you are writing more than a couple of lines of code, it
+might take a few tries to get everything right.  Putting your code
+in a script makes it easier to edit than typing it at the prompt.
+
+\item If you choose good names for your scripts, you will be able
+to remember which script does what, and you might be able to reuse
+a script from one project to the next.
+
+\item If you run a script repeatedly, it is faster to type the
+name of the script than to retype the code!
+
+\end{itemize}
+
+But the great power of scripts comes with great responsibility:
+you have to make sure that the code you are running is the code you think you are running.
+
+Whenever you start a new script, start with something simple,
+like {\tt x=5}, that produces a visible effect.  Then run your script
+and confirm that you get what you expect.
+
+When you type the name of a script, MATLAB searches for the script in a {\bf search path}, which is a sequence of folders.  If it doesn't find the script in the first folder, it searches the second, and so on.
+If you have scripts with the same name in different folders, you could be looking at one version and running another.
+
+\index{search path}
+\index{folder}
+
+\index{debugging!Third Theorem}
+
+If the code you are running is not the code you are looking
+at, you will find debugging a frustrating exercise!  And that brings
+us to the Third Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{3}
+\end{quote}
+
+
+\section{Fibonacci}
+
+\index{Fibonacci number}
+\index{sequence!Fibonacci}
+
+The Fibonacci sequence, denoted $F$, is described by the equations
+$F_1 = 1$, $F_2 = 1$, and for $i > 2$, $F_{i} = F_{i-1} + F_{i-2}$.
+The following expression computes the $n$th Fibonacci number:
+%
+\begin{equation*}
+F_n = \frac{1}{\sqrt{5}}
+\left[
+\left( \frac{1 + \sqrt{5}}{2} \right)^{n} -
+\left( \frac{1 - \sqrt{5}}{2} \right)^{n}
+\right]
+\end{equation*}
+%
+We can translate this expression into MATLAB, like this:
+
+\begin{code}
+s5 = sqrt(5);
+t1 = (1 + s5) / 2;
+t2 = (1 - s5) / 2;
+diff = t1^n - t2^n;
+ans = diff / s5
+\end{code}
+
+I use temporary variables like {\tt t1} and {\tt t2} to make the code readable and the order of operations explicit.  The first four lines have a semi-colon at the end, so they don't display anything.  The last line assigns the result to {\tt ans}.
+
+\index{semi-colon}
+
+If we save this script in a file named {\tt fibonacci1.m}, we can run it like this:
+
+\begin{code}
+>> n = 10
+>> fibonacci1
+ans = 55.0000
+\end{code}
+
+Before calling this script, you have to assign a value to {\tt n}.
+If {\tt n} is not defined, you get an error:
+
+\begin{code}
+>> clear n
+>> fibonacci1
+Undefined function or variable 'n'.
+
+Error in fibonacci1 (line 9)
+diff = t1^n - t2^n;
+\end{code}
+
+This script only works if there is a variable named {\tt n} in the workspace; otherwise, you get an error.
+
+\index{workspace}
+
+MATLAB tells you what line of the script the error is in, and displays the line.
+
+\index{debugging!Fourth Theorem}
+
+This information can be helpful, but beware!  MATLAB is telling you
+where the error was discovered, not where the error is.  In this
+case, the error is not in the script at all, which brings us to the Fourth Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{4}
+\end{quote}
+
+Often you have to work backwards to find the source of the problem.
+
+
+\section{Floating-point numbers}
+
+MATLAB uses IEEE double-precision floating-point numbers, which are accurate to about 15 digits of precision.  Most integers can be represented exactly, but most fractions cannot.
+
+\index{floating-point}
+\index{number!floating-point}
+
+For example, if you compute the fraction {\tt 2/3}:
+
+\begin{code}
+>> 2/3
+ans = 0.6666
+\end{code}
+
+The result is only approximate --- the correct answer has an infinite number of 6s. 
+
+It's not as bad as this example makes it seem: MATLAB stores more digits than it shows by default.
+You can change the output format to see more digits.
+
+\index{format@{\tt format}}
+
+\begin{code}
+>> format long
+>> 2/3
+ans = 0.666666666666667
+\end{code}
+
+In this example, the first 14 digits are correct; the last one has been rounded off.
+
+\index{scientific notation}
+\index{factorial@{\tt factorial}}
+
+Large and small numbers are displayed in scientific notation.  For example, if we use the built in function {\tt factorial} to compute $50!$, we get the following result:
+
+\begin{code}
+>> factorial(50)
+ans = 3.041409320171338e+64
+\end{code}
+
+The {\tt e} in this notation is {\em not} the transcendental number
+known as $e$; it is just an abbreviation for ``exponent''.  So
+this means that $50!$ is approximately $3.04 \times 10^{64}$.  The
+exact solution is a 65-digit integer, but with double-precision floating-point 
+we only know the first 16 digits.
+
+\index{transcendental number}
+\index{exponent}
+
+%If you have the MATLAB Symbolic Math Toolbox installed, you can use a 
+%different number representation for the calculation and see all the digits of 
+%the result:
+%
+%\begin{code}
+%>> sym(factorial(50))
+%ans = 30414093201713375576366966406747986832057064836514787179557289984
+%\end{code}
+%
+%Compared to the floating-point result, the symbolic result takes substantially more time to compute and space to store in memory.
+%In this book, we focus on floating-point computation rather than symbolic computation.
+
+You can also enter numbers using scientific notation.
+
+\begin{code}
+>> speed_of_light = 3.0e8
+speed_of_light = 300000000
+\end{code}
+
+Although floating-point can represent very large and small numbers, 
+there are limits.  
+The predefined variables {\tt realmax} and {\tt realmin}
+contain the largest and smallest number magnitudes that MATLAB 
+can handle.
+
+\index{realmin@{\tt realmin}}
+\index{realmax@{\tt realmax}}
+
+\begin{code}
+>> realmax
+ans = 1.797693134862316e+308
+
+>> realmin
+ans = 2.225073858507201e-308
+\end{code}
+
+%Actually, MATLAB can handle a some numbers with magnitude smaller than 
+%{\tt realmin}, but with fewer digits of precision.
+%
+%\begin{code}
+%>> 1e-323
+%ans = 9.881312916824931e-324
+%\end{code}
+
+If a number is too small, MATLAB ``rounds down'' to zero.
+
+\begin{code}
+>> 1e-324
+ans = 0
+\end{code}
+
+If a number -- perhaps the result of a computation -- is too big, 
+MATLAB ``rounds up'' to infinity.
+
+\index{Inf@{\tt Inf}}
+
+\begin{code}
+>> factorial(170)
+ans = 7.257415615307994e+306
+
+>> factorial(171)
+ans = Inf
+\end{code}
+
+Division by zero also returns {\tt Inf}.
+
+\begin{code}
+>> 1/0
+ans = Inf
+\end{code}
+
+\index{division by zero}
+\index{zero!division by}
+
+%Some older versions of MATLAB give a warning when dividing by zero.
+%A warning is like an error message without teeth; the computation
+%is allowed to continue.  Allowing {\tt Inf} to propagate
+%through a computation doesn't always do what you expect, but if you
+%are careful with it, {\tt Inf} can be quite useful.
+
+For operations that are undefined, MATLAB returns {\tt NaN},
+which stands for ``not a number''.
+
+\index{NaN@{\tt NaN}}
+\index{not a number}
+\index{undefined operation}
+
+\begin{code}
+>> 0/0
+ans = NaN
+\end{code}
+
+
+
+\section{Comments}
+
+Along with the commands that make up a program, it is useful to include comments that provide additional information about the
+program.  The percent symbol {\tt \%} separates
+the comments from the code.
+
+\index{comment}
+\index{\%@{\tt \%}}
+\index{percent sign}
+
+\begin{code}
+>> speed_of_light = 3.0e8     % meters per second
+speed_of_light = 300000000
+\end{code}
+
+The comment runs from the percent symbol to the end of the line.
+In this case it specifies the units of the value.  In an ideal world,
+MATLAB would keep track of units and propagate them through the
+computation, but for now that burden falls on the programmer.
+
+\index{unit}
+
+Comments have no effect on the execution of the program.  They
+are there for human readers.  Good comments make programs more
+readable; bad comments are useless or (even worse) misleading.
+
+Avoid comments that are redundant with the code:
+
+\begin{code}
+>> x = 5        % assign the value 5 to x
+\end{code}
+
+Good comments provide additional information that is not in the
+code, like units in the example above, or the meaning of a variable:
+
+\begin{code}
+>> p = 0         % position from the origin in meters
+>> v = 100       % velocity in meters / second
+>> a_g = -9.8    % acceleration due to gravity in meters / second^2
+\end{code}
+
+If you use longer variable names, you might not need explanatory
+comments, but there is a trade-off: longer code can become harder
+to read.
+Also, if you are translating from math
+that uses short variable names, it can be useful to make your
+program consistent with your math.
+
+\index{variable name}
+
+\section{Documentation}
+
+Every script should contain a comment that explains
+what it does, and what the requirements are for the workspace.  For
+example, I might put something like this at the beginning of
+{\tt fibonacci1.m}:
+
+\index{documentation!function}
+\index{function!documentation}
+
+\begin{code}
+% Computes a numerical approximation of the nth Fibonacci number.  
+% Precondition: you must assign a value to n before running this script.
+% Postcondition: the result is stored in ans.
+\end{code}
+
+A {\bf precondition} is something that must be true when the script
+starts in order for it to work correctly.  A {\bf postcondition}
+is something that will be true when the script completes.
+
+\index{precondition}
+\index{postcondition}
+\index{Fibonacci}
+
+If there is a comment at the beginning of a script, MATLAB assumes
+it is the documentation for the script, so if you type {\tt help
+fibonacci1}, you get the contents of the comment (without the percent
+signs).
+
+\begin{code}
+>> help fibonacci1
+  Computes a numerical approximation of the nth Fibonacci number.  
+  Precondition: you must assign a value to n before running this script.
+  Postcondition: the result is stored in ans.
+\end{code}
+
+That way, scripts that you write behave just like predefined scripts.
+You can even use the {\tt doc} command to see your comment in the
+{\sf Help Window}.
+
+\index{Help Window}
+\index{doc@{\tt doc}}
+\index{help@{\tt dhelpoc}}
+
+\section{Assignment and equality}
+
+\index{variable!assignment}
+\index{assignment!target}
+\index{equality}
+
+In mathematics the equals sign means that the two sides of the
+equation have the same value.  In MATLAB an assignment statement
+{\em looks} like a mathematical equality, but it's not.
+
+One difference is that the sides of an assignment statement are not
+interchangeable.  The right side can be any legal expression, but
+the left side has to be a variable, which is called the 
+{\bf target} of the assignment.  So this is legal:
+
+\begin{code}
+>> y = 1;
+>> x = y+1
+x = 2
+\end{code}
+
+But this is not:
+
+\begin{code}
+>> y+1 = x
+ y+1 = x
+     |
+Error: Incorrect use of '=' operator. 
+To assign a value to a variable, use '='. 
+To compare values for equality, use '=='.
+\end{code}
+
+In this case the error message not very helpful.  The problem here is that the expression on the left side is not a valid target for an assignment.
+
+\index{error message}
+
+Another difference between assignment and equality is that an assignment statement is only temporary, in the following sense.
+When you assign {\tt x = y+1}, you get the
+{\em current} value of {\tt y}.  If {\tt y} changes later, {\tt x}
+does not get updated.
+
+A third difference is that a mathematical equality is a statement that
+may or may not be true.  In mathematics, $y = y+1$ is a statement that
+happens to be false for all values of $y$.  
+In MATLAB, {\tt y = y+1} is a sensible and useful assignment statement.
+It reads the current value of {\tt y}, adds one, and replaces the old value with the new value.
+
+\begin{code}
+>> y = 1;
+>> y = y+1
+y = 2
+\end{code}
+
+When you read MATLAB code, you might find it helpful to pronounce
+the equals sign ``gets'' rather than ``equals.''  So {\tt x = y+1}
+is pronounced ``{\tt x} gets the value of {\tt y} plus one.''
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[M-file:] A file that contains a MATLAB program.
+
+\item[script:] An M-file that contains a sequence of MATLAB commands.
+
+\item[search path:] The list of folder where MATLAB looks for
+M-files.
+
+\item[workspace:] A set of variables and their values.
+
+\item[precondition:] Something that must be true when the script
+starts, in order for it to work correctly.
+
+\item[postcondition:] Something that will be true when the script
+completes.
+
+\item[target:] The variable on the left side of an assignment statement.
+
+%\item[unit testing:] A process of testing software by testing each
+%component in isolation.
+
+\item[floating-point:] A way to represent numbers in a computer.
+
+\item[scientific notation:] A format for typing and displaying large
+and small numbers; e.g. {\tt 3.0e8}, which represents $3.0 \times 10^8$
+or 300,000,000.
+
+\item[comment:] Part of a program that provides additional information
+about the program, but does not affect its execution.
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+To test your understanding of assignment statements, write a few lines of code that swap the values of {\tt x} and {\tt y}. 
+Put your code in a script called {\tt swap} and test it.
+
+If it works correctly, to should be able to run it like this:
+
+\begin{code}
+>> x = 1, y = 2
+x = 1
+y = 2
+
+>> swap
+
+>> x, y
+x = 2
+y = 1
+\end{code}
+
+
+\end{ex}
+
+
+\begin{ex}
+\label{ex:bikegame}
+\index{bike share system}
+
+Imagine that you are the operator of a bike share system with two
+locations: Boston and Cambridge.
+
+You observe that every day 5\%
+of the bikes in Boston are dropped off in Cambridge, and 3\% of the bikes
+in Cambridge get dropped off in Boston.
+At the beginning of the month, there are 100 bikes at each location.
+
+Write a script called \verb"bike_update" that updates the number
+of bikes in each location from one day to the next.  The precondition
+is that the variables {\tt b} and {\tt c} contain the number of bikes
+in each location at the beginning of the day.  The postcondition
+is that {\tt b} and {\tt c} have been modified to reflect net movement of bikes.
+
+To test your program, initialize {\tt b} and {\tt c} at
+the prompt and then execute the script.  The script should display
+the updated values of {\tt b} and {\tt c}, but not any intermediate
+variables.
+
+Remember that bikes are countable things, so {\tt b} and {\tt c} should always be integer values.  You might want to use the {\tt round} function
+to compute the number of bikes that move each day.
+
+If you execute your script repeatedly, you can simulate the passage
+of time from day to day (you can repeat a command by pressing the {\sf Up} arrow and then {\sf Enter}).
+
+What happens to the bikes?  Do they all end up in one place?  Does the system reach an equilibrium, does it oscillate, or does it do something else?
+
+In the next chapter we will see how to execute your script automatically,
+and how to plot the values of {\tt a} and {\tt b} over time.
+\end{ex}
+
+
+
+% chap03
+
+
+\end{document}

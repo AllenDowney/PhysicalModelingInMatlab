@@ -1,0 +1,791 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Modeling and simulation}
+\label{chpt:modeling}
+
+This chapter presents the modeling process and introduces MATLAB, the programming language we will use to represent models and run simulations.
+
+
+\section{Modeling}
+
+This book is about modeling and simulation of physical systems.  
+The following diagram shows what I mean by ``modeling":
+
+\index{modeling}
+
+\vspace{0.2in}
+\centerline{\includegraphics[height=3in]{book/figs/modeling_framework.pdf}}
+
+Starting in the lower left, the {\bf system} is something in the real world we are interested in.  Often, it is something complicated, so we have to decide which details can be left out; removing details is called {\bf abstraction}.
+
+\index{system}
+
+The result of abstraction is a {\bf model}, which is a description of the system that includes only the features we think are essential.  A model can be represented in the form of diagrams and equations, which can be used for mathematical {\bf analysis}.  It can also be implemented in the form of a computer program, which can run {\bf simulations}.
+
+\index{model}
+\index{abstraction}
+\index{analysis}
+
+The result of analysis and simulation might be a {\bf prediction} about what the system will do, an {\bf explanation} of why it behaves the way it does, or a {\bf design} intended to achieve a purpose.
+
+\index{prediction}
+\index{explanation}
+\index{design}
+
+We can {\bf validate} predictions and test designs by taking {\bf measurements} from the real world and comparing the {\bf data} we get with the results from analysis and simulation. 
+
+\index{validation}
+\index{data}
+
+For any physical system, there are many possible models, each one including and excluding different features, or including different levels of detail.  The goal of the modeling process is to find the model best suited to its purpose (prediction, explanation, or design).
+
+\index{iterative modeling}
+
+Sometimes the best model is the most detailed.  If we include more features, the model is more realistic, and we expect its predictions to be more accurate.
+
+\index{realism}
+
+But often a simpler model is better.  If we include only the essential features and leave out the rest, we get models that are easier to work with, and the explanations they provide can be clearer and more compelling.
+
+\index{simplicity}
+
+As an example, suppose someone asked you why the orbit of the Earth is nearly elliptical.  If you model the Earth and Sun as point masses (ignoring their actual size), compute the gravitational force between them using Newton's law of universal gravitation, and compute the resulting orbit using Newton's laws of motion, you can show that the result is an ellipse.
+
+\index{orbit}
+\index{ellipse}
+
+Of course, the actual orbit of Earth is not a perfect ellipse, because of the gravitational forces of the Moon, Jupiter, and other objects in the solar system, and because Newton's laws of motion are only approximately true (they don't take into account relativistic effects).
+
+\index{Newton}
+\index{relativity}
+
+But adding these features to the model would not improve the explanation; more detail would only be a distraction from the fundamental cause.  However, if the goal is to predict the position of the Earth with great precision, including more details might be necessary.  
+
+Choosing the best model depends on what the model is for.  It is usually a good idea to start with a simple model, even if it is likely to be too simple, and test whether it is good enough for its purpose.  Then you can add features gradually, starting with the ones you expect to be most essential.  This process is called {\bf iterative modeling}.
+
+\index{iterative modeling}
+
+Comparing results of successive models provides a form of {\bf internal validation}, so you can catch conceptual, mathematical, and software errors.  And by adding and removing features, you can tell which ones have the biggest effect on the results, and which can be ignored.
+
+\index{internal validation}
+\index{validation!internal}
+\index{external validation}
+\index{validation!external}
+
+Comparing results to data from the real world provides {\bf external validation}, which is generally the strongest test.
+
+The focus of this book is simulation, and the primary tool we will use is MATLAB.
+
+
+\section{A glorified calculator}
+\label{sect:calc}
+
+At heart, MATLAB is a glorified calculator.  When you start MATLAB
+you will see a window
+entitled {\sf MATLAB} that contains smaller windows entitled {\sf
+Current Folder}, {\sf Command Window}, and {\sf Workspace}.
+In Octave, {\sf Current Folder} is called {\sf File Browser}.
+
+\index{Command Window}
+\index{Workspace}
+\index{interpreter}
+\index{command}
+
+The Command Window runs the {\bf interpreter}, which allows you
+to type {\bf commands}, then executes them and prints the
+result.
+
+\index{prompt}
+
+Initially, the Command Window contains a welcome message with information
+about the version of the software you are running, followed by a {\bf prompt}:
+
+\begin{code}
+>>
+\end{code}
+
+This symbol prompts you to enter a command.
+
+The simplest kind of command is a mathematical {\bf expression},
+like {\tt 2 + 1}).
+
+\index{expression}
+
+If you type an expression and then press Enter (or Return), MATLAB
+{\bf evaluates} the expression and prints the result.
+
+\begin{code}
+>> 2 + 1
+ans = 3
+\end{code}
+
+Just to be clear: in this example, MATLAB displayed {\tt >>}; I
+typed {\tt 2 + 1} and then hit Enter, and MATLAB displayed {\tt ans = 3}.
+
+\index{operator}
+\index{operand}
+
+In this expression, the plus sign is an {\bf operator} and the numbers {\tt 2} and {\tt 1} are {\bf operands}.
+
+An expression can contain any number of operators and operands.  You
+don't have to put spaces between them; some people do and some people
+don't.
+
+\begin{code}
+>> 1+2+3+4+5+6+7+8+9
+ans = 45
+\end{code}
+
+Speaking of spaces, you might have noticed that MATLAB puts a blank
+line between {\tt ans =} and the result.  In many of my examples I will leave it out to save room.
+
+\index{multiplication}
+\index{division}
+\index{arithmetic operator}
+\index{exponentiation}
+
+The other arithmetic operators are pretty much what you would expect.
+Subtraction is denoted by a minus sign, {\tt -}; multiplication by
+an asterisk, {\tt *}; division by a forward slash, {\tt /}.
+
+\begin{code}
+>> 2*3 - 4/5
+ans = 5.2000
+\end{code}
+
+Another common operator is exponentiation, which uses the \verb+^+
+symbol, sometimes pronounced ``carat'' or ``hat''.  So 2 raised to the
+16th power is
+
+\begin{code}
+>> 2^16
+ans = 65536
+\end{code}
+
+The order of operations is what you would expect from basic algebra:
+exponentiation happens before multiplication and division, and multiplication and division happen before addition and subtraction.
+If you want to override the order of operations, you can use parentheses.
+
+\index{operations!order of}
+\index{order of operations}
+\index{parentheses}
+
+\begin{code}
+>> 2 * (3-4) / 5
+ans = -0.4000
+\end{code}
+
+When I added the parentheses I also changed the spacing to make the
+grouping of operands clearer to a human reader.  This is the first
+of many style guidelines I will recommend for making your programs
+easier to read.  Style doesn't change what the program does; the MATLAB
+interpreter doesn't check for style.  But human readers do, and the
+most important human who will read your code is you.
+
+\index{debugging!First Theorem}
+
+And that brings us to the First Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{1}
+\end{quote}
+
+It is worth spending time to make your code pretty; it will save
+you time debugging!
+
+
+\section{Math functions}
+
+MATLAB knows how to compute pretty much every math function you've
+heard of.  It knows all the trigonometric functions; here's how you
+use them:
+
+\index{math function!trigonometric}
+
+\begin{code}
+>> sin(1)
+ans = 0.8415
+\end{code}
+
+This command is an example of a {\bf function call}.  The name of the
+function is {\tt sin}, which is the usual abbreviation for the
+trigonometric sine.  The value in parentheses is called the {\bf argument}.
+
+\index{argument}
+\index{function!argument}
+
+The trig functions {\tt sin}, {\tt cos}, {\tt tan}---among many
+others---work in radians.\footnote{MATLAB also provides trig functions
+that work in degrees. For example, {\tt sind},{\tt cosd}, and {\tt
+tand} compute the sine, cosine, and tangent of an angle given in
+degrees.}
+
+Some functions take more than one argument, in which case they are
+separated by commas.  For example, {\tt atan2} computes the inverse
+tangent, which is the angle in radians between the positive x-axis and
+the point with the given $y$ and $x$ coordinates.
+
+\begin{code}
+>> atan2(1,1)
+ans = 0.7854
+\end{code}
+
+If that bit of trigonometry isn't familiar to you, don't worry about
+it.  It's just an example of a function with multiple arguments.
+
+\index{trigonometry}
+\index{math function!exponential}
+
+MATLAB also provides exponential functions, like {\tt exp}, which computes $e$ raised to the given power.  So {\tt exp(1)} is just $e$.
+
+\begin{code}
+>> exp(1)
+ans = 2.7183
+\end{code}
+
+\index{math function!logarithm}
+
+The inverse of {\tt exp} is {\tt log}, which computes the logarithm base $e$:
+
+\begin{code}
+>> log(exp(3))
+ans = 3
+\end{code}
+
+This example also demonstrates that function calls can be {\bf nested};
+that is, you can use the result from one function as an argument for
+another.
+
+\index{nested function call}
+\index{function call!nested}
+\index{operand}
+
+More generally, you can use a function call as an operand in an expression.
+
+\begin{code}
+>> sqrt(sin(0.5)^2 + cos(0.5)^2)
+ans = 1
+\end{code}
+
+As you probably guessed, {\tt sqrt} computes the square root.
+
+\index{mathematical function!square root}
+
+There are lots of other math functions, but this is not meant to
+be a reference manual.  To learn about other functions, you should
+read the documentation.
+
+
+\section{Documentation}
+
+MATLAB comes with two forms of online documentation, {\tt help}
+and {\tt doc}.
+
+\index{documentation!doc@{\tt doc}}
+\index{documentation!doc@{\tt help}}
+
+The help command works completely in the Command Window; just 
+type {\tt help} followed by the name of a command.
+
+% Here's an example where the output is in a stdout environment to
+% avoid nonsensical syntax highlighting.
+
+\begin{code}
+>> help sin
+\end{code}
+\begin{stdout}
+ sin    Sine of argument in radians.
+    sin(X) is the sine of the elements of X.
+ 
+    See also asin, sind, sinpi.
+\end{stdout}
+
+Some documentation uses vocabulary we haven't covered yet.  
+For example, ``the elements of X'' will likely not make sense until
+we get to vectors and matrices a few chapters from now.
+
+\index{element}
+\index{vector}
+\index{matrix}
+
+The {\tt doc} pages are often better for people new to MATLAB.  
+If you type {\tt doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
+use vectors and matrices, so they may not make complete sense yet, 
+but you can get a preview of what's coming.
+
+
+\section{Variables}
+
+One of the features that makes MATLAB more powerful than a calculator
+is the ability to give a name to a value.  A named value is called
+a {\bf variable}.
+
+\index{variable}
+\index{variable!predefined}
+\index{predefined variable}
+ 
+MATLAB comes with a few predefined variables. For
+example, the name {\tt pi} refers to the
+mathematical quantity $\pi$, which is approximately
+
+\begin{code}
+>> pi
+ans = 3.1416
+\end{code}
+
+And if you do anything with complex numbers, you might find it
+convenient that both {\tt i} and {\tt j} are predefined as the square
+root of $-1$.
+
+\index{complex number!imaginary unit}
+\index{operand}
+\index{expression}
+
+You can use a variable name anywhere you can use a number; for example, as
+an operand in an expression:
+
+\begin{code}
+>> pi * 3^2
+ans = 28.2743
+\end{code}
+
+Or as an argument to a function:
+
+\begin{code}
+>> sin(pi/2)
+ans = 1
+
+>> exp(i * pi)
+ans = -1.0000 + 0.0000i
+\end{code}
+
+\index{argument}
+\index{function call}
+\index{complex number!Euler's equality}
+\index{Euler's equality}
+\index{ans@{\tt ans}}
+
+As the second example shows, many MATLAB functions work with
+complex numbers.  This example demonstrates Euler's Equality:
+%
+\begin{equation*}
+e^{i \pi} = -1
+\end{equation*}
+%
+Whenever you evaluate an expression, MATLAB assigns the result to
+a variable named {\tt ans}.  You can use {\tt ans} in a subsequent
+calculation as shorthand for ``the value of the previous expression''.
+
+\begin{code}
+>> 3^2 + 4^2
+ans = 25
+
+>> sqrt(ans)
+ans = 5
+\end{code}
+
+But keep in mind that the value of {\tt ans} changes every time
+you evaluate an expression.
+
+
+\section{Assignment statements}
+
+You can create your own variables, and give them values, with
+an {\bf assignment statement}.  The assignment operator is the
+equals sign, {\tt =}.
+
+\index{assignment operator}
+\index{operator!assignment}
+\index{statement!assignment}
+
+\begin{code}
+>> x = 6 * 7
+x = 42
+\end{code}
+
+This example creates a new variable named {\tt x} and assigns it the
+value of the expression {\tt 6 * 7}.  MATLAB responds with the
+variable name and the computed value.
+
+\index{expression}
+
+In every assignment statement, the left side has to be a legal variable name.  The right side can be any expression, including function calls.
+
+\index{variable name}
+\index{name!variable}
+\index{underscore}
+\index{case sensitive}
+
+Almost any sequence of lower and upper case letters is a legal
+variable name, as long as the name does not exceed 63 characters.  
+Digits are also legal, but not at the beginning of the name.
+Some punctuation is also legal, but the underscore,
+\verb"_", is the only commonly-used punctuation mark.  
+Spaces are not allowed.  Variable names are
+{\bf case sensitive}, so {\tt x} and {\tt X} are different variables.
+
+\begin{code}
+>> fibonacci0 = 1;
+
+>> LENGTH = 10;
+
+>> first_name = 'bob'
+first_name = bob
+\end{code}
+
+The first two examples demonstrate the use of the semi-colon, which
+suppresses the output from a command.  In this case MATLAB creates the
+variables and assigns them values, but displays nothing.
+
+\index{syntax!semi-colon}
+\index{semi-colon}
+\index{suppress output}
+\index{output!suppress}
+
+The third example demonstrates that not everything
+in MATLAB is a number.
+A sequence of characters in single quotes is
+a {\bf string}.
+
+\index{string}
+\index{character}
+
+Although {\tt i}, {\tt j}, and {\tt pi} are predefined, you are free
+to reassign them.  It is common to use {\tt i} and {\tt j} for other
+purposes, but rare to assign a different value to
+{\tt pi}.
+
+\index{complex number!imaginary unit}
+
+
+\section{The workspace}
+
+When you create a new variable, it appears in the {\sf Workspace} window, and it is added to the {\bf workspace}, which is a
+set of variables and their values.
+
+\index{variable}
+\index{workspace}
+
+The {\tt who} command prints the
+names of the variables in the workspace.
+
+\index{who@{\tt who}}
+\index{command!{\tt who}}
+
+\begin{code}
+>> x=5;
+>> y=7;
+>> z=9;
+>> who
+
+Your variables are:
+
+x  y  z
+\end{code}
+
+The {\tt clear} command removes specified variables from the workspace
+
+\begin{code}
+>> clear x
+>> who
+
+Your variables are:
+
+y z
+\end{code}
+
+But be careful: if you don't specify any variables, {\tt clear} removes them all.
+
+\index{clear@{\tt clear}}
+\index{disp@{\tt disp}}
+
+To display the value of a variable, you can use the {\tt disp} function.
+
+\begin{code}
+>> disp(z)
+     9
+\end{code}
+
+But it's easier to just type the variable name.
+
+\begin{code}
+>> z
+z = 9
+\end{code}
+
+
+\section{Why variables?}
+
+Some reasons to use variables are:
+
+\index{variable!reasons for}
+
+\begin{itemize}
+
+\item To avoid recomputing a value that is used repeatedly.  For
+example, if your computation uses $e$ frequently, you might
+want to compute it once and save the result\footnote{You don't have to do this in Octave; it is predefined.}.
+
+\begin{code}
+>> e = exp(1)
+e = 2.7183
+\end{code}
+
+\item To make the connection between the code and the underlying
+mathematics more apparent.  If you are computing the area of a circle,
+you might want to use a variable named {\tt r}:
+
+\begin{code}
+>> r = 3
+r = 3
+
+>> area = pi * r^2
+area = 28.2743
+\end{code}
+
+That way your code resembles the familiar formula $a = \pi r^2$.
+
+\item To break a long computation into a sequence of steps.
+Suppose you are evaluating a big, hairy expression like this one:
+\begin{code}
+ans = ((x - 2000000) * sqrt(2 * pi) * 1000000) ^ -1 * ...
+exp(-1/2 * (log(x - 2000000) - area)^2 / 1000000^2)
+\end{code}
+
+You can use an ellipsis to break the expression into multiple lines.
+Just type {\tt ...} at the end of the first line and continue on the
+next.
+
+\index{syntax!{\tt ...}}
+\index{ellipsis}
+
+But often it is better to break the computation into a sequence of
+steps and assign intermediate results to variables.
+
+\begin{code}
+shiftx = x - 2000000
+denom = shiftx * sqrt(2 * pi) * 1000000
+temp = (log(shiftx) - area) / 1000000
+exponent = -1/2 * temp^2
+ans = exp(exponent) / denom
+\end{code}
+
+The names of the intermediate variables explain their role in the
+computation.  {\tt shiftx} is the value of {\tt x} shifted by 
+{\tt 2000000}.  It should be no surprise that {\tt exponent} is the argument of {\tt exp}, and {\tt denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes them easier to debug.
+
+\index{numerator}
+\index{denominator}
+
+\end{itemize}
+
+\section{Errors}
+
+\index{error}
+
+It's early, but now would be a good time to start making errors.
+Whenever you learn a new feature, you should try to make as many errors as possible, as soon as possible.
+
+When you make deliberate errors, you see what the error messages are.
+Later, when you make accidental errors, you will know what the messages mean.
+
+A common error for beginning programmers is leaving out the {\tt *}
+for multiplication.
+
+\begin{code}
+>> area = pi r^2
+ area = pi r^2
+           |
+Error: Invalid expression. Check for missing multiplication operator, 
+missing or unbalanced delimiters, or other syntax error.
+To construct matrices, use brackets instead of parentheses.
+\end{code}
+
+\index{invalid expression}
+\index{expression!invalid}
+
+The error message indicates that the expression in invalid and suggests several things that might be wrong.  In this case, one of its guesses is right; we are missing a multiplication operator.
+
+\index{parentheses}
+
+Another common error is to leave out the parentheses around the
+arguments of a function.  For example, in math notation, it is common
+to write something like $\sin \pi$, but not in MATLAB.
+
+\begin{code}
+>> sin pi
+Undefined function 'sin' for input arguments of type 'char'.
+\end{code}
+
+The problem is that when you leave out the parentheses, MATLAB treats
+the argument as a string (rather than as an expression).
+In this case the error message is helpful, but in other cases the results can be baffling.
+For example, if you call {\tt abs}, which computes absolute values, and forget the parentheses, you get a surprising result:
+
+\begin{code}
+>> abs pi
+ans =  112   105
+\end{code}
+
+I won't explain this result; for now, I'll just suggest that you should {\em always} put parentheses around arguments.
+
+\index{debugging!Second Theorem}
+
+This example also demonstrates the Second Theorem of Debugging:
+
+\begin{quote}
+\displaythrm{2}
+\end{quote}
+
+MATLAB functions are case sensitive, if you type the {\tt sin} function using capital letters in MATLAB, you get an error:
+
+\index{case sensitive}
+
+\begin{code}
+>> SIN(pi)
+Undefined function 'SIN' for input arguments of type 'double'.
+
+Did you mean:
+>> sin(pi)
+\end{code}
+
+Beginning programmers often hate error messages and do everything they
+can to make the messages go away.  Experienced programmers know that error
+messages are your friend.  They can be hard to understand, and even
+misleading, but it is worth the effort to understand them.
+
+\index{error message}
+
+Here's another common error.
+If you were translating this mathematical expression into MATLAB:
+%
+\[ \frac{1}{2 \sqrt \pi} \]
+%
+You might be tempted to write this:
+
+\begin{code}
+1 / 2 * sqrt(pi)
+\end{code}
+
+But that would be wrong because of the order of operations.  Division and multiplication are evaluated from left to right, so this expression would multiply {\tt 1/2} by {\tt sqrt(pi)}.
+
+\index{order of operations}
+\index{denominator}
+
+To keep {\tt sqrt(pi)} in the denominator, you could use parentheses:
+
+\begin{code}
+1 / (2 * sqrt(pi))
+\end{code}
+
+or make the division explicit.
+
+\begin{code}
+1 / 2 / sqrt(pi)
+\end{code}
+
+\index{division}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[interpreter:] The program that reads and executes MATLAB code.
+
+\item[command:] A line of MATLAB code executed by the interpreter.
+
+\item[prompt:] The symbols the interpreter prints to indicate that it is
+waiting for you to type a command.
+
+\item[operator:] One of the symbols, like {\tt *} and {\tt +}, that
+represent mathematical operations.
+
+\item[operand:] A number or variable that appears in an expression along
+with operators.
+
+\item[expression:] A sequence of operands and operators that specifies
+a mathematical computation and yields a value.
+
+\item[value:] The numerical result of a computation.
+
+\item[evaluate:] To compute the value of an expression.
+
+\item[order of operations:] The rules that specify which operations
+in an expression are performed first.
+
+\item[function:] A named computation; for example {\tt log10} is the
+name of a function that computes logarithms in base 10.
+
+\item[call:] To cause a function to execute and compute a result.
+
+\item[function call:] A kind of command that executes a function.
+
+\item[argument:] An expression that appears in a function call to
+specify the value the function operates on.
+
+\item[nested function call:] An expression that uses the result from
+one function call as an argument for another.
+
+\item[variable:] A named value.
+
+\item[assignment statement:] A command that creates a new variable
+(if necessary) and gives it a value.
+
+\item[string:] A value that consists of a sequence of characters (as
+opposed to a number).
+
+
+\end{description}
+
+
+\section{Exercises}
+
+\begin{ex}
+\label{penny}
+You might have heard that a penny dropped from the top of the Empire State Building would be going so fast when it hit the pavement that it would be embedded in the concrete; or if it hit a person, it would break their skull.
+
+\index{Empire State Building}
+\index{penny}
+\index{myth}
+
+We can test this myth by making and analyzing a model.  To get started, we'll assume that the effect of air resistance is small.  This will turn out to be a bad assumption, but bear with me.
+
+If air resistance is negligible, the primary force acting on the penny is gravity, which causes the penny to accelerate downward.
+
+\index{air resistance}
+
+If the initial velocity is 0, the velocity after $t$ seconds is $a t$, and the distance the penny has dropped is
+%
+\[ h = a t^2 / 2 \]
+%
+Using algebra, we can solve for $t$:
+%
+\[ t = \sqrt{ 2 h / a} \]
+%
+Plugging in the acceleration of gravity, 
+$a = \SI{9.8}{\meter\per\second\squared}$, and the height of the Empire State Building, 
+$h = \SI{381}{\meter}$, we get 
+$t = \SI{8.8}{\second}$.  
+Then computing $v = a t$ we get a velocity on impact of $\SI{86}{\meter\per\second}$, which is about 190 miles per hour.  That sounds like it could hurt.
+
+Use MATLAB to perform these computations, and check that you get the same result.
+\end{ex}
+
+\begin{ex}
+The result in the previous exercise is not accurate because it ignores air resistance.  In reality, once the penny gets to about \SI{18}{\meter\per\second}, the upward force of air resistance equals the downward force of gravity, so the penny stops accelerating.  After that, it doesn't matter how far the penny falls; it hits the sidewalk at about \SI{18}{\meter\per\second}, much less than \SI{86}{\meter\per\second}.
+
+As an exercise, compute the time it takes for the penny to reach the sidewalk if we assume that it accelerates with constant acceleration
+$a = \SI{9.8}{\meter\per\second\squared}$ until it reaches terminal velocity, then falls with constant velocity until it hits this sidewalk.
+
+The result you get is not exact, but it is a pretty good approximation.
+
+\end{ex}
+
+
+% chap02
+
+
+\end{document}
