@@ -1,0 +1,2377 @@
+% \iffalse
+% $Id: nostarch.dtx,v 1.49 2008-06-07 03:05:29 boris Exp $
+%
+% Copyright 2008, Boris Veytsman
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.3 of this license or (at your option) any 
+% later version.
+% The latest version of the license is in
+%    http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of
+% LaTeX version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+%
+% The Current Maintainer of this work is Boris Veytsman,
+% <borisv@lk.net> 
+%
+% This work consists of the file nostarch.dtx and the
+% derived file nostarch.cls
+%
+% \fi 
+% \CheckSum{0}
+%
+%
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~} 
+%
+%\iffalse
+% Taken from xkeyval.dtx
+%\fi
+%\makeatletter
+%\def\DescribeOption#1{\leavevmode\@bsphack
+%              \marginpar{\raggedleft\PrintDescribeOption{#1}}%
+%              \SpecialOptionIndex{#1}\@esphack\ignorespaces}
+%\def\PrintDescribeOption#1{\strut\emph{option}\\\MacroFont #1\ }
+%\def\SpecialOptionIndex#1{\@bsphack
+%    \index{#1\actualchar{\protect\ttfamily#1}
+%           (option)\encapchar usage}%
+%    \index{options:\levelchar#1\actualchar{\protect\ttfamily#1}\encapchar
+%           usage}\@esphack}
+%\def\DescribeOptions#1{\leavevmode\@bsphack
+%  \marginpar{\raggedleft\strut\emph{options}%
+%  \@for\@tempa:=#1\do{%
+%    \\\strut\MacroFont\@tempa\SpecialOptionIndex\@tempa
+%  }}\@esphack\ignorespaces}
+%\makeatother
+%
+% \MakeShortVerb{|}
+% \GetFileInfo{nostarch.dtx}
+% \newcommand{\progname}[1]{\textsf{#1}}
+% \title{\LaTeX{} Style For \emph{No Starch Press}
+%   \thanks{\copyright 2008, Boris Veytsman}}
+% \author{Boris Veytsman\thanks{%
+% \href{mailto:borisv@lk.net}{\texttt{borisv@lk.net}},
+% \href{mailto:boris@varphi.com}{\texttt{boris@varphi.com}}}} 
+% \date{\filedate, \fileversion}
+% \maketitle
+% \begin{abstract}
+%   This package provides class for typesetting books for No Starch
+%   Press, \url{http://www.nostarch.com}
+% \end{abstract}
+% \tableofcontents
+%
+% \clearpage
+%
+% \changes{v0.1}{2008/02/27}{First fully functional version} 
+% \changes{v0.5}{2008/03/19}{Documentation update} 
+% \changes{v0.6}{2008/03/21}{Documentation update} 
+% \changes{v1.0}{2008/04/07}{First public release} 
+% \changes{v1.1}{2008/05/24}{Added interface to listings package and
+% upquote package.  Updated documentation} 
+%
+%
+%\section{Introduction}
+%\label{sec:intro}
+%
+% This is the ``official'' \LaTeX{} style for \emph{No Starch Press,}
+% \url{http://www.nostarch.com}.  The class is intended to typeset
+% books for this publisher---both hard copies and electronic books.
+%
+% The suite provides main class, |nostarch.cls|, hyperref interface
+% |nshyper.sty| and MakeIndex style |nostarch.ist|.
+%
+%\section{User's Guide}
+%\label{sec:manual}
+%
+%
+%\subsection{Installation}
+%\label{sec:installation}
+%
+% The installation of the class follows the usual
+% practice~\cite{TeXFAQ} for \LaTeX{} packages:
+% \begin{enumerate}
+% \item Run \progname{latex} on |nostarch.ins|.  This will produce the
+% following files:
+% \LaTeX{} class |nostarch.cls|, \LaTeX{} style |nshyper.sty| and
+% MakeIndex style |nostarch.ist|.
+% \item Put the files |nostarch.cls|, |nshypher.sty| and
+% |nostarch.ist| to
+% the places where \LaTeX{} and MakeIndex can find them (see
+% \cite{TeXFAQ} or the documentation for your \TeX{}
+% system).\label{item:install} 
+% \item Update the database of file names.  Again, see \cite{TeXFAQ}
+% or the documentation for your \TeX{} system for the system-specific
+% details.\label{item:update}
+% \item The file |nostarch.pdf| provides the documentation for the
+% package (this is the file you are probably reading now).
+% \end{enumerate}
+% As an alternative to items~\ref{item:install} and~\ref{item:update}
+% you can just put the files in the working directory where your
+% |.tex| file is.
+% 
+% To typeset the books in the distinctive \emph{No Starch Press} style
+% you will need the fonts used by them.  Unfortunately these fonts
+% (New Baskerville, Futura, The Sans Mono Condensed and Dogma) are not
+% free.  You may buy them from the vendor or license from the
+% publisher to typeset your book.  Please contact \emph{No Starch
+% Press} directly for the arrangements.
+%
+% The class uses some other \LaTeX{} classes or packages.  Most
+% probably, some of them they are already installed on your system.
+% If not (or if their versions are very old), you need to download and
+% install them.  Here is the list:
+% \begin{enumerate}
+% \item Font support packages \progname{nbaskerv}~\cite{NbaskervFont},
+% \progname{futurans}~\cite{FuturansFont},
+% \progname{dogma}~\cite{DogmaFont} and
+% \progname{thsmc}~\cite{ThsmcFont}.
+% \item \progname{booktabs} package~\cite{Fear05:Booktabs}.
+% \item \progname{caption} package~\cite{Sommerfeldt07:Caption}.
+% \item \progname{fancyhdr} package~\cite{Oostrum04:Fancyhdr}.
+% \item \progname{fancyvrb} package~\cite{VanZandt98:Fancyvrb}.
+% \item \progname{graphics} package~\cite{Carlisle05:Graphics}.
+% \item \progname{ifpdf} package~\cite{Oberdiek06:Ifpdf}.
+% \item \progname{listings} package~\cite{Heinz07:Listings}.
+% \item \progname{ragged2e} package~\cite{Schroeder03:Ragged2e}.
+% \item \progname{upquote} package~\cite{Covington03:Upquote}.
+% \end{enumerate}
+% These packages are called internally by |nostarch.cls|;  you do not
+% need to explicitly call them from your document.
+%
+%
+% 
+%
+%
+%\subsection{Invocation}
+%\label{sec:invocation}
+%
+% To use the class, put in the preamble of your document
+% \begin{flushleft}
+% |\documentclass[|\meta{options}|]{nostarch}|
+% \end{flushleft}
+%
+% \DescribeOptions{cfonts,nocfonts} 
+% As discussed above, \emph{No  Starch Press} uses a number of
+% commercial fonts to typeset their  books.  
+% The option |cfonts| (default) tells \LaTeX{} that you do have these
+% commercial fonts.  On the other hand, the option |nocfonts| instructs
+% \LaTeX{} 
+% to use freely available fonts for typesetting.  Of course in this
+% case the result will not look like a \emph{No Starch Press} Book.
+%
+% 
+% \DescribeOptions{8pt,9pt,10pt,11pt,12pt}
+% The fontsize changing options (|8pt|, |9pt|, \dots, |12pt|) have no
+% effect other than producing a warning in the log.
+%
+%
+%
+% \emph{No Starch Press} uses a special paper size.  If you process the
+% manuscript with \progname{pdflatex} to produce PDF output, the paper
+% dimensions will be automatically set up by the class.  However, if
+% you use \progname{latex} and \progname{dvips}, you need to tell
+% \progname{dvips} what paper size to choose.  One way to do this is
+% to add to the \progname{dvips} options the following:
+% \begin{verbatim}
+%   -T 7in,9.25in
+% \end{verbatim}
+% 
+%\subsection{Use of \progname{hyperref} Package}
+%\label{sec:guide:hyperref}
+%
+% The books typeset by \emph{No Starch Press} can be sold either as
+% traditional printed and bound hard copies, or as PDF files.  If you,
+% the author, envisage the second possibility, you may want additional
+% possibilites provided by \progname{hyperref}
+% package~\cite{Rahtz06:Hyperref}, like ``clickable'' entries in the
+% table of context and index, etc.  The provided package |nshyper.sty|
+% adds the functionality of \progname{hyperref} to the class.  This
+% package is highly recommended for the books that are going to be
+% distributed in an electronic form.
+%
+% To use the package, just add the line |\uspackage{nshyper}| to your
+% preamble.  This package should be loaded last since it redefines
+% internals of many other packages.  Note that a direct call of
+% \progname{hyperref} by |\usepackage{hyperref}| will not work since
+% \progname{nshyper} patches hyperref to work with our class.
+% 
+%
+%
+%\subsection{Front Matter}
+%\label{sec:guide:frontmatter}
+%
+% \DescribeMacro{\frontmatter}
+% A book can be divided into three parts:  front matter, main matter
+% and back matter.  Front matter starts with the command
+% |\frontmatter|.  Normally this is the first command in the class.
+% Front matter contains half page, title page, copyright page, brief
+% contents, detailed contents, foreword(s) and other stuff which is
+% traditionally typeset on roman-numbered pages.  The commands in main
+% matter can be divides into \emph{declarations} and
+% \emph{directives.}  Declarations do not typeset anything.  Rather,
+% they up parameters for the typesetting.  Directives use them to
+% typeset the stuff.
+%
+%
+%\subsubsection{Front Matter Declarations}
+%\label{sec:guide:decls}
+%
+%
+%
+% \DescribeMacro{\title} 
+% There are five declarations defined by |nostarch.cls|: |\title|,
+% |\subtitle|, 
+% |\author|, |\nostarchlogo| and |\nostarchlocation|.  The macro
+% |\title|, like the standard \LaTeX{} |\title|, sets the title of the
+% book, for example |\title|\texttt{\{The book about everything\}}.
+%
+% \DescribeMacro{\subtitle}
+% The macro |\subtitle| takes one argument and sets up the subtitle of
+% your book, for example |\subtitle|\texttt{\{A Guide For
+% Perplexed\}}. 
+%
+% \DescribeMacro{\author}
+% The command |\author| has just one argument, which is the list of
+% authors, separated by commas and (for the last author) the word
+% ``and''.  Do not use the command |\and| defined in the standard
+% \LaTeX.  For example,
+% |\author|\texttt{\{Ralph Alpher, Hans Bethe and George Gamow\}}.
+% 
+% \DescribeMacro{\nostarchlogo} 
+% Due to copyright reasons the logo of \emph{No Starch Press} is not
+% distribuded with the package.  You should get the logo as a graphics
+% file from the publishers and put in the directory where \LaTeX{} can
+% find it (for example, the directory with the other sources of your
+% book).  The command |\nostarchlogo| has one argument: the name of
+% the file, for example, |\nostarchlogo{biglogo.pdf}|.
+% The file will be automatically scaled to the proper size.
+%
+% \DescribeMacro{\nostarchlocation}
+% \emph{No Starch Press} books are usually published in San
+% Francisco.  If you need to change this setting, use
+% |\nostarchlocation| declaration, for example,
+% |\nostarchlocation|\texttt{\{San Francisco;  London; Tokyo\}}.
+% 
+%
+%
+%\subsubsection{Front Matter Directives}
+%\label{sec:guide:directives}
+%
+%
+%
+% \DescribeMacro{\makehalftitle}
+% The command |\makehalftitle| creates \emph{half title page.}
+% This is normally the first page of the book.
+%
+% \DescribeMacro{\maketitle}
+% The command |\maketitle| creates \emph{title page.}  It uses logo
+% and full title of the book.
+%
+% \DescribeMacro{copyrightpage} 
+% The copyright page is the \emph{verso} of the title page.  It has
+% information about copyright, edition history, the credits of the
+% people who helped you to make the book, CIP information, etc.  The
+% exact contents of the copyright page differ from book to book.
+% Therefore the class does not try to create this page automatically,
+% and rather sets up the typographic style for arbitrary contents.
+% For this purpose the environment |copyrigthtpage| is used.  So just
+% put the information provided by the publisher between
+% |\begin{copyrightpage}| and |\end{copyrightpage}|.  Use
+% |\textbf{\sffamily title}| for the title of the book on the
+% copyright line.
+%
+% \DescribeMacro{cipblock}
+% One of important parts of the copyright page is \emph{CIP block.}
+% It contains catalogue data for your book (CIP means Cataloguing in
+% Publication, by the way).  Again, the contents of this field will be
+% provied by the publishers;  you just need to put them inside
+% |cipblock| environment, i.e. between |\begin{cipblock}| and
+% |\end{cipblock}|.  To make your life easier, this block is typeset
+% verbatim, so line ends and spaces are typeset as is.
+%
+%
+% \DescribeMacro{dedicationpage}
+% Dedications, if any, are included in the special dedication page,
+% for which a special environment |dedicationpage| is provided.  
+%
+% \DescribeMacro{\brieftableofcontents}
+% \DescribeMacro{\tableofcontents}
+% The standard \LaTeX{} provides just one table of contents.  This
+% class uses two tables:  brief contents and contents in detail.  They
+% are correspondingly typeset by the commands |\brieftableofcontents|
+% and |\tableofcontents|. 
+% 
+%
+% \DescribeMacro{\sectionnumberwidth}
+% \DescribeMacro{\subsectionnumberwidth}
+% In most books by \emph{No Starch Press} sections and subsections are
+% unnumbered.  However, sometimes the books use numbered sections or
+% subsections.  In these cases you may want to adjust the widths left
+% for section and subsection numbers in the detailed table of
+% contents.  They are set by
+% |\sectionnumberwidth| and |\subsectionnumberwidth|, and can be
+% changed with the usual |\setlength| command.
+%
+%
+% Forewords and similar front matter materials are unnumbered
+% chapters: |\chapter*[Foreword by R. E.~Viewer]{Foreword}|.
+% 
+%
+% Front matter with its formal parts like copyright page, CIP
+% information, etc., can be daunting, especially for novice authors.
+% Feel free to use the sample enclosed and ask the publisher for
+% advice. 
+%
+%\subsection{Main Matter}
+%\label{sec:guide:mainmatter}
+%
+% \DescribeMacro{\mainmatter}
+% The command |\mainmatter| finishes the front matter and starts the
+% main matter of the book.  The main matter is divided into chapters,
+% sections, subsections, etc.  They are discussed below.
+%
+%
+%\subsubsection{Parts, Chapters and Sections}
+%\label{sec:guide:sections}
+%
+% \DescribeMacro{\chapter}
+% \DescribeMacro{\section}
+% \DescribeMacro{\subsection}
+% \DescribeMacro{\subsubsection}
+% \emph{No Starch Press} books have chapters, sections, subsections and
+% subsubsections.  The chapters are usually numbered, but sections ande
+% below are not.  The commands for them are the same as in the
+% standard \LaTeX: |\chapter|\oarg{short title}\marg{long title},
+% |\section|\oarg{short title}\marg{long title}, etc. For
+% example:
+% \begin{verbatim}
+% \section[Building Lego Fire Track]{How To Build A Lego Fire Track 
+%    And Why It Is Fun}
+% \end{verbatim}
+% The ``starred'' forms |\chapter*|, |\section*| etc. are used when
+% the corresponding division has no number (like unnumbered chapters in
+% the front matter).  Since our sections, subsections and
+% subsusbsections are unnumbered anyway, this form has meaning only
+% for chapters (but can be used for other divisions as well).
+%
+% \DescribeMacro{\chapterart}
+% \DescribeMacro{\chapterartfile}
+% \emph{No Starch Press} books use  ``circular art'' for chapter
+% openings (except for unnumbered chapters in the front matter).  The
+% command |\chapterart| should be issued immediately 
+% after |\chapter| command and before the first paragraph.  Its
+% argument is the artwork used for the current chapter:
+% |\chapterart|\marg{\LaTeX{} commands}.  In the
+% simplest case it is just inclusion of an external graphics file, for
+% example: 
+% \begin{verbatim}
+% \chapterart{\includegraphics[width=1.264in]{firetrack.jpg}}
+% \end{verbatim}
+% Actually, this simplest case is so ubiquitous, that there is a
+% special command |\chapterartfile|\marg{filename} for it, so the
+% previous example can be simplified as
+% \begin{verbatim}
+% \chapterartfile{firetrack.jpg}
+% \end{verbatim}
+% However, you can use instead any \LaTeX{} commands  to produce
+% the artwork.  Rememer that it must be $1.264''\times1.222''$.
+%
+% The first paragraph after chapter start is typeset in larger size
+% font than the body font.  If this paragraph is too long, you may
+% need to manually change the font size back in the middle of it.  The
+% simplest way to do this is the combination
+% |\par\noindent\normalfont| in a strategic place.
+%
+%
+% \DescribeMacro{\part}
+% Sometimes larger books are separated into parts.  The command
+% |\part|\marg{Title} is used to typeset parts.
+%
+%\subsubsection{Environments}
+%\label{sec:guide:lists}
+%
+%
+% \DescribeMacro{itemize}
+% \DescribeMacro{enumerate}
+% \DescribeMacro{description}
+% \DescribeMacro{note}
+% The class offers standard |itemize|, |enumerate| and |description|
+% environment.  There is an environment specific for it:  |note|.  It
+% is intended for ``asides'':
+% \begin{verbatim}
+% \begin{note}
+%   Do not forget to plug off the computer before doing any
+%   modifications! 
+% \end{note}
+% \end{verbatim}
+% The material in a |note| will be typeset in italics with bold
+% ``NOTE'' on the margin.
+%
+%
+%\subsubsection{Tables and Figures}
+%\label{sec:guide:floats}
+%
+% There are several things to keep in mind when using tables and
+% figures with the class.
+%
+% The tables and figures are not centered.  Neither are their
+% captions. The captions for figures go \emph{below} the figures, the
+% captions for tables go \emph{above} the tabular data.  
+%
+% If a caption for a table or figure turns out to be wider than the
+% body, you might want to split the caption into lines.  Remember,
+% however, that the mandatory argument to |\caption| becomes
+% ``robust'' in the \LaTeX{} parlance~\cite{Lamport94} only when there
+% is the optional one.  Therefore the correct way to split a caption
+% is the following:
+% \begin{verbatim}
+% \caption[A Long Caption With Lines To Split]{%
+%   A Long Caption\\ With Lines To Split}
+% \end{verbatim}
+% 
+% Typesetting tables, unfortunately, is rarely done right, and
+% standard \LaTeX{} is not an exception.  The authors are urged to
+% read the introduction to \progname{booktabs}
+% package~\cite{Fear05:Booktabs}.  To summarize,
+% \begin{enumerate}
+% \item Never ever use vertical rules.
+% \item Never ever use double rules.
+% \item Use only |\toprule|, |\midrule| and |\bottomrule| for tables. 
+% \end{enumerate}
+% \DescribeMacro{\tbfont}
+% \DescribeMacro{\thfont}
+% \DescribeMacro{tabular}
+% \emph{No Starch Press} uses special fonts for table body and table
+% header.  Since there are too many tabular-like environments
+% (|tabular|, |tabbing|, |longtable|, \dots) we do not redefine them
+% switch on these fonts automatically, but rather provide two font
+% switching commands.  The command |\tbfont| should be used
+% \emph{before} tabular environment, and the command |\thfont| should
+% be used in all header cells.  Also, usually the table entries are
+% flushed left, so you might want to put |@{}| before the first column
+% declaration in |\begin{tabular}| to suppress the padding on the
+% left. Here is an example of a properly
+% done table layout:
+% \begin{verbatim}
+% \begin{table}
+%   \caption{Starch Content of Foods}
+%   \label{tab:starch}
+%   \tbfont
+%   \begin{tabular}{@{}lr}
+%     \toprule
+%      \thfont Product        & \thfont Starch Content, \% \\ 
+%     \midrule
+%      Bran (wheat)           & 23.0\\
+%      Brown rice (raw)       & 80.0\\
+%      Brown bread (average)  & 41.3\\
+%      White bread (average)  & 46.7\\
+%     \bottomrule
+%   \end{tabular}
+% \end{table}
+% \end{verbatim}
+% 
+%
+%
+%\subsubsection{Code Fragments}
+%\label{sec:guide:code}
+%
+% The class provides two facilities for including code fragments in
+% the books.  
+%
+% \DescribeMacro{Code}
+% For short unformatted code fragments the  \progname{fancyvrb}
+% package~\cite{VanZandt98:Fancyvrb} facilities are recommended.  This
+% package is automatically automatically loaded by the class.  Long code
+% fragments should be 
+% separated by rules;  the class defines verbatim-like |Code|
+% environment, which does exactly this:
+% \begin{verbatim}
+% \begin{Code}
+%   main() {
+%        printf("Hello, World\n");
+%   }
+% \end{Code}
+% \end{verbatim}
+% See the documentation of~\cite{VanZandt98:Fancyvrb} about many
+% features of this package.
+%
+% For longer code fragments the \progname{listings}
+% package~\cite{Heinz07:Listings} is more appropriate.  It is also
+% automatically loaded.  This package provides a number of useful
+% features, well describe in its manual.  We will briefly mention
+% several of them, which might be of interest for the authors of
+% \emph{No Starch Press}:
+% \begin{enumerate}
+% \item Automatic code formatting according to the rules of the chosen
+% program language (for example, |\lstset{language=C}| or
+% |\lstset{language=Lisp}|).
+% \item A rich set of different frames:  ruled code with
+% |frame=lines|, boxed code with |frame=single| etc.
+% \item An option to add captions to the listings (the class
+% automatically formats the captions according to the style of
+% \emph{No Starch Press}).
+% \item An option to make a listing floating.
+% \item An option to automatically number code lines.
+% \item An option to add list of listings (with the command
+% |\lstlistoflistings|). 
+% \end{enumerate}
+% 
+% To make the code in |\verb| commands and |verbatim|-like
+% environments be typeset with the \progname{listings} package, you
+% may want to  set |fancyvrb=true| in the preamble of your document.
+%
+% It should be noted that the authors are recommended \emph{not} to
+% use |\texttt| or |\tt| for inline code fragments.  The proper way to
+% add inline code is |\verb| or |\lstinline| from the
+% \progname{listings} package.  The difference is obvious, for
+% example, in quote characters.
+%
+%
+%\subsection{Back Matter}
+%\label{sec:guide:backmatter}
+%  
+% \DescribeMacro{\backmatter}
+%  Back matter includes bibliography, index, update page, colophon and
+%  other material.  It starts with the command |\backmatter|.
+%
+%
+%
+%\subsubsection{Bibliography}
+%\label{sec:guide:bibliography}
+% 
+% \emph{No Starch Press} at present has no special style for
+% bibliography, so the authors have a relative freedom to choose one.
+% However, it would be a good idea to use the \progname{natbib}
+% package~\cite{Daly07:Natbib}.  This class should work with
+% \progname{natbib}.
+%
+% No support for per chapter bibliography lists is provided by the
+% package. 
+%
+%
+%\subsubsection{Index}
+%\label{sec:guide:index}
+%
+% The books published by \emph{No Starch Press} usually have index.
+% This package provides special style file |nostarch.ist| for index
+% formatting.
+%
+%
+% \DescribeMacro{\makeindex} 
+% \DescribeMacro{\printindex} 
+% To create index:
+% \begin{enumerate}
+%
+% \item Put in the preamble of your
+% document the command |\makeindex|. 
+% \item In the body of your document use |\index| commands as
+% described in~\cite{Lamport94}.
+% \item Put in the Back Matter the command |\printindex| at the place
+% you want the index to be printed.
+% \item After a \progname{latex} run \progname{makeindex} with the
+% style |nostarch.ist|.  In a Unix system the corresponding command is
+% \begin{verbatim}
+% makeindex -s nostarch.ist mydocument
+% \end{verbatim}
+% or, in a more verbose way
+% \begin{verbatim}
+% makeindex -s nostarch.ist -o mydocument.ind mydocument.idx
+% \end{verbatim}
+% (here we assume that your main file is |mydocument.tex|).  
+%
+% Refer to the documentation of your \TeX{} system for the way to run
+% \progname{makeindex} on your computer.
+% \end{enumerate}
+% 
+%
+%\subsubsection{Updates and Colophon}
+%\label{sec:guide:updates}
+%
+% \DescribeMacro{\updatespage}
+% \emph{No Starch Press} books usually have updates page, which lists
+% the Web address for updates, errata, etc.  The command
+% |\updatespage| starts such page.  You are free to choose any text
+% there.  Note that if you use the package
+% \progname{nshypher}~\ref{sec:guide:hyperref}, then the command
+% |\url|\marg{URL} becomes a hyperlink in the electronic edition.
+%
+%
+% \DescribeMacro{\colophon}
+% The last part of Back Matter is usually a \emph{colophon} which
+% describes how the book was printed and typeset.  The command
+% |\colophon| starts this part and prints some standard information
+% about your fonts and \LaTeX{} package.  You may want to add some
+% information after this command.
+%
+%
+% \StopEventually{%
+% \clearpage
+% \bibliography{nostarch}
+% \bibliographystyle{unsrt}}
+% 
+% \clearpage
+%
+%
+%\section{Implementation}
+%\label{sec:impl}
+%
+%\subsection{Identification}
+%\label{sec:ident}
+%
+% We start with the declaration who we are.  Most |.dtx| files put
+% driver code in a separate driver file |.drv|.  We roll this code into the
+% main file, and use the pseudo-guard |<gobble>| for it.
+%    \begin{macrocode}
+%<class>\NeedsTeXFormat{LaTeX2e}
+%<*gobble>
+\ProvidesFile{nostarch.dtx}
+%</gobble>
+%<class>\ProvidesClass{nostarch}
+%<nshyper>\ProvidesPackage{nshyper}
+%<*!ist>
+[2008/06/06 v1.3 Typesetting books for No Starch Press]
+%</!ist>
+%    \end{macrocode}
+%
+% And the driver code:
+%    \begin{macrocode}
+%<*gobble>
+\documentclass{ltxdoc}
+\usepackage{array}
+\usepackage{url,amsfonts}
+\usepackage[breaklinks,colorlinks,linkcolor=black,citecolor=black,
+            pagecolor=black,urlcolor=black,hyperindex=false]{hyperref}
+\PageIndex
+\CodelineIndex
+\RecordChanges
+\EnableCrossrefs
+\begin{document}
+  \DocInput{nostarch.dtx}
+\end{document}
+%</gobble> 
+%<*class>
+%    \end{macrocode}
+%   
+%
+%\subsection{Options}
+%\label{sec:options}
+%
+%
+% First, let us decide whether we have non-free fonts:
+%    \begin{macrocode}
+\newif\ifnostarch@cfonts
+\nostarch@cfontstrue
+\DeclareOption{cfonts}{\nostarch@cfontstrue}
+\DeclareOption{nocfonts}{\nostarch@cfontsfalse}
+%    \end{macrocode}
+%
+% The size-changing options produce a warning:
+%    \begin{macrocode}
+\long\def\nostarch@size@warning#1{%
+  \ClassWarning{nostarch}{Size-changing option #1 will not be
+    honored}}%
+\DeclareOption{8pt}{\nostarch@size@warning{\CurrentOption}}%
+\DeclareOption{9pt}{\nostarch@size@warning{\CurrentOption}}%
+\DeclareOption{10pt}{\nostarch@size@warning{\CurrentOption}}%
+\DeclareOption{11pt}{\nostarch@size@warning{\CurrentOption}}%
+\DeclareOption{12pt}{\nostarch@size@warning{\CurrentOption}}%
+%    \end{macrocode}
+% 
+%
+%
+% All other options are passed to \progname{book}:
+%    \begin{macrocode}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+%    \end{macrocode}
+% 
+% Now we read the configuration file
+%    \begin{macrocode}
+\InputIfFileExists{nostarch.cfg}{%
+  \ClassInfo{nostarch}{%
+    Loading configuration file nostarch.cfg}}{%
+  \ClassInfo{nostarch}{%
+    Configuration file nostarch.cfg is not found}}
+%    \end{macrocode}
+% And process the options:
+%    \begin{macrocode}
+\ProcessOptions\relax
+%    \end{macrocode}
+%
+%
+% 
+%
+%
+%\subsection{Loading Class and Packages}
+%\label{sec:loading}
+%
+% We start with the base class
+%    \begin{macrocode}
+\LoadClass[10pt]{book}
+%    \end{macrocode}
+%
+% A bunch of packages:
+%    \begin{macrocode}
+\RequirePackage{ifpdf, fancyhdr, fancyvrb, booktabs, graphicx,
+  listings, caption, makeidx, upquote}
+%    \end{macrocode}
+%
+% We do not want the option |document| with \progname{ragged2e}: this
+% calls \progname{footmisc}, while we want our own footnotes:
+%    \begin{macrocode}
+\RequirePackage{ragged2e}
+\setlength\RaggedRightParindent{\parindent}
+\RaggedRight
+%    \end{macrocode}
+% 
+%
+% \begin{macro}{\@nschapterpreamble}
+%   This is the preamble to bibliography and index commands used when
+%   \progname{nshyper} is loaded.  Normally it is empty. 
+%    \begin{macrocode}
+\def\@nschapterpreamble{}
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+%
+%\subsection{Fonts}
+%\label{sec:fonts}
+%
+% If we have commercial fonts, we load them.  Note that the body text
+% has roman font at 10pt, and typewriter at 8.5pt.
+% Therefore we will load |thsmc| scaled.  We also add |dgdefault| for
+% dogma family
+%    \begin{macrocode}
+\ifnostarch@cfonts
+  \RequirePackage{nbaskerv}%
+  \RequirePackage{futurans}%
+  \RequirePackage[scaled=0.85]{thsmc}%
+  \RequirePackage{dogma}%
+  \newcommand{\dgdefault}{fdg}%
+%    \end{macrocode}
+% Otherwise we just use sans serif font for dogma.
+%    \begin{macrocode}
+\else
+  \newcommand{\dgdefault}{\sfdefault}%
+\fi
+%    \end{macrocode}
+%
+%
+% And switch to normal size---just in case
+%    \begin{macrocode}
+\normalsize
+%    \end{macrocode}
+% 
+%
+%
+%\subsection{Page Dimensions and Paragraphing}
+%\label{sec:page}
+%
+% \begin{macro}{\paperheight}
+% \begin{macro}{\paperwidth}
+% The trim size:
+%    \begin{macrocode}
+\setlength{\paperheight}{9.25in}
+\setlength{\paperwidth}{7in}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\pdfpaperheight}
+% \begin{macro}{\pdfpaperwidth}
+% \begin{macro}{\pdfvorigin}
+% \begin{macro}{\pdfhorigin}
+% If we deal with \progname{pdftex}, we can use this information more
+% creatively.  This was inspired by
+% \progname{memoir}~\cite{Wilson04:Memoir}.
+%    \begin{macrocode}
+\ifpdf\relax
+  \pdfpageheight=\paperheight
+  \pdfpagewidth=\paperwidth
+  \pdfvorigin=1in
+  \pdfhorigin=1in
+\fi
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\topmargin}
+% \changes{v0.2}{2008/03/03}{Moved down} 
+% \changes{v0.7}{2008/04/04}{Changed dimensions} 
+% \changes{v1.1}{2008/05/24}{Made shorter} 
+%   The top margin is 0.625''.  We use fake headers of 12pt:
+%    \begin{macrocode}
+\setlength\topmargin{0.625in}
+\addtolength\topmargin{-1in}
+\addtolength\topmargin{-12pt}
+%    \end{macrocode}  
+% \end{macro}
+% \begin{macro}{\textheight}
+%   This is the height of the text including footnotes, but excluding
+%   running head and foot. 
+%    \begin{macrocode}
+\setlength\textheight{8in}
+\addtolength{\textheight}{-0.207in}
+%    \end{macrocode}
+% Now we take care of the first line height:
+%    \begin{macrocode}
+\addtolength\textheight{\topskip}
+%    \end{macrocode}   
+% \end{macro}
+%
+% \begin{macro}{\evensidemargin}
+% \begin{macro}{\oddsidemargin}
+%   The margins on even and odd pages are 0.687''+0.833'' (margin par
+%   width) + 0.167'' (margin par gap):
+%    \begin{macrocode}
+\setlength\evensidemargin{0.687in}
+\addtolength{\evensidemargin}{-1in}
+\addtolength{\evensidemargin}{0.833in}
+\addtolength{\evensidemargin}{0.167in}
+\setlength\oddsidemargin{\evensidemargin}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\textwidth}
+%   The type area is 5.625'', but this includes side gap:
+%    \begin{macrocode}
+\setlength\textwidth{5.625in}
+\addtolength\textwidth{-0.833in}
+\addtolength\textwidth{-0.167in}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\parindent}
+%   The paragraph indentation is 0.25'':
+%    \begin{macrocode}
+\setlength\parindent{0.25in}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\headheight}
+% \begin{macro}{\headsep}
+%   We do not have headers in these books.  Fancyhdr sets |headheight|
+%   to 12pt, so we compensate it above in |\topmargin|
+%    \begin{macrocode}
+\setlength\headheight{12pt}
+\setlength\headsep{0pt}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\footskip}
+% The footer is 8.792'' from top
+%    \begin{macrocode}
+\setlength{\footskip}{9in}
+\addtolength{\footskip}{-\textheight}
+\addtolength{\footskip}{0.067in}
+\addtolength{\footskip}{\baselineskip}
+\addtolength{\footskip}{-1in}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\widowpenalty}
+% \begin{macro}{\clubpenalty}
+% \changes{v0.3}{2008/03/11}{Changed settings} 
+%   We forbid widows and clubs.  To prevent too extended pages we use
+%   |\raggedbottom|:
+%    \begin{macrocode}
+\widowpenalty=10000
+\clubpenalty=10000
+\raggedbottom
+%    \end{macrocode}
+%   
+% \end{macro}
+% \end{macro}
+% 
+% 
+%
+%\subsection{Headers and Footers}
+%\label{sec:headers}
+%
+%
+% \begin{macro}{\headrulewidth}
+% \begin{macro}{\footrulewidth}
+%   We do not want decorative rules:
+%    \begin{macrocode}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% 
+%
+% We do not have headers:
+%    \begin{macrocode}
+\pagestyle{fancy}
+\lhead{}
+\rhead{}
+\chead{}
+%    \end{macrocode}
+% 
+% The right footer is stuck 0.833''+0.167'' = 1'' to the right
+%    \begin{macrocode}
+\fancyhfoffset[L]{1in}
+%    \end{macrocode}
+%
+% On even pages we put page number and chapter title in footer. 
+%    \begin{macrocode}
+\fancyfoot[RO]{\fontfamily{\sfdefault}\fontsize{6pt}{6pt}%
+  \fontseries{lq}\selectfont\rightmark%
+  \hspace{2em}\fontseries{bc}\fontsize{9pt}{6pt}\selectfont\thepage}
+\fancyfoot[LO]{}
+\fancyfoot[CO]{}
+%    \end{macrocode}
+% 
+% On even pages we put page number and chapter number in footer:
+%    \begin{macrocode}
+\fancyfoot[LE]{\fontfamily{\sfdefault}\fontseries{bc}\fontsize{9pt}{6pt}%
+  \selectfont\thepage\hspace{2em}%
+  \fontseries{lq}\fontsize{6pt}{6pt}\selectfont%
+  \leftmark}
+\fancyfoot[RE]{}
+\fancyfoot[CE]{}
+%    \end{macrocode}
+% 
+%
+%\subsection{Front Matter}
+%\label{sec:frontmatter}
+%
+%
+% \begin{macro}{\subtitle}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   We use subtitle of the book\dots
+%    \begin{macrocode}
+\newcommand{\subtitle}[1]{\gdef\@subtitle{#1}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@subtitle}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   \dots With empty default:
+%    \begin{macrocode}
+\def\@subtitle{}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\nostarchlogo}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   The logotype of the publisher:
+%    \begin{macrocode}
+\newcommand{\nostarchlogo}[1]{\gdef\@nostarchlogo{#1}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@nostarchlogo}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   The default it empty:
+%    \begin{macrocode}
+\def\@nostarchlogo{}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\nostarchlocation}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   Similarly for location:
+%    \begin{macrocode}
+\newcommand{\nostarchlocation}[1]{\gdef\@nostarchlocation{#1}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\@nostarchlocation}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   The default is SF:
+%    \begin{macrocode}
+\def\@nostarchlocation{San Francisco}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\makehalftitle}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+% \changes{v0.7}{2008/04/04}{Changed dimensions} 
+%   Now we are ready to typeset the half title page.  It is flushed
+%   right, cannot be to the left of the page center and must be 0.25''
+%   indented from the right:
+%    \begin{macrocode}
+\def\makehalftitle{%
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \thispagestyle{empty}%
+  \null\vskip1.025in%
+  \leavevmode\noindent\hspace{1.66in}%
+    \begin{minipage}[t]{2.5625in}%
+    \flushright 
+    \fontfamily{\sfdefault}\fontseries{b}%
+    \fontsize{12\p@}{13\p@}\selectfont
+    \MakeUppercase{\@title}%
+  \end{minipage}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{maketitle}
+% \changes{v0.5}{2008/03/19}{Changed LaTeX default} 
+% \changes{v0.7}{2008/04/04}{Changed dimensions} 
+% Now the main title page:
+%    \begin{macrocode}
+\def\maketitle{%
+  \bgroup
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \thispagestyle{empty}%
+  \bgroup
+  \list{}{\leftmargin-1in\rightmargin\z@\labelwidth\z@%
+    \labelsep\z@\listparindent\z@\parsep\z@\itemsep\z@%
+    \topsep\z@\partopsep\z@}%
+  \item\relax
+  \centering
+  \null\vskip0.855in%
+  {\fontfamily{\dgdefault}\fontseries{bk}\fontsize{36\p@}{37\p@}\selectfont
+    \MakeUppercase{\@title}\par}%
+  \if\@subtitle\@empty\relax\else
+     {\null\vskip25\p@%
+     \fontfamily{\dgdefault}\fontseries{bq}\fontsize{24\p@}{25\p@}\selectfont
+    \@subtitle\par}%
+  \fi
+  \vspace{1.7in}%
+  \vspace{-\baselineskip}%
+  {\fontfamily{\sfdefault}\fontseries{hq}\fontsize{18\p@}{22\p@}\selectfont
+    by \@author\par}%
+  \vspace{0.45in}%
+  \vspace{\baselineskip}%
+  \if\@nostarchlogo\@empty\relax\else
+    \includegraphics[height=1.08in]{\@nostarchlogo}\par
+  \fi
+  \vspace{12\p@}%
+  \normalfont\@nostarchlocation\par
+  \endlist
+  \egroup
+  \clearpage\egroup}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{copyrightpage}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   This is the page copyright data:
+%    \begin{macrocode}
+\newenvironment{copyrightpage}{%
+  \clearpage
+  \bgroup
+  \list{}{\leftmargin-1in\rightmargin\z@\labelwidth\z@%
+    \labelsep\z@\listparindent\z@\parsep8\p@\itemsep\z@%
+    \topsep\z@\partopsep\z@}%
+  \item\relax  
+  \thispagestyle{empty}%
+  \normalfont\fontsize{8\p@}{10\p@}\selectfont}{%
+  \endlist
+  \egroup
+  \clearpage}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{cipblock}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   CIP block is supposed to be in typewriter font.  So we use
+%   verbatim:
+%    \begin{macrocode}
+\newenvironment{cipblock}{%
+  \leavevmode\par\normalfont\fontsize{8\p@}{10\p@}\selectfont
+  \textit{Library of Congress Cataloging-in-Publication Data}\par%
+  \ttfamily\@vobeyspaces\obeylines
+  \parindent\z@\parfillskip\@flushglue\parskip\z@skip}{\par\vskip8pt\relax}
+%    \end{macrocode}   
+% \end{macro}
+%
+%
+% \begin{macro}{dedicationpage}
+% \changes{v0.5}{2008/03/19}{Introduced the macro} 
+%   Dedication is centered:
+%    \begin{macrocode}
+\newenvironment{dedicationpage}{%
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \thispagestyle{empty}%
+  \null\vskip1.175in%
+  \centering\normalfont}{\clearpage}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%\subsection{Tables of Contents}
+%\label{sec:toc}
+%
+% Standard \LaTeX{} has just one table of contents.  We have two.  The
+% table of brief contents will have the extension |tbc|, while the
+% standard table of contents will have the standard extension |toc|. 
+%
+% \begin{macro}{\briefcontentsname}
+%   The name for brief contents
+%    \begin{macrocode}
+\def\briefcontentsname{Brief Contents}
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+% \begin{macro}{\contentsname}
+%   Same with |\contentsname|
+%    \begin{macrocode}
+\def\contentsname{Contents in Detail}%
+%    \end{macrocode}
+%  Special treatment if \progname{babel} is used:
+%    \begin{macrocode}
+\AtBeginDocument{\@ifpackageloaded{babel}{%
+  \addto\captionsenglish{%
+    \renewcommand{\contentsname}%
+    {Contents in Detail}}}{}}
+%    \end{macrocode}
+%  
+% \end{macro}
+%
+%
+% \begin{macro}{\brieftableofcontents}
+% \changes{v0.5}{2008/03/19}{Introduced macro} 
+% \changes{v0.7}{2008/04/04}{Changed dimensions} 
+% \changes{v0.8}{2008/04/07}{Changed dimensions} 
+% \changes{v1.1}{2008/05/24}{Added toc name to the verso footers} 
+%   This is the new macro:
+%    \begin{macrocode}
+\newcommand\brieftableofcontents{%
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \bgroup
+  \thispagestyle{empty}%
+  \markboth{\briefcontentsname}{\briefcontentsname}%
+  \null\vskip0.925in%
+  \list{}{\leftmargin-1.0in\rightmargin0.4in\labelwidth\z@%
+    \labelsep\z@\listparindent\z@\parsep\z@\itemsep\z@%
+    \topsep\z@\partopsep\z@}%
+  \item\relax  
+    {\centering
+      \fontfamily{\dgdefault}\fontseries{bs}\fontsize{16\p@}{18\p@}\selectfont
+      \MakeUppercase{\briefcontentsname}\par}\vskip40pt%
+  \@starttoc{tbc}%
+  \endlist
+  \egroup}
+%    \end{macrocode}
+%   
+% \end{macro}
+% \begin{macro}{\tableofcontents}
+% \changes{v0.5}{2008/03/19}{Changed LaTeX default} 
+% \changes{v0.7}{2008/04/04}{Changed dimensions} 
+% \changes{v0.8}{2008/04/07}{Changed dimensions} 
+% \changes{v1.1}{2008/05/24}{Added toc name to the verso footers} 
+% \changes{v1.2}{2008/06/01}{Added toc name to the verso footers} 
+%   This is the new macro:
+%    \begin{macrocode}
+\renewcommand\tableofcontents{%
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \bgroup
+  \thispagestyle{empty}%
+  \markboth{\contentsname}{\contentsname}%
+  \null\vskip0.175in%
+  \list{}{\leftmargin-1.0in\rightmargin0.6in\labelwidth\z@%
+    \labelsep\z@\listparindent\z@\parsep\z@\itemsep\z@%
+    \topsep\z@\partopsep\z@}%
+  \item\relax  
+    {\centering
+      \fontfamily{\dgdefault}\fontseries{bs}\fontsize{16\p@}{18\p@}\selectfont
+      \MakeUppercase{\contentsname}\par}\vskip18pt%
+  \@starttoc{toc}%
+  \endlist
+  \egroup}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@dotsep}
+% \changes{v0.7}{2008/04/04}{Changed LaTeX default} 
+% \changes{v0.8}{2008/04/07}{Tightened dots} 
+%  Standard \LaTeX{} provides 4.5 for the distance between dots.  We
+%  will make this tighter:
+%    \begin{macrocode}
+\renewcommand\@dotsep{1.5}
+%    \end{macrocode}
+%  
+% \end{macro}
+%
+% \begin{macro}{\l@part}
+% \changes{v0.5}{2008/03/19}{Changed LaTeX default} 
+%   This is how we typeset parts in the table of contents
+%    \begin{macrocode}
+\renewcommand*\l@part[2]{%
+  \ifnum \c@tocdepth >-2\relax
+    \addpenalty{-\@highpenalty}%
+    \addvspace{28\p@}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      {\leavevmode
+       \fontfamily{\sfdefault}\fontseries{bq}\fontsize{12\p@}{14\p@}\selectfont
+       #1}\par
+       \nobreak
+         \global\@nobreaktrue
+         \everypar{\global\@nobreakfalse\everypar{}}%
+    \endgroup
+  \fi}
+%    \end{macrocode}   
+% \end{macro}
+% \begin{macro}{\l@chapter}
+% \changes{v0.5}{2008/03/19}{Changed LaTeX default} 
+%   This is how we typeset chapters in the table of contents
+%    \begin{macrocode}
+\renewcommand*\l@chapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \vskip 20\p@
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode 
+      \fontfamily{\sfdefault}\fontseries{bq}\fontsize{10\p@}{12\p@}\selectfont
+      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \vskip4\p@\penalty\@highpenalty
+    \endgroup
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\sectionnumberwidth}
+% \changes{v1.3}{2008/06/06}{Introduced the length} 
+%   The number width for sections.  Normally the width of |99.99|
+%    \begin{macrocode}
+\newlength{\sectionnumberwidth}
+\settowidth{\sectionnumberwidth}{%
+  \fontfamily{\sfdefault}\fontseries{k}\fontsize{9\p@}{11\p@}\selectfont
+  99.99}
+%    \end{macrocode}   
+% \end{macro}
+% \begin{macro}{\subsectionnumberwidth}
+% \changes{v1.3}{2008/06/06}{Introduced the length} 
+%   The number width for subsections.  Normally the width of
+%   |99.99.99| 
+%    \begin{macrocode}
+\newlength{\subsectionnumberwidth}
+\settowidth{\subsectionnumberwidth}{%
+  \fontfamily{\sfdefault}\fontseries{k}\fontsize{9\p@}{11\p@}\selectfont
+  99.99.99}
+%    \end{macrocode}   
+% \end{macro}
+%
+% \begin{macro}{\l@section}
+% \changes{v0.5}{2008/03/19}{Changed LaTeX default} 
+% \changes{v1.3}{2008/06/06}{Made number width user settable} 
+%   This is how we typeset sections in the table of contents
+%    \begin{macrocode}
+\renewcommand{\l@section}[2]{\@dottedtocline{1}{\z@}{%
+    \sectionnumberwidth}{%
+    \fontfamily{\sfdefault}\fontseries{k}\fontsize{9\p@}{11\p@}\selectfont#1}{%
+    \fontfamily{\sfdefault}\fontseries{k}\fontsize{9\p@}{11\p@}\selectfont#2}}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\l@subsection}
+% \changes{v0.5}{2008/03/19}{Changed LaTeX default} 
+% \changes{v1.1}{2008/05/24}{Changed numwidth} 
+% \changes{v1.2}{2008/06/01}{Changed numwidth again} 
+% \changes{v1.3}{2008/06/06}{Made number width user settable} 
+%   This is how we typeset subsections in the table of contents
+%    \begin{macrocode}
+\renewcommand{\l@subsection}[2]{\@dottedtocline{2}{0.5in}%
+  {\subsectionnumberwidth}{%
+    \fontfamily{\sfdefault}\fontseries{k}\fontsize{9\p@}{11\p@}\selectfont#1}{%
+    \fontfamily{\sfdefault}\fontseries{k}\fontsize{9\p@}{11\p@}\selectfont#2}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+% \begin{macro}{\l@bpart}
+% \changes{v0.6}{2008/03/21}{Introduced macro} 
+%   There is a special formatting of parts in the brief table of
+%   contents: 
+%    \begin{macrocode}
+\newcommand*\l@bpart[2]{%
+  \ifnum \c@tocdepth >-2\relax
+    \addpenalty{-\@highpenalty}%
+    \addvspace{14\p@}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      {\leavevmode
+       \fontfamily{\sfdefault}\fontseries{h}\fontsize{9\p@}{14\p@}\selectfont
+       #1}\par\vskip7\p@%
+       \nobreak
+         \global\@nobreaktrue
+         \everypar{\global\@nobreakfalse\everypar{}}%
+    \endgroup
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\l@bchapter}
+% \changes{v0.6}{2008/03/21}{Introduced macro} 
+%   There is a special formatting of chapters in the brief table of
+%   contents: 
+%    \begin{macrocode}
+\newcommand*\l@bchapter[2]{%
+  \ifnum \c@tocdepth >\m@ne
+    \addpenalty{-\@highpenalty}%
+    \setlength\@tempdima{1.5em}%
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode 
+      \fontfamily{\sfdefault}\fontseries{k}\fontsize{9\p@}{14\p@}\selectfont
+      #1\nobreak\leaders\hbox{$\m@th
+        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+        mu$}\hfill
+      \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \penalty\@highpenalty
+    \endgroup
+  \fi}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%\subsection{Main Matter}
+%\label{sec:mainmatter}
+%
+% \begin{macro}{\mainmatter}
+% \changes{v0.6}{2008/03/19}{Changed LaTeX default} 
+%   We redefine |\mainmatter| to take care of that blank verso
+%   page\dots
+%    \begin{macrocode}
+\renewcommand\mainmatter{%
+  \clearpage
+  {\thispagestyle{empty}\cleardoublepage}%
+  \@mainmattertrue
+  \pagenumbering{arabic}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%\subsection{Back Matter}
+%\label{sec:backmatter}
+%
+% \begin{macro}{\backmatter}
+% \changes{v0.6}{2008/03/21}{Changed LaTeX default} 
+%   We redefine |\backmatter| to take care of that blank verso
+%   page\dots
+%    \begin{macrocode}
+\renewcommand\backmatter{%
+  \clearpage
+  {\thispagestyle{empty}\cleardoublepage}%
+  \@mainmatterfalse}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%\subsection{Sectioning}
+%\label{sec:sectioning}
+%
+% We do not number sections and below:
+%    \begin{macrocode}
+\setcounter{secnumdepth}{0}
+%    \end{macrocode}
+% 
+% \begin{macro}{\sectionmark}
+%   Our section commands do not mark:
+%    \begin{macrocode}
+\def\sectionmark#1{}%
+%    \end{macrocode}   
+% \end{macro}
+%
+%
+% Chapters, unlike the ones in~\cite{classes}, have \emph{two} obligatory
+% arguments. The second argument is the command to fill the ``circular
+% graphics''. Otherwise we follow the design in~\cite{classes}.  One
+% problem, however: we \emph{cannot} use |\secdef| because we have
+% three arguments, not two.
+%
+%
+% \begin{macro}{\if@firstpara}
+%   We introduce a macro to get special typesetting for the first
+%   paragraph after a part or a chapter begins:
+%    \begin{macrocode}
+\newif\if@firstpara
+\@firstparafalse
+%    \end{macrocode}   
+% \end{macro}
+%
+% \begin{macro}{\@chapterart}
+%   We also keep track of the current artwork for chapter start:
+%    \begin{macrocode}
+\def\@chapterart{}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\secdef}
+% \changes{v0.6}{2008/03/21}{Changed LaTeX default} 
+%   The standard \LaTeX{} |secdef| assumes that starred commands have no
+%   optional argument.  This is not right for us:
+%    \begin{macrocode}
+\def\secdef#1#2{\@ifstar{\@dblarg{#2}}{\@dblarg{#1}}}
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+%
+% \begin{macro}{\part}
+% \changes{v0.5}{2008/03/16}{Changed LaTeX default} 
+%   Our parts differ from the ones in standard LaTeX since we use empty
+%   pagestyle rather than plain in part pages.  The trick with
+%   |\cleardoublepage| is from~\cite{Oostrum04:Fancyhdr}
+%    \begin{macrocode}
+\renewcommand\part{%
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \everypar{}%
+  \markboth{}{}%
+  \def\@chapterart{}%
+  \thispagestyle{empty}%
+  \null\vskip0.715in%
+  \secdef\@part\@spart}
+%    \end{macrocode} 
+% \end{macro}
+% 
+% \begin{macro}{\@part}
+% \changes{v0.5}{2008/03/16}{Changed LaTeX default} 
+% \changes{v0.7}{2008/04/04}{Changed dimensions} 
+%   This code is used when we have a numbered part.
+%    \begin{macrocode}
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >-2\relax
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\MakeUppercase{\partname} 
+        \thepart\protect\linebreak\penalty\@highpenalty\MakeUppercase{#1}}%
+      \addcontentsline{tbc}{bpart}{\MakeUppercase{\partname~\thepart: #1}}%
+    \else
+      \addcontentsline{toc}{part}{\MakeUppercase{#1}}%
+      \addcontentsline{tbc}{bpart}{\MakeUppercase{#1}}%
+    \fi
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \ifnum \c@secnumdepth >-2\relax
+       \fontfamily{\sfdefault}\fontsize{80pt}{80pt}\fontseries{bc}\selectfont
+       \MakeUppercase{\partname\nobreakspace\thepart}%
+       \par
+       \vskip 0.45in%
+     \fi
+     \fontfamily{\dgdefault}\fontsize{16pt}{16pt}\fontseries{br}\selectfont
+     \MakeUppercase{#2}\par}%
+    \@endpart}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@spart}
+% \changes{v0.5}{2008/03/16}{Changed LaTeX default} 
+%   This is used for starred parts (probably not something we are
+%   going to encounter\dots)
+%    \begin{macrocode}
+\def\@spart[#1]#2{%
+  \addcontentsline{toc}{part}{\MakeUppercase{#1}}%
+  \addcontentsline{tbc}{bpart}{\MakeUppercase{#1}}%
+    {\centering
+      \fontfamily{\dgdefault}\fontsize{16pt}{16pt}\fontseries{br}\selectfont
+     \MakeUppercase{#2}\par}%
+    \@endpart}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@endpart}
+% \changes{v0.5}{2008/03/16}{Changed LaTeX default} 
+%   When part is finished, we change the settings of the first paragraph:
+%    \begin{macrocode}
+\def\@endpart{%
+  \@afterindentfalse
+  \vskip49\p@%
+   \@firstparatrue
+   \@afterheading}    
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+% \begin{macro}{\chapter}
+% \changes{v0.6}{2008/03/21}{Reverted to standard interface} 
+% First, we suppress floats, set up empty page style and delete
+% indentation after the chapter.  Then we check whether the chapter is
+% starred:
+%    \begin{macrocode}
+\def\chapter{%
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \everypar{}%
+  \thispagestyle{empty}%
+  \global\@topnum\z@
+  \@afterindentfalse
+  \gdef\@chapterart{}%
+  \secdef\@chapter\@schapter}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\@chapter}
+% \changes{v0.2}{2008/03/04}{Moved up} 
+% \changes{v0.6}{2008/03/21}{Reverted to standard interface} 
+% \changes{v1.3}{2008/06/06}{Corrected a stupid mistake: put
+% refstepcounter out of a group}
+%   The actual work is done by |\@chapter| macro.
+%    \begin{macrocode}
+\def\@chapter[#1]#2{%
+  \vspace*{0.622in}
+  \ifnum \c@secnumdepth > \m@ne
+  \refstepcounter{chapter}%
+  \typeout{Chapter:\thechapter\space\@currentlabel}%
+  \markboth{\@chapapp~\thechapter}{#1}%
+  \typeout{\@chapapp\space\thechapter.}%
+  \addcontentsline{toc}{chapter}{\thechapter%
+    \protect\linebreak\penalty\@highpenalty
+    \MakeUppercase{#1}}%
+  \addcontentsline{tbc}{bchapter}{%
+    \chaptername~\thechapter:~#1}%
+  {\centering
+    \fontfamily{\sfdefault}\fontseries{bc}\fontsize{120pt}{120pt}
+    \selectfont
+    \thechapter\par\nobreak\vskip27pt}%
+  \else
+  \addcontentsline{toc}{chapter}{%
+    \MakeUppercase{#1}}%
+  \addcontentsline{tbc}{bchapter}{#1}%
+  \markboth{#1}{#1}%
+  \fi
+  {\centering
+    \fontfamily{\dgdefault}\fontseries{br}\fontsize{16pt}{20pt}\selectfont
+    \MakeUppercase{#2}\par}\nobreak\vskip25pt\relax%
+  \@firstparatrue
+  \@afterheading}%
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@schapter}
+% \changes{v0.6}{2008/03/21}{Reverted to standard interface} 
+% \changes{v0.7}{2008/04/04}{Changed dimensions} 
+%   This is used when we have a starred chapter:
+%    \begin{macrocode}
+\def\@schapter[#1]#2{%
+  \vspace*{2.747in}
+  {\centering
+    \addcontentsline{toc}{chapter}{%
+      \MakeUppercase{#1}}%
+    \addcontentsline{tbc}{bchapter}{#1}%
+    \markboth{#1}{#1}%
+    {\fontfamily{\dgdefault}\fontseries{br}\fontsize{16pt}{20pt}\selectfont
+      \MakeUppercase{#2}\par}}\nobreak\vskip25pt\relax%
+   \@firstparatrue
+   \@afterheading}%
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@afterheading}
+% \changes{v0.3}{2008/03/12}{Moved the circle art} 
+% \changes{v0.4}{2008/03/14}{Added special treatment for the case of
+% empty chapter art} 
+% \changes{v0.7}{2008/04/04}{Changed dimensions} 
+% We cannot use the standard |\@afterheading| since we want to put the
+% first paragraph in larger font and put there the artwork.  So we
+% take |\@afterheading| code and patch it:
+%    \begin{macrocode}
+\def\@afterheading{%
+  \@nobreaktrue
+  \everypar{%
+    \if@nobreak
+      \@nobreakfalse
+      \clubpenalty \@M
+       \setbox\z@\lastbox
+    \else
+      \clubpenalty \@clubpenalty
+      \everypar{}%
+    \fi
+      \if@firstpara
+%    \end{macrocode}
+% The first paragraph has a special font and artwork in the beginning:
+%    \begin{macrocode}
+       \rule{\z@}{49\p@}%
+       \ifx\@chapterart\@empty%
+       \else
+         \makebox[0pt][r]{\raisebox{-0.5in}[0pt][0pt]{%
+            \@chapterart\hspace{0.21in}}}%
+        \parshape=5 
+        0.963in 3.622in 
+        0.913in 3.672in 
+        0.813in 3.772in 
+        0.563in 4.022in 
+        0in \textwidth 
+      \fi
+      \fontsize{14pt}{16.5pt}\selectfont%
+      \parskip=3pt
+      \else
+        \parskip=0pt
+        \normalsize\selectfont
+       \fi
+    \@firstparafalse}}%
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\chapterart}
+% \changes{v0.6}{2008/03/21}{Introduced the command} 
+%   This creates the chapterart:
+%    \begin{macrocode}
+\newcommand{\chapterart}[1]{\gdef\@chapterart{#1}}%
+%    \end{macrocode}   
+% \end{macro}
+%
+% \begin{macro}{\chapterartfile}
+% \changes{v0.6}{2008/03/21}{Introduced the command} 
+%   The simplified version of |\chapterart|:
+%    \begin{macrocode}
+\newcommand{\chapterartfile}[1]{\gdef\@chapterart{%
+    \includegraphics[width=1.264in]{#1}}}%
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+%
+% \begin{macro}{\section}
+% \changes{v0.3}{2008/03/09}{Changed indentation}
+%   Sections correspond to |HeadA| in our specs.  We use |\everypar{}|
+%   in case section starts just after chapter start.
+%    \begin{macrocode}
+\renewcommand{\section}{\everypar{}%
+  \@startsection{section}{1}{-0.75in}{16pt}{6pt}{%
+    \fontfamily{\sfdefault}\fontseries{b}\fontsize{12pt}{16pt}\selectfont}}%
+%    \end{macrocode}   
+% \end{macro}
+% 
+% \begin{macro}{\subsection}
+%   Subsections correspond to |HeadB| in our specs:
+%    \begin{macrocode}
+\renewcommand{\subsection}{\everypar{}%
+  \@startsection{subsection}{2}{0pt}{14pt}{4pt}{%
+    \fontfamily{\sfdefault}\fontshape{it}%
+    \fontseries{bc}\fontsize{12pt}{17pt}\selectfont}}%
+%    \end{macrocode}   
+% \end{macro}
+%
+%
+% \begin{macro}{\subsubsection}
+%   Subsubsections correspond to |HeadC| in our specs:
+%    \begin{macrocode}
+\renewcommand{\subsubsection}{\everypar{}%
+  \@startsection{subsubsection}{3}{0pt}{10pt}{2pt}{%
+  \fontfamily{\sfdefault}\fontseries{bp}\fontsize{10pt}{14pt}%
+    \selectfont}}%
+%    \end{macrocode}   
+% \end{macro}
+%
+% We do not redefine levels below, leaving the options
+% from~\cite{classes} in place.
+%
+%
+%
+%\subsection{Lists}
+%\label{sec:lists}
+%
+% This follows design of~\cite{classes} with the values from our
+% specifications:
+% \begin{macro}{\leftmargin}
+% \begin{macro}{\leftmargini}
+% \begin{macro}{\leftmarginii}
+% \begin{macro}{\leftmarginiii}
+% \begin{macro}{\leftmarginiv}
+%   The host of |\leftmargin| commands:
+%    \begin{macrocode}
+\setlength{\leftmargin}{0.25in}
+\setlength{\leftmargini}{0.25in}
+\setlength{\leftmarginii}{0.25in}
+\setlength{\leftmarginiii}{0.25in}
+\setlength{\leftmarginiv}{0.25in}
+%    \end{macrocode}   
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% 
+% \begin{macro}{\rightmargin}
+%   Right margin is always zero:
+%    \begin{macrocode}
+\setlength{\rightmargin}{0pt}
+%    \end{macrocode}
+% \end{macro}
+% 
+%
+% \begin{macro}{\@listi}
+% \begin{macro}{\@listI}
+%   This is the default list on the first level
+%    \begin{macrocode}
+\def\@listi{\leftmargin\leftmargini
+  \labelwidth\leftmargin\relax
+  \advance\labelwidth-\labelsep\relax
+  \parsep0\p@\relax
+  \topsep6\p@\relax
+  \itemsep4\p@\relax}
+\let\@listI\@listi
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\@listii}
+% \begin{macro}{\@listiii}
+% \begin{macro}{\@listiv}
+% \begin{macro}{\@listv}
+% \begin{macro}{\@listvi}
+%   And the lists for the next levels:
+%    \begin{macrocode}
+\def\@listii{\leftmargin\leftmarginii
+  \labelwidth\leftmarginii
+  \advance\labelwidth-\labelsep
+  \parsep0\p@\relax
+  \topsep0\p@\relax
+  \itemsep0\p@\relax}
+\def\@listiii{\leftmargin\leftmarginiii
+  \labelwidth\leftmarginiii
+  \advance\labelwidth-\labelsep
+  \parsep0\p@\relax
+  \topsep0\p@\relax
+  \itemsep0\p@\relax}
+\def\@listiv{\leftmargin\leftmarginiv
+  \labelwidth\leftmarginiv
+  \advance\labelwidth-\labelsep
+  \parsep0\p@\relax
+  \topsep0\p@\relax
+  \itemsep0\p@\relax}
+\def\@listv{\leftmargin\leftmarginv
+  \labelwidth\leftmarginv
+  \advance\labelwidth-\labelsep
+  \parsep0\p@\relax
+  \topsep0\p@\relax
+  \itemsep0\p@\relax}
+\def\@listvi{\leftmargin\leftmarginvi
+  \labelwidth\leftmarginvi
+  \advance\labelwidth-\labelsep
+  \parsep0\p@\relax
+  \topsep0\p@\relax
+  \itemsep0\p@\relax}
+%    \end{macrocode}   
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{itemize}
+% \changes{v0.2}{2008/03/03}{Flush left bullets} 
+%   We make bullets flushleft:
+%    \begin{macrocode}
+\def\itemize{%
+  \ifnum \@itemdepth >\thr@@\@toodeep\else
+    \advance\@itemdepth\@ne
+    \edef\@itemitem{labelitem\romannumeral\the\@itemdepth}%
+    \expandafter
+    \list
+      \csname\@itemitem\endcsname
+      {\def\makelabel##1{##1}}%
+  \fi}
+%    \end{macrocode}
+%   
+% \end{macro}
+% 
+% \begin{macro}{enumerate}
+% \changes{v0.2}{2008/03/03}{Flush left numbers} 
+%   We make numbering flushleft:
+%    \begin{macrocode}
+\def\enumerate{%
+  \ifnum \@enumdepth >\thr@@\@toodeep\else
+    \advance\@enumdepth\@ne
+    \edef\@enumctr{enum\romannumeral\the\@enumdepth}%
+      \expandafter
+      \list
+        \csname label\@enumctr\endcsname
+        {\usecounter\@enumctr\def\makelabel##1{##1}}%
+        \fi}
+%    \end{macrocode}
+%   
+% \end{macro}
+% 
+%
+% \begin{macro}{quotation}
+%   In |quotation| environment the paragraphs are indented.  We use
+%   9pt Roman for quotations:
+%    \begin{macrocode}
+\renewenvironment{quotation}{%
+  \list{}{\listparindent\parindent\relax
+    \itemindent\listparindent\relax
+    \rightmargin0.5in\relax
+    \leftmargin0.5in\relax}%
+    \item\fontsize{9pt}{11pt}\selectfont}{\endlist}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{quote}
+%   Quote is for short quotations without indentations:
+%    \begin{macrocode}
+\renewenvironment{quote}{%
+  \list{}{\listparindent0pt\relax
+    \itemindent\listparindent\relax
+    \rightmargin0.5in\relax
+    \leftmargin0.5in\relax}%
+    \item\fontsize{9pt}{11pt}\selectfont}{\endlist}
+%    \end{macrocode}   
+% \end{macro}
+%
+% \begin{macro}{note}
+%   Note is a special environment for asides.  It is in italics with
+%   the word ``NOTE'' on the margin:
+%    \begin{macrocode}
+\newenvironment{note}{%  
+  \list{\makebox[0pt][r]{\fontfamily{%
+          \dgdefault}\fontseries{b}\fontsize{9pt}{11pt}\selectfont 
+        NOTE\hspace{2em}}}{\listparindent0pt\relax
+    \topsep9\p@\relax
+    \itemindent0\p@\relax
+    \rightmargin0\p@\relax
+    \leftmargin0\p@\relax
+    \labelwidth0\p@\relax
+    \labelsep0\p@}%
+    \item\itshape}{\vspace{-3pt}\endlist}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%
+%\subsection{Footnotes}
+%\label{sec:footnotes}
+%
+% \begin{macro}{\footnoterule}
+% \changes{v0.3}{2008/03/11}{Increased kern above the rule} 
+% \changes{v1.1}{2008/06/01}{Increased kern below the rule} 
+%   We want one inch by 0.25 footnote rule:
+%    \begin{macrocode}
+\renewcommand\footnoterule{%
+  \kern6\p@
+  \hrule height 0.25pt depth 0pt width 1in 
+  \kern2\p@}
+%    \end{macrocode}
+% \end{macro}
+% 
+% \begin{macro}{\@footnotetext}
+% \changes{v0.3}{2008/03/11}{Changed LaTeX default} 
+%   We want 4pt between footnotes.  Unfortunately the standard
+%   functions introduces |\@finalstrut|, which we do not need
+%   here\dots 
+%    \begin{macrocode}
+\long\def\@footnotetext#1{\insert\footins{%
+    \reset@font\footnotesize
+    \interlinepenalty\interfootnotelinepenalty
+    \splittopskip\footnotesep
+    \splitmaxdepth \dp\strutbox \floatingpenalty \@MM
+    \hsize\columnwidth \@parboxrestore
+    \protected@edef\@currentlabel{%
+       \csname p@footnote\endcsname\@thefnmark
+    }%
+    \color@begingroup
+      \@makefntext{%
+        \rule\z@{13.5pt}\ignorespaces#1}%
+    \color@endgroup}}%
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\footins}
+% \changes{v0.3}{2008/03/11}{Changed LaTeX defaults} 
+%   We make some space between footnotes:
+%    \begin{macrocode}
+\setlength{\skip\footins}{16\p@ \@plus 4\p@ \@minus 0\p@}
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+%
+% \begin{macro}{\@makefntext}
+% \changes{v1.1}{2008/05/24}{Added space between footnote mark and
+% footnote text} 
+%   We do not indent the footnotes:
+%    \begin{macrocode}
+\renewcommand\@makefntext[1]{%
+    \parindent 0\p@%
+    \RaggedRightParindent0\p@%
+    \noindent
+    \@makefnmark\space#1}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+%\subsection{Tables,  Figures and Listings}
+%\label{sec:tbl_fig}
+%
+% \begin{macro}{\thefigure}
+%   We want dash instead of dot between chapter number and figure
+%   number:
+%    \begin{macrocode}
+\renewcommand \thefigure
+     {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@figure}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\thetable}
+%   We want dash instead of dot between chapter number and table
+%   number:
+%    \begin{macrocode}
+\renewcommand \thetable
+     {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@table}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\thelistings}
+%   And the same for listings:
+%    \begin{macrocode}
+\renewcommand \thelstlisting
+     {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@lstlisting}
+%    \end{macrocode}
+% \end{macro}
+% 
+%
+% \begin{macro}{nostarchfigfmt}
+%   This is our captions format for figures and listings
+% \changes{v0.3}{2008/03/11}{Added style} 
+%    \begin{macrocode}
+\DeclareCaptionFormat{nostarchfigfmt}{\fontfamily{\sfdefault}%
+  \fontshape{it}\fontsize{8.5pt}{9pt}\fontseries{k}\selectfont\unskip#1#2#3}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{nostarchtabfmt}
+% \changes{v0.3}{2008/03/11}{Added style} 
+%   This is our captions format for tables
+%    \begin{macrocode}
+\DeclareCaptionFormat{nostarchtabfmt}{\fontfamily{\sfdefault}%
+  \fontshape{rm}\fontsize{8.5pt}{9pt}\fontseries{h}\selectfont\unskip#1#2%
+  \fontseries{k}\selectfont#3}
+%    \end{macrocode}
+% \end{macro}
+%  
+%
+%
+% The figure, listing and and table styles:
+%    \begin{macrocode}
+\captionsetup[figure]{format=nostarchfigfmt,singlelinecheck=off,
+  aboveskip=8pt,belowskip=8pt}
+\captionsetup[lstlisting]{format=nostarchfigfmt,singlelinecheck=off,
+  aboveskip=8pt,belowskip=8pt}
+\captionsetup[table]{format=nostarchtabfmt,singlelinecheck=off,
+  aboveskip=0pt,belowskip=4pt}
+%    \end{macrocode}
+%
+% \begin{macro}{\tbfont}
+%   This is the font used for table body:
+%    \begin{macrocode}
+\def\tbfont{%
+  \fontfamily{\sfdefault}\fontseries{k}\fontsize{8pt}{10pt}\selectfont}
+%    \end{macrocode} 
+% \end{macro}
+%
+% \begin{macro}{\thfont}
+%   Font for table headers:
+%    \begin{macrocode}
+\def\thfont{%
+  \fontfamily{\sfdefault}\fontseries{h}\fontsize{8pt}{10pt}\selectfont}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\heawyrulewidth}
+% \begin{macro}{\lightrulewidth}
+% \begin{macro}{\cmidrulewidth}
+%   Changing \progname{booktabs} defaults:
+%    \begin{macrocode}
+\heavyrulewidth=3\p@
+\lightrulewidth=1.5\p@
+\cmidrulewidth=1.5\p@
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+%
+% \begin{macro}{\bottomrule}
+%   Our |\bottomrule| is thin:
+%    \begin{macrocode}
+\def\bottomrule{\noalign{\ifnum0=`}\fi
+  \@aboverulesep=\aboverulesep
+  \global\@belowrulesep=\belowbottomsep
+  \global\@thisruleclass=\@ne
+  \@ifnextchar[{\@BTrule}{\@BTrule[\lightrulewidth]}}
+%    \end{macrocode}
+% \end{macro}
+%
+%
+% \begin{macro}{\belowrulesep}
+% \begin{macro}{\belowbottomsep}
+% \begin{macro}{\abovetopsep}
+%   Again redefining \progname{booktabs}:
+%    \begin{macrocode}
+\belowrulesep=0.7ex
+\belowbottomsep=0.65pt
+\aboverulesep=0.7ex
+\abovetopsep=0.65pt
+%    \end{macrocode}
+%   
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%  
+%
+%
+%\subsection{Verbatim and Listings Customization}
+%\label{sec:verbatim}
+%
+% \begin{macro}{Code}
+%   This is for framed code:
+%    \begin{macrocode}
+\DefineVerbatimEnvironment{Code}{Verbatim}{frame=lines,framerule=0.25pt}
+%    \end{macrocode}   
+% \end{macro}
+%
+%
+% \begin{macro}{\FV@ListParameterHook}
+%   The skip before code is too large for us
+%    \begin{macrocode}
+\FV@AddToHook\FV@ListParameterHook{\vspace{-6pt}}
+%    \end{macrocode}   
+% \end{macro}
+%
+% We also enable verbatim footnotes.
+%    \begin{macrocode}
+\VerbatimFootnotes
+%    \end{macrocode}
+% 
+% We set up captions with \progname{captions}:
+%    \begin{macrocode}
+\lstset{captionpos=b}
+%    \end{macrocode}
+% 
+% And make the code to be in typewriter font:
+%    \begin{macrocode}
+\lstset{basicstyle=\ttfamily,columns=fullflexible}
+%    \end{macrocode}
+% 
+%
+%
+%\subsection{Bibliography}
+%\label{sec:biblio}
+%
+% \begin{macro}{\bibsection}
+% \changes{v0.6}{2008/03/22}{Introduced the macro} 
+%   We actually use chapter for bibliographic sections, but here we
+%   try to be nice to \progname{natbib}:
+%    \begin{macrocode}
+\AtBeginDocument{
+  \def\bibsection{%
+    \clearpage
+    {\pagestyle{empty}\cleardoublepage}%
+    \everypar{}%
+    \thispagestyle{empty}%
+    \global\@topnum\z@
+    \@afterindentfalse
+    \gdef\@chapterart{}%
+    \@nschapterpreamble
+    \vspace*{0.622in}%
+    \addcontentsline{toc}{chapter}{\MakeUppercase{\bibname}}%
+    \addcontentsline{tbc}{bchapter}{\bibname}%
+    {\centering
+      {\fontfamily{\dgdefault}\fontseries{br}\fontsize{16pt}{20pt}\selectfont
+        \MakeUppercase{\bibname}\par}}\nobreak\vskip25pt\relax%
+    \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}}}%
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+%
+% \begin{macro}{thebibliography}
+% \changes{v0.6}{2008/03/22}{Introduced the macro} 
+%   We want bibliography to be in the table of contents:
+%    \begin{macrocode}
+\renewenvironment{thebibliography}[1]{%
+  \bibsection
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+%\subsection{Index}
+%\label{sec:index}
+% \begin{macro}{theindex}
+% \changes{v0.6}{2008/03/22}{Introduced the macro} 
+%  We want our index to be in the table of contents too:
+%    \begin{macrocode}
+\renewenvironment{theindex}{%
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \everypar{}%
+  \thispagestyle{empty}%
+  \global\@topnum\z@
+  \@afterindentfalse
+  \gdef\@chapterart{}%
+  \if@twocolumn
+  \@restonecolfalse
+  \else
+  \@restonecoltrue
+  \fi
+  \twocolumn[%
+  \@nschapterpreamble
+  \vspace*{0.622in}%
+  \addcontentsline{toc}{chapter}{\MakeUppercase{\indexname}}%
+  \addcontentsline{tbc}{bchapter}{\indexname}%
+  {\centering
+    {\fontfamily{\dgdefault}\fontseries{br}%
+      \fontsize{16pt}{20pt}\selectfont
+      \MakeUppercase{\indexname}\par}}%
+  \nobreak\vskip25pt\relax]%
+  \@mkboth{\MakeUppercase\indexname}%
+  {\MakeUppercase\indexname}%
+  \parindent\z@
+  \parskip\z@ \@plus .3\p@\relax
+  \columnseprule \z@
+  \columnsep 0.25in%
+  \let\item\@idxitem}
+{\if@restonecol\onecolumn\else\clearpage\fi}
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@idxitem}
+% \changes{v0.6}{2008/03/22}{Changed default} 
+%   This is how we format level 1 index entries:
+%    \begin{macrocode}
+\renewcommand\@idxitem{%
+  \par\hangindent0.45in\normalfont\fontsize{9.5\p@}{11.5\p@}\selectfont
+  \raggedright}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\subitem}
+% \changes{v0.6}{2008/03/22}{Changed default} 
+%   Level 2 entries:
+%    \begin{macrocode}
+\renewcommand\subitem{\@idxitem \hspace*{0.15in}}
+%    \end{macrocode}   
+% \end{macro}
+% \begin{macro}{\subsubitem}
+% \changes{v0.6}{2008/03/22}{Changed default} 
+%   Level 3 entries:
+%    \begin{macrocode}
+\renewcommand\subsubitem{\@idxitem \hspace*{0.3in}}
+%    \end{macrocode}   
+% \end{macro}
+% \begin{macro}{\indexspace}
+% \changes{v0.6}{2008/03/22}{Changed default} 
+%   The space between the groups
+%    \begin{macrocode}
+\renewcommand\indexspace{\par \vskip 14\p@\relax}
+%    \end{macrocode}   
+% \end{macro}
+% \begin{macro}{\indexgroup}
+% \changes{v0.6}{2008/03/22}{Introduced the macro} 
+%   When an index starts a new letter, we call this macro:
+%    \begin{macrocode}
+\newcommand\indexgroup[1]{{\fontfamily{\sfdefault}%
+    \fontseries{bc}\fontsize{11\p@}{13\p@}\selectfont#1}\par\vskip4\p@}
+%    \end{macrocode}   
+% \end{macro}
+%
+%
+%
+%\subsection{Update Page and Colophon}
+%\label{sec:update_colophon}
+%
+% \begin{macro}{\updatesname}
+% \changes{v0.6}{2008/03/22}{Introduced the macro} 
+%   Just the name for updates:
+%    \begin{macrocode}
+\def\updatesname{Updates}
+%    \end{macrocode}
+%   
+% \end{macro}
+%
+%
+% \begin{macro}{\updatespage}
+% \changes{v0.6}{2008/03/22}{Introduced the macro} 
+%   This is the command that start update page.  It looks like
+%   chapter, but it does not mark the pages or appear in the tables of
+%   contents:
+%    \begin{macrocode}
+\newcommand\updatespage{%
+  \clearpage
+  {\pagestyle{empty}\cleardoublepage}%
+  \everypar{}%
+  \thispagestyle{empty}%
+  \global\@topnum\z@
+  \gdef\@chapterart{}%
+  \vspace*{1.875in}%
+  {\centering
+    \fontfamily{\dgdefault}\fontseries{br}%
+    \fontsize{16pt}{20pt}\selectfont
+    \MakeUppercase{\updatesname}\par\nobreak\vskip40\p@}%
+  \@nobreaktrue
+  \everypar{%
+    \if@nobreak
+    \@nobreakfalse
+    \clubpenalty \@M
+    \setbox\z@\lastbox
+    \else
+    \clubpenalty \@clubpenalty
+    \everypar{}%
+    \fi}}
+%    \end{macrocode}   
+% \end{macro}
+%
+%
+% \begin{macro}{\colophonname}
+% \changes{v0.6}{2008/03/22}{Introduced the macro} 
+%   Just the name for colophon:
+%    \begin{macrocode}
+\def\colophonname{Colophon}
+%    \end{macrocode}%   
+% \end{macro}
+%
+%
+% \begin{macro}{\colophon}
+%   Colophon does not start a separate page:
+% \changes{v0.6}{2008/03/22}{Introduced the macro} 
+%    \begin{macrocode}
+\newcommand\colophon{%
+  \everypar{}%
+  \global\@topnum\z@
+  \gdef\@chapterart{}%
+  \vspace*{0.875in}%
+  {\centering
+    \fontfamily{\dgdefault}\fontseries{br}%
+    \fontsize{16pt}{20pt}\selectfont
+    \MakeUppercase{\colophonname}\par\nobreak\vskip40\p@}%
+  \@nobreaktrue
+  \everypar{%
+    \if@nobreak
+    \@nobreakfalse
+    \clubpenalty \@M
+    \setbox\z@\lastbox
+    \else
+    \clubpenalty \@clubpenalty
+    \everypar{}%
+    \fi}\par
+    The fonts used in \emph{\@title} are New Baskerville, Futura, The
+    Sans Mono Condensed and Dogma.  The book was typeset with
+    \LaTeXe{} package 
+    \texttt{nostarch} by Boris Veytsman
+    \emph{(\csname ver@nostarch.cls\endcsname).}\par} 
+%    \end{macrocode}   
+% \end{macro}
+%
+%\subsection{End of Class}
+%\label{end}
+%
+%
+%    \begin{macrocode}
+%</class>
+%    \end{macrocode}
+%
+%\subsection{Dealing with \progname{hyperref}}
+%\label{sec:hyperref}
+%
+% \changes{v0.6}{2008/03/22}{Introduced package \progname{nshyper}} 
+% First, we load \progname{hyperref} with right options.  I do not
+% know why bookmarks do not work, but this is important to switch off:
+%    \begin{macrocode}
+%<*nshyper>
+\RequirePackage[breaklinks,colorlinks,linkcolor=black,
+  citecolor=black,pagecolor=black,urlcolor=black,hyperindex,
+  bookmarks=false]{hyperref}
+%    \end{macrocode}
+% 
+% \progname{hyperref} expects the starred parts and chapters to have
+% only one argument---but we have two!
+%    \begin{macrocode}
+\AtBeginDocument{%
+  \def\@schapter[#1]#2{%
+    \H@old@schapter[#1]{#2}%
+  \@nschapterpreamble}%
+  \def\@spart[#1]#2{%
+    \H@old@spart[#1]{#2}%
+    \Hy@GlobalStepCount\Hy@linkcounter
+    \xdef\@currentHref{part*.\the\Hy@linkcounter}%
+    \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}}}%
+%    \end{macrocode}
+% We change the preamble for bibliography and index:
+%    \begin{macrocode}
+\def\@nschapterpreamble{%
+  \begingroup
+  \let\@mkboth\@gobbletwo
+  \Hy@GlobalStepCount\Hy@linkcounter
+  \xdef\@currentHref{\Hy@chapapp*.\the\Hy@linkcounter}%
+  \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}%
+  \endgroup}
+%    \end{macrocode}
+% 
+% We can add information about the file to the pdf metadata as well:
+%    \begin{macrocode}
+\let\ns@old@maketitle\maketitle
+\def\maketitle{%
+  \hypersetup{pdfauthor=\@author, pdftitle=\@title}%
+  \ns@old@maketitle}
+%</nshyper> 
+%    \end{macrocode}
+% 
+%
+%\subsection{\progname{MakeIndex} Style File}
+%\label{sec:makeindex}
+% \changes{v0.6}{2008/03/23}{Added \progname{MakeIndex} style} 
+%
+% These lines will produce some warnings when
+% running Makeindex as they try to cover two different
+% versions of the program:
+%    \begin{macrocode}
+%<*ist>
+lethead_prefix   "\\indexgroup{"
+lethead_suffix   "}\\nopagebreak\n"
+lethead_flag       1
+heading_prefix   "\\indexgroup{"
+heading_suffix   "}\\nopagebreak\n"
+headings_flag       1
+%</ist>
+%    \end{macrocode}
+%
+%
+%\Finale
+%\clearpage
+%
+%\PrintChanges
+%\clearpage
+%\PrintIndex
+%
+\endinput

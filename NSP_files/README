@@ -1,0 +1,26 @@
+		   LaTeX Style For No Starch Press
+			Version 1.3 2008/06/06
+
+This is the ``official'' LaTeX style for No Starch Press,
+http://www.nostarch.com.  The class is intended to typeset books for
+this publisher---both hard copies and electronic books.
+
+The suite provides main class, nostarch.cls, hyperref interface
+nshyper.sty and MakeIndex style nostarch.ist.
+
+CHANGES:
+
+Version 1.1:  
+
+    Added interface to listings package
+    Formatting changes
+    Some bug fixes
+
+Version 1.2
+
+    Formatting changes
+
+Version 1.3:
+
+    Bug fixes
+    Added user-settable parameters for the table of contents
