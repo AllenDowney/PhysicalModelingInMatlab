@@ -18,14 +18,22 @@ The following diagram shows what I mean by ``modeling":
 \vspace{0.2in}
 \centerline{\includegraphics[height=3in]{book/figs/modeling_framework.pdf}}
 
-Starting in the lower left, the {\bf system} is something in the real world we are interested in.  Often, it is something complicated, so we have to decide which details can be left out; removing details is called {\bf abstraction}.
+Starting in the lower left, the {\bf system} is something in the real world we are interested in.  
+An attribute of the system can be discrete, or continuous.  For example, the mass of 
+an object may be continuous in that any (positive) real number can be used to describe 
+the mass.  On the other hand, the size of a population is discrete, in that the population 
+is countable.  Often, a system is something complicated, so we have to decide which 
+details can be left out; removing details is called {\bf abstraction}.  
 
 \index{system}
+\index{discrete}
+\index{continuous}
+\index{abstraction}
 
 The result of abstraction is a {\bf model}, which is a description of the system that includes only the features we think are essential.  A model can be represented in the form of diagrams and equations, which can be used for mathematical {\bf analysis}.  It can also be implemented in the form of a computer program, which can run {\bf simulations}.
 
 \index{model}
-\index{abstraction}
+\index{simulation}
 \index{analysis}
 
 The result of analysis and simulation might be a {\bf prediction} about what the system will do, an {\bf explanation} of why it behaves the way it does, or a {\bf design} intended to achieve a purpose.
@@ -33,6 +41,12 @@ The result of analysis and simulation might be a {\bf prediction} about what the
 \index{prediction}
 \index{explanation}
 \index{design}
+
+A continuous model can be applied to a discrete phenomenon, and vice versa.  
+For example, we could use a continuous model to model a population, but that might 
+result in impossible situations, like the presence of 1/3 of an animal.  
+Nevertheless, by sensibly interpreting a prediction from a continuous model, 
+we can get very useful information about a discrete system.  
 
 We can {\bf validate} predictions and test designs by taking {\bf measurements} from the real world and comparing the {\bf data} we get with the results from analysis and simulation. 
 
@@ -76,7 +90,8 @@ Comparing results of successive models provides a form of {\bf internal validati
 
 Comparing results to data from the real world provides {\bf external validation}, which is generally the strongest test.
 
-The focus of this book is simulation, and the primary tool we will use is MATLAB.
+The focus of this book is simulation -- in particular continuous simulation -- 
+and the primary tool we will use is MATLAB.
 
 
 \section{A glorified calculator}
