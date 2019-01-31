@@ -1,12 +1,9 @@
-# Modeling and Simulation in MATLAB
+# Physical Modeling in MATLAB
 
-*Modeling and Simulation in MATLAB* is an introduction to programming in MATLAB
+*Physical Modeling in MATLAB* is an introduction to programming in MATLAB
 and simulation of physical systems by [Allen
-Downey](http://allendowney.com/wp/), revised and maintained by [Craig
+Downey](http://allendowney.com/wp/), with contributions from [Craig
 Scratchley](https://www.sfu.ca/engineering/faculty-and-staff/faculty/craig_scratchley.html)
-
-
-The book's site is [here](http://greenteapress.com/wp/physical-modeling-in-matlab-2e/).
 
 ## Generating a PDF of the book
 
@@ -23,6 +20,6 @@ guidelines [here](CONTRIBUTING.md) and some ideas to get started
 
 ## License
 
-*Modeling and Simulation in MATLAB* is a book that you can share and adapt under
+*Physical Modeling in MATLAB* is a book that you can share and adapt under
 the terms of the [Creative Commons Attribution-NonCommercial 4.0
 Unported License](https://creativecommons.org/licenses/by-nc/4.0/).
