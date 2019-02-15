@@ -24,6 +24,4 @@
 *.synctex.gz
 *.pdf
 *.tex.bak
-.~lock.*
-tempbook_.*
 book/html

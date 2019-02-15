@@ -1,5 +1,9 @@
-function res = something(x)
-    s = sin(x)
-    c = cos(x)
-    res = abs(s) + abs(c)
+% Compute the Manhattan distance from the origin to the
+% point on the unit circle with angle (x) in radians.
+
+function res = silent_myfunc(x)
+
+    s = sin(x);
+    c = cos(x);
+    res = abs(s) + abs(c);
 end

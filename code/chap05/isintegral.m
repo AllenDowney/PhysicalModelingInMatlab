@@ -2,8 +2,8 @@
 
 function res = isintegral(x)
     if round(x) == x
-        res = 1;       % or... res = true
+        res = 1;
     else
-        res = 0;       % or... res = false
+        res = 0;
     end
-end
+end 
