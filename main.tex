@@ -1,68 +1,71 @@
 % LaTeX source for textbook ``Physical Modeling in MATLAB''
-% Copyright 2018 Allen B. Downey and W. Craig Scratchley
+% Copyright 2012, 2019 Allen B. Downey
 %
-%
-% Labels within this document are prefixed with
-% "ex:", "eqn:", "chpt:", "sect:"
-% to indicate an example, equation, chapter, or section, respectively.
 
 % Use the No Starch Press document class
 %\documentclass[cfonts]{nostarch}
 
-\documentclass[
-    %oneside,   % uncomment this for static margins (as well as below)
-]{book}
+\documentclass{book}
 
-\usepackage[
-    % Set margins here
-    letterpaper,
-    %left=1.5in, % uncomment these two, and comment out next two for static margins
-    %right=1.5in,
-    inner=1.6in,
-    outer=1.00in,
-    top=1.25in,
-    bottom=1.25in,]{geometry}
-\usepackage[symbol*]{footmisc}
-\usepackage[toc,page]{appendix}
 \usepackage{amsmath, amsthm, amssymb}
-\usepackage{bm}
-\usepackage{bookmark}
 \usepackage{exercise}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
-%\usepackage{hevea}
-\usepackage{hyperref}
-\usepackage{ifthen}
 \usepackage{makeidx}
+\usepackage{textcomp}
 \usepackage{upquote}
 \usepackage{url}
 \usepackage{subfiles}
 
-% Tell compiler to make the index
-\usepackage{imakeidx}
-\makeindex[intoc]
+\newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
 
-% Include index in ToC (not needed with imakeidx)
-%\usepackage[totoc]{idxlayout}
+\newenvironment{ex}{\begin{Exercise}}{\end{Exercise}}
 
-% Configure exercise environment
-\numberwithin{Answer}{chapter}
-\numberwithin{Exercise}{chapter}
-\renewcommand{\ExerciseHeader}{%
-  \par\noindent
-  \textbf{\ExerciseName~\ExerciseHeaderNB\ExerciseHeaderTitle\ExerciseHeaderOrigin}%
-  \par\nopagebreak
-}
+% from https://tex.stackexchange.com/questions/188775/how-to-type-a-particular-kind-of-unit-vector
+\usepackage{bm}
+\renewcommand{\vec}[1]{\bm{\mathbf{#1}}}
+\newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
+\newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
+\DeclareRobustCommand{\uvec}[1]{{%
+  \ifcsname uvec#1\endcsname
+     \csname uvec#1\endcsname
+   \else
+    \bm{\hat{\mathbf{#1}}}%
+   \fi
+}}
 
-% colors for code listings and output
+
+
+\sloppy
+
+\setlength{\headsep}{3ex}
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{1.7ex plus 0.5ex minus 0.5ex}
+\renewcommand{\baselinestretch}{1.02}
+
+% see LaTeX Companion page 62
+\setlength{\topsep}{-0.0\parskip}
+\setlength{\partopsep}{-0.5\parskip}
+\setlength{\itemindent}{0.0in}
+\setlength{\listparindent}{0.0in}
+
+\pagestyle{fancyplain}
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
+
+\lhead[\fancyplain{}{\bfseries\thepage}]%
+      {\fancyplain{}{\bfseries\rightmark}}
+\rhead[\fancyplain{}{\bfseries\leftmark}]%
+      {\fancyplain{}{\bfseries\thepage}}
+\cfoot{}
+
 \usepackage{xcolor}
 \definecolor{bgcolor}{HTML}{F0F0F0}
 \definecolor{comment}{HTML}{007C00}
 \definecolor{keyword}{HTML}{0000FF}
 \definecolor{strings}{HTML}{B20000}
 
-% syntax highlighting in code listings
-\usepackage{textcomp}
 \usepackage{listings}
 \lstset{
     language=matlab,
@@ -76,20 +79,11 @@
     keepspaces=true,
     showstringspaces=false,
     upquote=true,
-    xleftmargin=15pt,  % \parindent
+    xleftmargin=0pt,  % \parindent
     framexleftmargin=3pt,
     aboveskip=\parskip,
     belowskip=\parskip
 }
-
-% code listing environments
-%\lstnewenvironment{code}
-%{\minipage{\linewidth}}
-%{\endminipage}
-
-%\lstnewenvironment{stdout}
-%{\lstset{commentstyle=,keywordstyle=,stringstyle=}\minipage{\linewidth}}
-%{\endminipage}
 
 \lstnewenvironment{code}{}{}
 \lstnewenvironment{stdout}{\lstset{commentstyle=,keywordstyle=,stringstyle=}}{}
@@ -102,237 +96,33 @@
 \usepackage{siunitx}
 \sisetup{per-mode=symbol}
 
-%% Add pdf metadata here
-\hypersetup{
-    pdftitle={Physical Modeling in MATLAB v. 2},
-    pdfsubject={MATLAB programming},
-    pdfauthor={Allen B. Downey},
-    pdfcreator={LaTeX},
-}
-
-% use mcode as a synonym for verb, for inline MATLAB code
-%\newcommand{\mcode{1}}{\mintinline{matlab}{#1}}
-
-% Tell compiler to make the index
 \makeindex
 
-% Include index in ToC
-\usepackage[totoc]{idxlayout}
-
-%% Macros and redefinitions
-
-% Generate the registered trademark symbol
-\newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
-
-% Use bold style for vectors
-\renewcommand{\vec}[1]{\bm{\mathbf{#1}}}
-
-% Define style for unit vectors. Complexity needed to display i_hat and
-% j_hat correctly
-\newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
-\newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
-\newcommand{\uvec}[1]{%
-    \ifthenelse{\equal{#1}{i}}%
-        {\uveci}{%
-    \ifthenelse{\equal{#1}{j}}%
-        {\uvecj}{%
-    {\bm{\hat{\mathbf{#1}}}}% default case
-}}}
-
-% Define style for the norm of a vector
-\newcommand{\norm}[1]{\lvert #1 \rvert}
-
-% Create an "array" for the 9 theorems of debugging. Depends on ifthen
-% package above. (The 'xstring' package does this more elegantly, but
-% doesn't work with hevea.) This way we only need to change the theorems
-% in one place to change them everywhere.
-\newcommand{\displaythrm}[1]{%
-    \ifthenelse{\equal{#1}{1}}%
-        {Readable code is debuggable code.}{%
-    \ifthenelse{\equal{#1}{2}}%
-        {The only thing worse than getting an error message is {\em
-         not} getting an error message.}{%
-    \ifthenelse{\equal{#1}{3}}%
-        {Be sure that the code you are running
-         is the code you think you are running.}{%
-    \ifthenelse{\equal{#1}{4}}%
-        {Error messages tell you where the problem was discovered,
-         not where it was caused.}{%
-    \ifthenelse{\equal{#1}{5}}%
-        {The best way to avoid a bug is to make it impossible.}{%
-    \ifthenelse{\equal{#1}{6}}%
-        {The best kind of debugging is the kind you don't have to do.}{%
-    \ifthenelse{\equal{#1}{7}}%
-        {The worst bugs aren't in your code; they are in your head.}{%
-    \ifthenelse{\equal{#1}{8}}%
-        {Finding a hard bug requires reading, running, ruminating,
-         and sometimes retreating.  If you get stuck on one of these
-         activities, try the others.}{%
-    \ifthenelse{\equal{#1}{9}}%
-        {Error messages sometimes tell you what's wrong, but they
-         seldom tell you what to do (and when they try, they're usually
-         wrong).}{%
-    {}% default case
-}}}}}}}}}}% all the closing braces for displaythrm
-
-% Define the title and version in one place here
-\newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
-\newcommand{\theversion}{2.3.0}
-
-% TODO: add documentation here - what does this do?
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
-
-% TODO: add documentation here - what does this do?
-\renewcommand\MakeUppercase{}
-
-%% End of macros+redefinitions
-
-% TODO: document the below commands. Not quite sure what they do.
-
-\sloppy
-
-\pagestyle{fancyplain}
-
-\lhead[\fancyplain{}{\bfseries\thepage}]%
-      {\fancyplain{}{\bfseries\rightmark}}
-\rhead[\fancyplain{}{\bfseries\leftmark}]%
-      {\fancyplain{}{\bfseries\thepage}}
-\cfoot{}
-
-%\newenvironment{code}{\vspace{0.0\parskip} \begin{lstlisting}}{\end{lstlisting} \vspace{0.0\parskip}}
-
-%\newenvironment{code}{\begin{lstlisting}}{\end{lstlisting}}
-
-\newenvironment{ex}{\begin{Exercise}}{\end{Exercise}}
-
-% these styles get translated in CSS for the HTML version
-% \newstyle{a:link}{color:black;}
-%\newstyle{p+p}{margin-top:1em;margin-bottom:1em}
-%\newstyle{img}{border:0px}
-
-% change the arrows
-%\setlinkstext
-%  {\imgsrc[ALT="Previous"]{back.png}}
-%  {\imgsrc[ALT="Up"]{up.png}}
-%  {\imgsrc[ALT="Next"]{next.png}}
-
-
-\sloppy
-
-%\setlength{\topmargin}{-0.375in}
-%\setlength{\oddsidemargin}{0.0in}
-%\setlength{\evensidemargin}{0.0in}
-
-% Uncomment these to center on 8.5 x 11
-%\setlength{\topmargin}{0.625in}
-%\setlength{\oddsidemargin}{0.875in}
-%\setlength{\evensidemargin}{0.875in}
-
-%\setlength{\textheight}{7.8in}
-
-\setlength{\headsep}{3ex}
-\setlength{\parindent}{0.0in}
-\setlength{\parskip}{1.7ex plus 0.5ex minus 0.5ex}
-\renewcommand{\baselinestretch}{1.02}
-
-% see LaTeX Companion page 62
-\setlength{\topsep}{-0.0\parskip}
-\setlength{\partopsep}{-0.5\parskip}
-\setlength{\itemindent}{0.0in}
-\setlength{\listparindent}{0.0in}
-
-% see LaTeX Companion page 26
-% these are copied from /usr/local/teTeX/share/texmf/tex/latex/base/book.cls
-
-
-\makeatletter     %%%%%%%%%%%%%%%%%%%
-
-\renewcommand{\section}{\@startsection
-    {section} {1} {0mm}%
-    {-3.5ex \@plus -1ex \@minus -.2ex}%
-    {0.7ex \@plus.2ex}%
-    {\normalfont\Large\bfseries}}
-\renewcommand\subsection{\@startsection {subsection}{2}{0mm}%
-    {-3.25ex\@plus -1ex \@minus -.2ex}%
-    {0.3ex \@plus .2ex}%
-    {\normalfont\large\bfseries}}
-\renewcommand\subsubsection{\@startsection {subsubsection}{3}{0mm}%
-    {-3.25ex\@plus -1ex \@minus -.2ex}%
-    {0.3ex \@plus .2ex}%
-    {\normalfont\normalsize\bfseries}}
-
-% The following line adds a little extra space to the column
-% in which the Section numbers appear in the table of contents
-\renewcommand{\l@section}{\@dottedtocline{1}{1.5em}{3.0em}}
-\setcounter{tocdepth}{1}
-
-\makeatother     %%%%%%%%%%%%%%%%%%%
-
-
-% Note: the following command seems to cause problems for Acroreader
-% on Windows, so for now I am overriding it.
-%\newcommand{\clearemptydoublepage}{
-%            \newpage{\pagestyle{empty}\cleardoublepage}}
-\newcommand{\clearemptydoublepage}{\cleardoublepage}
-
-%\newcommand{\blankpage}{\pagestyle{empty}\vspace*{1in}\newpage}
-\newcommand{\blankpage}{\vspace*{1in}\newpage}
-
-% Customize headers
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
-
-\lhead[\fancyplain{}{\bfseries\thepage}]%
-      {\fancyplain{}{\bfseries\rightmark}}
-\rhead[\fancyplain{}{\bfseries\leftmark}]%
-      {\fancyplain{}{\bfseries\thepage}}
-\cfoot{}
-
-\pagestyle{fancyplain}
-
-
-% the following is a brute-force way to prevent the headers
-% from getting transformed into all-caps
-\renewcommand\MakeUppercase{}
-
-%% End of latex configuration
-
-
-%% Start of the book
 \begin{document}
 
-% No chapter numbering, etc. for the title + preface
 \frontmatter
 
-% Define stuff to use for title page here
+\newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
+\newcommand{\theversion}{3.0.0}
+
 \title {\thetitle}
-\author {Allen B. Downey\\
-\\
-\\
-\\
-Version 2 Contributor\\
-\\
-W. Craig Scratchley\\}
+\author {Allen B. Downey}
 \date {Version \theversion}
 
-%% Title page
 
 \maketitle
-
-% License page
 
 \vspace{2in}
 
 \begin{center}
-    {\Large \thetitle}
+{\Large \thetitle}
+
+\vspace{0.25in}
+
+Copyright 2012, 2019 Allen B. Downey
 \end{center}
 
-\vspace{21em}
-
-Copyright \textcopyright \, 2018 Allen Downey
-
-\vspace{0.5em}
+\vspace{0.25in}
 
 \begin{flushleft}
 Green Tea Press       \\
@@ -340,55 +130,26 @@ Green Tea Press       \\
 Needham MA 02492
 \end{flushleft}
 
-\vspace{0.5em}
+Permission is granted to copy, distribute, and/or modify this document
+under the terms of the Creative Commons Attribution-NonCommercial 4.0 Unported License, which is available at \url{http://creativecommons.org/licenses/by-nc/4.0/}.
 
-Copyright \textcopyright \, 2018 W. Craig Scratchley
+This book was typeset by the author using pdflatex,
+among other free, open-source programs.
+The LaTeX source for this book is available from
+\url{http://greenteapress.com/matlab}.
 
-\vspace{0.5em}
-
-\begin{flushleft}
-School of Engineering Science\\
-Simon Fraser University\\
-8888 University Drive\\
-Burnaby, BC V5A 1S6
-\end{flushleft}
-
-\vspace{2em}
-
-%Permission is granted to copy, distribute, and/or modify this document
-%under the terms of the Creative Commons Attribution-NonCommercial 4.0 Unported %License, which is available at %\url{http://creativecommons.org/licenses/by-nc/4.0/}.
-
-All rights reserved.
+%TODO: check this URL
 
 MATLAB\myreg is a registered trademark of The
 Mathworks, Inc.  The Mathworks does not warrant the accuracy
-of this book.
+of this book; they probably don't even like it.
 
-\vspace{2em}
-
-This book was typeset by the authors using \LaTeX
-among other free, open-source software.
-
-Version 2.0.0 of \thetitle was released in 2017. 
-
-The active Git
-    repository for this book is at
-    \url{https://github.com/AllenDowney/PhysicalModelingInMATLAB}
-
-%Copying, distributing, and contributing to \thetitle is encouraged.
-%The above repository is the easiest entry point for this.
-
-
-% Preface
 \subfile{chap00}
 
-% Table of contents
+%\pdfbookmark[chapter]{\contentsname}{toc}
 
-\pdfbookmark[chapter]{\contentsname}{toc}
 \tableofcontents
 
-
-% Start the book!
 \mainmatter
 
 
@@ -419,12 +180,6 @@ The active Git
 \subfile{chap13}
 
 \subfile{chap14}
-
-\begin{appendices}
-
-\subfile{chap15}
-
-\end{appendices}
 
 \printindex
 

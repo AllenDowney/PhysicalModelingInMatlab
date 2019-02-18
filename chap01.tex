@@ -3,7 +3,7 @@
 \begin{document}
 
 \chapter{Modeling and simulation}
-\label{chpt:modeling}
+\label{modeling}
 
 This chapter presents the modeling process and introduces MATLAB, the programming language we will use to represent models and run simulations.
 
@@ -84,7 +84,7 @@ and the primary tool we will use is MATLAB.
 
 
 \section{A glorified calculator}
-\label{sect:calc}
+\label{calc}
 
 At heart, MATLAB is a glorified calculator.  When you start MATLAB
 you will see a window
@@ -143,7 +143,7 @@ ans = 45
 \end{code}
 
 Speaking of spaces, you might have noticed that MATLAB puts a blank
-line between {\tt ans =} and the result.  In many of my examples I will leave it out to save room.
+line between {\tt ans =} and the result.  In my examples I will leave it out to save room.
 
 \index{multiplication}
 \index{division}
@@ -193,7 +193,7 @@ most important human who will read your code is you.
 And that brings us to the First Theorem of Debugging:
 
 \begin{quote}
-\displaythrm{1}
+Readable code is debuggable code.
 \end{quote}
 
 It is worth spending time to make your code pretty; it will save
@@ -290,14 +290,16 @@ and {\tt doc}.
 \index{documentation!doc@{\tt doc}}
 \index{documentation!doc@{\tt help}}
 
-The help command works completely in the Command Window; just 
+The help command works in the Command Window; just 
 type {\tt help} followed by the name of a command.
 
 % Here's an example where the output is in a stdout environment to
 % avoid nonsensical syntax highlighting.
 
-\begin{stdout}
+\begin{code}
 >> help sin
+\end{code}
+\begin{stdout}
  sin    Sine of argument in radians.
     sin(X) is the sine of the elements of X.
  
@@ -312,9 +314,9 @@ we get to vectors and matrices a few chapters from now.
 \index{vector}
 \index{matrix}
 
-The {\tt doc} pages are often better for people new to MATLAB.  
+The {\tt doc} pages are usually better.  
 If you type {\tt doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
-use vectors and matrices, so they may not make complete sense yet, 
+use vectors and arrays, so they may not make complete sense yet, 
 but you can get a preview of what's coming.
 
 
@@ -421,10 +423,10 @@ In every assignment statement, the left side has to be a legal variable name.  T
 \index{case sensitive}
 
 Almost any sequence of lower and upper case letters is a legal
-variable name, as long as the name does not exceed 63 characters.  
-Digits are also legal, but not at the beginning of the name.
+variable name.  
 Some punctuation is also legal, but the underscore,
-\verb"_", is the only commonly-used punctuation mark.  
+\verb"_", is the only commonly-used non-letter.
+Numbers are fine, but not at the beginning.  
 Spaces are not allowed.  Variable names are
 {\bf case sensitive}, so {\tt x} and {\tt X} are different variables.
 
@@ -550,10 +552,11 @@ area = 28.2743
 That way your code resembles the familiar formula $a = \pi r^2$.
 
 \item To break a long computation into a sequence of steps.
-Suppose you are evaluating a big, hairy expression like this one:
+Suppose you are evaluating a big, hairy expression like this:
+
 \begin{code}
-ans = ((x - 2000000) * sqrt(2 * pi) * 1000000) ^ -1 * ...
-exp(-1/2 * (log(x - 2000000) - area)^2 / 1000000^2)
+ans = ((x - theta) * sqrt(2 * pi) * sigma)^-1 * ...
+exp(-1/2 * (log(x - theta) - zeta)^2 / sigma^2)
 \end{code}
 
 You can use an ellipsis to break the expression into multiple lines.
@@ -567,16 +570,16 @@ But often it is better to break the computation into a sequence of
 steps and assign intermediate results to variables.
 
 \begin{code}
-shiftx = x - 2000000
-denom = shiftx * sqrt(2 * pi) * 1000000
-temp = (log(shiftx) - area) / 1000000
+shiftx = x - theta
+denom = shiftx * sqrt(2 * pi) * sigma
+temp = (log(shiftx) - zeta) / sigma
 exponent = -1/2 * temp^2
 ans = exp(exponent) / denom
 \end{code}
 
 The names of the intermediate variables explain their role in the
 computation.  {\tt shiftx} is the value of {\tt x} shifted by 
-{\tt 2000000}.  It should be no surprise that {\tt exponent} is the argument of {\tt exp}, and {\tt denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes them easier to debug.
+{\tt theta}.  It should be no surprise that {\tt exponent} is the argument of {\tt exp}, and {\tt denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes them easier to debug.
 
 \index{numerator}
 \index{denominator}
@@ -598,12 +601,14 @@ for multiplication.
 
 \begin{code}
 >> area = pi r^2
+\end{code}
+\begin{stdout}
  area = pi r^2
            |
-Error: Invalid expression. Check for missing multiplication operator, 
-missing or unbalanced delimiters, or other syntax error.
-To construct matrices, use brackets instead of parentheses.
-\end{code}
+Error: Invalid expression. Check for missing multiplication 
+operator, missing or unbalanced delimiters, or other syntax 
+error. To construct matrices, use brackets instead of parentheses.
+\end{stdout}
 
 \index{invalid expression}
 \index{expression!invalid}
@@ -618,12 +623,14 @@ to write something like $\sin \pi$, but not in MATLAB.
 
 \begin{code}
 >> sin pi
-Undefined function 'sin' for input arguments of type 'char'.
 \end{code}
+\begin{stdout}
+Undefined function 'sin' for input arguments of type 'char'.
+\end{stdout}
 
 The problem is that when you leave out the parentheses, MATLAB treats
 the argument as a string (rather than as an expression).
-In this case the error message is helpful, but in other cases the results can be baffling.
+In this case the error message is helpful, but the results can be baffling.
 For example, if you call {\tt abs}, which computes absolute values, and forget the parentheses, you get a surprising result:
 
 \begin{code}
@@ -638,20 +645,8 @@ I won't explain this result; for now, I'll just suggest that you should {\em alw
 This example also demonstrates the Second Theorem of Debugging:
 
 \begin{quote}
-\displaythrm{2}
+The only thing worse than getting an error message is {\em not} getting an error message.
 \end{quote}
-
-MATLAB functions are case sensitive, if you type the {\tt sin} function using capital letters in MATLAB, you get an error:
-
-\index{case sensitive}
-
-\begin{code}
->> SIN(pi)
-Undefined function 'SIN' for input arguments of type 'double'.
-
-Did you mean:
->> sin(pi)
-\end{code}
 
 Beginning programmers often hate error messages and do everything they
 can to make the messages go away.  Experienced programmers know that error
@@ -786,8 +781,6 @@ The result you get is not exact, but it is a pretty good approximation.
 
 \end{ex}
 
-
-% chap02
 
 
 \end{document}

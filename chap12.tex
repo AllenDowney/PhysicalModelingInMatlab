@@ -4,7 +4,7 @@
 
 \chapter{Optimization}
 
-In Exercise~\ref{ex:cannon}, you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  In this chapter, we solve a similar problem, finding the best launch angle for a baseball.
+In Exercise~\ref{cannon}, you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  In this chapter, we solve a similar problem, finding the best launch angle for a baseball.
 
 \index{baseball}
 \index{launch angle}
@@ -34,7 +34,7 @@ end
 \index{ODE event}
 \index{odeset@{\tt odeset}}
 
-This is similar to the event function we saw in Section~\ref{sect:events}, except that it uses {\tt W(2)} as the event value, which is the $y$ coordinate.  This event function stops the simulation when the altitude of the ball is 0 and falling.
+This is similar to the event function we saw in Section~\ref{events}, except that it uses {\tt W(2)} as the event value, which is the $y$ coordinate.  This event function stops the simulation when the altitude of the ball is 0 and falling.
 
 Now we can call {\tt ode45} like this:
 
@@ -71,7 +71,7 @@ Now we can extract the $x$ and $y$ positions:
     Y = M(:, 2);
 \end{code}
 
-In Section~\ref{sect:projectile} we plotted {\tt X} and {\tt Y} separately as functions of time.  Alternatively we can plot them against each other, like this:
+In Section~\ref{projectile} we plotted {\tt X} and {\tt Y} separately as functions of time.  Alternatively we can plot them against each other, like this:
 
 \begin{code}
     plot(X, Y)
@@ -150,7 +150,7 @@ Considering that our model is only approximate, this result might be good enough
 
 \section{{\tt fminsearch}}
 
-{\tt fminsearch} is similar to {\tt fzero}, which we saw in Section\ref{sect:fzero}.  Recall that {\tt fzero} takes a function handle and an initial guess, and returns a root of the function.
+{\tt fminsearch} is similar to {\tt fzero}, which we saw in Section\ref{fzero}.  Recall that {\tt fzero} takes a function handle and an initial guess, and returns a root of the function.
 As an example, to find a root of this function:
 
 \index{fminsearch@{\tt fminsearch}}
@@ -207,7 +207,7 @@ fval = -131.5851
 
 The optimal launch angle for the baseball is \SI{0.69}{\radian}; launched at that angle, the ball travels about \SI{132}{\meter}.
 
-If you are curious about how {\tt fminsearch} works, see Section~\ref{sect:howfminsearch}.
+If you are curious about how {\tt fminsearch} works, see Section~\ref{howfminsearch}.
 
 
 \section{Animation}
@@ -260,11 +260,11 @@ to watch.
 \index{clear figure}
 
 Each time through the loop, {\tt animate} uses {\tt clf}
-to clear the figure and {\tt axis} to reset the axes.  Then it plot a circle to represent the position of the baseball.
+to clear the figure and {\tt axis} to reset the axes.  Then it plots a circle to represent the position of the baseball.
 
 \index{drawnow@{\tt drawnow}}
 
-Each time through the loop, we have to call {\tt drawnow} so
+We have to call {\tt drawnow} so
 that MATLAB actually displays each plot.  Otherwise it waits
 until you finish drawing all the figures and {\em then} updates
 the display.
@@ -355,7 +355,7 @@ You can solve this problem in two steps:
 \end{ex}
 
 \begin{ex}
-\label{ex:golf}
+\label{golf}
 
 \index{golf ball}
 \index{force!Magnus}

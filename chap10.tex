@@ -35,7 +35,6 @@ is the second derivative of position, so we can write a differential
 equation
 
 \begin{equation}
-\label{eq:pos_acc}
     \frac{d^2r}{dt^2} = a
 \end{equation}
 
@@ -47,9 +46,7 @@ by introducing a new variable, {\tt v}, for velocity, we can rewrite it
 as a system of first-order ODEs:
 
 \begin{eqnarray}
-    \label{eq:pos_vel}
     \frac{dr}{dt} &=& v   \\
-    \label{eq:vel_acc}
     \frac{dv}{dt} &=& a   \\
 \end{eqnarray}
 
@@ -58,7 +55,7 @@ the second equation says that the first derivative of $v$ is $a$.
 
 
 \section{Freefall}
-\label{sect:freefall}
+\label{freefall}
 
 As an example, let's get back to the question from Exercise~\ref{penny}:
 
@@ -169,7 +166,7 @@ Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and pic
 
 
 \section{ODE events}
-\label{sect:events}
+\label{events}
 
 \index{ODE events}
 
@@ -242,18 +239,18 @@ The last row of {\tt M} indicates that the final altitude is 0, which is what we
 
 
 \section{Air resistance}
-\label{sect:air_resistance}
+\label{air_resistance}
 
 \index{drag}
 \index{air resistance}
 
 To make this simulation more realistic, we can add air resistance.
-For sizable objects moving relatively quickly through air, the force due to air resistance, called ``drag'', is proportional to velocity squared.  
+For large objects moving quickly through air, the force due to air resistance, called ``drag'', is proportional to velocity squared.  
 For an object falling down, drag is
 directed up, so if velocity is negative, drag force is positive.
 
-\begin{equation}\label{eq:simpledrag}
-    f_{d} = -sgn(v) b v^2 
+\begin{equation}
+    f_d = -sgn(v) b v^2 
 \end{equation}
 
 where $v$ is velocity and
@@ -262,6 +259,8 @@ air, the cross-sectional area of the object and the shape
 of the object.  
 
 % b is used in the book "Physics for Scientists and Engineers" by Paul A. Tipler.
+
+%TODO: revert this
 
 $sgn$ is the sign or signum function, which is 1 for positive values of 
 $v$ and -1 for negative values.  So $f_d$ is always in the opposite direction of $v$.
@@ -279,12 +278,12 @@ Here's a function that takes {\tt t} and {\tt X} as input variables and returns 
 function res = acceleration(t, X)
     b = 75e-6;                % drag constant in kg/m
     v = X(2);                 % velocity in m/s
-    f_d = -sign(v) * b * v^2; % drag force in N
+    f_d = -sgn(v) * b * v^2;  % drag force in N
 
     m = 2.5e-3;               % mass in kg
     a_d = f_d / m;            % drag acceleration in m/s^2
 
-    a_g = -9.8;               % acceleration due to gravity in m/s^2
+    a_g = -9.8;               % acceleration of gravity in m/s^2
     res = a_g + a_d;          % total acceleration
 end
 \end{code}
@@ -367,7 +366,7 @@ What is the lowest altitude where the skydiver can open the parachute and still 
 
 
 \begin{ex}
-\label{ex:earth}
+\label{earth}
 
 \index{Earth}
 \index{Sun}

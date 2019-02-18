@@ -3,7 +3,7 @@
 \begin{document}
 
 \chapter{Vectors}
-\label{chpt:vectors}
+\label{vectors}
 
 This chapter presents conditional statements and vectors, and three patterns for working with data: reduce, apply, and search.
 
@@ -49,9 +49,8 @@ aren't any numbers that fit that description, so the result is
 ans = 1x0 empty double row vector
 \end{code}
 
-This indicates that the result is an empty row vector of 
-double-precision numbers.  An empty row vector has one row and zero columns.  We will learn more about MATLAB vectors later in this
-chapter.
+If the matrix is empty, you might expect it to be {\tt 0x0}, but
+there you have it.
 
 \index{vector}
 \index{range}
@@ -180,7 +179,7 @@ self-explanatory, {\tt ==}, for ``equal,'' and
 
 Don't forget that {\tt ==} is the operator that tests equality,
 and {\tt =} is the assignment operator.  If you try to use {\tt =} in
-an {\tt if} statement, you get the following error:
+an {\tt if} statement, you get an error:
 
 \index{equality}
 \index{assignment}
@@ -201,7 +200,7 @@ In this case, the error message is pretty helpful.
 
 
 \section{Logical operators}
-\label{sect:logop}
+\label{logop}
 
 \index{logical operator}
 \index{operator!logical}
@@ -275,7 +274,7 @@ of the operands are true.
 
 \section{Vectors}
 
-The values we have seen so far have mostly been single numbers,
+The values we have seen so far are all single numbers,
 which are called {\bf scalars} to contrast them with {\bf vectors}
 and {\bf matrices}, which are collections of numbers.
 
@@ -284,7 +283,7 @@ and {\bf matrices}, which are collections of numbers.
 \index{matrix}
 
 A vector in MATLAB is similar to a sequence in mathematics;
-it is an ordered set of numbers that is indexed by positive integers.
+it is set of numbers that correspond to positive integers.
 There are several ways to create vectors; one of the most common is
 to put a sequence of numbers in square brackets:
 
@@ -294,16 +293,15 @@ ans = 1     2     3
 \end{code}
 
 In general, anything you can do with a scalar, you can also do with
-a vector.  You can assign a vector to a variable:
+a vector.  You can assign a vector value to a variable:
 
 \begin{code}
 >> X = [1 2 3]
 X = 1     2     3
 \end{code}
 
-In this book, we often capitalize single-letter variables that hold vectors 
-(and matrices).
-That's just a convention; MATLAB doesn't require it, but especially for beginning programmers, it is a useful way to distinguish vectors (and matrices) from scalars.
+Variables that contain vectors are often capital letters.
+That's just a convention; MATLAB doesn't require it, but for beginning programmers, it is a useful way to remember what is a vector and what is a scalar.
 
 \index{variable name}
 
@@ -359,17 +357,15 @@ to think of it that way, a scalar is zero-dimensional.
 \index{whos command@{\tt whos} command}
 \index{command!{\tt whos}}
 
-In MATLAB, the values we have seen so far are all two-dimensional matrices (except strings).
+In MATLAB, everything is a matrix (except strings).
 You can see this if you use the {\tt whos} command to display the
-values in the workspace.  {\tt whos} is similar to {\tt who}, but it also displays the size of each value and other information.
+variables in the workspace.  {\tt whos} is similar to {\tt who}, but it also displays the size of each value and other information.
 
 \index{variable}
 
-To demonstrate, I'll remove any existing variables and then 
-make a scalar, a vector, and a matrix:
+To demonstrate, I'll make one of each kind of value:
 
 \begin{code}
->> clear
 >> scalar = 5
 scalar = 5
 
@@ -391,13 +387,13 @@ Now let's see what we've got.
 \begin{code}
 >> whos
   Name        Size            Bytes  Class     Attributes
-              
-  scalar      1x1                 8  double              
-  vector      1x5                40  double              
+
   matrix      2x3                48  double              
+  scalar      1x1                 8  double              
+  vector      1x5                40  double               
 \end{code}
 
-According to MATLAB, all these variables are of class {\tt double}, which
+According to MATLAB, everything is a {\tt double}, which
 is another name for a double-precision floating-point number.
 
 \index{floating-point number}
@@ -416,7 +412,7 @@ But they have difference sizes:
 
 \end{itemize}
 
-The point of all this is that you can think of your variables as
+The point of all this is that you can think of your values as
 scalars, vectors, and matrices, and I think you should.  But in MATLAB they are all matrices.
 
 
@@ -554,7 +550,7 @@ Now that works for a vector of any length.
 An index can be any kind of expression, but the value of the
 expression has to be a positive integer, and it has to be
 less than or equal to the length of the vector.  If it's
-not a positive integer, you get an error:
+zero or negative, you get an error:
 
 \begin{code}
 >> Y(0)
@@ -603,7 +599,7 @@ end
 I use a capital letter for the vector {\tt F}
 and lower-case letters for the scalars {\tt i} and {\tt n}.
 
-If you had any trouble with Exercise~\ref{ex:fib2}, you have to
+If you had any trouble with Exercise~\ref{fib2}, you have to
 appreciate the simplicity of this version.  The MATLAB syntax is
 similar to the math notation, which makes it easier to check
 correctness.  
@@ -667,7 +663,7 @@ the screen is unwieldy.
 \index{string!style}
 
 By default, MATLAB draws a blue line, but you can override that
-setting with a style string, as we saw in Section~\ref{sect:plotting}.
+setting with a style string, as we saw in Section~\ref{plotting}.
 For example, the string {\tt 'ro-'} tells MATLAB to plot a red circle
 at each data point; the hyphen means the points should be connected
 with a line.
@@ -675,7 +671,7 @@ with a line.
 
 
 \section{Reduce}
-\label{sect:reduce}
+\label{reduce}
 
 A frequent use of loops is to run through the elements of an array
 and add them up, or multiply them together, or compute the sum
@@ -699,7 +695,7 @@ ans = total
 \end{code}
 
 The use of {\tt total} as an accumulator is similar to what we
-saw in Section~\ref{sect:series}.  Again, we use the {\tt length} function
+saw in Section~\ref{series}.  Again, we use the {\tt length} function
 to find the upper bound of the range, so this loop will work
 regardless of the length of {\tt X}.
 Each time through the loop, we add
@@ -710,7 +706,7 @@ in the {\tt i}th element of {\tt X}, so at the end of the loop
 \index{length function@{\tt length} function}
 
 \section{Apply}
-\label{sect:apply}
+\label{apply}
 
 Another common use of a loop is to run through the elements of
 a vector, perform some operation on the elements, and create
@@ -732,7 +728,7 @@ end
 
 
 \section{Search}
-\label{sect:search}
+\label{search}
 
 Yet another use of loops is to search the elements of a vector
 and return the index of the value you are looking for (or the
@@ -793,7 +789,7 @@ in a vector and {\tt prod} computes the product.
 
 Many apply operations can be done with elementwise operators.
 The following statement is more concise than the loop in
-Section~\ref{sect:apply}
+Section~\ref{apply}
 
 \begin{code}
 Y = X .^ 2
@@ -815,7 +811,7 @@ out the loop.
 
 
 \section{Name Collisions}
-\label{sect:collision}
+\label{collision}
 
 \index{name collision}
 \index{collision!name}
@@ -877,7 +873,7 @@ to store the status of some condition.
 \item[matrix:] A two-dimensional collection of values (also called
 ``array'' in some MATLAB documentation).
 
-\item[index:] An integer value used to indicate one of the values
+\item[ind] An integer value used to indicate one of the values
 in a vector or matrix (also called subscript in some MATLAB documentation).
 
 \item[element:] One of the values in a vector or matrix.
@@ -909,7 +905,7 @@ Write an expression that computes the square root of the sum of the squares of t
 \end{ex}
 
 \begin{ex}
-\label{ex:fibratio}
+\label{fibratio}
 
 The ratio of consecutive Fibonacci numbers, $F_{n+1}/F_{n}$, converges
 to a constant value as $n$ increases.  Write a script that computes
@@ -989,7 +985,6 @@ How does the behavior of the system change as you vary $r$?
 \end{ex}
 
 
-% chap05
 
 
 \end{document}

@@ -8,7 +8,7 @@ This chapter introduces one of the most important programming language features,
 
 \section{Updating variables}
 
-In Exercise~\ref{ex:bikegame}, you might have been tempted to write something
+In Exercise~\ref{bikegame}, you might have been tempted to write something
 like
 
 \index{bike share system}
@@ -56,7 +56,7 @@ number of bikes is right.  And that brings us to the Fifth Theorem of
 Debugging:
 
 \begin{quote}
-\displaythrm{5}
+The best way to avoid a bug is to make it impossible.
 \end{quote}
 
 In this case, removing redundancy also eliminates the opportunity for
@@ -247,8 +247,8 @@ A graph would be much better!
 \end{ex}
 
 
-\section{Plotting}
-\label{sect:plotting}\index{Plotting!points}
+\section{plotting}
+\label{plotting}
 
 \index{plot@{\tt plot}}
 
@@ -276,7 +276,6 @@ Other shapes include {\tt +},
 {\tt x},
 {\tt s} (for square),
 {\tt d} (for diamond), 
-{\tt .} (for a dot), and
 \verb+^+ (for a triangle).
 
 You can also specify the color:
@@ -312,7 +311,7 @@ The {\tt clf} command clears the figure before we start plotting.
 \index{clear figure}
 \index{clf@{\tt clf}}
 
-You should see a figure with three circles, at (1, 1), (1, 2), and (2, 2).  MATLAB scales the plot automatically so that each axis runs from the lowest axis value in the plot to the highest.
+You should see a figure with three circles.  MATLAB scales the plot automatically so that the axes runs from the lowest values in the plot to the highest.
 
 \begin{ex}
 Modify \verb"bike_loop" so that it clears the figure before running the loop.  Then, each time through the
@@ -370,16 +369,18 @@ This loop computes the sequence {\bf recurrently}, which means
 that each element depends on the previous one.
 For this sequence it is also possible to compute the $i$th element
 {\bf directly}, as a function of $i$, without using the previous element.
-In math notation, $A_i = A_1 (1/2)^{i-1}$. 
+In math notation, $A_i = A_1 r^{i-1}$. 
+
+%TODO Define r
 
 \begin{ex}
-Write a script named {\tt sequence} that, in a loop, 
-computes 10 elements of $A$ directly.
+Write a script named {\tt sequence} that uses a loop to 
+compute elements of $A$ directly.
 \end{ex}
 
 
 \section{Series}
-\label{sect:series}
+\label{series}
 
 In mathematics, a {\bf series} is the sum of the elements of
 a sequence.  It's a terrible name, because in common English,
@@ -465,7 +466,6 @@ I put this code in a file named {\tt series.m}, then
 ran it with different values of {\tt n}:
 
 \begin{code}
->> format long
 >> n=10; series
 total = 1.99804687500000
 
@@ -527,7 +527,7 @@ change you made was small, it shouldn't take long to find the problem.
 With incremental development, your code is more likely to work the first time; and if it doesn't the problem is more likely to be obvious.  And that brings us to the Sixth Theorem of Debugging:
 
 \begin{quote}
-\displaythrm{6}
+The best kind of debugging is the kind you don't have to do.
 \end{quote}
 
 In practice, there are two problems with incremental development:
@@ -545,7 +545,7 @@ scaffolding.
 
 \item When you are getting started, it might not be obvious how to
 choose the steps that get from {\tt x=5} to the program you are trying
-to write.  There is an extended example in Section~\ref{sect:increxample}.
+to write.  There is an extended example in Section~\ref{increxample}.
 
 \end{itemize}
 
@@ -624,7 +624,7 @@ Write a script called {\tt fudge.m} that solves this problem.  Hint: start with 
 
 
 \begin{ex}
-\label{ex:fib2}
+\label{fib2}
 
 We have already seen the Fibonacci sequence, $F$, which
 is defined recurrently as
@@ -655,7 +655,6 @@ order of the updates!
 
 
 
-% chap04
 
 
 \end{document}

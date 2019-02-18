@@ -7,8 +7,7 @@
 In this chapter we introduce scripts, floating-point numbers, and as a warm-up exercise, Fibonacci numbers.
 
 
-\section{M-files}\index{Scripts!M-files}
-\label{sect:M-files}
+\section{M-files}
 
 So far we have typed all of our programs ``at the prompt'', which is
 fine if you are not writing more than a few lines.  Beyond that,
@@ -119,7 +118,8 @@ at, you will find debugging a frustrating exercise!  And that brings
 us to the Third Theorem of Debugging:
 
 \begin{quote}
-\displaythrm{3}
+Be sure that the code you are running
+is the code you think you are running.
 \end{quote}
 
 
@@ -187,7 +187,8 @@ where the error was discovered, not where the error is.  In this
 case, the error is not in the script at all, which brings us to the Fourth Theorem of Debugging:
 
 \begin{quote}
-\displaythrm{4}
+Error messages tell you where the problem was discovered,
+not where it was caused.
 \end{quote}
 
 Often you have to work backwards to find the source of the problem.
@@ -209,8 +210,8 @@ ans = 0.6666
 
 The result is only approximate --- the correct answer has an infinite number of 6s. 
 
-It's not as bad as this example makes it seem: MATLAB stores more digits than it shows by default.
-You can change the output format to see more digits.
+It's not as bad as this example makes it seem: MATLAB uses more digits than it shows by default.
+You can change the output format to see the other digits.
 
 \index{format@{\tt format}}
 
@@ -228,32 +229,19 @@ In this example, the first 14 digits are correct; the last one has been rounded 
 Large and small numbers are displayed in scientific notation.  For example, if we use the built in function {\tt factorial} to compute $50!$, we get the following result:
 
 \begin{code}
->> factorial(50)
-ans = 3.041409320171338e+64
+>> factorial(100)
+ans = 9.332621544394410e+157
 \end{code}
 
 The {\tt e} in this notation is {\em not} the transcendental number
 known as $e$; it is just an abbreviation for ``exponent''.  So
-this means that $50!$ is approximately $3.04 \times 10^{64}$.  The
-exact solution is a 65-digit integer, but with double-precision floating-point 
-we only know the first 16 digits.
+this means that $100!$ is approximately $9.33 \times 10^{157}$.  The
+exact solution is a 158-digit integer, but with double-precision floating-point we only know the first 16 digits.
 
 \index{transcendental number}
 \index{exponent}
 
-%If you have the MATLAB Symbolic Math Toolbox installed, you can use a 
-%different number representation for the calculation and see all the digits of 
-%the result:
-%
-%\begin{code}
-%>> sym(factorial(50))
-%ans = 30414093201713375576366966406747986832057064836514787179557289984
-%\end{code}
-%
-%Compared to the floating-point result, the symbolic result takes substantially more time to compute and space to store in memory.
-%In this book, we focus on floating-point computation rather than symbolic computation.
-
-You can also enter numbers using scientific notation.
+You can enter numbers using the same notation.
 
 \begin{code}
 >> speed_of_light = 3.0e8
@@ -263,7 +251,7 @@ speed_of_light = 300000000
 Although floating-point can represent very large and small numbers, 
 there are limits.  
 The predefined variables {\tt realmax} and {\tt realmin}
-contain the largest and smallest number magnitudes that MATLAB 
+contain the largest and smallest numbers MATLAB 
 can handle.
 
 \index{realmin@{\tt realmin}}
@@ -277,23 +265,8 @@ ans = 1.797693134862316e+308
 ans = 2.225073858507201e-308
 \end{code}
 
-%Actually, MATLAB can handle a some numbers with magnitude smaller than 
-%{\tt realmin}, but with fewer digits of precision.
-%
-%\begin{code}
-%>> 1e-323
-%ans = 9.881312916824931e-324
-%\end{code}
-
-If a number is too small, MATLAB ``rounds down'' to zero.
-
-\begin{code}
->> 1e-324
-ans = 0
-\end{code}
-
-If a number -- perhaps the result of a computation -- is too big, 
-MATLAB ``rounds up'' to infinity.
+If the result of a computation is too big, MATLAB ``rounds up''
+to infinity.
 
 \index{Inf@{\tt Inf}}
 
@@ -314,12 +287,6 @@ ans = Inf
 
 \index{division by zero}
 \index{zero!division by}
-
-%Some older versions of MATLAB give a warning when dividing by zero.
-%A warning is like an error message without teeth; the computation
-%is allowed to continue.  Allowing {\tt Inf} to propagate
-%through a computation doesn't always do what you expect, but if you
-%are careful with it, {\tt Inf} can be quite useful.
 
 For operations that are undefined, MATLAB returns {\tt NaN},
 which stands for ``not a number''.
@@ -373,7 +340,7 @@ code, like units in the example above, or the meaning of a variable:
 \begin{code}
 >> p = 0         % position from the origin in meters
 >> v = 100       % velocity in meters / second
->> a_g = -9.8    % acceleration due to gravity in meters / second^2
+>> a = -9.8      % acceleration of gravity in meters / second^2
 \end{code}
 
 If you use longer variable names, you might not need explanatory
@@ -548,7 +515,7 @@ y = 1
 
 
 \begin{ex}
-\label{ex:bikegame}
+\label{bikegame}
 \index{bike share system}
 
 Imagine that you are the operator of a bike share system with two
@@ -584,7 +551,6 @@ and how to plot the values of {\tt a} and {\tt b} over time.
 
 
 
-% chap03
 
 
 \end{document}

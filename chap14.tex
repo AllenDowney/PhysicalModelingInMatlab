@@ -3,13 +3,13 @@
 \begin{document}
 
 \chapter{How does it work?}
-\label{chpt:how}
+\label{how}
 
 In this chapter we ``open the hood'', looking more closely at how some of the tools we have used --- {\tt ode45}, {\tt fzero}, and {\tt fminsearch} --- work.
 
 
 \section{How {\tt ode45} works}
-\label{sect:howode45}
+\label{howode45}
 
 According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair''.  You can read about it at \url{https://en.wikipedia.org/wiki/Runge-Kutta_methods}, but I'll try to give you a sense of it here.
 
@@ -92,7 +92,7 @@ At each time step, {\tt ode45} actually computes {\em two} estimates of the next
 
 
 \section{How {\tt fzero} works}
-\label{sect:howfzero}
+\label{howfzero}
 
 According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of bisection, secant, and inverse quadratic interpolation methods''.
 
@@ -132,7 +132,7 @@ That's most of how {\tt fzero} works.  The details of how these methods are comb
 
 
 \section{How {\tt fminsearch} works}
-\label{sect:howfminsearch}
+\label{howfminsearch}
 
 According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead_method}, but you might find it 
 overwhelming.

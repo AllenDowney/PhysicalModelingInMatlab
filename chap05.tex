@@ -3,7 +3,7 @@
 \begin{document}
 
 \chapter{Functions}
-\label{chpt:functions}
+\label{functions}
 
 This chapter introduces the most important idea in computer programming: functions!
 
@@ -157,11 +157,11 @@ that explains what the function does:
 \index{Documentation!functions}.
 
 \begin{code}
-% res = silent_myfunc(x)
+% res = myfunc(x)
 % Compute the Manhattan distance from the origin to the
 % point on the unit circle with angle (x) in radians.
 
-function res = silent_myfunc(x)
+function res = myfunc(x)
 % this is not part of documentation given by help function
 
     s = sin(x);
@@ -170,13 +170,13 @@ function res = silent_myfunc(x)
 end
 \end{code}
 
-When you ask for {\tt help}, MATLAB prints the comment you provided at the top of the file.
+When you ask for {\tt help}, MATLAB prints the comment you provide.
 
 \index{help@{\tt help}}
 
 \begin{code}
->> help silent_myfunc
-  res = silent_myfunc(x)
+>> help myfunc
+  res = myfunc(x)
   Compute the Manhattan distance from the origin to the
   point on the unit circle with angle (x) in radians.
 \end{code}
@@ -295,7 +295,7 @@ another name!
 
 
 \section{Multiple input variables}
-\label{sect:hypotenuse}
+\label{hypotenuse}
 
 \index{input variable}
 \index{variable!input}
@@ -306,7 +306,7 @@ For example, the following function takes two input variables,
 
 \begin{code}
 function res = hypotenuse(a, b)
-    res = (a^2 + b^2) ^ (1/2);
+    res = sqrt(a^2 + b^2);
 end
 \end{code}
   
@@ -332,7 +332,7 @@ if you provide too few, you get
 Not enough input arguments.
 
 Error in hypotenuse (line 2)
-    res = (a^2 + b^2) ^ (1/2);
+    res = sqrt(a^2 + b^2);
 \end{code}
 
 This error message is slightly confusing, because it suggests that
@@ -352,7 +352,7 @@ Which is a better message.
 
 \section{Logical functions}
 
-In Section~\ref{sect:logop} we used logical operators to compare values.
+In Section~\ref{logop} we used logical operators to compare values.
 MATLAB also provides {\bf logical functions} that check for certain
 conditions and return logical values: 1 for ``true'' and 0 for ``false''.
 
@@ -394,14 +394,14 @@ we'll call {\tt isintegral}:
 \begin{code}
 function res = isintegral(x)
     if round(x) == x
-        res = 1;       % or... res = true
+        res = 1;
     else
-        res = 0;       % or... res = false
+        res = 0;
     end
 end
 \end{code}
 
-This function is good enough for many applications, but remember
+This function is good enough for most applications, but remember
 that floating-point values are only approximately right:
 sometimes the approximation is an integer when the actual value is not; 
 sometimes the approximation is not an integer when the actual value is.
@@ -410,7 +410,7 @@ sometimes the approximation is not an integer when the actual value is.
 
 
 \section{Incremental development}
-\label{sect:increxample}
+\label{increxample}
 
 Suppose we want to write a program to search for ``Pythagorean
 triples'': sets of integral values, like 3, 4, and 5,
@@ -694,42 +694,6 @@ $5,12,13$ and $8,15,17$ are ``new,'' but the others are just
 multiples of the $3,4,5$ triangle we already knew.
 
 
-%\section{A misstep}
-%
-%When you change the signature of a function, you have to change
-%the places that call the function, too.  For example, suppose
-%you decide to add a third input variable to {\tt hypotenuse}:
-%
-%% wcs -- talk about copying from a different file using copyfile
-%% (and waiting after copying the file)
-%% ABD: not sure what you are getting at here.
-%
-%\begin{code}
-%function res = hypotenuse(a, b, d)
-%    res = (a^d + b^d) ^ (1/d);
-%end
-%\end{code}
-%
-%When {\tt d} is 2, the function does the same thing it did before.  There is no practical reason to generalize the function in this way; it's just
-%an example.  Now when you run {\tt find\_triples}, you get:
-%
-%\begin{code}
-%>> find_triples(20)
-%Not enough input arguments.
-%
-%Error in hypotenuse (line 2)
-%    res = (a^d + b^d)^(1/d);
-%
-%Error in find_triples (line 7)
-%            c = hypotenuse(a, b);
-%\end{code}
-%
-%So that makes it pretty easy to find the error.  
-%
-%% ABD: I removed the 8th theorem of debugging here because the error
-%% message no longer makes a suggestion, right or wrong
-
-
 \section{{\tt continue}}
 
 \index{continue@{\tt continue}}
@@ -943,16 +907,15 @@ Pythagorean triples.  If $F$ is a Fibonacci sequence,
 is a Pythagorean triple, for all $i \ge 1$.
 
 Write a function named {\tt fib\_triple} that
-takes {\tt n} as an input variable and computes 
-the first {\tt n} Fibonacci numbers, and stores them in a vector,
-then checks whether this formula produces a Pythagorean triple for all {\tt i} such that $ 1 \leq i \leq n-3 $
+takes {\tt n} as an input variable, computes 
+the first {\tt n} Fibonacci numbers, stores them in a vector,
+and checks whether this formula produces Pythagorean triples for numbers in the sequence.
 
 % fib_triple.m
 \end{ex}
 
 
 
-% chap06
 
 
 \end{document}

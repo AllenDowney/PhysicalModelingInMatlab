@@ -23,11 +23,10 @@ When yeast grow in particularly yeast-friendly
 conditions, the rate of growth at any point in time is proportional to
 the current population.
 
-If we define $y(t)$ to be the population (in billions of cells) at 
+If we define $y(t)$ to be the population at 
 time $t$, we can write the following equation for the rate of growth:
 %
 \begin{equation}
-\label{eq:exp_growth}
 \frac{dy}{dt}(t) = a y(t)
 \end{equation}
 %
@@ -84,7 +83,6 @@ One option is to break $\Delta t$ into smaller pieces, called
 Then we can use the following equations to get from one time step to the next:
 
 \begin{eqnarray}
-\label{eq:euler2}
 T_{i+1} &=& T_i + dt                       \\
 Y_{i+1} &=& Y_i + \frac{df}{dt}(t)~dt           \\
 \end{eqnarray}
@@ -168,7 +166,7 @@ The result is a plot of population over time, shown in Figure~\ref{fig:euler}.  
 
 
 \section{{\tt ode45}}
-\label{sect:ode45}
+\label{ode45}
 
 
 A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that is not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and they are much more accurate.
@@ -176,7 +174,7 @@ A limitation of Euler's method is that it assumes that the derivative is constan
 \index{time step} 
 \index{ode45@{\tt ode45}}
 
-MATLAB provides a function called {\tt ode45} that implements one of these methods.  In this section I'll explain how to use it; you can read more about how it works in Section~\ref{sect:howode45}.
+MATLAB provides a function called {\tt ode45} that implements one of these methods.  In this section I'll explain how to use it; you can read more about how it works in Section~\ref{howode45}.
 
 \index{rate function}
 \index{function!rate}
@@ -198,7 +196,7 @@ We can call {\tt ode45} from the {\sf Command Window} like this:
 plot(T, Y)
 \end{code}
 
-The first argument is a function handle, as we saw in Section~\ref{sect:fzero}.  The second argument is the time interval where we want to evaluate the solution; in this case the interval is from $t=0$ to $t=4$ hours.  The third argument is the initial population, 5 billion cells.
+The first argument is a function handle, as we saw in Section~\ref{fzero}.  The second argument is the time interval where we want to evaluate the solution; in this case the interval is from $t=0$ to $t=4$ hours.  The third argument is the initial population, 5 billion cells.
 
 \index{function handle}
 \index{handle!function}
@@ -243,7 +241,7 @@ quantifies a physical aspect of the scenario being modeled.  Parameters are ofte
 
 \index{parameter}
 
-In this example, $a$ characterizes the peak reproductive rate per day, and
+In this example, $a$ characterizes the reproductive rate per day, and
 $\omega$ is the frequency of a periodic function that describes
 the effect of varying food supply on reproduction.
 
@@ -265,36 +263,35 @@ To test this function, I put it in a file called {\tt rats.m} with a top-level f
 
 \begin{code}
 function res = rats()
-    t = 31;
-    y = 2000;
+    t = 365/2;
+    y = 1000;
     res = rate_func(t, y);
 end
 \end{code}
 
-Suppose there are 2000 rats at $t=31$.  We can compute the growth rate like this:
+Suppose there are 1000 rats at $t=365/2$.  We can compute the growth rate like this:
 
 \begin{code}
 >> r = rats
 
-r = 0.5562
+r = 4
 \end{code}
 
-So if there are 2000 rats on January 31, we expect them to 
-reproduce at a rate that would produce about one new rat every two days. 
+So if there are 1000 rats on June 31, we expect them to 
+reproduce at a rate that would produce about 4 new rats per day. 
 
 Since the growth rate is constantly changing, it is not easy to predict
 the future rat population, but that is exactly what {\tt ode45} does.
 Here's how:
 
 \begin{code}
-[T, Y] = ode45(@rate_func, [0, 365], 2000)
+[T, Y] = ode45(@rate_func, [0, 365], 1000)
 plot(T, Y)
 \end{code}
 
 The first argument is a function handle, again.  The second argument is the interval we are interested
-in, in this case starting at time 0 and going for 365 days (about a year).  
-The third argument is the population at the beginning of the interval, 
-in our case $y(0) = 2000$.
+in, one year.  
+The third argument is the initial population, $y(0) = 1000$.
 
 \index{interval}
 \index{time span}
@@ -307,12 +304,16 @@ in our case $y(0) = 2000$.
 
 Figure~\ref{fig:rats} shows the results.  The population grows slowly during the winter, quickly during the summer, and the slowly again in the fall.
 
-To see the population at the end of the interval, you can display the last element from each vector:
+% TODO
+
+To see the population at the end of the year, you can display the last element of {\tt Y}:
 
 \begin{code}
 Y(end)
-4.1502e+03
+2.0751e+03
 \end{code}
+
+That's a little more than 2000 rats, so the population roughly doubles in one year.
 
 {\tt end} is a special word in MATLAB; when it appears as an index,
 it means ``the index of the last element''.  You can use it in an
@@ -339,7 +340,7 @@ Error in rats>rate_func (line 18)
     res = a * y * (1 - cos(omega * t));
 
 Error in rats (line 6)
-    [T, Y] = ode45(rate_func, [0, 365], 2000);
+    [T, Y] = ode45(rate_func, [0, 365], 1000);
 \end{code}
 
 Also, remember that the function you write will be called by
@@ -359,7 +360,7 @@ You might be tempted to write this:
 
 \begin{code}
 function res = rate_func(y)        % WRONG
-    a = 0.02;
+    a = 0.002;
     res = a * y;
 end
 \end{code}
@@ -374,7 +375,7 @@ variable, even if you don't use it.
 
 \begin{code}
 function res = rate_func(t, y)     % RIGHT
-    a = 0.02;
+    a = 0.002;
     res = a * y;
 end
 \end{code}
@@ -385,7 +386,7 @@ like this:
 
 \begin{code}
 function res = rate_func(t, y)
-    a = 0.02;
+    a = 0.002;
     omega = 2*pi / 365;
     r = a * y * (1 - cos(omega * t));    % WRONG
 end
@@ -534,7 +535,6 @@ room temperature after about an hour.
 \end{ex}
 
 
-% chap09
 
 
 \end{document}

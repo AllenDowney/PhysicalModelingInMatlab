@@ -3,7 +3,7 @@
 \begin{document}
 
 \chapter{Systems of ODEs}
-\label{chpt:systems}
+\label{systems}
 
 In the previous chapter we used Euler's method and {\tt ode45} to solve a single first-order differential equation.  In this chapter we'll move on to systems of ODEs and implement a model of a predator-prey system.  But first, we have to learn about matrices.
 
@@ -197,32 +197,31 @@ have on row vectors, column vectors, and scalars?
 
 
 \section{Lotka-Volterra}
-\label{sect:lotka}
+\label{lotka}
 
 The Lotka-Volterra model describes the interactions between two
-species in an ecosystem, a predator and its prey.  As an example, we'll consider weasels and rabbits.
+species in an ecosystem, a predator and its prey.  As an example, we'll consider foxes and rabbits.
 
 \index{Lotka-Volterra model}
 \index{rabbit}
-\index{weasel}
+\index{fox}
 \index{system of ODEs}
 
 The model is governed by the following system of differential equations:
 
 \begin{eqnarray}
-    \frac{dr}{dt} &=& \alpha r - \beta r w
-    \\[6pt]
-    \frac{dw}{dt} &=& - \gamma w + \delta r w
+    \frac{dx}{dt} &=& \alpha x - \beta x y         \\
+    \frac{dy}{dt} &=& -\gamma y + \delta x y       \\
 \end{eqnarray}
 %
-where $r$ and $w$ are the populations of rabbits and weasels,
-and $\alpha$, $\beta$, $\gamma$, and $\delta$ are parameters
+where $x$ and $y$ are the populations of rabbits and foxes,
+and $a$, $b$, $c$, and $d$ are parameters
 governing the interactions between the two species.\footnote{See
 \url{https://en.wikipedia.org/wiki/Lotka-Volterra_equations}.}
 
 At first glance you might think you could solve these equations by
-calling {\tt ode45} once to solve for $r$ as a function of time and
-once to solve for $w$.  The problem is that each equation involves
+calling {\tt ode45} once to solve for $x$ as a function of time and
+once to solve for $y$.  The problem is that each equation involves
 both variables, which is what makes this a {\bf system of equations}
 and not just a list of unrelated equations.  To solve a system, you
 have to solve the equations simultaneously.
@@ -232,42 +231,43 @@ have to solve the equations simultaneously.
 
 Fortunately, {\tt ode45} can handle systems of equations.  The
 difference is that the initial condition is a vector that contains
-initial values $r(0)$ and $w(0)$, and the output is a matrix
-that contains one column for $r$ and one for $w$.
+initial values $x(0)$ and $y(0)$, and the output is a matrix
+that contains one column for $x$ and one for $y$.
 
 \index{rate function}
 
 Here's what the rate function looks like
-with the parameters $\alpha = 0.1$, $\beta = 0.01$, $\gamma = 0.1$, 
-and $\delta = 0.002$:
+with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$, 
+and $d = 0.002$:
 
 \begin{code}
 function res = rate_func(t, V)
     % unpack the elements of V
-    r = V(1);
-    w = V(2);
+    x = V(1);
+    y = V(2);
 
     % set the parameters
-    a = 0.1;  
-    b = 0.01;  
-    g = 0.1;   
-    d = 0.002; 
+    a = 0.1;
+    b = 0.01;
+    c = 0.1;
+    d = 0.002;
 
     % compute the derivatives
-    drdt = a*r - b*r*w;
-    dwdt = -g*w + d*r*w;
+    dxdt = a*x - b*x*y;
+    dydt = -c*y + d*x*y;
 
     % pack the derivatives into a vector
-    res = [drdt; dwdt];
+    res = [dxdt; dydt];
 end
 \end{code}
 
-Remember, the first input variable must be the ``time'' variable.
-Even though time is not used in this rate function, its presence is required by the {\tt ode45} solver.
+The first input variable is time.
+Even though the time variable, {\tt t}, is not used in this rate function, its presence is required by the {\tt ode45} solver.
 
 The second input variable is a vector with two elements,
-$r(t)$ and $w(t)$.  I gave it a capital letter to remind me that it
-is a vector.  The body of the function includes four sections,
+$x(t)$ and $y(t)$.
+
+The body of the function includes four sections,
 each explained by a comment.
 
 The first section {\bf unpacks} the vector by copying the elements
@@ -294,7 +294,7 @@ as input and expects to get a vector as output.
 Sharp-eyed readers will notice something different about this line:
 
 \begin{code}
-    res = [drdt; dwdt];
+    res = [drdt; dfdt];
 \end{code}
 
 The semi-colon between the elements of the vector is not an error.  It
@@ -315,14 +315,14 @@ end
 
 \index{initial condition}
 
-\verb"V_init" is a vector that represents the initial condition, 80 rabbits and 20 weasels.  The result from \verb"rate_func" is:
+\verb"V_init" is a vector that represents the initial condition, 80 rabbits and 20 foxes.  The result from \verb"rate_func" is:
 
 \begin{code}
 -8.0000
  1.2000
  \end{code}
   
-Which means that with these initial conditions, we expect the rabbit population to decline initially at a rate of 8 per week, and the weasel population to increase by 1.2 per week.  
+Which means that with these initial conditions, we expect the rabbit population to decline initially at a rate of 8 per week, and the fox population to increase by 1.2 per week.  
   
 Now we can run {\tt ode45} like this:
 
@@ -349,8 +349,8 @@ population and one row for each time value in {\tt T}.
 ans = 185     2
 \end{code}
 
-This organization -- one column per variable -- is a common way to
-use matrices.  {\tt plot} understands this organization, so if you
+This structure -- one column per variable -- is a common way to
+use matrices.  {\tt plot} understands this structure, so if you
 do this:
 
 \begin{code}
@@ -367,7 +367,7 @@ this:
 
 \begin{code}
 >> R = M(:, 1);
->> W = M(:, 2);
+>> F = M(:, 2);
 \end{code}
 
 In this context, the colon represents the range from 1 to {\tt end},
@@ -378,11 +378,11 @@ so {\tt M(:, 1)} means ``all the rows, column 1'' and
 >> size(R)
 ans = 185     1
 
->> size(W)
+>> size(F)
 ans = 185     1
 \end{code}
 
-So {\tt R} and {\tt W} are column vectors.
+So {\tt R} and {\tt F} are column vectors.
 
 \index{column vector}
 
@@ -390,7 +390,7 @@ Now we can plot these vectors separately, which makes it easier to give them dif
 
 \begin{code}
 >> plot(T, R, '-')
->> plot(T, W, '--')
+>> plot(T, F, '--')
 \end{code}
 
 \begin{figure}
@@ -399,11 +399,13 @@ Now we can plot these vectors separately, which makes it easier to give them dif
 \label{fig:lotka}
 \end{figure}
 
-Figure~\ref{fig:lotka} shows the results. The x-axis is time in weeks; the y-axis is population.  The top curve shows the population of rabbits; the bottom curve shows weasels.
+%TODO: check that the label is foxes, not weasels
+
+Figure~\ref{fig:lotka} shows the results. The x-axis is time in weeks; the y-axis is population.  The top curve shows the population of rabbits; the bottom curve shows foxes.
 
 \index{boom and bust}
 
-Initially there are too many weasels, so the rabbit population declines.  Then there are not enough rabbits, and the weasel population declines.  That allows the rabbit population to recover, and the pattern repeats.
+Initially there are too many foxes, so the rabbit population declines.  Then there are not enough rabbits, and the fox population declines.  That allows the rabbit population to recover, and the pattern repeats.
 
 This cycle of ``boom and bust'' is typical of the Lotka-Volterra model.
 
@@ -413,7 +415,7 @@ This cycle of ``boom and bust'' is typical of the Lotka-Volterra model.
 Instead of plotting the two populations over time, it is sometimes useful to plot them against each other, like this:
 
 \begin{code}
->> plot(R, W)
+>> plot(R, F)
 \end{code}
 
 \begin{figure}
@@ -423,7 +425,7 @@ Instead of plotting the two populations over time, it is sometimes useful to plo
 \end{figure}
 
 Figure~\ref{fig:phase} shows the result.  Each point on this plot represents a certain number of rabbits (on the
-x axis) and a certain number of weasels (on the y axis).
+x axis) and a certain number of foxes (on the y axis).
 
 Since these are the only two variables in the system, each point in
 this plane describes the complete {\bf state} of the system.
@@ -472,7 +474,7 @@ initial conditions, or the vectors inside {\tt lotka}.  MATLAB
 doesn't know what the elements are supposed to mean, so it can't catch
 errors like this; it will just produce incorrect results.
 
-The order of the elements (rabbits and weasels) is up to you, but
+The order of the elements (rabbits and foxes) is up to you, but
 you have to be consistent.  That is, the initial conditions you
 provide when you call {\tt ode45} have to be the same as the order,
 inside \verb"rate_func", where you unpack the input vector and repack
@@ -569,7 +571,6 @@ $x$, $y$, and $z$.
 \end{ex}
 
 
-% chap10
 
 
 \end{document}

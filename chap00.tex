@@ -13,7 +13,7 @@ By reading this book --- and working on the exercises --- you will learn some pr
 \item With basic programming skills, you can create models for a wide range of physical systems.
 My goal is to help you develop these skills in a way you can apply immediately to real-world problems.
 
-\item This book presents the entire modeling process, including model selection, analysis, simulation, and validation.  I explain this process in Chapter~\ref{chpt:modeling}, and there are examples throughout the book.
+\item This book presents the entire modeling process, including model selection, analysis, simulation, and validation.  I explain this process in Chapter~\ref{modeling}, and there are examples throughout the book.
 
 \item Simulation is an approach to modeling that uses computer programs to  implement models and generate predictions.  This book shows how simulations are used to run experiments, answer questions, and guide decision-making.
 
@@ -27,7 +27,7 @@ I assume that you know trigonometry and some calculus, but not much.  If you und
 
 I assume you know basic physics, in particular the concepts of force, acceleration, velocity, and position.  If you know Newton's second law of motion in the form $F = m a$, that's enough.
 
-You will learn to use numerical methods to search for roots of non-linear equations, to solve differential equations, and to search for optimal solutions.  You will learn how to use these methods first; then in Chapter~\ref{chpt:how} you will learn more about how they work.  But if you can't stand the suspense, you can look ``under the hood'' whenever you want.
+You will learn to use numerical methods to search for roots of non-linear equations, to solve differential equations, and to search for optimal solutions.  You will learn how to use these methods first; then in Chapter~\ref{how} you will learn more about how they work.  But if you can't stand the suspense, you can look ``under the hood'' whenever you want.
 
 I have tried to present a small set of tools that provides the most versatility and power, to explain them as clearly as possible, and to give you chances to practice what you learn.
 
@@ -40,7 +40,7 @@ This book is based on MATLAB, a programming language originally developed at the
 
 MATLAB is a high-level language with features that make it well-suited for modeling and simulation, and it comes with a program development environment that makes it well-suited for beginners.
 
-However, one challenge for beginners is that MATLAB uses vectors and matrices for almost everything, which can make it hard to get started.  The organization of this book is meant to help: we start with simple numerical computations, adding vectors in Chapter~\ref{chpt:vectors} and matrices in Chapter~\ref{chpt:systems}.
+However, one challenge for beginners is that MATLAB uses vectors and matrices for almost everything, which can make it hard to get started.  The organization of this book is meant to help: we start with simple numerical computations, adding vectors in Chapter~\ref{vectors} and matrices in Chapter~\ref{systems}.
 
 Another drawback of MATLAB is that it is ``proprietary''; that is, it belongs to MathWorks, and you can only use it with a license, which can be expensive.
 
@@ -69,7 +69,7 @@ octave
 The first time you run it, a start window should appear to guide you through some configuration.
 
 
-\section*{Working with the code}
+\section{Working with the code}
 
 %TODO: apply link shorteners
 
@@ -88,7 +88,7 @@ If you open any of these files in MATLAB, you should be able to read the code.  
 You might get a message like, ``File not found in the current folder''.
 MATLAB will give you the option to {\sf Change Folder} or {\sf Add to Path}.  If you change folders, you will be able to run this file until you change folder again.  If you add to the path, you will always be able to run this file.
 
-However, as you add more folders to the path, you are more likely to run into problems with name collisions (see Section~\ref{sect:collision}).  I recommend you change folders when necessary and avoid adding folders to the path.
+However, as you add more folders to the path, you are more likely to run into problems with name collisions (see Section~\ref{collision}).  I recommend you change folders when necessary and avoid adding folders to the path.
 
 
 \newpage
@@ -116,7 +116,8 @@ Nik Martelaro,
 Arjun Plakkat, 
 Zhen Gang Xiao, 
 Zavier Patrick Aguila, 
-Michael Cline.
+Michael Cline,
+Craig Scratchley.
 
 Matt Wiens revised several sections of the book.
 

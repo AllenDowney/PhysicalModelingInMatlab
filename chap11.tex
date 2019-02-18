@@ -10,7 +10,7 @@ In the previous chapter, we solved a one-dimensional problem, a penny falling fr
 
 
 \section{Spatial vectors}
-\label{sect:spacial}
+\label{spacial}
 
 The word ``vector'' means different
 things to different people.  In MATLAB, a vector is a matrix that has
@@ -129,14 +129,14 @@ This will come in handy later in the chapter.
 
 
 \section{ODEs in two dimensions}
-\label{sect:projectile}
+\label{projectile}
 
 So far we have used {\tt ode45} to solve a system of first-order equations and a single second-order equation.  Now we'll take one more step, solving a system of second-order equations.
 
 As an example, we'll simulate the flight of a baseball.
 Assuming there is no wind and no spin on the ball, it should travel in a vertical plane, so we can think of the system as
 two-dimensional, with $x$ representing the horizontal distance
-traveled and $y$ representing height or altitude.
+travelled and $y$ representing height or altitude.
 
 \index{baseball}
 \index{altitude}
@@ -230,7 +230,7 @@ The simulation ends just before the ball lands, having traveled almost \SI{250}{
 
 
 \section{Drag force}
-\label{sect:drag}
+\label{drag}
 
 \index{drag}
 \index{force!drag}
@@ -263,7 +263,7 @@ The following function computes the drag force on a baseball:
     A = 0.0042;     % m^2
     v = norm(V);    % m/s
 
-    res = - 1/2 * C * rho * A * v * V;
+    res = -1/2 * C_d * rho * A * v * V;
 end
 \end{code}
   
@@ -287,7 +287,7 @@ function res = acceleration(t, P, V)
 end
 \end{code}
 
-As in Section~\ref{sect:projectile}, {\tt acceleration} represents acceleration due to gravity with a vector that has magnitude {\tt g} and direction along the negative $y$ axis.
+As in Section~\ref{projectile}, {\tt acceleration} represents acceleration due to gravity with a vector that has magnitude {\tt g} and direction along the negative $y$ axis.
 But now it also computes drag force, then divides by the mass of the baseball to get acceleration due to drag.
 Finally, it adds \verb"a_gravity" and \verb"a_drag" to get the total acceleration of the baseball.
 
@@ -397,7 +397,7 @@ with {\tt vertcat} and vertical concatenation.
 
 \index{horzcat@{\tt horzcat}}
 
-In Section~\ref{sect:projectile} we use horizontal concatenation to pack {\tt dRdt} and {\tt dVdt} into the output variable:
+In Section~\ref{projectile} we use horizontal concatenation to pack {\tt dRdt} and {\tt dVdt} into the output variable:
 
 \begin{code}
 function res = rate_func(t, W)
@@ -479,7 +479,7 @@ program to implement it.  How big is the effect on the distance the baseball tra
 
 
 \begin{ex}
-\label{ex:cannon}
+\label{cannon}
 
 \index{cannon}
 \index{human cannonball}
@@ -495,39 +495,6 @@ Find the initial velocity (both magnitude and direction) you would need to break
 
 
 
-% ABD: I am commenting this out for now because the drag equation is
-% probably not a good model for this scenario.
-
-%\begin{ex}
-%Suppose the baseball lands in a lake, and breaks the water's surface
-%with velocity
-%
-%\begin{equation}
-%    v_0 = (25, -25) ~  m/s
-%\end{equation}
-%
-%How long will it take to resurface?
-%
-%Consider the baseball to be fully submerged when it enters the water. You will need to account for the gravitational force and the drag force (given in equation \eqref{eq:wikidrag}). You will also need to consider the force due to ``buoyancy'' which is given by Archimedes' principle:
-%
-%\begin{equation}
-%    \vec{F_b} = \rho V g ~ \uvec{j}
-%\end{equation}
-%
-%where $\rho$ is the density of the fluid (for water this is $1000 ~ kg /
-%m^3$), $V$ is the volume of the fluid displaced (equal to the volume
-%of the baseball---take this to be $0.000213 ~ m^3$), and $g$ the
-%familiar gravitational constant; $\uvec{j}$ is the unit vector that
-%points straight up:
-%
-%\begin{equation}
-%    \uvec{j} = (0, 1)
-%\end{equation}
-%
-%\end{ex}
-
-
-% chap12
 
 
 \end{document}
