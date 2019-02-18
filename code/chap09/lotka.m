@@ -13,27 +13,27 @@ function res = lotka()
     % plot the time series
     clf; hold on
     R = M(:, 1);
-    W = M(:, 2);
+    F = M(:, 2);
     plot(T, R, 'LineWidth', 2)
-    plot(T, W, '--', 'LineWidth', 2)
+    plot(T, F, '--', 'LineWidth', 2)
     xlabel('Time (weeks)')
     ylabel('Polulation')
-    legend('rabbits', 'weasels')
+    legend('rabbits', 'foxes')
     saveas(gcf, '../../book/figs/lotka.eps', 'epsc')
 
     % plot the trajectory
     clf; hold on
-    plot(R, W)
+    plot(R, F)
     xlabel('Rabbit population')
-    ylabel('Weasel population')
+    ylabel('Fox population')
     saveas(gcf, '../../book/figs/phase.eps', 'epsc')
 end
 
 
 function res = rate_func(t, V)
     % unpack the elements of V
-    r = V(1);
-    w = V(2);
+    x = V(1);
+    y = V(2);
 
     % set the parameters
     a = 0.1;
@@ -42,9 +42,9 @@ function res = rate_func(t, V)
     d = 0.002;
 
     % compute the derivatives
-    drdt = a*r - b*r*w;
-    dfdt = -c*w + d*r*w;
+    dxdt = a*x - b*x*y;
+    dydt = -c*y + d*x*y;
 
     % pack the derivatives into a vector
-    res = [drdt; dfdt];
+    res = [dxdt; dydt];
 end

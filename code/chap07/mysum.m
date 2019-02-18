@@ -1,3 +1,5 @@
+% Add up the elements of a vector.
+
 function res = mysum(X)
     total = 0;
     for i=1:length(X)
@@ -5,3 +7,4 @@ function res = mysum(X)
     end
     res = total;
 end
+

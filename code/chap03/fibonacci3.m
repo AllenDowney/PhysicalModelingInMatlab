@@ -1,7 +1,6 @@
-% computes a the nth Fibonacci
-% number.  Precondition: you must assign a value to n before
-% running this script.  Postcondition: the result is stored
-% in ans.
+% Plot the first n elements of a Fibonacci sequence
+% Precondition: n is a positive integer.
+% Postcondition: the result is stored in ans.
 
 F(1) = 1
 F(2) = 1

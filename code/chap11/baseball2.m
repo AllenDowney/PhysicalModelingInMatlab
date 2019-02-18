@@ -1,5 +1,5 @@
-function baseball()
-    P = [0; 3];       % initial position in m
+function baseball2()
+    P = [0; 1];       % initial position in m
     V = [40; 30];     % initial velocity in m/s
     W = [P; V];       % initial condition
     rate_func(0, W)

@@ -1,13 +1,16 @@
 function diagram()
     clf; hold on
     
+    blue = [0, 0.44, 0.74];
+    orange = [0.85, 0.32, 0.1];
+    
     xl = [-5, 5];
     yl = [-5, 5];
     draw_axes(xl, yl)
     
     O = [0 0];
     P = [3 4];
-    draw_vector(O, P, 'b-')
+    draw_vector(O, P, 'P', 'Color', blue)
     
     xlim(xl)
     ylim(yl)
@@ -22,21 +25,65 @@ function diagram()
     
     O = [0 0];
     A = [2, 4];
-    draw_vector(O, A, 'A', 'b-')
+    draw_vector(O, A, 'A', 'Color', blue)
     
     B = [2, -2];
-    draw_vector(O, B, 'B', 'b-')
+    draw_vector(O, B, 'B', 'Color', blue)
     
     AB = A + B
-    draw_vector(O, AB, 'A + B', 'b-')
+    draw_vector(O, AB, 'A + B', 'Color', blue)
 
-    draw_line(A, AB, 'r:')
-    draw_line(B, AB, 'r:')
+    draw_line(A, AB, ':', 'Color', orange)
+    draw_line(B, AB, ':', 'Color', orange)
     
     xlim(xl)
     ylim(yl)
     hold off
     saveas(gcf, '../../book/figs/vector2.eps', 'epsc')
+
+    clf; hold on
+    
+    xl = [-5, 5];
+    yl = [-5, 5];
+    draw_axes(xl, yl)
+    
+    O = [0 0];
+    V = [4, 2];
+    draw_vector(O, V, 'V', 'Color', blue)
+    
+    Vhat = hat(V);
+%    draw_vector(O, Vhat, '', 'Color', 'blue', 'LineWidth', 2)
+%    text(Vhat(1), Vhat(2), 'hat(V)', ...
+%                    'FontSize', 12, ...
+%                    'FontWeight', 'bold', ...
+%                    'Color', 'blue', ...
+%                    'VerticalAlignment', 'bottom', ...
+%                    'HorizontalAlignment', 'right')
+                
+    D = - Vhat * 2
+    draw_vector(O, D, '', 'Color', blue)
+    text(D(1), D(2), 'D', ...
+                    'FontSize', 12, ...
+                    'FontWeight', 'bold', ...
+                    'Color', blue, ...
+                    'HorizontalAlignment', 'right')
+    
+    G = [0 -3]
+    draw_vector(O, G, 'G', 'Color', blue)
+    
+    A = D+G
+    draw_vector(O, A, '', 'Color', orange)
+    text(A(1), A(2), 'A', ...
+                    'FontSize', 12, ...
+                    'FontWeight', 'bold', ...
+                    'Color', orange, ...
+                    'HorizontalAlignment', 'right')
+    
+    
+    xlim(xl)
+    ylim(yl)
+    hold off
+    saveas(gcf, '../../book/figs/vector3.eps', 'epsc')
 
 end
 
@@ -49,6 +96,8 @@ function res = perp(V)
 end
 
 function draw_vector(A, B, label, varargin)
+    blue = [0, 0.44, 0.74];
+
     draw_line(A, B, varargin{:})
     
     V = B - A
@@ -62,7 +111,7 @@ function draw_vector(A, B, label, varargin)
     text(T(1), T(2), label, ...
                     'FontSize', 12, ...
                     'FontWeight', 'bold', ...
-                    'Color', 'blue', ...
+                    'Color', blue, ...
                     'HorizontalAlignment', 'left')
 end
 
