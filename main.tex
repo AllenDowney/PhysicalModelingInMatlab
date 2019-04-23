@@ -17,6 +17,10 @@
 \usepackage{url}
 \usepackage{subfiles}
 
+\usepackage{minitoc}
+\setcounter{minitocdepth}{3} 
+\setcounter{parttocdepth}{3}
+
 \newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
 
 \newenvironment{ex}{\begin{Exercise}}{\end{Exercise}}
@@ -144,42 +148,46 @@ MATLAB\myreg is a registered trademark of The
 Mathworks, Inc.  The Mathworks does not warrant the accuracy
 of this book.
 
-\subfile{chap00}
-
+\include{chap00}
 %\pdfbookmark[chapter]{\contentsname}{toc}
 
+% This lets us do mini ToCs at the start of the chapter.
+\dominitoc
+\dominilof
+\dominilot
 \tableofcontents
+\adjustmtc{}
 
 \mainmatter
 
 
-\subfile{chap01}
+\include{chap01}
 
-\subfile{chap02}
+\include{chap02}
 
-\subfile{chap03}
+\include{chap03}
 
-\subfile{chap04}
+\include{chap04}
 
-\subfile{chap05}
+\include{chap05}
 
-\subfile{chap06}
+\include{chap06}
 
-\subfile{chap07}
+\include{chap07}
 
-\subfile{chap08}
+\include{chap08}
 
-\subfile{chap09}
+\include{chap09}
 
-\subfile{chap10}
+\include{chap10}
 
-\subfile{chap11}
+\include{chap11}
 
-\subfile{chap12}
+\include{chap12}
 
-\subfile{chap13}
+\include{chap13}
 
-\subfile{chap14}
+\include{chap14}
 
 \printindex
 
