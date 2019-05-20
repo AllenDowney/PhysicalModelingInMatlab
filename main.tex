@@ -3,9 +3,9 @@
 %
 
 % Use the No Starch Press document class
-%\documentclass[cfonts]{nostarch}
+\documentclass[cfonts]{nostarch}
 
-\documentclass{book}
+%\documentclass{book}
 
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{exercise}
@@ -42,27 +42,27 @@
 
 \sloppy
 
-\setlength{\headsep}{3ex}
-\setlength{\parindent}{0.0in}
-\setlength{\parskip}{1.7ex plus 0.5ex minus 0.5ex}
-\renewcommand{\baselinestretch}{1.02}
+%\setlength{\headsep}{3ex}
+%\setlength{\parindent}{0.0in}
+%\setlength{\parskip}{1.7ex plus 0.5ex minus 0.5ex}
+%\renewcommand{\baselinestretch}{1.02}
 
 % see LaTeX Companion page 62
-\setlength{\topsep}{-0.0\parskip}
-\setlength{\partopsep}{-0.5\parskip}
-\setlength{\itemindent}{0.0in}
-\setlength{\listparindent}{0.0in}
+%\setlength{\topsep}{-0.0\parskip}
+%\setlength{\partopsep}{-0.5\parskip}
+%\setlength{\itemindent}{0.0in}
+%\setlength{\listparindent}{0.0in}
 
-\pagestyle{fancyplain}
+%\pagestyle{fancyplain}
 
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
 
-\lhead[\fancyplain{}{\bfseries\thepage}]%
-      {\fancyplain{}{\bfseries\rightmark}}
-\rhead[\fancyplain{}{\bfseries\leftmark}]%
-      {\fancyplain{}{\bfseries\thepage}}
-\cfoot{}
+%\lhead[\fancyplain{}{\bfseries\thepage}]%
+ %     {\fancyplain{}{\bfseries\rightmark}}
+%\rhead[\fancyplain{}{\bfseries\leftmark}]%
+%      {\fancyplain{}{\bfseries\thepage}}
+%\cfoot{}
 
 \usepackage{xcolor}
 \definecolor{bgcolor}{HTML}{F0F0F0}
@@ -71,6 +71,7 @@
 \definecolor{strings}{HTML}{B20000}
 
 \usepackage{listings}
+\iffalse
 \lstset{
     language=matlab,
     basicstyle=\ttfamily,
@@ -88,7 +89,7 @@
     aboveskip=\parskip,
     belowskip=\parskip
 }
-
+\fi
 \lstnewenvironment{code}{}{}
 \lstnewenvironment{stdout}{\lstset{commentstyle=,keywordstyle=,stringstyle=}}{}
 
