@@ -37,9 +37,7 @@ The result of analysis and simulation might be a prediction about what the syste
 \index{explanation}
 \index{design}
 
-We can {\bf validate} predictions and test designs by taking {\bf measurements} from the real world and comparing the {\bf data} we get with the results from analysis and simulation. 
-
-Returning to our system, if we want to assess or model, we can first take measurements from the real world (the system), which will give us \emph{data}. We can then compare this data with the results from analysis and simulation, a process known as \emph{validation}. 
+We can validate predictions and test designs by taking measurements from the real world and comparing the data we get with the results from analysis and simulation.
 
 \index{validation}
 \index{data}
@@ -74,16 +72,14 @@ The figure shows that models can be used for analysis and simulation; in this bo
 \section{A Glorified Calculator}
 \label{calc}
 
-MATLAB is a programming language with features that support modeling and simulation.  It has a lot of features, so it can seem overwhelming.  But at heart, MATLAB is a glorified calculator.  When you start MATLAB
-you see a window
-entitled MATLAB that contains smaller windows entitled
-Current Folder, Command Window, and Workspace.
+MATLAB is a programming language with features that support modeling and simulation.  It has a lot of features, so it can seem overwhelming, but at heart MATLAB is a glorified calculator.  When you start MATLAB you should see a window entitled MATLAB that contains smaller windows entitled Current Folder, Command Window, and Workspace.
 In Octave, Current Folder is called File Browser.
 
 \index{Command Window}
 \index{Workspace}
 \index{interpreter}
 \index{command}
+
 \subsection{The Interpreter}
 The Command Window runs the \emph{interpreter}, which allows you
 to enter \emph{commands}, then executes them and prints the
@@ -259,52 +255,9 @@ be a reference manual.  To learn about other functions, you should
 read the documentation.
 
 
-\section{Documentation}
-
-MATLAB comes with two forms of online documentation, \lstinline{help}
-and \lstinline{doc}.
-
-\index{documentation!doc@{\tt doc}}
-\index{documentation!doc@{\tt help}}
-
-The \lstinline{help} command works in the Command Window; just 
-enter \lstinline{help} followed by the name of a command.
-
-% Here's an example where the output is in a stdout environment to
-% avoid nonsensical syntax highlighting.
-
-\begin{code}
->> (*\textbf{help sin}*)
-\end{code}
-
-You should see output like this:
-
-\begin{stdout}
- sin    Sine of argument in radians.
-    sin(X) is the sine of the elements of X.
- 
-    See also asin, sind, sinpi.
-\end{stdout}
-
-Some documentation uses vocabulary we haven't covered yet.  
-For example, ``the elements of X'' will likely not make sense until
-we get to vectors and matrices a few chapters from now.
-
-\index{element}
-\index{vector}
-\index{matrix}
-
-The \lstinline{doc} pages are usually better.  
-If you enter \lstinline{doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
-use vectors and arrays, so they may not make complete sense yet, 
-but you can get a preview of what's coming.
-
-
 \section{Variables}
 
-Of course, MATLAB is good for more than just evaluating expressions. One of the features that makes MATLAB more powerful than a calculator
-is the ability to give a name to a value.  A named value is called
-a \emph{variable}.
+Of course, MATLAB is good for more than just evaluating expressions. One of the features that makes MATLAB more powerful than a calculator is the ability to give a name to a value.  A named value is called a \emph{variable}.
 
 \index{variable}
 \index{variable!predefined}
@@ -662,10 +615,54 @@ can to make the messages go away.  Experienced programmers know that error
 messages are your friend.  They can be hard to understand, and even
 misleading, but it's worth the effort to understand them.
 
+\section{Documentation}
+
+MATLAB comes with two forms of documentation, \lstinline{help}
+and \lstinline{doc}.
+
+\index{documentation!doc@{\tt doc}}
+\index{documentation!doc@{\tt help}}
+
+The \lstinline{help} command works in the Command Window; just 
+enter \lstinline{help} followed by the name of a command.
+
+% Here's an example where the output is in a stdout environment to
+% avoid nonsensical syntax highlighting.
+
+\begin{code}
+>> (*\textbf{help sin}*)
+\end{code}
+
+You should see output like this:
+
+\begin{stdout}
+ sin    Sine of argument in radians.
+    sin(X) is the sine of the elements of X.
+ 
+    See also asin, sind, sinpi.
+\end{stdout}
+
+Some documentation uses vocabulary we haven't covered yet.  
+For example, ``the elements of X'' might not make sense until
+we get to vectors and matrices a few chapters from now.
+
+\index{element}
+\index{vector}
+\index{matrix}
+
+The \lstinline{doc} pages are usually better.  
+If you enter \lstinline{doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
+use vectors and matrices, so they may not make sense yet, 
+but you can get a preview of what's coming.
 
 
 \section{Summary}
-...
+
+This chapter provides an overview of the modeling process, including abstraction, analysis and simulation, measurement, and validation.
+
+And it introduces MATLAB, the programming language we will use to write simulations.  So far, we have seen variables and values, arithmetic operations, and mathematical functions.  At the end of the chapter, you'll find an exercise you can use to test your knowledge.
+
+In the next chapter...
 
 \section{Glossary}
 
