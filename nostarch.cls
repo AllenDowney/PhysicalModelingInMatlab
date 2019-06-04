@@ -712,7 +712,9 @@
     escapeinside={(*}{*)},
     captionpos=b,
     basicstyle=\ttfamily,
-    columns=fullflexible
+    columns=fullflexible,
+    moredelim=[is][\bfseries]{***}{***},
+    moredelim=[is][\itshape]{___}{___}
 }
 
 % ===== CAPTIONS =====
