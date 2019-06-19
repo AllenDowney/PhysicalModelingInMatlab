@@ -3,9 +3,7 @@
 \minitoc{}
 
 The programs we have seen so far are {\it straight-line code}, that is, they execute one instruction after another from top to bottom.
-This chapter introduces one of the most important programming language features, the {\tt for} loop, which allows simple programs to perform complex, repetitive tasks.
-
-This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development. 
+This chapter introduces one of the most important programming language features, the {\tt for} loop, which allows simple programs to perform complex, repetitive tasks. This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development. 
 
 We'll start by reviewing the exercise from the previous chapter; if you didn't do it, you might want to take a look before you go on.
 
@@ -32,7 +30,7 @@ As a result, the change in {\tt b} is not always the same as the
 change in {\tt c}, which violates the principle of Conversation
 of Bikes!
 
-One solution is to use temporary variables {\tt b_new} and {\tt c_new}:
+One solution is to use temporary variables \verb|b_new| and \verb|c_new|:
 
 \begin{code}
 b_new = b - 0.05*b + 0.03*c
