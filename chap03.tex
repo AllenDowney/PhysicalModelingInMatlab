@@ -1,14 +1,21 @@
-\documentclass[main.tex]{subfiles}
-
-\begin{document}
 
 \chapter{Loops}
+\minitoc{}
 
-This chapter introduces one of the most important programming language features, the {\tt for} loop, the mathematical concepts sequence and series, and a process for writing programs, incremental development.
+The programs we have seen so far are {\it straight-line code}, that is, they execute one instruction after another from top to bottom.
+This chapter introduces one of the most important programming language features, the {\tt for} loop, which allows simple programs to perform complex, repetitive tasks.
 
-\section{Updating variables}
+This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development. 
 
-In Exercise~\ref{bikegame}, you might have been tempted to write something
+We'll start by reviewing the exercise from the previous chapter; if you didn't do it, you might want to take a look before you go on.
+
+\section{Updating Variables}
+
+In Exercise~\ref{bikegame}, I asked you to write a program that models a bike share system with bikes moving between two stations.
+Each day 5\% of the bikes in Boston are dropped off in Cambridge, and 3\% of the bikes
+in Cambridge get dropped off in Boston.
+
+To update the state of the system, you might have been tempted to write something
 like
 
 \index{bike share system}
@@ -19,13 +26,13 @@ c = c + 0.05*b - 0.03*c
 \end{code}
 
 But that would be wrong, so very wrong.  Why?  The problem is that
-the first line changes the value of {\tt a}, so when the second line
-runs, it gets the old value of {\tt b} and the new value of {\tt a}.
-As a result, the change in {\tt a} is not always the same as the
-change in {\tt b}, which violates the principle of Conversation
+the first line changes the value of {\tt b}, so when the second line
+runs, it gets the old value of {\tt c} and the new value of {\tt b}.
+As a result, the change in {\tt b} is not always the same as the
+change in {\tt c}, which violates the principle of Conversation
 of Bikes!
 
-One solution is to use temporary variables {\tt anew} and {\tt bnew}:
+One solution is to use temporary variables {\tt b_new} and {\tt c_new}:
 
 \begin{code}
 b_new = b - 0.05*b + 0.03*c
@@ -34,7 +41,7 @@ b = b_new
 c = c_new
 \end{code}
 
-This has the effect of updating the variables ``simultaneously;'' that
+This has the effect of updating the variables ``simultaneously''; that
 is, it reads both old values before writing either new value.
 
 \index{update}
@@ -48,9 +55,7 @@ b = b - b_to_c
 c = c + b_to_c
 \end{code}
 
-\index{debugging!Fifth Theorem}
-
-It is easy to look at this code and confirm that it obeys Conversation
+It's easy to look at this code and confirm that it obeys Conversation
 of Bikes.  Even if the value of \verb"b_to_c" is wrong, at least the total
 number of bikes is right.  And that brings us to the Fifth Theorem of
 Debugging:
@@ -58,13 +63,13 @@ Debugging:
 \begin{quote}
 The best way to avoid a bug is to make it impossible.
 \end{quote}
+\index{debugging!Fifth Theorem}
 
-In this case, removing redundancy also eliminates the opportunity for
-a bug.
+In this case, removing redundancy also eliminates the opportunity for a bug.
 
+\section{Bug Taxonomy}
 
-\section{Bug taxonomy}
-
+The more you understand bugs, the better you will be at debugging.
 There are four kinds of bugs:
 
 \index{syntax error}
@@ -75,7 +80,7 @@ There are four kinds of bugs:
 \begin{description}
 
 \item[Syntax error:] You have written a command that cannot
-execute because it violates one of the rules of syntax.  For example,
+execute because it violates one of the language's syntax rules.  For example, in MATLAB,
 you can't have two operands in a row without an operator, so
 \verb+pi r^2+ contains a syntax error.  When the interpreter finds a syntax
 error, it prints an error message and stops running your program.\index{Errors!syntax}
@@ -96,17 +101,16 @@ that we don't care, but in some cases the round-off errors are a problem.\index{
 
 \end{description}
 
-Syntax errors are usually the easiest.  Sometimes the error messages
+Syntax errors are usually the easiest to deal with.  Sometimes the error messages
 are confusing, but MATLAB can usually tell you where the error is, at
 least roughly.
 
 Runtime errors are harder because, as I mentioned before, MATLAB
 can tell you where it detected the problem, but not what caused it.
 
-Logical errors are hard because MATLAB can't help at all.  Only you
+Logical errors are hard because MATLAB can't help at all.  
+From MATLAB's point of view, there's nothing wrong with the program; only you
 know what the program is supposed to do, so only you can check it.
-From MATLAB's point of view, there's nothing wrong with the program;
-the bug is in your head!
 
 \index{bug}
 
@@ -116,29 +120,21 @@ the floating-point value that is closest to the exact solution, which
 means that the first 15 significant digits should be correct.  
 
 But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct digits can be smaller.  Sometimes MATLAB can warn you that
-this is happening, but not always!  Precision (the number of digits
-in the answer) does not imply accuracy (the number of digits that
+this is happening, but not always!  \emph{Precision}(the number of digits
+in the answer) does not imply \emph{accuracy} (the number of digits that
 are right).
 
 
-\section{Absolute and relative error}
+\section{Absolute and Relative Error}
 
-There are two ways of thinking about numerical errors, called {\bf
-absolute} and {\bf relative}.
-
-\index{absolute error}
-\index{relative error}
-
-\begin{description}
-
-\item[Absolute error:] The difference between the correct value and
-the approximation.  We often write the magnitude of the error,
+There are two ways of thinking about numerical errors. 
+The first is \emph{absolute error}, or the difference between the correct value and the approximation.  We often write the magnitude of the error,
 ignoring its sign, when it doesn't matter whether the approximation
-is too high or too low.\index{Errors!absolute}
+is too high or too low.
+\index{Errors!absolute} \index{absolute error}
 
-\item[Relative error:] The error expressed as a fraction (or percentage)
-of the exact value.\index{Errors!relative}
-\end{description}
+The second way to think about numerical errors is \emph{relative error}, where the error is expressed as a fraction (or percentage) of the exact value.\index{Errors!relative}
+\index{relative error}
 
 For example, we might want to estimate $9!$ using the formula $\sqrt
 {18 \pi} ( 9 / e)^9$.  The exact answer is $9 \cdot 8 \cdot 7 \cdot 6
@@ -148,8 +144,7 @@ is $359,536.87$.  So the absolute error is 3,343.13.
 At first glance, that sounds like a lot---we're off by three
 thousand --- but we should consider the size of the
 thing we are estimating.  For example, \$3000 matters a lot
-if we are talking about my annual salary, but not at all if we
-are talking about the national debt.
+if we're talking about an annual salary, but not at all if we're talking about the national debt.
 
 A natural way to handle this problem is to use relative
 error.
@@ -158,22 +153,17 @@ by 362,880, yielding $.00921$, which is just less than 1\%.
 For many purposes, being off by 1\% is good enough.
 
 
-\section{for loops}
+\section{for Loops}
 
-\index{compound statement}
 \index{for loop@{\tt for} loop}
 \index{loop}
 
-A {\bf loop} is a part of a program that executes repeatedly;
-a {\bf for loop} is the kind of loop that uses the {\tt for}
-statement.
+Let's return to the bike share example. 
+In the previous chapter, we wrote a \verb"bike_update" script to simulate a
+day in the life of a bike share system. To simulate an entire
+month, we'd have to run the script 30 times. We could enter the same command 30 times, but it's simpler to use a \emph{loop}, which is a set of statements that execute repeatedly.
 
-The simplest use of a {\tt for} loop is to execute one or more
-lines a fixed number of times.
-For example, in the last chapter
-we wrote a script named \verb"bike_update" that simulates a
-day in the life of a bike share service.  To simulate an entire
-month, we have to run it 30 times:
+To create a loop, we can use the {\tt for} statement, like this:
 
 \begin{code}
 for i=1:30
@@ -183,7 +173,7 @@ end
 
 The first line looks like an assignment statement, and it {\em is}
 like an assignment statement, except that it runs more than once.  The
-first time it runs, it creates the variable {\tt i} and assigns it the
+first time, it creates the variable {\tt i} and assigns it the
 value 1.  The second time, {\tt i} gets the value 2, and so on, up to
 and including 30.
 
@@ -197,12 +187,12 @@ The colon operator, {\tt :}, specifies a {\bf range} of integers.
 You can create a range at the prompt:
 
 \begin{code}
->> 1:5
+>> ***1:5***
 ans =  1     2     3     4     5
 \end{code}
 
-The variable you use in the for statement is called the {\bf loop
-variable}.  It is common to use the names {\tt i},
+The variable you use in the for statement is called the \emph{loop
+variable}.  It's common to use the names {\tt i},
 {\tt j}, and {\tt k} as loop variables.
 
 \index{body of loop}
@@ -210,9 +200,9 @@ variable}.  It is common to use the names {\tt i},
 \index{loop variable}
 \index{variable!loop}
 
-The statements inside the loop are called the {\bf body}.  By convention,
-they are indented to show that they are inside the loop, but the
-indentation does not affect the execution of the program.
+The statements inside the loop are called the \emph{body}.  By convention,
+they are indented to show that they're inside the loop, but the
+indentation doesn't affect the execution of the program.
 The {\tt end} statement marks the end of the loop.
 
 \index{end statement@{\tt end} statement}
@@ -222,9 +212,9 @@ To see the loop in action you can run a loop that displays the
 loop variable:
 
 \begin{code}
->> for i=1:5
+>> ***for i=1:5
     i
-end
+end***
 
 i = 1
 i = 2
@@ -233,44 +223,44 @@ i = 4
 i = 5
 \end{code}
 
-As this example shows, you {\em can} run a for loop from the
-command line, but it's much more common to put it in a script.
+As this example shows, you {\em can} run a \verb|for| loop from the
+command line, but it's more common to put it in a script.
 
 \begin{ex}
 Create a script named \verb"bike_loop" that uses a {\tt for} loop to run \verb"bike_update" 30 times.  Before you run it, you have to assign values to {\tt b} and {\tt c}.
 For this exercise, start with the values {\tt b = 100} and {\tt c = 100}.
 
 If everything goes smoothly, your script will display a long stream
-of numbers on the screen.  It is probably too long
+of numbers on the screen.  It's probably too long
 to fit, and even if it fit, it would be hard to interpret.
 A graph would be much better!
 \end{ex}
 
 
-\section{plotting}
+\section{Plotting}
 \label{plotting}
 
 \index{plot@{\tt plot}}
 
-{\tt plot} is a versatile function for plotting points and lines
-on a two-dimensional graph.  Unfortunately, it is so versatile
-that it can be hard to use (and hard to read the documentation).
-We will start simple and work our way up.
+If the output of your program is a long stream of numbers, it can be hard to see what is happening.
+Plotting the results can make things clearer.
+
+The {\tt plot} function is a versatile tool for plotting two-dimensional graphs.  Unfortunately, it's so versatile that it can be hard to use (and hard to read the documentation).
+We'll start simple and work our way up.
 
 To plot a single point, type
 
 \begin{code}
->> plot(1, 2, 'o')
+>> ***plot(1, 2, 'o')***
 \end{code}
 
-A {\sf Figure Window} should appear with a graph and a single, blue circle
-at $x$ position 1 and $y$ position 2.  
+A Figure Window should appear with a graph and a single, blue circle at $x$ position 1 and $y$ position 2.  
 
 \index{Figure Window}
 \index{style string}
 
-The letter in single quotes is a {\bf style string} that specifies how the
-point should be plotted.
+The letter in single quotes is a \emph{style string} that specifies how the
+point should be plotted.  {\tt o} indicates a circle.
 Other shapes include {\tt +},
 {\tt *},
 {\tt x},
@@ -278,10 +268,10 @@ Other shapes include {\tt +},
 {\tt d} (for diamond), 
 \verb+^+ (for a triangle).
 
-You can also specify the color:
+You can also specify the color by starting the style string with a letter:
 
 \begin{code}
->> plot(1, 2, 'ro')
+>> ***plot(1, 2, 'ro')***
 \end{code}
 
 {\tt r} stands for red; the other colors include {\bf g}reen, {\bf
@@ -298,12 +288,12 @@ plot; {\tt hold off} returns to the default behavior.
 Try this:
 
 \begin{code}
->> clf
->> hold on
->> plot(1, 1, 'ro')
->> plot(2, 2, 'go')
->> plot(3, 3, 'bo')
->> hold off
+>> ***clf***
+>> ***hold on***
+>> ***plot(1, 1, 'ro')***
+>> ***plot(2, 2, 'go')***
+>> ***plot(3, 3, 'bo')***
+>> ***hold off***
 \end{code}
 
 The {\tt clf} command clears the figure before we start plotting.
@@ -311,11 +301,10 @@ The {\tt clf} command clears the figure before we start plotting.
 \index{clear figure}
 \index{clf@{\tt clf}}
 
-You should see a figure with three circles.  MATLAB scales the plot automatically so that the axes runs from the lowest values in the plot to the highest.
+If you run the code above, you should see a figure with three circles.  MATLAB scales the plot automatically so that the axes runs from the lowest values in the plot to the highest.
 
 \begin{ex}
-Modify \verb"bike_loop" so that it clears the figure before running the loop.  Then, each time through the
-loop, it should plot the value of {\tt b} versus the value of {\tt i} with a red circle..
+Modify \verb"bike_loop" so that it clears the figure before running the loop.  Then, each time through the loop, it should plot the value of {\tt b} versus the value of {\tt i} with a red circle.
 
 Once you get that working, modify it so it plots the values of {\tt c} with blue diamonds.
 \end{ex}
@@ -323,10 +312,9 @@ Once you get that working, modify it so it plots the values of {\tt c} with blue
 
 \section{Sequences}
 
-In mathematics a {\bf sequence} is a set of numbers that corresponds
-to the positive integers.  The numbers in the sequence are
-called {\bf elements}.  In math notation, the elements
-are denoted with subscripts, so the first element of the series $A$ is
+Now that we have the ability to write loops, we can use them to explore sequences and series, which are useful for describing and analyzing systems that change over time.
+
+In mathematics a \emph{sequence} is a set of numbers that corresponds to the positive integers.  The numbers in the sequence are called \emph{elements}.  In math notation, the elements are denoted with subscripts, so the first element of the series $A$ is
 $A_1$, followed by $A_2$, and so on.
 
 \index{sequence}
@@ -334,12 +322,11 @@ $A_1$, followed by $A_2$, and so on.
 \index{loop}
 \index{geometric sequence}
 
-{\tt for} loops are a natural way to compute the elements of a sequence.
+A {\tt for} loop is a natural way to compute the elements of a sequence.
 As an example, in a geometric sequence, each element is a constant
 multiple of the previous element.  As a more specific example, let's
-look at the sequence with $A_1 = 1$ and the ratio $A_{i+1} = A_i/2$,
-for all $i$.  In other words, each element is half as big as the one
-before it.
+look at the sequence with $A_1 = 1$ and the relationship $A_{i+1} = A_i/2$,
+for all $i$.  In other words, each element is half as big as the one before it.
 
 The following loop computes the first 10 elements of $A$:
 
@@ -353,25 +340,25 @@ end
 Each time through the loop, we find the next value of {\tt a}
 by dividing the previous value by 2.  Notice that the loop
 range starts at 2 because the initial value of {\tt a} corresponds
-to $A_1$, so the first time through the loop we are computing
+to $A_1$.  So the first time through the loop we are computing
 $A_2$.
 
 Each time through the loop, we replace the previous element with
-the next, so at the end, {\tt a} contains the 10th element.  The
+the next; at the end, {\tt a} contains the 10th element.  The
 other elements are displayed on the screen, but they are not saved
-in a variable.  Later, we will see how to save the elements
+in a variable.  Later, we'll see how to save the elements
 of a sequence in a vector.
 
 \index{direct computation}
 \index{recurrent computation}
 
-This loop computes the sequence {\bf recurrently}, which means
+This loop computes the sequence \emph{recurrently}, which means
 that each element depends on the previous one.
-For this sequence it is also possible to compute the $i$th element
-{\bf directly}, as a function of $i$, without using the previous element.
-In math notation, $A_i = A_1 r^{i-1}$. 
+For this sequence it's also possible to compute the $i$th element
+\emph{directly}, as a function of $i$, without using the previous element.
 
-%TODO Define r
+In math notation, $A_i = A_1 r^{i-1}$, where $r$ is the ratio of successive elements.
+In the previous example, $A_{i+1} = A_i/2$, so $r = 1/2$.
 
 \begin{ex}
 Write a script named {\tt sequence} that uses a loop to 
@@ -382,7 +369,7 @@ compute elements of $A$ directly.
 \section{Series}
 \label{series}
 
-In mathematics, a {\bf series} is the sum of the elements of
+In mathematics, a \emph{series} is the sum of the elements of
 a sequence.  It's a terrible name, because in common English,
 ``sequence'' and ``series'' mean pretty much the same thing, but in
 math, a sequence is a set of numbers, and a series is an expression
@@ -397,34 +384,26 @@ For example, the sum of the first 10 elements of $A$ is
 \sum_{i=1}^{10} A_i
 \end{equation}
 
-A {\tt for} loop is a natural way to compute the value of this
-series:
+A {\tt for} loop is a natural way to compute the value of this series:
 
-\begin{code}
-A1 = 1;
-total = 0;
+\begin{lstlisting}[caption={A program that calculates a simple series}, label={lst:series_10}]
+(*\codewingding{1}*)A1 = 1;
+(*\codewingding{2}*)total = 0;
 for i=1:10
-    a = A1 * (1/2)^(i-1);
-    total = total + a;
+(*\codewingding{3}*)    a = A1 * (1/2)^(i-1);
+(*\codewingding{4}*)    total = total + a;
 end
-ans = total
-\end{code}
+(*\codewingding{5}*)ans = total
+\end{lstlisting}
 
-{\tt A1} is the first element of the sequence; each time
-through the loop {\tt a} is the $i$th element.
+Let's walk through what's happening here. {\tt A1} is the first element of the sequence, so we assign it to be 1 \wingding{1}; we also create {\tt total}, which will store the cumulative sum.
+Each time through the loop, we set {\tt a} to the $i$th element \wingding{3} and add {\tt a} to the {\tt total} \wingding{4}.
+At the end, outside the loop, we store {\tt total} as {\tt ans} \wingding{5}.
 
+The way we're using {\tt total} is called an \emph{accumulator} that is, a variable that accumulates the result a little bit at a time.  
 \index{accumulator}
 
-The way we are using {\tt total} is sometimes called an {\bf
-accumulator}; that is, a variable that accumulates a result a little
-bit at a time.  
-Before the loop we initialize it to 0.  
-Each time
-through the loop we add in the $i$th element.  
-At the end of the loop
-{\tt total} contains the sum of the elements.  
-Since that's the value
-we were looking for, we assign it to {\tt ans}.
+
 
 \begin{ex}
 This example computes the terms of the series directly; as
@@ -441,50 +420,50 @@ have to be careful about where you start and stop the loop.
 As written, the previous example always adds up the first 10
 elements of the sequence, but we might be curious to know what
 happens to {\tt total} as we increase the
-number of terms in the series.  If you have studied geometric
+number of terms in the series.  If you've studied geometric
 series, you might know that this series converges on 2; that is,
 as the number of terms goes to infinity, the sum approaches
 2 asymptotically.
 
 To see if that's true for our program, we can replace the
-constant, 10, with a variable named {\tt n}:
+constant in Listing~\ref{lst:series_10}, 10, with a variable named {\tt n} \wingding{1}:
 
-\begin{code}
+\begin{lstlisting}[caption={Updating our code from Listing 1-1 to have a variable number of terms}, label={lst:series_n}]
 A1 = 1;
 total = 0;
-for i=1:n
+(*\codewingding{1}*)for i=1:n
     a = A1 * 0.5^(i-1);
     total = total + a;
 end
 ans = total
-\end{code}
+\end{lstlisting}
 
-The code above can now compute any number of terms, with the
+The code in Listing~\ref{lst:series_n} can now compute any number of terms, with the
 precondition that you have to set {\tt n} before you execute
 the code.  
 I put this code in a file named {\tt series.m}, then
 ran it with different values of {\tt n}:
 
 \begin{code}
->> n=10; series
+>> ***n=10; series***
 total = 1.99804687500000
 
->> n=20; series
+>> ***=20; series***
 total = 1.99999809265137
 
->> n=30; series
+>> ***n=30; series***
 total = 1.99999999813735
 
->> n=40; series
+>> ***n=40; series***
 total = 1.99999999999818
 \end{code}
 
 It sure looks like it's converging on 2.
 
-Replacing a constant with a variable is called {\bf generalization}.
+Replacing a constant with a variable is called \emph{generalization}.
 Instead of computing a fixed, specific number of terms, the new script
 is more general; it can compute any number of terms.
-This is an important idea we will come back to when we talk about functions.
+This is an important idea we'll come back to when we talk about functions.
 
 \section{Incremental development}
 
@@ -494,8 +473,8 @@ As you start writing longer programs, you might find yourself spending more time
 The more code you write before you start debugging, the harder it is to find
 the problem.
 
-{\bf Incremental development} is a way of programming that tries
-to minimize the pain of debugging.  The fundamental steps are:
+\emph{Incremental development} is a way of programming that tries
+to minimize the pain of debugging by developing and testing in small steps.  The fundamental steps are:
 
 \begin{enumerate}
 
@@ -505,7 +484,6 @@ what you are working on, start with that.  Otherwise, start with
 something you {\em know} is correct, like {\tt x=5}.  Run the program
 and confirm that you are running the program you think you are
 running.
-
 This step is important, because in most environments there
 are little things that can trip you up when you start a new
 project.  Get them out of the way so you can focus on programming.
@@ -517,7 +495,7 @@ the correct answer is, or be able to check it by performing another
 computation.
 
 \item Run the program and see if the change worked.  If so, go back
-to Step 2.  If not, you will have to do some debugging, but if the
+to Step 2.  If not, you'll have to do some debugging, but if the
 change you made was small, it shouldn't take long to find the problem.
 
 \end{enumerate}
@@ -530,28 +508,32 @@ With incremental development, your code is more likely to work the first time; a
 The best kind of debugging is the kind you don't have to do.
 \end{quote}
 
-In practice, there are two problems with incremental development:
-
-\begin{itemize}
-
-\item Sometimes you have to write extra code to
+In practice, there are two problems with incremental development. 
+First, sometimes you have to write extra code to
 generate visible output that you can check.  This extra code is
-called {\bf scaffolding} because you use it to build the program
+called \emph{scaffolding} because you use it to build the program
 and then remove it when you are done.  But time you save on
 debugging is almost always worth the time you invest in
 scaffolding.
-
 \index{scaffolding}
 
-\item When you are getting started, it might not be obvious how to
-choose the steps that get from {\tt x=5} to the program you are trying
-to write.  There is an extended example in Section~\ref{increxample}.
-
-\end{itemize}
+The second problem is that when you're getting started, you might not know how to
+choose steps that get from {\tt x=5} to the program you're trying
+to write.  We'll look at an extended example in Chapter 6.
 
 If you find yourself writing more than a few lines of code before
-you start testing, and you are spending a lot of time debugging,
+you start testing, and you're spending a lot of time debugging,
 you should try incremental development.
+
+
+
+
+\section{Summary}
+
+In this chapter, we used a loop to perform a repetitive computation -- updating a model 30 times -- and to compute sequences and series.  Also, we used the {\tt plot} function to visualize the results.
+
+In the next chapter, we'll use a vector to store the results from a loop.
+
 
 
 \section{Glossary}
@@ -645,16 +627,11 @@ for any value of {\tt n}, with the precondition that you have to
 set {\tt n} before you run the script.  To keep things simple for
 now, you can assume that {\tt n} is greater than 0.
 
-Hint: you will have to use two variables to keep track of the
+Hint: you'll have to use two variables to keep track of the
 previous two elements of the sequence.  You might want to call
 them {\tt prev1} and {\tt prev2}.  Initially, {\tt prev1 =} $F_1$
-and {\tt prev2 =} $F_2$.  At the end of the loop, you will have
+and {\tt prev2 =} $F_2$.  At the end of the loop, you'll have
 to update {\tt prev1} and {\tt prev2}; think carefully about the
 order of the updates!
 \end{ex}
 
-
-
-
-
-\end{document}
