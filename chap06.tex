@@ -1,20 +1,22 @@
 \chapter{Zero-finding}
-
+\minitoc{}
 In this chapter we'll use the MATLAB function {\tt fzero} to find roots of nonlinear equations.
 
 
-\section{Nonlinear equations}
+\section{Solving Nonlinear Equations}
 
 \index{nonlinear equation}
 \index{equation!nonlinear}
 
 What does it mean to ``solve'' an equation?  That may seem like an
 obvious question, but I want to take a minute to think about it,
-starting with a simple example: let's say that we want to know the
-value of a variable, $x$, but all we know about it is the relationship
-$x^2 = a$.
+starting with a simple example.
 
-If you have taken algebra, you probably know how to ``solve'' this
+\subsection{Analytic and Numerical Solutions}
+
+Let's say that we want to know the
+value of a variable, $x$, but all we know about it is the relationship
+$x^2 = a$. If you've taken algebra, you probably know how to ``solve'' this
 equation: you take the square root of both sides and get
 $x = \pm \sqrt{a}$.  Then, with the satisfaction of a job well done,
 you move on to the next problem.
@@ -26,7 +28,7 @@ equivalent to the relationship you started with---they contain the
 same information about $x$---so why is the second one preferable
 to the first?
 
-There are two reasons.  One is that the relationship is now {\bf explicit}
+There are two reasons.  One is that the relationship is now {\emph explicit}
 in $x$: because $x$ is all alone on the left side, we can treat
 the right side as a recipe for computing $x$, assuming that we
 know the value of $a$.
@@ -41,8 +43,8 @@ roots, we can compute the value of $x$ for any value of $a$.
 When people talk about solving an equation, what they usually mean
 is something like ``finding an equivalent relationship that is
 explicit in one of the variables''.  In the context of this book,
-that's what I will call an {\bf analytic solution}, to distinguish
-it from a {\bf numerical solution}, which is what we are going to
+that's what I'll call an {\emph analytic solution}, to distinguish
+it from a {\emph numerical solution}, which is what we are going to
 do next.
 
 \index{analytic solution}
@@ -55,12 +57,12 @@ two solutions, $x=3$ and $x=-1$.  Alternatively, you could solve it
 numerically by rewriting it as $x = \pm \sqrt{2x+3}$.
 
 This equation is not explicit, since $x$ appears on both sides, so
-it is not clear that this move did any good at all.  But suppose
+it's not clear that this move did any good at all.  But suppose
 that we had some reason to expect there to be a solution near 4.
 We could start with $x=4$ as an ``initial guess,'' and then use
-the equation $x = \sqrt{2x+3}$ iteratively to compute successive
-approximations of the solution.\footnote{To understand why this
-works, see \url{https://en.wikipedia.org/wiki/Fixed-point_iteration}.}
+the equation $x = \sqrt{2x+3}$ to iteratively compute successive
+approximations of the solution. (To understand why this
+works, see \emph{https://en.wikipedia.org/wiki/Fixed-point\_iteration}.)
 
 \index{fixed-point iteration}
 
@@ -91,30 +93,28 @@ is good enough for most purposes.
 \index{numerical method}
 
 Techniques that generate numerical solutions are called
-{\bf numerical methods}.  
+\emph{numerical methods}.  
 The nice thing about the method I
-just demonstrated is that it is simple, but it doesn't always
-work, and it is not often used in practice.
+just demonstrated is that it's simple---but it doesn't always
+work, and it's not often used in practice.
 We'll see better alternatives soon.
 
-
-
-\section{Zero-finding}
+\subsection{Zero-finding}
 \label{zero}
 
 A nonlinear equation like $x^2 - 2x = 3$ is a statement of
 equality that is true for some values of $x$ and false for
-others.  A value that makes it true is a solution;
-any other value is a non-solution.  But for any given non-solution,
-there is no sense of whether it is close or far from a solution,
+others.  A value that makes it true is a \emph{solution};
+any other value is a \emph{non-solution}.  But for any given non-solution,
+there is no sense of whether it's close or far from a solution,
 or where we might look to find one.
 
 \index{zero-finding}
 
-To address this limitation, it is useful to
+To address this limitation, it's useful to
 rewrite non-linear equations as zero-finding problems:
 
-\begin{itemize}
+\begin{enumerate}
 
 \item The first step is to define an ``error function'' that computes how far
 a given value of $x$ is from being a solution.
@@ -133,11 +133,11 @@ of the original equation.
 
 \item The next step is to find values of $x$ that make
 $f(x) = 0$.  These values are called zeros of the
-function, also called {\bf roots}.
+function, also called {\emph roots}.
 
 \index{root}
 
-\end{itemize}
+\end{enumerate}
 
 Zero-finding lends itself to numerical solution because we can
 use the values of $f$, evaluated at various values of $x$, to
@@ -146,7 +146,7 @@ make reasonable inferences about where to look for zeros.
 And one of the best numerical methods is available as a built-in MATLAB function, {\tt fzero}.
 
 
-\section{{\tt fzero}}
+\section{Finding Zeros with fzero}
 \label{fzero}
 
 \index{fzero@{\tt fzero}}
@@ -156,7 +156,7 @@ that computes the error function you derived from the original
 nonlinear equation, and you have to provide an initial guess at
 the location of a zero.
 
-We've already seen an example of an error function:
+We've already seen an example of an error function, so let's . . . 
 
 \begin{code}
 function res = error_func(x)
@@ -164,7 +164,7 @@ function res = error_func(x)
 end
 \end{code}
 
-You can call {\tt error\_func} from the {\sf Command Window}, and
+You can call {\tt error\_func} from the Command Window, and
 confirm that there are zeros at 3 and -1.
 
 \begin{code}
@@ -187,11 +187,11 @@ ans = 3.0000
 Success!  We found one of the zeros.
 
 The first argument is a
-{\bf function handle} that names the M-file that evaluates
+{\em function handle} that names the M-file that evaluates
 the error function.  The {\tt @} symbol allows us to name the
 function without calling it.  The interesting thing here is
-that you are not actually calling {\tt error\_func} directly;
-you are just telling {\tt fzero} where it is.  In turn, {\tt fzero}
+that you're not actually calling {\tt error\_func} directly;
+you're just telling {\tt fzero} where it is.  In turn, {\tt fzero}
 calls your error function --- more than once, in fact.
 
 \index{function handle}
@@ -241,10 +241,10 @@ Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a 
 {\tt fzero} stops when the interval is so small that the estimated
 zero is correct to about 15 digits.
  
-If you would like to know more about how {\tt fzero} works, see Section~\ref{howfzero}.
+If you'd like to know more about how {\tt fzero} works, see Section~\ref{howfzero}.
 
 
-\section{What could go wrong?}
+\subsection{What Could Go Wrong?}
 
 The most common problem people have with {\tt fzero} is leaving
 out the {\tt @}.  In that case, you get something like:
@@ -265,7 +265,7 @@ The error occurs because MATLAB treats the first argument as a function call, so
 Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
 {\em always} assign a value to the output variable, but MATLAB doesn't
-enforce this rule, so it is easy to forget.  For example, if you
+enforce this rule, so it's easy to forget.  For example, if you
 write:
 
 \begin{code}
@@ -274,7 +274,7 @@ function res = error_func(x)
 end
 \end{code}
 
-and then call it from the {\sf Command Window}:
+and then call it from the Command Window:
 
 \begin{code}
 >> error_func(4)
@@ -318,22 +318,21 @@ call to "error_func".
 
 You can avoid all of this if you remember these two rules:
 
-\begin{itemize}
+\begin{enumerate}
 
-\item Functions should assign values to their output
-variables.\footnote{Well, ok, there are exceptions, including {\tt
-find\_triples}. Functions that don't return a value are sometimes
+\item Functions should generally assign values to their output
+variables. (Functions that don't return a value are sometimes
 called ``commands'', because they do something (like display
 values or generate a figure) but either don't have an output
-variable or don't make an assignment to it.}
+variable or don't make an assignment to it.)
 
 \item When you call a function, you should do something with
 the result (either assign it to a variable or use it as part of an
 expression, etc.).
 
-\end{itemize}
+\end{enumerate}
 
-When you write your own functions and use them yourself, it is easy
+When you write your own functions and use them yourself, it's easy
 for mistakes to go undetected.  But when you use your functions with
 MATLAB functions like {\tt fzero}, you have to get it right!
 
@@ -349,19 +348,19 @@ The function values at the interval endpoints must differ in sign.
 \index{interval}
 
 There is one other thing that can go wrong when you use {\tt fzero}, but
-this one is less likely to be your fault.  It is possible that {\tt fzero}
+this one is less likely to be your fault.  It's possible that {\tt fzero}
 won't be able to find a root.
 
 {\tt fzero} is generally pretty robust, so you may never have a problem, but you should remember that there is no guarantee that {\tt fzero} will work, especially if you provide a single value as an initial guess.  Even if you provide an interval that brackets a root, things can still go wrong if the error function is discontinuous.
 
 
-\section{Choosing an initial guess}
+\subsection{Choosing an Initial Guess}
 
 The better your initial guess (or interval) is, the more likely
 it is that {\tt fzero} will work, and the fewer iterations it will
 need.
 
-When you are solving problems in the real world, you will usually
+When you're solving problems in the real world, you'll usually
 have some intuition about the answer.  This intuition is often enough
 to provide a good initial guess.
 
@@ -384,12 +383,12 @@ The first argument is a function handle; the second is the interval you want to 
 By examining the plot, you can estimate the location of the two roots.
 
 
-\section{Vectorizing functions}
+\subsection{Vectorizing Functions}
 
 \index{vectorizing}
 \index{function!vectorizing}
 
-With this example, you might get the following warning\footnote{In Octave it's an error, so you have to vectorize the function.}:
+With this example, you might get the following warning (or error, if you're using Octave):
 
 \begin{code}
 Warning: Function failed to evaluate on array inputs;
@@ -413,13 +412,11 @@ end
 
 The warning message goes away, and {\tt ezplot} runs faster, for what it's worth.
 
-
-
-\section{More name collisions}
+\section{More Name Collisions}
 
 Functions and variables occupy the same workspace, which means
 that whenever a name appears in an expression, MATLAB starts by looking
-for a variable with that name, and if there isn't one, it looks for
+for a variable with that name; if there isn't one, it looks for
 a function.
 
 \index{name collision}
@@ -427,7 +424,7 @@ a function.
 \index{shadow}
 
 As a result, if you have a variable with the same name as a function,
-the variable {\bf shadows} the function.  For example, if you assign
+the variable {\em shadows} the function.  For example, if you assign
 a value to {\tt sin}, and then try to use the {\tt sin} function, you
 {\em might} get an error:
 
@@ -455,24 +452,11 @@ ans = 3
 
 Just to review, the sine of 1 is not 3!
 
-You can avoid these problems by choosing function names carefully:
+You can avoid these problems by choosing function names carefully. Use long, descriptive names for functions, not single letters like {\tt f}. To be even clearer, use function names that end in {\tt func}. And before you define a function, check whether MATLAB already has a function with the same name.
 
-\begin{itemize}
+\section{Debugging Your Head}
 
-\item Use long, descriptive names for functions, not single letters like {\tt f}.
-
-\item To be even clearer, use function names that end in {\tt func}.
-
-\item Before you define a function, check whether MATLAB already has a function with the same name.
-
-\end{itemize}
-
-
-
-
-\section{Debugging your head}
-
-When you are working with a new function or a new language feature
+When you're working with a new function or a new language feature
 for the first time, you should test it in isolation before you
 put it into your program.
 
@@ -480,7 +464,7 @@ put it into your program.
 
 For example, suppose you know that {\tt x} is the sine of some
 angle and you want to find the angle.  You find the MATLAB function
-{\tt asin}, and you are pretty sure it computes the inverse sine
+{\tt asin}, and you're pretty sure it computes the inverse sine
 function.  Pretty sure is not good enough; you want to be very sure.
 
 Since we know $\sin 0 = 0$, we could try
@@ -507,8 +491,8 @@ confirm by dividing through by {\tt pi}:
 ans = 0.5000
 \end{code}
 
-With this kind of testing, you are not really checking for
-errors in MATLAB, you are checking your understanding.  If you
+With this kind of testing, you're not really checking for
+errors in MATLAB, you're checking your understanding.  If you
 make an error because you are confused about how MATLAB works, it
 might take a long time to find, because when you look at the code,
 it looks right.
@@ -518,8 +502,10 @@ it looks right.
 Which brings us to the Seventh Theorem of Debugging:
 
 \begin{quote}
-The worst bugs aren't in your code; they are in your head.
+The worst bugs aren't in your code; they're in your head.
 \end{quote}
+
+\section{Summary}
 
 
 \section{Glossary}
@@ -583,14 +569,16 @@ guess?
 \begin{ex}
 \label{duck}
 
+This example is adapted from Gerald and Wheatley,
+{\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
+1989. 
+
 When a duck is floating on water, how much of its body is submerged?
 
 \index{duck}
 \index{sphere}
 
-To estimate a solution to this problem\footnote{This example is adapted from Gerald and Wheatley,
-{\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
-1989.}, we'll assume that the submerged part of a duck is well approximated by a section of a sphere.
+To estimate a solution to this problem, we'll assume that the submerged part of a duck is well approximated by a section of a sphere.
 If a sphere with radius $r$ is submerged in water to a depth $d$, the
 volume of the sphere below the water line is
 
@@ -606,7 +594,7 @@ Finally, according to the law of buoyancy, an object floats at the level where t
 
 Here are some suggestions for how to proceed:
 
-\begin{itemize}
+\begin{enumerate}
 
 \item Write an equation relating $\rho$, $d$, and $r$.
 
@@ -629,7 +617,7 @@ Our goal is to find values of $d$ that are roots of this equation.
   infinity?  Goes to zero?  What happens as $r$ increases?  Goes to
   infinity?  Goes to zero?
 
-\end{itemize}
+\end{enumerate}
 
 % duck.m
 \end{ex}

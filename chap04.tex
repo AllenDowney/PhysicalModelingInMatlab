@@ -4,13 +4,10 @@
 
 In the previous chapter we used a loop to compute the elements of a sequence, but we were only able to store the last element.  In this chapter, we'll use a vector to store all of the elements.
 
-...
-
-We'll end the chapter with three patterns for working with data: reduce, apply, and search.
+We'll also learn how to select elements from a vector, and how to perform vector arithmetic and common vector operations like reduce and apply.
 
 
-
-\section{Vectors}
+\section{Creating Vectors}
 
 \index{vector}
 
@@ -41,7 +38,7 @@ X = 1     2     3
 Note that variables that contain vectors are often capital letters.
 That's just a convention; MATLAB doesn't require it, but it's a useful way to remember which variables are vectors.
 
-\index{variable name}
+\index{variable}
 
 \subsection{Vector Arithmetic}
 
@@ -78,95 +75,14 @@ W = 1     2     3
 Matrix dimensions must agree.
 \end{code}
 
-The error message in this case is confusing, because we think
-of these values as vectors, not matrices.  The problem is a
-mismatch between math vocabulary and MATLAB vocabulary.
-
-
-\subsection{Everything is a Matrix}
-
-In math (specifically in linear algebra) a vector is one-dimensional
-and a \emph{matrix} is two-dimensional.
+The error message in this case is confusing, because we think of these values as vectors, not matrices.
+We'll come back to this topic later, but for now you can think of a vector as a kind of matrix.
 
 \index{matrix}
-\index{linear algebra}
-\index{whos command@{\tt whos} command}
-\index{command!{\tt whos}}
-
-But in MATLAB, everything is a matrix (except strings).
-You can see this if you use the {\tt whos} command to display the
-variables in the workspace.  {\tt whos} is similar to {\tt who}, but it also displays the size of each value and other information.
-
-\index{variable}
-
-To demonstrate, I'll make one of each kind of value:
-
-\begin{code}
->> number = 5
-number = 5
-
->> vector = [1 2 3 4 5]
-vector = 1     2     3     4     5
-
->> matrix = ones(2,3)
-matrix =
-     1     1     1
-     1     1     1
-\end{code}
-
-The built-in function {\tt ones} builds a new matrix with the given
-number of rows and columns, and sets all the elements to 1.
-Now let's see what we've got.
-
-\index{ones@{\tt ones}}
-
-\begin{code}
->> whos
-  Name        Size            Bytes  Class     Attributes
-
-  number      1x1                 8  double              
-  vector      1x5                40  double               
-  matrix      2x3                48  double              
-\end{code}
-
-According to MATLAB, all three are matrices.  They have the same class, {\tt double}, which
-means they contain double-precision floating-point numbers.
-
-\index{floating-point number}
-\index{number!floating-point}
-\index{double precision}
-
-But they have difference sizes: the size of {\tt number} is {\tt 1x1}, which means it has 1 row and 1 column; {\tt vector} has 1 row and 5 columns; and {\tt matrix} has 2 rows and 3 columns.
-
-So, you can think of your values as
-numbers, vectors, and matrices, but in MATLAB they are all matrices.
-
-
-\subsection{Elementwise Operators}
-\label{elementwise}
-
 \index{elementwise operator}
 \index{operator!elementwise}
 
-If you have two vectors with the same length, you can add and subtract them:
-
-\begin{code}
->> X = [1 2 3]
-X = 1     2     3
-
->> Y = [4 5 6]
-Y = 1     4     6
-
->> X + Y
-ans = 5     7     9
-
->> X - Y
-ans = -3    -3    -3
-\end{code}
-
-These operations are performed \emph{elementwise}; that is, MATLAB adds or subtracts corresponding elements of the two vectors, and the result is a vector with the same size.
-
-But if you divide two vectors, you might be surprised by the result:
+If you divide two vectors, you might be surprised by the result:
 
 \begin{code}
 >> X / Y
@@ -312,8 +228,8 @@ but they mean the same thing, at least for now.
 Vectors and sequences go together nicely.
 For example, another way to evaluate the Fibonacci sequence from Chapter 2 is to
 store successive values in a vector.  Remember that the definition of the
-Fibonacci sequence is $F_1 = 1$, $F_2 = 1$, and $F_{i} = F_{i-1} +
-F_{i-2}$ for $i > 2$.
+Fibonacci sequence is $F_1 = 1$, $F_2 = 1$, and
+$F_{i} = F_{i-1} + F_{i-2}$ for $i > 2$.
 
 Listing~\ref{lst:fib_vec} shows how we can compute the elements of this sequence and store them in a vector.
 
@@ -329,7 +245,7 @@ I use a capital letter for the vector {\tt F}
 and lower-case letters for the integers {\tt i} and {\tt n}.
 
 If you had any trouble with Exercise~\ref{fib2}, you have to
-appreciate the simplicity of this version.  The MATLAB syntax is
+appreciate the simplicity of this script.  The MATLAB syntax is
 similar to the math notation, which makes it easier to check
 correctness.  
 
@@ -354,8 +270,7 @@ $A_{i}$ on the left side.
 
 If you call {\tt plot} with a vector as an argument,
 MATLAB plots the indices on the $x$-axis and the elements on the
-$y$-axis.
-To plot the Fibonacci numbers we computed in Listing~\ref{lst:fib_vec}, we'd use:
+$y$-axis.  To plot the Fibonacci numbers we computed in Listing~\ref{lst:fib_vec}, we'd use:
 
 \begin{code}
 plot(F)
@@ -367,20 +282,10 @@ plot(F)
 \label{fig:fibonacci}
 \end{figure}
 
-Figure~\ref{fig:fibonacci} shows the results.
-By default, MATLAB draws a blue line, but you can override that
-setting with a style string, as we saw in Chapter 3.
-For example, the string {\tt 'ro-'} tells MATLAB to plot a red circle
-at each data point; the hyphen means the points should be connected
-with a line.
-
-This display is often useful for debugging, especially
-if your vectors are big enough that displaying the elements on
+Figure~\ref{fig:fibonacci} shows the result.
+This way of looking at a vector is often useful for debugging, especially
+if it is big enough that displaying the elements on
 the screen is unwieldy.
-
-\index{style string}
-\index{string!style}
-
 
 
 \section{Common Vector Operations}
@@ -390,18 +295,16 @@ We've covered some of the basic features of vectors. Let's now look at three com
 \subsection{Reduce}
 \label{reduce}
 
-We frequently use loops to run through the elements of an array
+We frequently use loops to run through the elements of a vector
 and add them up, or multiply them together, or compute the sum
 of their squares, etc.  This kind of operation is called \emph{reduce},
 because it reduces a vector with multiple elements down to a single
-scalar.
+number.
 
 \index{reduce}
 \index{vector}
-\index{scalar}
 
-For example, the loop in Listing~\ref{lst:vec_reduce} adds up the elements of a vector named {\tt X}
-(which we assume has been defined).
+For example, the loop in Listing~\ref{lst:vec_reduce} adds up the elements of a vector named {\tt X} (which we assume has been defined).
 
 \begin{lstlisting}[caption={Reducing a vector to a single scalar value (the sum)}, label={lst:vec_reduce}]
 total = 0
@@ -422,87 +325,30 @@ in the {\tt i}th element of {\tt X}, so at the end of the loop
 \index{accumulator}
 \index{length function@{\tt length} function}
 
+MATLAB provides functions that perform some reduce operations.
+For example, the {\tt sum} function computes the sum of the elements
+in a vector and {\tt prod} computes the product.
+
+
 \subsection{Apply}
 \label{apply}
 
 Another common use of a loop is to run through the elements of
 a vector, perform some operation on the elements, and create
-a new vector with the results.  This kind of operation is called
+a new vector with the results.  This operation is called
 \emph{apply}, because you apply the operation to each element in
 the vector.
 
 \index{apply}
 
-For example, the loop in Listing ~\ref{lst:vec_apply} computes a vector {\tt Y} that
-contains the squares of the elements of {\tt X} (assuming, again,
-that {\tt X} is already defined).
+For example, the loop in Listing ~\ref{lst:vec_apply} creates a vector {\tt Y} that
+contains the squares of the elements of {\tt X} (assuming, again, that {\tt X} is already defined).
 
 \begin{lstlisting}[caption={Making a new vector Y by squaring the elements in X }, label={lst:vec_apply}]
 for i=1:length(X)
     Y(i) = X(i)^2
 end
 \end{lstlisting}
-
-
-\subsection{Search}
-\label{search}
-
-Yet another use of loops is to search the elements of a vector
-and return the index of the value you're looking for (or the
-first value that has a particular property).  
-
-\index{search}
-
-For example, the loop in Listing~\ref{lst:vec_search} finds the index of the element 0 in 
-{\tt X}:
-
-\begin{lstlisting}[caption={Searching for the last appearance of 0 in a vector)}, label={lst:vec_search}]
-for i=1:length(X)
-    if X(i) == 0
-        ans = i
-    end
-end
-\end{lstlisting}
-
-A funny thing about this loop is that it keeps going after it
-finds what it's looking for.  That might be what you want; if the
-target value appears more than one, this loop provides the index
-of the {\em last} one.
-
-\index{break statement@{\tt break} statement}
-\index{statement!{\tt break}}
-
-But if you want the index of the first one (or you know that there
-is only one), you can save some unnecessary looping by using the
-{\tt break} statement.
-
-\begin{code}
-for i=1:length(X)
-    if X(i) == 0
-        ans = i
-        break
-    end
-end
-\end{code}
-
-{\tt break} does pretty much what it sounds like.  It ends the
-loop and proceeds immediately to the next statement after the
-loop (in this case, there isn't one, so the code ends).
-
-
-\subsection{Spoiling the Fun}
-
-Experienced MATLAB programmers would never write the kind of loops
-we have in this chapter, because MATLAB provides simpler and faster ways to
-perform many reduce, filter and search operations.
-
-\index{sum function@{\tt sum} function}
-\index{function!{\tt sum}}
-\index{prod function@{\tt prod} function}
-\index{function!{\tt prod}}
-
-For example, the {\tt sum} function computes the sum of the elements
-in a vector and {\tt prod} computes the product.
 
 Many apply operations can be done with elementwise operators.
 The following statement is more concise than the loop in
@@ -512,59 +358,14 @@ Listing~\ref{vec_apply}.
 Y = X .^ 2
 \end{code}
 
-And {\tt find} can perform search operations:
+It also runs faster!
 
-\begin{code}
->> X = [3 2 1 0]
-X = 3     2     1     0
-
->> find(X==0)
-ans = 4
-\end{code}
-
-If you understand loops and you're comfortable with the
-shortcuts, feel free to use them!  Otherwise, you can always write
-out the loop.
-
-
-\section{Name Collisions}
-\label{collision}
-
-\index{name collision}
-\index{collision!name}
-\index{workspace}
-
-All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between scripts become unmanageable.
-
-For example, the following (increasingly familiar) script computes the
-sum of the first {\tt n} terms in a geometric sequence, but it also
-has the {\bf side-effect} of assigning values to {\tt A1}, {\tt total},
-{\tt i}, and {\tt a}.
-
-\begin{code}
-A1 = 1;
-total = 0;
-for i=1:10
-    a = A1 * 0.5^(i-1);
-    total = total + a;
-end
-ans = total
-\end{code}
-
-If you were using any of those variable names before calling this
-script, you might be surprised to find, after running the script,
-that their values had changed.  If you have two scripts that use
-the same variable names, you might find that they work separately
-and then break when you try to combine them.  This kind of
-interaction is called a \emph{name collision}.
-
-\index{script}
-
-As the number of scripts you write increases, and they get longer
-and more complex, name collisions become more of a problem.  Avoiding
-this problem is one of the motivations for functions.
 
 \section{Summary}
+
+In this chapter we use a vector to store the elements of a sequence.  We learned how to select elements from a vector and perform vector arithmetic.  We performed reduce and apply operations using {\tt for} loops, MATLAB function, and elementwise operations.
+
+In the next chapter, you'll learn the most important idea in computer programming: functions!
 
 
 \section{Glossary}
@@ -592,7 +393,7 @@ to store the status of some condition.
 \item[matrix:] A two-dimensional collection of values (also called
 ``array'' in some MATLAB documentation).
 
-\item[ind] An integer value used to indicate one of the values
+\item[index] An integer value used to indicate one of the values
 in a vector or matrix (also called subscript in some MATLAB documentation).
 
 \item[element:] One of the values in a vector or matrix.

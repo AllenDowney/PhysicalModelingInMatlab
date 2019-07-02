@@ -275,3 +275,109 @@ and be consistent.  If you combine elements of both, you'll
 get confused.  I prefer the version in Listing~\ref{lst:fib_vec} that has {\tt F(i)} on the
 left side of the assignment, so that each time through the loop
 it assigns the {\tt i}th element.
+
+
+\subsection{Everything is a Matrix}
+
+In math (specifically in linear algebra) a vector is one-dimensional
+and a \emph{matrix} is two-dimensional.
+
+\index{matrix}
+\index{linear algebra}
+\index{whos command@{\tt whos} command}
+\index{command!{\tt whos}}
+
+But in MATLAB, everything is a matrix (except strings).
+You can see this if you use the {\tt whos} command to display the
+variables in the workspace.  {\tt whos} is similar to {\tt who}, but it also displays the size of each value and other information.
+
+\index{variable}
+
+To demonstrate, I'll make one of each kind of value:
+
+\begin{code}
+>> number = 5
+number = 5
+
+>> vector = [1 2 3 4 5]
+vector = 1     2     3     4     5
+
+>> matrix = ones(2,3)
+matrix =
+     1     1     1
+     1     1     1
+\end{code}
+
+The built-in function {\tt ones} builds a new matrix with the given
+number of rows and columns, and sets all the elements to 1.
+Now let's see what we've got.
+
+\index{ones@{\tt ones}}
+
+\begin{code}
+>> whos
+  Name        Size            Bytes  Class     Attributes
+
+  number      1x1                 8  double              
+  vector      1x5                40  double               
+  matrix      2x3                48  double              
+\end{code}
+
+According to MATLAB, all three are matrices.  They have the same class, {\tt double}, which
+means they contain double-precision floating-point numbers.
+
+\index{floating-point number}
+\index{number!floating-point}
+\index{double precision}
+
+But they have difference sizes: the size of {\tt number} is {\tt 1x1}, which means it has 1 row and 1 column; {\tt vector} has 1 row and 5 columns; and {\tt matrix} has 2 rows and 3 columns.
+
+So, you can think of your values as
+numbers, vectors, and matrices, but in MATLAB they are all matrices.
+
+
+
+\subsection{Search}
+\label{search}
+
+Yet another use of loops is to search the elements of a vector
+and return the index of the value you're looking for (or the
+first value that has a particular property).  
+
+\index{search}
+
+For example, the loop in Listing~\ref{lst:vec_search} finds the index of the element 0 in 
+{\tt X}:
+
+\begin{lstlisting}[caption={Searching for the last appearance of 0 in a vector)}, label={lst:vec_search}]
+for i=1:length(X)
+    if X(i) == 0
+        ans = i
+    end
+end
+\end{lstlisting}
+
+A funny thing about this loop is that it keeps going after it
+finds what it's looking for.  That might be what you want; if the
+target value appears more than one, this loop provides the index
+of the {\em last} one.
+
+\index{break statement@{\tt break} statement}
+\index{statement!{\tt break}}
+
+But if you want the index of the first one (or you know that there
+is only one), you can save some unnecessary looping by using the
+{\tt break} statement.
+
+\begin{code}
+for i=1:length(X)
+    if X(i) == 0
+        ans = i
+        break
+    end
+end
+\end{code}
+
+{\tt break} does pretty much what it sounds like.  It ends the
+loop and proceeds immediately to the next statement after the
+loop (in this case, there isn't one, so the code ends).
