@@ -44,7 +44,7 @@ As the number of scripts you write increases, and they get longer
 and more complex, name collisions become more of a problem.  Avoiding
 this problem is one of several motivations for functions.
 
-\section{Function Basics}
+\section{Defining Functions}
 
 A {\em function} is like a script, except that each function has its own workspace, so any variables defined
 inside a function only exist while the function is running, and don't
@@ -52,8 +52,6 @@ interfere with variables in other workspaces, even if they have the
 same name. 
 Function inputs and outputs are defined carefully to avoid
 unexpected interactions.
-
-\subsection{Defining Functions}
 
 To define a new function, you create an M-file with the name you
 want, and put a function definition in it.  For example, to create
@@ -179,7 +177,7 @@ want without worrying about collisions.
 \index{collision!name}
 
 
-\subsection{Function Documentation}
+\section{Function Documentation}
 
 \index{documentation}
 \index{comment}
@@ -240,7 +238,7 @@ to be an angle in radians.
 \index{precondition}
 \index{postcondition}
 
-\subsection{Naming Functions}
+\section{Naming Functions}
 \index{Functions!naming}
 
 There are a few ``gotchas'' that come up when you start defining functions.
@@ -328,7 +326,7 @@ confusing.  Before you create a new function, check to see if there is
 already a MATLAB function with the same name.  If there is, choose
 another name!
 
-\subsection{Multiple Input Variables}
+\section{Multiple Input Variables}
 \label{hypotenuse}
 
 \index{input variable}
@@ -422,7 +420,7 @@ Suppose we have three variables, {\tt a}, {\tt b}, and {\tt c}, and we want to c
 ans = logical 1
 \end{code}
 
-The result is a {\em logical} value, which means it is either 1, which means ``true'', or 0, which means ``false''.  Here's an example where the result is false:
+The result is a {\em logical} value, which means it's either 1, which means ``true'', or 0, which means ``false''.  Here's an example where the result is false:
 
 \begin{code}
 >> c = 6;
@@ -430,7 +428,7 @@ The result is a {\em logical} value, which means it is either 1, which means ``t
 ans = logical 0
 \end{code}
 
-It is a common error to use the assignment operator, {\tt =}, instead of the equality operator, {\tt ==}.  If you do, you get an error:
+It's a common error to use the assignment operator, {\tt =}, instead of the equality operator, {\tt ==}.  If you do, you get an error:
 
 \begin{code}
 >> a^2 + b^2 = c^2
@@ -448,7 +446,7 @@ For example, {\tt x < 10} is true (1) if the value of {\tt x} is less than 10, o
 The other relational operators are {\tt <=} for ``less or equal'', {\tt >=}, for ``greater or equal'', and  \verb+~=+, for ``not equal.''
 
 
-\section{if statement}
+\section{if Statement}
 
 \index{if statement@{\tt if} statement}
 \index{conditional statement}
@@ -501,7 +499,7 @@ with... {\tt end}.
 
 
 
-\subsection{Incremental Development}
+\section{Incremental Development}
 \label{increxample}
 \index{incremental development}
 
@@ -512,36 +510,27 @@ Here are the steps we will follow to develop the program incrementally:
 
 \begin{enumerate}
 
-\item Write a script named \verb"find_triples" and start with a simple
-statement like {\tt x=5}.
+\item Encapsulate the if statement from the previous section in a function called \verb"is_pythagorean".
 
-\item Write a loop that enumerates values of $a$ from 1 to 3, and
-displays them.
+\item Write a script named \verb"find_triples" and start with a loop that enumerates values of {\tt a} and displays them.
 
-\item Write a nested loop that enumerates values of $b$ from 1 to 4,
-and displays them.
+\item Write a second loop that enumerates values of $b$, and a third loop that enumerates values of $c$.
 
-\item Inside the loop, call {\tt hypotenuse} (Listing ~\ref{hyp_function}) to compute $c$ and
-display it.
+\item Use {\tt is_pythagorean} to check whether {\tt a}, {\tt b}, and {\tt c} form a Pythagorean triple.
 
-\item Use {\tt isintegral} (Listing ~\ref{int_function}) to check whether $c$ is an integral
-value.
+\item Use an {\tt if} to display only values that pass the test.
 
-\item Use an if statement to print only the triples $a$, $b$, and $c$
-that pass the test.
-
-\item Transform the script into a function.
-
-\item Generalize the function to take input variables that
-specify the range to search.
+\item Transform the script into a function and make it take an input variable that specifies the range to search.
 
 \end{enumerate}
 
+Along the way, we'll optimize the program to eliminate unnecessary work.
 
-\subsection{Logical Functions}
 
-A {\em logical function} is a function that returns a logical value.
-For example, the following function takes three input variables, {\tt a}, {\tt b}, and {\tt c}, and returns a logical value:
+\section{Logical Functions}
+
+The first step is to create a {\em logical function}, which is a function that returns a logical value.
+The following function takes three input variables, {\tt a}, {\tt b}, and {\tt c}, and returns true (1) if they form a Pythagorean triple and false (0) otherwise.
 
 \begin{code}
 function res = is_pythagorean(a, b, c)
@@ -569,9 +558,9 @@ end
 \end{code}
 
 The result of the equality operator is a logical value, which we can assign directly 
-to {\tt res}.  So the output value of this function is a logical value, which is precisely what we want.
+to {\tt res}.
 
-Let's assume that this function is in a file called \verb"is_pythagorean.m", so we can use it as part of our program.
+I'll put this function is in a file called \verb"is_pythagorean.m", so we can use it as part of our program.
 
 
 \section{Nested loops}
@@ -644,7 +633,7 @@ the structure clear):
 
 The left column shows the values of {\tt a} and the right column shows the values of {\tt b}.
 
-The next step is to search for values of {\tt c} that might make a Pythagorean triple.  The largest possible value for {\tt c} is {\tt a+b}, because otherwise we could not form a triangle (see \url{https://en.wikipedia.org/wiki/Triangle_inequality}).
+The next step is to search for values of {\tt c} that might make a Pythagorean triple.  The largest possible value for {\tt c} is {\tt a+b}, because otherwise we couldn't form a triangle (see \emph{https://en.wikipedia.org/wiki/Triangle_inequality}).
 
 \begin{code}
 for a=1:3
@@ -710,7 +699,7 @@ for a=1:3
 end
 \end{code}
 
-\subsection{Encapsulation and Generalization}
+\section{Encapsulation and Generalization}
 
 As a script, this program has the side-effect of assigning values to
 {\tt a}, {\tt b}, and {\tt c}, which would be bad if any of those names were in use.  
@@ -783,7 +772,7 @@ Here are the results for the range from 1 to 15:
 
 The triples $5,12,13$ and $8,15,17$ are new, but the others are just multiples of the $3,4,5$ triangle.
 
-\subsection{Adding a continue Statement}
+\section{Adding a continue Statement}
 
 \index{continue@{\tt continue}}
 
@@ -840,7 +829,7 @@ Here are the results with {\tt n=40}:
 \end{code}
 
 
-\section{How functions work}
+\section{How Functions Work}
 \index{function}
 
 Let's review the sequence of steps that occur when you call a function:
