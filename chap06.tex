@@ -1,536 +1,941 @@
-\chapter{Zero-finding}
+\chapter{Functions}
+\label{functions}
 \minitoc{}
-In this chapter we'll use the MATLAB function {\tt fzero} to find roots of nonlinear equations.
 
+This chapter introduces the most important idea in computer programming: functions! 
+To explain why functions are so important, I'll start by explaining one of the problems they solve: name collisions.
 
-\section{Solving Nonlinear Equations}
+\index{function}
 
-\index{nonlinear equation}
-\index{equation!nonlinear}
+\section{Name Collisions}
+\label{collision}
 
-What does it mean to ``solve'' an equation?  That may seem like an
-obvious question, but I want to take a minute to think about it,
-starting with a simple example.
+\index{name collision}
+\index{collision!name}
+\index{workspace}
 
-\subsection{Analytic and Numerical Solutions}
+All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between scripts become unmanageable.
 
-Let's say that we want to know the
-value of a variable, $x$, but all we know about it is the relationship
-$x^2 = a$. If you've taken algebra, you probably know how to ``solve'' this
-equation: you take the square root of both sides and get
-$x = \pm \sqrt{a}$.  Then, with the satisfaction of a job well done,
-you move on to the next problem.
-
-\index{square root}
-
-But what have you really done?  The relationship you derived is
-equivalent to the relationship you started with---they contain the
-same information about $x$---so why is the second one preferable
-to the first?
-
-There are two reasons.  One is that the relationship is now {\emph explicit}
-in $x$: because $x$ is all alone on the left side, we can treat
-the right side as a recipe for computing $x$, assuming that we
-know the value of $a$.
-
-\index{explicit computation}
-\index{computation!explicit}
-
-The other reason is that the recipe is written in terms of operations
-we know how to perform.  Assuming that we know how to compute square
-roots, we can compute the value of $x$ for any value of $a$.
-
-When people talk about solving an equation, what they usually mean
-is something like ``finding an equivalent relationship that is
-explicit in one of the variables''.  In the context of this book,
-that's what I'll call an {\emph analytic solution}, to distinguish
-it from a {\emph numerical solution}, which is what we are going to
-do next.
-
-\index{analytic solution}
-\index{numerical solution}
-
-To demonstrate a numerical solution, consider the equation $x^2 - 2x =
-3$.  You could solve this analytically, either by factoring it or by
-using the quadratic equation, and you would discover that there are
-two solutions, $x=3$ and $x=-1$.  Alternatively, you could solve it
-numerically by rewriting it as $x = \pm \sqrt{2x+3}$.
-
-This equation is not explicit, since $x$ appears on both sides, so
-it's not clear that this move did any good at all.  But suppose
-that we had some reason to expect there to be a solution near 4.
-We could start with $x=4$ as an ``initial guess,'' and then use
-the equation $x = \sqrt{2x+3}$ to iteratively compute successive
-approximations of the solution. (To understand why this
-works, see \emph{https://en.wikipedia.org/wiki/Fixed-point\_iteration}.)
-
-\index{fixed-point iteration}
-
-Here's what happens:
+For example, the following (increasingly familiar) script computes the
+sum of the first {\tt n} terms in a geometric sequence, but it also
+has the {\em side-effect} of assigning values to {\tt A1}, {\tt total},
+{\tt i}, and {\tt a}.
 
 \begin{code}
->> x = 4;
->> x = sqrt(2*x+3)
-x = 3.3166
-
->> x = sqrt(2*x+3)
-x = 3.1037
-
->> x = sqrt(2*x+3)
-x = 3.0344
-
->> x = sqrt(2*x+3)
-x = 3.0114
-
->> x = sqrt(2*x+3)
-x = 3.0038
-\end{code}
-
-After each iteration, {\tt x} is closer to the correct answer,
-and after 5 iterations, the relative error is about 0.1\%, which
-is good enough for most purposes.
-
-\index{numerical method}
-
-Techniques that generate numerical solutions are called
-\emph{numerical methods}.  
-The nice thing about the method I
-just demonstrated is that it's simple---but it doesn't always
-work, and it's not often used in practice.
-We'll see better alternatives soon.
-
-\subsection{Zero-finding}
-\label{zero}
-
-A nonlinear equation like $x^2 - 2x = 3$ is a statement of
-equality that is true for some values of $x$ and false for
-others.  A value that makes it true is a \emph{solution};
-any other value is a \emph{non-solution}.  But for any given non-solution,
-there is no sense of whether it's close or far from a solution,
-or where we might look to find one.
-
-\index{zero-finding}
-
-To address this limitation, it's useful to
-rewrite non-linear equations as zero-finding problems:
-
-\begin{enumerate}
-
-\item The first step is to define an ``error function'' that computes how far
-a given value of $x$ is from being a solution.
-
-In this example, the error function is
-
-\begin{equation}
-f(x) = x^2 - 2x -3
-\end{equation}
-
-Any value of $x$ that makes $f(x) = 0$ is also a solution
-of the original equation.
-
-\index{error function}
-\index{function!error}
-
-\item The next step is to find values of $x$ that make
-$f(x) = 0$.  These values are called zeros of the
-function, also called {\emph roots}.
-
-\index{root}
-
-\end{enumerate}
-
-Zero-finding lends itself to numerical solution because we can
-use the values of $f$, evaluated at various values of $x$, to
-make reasonable inferences about where to look for zeros.
-
-And one of the best numerical methods is available as a built-in MATLAB function, {\tt fzero}.
-
-
-\section{Finding Zeros with fzero}
-\label{fzero}
-
-\index{fzero@{\tt fzero}}
-
-In order to use {\tt fzero}, you have to define a MATLAB function
-that computes the error function you derived from the original
-nonlinear equation, and you have to provide an initial guess at
-the location of a zero.
-
-We've already seen an example of an error function, so let's . . . 
-
-\begin{code}
-function res = error_func(x)
-    res = x^2 - 2*x -3;
+A1 = 1;
+total = 0;
+for i=1:10
+    a = A1 * 0.5^(i-1);
+    total = total + a;
 end
+ans = total
 \end{code}
 
-You can call {\tt error\_func} from the Command Window, and
-confirm that there are zeros at 3 and -1.
+If you were using any of those variable names before calling this
+script, you might be surprised to find, after running the script,
+that their values had changed.  If you have two scripts that use
+the same variable names, you might find that they work separately
+and then break when you try to combine them.  This kind of
+interaction is called a \emph{name collision}.
 
-\begin{code}
->> error_func(3)
-ans = 0
+\index{script}
 
->> error_func(-1)
-ans = 0
-\end{code}
+As the number of scripts you write increases, and they get longer
+and more complex, name collisions become more of a problem.  Avoiding
+this problem is one of several motivations for functions.
 
-But let's pretend that we don't know where
-the roots are; we only know that one of them is near 4.  Then
-we could call {\tt fzero} like this:
+\section{Defining Functions}
 
-\begin{code}
->> fzero(@error_func, 4)
-ans = 3.0000
-\end{code}
+A {\em function} is like a script, except that each function has its own workspace, so any variables defined
+inside a function only exist while the function is running, and don't
+interfere with variables in other workspaces, even if they have the
+same name. 
+Function inputs and outputs are defined carefully to avoid
+unexpected interactions.
 
-Success!  We found one of the zeros.
+To define a new function, you create an M-file with the name you
+want, and put a function definition in it.  For example, to create
+a function named {\tt myfunc}, create an M-file named {\tt myfunc.m}
+and put the following definition into it:
 
-The first argument is a
-{\em function handle} that names the M-file that evaluates
-the error function.  The {\tt @} symbol allows us to name the
-function without calling it.  The interesting thing here is
-that you're not actually calling {\tt error\_func} directly;
-you're just telling {\tt fzero} where it is.  In turn, {\tt fzero}
-calls your error function --- more than once, in fact.
+\index{M-file}
+\index{script}
+\index{function definition}
 
-\index{function handle}
-\index{handle!function}
+\begin{lstlisting}[caption={A function definition}, label={lst:function_def}]
+function res = myfunc(x)
+    s = sin(x)
+    c = cos(x)
+    res = abs(s) + abs(c)
+end
+\end{lstlisting}
 
-The second argument is the initial guess.  If we provide a different
-initial guess, we get a different root (at least sometimes).
+The first non-comment word of the file has to be {\tt function}, because
+that's how MATLAB tells the difference between a script and a function
+file.
 
-\begin{code}
->> fzero(@error_func, -2)
-ans = -1
-\end{code}
+\index{compound statement}
+\index{definition!function}
 
-Alternatively, if you know two values that bracket the root,
-you can provide both:
+A function definition is a compound statement.  The first line
+is called the {\em signature} of the function; it defines
+the inputs and outputs of the function.  In Listing~\ref{lst:function_def} the {\em input variable} is named {\tt x}.  When this function is called, the
+argument provided by the user will be assigned to {\tt x}.
 
-\begin{code}
->> fzero(@error_func, [2,4])
-ans = 3
-\end{code}
-
-The second argument is a vector that contains two elements.  
-
-\index{vector}
-
-You might be curious to know how many times {\tt fzero} calls your
-function, and where.  If you modify {\tt error\_func} so that it displays
-the value of {\tt x} every time it is called and then run {\tt fzero}
-again, you get:
-
-\begin{code}
->> fzero(@error_func, [2,4])
-x = 2
-x = 4
-x = 2.75000000000000
-x = 3.03708133971292
-x = 2.99755211623500
-x = 2.99997750209270
-x = 3.00000000025200
-x = 3.00000000000000
-x = 3
-x = 3
-ans = 3
-\end{code}
-
-Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a point in the interval, $2.75$ and evaluates $f$ there.  After each iteration, the interval gets smaller and the guess gets closer to the true root.
-{\tt fzero} stops when the interval is so small that the estimated
-zero is correct to about 15 digits.
- 
-If you'd like to know more about how {\tt fzero} works, see Section~\ref{howfzero}.
-
-
-\subsection{What Could Go Wrong?}
-
-The most common problem people have with {\tt fzero} is leaving
-out the {\tt @}.  In that case, you get something like:
-
-\begin{code}
->> fzero(error_func, [2,4])
-Not enough input arguments.
-
-Error in error_func (line 2)
-    res = x^2 - 2*x -3;
-\end{code}
-
-The error occurs because MATLAB treats the first argument as a function call, so it calls {\tt error\_func} with no arguments.
+\index{input variable}
+\index{variable!input}
 
 \index{output variable}
 \index{variable!output}
 
-Another common problem is writing an error function that never
-assigns a value to the output variable.  In general, functions should
-{\em always} assign a value to the output variable, but MATLAB doesn't
-enforce this rule, so it's easy to forget.  For example, if you
-write:
+The {\em output variable} is named {\tt res}, which is short for
+``result''.  You can call the output variable whatever you want, but
+as a convention, I like to call it {\tt res}.  Usually the last
+thing a function does is assign a value to the output variable.
+
+\index{res@{\tt res}}
+\index{ans@{\tt ans}}
+
+Once you've defined a new function, you call it the same way you
+call built-in MATLAB functions.  If you call the function as a statement,
+MATLAB puts the result into {\tt ans}:
 
 \begin{code}
-function res = error_func(x)
-    y = x^2 - 2*x -3
-end
+>> myfunc(1)
+
+s = 0.84147098480790
+
+c = 0.54030230586814
+
+res = 1.38177329067604
+
+ans = 1.38177329067604
 \end{code}
 
-and then call it from the Command Window:
+But it's more common (and better style) to assign the result to
+a variable:
 
 \begin{code}
->> error_func(4)
-y = 5
+>> y = myfunc(1)
+
+s = 0.84147098480790
+
+c = 0.54030230586814
+
+res = 1.38177329067604
+
+y = 1.38177329067604
 \end{code}
 
-It looks like it worked, but don't be fooled.  This function assigns
-a value to {\tt y}, and it displays the result, but when the function
-ends, {\tt y} disappears along with the function's workspace.
-If you try to use it with {\tt fzero}, you get
+While you're debugging a new function, you might want to display
+intermediate results like this, but once it's working, you'll want
+to add semi-colons to make it a {\em silent function}.  A silent function
+computes a result but doesn't display
+anything (except sometimes warning messages). Most built-in
+functions are silent.
+
+\index{silent function}
+\index{function!silent}
+\index{workspace}
+
+Each function has its own workspace, which is created when the
+function starts and destroyed when the function ends.  If you try to
+access (read or write) the variables defined inside a function, you
+will find that they don't exist.
 
 \begin{code}
->> fzero(@error_func, [2,4])
-y = -3
+>> clear
+>> y = myfunc(1);
+>> who
+Your variables are: y
 
-Error using fzero (line 231)
-FZERO cannot continue because user-supplied function_handle ==>
-error_func failed with the error below.
-
-Output argument "res" (and maybe others) not assigned during call
-to "error_func".
+>> s
+Undefined function or variable 's'.
 \end{code}
 
-If you read it carefully, this is a pretty good error message,
-provided you understand that ``output argument'' and ``output variable'' are the same thing.
+The only value from the function that you can access is the result,
+which in this case is assigned to {\tt y}.
 
-\index{argument}
-\index{output argument}
-
-You would have seen the same error message when you called {\tt
-error\_func} from the interpreter, if you had assigned the result
-to a variable:
+If you have variables named {\tt s} or {\tt c} in your workspace
+before you call {\tt myfunc}, they will still be there when the
+function completes.
 
 \begin{code}
->> x = error_func(4)
-y = 5
+>> s = 1;
+>> c = 1;
+>> y = myfunc(1);
+>> s, c
 
-Output argument "res" (and maybe others) not assigned during
-call to "error_func".
+s = 1
+c = 1
 \end{code}
 
-You can avoid all of this if you remember these two rules:
-
-\begin{enumerate}
-
-\item Functions should generally assign values to their output
-variables. (Functions that don't return a value are sometimes
-called ``commands'', because they do something (like display
-values or generate a figure) but either don't have an output
-variable or don't make an assignment to it.)
-
-\item When you call a function, you should do something with
-the result (either assign it to a variable or use it as part of an
-expression, etc.).
-
-\end{enumerate}
-
-When you write your own functions and use them yourself, it's easy
-for mistakes to go undetected.  But when you use your functions with
-MATLAB functions like {\tt fzero}, you have to get it right!
-
-Yet another thing that can go wrong: if you provide an interval for the
-initial guess and it doesn't actually contain a root, you get
-
-\begin{code}
->> fzero(@error_func, [0,1])
-Error using fzero (line 272)
-The function values at the interval endpoints must differ in sign.
-\end{code}
-
-\index{interval}
-
-There is one other thing that can go wrong when you use {\tt fzero}, but
-this one is less likely to be your fault.  It's possible that {\tt fzero}
-won't be able to find a root.
-
-{\tt fzero} is generally pretty robust, so you may never have a problem, but you should remember that there is no guarantee that {\tt fzero} will work, especially if you provide a single value as an initial guess.  Even if you provide an interval that brackets a root, things can still go wrong if the error function is discontinuous.
-
-
-\subsection{Choosing an Initial Guess}
-
-The better your initial guess (or interval) is, the more likely
-it is that {\tt fzero} will work, and the fewer iterations it will
-need.
-
-When you're solving problems in the real world, you'll usually
-have some intuition about the answer.  This intuition is often enough
-to provide a good initial guess.
-
-\index{ezplot@{\tt ezplot}}
-\index{plot!{\tt ezplot}}
-
-Another approach is to plot the function and see if you can
-approximate the zeros visually.  If you have a function, like
-{\tt error\_func} that takes a scalar input variable and returns
-a scalar output variable, you can plot it with {\tt ezplot}:
-
-\begin{code}
->> ezplot(@error_func, [-2,5])
-\end{code}
-
-\index{ezplot}
-
-The first argument is a function handle; the second is the interval you want to plot the function in.
-
-By examining the plot, you can estimate the location of the two roots.
-
-
-\subsection{Vectorizing Functions}
-
-\index{vectorizing}
-\index{function!vectorizing}
-
-With this example, you might get the following warning (or error, if you're using Octave):
-
-\begin{code}
-Warning: Function failed to evaluate on array inputs;
-vectorizing the function may speed up its evaluation and 
-avoid the need to loop over array elements. 
-\end{code}
-
-This means that MATLAB tried to call \verb"error_func" with a vector, and it failed. 
-The problem is that it uses \verb"*" and \verb"^" operators; as we saw in Section~\ref{elementwise}, those operators don't do what we want, which is {\em elementwise} multiplication and exponentiation.
-
-\index{elementwise operator}
-\index{operator!elementwise}
-
-If you rewrite \verb"error_func" like this:
-
-\begin{code}
-function res = error_func(x)
-    res = x.^2 - 2.*x -3;
-end
-\end{code}
-
-The warning message goes away, and {\tt ezplot} runs faster, for what it's worth.
-
-\section{More Name Collisions}
-
-Functions and variables occupy the same workspace, which means
-that whenever a name appears in an expression, MATLAB starts by looking
-for a variable with that name; if there isn't one, it looks for
-a function.
+So inside a function you can use whatever variable names you
+want without worrying about collisions.
 
 \index{name collision}
 \index{collision!name}
-\index{shadow}
 
-As a result, if you have a variable with the same name as a function,
-the variable {\em shadows} the function.  For example, if you assign
-a value to {\tt sin}, and then try to use the {\tt sin} function, you
-{\em might} get an error:
 
-\begin{code}
->> sin = 3;
->> x = 5;
->> sin(x)
-Index exceeds the number of array elements (1).
+\section{Function Documentation}
 
-'sin' appears to be both a function and a variable.
-If this is unintentional, use 'clear sin' to remove 
-the variable 'sin' from the workspace.
-\end{code}
+\index{documentation}
+\index{comment}
 
-Since the value we assigned to {\tt sin} is a scalar, and a scalar is really a 1x1 matrix, MATLAB tries to access the 5th element of the matrix and finds that there isn't one.
+At the beginning of every function file, you should include a comment
+that explains what the function does:
 
-In this case MATLAB is able to detect the error, and the error message is pretty helpful.
-But if the value of {\tt sin} was a vector, or if the value of {\tt x} was smaller, you would be in trouble.  For example:
+\index{Documentation!functions}
 
 \begin{code}
->> sin = 3;
->> sin(1)
-ans = 3
+% res = myfunc(x)
+% Compute the Manhattan distance from the origin to the
+% point on the unit circle with angle (x) in radians.
+
+function res = myfunc(x)
+% this is not part of documentation given by help function
+
+    s = sin(x);
+    c = cos(x);
+    res = abs(s) + abs(c);
+end
 \end{code}
 
-Just to review, the sine of 1 is not 3!
+When you ask for {\tt help}, MATLAB prints the comment you provide.
 
-You can avoid these problems by choosing function names carefully. Use long, descriptive names for functions, not single letters like {\tt f}. To be even clearer, use function names that end in {\tt func}. And before you define a function, check whether MATLAB already has a function with the same name.
-
-\section{Debugging Your Head}
-
-When you're working with a new function or a new language feature
-for the first time, you should test it in isolation before you
-put it into your program.
-
-\index{debugging}
-
-For example, suppose you know that {\tt x} is the sine of some
-angle and you want to find the angle.  You find the MATLAB function
-{\tt asin}, and you're pretty sure it computes the inverse sine
-function.  Pretty sure is not good enough; you want to be very sure.
-
-Since we know $\sin 0 = 0$, we could try
+\index{help@{\tt help}}
 
 \begin{code}
->> asin(0)
-ans = 0
+>> help myfunc
+  res = myfunc(x)
+  Compute the Manhattan distance from the origin to the
+  point on the unit circle with angle (x) in radians.
 \end{code}
 
-which is correct.  Now, we also know that the sine of 90 degrees is
-1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
+There are lots of conventions about what should be included
+in these comments.  Among other things, it's a good idea to
+include
+
+\begin{description}
+
+\item [Signature:] The signature of the function, which includes the name
+of the function, the input variable(s) and the output variable(s).
+
+\item [Description:] A clear, concise, abstract description of what the function does.
+An {\em abstract} description is one that leaves out the
+details of {\em how} the function works, and includes only information
+that someone using the function needs to know.  You can put additional
+comments inside the function that explain the details.
+
+\item [Variables:] An explanation of what the input variables mean; for example,
+in this case it is important to note that {\tt x} is considered
+to be an angle in radians.
+
+\item [Conditions:] Any preconditions and postconditions.
+
+\end{description}
+
+\index{precondition}
+\index{postcondition}
+
+\section{Naming Functions}
+\index{Functions!naming}
+
+There are a few ``gotchas'' that come up when you start defining functions.
+The first is that the ``real'' name of your function is determined by the file name, {\em not} by the name you put in the function signature.  As a matter of style, you
+should make sure that they are always the same, but if you
+make a mistake, or if you change the name of a function, it's
+easy to get confused.
+
+\index{function name}
+\index{name!function}
+
+In the spirit of making errors on purpose, change the name of
+the function in \verb"myfunc" to \verb"something_else", and
+then run it again.
+
+If this is what you put in \verb"myfunc.m":
 
 \begin{code}
->> asin(1)
-ans = 1.5708
+function res = something_else (x)
+    s = sin(x);
+    c = cos(x);
+    res = abs(s) + abs(c);
+end
 \end{code}
 
-Oops.  We forgot that the trig functions in MATLAB work in radians,
-not degrees.  So the correct answer is $\pi/2$, which we can
-confirm by dividing through by {\tt pi}:
+Here's what you'll get:
 
 \begin{code}
->> asin(1) / pi
-ans = 0.5000
+>> y = myfunc(1)
+y = 1.3818
+
+>> y = something_else(1)
+Undefined function or variable 'something_else'.
 \end{code}
 
-With this kind of testing, you're not really checking for
-errors in MATLAB, you're checking your understanding.  If you
-make an error because you are confused about how MATLAB works, it
-might take a long time to find, because when you look at the code,
-it looks right.
+{\tt myfunc} still works because that's the name of the file.
+\verb"something_else" doesn't work because the name of the function is ignored.
 
-\index{debugging!Seventh Theorem}
+The second gotcha is that the name of the file can't have spaces.
+For example, if you write a function and rename the file to 
+{\tt my func.m},
+and then try to run it, you get:
 
-Which brings us to the Seventh Theorem of Debugging:
+\begin{code}
+>> y = my func(1)
+ y = my func(1)
+        |
+Error: Unexpected MATLAB expression.
+\end{code}
 
-\begin{quote}
-The worst bugs aren't in your code; they're in your head.
-\end{quote}
+This fails because MATLAB thinks \verb"my" and \verb"func" are two different
+variable names.
+
+The third gotcha is that your function names can collide with built-in
+MATLAB functions.  For example, if you create an M-file named {\tt sum.m}, and then call {\tt sum}, MATLAB might call {\em your} new
+function, not the built-in version!  Which one actually gets called
+depends on the order of the directories in the search path, and
+(in some cases) on the arguments.  As an example, put the following
+code in a file named {\tt sum.m}:
+
+\index{name collision}
+\index{collision!name}
+
+\begin{code}
+function res = sum(x)
+   res = 7;
+end
+\end{code}
+
+And then try this:
+
+\begin{code}
+>> sum(1:3)
+
+ans = 6
+
+>> sum
+
+ans = 7
+\end{code}
+
+In the first case MATLAB used the built-in function; in the second
+case it ran your function!  This kind of interaction can be very
+confusing.  Before you create a new function, check to see if there is
+already a MATLAB function with the same name.  If there is, choose
+another name!
+
+\section{Multiple Input Variables}
+\label{hypotenuse}
+
+\index{input variable}
+\index{variable!input}
+
+Functions can take more than one input variable.
+For example, the following function takes two input variables,
+{\tt a} and {\tt b}:
+
+\begin{lstlisting}[caption={A function that the sum of squares of two numbers.}, label={lst:hyp_function}]
+function res = sum_squares(a, b)
+    res = a^2 + b^2;
+end
+\end{lstlisting}
+  
+This function computes the sum of squares of two numbers, {\tt a}
+and {\tt b}.
+
+If we call it from the Command Window with arguments 3 and 4, we can
+confirm that the sum of their squares is 25.
+
+\begin{code}
+>> ss = sum_squares(3, 4)
+ss = 25
+\end{code}
+
+The arguments you provide are assigned to the input variables in
+order, so in this case 3 is assigned to {\tt a} and 4 is assigned to
+{\tt b}.  MATLAB checks that you provide the right number of arguments;
+if you provide too few, you get
+
+\begin{code}
+>> ss = sum_squares(3)
+Not enough input arguments.
+
+Error in sum_squares (line 4)
+    res = a^2 + b^2;
+\end{code}
+
+This error message might be confusing, because it suggests that
+the problem is in \verb"sum_squares" rather than in the function call.
+Keep that in mind when you're debugging.
+
+If you provide too many arguments, you get
+
+\begin{code}
+ss = sum_squares(3, 4, 5)
+Error using sum_squares
+Too many input arguments.
+\end{code}
+
+which is a better message.
 
 \section{Summary}
+
+Now that we know about functions, and all the ways they can go wrong, let's put them to good use.  In the next chapter we'll develop a program that uses several functions to search for Pythagorean triples (and I'll explain what those are).
+
+
+\section{Exercises}
+
+\begin{ex}
+Write a function called {\tt hypotenuse} that takes two parameters, {\tt a} and {\tt b}, that represent the lengths of two sides of a right triangle.  It should assign to {\tt res} the length of the third side of the triangle, given by the formula:
+
+\[ c = \sqrt{a^2 + b^2} \]
+\end{ex}
+
+
+
+\chapter{Conditionals}
+
+In this chapter we'll use functions and a new feature, conditional statements, to search for Pythagorean triples.
+
+A Pythagorean triple is a set of integers, like 3, 4, and 5,
+that are the lengths of the sides of a right triangle.  Mathematically, it's a set of integers, $a$, $b$, and $c$ such that $a^2 + b^2 = c^2$.
+
+This example will also demonstrate a way to write programs called {\em incremental development}.
+
+\index{Pythagorean triple}
+
+\section{Relational Operators}
+\index{operator!relational}
+
+Suppose we have three variables, {\tt a}, {\tt b}, and {\tt c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator, {\tt ==}, to compare two values:
+
+\begin{code}
+>> a = 3;
+>> b = 4;
+>> c = 5;
+>> a^2 + b^2 == c^2
+
+ans = logical 1
+\end{code}
+
+The result is a {\em logical} value, which means it's either 1, which means ``true'', or 0, which means ``false''.  Here's an example where the result is false:
+
+\begin{code}
+>> c = 6;
+>> a^2 + b^2 == c^2
+ans = logical 0
+\end{code}
+
+It's a common error to use the assignment operator, {\tt =}, instead of the equality operator, {\tt ==}.  If you do, you get an error:
+
+\begin{code}
+>> a^2 + b^2 = c^2
+ a^2 + b^2 = c^2
+           |
+Error: Incorrect use of '=' operator. 
+To assign a value to a variable, use '='. 
+To compare values for equality, use '=='.
+\end{code}
+
+The equality operator is one of several {\em relational operators}, so-called because they test relations between values.
+
+For example, {\tt x < 10} is true (1) if the value of {\tt x} is less than 10, or false (0) otherwise.  And {\tt x > 0} is true if {\tt x} is greater than 0.
+
+The other relational operators are {\tt <=} for ``less or equal'', {\tt >=}, for ``greater or equal'', and  \verb+~=+, for ``not equal.''
+
+
+\section{if Statement}
+
+\index{if statement@{\tt if} statement}
+\index{conditional statement}
+
+Now suppose that when we find a Pythagorean triple we want to display a message.
+The {\tt if} statement allows you to check for certain conditions
+and execute statements if the conditions are met.  For example:
+
+\begin{code}
+if a^2 + b^2 == c^2
+    disp("Yes, that is a Pythagorean triple.")
+end
+\end{code}
+
+The syntax is similar to a {\tt for} loop.  The first line
+specifies the condition we're interested in.  If the condition is true, 
+MATLAB executes the {\em body} of the statement, which is the indented sequence of
+statements between the {\tt if} and the {\tt end}.
+
+\index{indentation}
+
+MATLAB doesn't require you to indent the body of an {\tt if}
+statement, but it makes your code more readable, so you should do it.
+
+If the condition is not satisfied, the statements in the body are
+not executed. 
+
+Sometimes there are alternative statements to
+execute when the condition is false.  In that case you can extend
+the {\tt if} statement with an {\tt else} clause.
+
+\index{else clause@{\tt else} clause}
+
+The complete version of the previous example might look like this:
+
+\begin{code}
+if a^2 + b^2 == c^2
+    disp("Yes, that is a Pythagorean triple.")
+else
+    disp("No, that is not a Pythagorean triple.")
+end
+\end{code}
+
+Statements like {\tt if} and {\tt for} that contain other statements
+are called \emph{compound} statements.  All compound statements end
+with... {\tt end}.
+
+\index{compound statement}
+\index{statement!compound}
+
+
+
+\section{Incremental Development}
+\label{increxample}
+\index{incremental development}
+
+Now that we have relational operators and {\tt if} statements, let's start writing
+the program.
+
+Here are the steps we will follow to develop the program incrementally:
+
+\begin{enumerate}
+
+\item Encapsulate the if statement from the previous section in a function called \verb"is_pythagorean".
+
+\item Write a script named \verb"find_triples" and start with a loop that enumerates values of {\tt a} and displays them.
+
+\item Write a second loop that enumerates values of $b$, and a third loop that enumerates values of $c$.
+
+\item Use {\tt is_pythagorean} to check whether {\tt a}, {\tt b}, and {\tt c} form a Pythagorean triple.
+
+\item Use an {\tt if} to display only values that pass the test.
+
+\item Transform the script into a function and make it take an input variable that specifies the range to search.
+
+\end{enumerate}
+
+Along the way, we'll optimize the program to eliminate unnecessary work.
+
+
+\section{Logical Functions}
+
+The first step is to create a {\em logical function}, which is a function that returns a logical value.
+The following function takes three input variables, {\tt a}, {\tt b}, and {\tt c}, and returns true (1) if they form a Pythagorean triple and false (0) otherwise.
+
+\begin{code}
+function res = is_pythagorean(a, b, c)
+    if a^2 + b^2 == c^2
+        res = 1;
+    else
+        res = 0;
+    end
+end
+\end{code}
+
+We can use this function like this:
+
+\begin{code}
+>> is_pythagorean(3, 4, 5)
+ans = 1
+\end{code}
+
+But we can write the same function more concisely, like this:
+
+\begin{code}
+function res = is_pythagorean(a, b, c)
+    res = a^2 + b^2 == c^2;
+end
+\end{code}
+
+The result of the equality operator is a logical value, which we can assign directly 
+to {\tt res}.
+
+I'll put this function is in a file called \verb"is_pythagorean.m", so we can use it as part of our program.
+
+
+\section{Nested loops}
+
+The next step is to write loops that enumerate different values of {\tt a}, {\tt b}, and 
+{\tt c}.  I'll create a new file called \verb"find_triples.m" where I'll develop the rest of the program.
+
+\index{nested loop}
+\index{loop!nested}
+
+And I'll start with a loop for {\tt a}:
+
+\begin{code}
+for a=1:3
+    a
+end
+\end{code}
+
+It might seem silly to start with such a simple program, but this is an essential element of incremental development: start simple and test as you go.
+
+The output is as expected.
+
+\begin{code}
+1
+2
+3
+\end{code}
+
+Now I'll add a second loop for {\tt b}.  It might be tempting to write something like this:
+
+\begin{code}
+for a=1:3
+    disp(a)
+end
+for b=1:4
+    disp(b)
+end
+\end{code}
+
+But that loops through the values of {\tt a} and then loops through the values of {\tt b}, and that's not what we want.
+
+Instead, we want to consider every possible pair of values, like this:
+
+\begin{code}
+for a=1:3
+    for b=1:4
+        disp([a,b])
+    end
+end
+\end{code}
+
+Now one loop is inside the other.  The inner loop gets executed 3 times, once for each value of {\tt a}, so here's what the output looks like (I adjusted the spacing to make
+the structure clear):
+
+\begin{code}
+>> find_triples
+     1     1
+     1     2
+     1     3
+     1     4
+     2     1
+     2     2
+     2     3
+     2     4
+     3     1
+     3     2
+     3     3
+     3     4
+\end{code}
+
+The left column shows the values of {\tt a} and the right column shows the values of {\tt b}.
+
+The next step is to search for values of {\tt c} that might make a Pythagorean triple.  The largest possible value for {\tt c} is {\tt a+b}, because otherwise we couldn't form a triangle (see \emph{https://en.wikipedia.org/wiki/Triangle_inequality}).
+
+\begin{code}
+for a=1:3
+    for b=1:4
+        for c=1:a+b
+            disp([a,b,c])
+        end
+    end
+end
+\end{code}
+
+After each small change, I run the program again and check the output.
+
+\section{Putting it together}
+
+Now instead of displaying all of the triples, I'll add an {\tt if} statement and display only Pythagorean triples:
+
+\begin{code}
+for a=1:3
+    for b=1:4
+        for c=1:a+b
+            if is_pythagorean(a, b, c)
+                disp([a,b,c])
+            end
+        end
+    end
+end
+\end{code}
+
+The result is just one triple:
+
+\begin{code}
+>> find_triples
+     3     4     5
+\end{code}
+
+You might notice that we're wasting some effort here.
+After checking $a=1$ and $b=2$, there's no point in checking
+$a=2$ and $b=1$.  We can save the extra work by adjusting the
+range of {\tt b}.
+
+\begin{code}
+for b=a:4
+\end{code}
+
+We can save even more work by adjusting the range of {\tt c}.
+
+\begin{code}
+for c=b:a+b
+\end{code}
+
+Here's the final version:
+
+\begin{code}
+for a=1:3
+    for b=a:4
+        for c=b:a+b
+            if is_pythagorean(a, b, c)
+                disp([a,b,c])
+            end
+        end
+    end
+end
+\end{code}
+
+\section{Encapsulation and Generalization}
+
+As a script, this program has the side-effect of assigning values to
+{\tt a}, {\tt b}, and {\tt c}, which would be bad if any of those names were in use.  
+By wrapping the code in a function, we can avoid name collisions; this process is called {\em encapsulation} because it isolates this program from the workspace.
+
+\index{encapsulation}
+\index{generalization}
+
+The first draft of the function takes no input variables:
+
+\begin{code}
+function res = find_triples()
+    for a=1:3
+        for b=a:4
+            for c=b:a+b
+                if is_pythagorean(a, b, c)
+                    disp([a,b,c])
+                end
+            end
+        end
+    end
+end
+\end{code}
+
+The empty parentheses in the signature are not necessary, but
+they make it apparent that there are no input variables.  Similarly,
+when I call the new function, I like to use parentheses to remind me
+that it's a function, not a script:
+
+\begin{code}
+>> find_triples()
+\end{code}
+
+The output variable isn't necessary, either; it
+never gets assigned a value.  But I put it there as a matter of
+habit, and also so my function signatures all have the same structure.
+
+\index{output variable}
+\index{variable!output}
+
+The next step is to generalize this function by adding input
+variables.  The natural generalization is to replace the constant
+values 3 and 4 with a variable so we can search an arbitrarily large
+range of values.
+
+\begin{code}
+function res = find_triples(n)
+    for a=1:n
+        for b=a:n
+            for c=b:a+b
+                if is_pythagorean(a, b, c)
+                    disp([a,b,c])
+                end
+            end
+        end
+    end
+end
+\end{code}
+
+Here are the results for the range from 1 to 15:
+
+\begin{code}
+>> find_triples(15)
+     3     4     5
+     5    12    13
+     6     8    10
+     8    15    17
+     9    12    15
+\end{code}
+
+The triples $5,12,13$ and $8,15,17$ are new, but the others are just multiples of the $3,4,5$ triangle.
+
+\section{Adding a continue Statement}
+
+\index{continue@{\tt continue}}
+
+As a final improvement, let's modify the function so it only
+displays the ``lowest'' of each Pythagorean triple, and not the
+multiples.
+
+The simplest way to eliminate the multiples is to check whether
+$a$ and $b$ share a common factor.  If they do, dividing both
+by the common factor yields a smaller, similar triangle that has
+already been checked.
+
+\index{gcd function@{\tt gcd} function}
+\index{function!{\tt gcd}}
+
+MATLAB provides a {\tt gcd} function that computes the greatest common
+divisor of two numbers.  If the result is greater than 1,
+$a$ and $b$ share a common factor and we can use the {\tt continue}
+statement to skip to the next pair. Listing~\ref{lst:triples_function} contains the final version of this function:
+
+\begin{lstlisting}[caption={Our final Pythagorean triples function}, 
+function res = find_triples(n)
+    for a=1:n
+        for b=a:n
+            for c=b:a+b
+                if gcd(a,b) > 1
+(*\codewingding{1}*)	                continue
+                end
+                if is_pythagorean(a, b, c)
+                    disp([a,b,c])
+                end
+            end
+        end
+    end
+end
+\end{lstlisting}
+
+The {\tt continue} statement \wingding{1} causes the program to end the current iteration
+immediately, jump to the top of the loop, and ``continue'' with the next iteration.
+
+In this case, since there are three loops, it might not be obvious which loop to jump to, but the rule is to jump to the inner-most loop (which is what we want).
+
+Here are the results with {\tt n=40}:
+
+\begin{code}
+>> find_triples(40)
+     3     4     5
+     5    12    13
+     7    24    25
+     8    15    17
+     9    40    41
+    12    35    37
+    20    21    29
+\end{code}
+
+
+\section{How Functions Work}
+\index{function}
+
+Let's review the sequence of steps that occur when you call a function:
+
+\begin{enumerate}
+
+\item Before the function starts running, MATLAB creates a new
+workspace for it.
+\index{workspace}
+
+\item MATLAB evaluates each of the arguments and assigns
+the resulting values, in order, to the input variables (which
+live in the {\em new} workspace).
+
+\item The body of the code executes.  Somewhere in the body
+a value gets assigned to the output variable.
+
+\item The function's workspace is destroyed; the only thing
+that remains is the value of the output variable and any side
+effects the function had (like displaying values).
+
+\item The program resumes from where it left off.  The value
+of the function call is the value of the output variable.
+
+\end{enumerate}
+
+When you're reading a program and you come to a function call,
+there are two ways to interpret it. You can think about the mechanism I just described,
+and follow the execution of the program into the function and back, or you can assume that the function works correctly, and go on to the next statement after the function call.
+
+When you use built-in functions, it's natural to assume that it work, in part because you don't
+usually have access to the code in the body of the function.
+
+But when you start writing your own functions, you might
+find yourself following the ``flow of execution''.  This can
+be useful while you are learning, but as you gain experience, you
+should get more comfortable with the idea of writing a function,
+testing it to make sure it works, and then forgetting about the
+details of how it works.
+
+\index{flow of execution}
+\index{abstraction}
+
+Forgetting about details is called {\em abstraction}; in the context
+of functions, abstraction means forgetting about {\em how} a function
+works, and just assuming (after appropriate testing) that it works.
+
+For many people, it takes some time to get comfortable with functions.  If you are one of them, you might be tempted to avoid functions, and sometimes you can get by without them.
+
+But experienced programmers use functions extensively, for several good reasons. First, each function has its own workspace, so using functions helps
+avoid name collisions. 
+
+Functions also lend themselves to incremental development: you can
+debug the body of the function first (as a script), then encapsulate
+it as a function, and then generalize it by adding input variables.
+
+Also, functions allow you to divide a large problem into small
+pieces, work on the pieces one at a time, and then assemble a
+complete solution. 
+
+Once you have a function working, you can forget about the
+details of how it works and concentrate on what it does.  This
+process of abstraction is an important tool for managing the
+complexity of large programs.
+
+
+\section{Summary}
+
+In this chapter, I presented relational operators and {\tt if} statements, and we used them to develop a program that searches for Pythagorean triples.
+
+This example demonstrates a way of developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way, you will have fewer bugs, and you will find them more quickly.
 
 
 \section{Glossary}
 
 \begin{description}
 
-\item[analytic solution:] A way of solving an equation by performing
-algebraic operations and deriving an explicit way to
-compute a value.
+\item[side-effect:] An effect, like modifying the workspace, that
+is not the primary purpose of a script.
 
-\item[numerical solution:] A way of solving an equation by finding
-a numerical value that satisfies the equation, often approximately.
+\item[input variable:] A variable in a function that gets its value,
+when the function is called, from one of the arguments.
 
-\item[numerical method:] A method (or algorithm) for generating
-a numerical solution.
+\item[output variable:] A variable in a function that is used to
+return a value from the function to the caller.
 
-\item[zero (of a function):] An argument that makes the result of a function $0$.
+\item[signature:] The first line of a function definition, which
+specifies the names of the function, the input variables and the
+output variables.
 
-\item[function handle:] In MATLAB, a function handle is a way of
-referring to a function by name (and passing it as an argument)
-without calling it.
+\item[silent function:] A function that doesn't display anything
+or generate a figure, or have any other side-effects.
 
-\item[shadow:] A kind of name collision in which a new definition
-causes an existing definition to become invisible.  In MATLAB,
-variable names can shadow built-in functions (with hilarious results).
+\item[logical function:] A function that returns a logical value
+(1 for ``true'' or 0 for ``false'').
+
+\item[encapsulation:] The process of wrapping part of a program in
+a function in order to limit interactions (including name collisions)
+between the function and the rest of the program.
+
+\item[generalization:] Making a function more versatile by replacing
+specific values with input variables.
+
+\item[abstraction:] The process of ignoring the details of how
+a function works in order to focus on a simpler model of what the
+function does.
 
 \end{description}
 
@@ -538,100 +943,24 @@ variable names can shadow built-in functions (with hilarious results).
 \section{Exercises}
 
 \begin{ex}
+\index{Fibonacci number}
+\index{Pythagorean triple}
 
-\begin{enumerate}
-
-\index{Chebyshev polynomial}
-\index{ezplot@{\tt ezplot}}
-
-\item Write a function called {\tt cheby6} that evaluates the
-6th Chebyshev polynomial.  It should take an input variable,
-$x$, and return
+There is an interesting connection between Fibonacci numbers and
+Pythagorean triples.  If $F$ is a Fibonacci sequence,
 
 \begin{equation}
-32 x^6 - 48 x^4 + 18 x^2 - 1
+(F_i F_{i+3}, 2 F_{i+1} F_{i+2}, F_{i+1}^2 + F_{i+2}^2 )
 \end{equation}
 
-\item Use {\tt ezplot} to display a graph of this function in the
-interval from -1 to 1.  Estimate the location of any zeros in this
-range.
+is a Pythagorean triple, for all $i \ge 1$.
 
-\item Use {\tt fzero} to find as many different roots as you can.
-Does {\tt fzero} always find the root that is closest to the initial
-guess?
+Write a function named {\tt fib\_triple} that
+takes {\tt n} as an input variable, computes 
+the first {\tt n} Fibonacci numbers, stores them in a vector,
+and checks whether this formula produces Pythagorean triples for numbers in the sequence.
 
-\end{enumerate}
-
-% cheby6.m
+% fib_triple.m
 \end{ex}
 
-
-\begin{ex}
-\label{duck}
-
-This example is adapted from Gerald and Wheatley,
-{\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley,
-1989. 
-
-When a duck is floating on water, how much of its body is submerged?
-
-\index{duck}
-\index{sphere}
-
-To estimate a solution to this problem, we'll assume that the submerged part of a duck is well approximated by a section of a sphere.
-If a sphere with radius $r$ is submerged in water to a depth $d$, the
-volume of the sphere below the water line is
-
-\[ V = \frac{\pi}{3} (3r d^2 - d^3) \quad
-\mbox{as long as} \quad d < 2 r  \]
-
-We'll also assume that the density of a duck is $\rho$, is $0.3 g / cm^3$ (0.3 times the density of water), and that its mass is $\frac{4}{3} \pi r^3 \rho$.
-
-Finally, according to the law of buoyancy, an object floats at the level where the weight of the displaced water equals the total weight of the object.
-
-\index{density}
-\index{buoyancy}
-
-Here are some suggestions for how to proceed:
-
-\begin{enumerate}
-
-\item Write an equation relating $\rho$, $d$, and $r$.
-
-\item Rearrange the equation so the right-hand side is zero.
-Our goal is to find values of $d$ that are roots of this equation.
-
-\item Write a MATLAB function that evaluates this function.  Test it,
-   then make it a quiet function.
-
-\item Make a guess about the value of $d_0$ to use as a starting place.
-
-\item Use {\tt fzero} to find a root near $d_0$.
-
-\item Check to make sure the result makes sense.  In particular,
-   check that $d < 2 r$, because otherwise the volume equation
-   doesn't work!
-
-\item Try different values of $\rho$ and $r$ and see if you get the
-  effect you expect.  What happens as $\rho$ increases?  Goes to
-  infinity?  Goes to zero?  What happens as $r$ increases?  Goes to
-  infinity?  Goes to zero?
-
-\end{enumerate}
-
-% duck.m
-\end{ex}
-
-% for another time, figure out how to use fzero to find zeros of...
-
-%\item The Riemann zeta function can be written
-
-%\[ zeta \equiv w \to sum_{k=1}^\infty k^w \]
-
-%where $w$ is a complex number.  If you are not familiar with
-%complex numbers, you should skip this problem.
-
-
-
-% TODO: Find places in the book where error messages are getting syntax highlighting, and put them in a verbatim environment.
 
