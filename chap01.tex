@@ -96,7 +96,7 @@ If you type an expression and then press Enter (or Return), MATLAB
 \emph{evaluates} the expression and prints the result.
 
 \begin{code}
-(*\console{2 + 1}*)
+>> 2 + 1
 ans = 3
 \end{code}
 
@@ -112,7 +112,7 @@ don't have to put spaces between them; some people do and some people
 don't. Here's an example with no spaces:
 
 \begin{code}
-(*\console{1+2+3+4+5+6+7+8+9}*)
+>> 1+2+3+4+5+6+7+8+9
 ans = 45
 \end{code}
 
@@ -129,7 +129,7 @@ Subtraction is denoted by a minus sign, \lstinline{-}; multiplication by
 an asterisk, \lstinline{*}; division by a forward slash, \lstinline{/}.
 
 \begin{code}
-(*\console{2*3 - 4/5}*)
+>> 2*3 - 4/5
 ans = 5.2000
 \end{code}
 
@@ -138,7 +138,7 @@ symbol, sometimes pronounced ``carat'' or ``hat''.  So 2 raised to the
 16th power is
 
 \begin{code}
-(*\console{2\^{}16}*)
+>> 2\^{}16
 ans = 65536
 \end{code}
 
@@ -151,7 +151,7 @@ If you want to override the order of operations, you can use parentheses.
 \index{parentheses}
 
 \begin{code}
-(*\console{2 * ~(3-4) / 5}*)
+>> 2 * ~(3-4) / 5
 ans = -0.4000
 \end{code}
 
@@ -183,7 +183,7 @@ use them:
 \index{math function!trigonometric}
 
 \begin{code}
-(*\console{sin(1)}*)
+>> sin(1)
 ans = 0.8415
 \end{code}
 
@@ -203,7 +203,7 @@ tangent, which is the angle in radians between the positive x-axis and
 the point with the given $y$ and $x$ coordinates.
 
 \begin{code}
-(*\console{atan2(1,1)}*)
+>> atan2(1,1)
 ans = 0.7854
 \end{code}
 
@@ -216,7 +216,7 @@ it.  It's just an example of a function with multiple arguments.
 MATLAB also provides exponential functions, like \lstinline{exp}, which computes $e$ raised to the given power.  So \lstinline{exp(1)} is just $e$:
 
 \begin{code}
-(*\console{exp(1)}*)
+>> exp(1)
 ans = 2.7183
 \end{code}
 
@@ -225,7 +225,7 @@ ans = 2.7183
 The inverse of \lstinline{exp} is \lstinline{log}, which computes the logarithm base $e$:
 
 \begin{code}
-(*\console{log(exp(3))}*)
+>> log(exp(3))
 ans = 3
 \end{code}
 
@@ -240,7 +240,7 @@ another.
 More generally, you can use a function call as an operand in an expression.
 
 \begin{code}
-(*\console{sqrt(sin(0.5)\^{}2 + cos(0.5)\^{}2)}*)
+>> sqrt(sin(0.5)\^{}2 + cos(0.5)\^{}2)
 ans = 1
 \end{code}
 
@@ -266,7 +266,7 @@ example, the name \lstinline{pi} refers to the
 mathematical quantity $\pi$, which is approximately
 
 \begin{code}
-(*\console{pi}*)
+>> pi
 ans = 3.1416
 \end{code}
 
@@ -282,17 +282,17 @@ You can use a variable name anywhere you can use a number; for example, as
 an operand in an expression:
 
 \begin{code}
-(*\console{pi * ~3\^{}2}*)
+>> pi * ~3\^{}2
 ans = 28.2743
 \end{code}
 
 Or as an argument to a function:
 
 \begin{code}
-(*\console{sin(pi/2)}*)
+>> sin(pi/2)
 ans = 1
 
-(*\console{exp(i * ~pi)}*)
+>> exp(i * ~pi)
 ans = -1.0000 + 0.0000i
 \end{code}
 
@@ -314,10 +314,10 @@ a variable named \lstinline{ans}.  You can use \lstinline{ans} in a subsequent
 calculation as shorthand for ``the value of the previous expression''.
 
 \begin{code}
-(*\console{3\^{}2 + 4\^{}2}*)
+>> 3\^{}2 + 4\^{}2
 ans = 25
 
-(*\console{sqrt(ans)}*)
+>> sqrt(ans)
 ans = 5
 \end{code}
 
@@ -336,7 +336,7 @@ equals sign, \lstinline{=}, used like so:
 \index{statement!assignment}
 
 \begin{code}
-(*\console{x = 6 * ~7}*)
+>> x = 6 * ~7
 x = 42
 \end{code}
 
@@ -362,11 +362,11 @@ Spaces are not allowed.  Variable names are
 Let's look at some examples of assignment statements:
 
 \begin{code}
-(*\console{fibonacci0 = 1;}*)
+>> fibonacci0 = 1;
 
-(*\console{LENGTH = 10;}*)
+>> LENGTH = 10;
 
-(*\console{first\_name = 'bob'}*)
+>> first\_name = 'bob'
 first_name = bob
 \end{code}
 
@@ -408,10 +408,10 @@ names of the variables in the workspace.
 \index{command!{\tt who}}
 
 \begin{code}
-(*\console{x=5;}*)
-(*\console{y=7;}*)
-(*\console{z=9;}*)
-(*\console{who}*)
+>> x=5;
+>> y=7;
+>> z=9;
+>> who
 
 Your variables are:
 
@@ -421,8 +421,8 @@ x  y  z
 The \lstinline{clear} command removes specified variables from the workspace
 
 \begin{code}
-(*\console{clear x}*)
-(*\console{who}*)
+>> clear x
+>> who
 
 Your variables are:
 
@@ -437,14 +437,14 @@ But be careful: if you don't specify any variables, \lstinline{clear} removes th
 To display the value of a variable, you can use the \lstinline{disp} function.
 
 \begin{code}
-(*\console{disp(z)}*)
+>> disp(z)
      9
 \end{code}
 
 But it's easier to just type the variable name.
 
 \begin{code}
-(*\console{z}*)
+>> z
 z = 9
 \end{code}
 
@@ -458,7 +458,7 @@ example, if your computation uses $e$ frequently, you might
 want to compute it once and save the result.
 
 \begin{code}
-(*\console{e = exp(1)}*)
+>> e = exp(1)
 e = 2.7183
 \end{code}
 
@@ -467,10 +467,10 @@ mathematics more apparent.  If you're computing the area of a circle,
 you might want to use a variable named \lstinline{r}:
 
 \begin{code}
-(*\console{r = 3}*)
+>> r = 3
 r = 3
 
-(*\console{area = pi * ~r\^{}2}*)
+>> area = pi * ~r\^{}2
 area = 28.2743
 \end{code}
 
@@ -563,7 +563,7 @@ In this case the error message is helpful, but in other cases the results can be
 For example, if you call \lstinline{abs}, which computes absolute values, and forget the parentheses, you get a surprising result:
 
 \begin{code}
-(*\console{abs pi}*)
+>> abs pi
 ans =  112   105
 \end{code}
 
@@ -628,7 +628,7 @@ enter \lstinline{help} followed by the name of a command.
 % avoid nonsensical syntax highlighting.
 
 \begin{code}
-(*\console{help sin}*)
+>> help sin
 \end{code}
 
 You should see output like this:
