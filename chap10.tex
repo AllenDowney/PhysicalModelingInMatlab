@@ -1,22 +1,24 @@
 \chapter{Systems of ODEs}
 \label{systems}
+\minitoc
 
-In the previous chapter we used Euler's method and {\tt ode45} to solve a single first-order differential equation.  In this chapter we'll move on to systems of ODEs and implement a model of a predator-prey system.  But first, we have to learn about matrices.
+In the previous chapter we used Euler's method and {\tt ode45} to solve a single first-order differential equation.  In this chapter we'll move on to systems of ODEs and implement a model of a predator-prey system. But first, we have to learn about matrices.
 
 
 \section{Matrices}
 
-A matrix is a two-dimensional version of a vector.  Like a vector,
+A \emph{matrix} is a two-dimensional version of a vector.  Like a vector,
 it contains elements that are identified by indices.  The difference
 is that the elements are arranged in rows and columns, so it takes
 {\em two} indices to identify an element.
+
+\subsection{Creating a Matrix}
 
 \index{matrix}
 \index{index}
 
 One of many ways to create a matrix is the {\tt magic} function,
-which returns a ``magic square'' with the given size 
-\footnote{See \url{https://en.wikipedia.org/wiki/Magic_square}.}:
+which returns a ``magic square'' with the given size (see \url{https://en.wikipedia.org/wiki/Magic_square}):
 
 \index{magic square}
 
@@ -67,7 +69,7 @@ ans = 1
 ans = 3
 \end{code}
 
-When you are working with matrices, it takes some effort to remember
+When you're working with matrices, it takes some effort to remember
 which index comes first, row or column.  I find it useful to repeat
 ``row, column'' to myself, like a mantra.  You might also find it
 helpful to remember ``down, across,'' or the abbreviation RC.
@@ -88,8 +90,7 @@ ans = 2     3
 
 \index{semi-colon}
 
-
-\section{Row and column vectors}
+\subsection{Row and Column Vectors}
 \label{rowvector}
 
 \index{row vectors}
@@ -97,7 +98,7 @@ ans = 2     3
 \index{vector!row}
 \index{vector!column}
 
-Although it is useful to think in terms of scalars, vectors and matrices,
+Although it's useful to think in terms of scalars, vectors and matrices,
 from MATLAB's point of view, everything is a matrix.  A scalar
 is just a matrix that happens to have one row and one column:
 
@@ -118,9 +119,9 @@ ans = 1     5
 \end{code}
 
 Well, some vectors, anyway.  Actually, there are two kind
-of vectors.  The ones we have seen so far are called {\bf row vectors},
+of vectors.  The ones we've seen so far are called {\emph row vectors},
 because the elements are arranged in a row; the other kind are
-{\bf column vectors}, where the elements are in a single column.
+{\emph column vectors}, where the elements are in a single column.
 
 One way to create a column vector is to create a matrix with only
 one element per row:
@@ -155,13 +156,13 @@ ans = 2
 ans = 2
 \end{code}
 
+...
 
-
-\section{The transpose operator}
+\subsection{The Transpose Operator}
 \index{Matrices!transpose}
 
 The transpose operator, which looks remarkably like an apostrophe,
-computes the {\bf transpose} of a matrix, which is a new matrix
+computes the {\emph transpose} of a matrix, which is a new matrix
 that has all of the elements of the original, but with each row
 transformed into a column (or you can think of it the other way around).
 
@@ -191,10 +192,10 @@ What effect does the transpose operator
 have on row vectors, column vectors, and scalars?
 \end{ex}
 
-
-\section{Lotka-Volterra}
+\section{Solving Systems of ODEs}
+Now that we've seen the basics of matrices, let's see how we can use them to solve systems of ordinary differential equations.
+\subsection{Lotka-Volterra}
 \label{lotka}
-
 The Lotka-Volterra model describes the interactions between two
 species in an ecosystem, a predator and its prey.  As an example, we'll consider foxes and rabbits.
 
@@ -212,13 +213,13 @@ The model is governed by the following system of differential equations:
 %
 where $x$ and $y$ are the populations of rabbits and foxes,
 and $a$, $b$, $c$, and $d$ are parameters
-governing the interactions between the two species.\footnote{See
-\url{https://en.wikipedia.org/wiki/Lotka-Volterra_equations}.}
+governing the interactions between the two species (See
+\emph{https://en.wikipedia.org/wiki/Lotka-Volterra\_equations}.)
 
 At first glance you might think you could solve these equations by
 calling {\tt ode45} once to solve for $x$ as a function of time and
 once to solve for $y$.  The problem is that each equation involves
-both variables, which is what makes this a {\bf system of equations}
+both variables, which is what makes this a {\emph system of equations}
 and not just a list of unrelated equations.  To solve a system, you
 have to solve the equations simultaneously.
 
@@ -232,11 +233,11 @@ that contains one column for $x$ and one for $y$.
 
 \index{rate function}
 
-Here's what the rate function looks like
+Listing~\ref{lst:lotka_volterra} has the code for the rate function
 with the parameters $a = 0.1$, $b = 0.01$, $c = 0.1$, 
 and $d = 0.002$:
 
-\begin{code}
+\begin{lstlisting}[caption={A rate function for Lotka-Volterra}, label={lst:lotka_volterra}]
 function res = rate_func(t, V)
     % unpack the elements of V
     x = V(1);
@@ -255,18 +256,18 @@ function res = rate_func(t, V)
     % pack the derivatives into a vector
     res = [dxdt; dydt];
 end
-\end{code}
+\end{lstlisting}
 
-The first input variable is time.
-Even though the time variable, {\tt t}, is not used in this rate function, its presence is required by the {\tt ode45} solver.
+The first input variable, {\tt t}, is time.
+Even though the time variable is not used in this rate function, its presence is required by the {\tt ode45} solver.
 
-The second input variable is a vector with two elements,
+The second input variable, {\tt V}, is a vector with two elements,
 $x(t)$ and $y(t)$.
 
 The body of the function includes four sections,
 each explained by a comment.
 
-The first section {\bf unpacks} the vector by copying the elements
+The first section {\emph unpacks} the vector by copying the elements
 into scalar variables.  This isn't necessary, but giving names to
 these values helps me remember what's what.  It also makes the third
 section, where we compute the derivatives, resemble the mathematical
@@ -283,7 +284,7 @@ I chose values that yield interesting results.
 
 \index{parameter}
 
-The last section {\bf packs} the computed derivatives back into a
+The last section {\emph packs} the computed derivatives back into a
 vector.  When {\tt ode45} calls this function, it provides a vector
 as input and expects to get a vector as output.
 
@@ -299,7 +300,7 @@ this function to be a column vector.
 
 \index{semi-colon}
 
-As always, it is a good idea to test your rate function before you call {\tt ode45}.  I created a file named {\tt lotka.m} with the following top-level function:
+As always, it's a good idea to test your rate function before you call {\tt ode45}.  I created a file named {\tt lotka.m} with the following top-level function:
 
 \begin{code}
 function res = lotka()
@@ -335,7 +336,7 @@ The third argument is the initial condition.
 \index{handle!function}
 
 
-\section{Output matrices}
+\subsection{Output Matrices}
 
 {\tt ode45} returns two values: {\tt T}, which is a vector of time values, and {\tt M}, which is a matrix with one column for each
 population and one row for each time value in {\tt T}.
@@ -389,7 +390,7 @@ Now we can plot these vectors separately, which makes it easier to give them dif
 >> plot(T, F, '--')
 \end{code}
 
-\begin{figure}
+\begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/lotka.eps}}
 \caption{Solution for the Lotka-Volterra model.}
 \label{fig:lotka}
@@ -406,15 +407,15 @@ Initially there are too many foxes, so the rabbit population declines.  Then the
 This cycle of ``boom and bust'' is typical of the Lotka-Volterra model.
 
 
-\section{Phase plot}
+\subsection{Phase Plot}
 
-Instead of plotting the two populations over time, it is sometimes useful to plot them against each other, like this:
+Instead of plotting the two populations over time, it is sometimes useful to plot them against each other:
 
 \begin{code}
 >> plot(R, F)
 \end{code}
+\begin{figure}[ht]
 
-\begin{figure}
 \centerline{\includegraphics[height=3in]{book/figs/phase.eps}}
 \caption{Phase plot from the Lotka-Volterra model.}
 \label{fig:phase}
@@ -422,29 +423,28 @@ Instead of plotting the two populations over time, it is sometimes useful to plo
 
 Figure~\ref{fig:phase} shows the result.  Each point on this plot represents a certain number of rabbits (on the
 x axis) and a certain number of foxes (on the y axis).
-
 Since these are the only two variables in the system, each point in
-this plane describes the complete {\bf state} of the system.
+this plane describes the complete {\emph state} of the system.
 
 \index{phase plot}
 \index{trajectory}
 \index{state}
 
-Over time, the state moves around the plane; this figure shows
+Over time, the state moves around the plane; Figure~\ref{fig:phase} shows
 the path traced by the state over time; this path
-is called a {\bf trajectory}.
+is called a {\emph trajectory}.
 
 Since the behavior of this system is periodic, the trajectory is a loop.
 
 If there are 3 variables in the system, we need 3 dimensions to show
 the state of the system, so the trajectory is a 3-D curve.
 You can use {\tt plot3} to trace trajectories in 3 dimensions,
-but for 4 or more variables, you are on your own.
+but for 4 or more variables, you're on your own.
 
 \index{plot3@{\tt plot3}}
 
 
-\section{What could go wrong?}
+\subsection{What Could Go Wrong?}
 
 The output vector from the rate function has to be a column vector; otherwise you get an error:
 
@@ -476,7 +476,9 @@ provide when you call {\tt ode45} have to be the same as the order,
 inside \verb"rate_func", where you unpack the input vector and repack
 the output vector.
 
+\section{Summary}
 
+...
 
 \section{Glossary}
 
@@ -514,7 +516,7 @@ a system changes over time.
 
 \index{Lorenz attractor}
 
-Based on the examples we have seen so far, you would think that
+Based on the examples we've seen so far, you'd think that
 all ODEs describe population as
 a function of time, but that's not true.
 
@@ -524,7 +526,7 @@ non-linear three-dimensional deterministic dynamical system derived
 from the simplified equations of convection rolls arising in the
 dynamical equations of the atmosphere. For a certain set of parameters
 the system exhibits chaotic behavior and displays what is today called
-a strange attractor...''\footnote{See \url{https://en.wikipedia.org/wiki/Lorenz_attractor}.}
+a strange attractor...'' (see \emph{https://en.wikipedia.org/wiki/Loren\_attractor}).
 
 The system is described by this system of differential equations:
 %
