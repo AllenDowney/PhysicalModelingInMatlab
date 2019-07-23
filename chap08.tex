@@ -3,61 +3,6 @@
 
 Now that we have functions and vectors, we'll put them together to write functions that take vectors as input variables and return vectors as output variables.  You'll also see two patterns for computing with vectors: existential and universal quantification.  But first, let's talk about organizing functions and files.
 
-\section{Functions and Files}
-\label{funfiles}
-
-So far we've only put one function in each file.  It's also possible
-to put more than one function in a file, but only the first one, the
-{\emph top-level function}, can be called from the Command
-Window. 
-The other {\emph helper functions} can be called from anywhere inside the file, but not from any other file.
-
-\index{function!top-level}
-\index{top-level function}
-
-Large programs almost always require more than one function; keeping
-multiple functions in one file is convenient, but it makes debugging
-difficult because you can't call helper functions from the Command
-Window.
-
-\index{helper function}
-\index{function!helper}
-
-To help with this problem, I often use the top-level function
-to develop and test my helper functions.  For example, to write
-a program for Exercise~\ref{duck}, I would create a file named
-{\emph duck.m} and start with a top-level function named {\tt duck}
-that takes no input variables and returns no output value.
-
-Then I would write a function named {\tt error\_func} to
-evaluate the error function for {\tt fzero}.  To test
-{\tt error\_func} I would call it from {\tt duck} and then
-call {\tt duck} from the \sf Command Window.
-
-\index{incremental development}
-
-Here's what my first draft might look like:
-
-\begin{code}
-function res = duck()
-    error = error_func(10)
-end
-
-function res = error_func(d)
-    rho = 0.3;      % density in g / cm^3
-    r = 10;         % radius in cm
-    res = d;
-end
-\end{code}
-
-The line {\tt res = d} isn't finished yet, but this
-is enough code to test.
-Once I finished and tested {\tt error\_func}, I would modify
-{\tt duck} to use {\tt fzero}.
-
-For this problem we might only need two functions, but if there
-were more, I could write and test them one at a time, and then
-combine them into a working program.
 
 
 \section{Functions and Vectors}
@@ -78,7 +23,7 @@ function res = display_vector(X)
 end
 \end{code}
 
-There's nothing special about this function at all.  The only
+There's nothing special about this function.  The only
 difference from the scalar functions we've seen is that I used
 a capital letter to remind me that {\tt X} is a vector.
 

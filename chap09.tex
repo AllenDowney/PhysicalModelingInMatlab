@@ -1,7 +1,68 @@
 \chapter{Ordinary Differential Equations}
 \minitoc
 
-In this chapter you'll learn about a mathematical tool for describing physical systems, differential equations, and two computation tools for solving them, Euler's method and {\tt ode45}.
+In the previous chapter, we found the equilibrium point where a duck would float on water.  This kind of problem is called {\em static} because it does not move.  In this chapter I introduce {\em dynamic} problems, which involve things that change over time.
+ 
+Also, you'll learn about a mathematical tool for describing physical systems, {\em differential equations}, and two computation tools for solving them, Euler's method and {\tt ode45}.
+
+But first I have a quick suggestion about organizing code in files.
+
+\section{Functions and Files}
+\label{funfiles}
+
+So far we've only put one function in each file.  It's also possible
+to put more than one function in a file, but only the first one, the
+{\emph top-level function}, can be called from the Command
+Window. 
+The other {\emph helper functions} can be called from anywhere inside the file, 
+but not from the Command Window or any other file.
+
+\index{function!top-level}
+\index{top-level function}
+\index{helper function}
+\index{function!helper}
+
+Keeping multiple functions in one file is convenient, but it makes debugging
+difficult because you can't call helper functions from the Command
+Window.
+
+To help with this problem, I often use the top-level function
+to develop and test my helper functions.  For example, to write
+a program for Exercise~\ref{duck}, I would create a file named
+{\emph duck.m} and start with a top-level function named {\tt duck}
+that takes no input variables and returns no output value.
+
+Then I would write a function named \verb"error_func" to
+evaluate the error function for {\tt fzero}.  To test
+\verb"error_func" I would call it from {\tt duck} and then
+call {\tt duck} from the \sf Command Window.
+
+\index{incremental development}
+
+Here's what my first draft might look like:
+
+\begin{code}
+function res = duck()
+    error = error_func(10)
+end
+
+function res = error_func(d)
+    rho = 0.3;      % density in g / cm^3
+    r = 10;         % radius in cm
+    res = d;
+end
+\end{code}
+
+The line {\tt res = d} isn't finished yet, but this
+is enough code to test.
+Once I finished and tested \verb"error_func", I would modify
+{\tt duck} to use {\tt fzero}.
+
+This problem might only require two functions, but if there
+were more, I could write and test them one at a time, and then
+combine them into a working program.
+
+Now, let's get back to differential equations.
 
 
 \section{Differential Equations}
@@ -69,7 +130,9 @@ Euler's method.
 
 This estimate is based on the assumption that $r$ is constant, but
 in general it's not, so we only expect the estimate to be good if
-$r$ changes slowly and $\Delta t$ is small. So what if we want to make a prediction when $\Delta t$ is large?
+$r$ changes slowly and $\Delta t$ is small. 
+
+What if we want to make a prediction when $\Delta t$ is large?
 One option is to break $\Delta t$ into smaller pieces, called
 {\emph time steps}. Then we can use the following equations to get from one time step to the next:
 
@@ -85,10 +148,12 @@ index $i$, $Y_i$ is an estimate of $y(T_i)$.
 \index{time step}
 
 If the rate doesn't change too fast and the time step isn't
-too big, Euler's method is accurate enough for most purposes.  One
-way to check is to run it once with time step $dt$ and then run it
-again with time step $dt/2$.  If the results are the same, they are
-probably accurate, as . . .; otherwise, we can cut the time step again.
+too big, Euler's method is accurate enough for most purposes.  
+
+%One
+%way to check is to run it once with time step $dt$ and then run it
+%again with time step $dt/2$.  If the results are the same, they are
+%probably accurate, as . . .; otherwise, we can cut the time step again.
 
 
 \section{Implementing Euler's method}
@@ -147,9 +212,13 @@ function res = euler()
 end
 \end{lstlisting}
 
-...
+Before the loop, we create two vectors, {\tt T} and {\tt Y}, and set the first element of each with the initial conditions.  {\tt dt}, which is the size of the time steps, is 0.1 hours.
 
-If we run the code, we should get a plot of population over time, shown in Figure~\ref{fig:euler}. 
+Inside the loop, we compute the rate of growth based on the current time, {\tt T(i)}, and population, {\tt Y(i)}.  You might notice that the rate depends only on population, but I pass time as an input variable anyway, for reasons you'll see soon.
+
+After computing the rate function, we add an element to each of {\tt T} and {\tt Y}.  Then, when the loop exits, we plot {\tt Y} and a function of {\tt T}.
+
+If you run the code, you should get a plot of population over time, shown in Figure~\ref{fig:euler}. 
 
 \begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/euler.eps}}
@@ -160,9 +229,8 @@ If we run the code, we should get a plot of population over time, shown in Figur
 As you can see, the population doubles in a little less than 4 hours.
 
 
-\section{Improving with ode45}
+\section{Solving ODEs with ode45}
 \label{ode45}
-
 
 A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that's not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and they are much more accurate.
 
@@ -174,7 +242,7 @@ MATLAB provides a function called {\tt ode45} that implements one of these metho
 \index{rate function}
 \index{function!rate}
 
-In order to use {\tt ode45}, you have to write a function that evaluates $dy/dt$ as a function of $t$ and $y$.  Fortunately, we already have one, \verb"rate_func":
+In order to use {\tt ode45}, you have to write a function that evaluates $dy/dt$ as a function of $t$ and $y$.  Fortunately, we already have one, called \verb"rate_func":
 
 \begin{code}
 function res = rate_func(t, y)
@@ -202,20 +270,22 @@ The first argument is a function handle, as we saw in Section~\ref{fzero}.  The 
 
 \begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/runge.eps}}
-\caption{Solutions to a simple differential equation by Euler's method and {\tt ode45}.}
+\caption{Solutions to a simple differential equation using Euler's method and {\tt ode45}.}
 \label{fig:runge}
 \end{figure}
 
 Figure~\ref{fig:runge} shows the results.  The solid line is the estimate we computed with Euler's method; the dashed line is the solution from {\tt ode45}.
 
-For the first 4-5 hours, the two solutions are indistinguishable.  But as the rate of growth increases, Euler's method gets less accurate.
+For the first 2-3 hours, the two solutions are visually indistinguishable.  During the last hour, they diverge slightly; at 4 hours, the difference is less than 1\%.
 
-In general, you should use {\tt ode45} instead of Euler's method.  It's almost always more accurate.  
+For many purposes, the difference between Euler's method and {\tt ode45} is the least of our worries.  In this example, we probably don't know the initial population with perfect accuracy, or the growth constant, {\tt a}.  Also the assumption that the growth rate only depends on population is probably not true.  Any of these modeling errors could be bigger than 1\%.
+
+However, for some problems, Euler's method can be off by a lot more than 1\%.  In those cases {\tt ode45} is almost always more accurate, for two reasons: first, it computes the rate function several times per time step; also, if the time step is too big, {\tt ode45} can detect the problem and shrink the time step.  For more details, see Section~\ref{howode45}.
 
 
 \section{Time Dependence}
 
-Looking at \verb"rate_func" in the previous section, you might notice that it takes {\tt t} as an input variables but doesn't use it.  That's because the growth rate does not depend on time---bacteria don't know what time it is.
+Looking at \verb"rate_func" in the previous section, you might notice that it takes {\tt t} as an input variable, but doesn't use it.  That's because the growth rate does not depend on time---bacteria don't know what time it is.
 
 \index{time dependence}
 
@@ -231,8 +301,8 @@ The differential equation might be something like
 %
 where $t$ is time in days and $y(t)$ is the population at time $t$.
 
-$a$ and $\omega$ are {\emph parameters}, values that
-quantify a physical aspect of the scenario being modeled.  Parameters are often constants, but in some models they vary in time.
+$a$ and $\omega$ are {\emph parameters}, which are values that
+quantify a physical aspect of the scenario.  Parameters are often constants, but in some models they vary in time.
 
 \index{parameter}
 
@@ -254,7 +324,8 @@ function res = rate_func(t, y)
 end
 \end{code}
 
-To test this function, I put it in a file called {\emph rats.m} with a top-level function called {\tt rats}:
+To test this function, I put it in a file called {\emph rats.m} with a top-level function called 
+{\tt rats}:
 
 \begin{code}
 function res = rats()
@@ -264,7 +335,10 @@ function res = rats()
 end
 \end{code}
 
-Suppose there are 1000 rats at $t=365/2$.  We can compute the growth rate like this:
+The top-level function assumes as an example that
+there are 1000 rats at $t=365/2$ (June 31).  Then it computes the growth rate under those considitions.
+
+We can run the top-level function like this:
 
 \begin{code}
 >> r = rats
@@ -272,12 +346,10 @@ Suppose there are 1000 rats at $t=365/2$.  We can compute the growth rate like t
 r = 4
 \end{code}
 
-So if there are 1000 rats on June 31, we expect them to 
-reproduce at a rate that would produce about 4 new rats per day. 
+Under these conditions, the growth rate is 4 new rats per day. 
 
-Since the growth rate is constantly changing, it's not easy to predict
-the future rat population, but that is exactly what {\tt ode45} does.
-Here's how:
+Now that we've tested \verb"rate_func", we can use {\tt ode} to solve the differential equation.
+Here's how to call it from the top-level function in {\tt rats.m}):
 
 \begin{code}
 [T, Y] = ode45(@rate_func, [0, 365], 1000)
@@ -285,12 +357,13 @@ plot(T, Y)
 \end{code}
 
 The first argument is a function handle, again.  The second argument is the interval we are interested
-in, one year.  
+in, a duration of one year, expressed in units of days.
 The third argument is the initial population, $y(0) = 1000$.
 
 \index{interval}
-\index{time span}
+
 Figure~\ref{fig:rats} shows the results. 
+
 \begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/rats.eps}}
 \caption{Solutions to a simple differential equation by Euler's method and {\tt ode45}.}
@@ -310,9 +383,7 @@ Y(end)
 
 That's a little more than 2000 rats, so the population roughly doubles in one year.
 
-Notice we used {\tt end}, which is a special word in MATLAB; when it appears as an index,
-it means ``the index of the last element''.  You can use it in an
-expression, so {\tt Y(end-1)} is the second-to-last element of
+The index is {\tt end}, which is a special word in MATLAB that means ``the index of the last element''.  You can use it in an expression, so {\tt Y(end-1)} is the second-to-last element of
 {\tt Y}.
 
 \index{end@{\tt end}}
@@ -322,8 +393,15 @@ expression, so {\tt Y(end-1)} is the second-to-last element of
 \section{What Could Go Wrong?}
 
 Don't forget the {\tt @} on the function handle.
-If you leave it out, MATLAB treats the first argument as a function
-call, and calls \verb"rate_func" without providing arguments.
+If you leave it out, like this:
+
+\begin{code}
+[T, Y] = ode45(rate_func, [0, 365], 1000)
+\end{code}
+
+MATLAB treats the first argument as a function
+call and calls \verb"rate_func" without providing arguments.
+Then you get an error message:
 
 \index{rate function}
 \index{function handle}
@@ -338,8 +416,7 @@ Error in rats (line 6)
     [T, Y] = ode45(rate_func, [0, 365], 1000);
 \end{code}
 
-Also, remember that the function you write will be called by
-{\tt ode45}, which means the function has to take two input variables, 
+Also, the rate function you write has to take two input variables, 
 {\tt t} and {\tt y}, in that order, and return one output variable, 
 {\tt res}.
 
@@ -361,7 +438,7 @@ end
 \end{code}
 
 But that would be wrong.  So very wrong.  Why?  Because
-when {\tt ode45} calls {\tt rate\_func}, it provides two arguments.
+when {\tt ode45} calls \verb"rate_func", it provides two arguments.
 If you only take one input variable, you'll get an error.  So
 you have to write a function that takes {\tt t} as an input
 variable, even if you don't use it.
@@ -398,7 +475,7 @@ I hope these warnings save you some time debugging.
 
 \section{Labeling Axes}
 
-The plots in this chapter have labels on the axes, and one of them has a legend, but I didn't show you how to do that. Let's do it now.
+The plots in this chapter have labels on the axes, and one of them has a legend, but I didn't show you how to do that.  Let's do it now.
 
 \index{labeling axes}
 \index{axes}
@@ -440,7 +517,71 @@ The first argument is the figure we want to save; {\tt gcf} is a MATLAB command 
 \index{saveas@{\tt saveas}}
 
 \section{Summary}
-...
+
+In this chapter we solved two ODEs, one of them time dependent.  In the next chapter we'll solve systems of ODEs, which are used to describe physical systems with multiple parts that interact.
+
+But first, here's an exercise where you can apply what you've learned so far.
+
+
+\section{Exercises}
+
+\begin{ex}
+
+\index{coffee}
+\index{cooling}
+\index{Newton's law of cooling}
+
+Suppose that you're given an 8 ounce cup of coffee at \SI{90}{\celsius}.
+You have learned from bitter experience that the hottest coffee you
+can drink comfortably is \SI{60}{\celsius}.  
+
+If the temperature of the coffee drops by \SI{0.7}{\celsius} during the first minute, how long will you have to wait to drink your coffee?
+
+You can answer this question with Newton's Law of Cooling (See \url{https://en.wikipedia.org/wiki/Newton's_law_of_cooling}).:
+%
+\begin{equation*}
+\frac{dy}{dt}(t) = -k (y(t) - e)
+\end{equation*}
+%
+where $y(t)$ is the temperature of the coffee at time $t$,
+$e$ is the temperature of the environment, and $k$ is a parameter
+that characterizes the rate of heat transfer from the coffee from the environment.
+
+Let's assume that $e$ is \SI{20}{\celsius} and constant; that is, the coffee does not warm up the room.
+
+Let's also assume $k$ is constant.  In that case, we can estimate it based on the information we have.  If the temperature drops \SI{0.5}{\celsius} during the first minute, when the coffee is \SI{90}{\celsius}, we can write
+%
+\begin{equation*}
+-0.7 = -k (90 - 20)
+\end{equation*}
+%
+Solving this equation yields $k = 0.01$.
+
+Here are some suggestions for getting started:
+
+\begin{itemize}
+
+\item Create a file named {\tt coffee.m} and write a function
+called {\tt coffee} that takes no input variables.  Put a simple statement like {\tt x=5} in the body of the function and invoke {\tt coffee} from the Command Window.
+
+\item Add a helper function called \verb"rate_func" that takes {\tt t} and {\tt y} and computes $\frac{dy}{dt}$.  In this case \verb"rate_func" does not actually depend on $t$; nevertheless, your function has to take $t$ as the first input variable in order to work with {\tt ode45}.
+
+\item Test your function by adding a line like \verb"rate_func(0, 90)"
+to {\tt coffee}, then call {\tt coffee} from the {\sf Command Window}.
+Confirm that the initial rate is \SI{-0.7}{\celsius \per \minute}.
+
+\item Once you get \verb"rate_func" working, modify
+{\tt coffee} to use {\tt ode45} to compute the temperature
+of the coffee for 60 minutes.  Confirm that
+the coffee cools quickly at first, then more slowly, and reaches
+room temperature after about an hour.
+
+\item Plot the results and estimate the time when the temperature reaches \SI{60}{\celsius}.
+
+\end{itemize}
+
+\end{ex}
+
 
 \section{Glossary}
 
@@ -468,63 +609,3 @@ physical aspect of the scenario being modeled.
 
 \end{description}
 
-
-\section{Exercises}
-
-\begin{ex}
-
-\index{coffee}
-\index{cooling}
-\index{Newton's law of cooling}
-
-Suppose that you're given an 8 ounce cup of coffee at \SI{90}{\celsius}.
-You have learned from bitter experience that the hottest coffee you
-can drink comfortably is \SI{60}{\celsius}.  
-
-If the temperature of the coffee drops by \SI{0.7}{\celsius} during the first minute, how long will you have to wait to drink your coffee?
-
-You can answer this question with Newton's Law of Cooling (See \emph{https://en.wikipedia.org/wiki/Newton's\_law\_of\_cooling}).:
-%
-\begin{equation*}
-\frac{dy}{dt}(t) = -k (y(t) - e)
-\end{equation*}
-%
-where $y(t)$ is the temperature of the coffee at time $t$,
-$e$ is the temperature of the environment, and $k$ is a parameter
-that characterizes the rate of heat transfer from the coffee from the environment.
-
-Let's assume that $e$ is \SI{20}{\celsius} and constant; that is, the coffee does not warm up the room.
-
-Let's also assume $k$ is constant.  In that case, we can estimate it based on the information we have.  If the temperature drops \SI{0.5}{\celsius} during the first minute, when the coffee is \SI{90}{\celsius}, we can write
-%
-\begin{equation*}
--0.7 = -k (90 - 20)
-\end{equation*}
-%
-Solving this equation yields $k = 0.01$.
-
-Here are some suggestions for getting started:
-
-\begin{itemize}
-
-\item Create a file named {\tt coffee.m} and write a function
-called {\tt coffee} that takes no input variables.  Put a simple statement like {\tt x=5} in the body of the function and invoke {\tt coffee} from the Command Window.
-
-\item Add a function called {\tt rate\_func} that takes {\tt t} and {\tt y} and computes $\frac{dy}{dt}$.  In this case {\tt rate\_func} does not actually depend on $t$; nevertheless, your function has to take $t$ as
-the first input variable in order to work with {\tt ode45}.
-
-\item Test your function by adding a line like {\tt rate\_func(0,90)}
-to {\tt coffee}, then call {\tt coffee} from the {\sf Command Window}.
-Confirm that the initial rate is \SI{-0.7}{\celsius \per \minute}.
-
-\item Once you get {\tt rate\_func} working, modify
-{\tt coffee} to use {\tt ode45} to compute the temperature
-of the coffee for 60 minutes.  Confirm that
-the coffee cools quickly at first, then more slowly, and reaches
-room temperature after about an hour.
-
-\item Plot the results and estimate the time when the temperature reaches \SI{60}{\celsius}.
-
-\end{itemize}
-
-\end{ex}
