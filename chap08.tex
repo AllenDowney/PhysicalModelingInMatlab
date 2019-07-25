@@ -1,69 +1,18 @@
 \chapter{Functions of Vectors}
+\minitoc
 
-Now that we have functions and vectors, we'll put them together to write functions that take vectors as input variables and return vectors as output variables.  And you'll see two patterns for computing with vectors, existential and universal quantification.  But first, let's talk about organizing functions and files.
-
-\section{Functions and files}
-\label{funfiles}
-
-So far we have only put one function in each file.  It is also possible
-to put more than one function in a file, but only the first one, the
-{\bf top-level function}, can be called from the {\sf Command
-Window}. 
-The other {\bf helper functions} can be called from anywhere inside the file, but not from any other file.
-
-\index{function!top-level}
-\index{top-level function}
-
-Large programs almost always require more than one function; keeping
-multiple functions in one file is convenient, but it makes debugging
-difficult because you can't call helper functions from the {\sf Command
-Window}.
-
-\index{helper function}
-\index{function!helper}
-
-To help with this problem, I often use the top-level function
-to develop and test my helper functions.  For example, to write
-a program for Exercise~\ref{duck}, I would create a file named
-{\tt duck.m} and start with a top-level function named {\tt duck}
-that takes no input variables and returns no output value.
-
-Then I would write a function named {\tt error\_func} to
-evaluate the error function for {\tt fzero}.  To test
-{\tt error\_func} I would call it from {\tt duck} and then
-call {\tt duck} from the {\sf Command Window}.
-
-\index{incremental development}
-
-Here's what my first draft might look like:
-
-\begin{code}
-function res = duck()
-    error = error_func(10)
-end
-
-function res = error_func(d)
-    rho = 0.3;      % density in g / cm^3
-    r = 10;         % radius in cm
-    res = d;
-end
-\end{code}
-
-The line {\tt res = d} isn't finished yet, but this
-is enough code to test.
-Once I finished and tested {\tt error\_func}, I would modify
-{\tt duck} to use {\tt fzero}.
-
-For this problem we might only need two functions, but if there
-were more, I could write and test them one at a time, and then
-combine them into a working program.
+Now that we have functions and vectors, we'll put them together to write functions that take vectors as input variables and return vectors as output variables.  You'll also see two patterns for computing with vectors: existential and universal quantification.  But first, let's talk about organizing functions and files.
 
 
-\section{Vectors as input variables}
+
+\section{Functions and Vectors}
+...
+
+\subsection{Vectors as Input Variables}
 
 Since many of the built-in functions take vectors as arguments,
 it should come as no surprise that you can write functions that
-take vectors.  Here's a simple (silly) example:
+take vectors as input.  Here's a simple (silly) example:
 
 \index{vector}
 \index{input variable}
@@ -74,7 +23,7 @@ function res = display_vector(X)
 end
 \end{code}
 
-There's nothing special about this function at.  The only
+There's nothing special about this function.  The only
 difference from the scalar functions we've seen is that I used
 a capital letter to remind me that {\tt X} is a vector.
 
@@ -105,7 +54,7 @@ function {\tt sum}, which does pretty much the same thing.
 
 \index{sum@{\tt sum}}
 
-Here's how you call it from the {\sf Command Window}:
+Here's how you call it from the Command Window:
 
 \begin{code}
 >> total = mysum(1:3)
@@ -118,10 +67,10 @@ point of assigning it to a variable.
 \index{output variable}
 
 
-\section{Vectors as output variables}
+\section{Vectors as Output Variables}
 
 There's also nothing wrong with assigning a vector to an output
-variable.  Here's an example that encapsulates the code from
+variable. Here's an example that encapsulates the code from
 Section~\ref{apply}:
 
 \begin{code}
@@ -143,13 +92,12 @@ V = 1     4     9
 
 \begin{ex}
 Write a function named {\tt myfind} that
-encapsulates the code, from Section~\ref{search}, that finds the
+encapsulates the code from Section~\ref{search} that finds the
 location of a target value in a vector.
 \end{ex}
 
 
-
-\section{Vectorizing functions}
+\subsection{Vectorizing Functions}
 
 Functions that work on vectors will almost always work on scalars
 as well, because MATLAB considers a scalar to be a vector with
@@ -166,14 +114,14 @@ ans = 17
 ans = 81
 \end{code}
 
-Unfortunately, the converse is not always true.  If you write
+Unfortunately, the converse isn't always true.  If you write
 a function with scalar inputs in mind, it might not work on vectors.
 
 But it might!  If the operators and functions
 you use in the body of your function work on vectors, then your
 function will probably work on vectors.
 
-For example, here is the very first function we wrote:
+For example, here's the very first function we wrote:
 
 \begin{code}
 function res = myfunc(x)
@@ -236,9 +184,9 @@ operators and functions that work on vectors, the new
 function will also work on vectors.
 
 
-\section{Sums and differences}
+\subsection{Sums and Differences}
 
-Another common vector operation is {\bf cumulative sum}, which takes a
+Another common vector operation is {\emph cumulative sum}, which takes a
 vector as an input and computes a new vector that contains all of the
 partial sums of the original.  In math notation, if $V$ is the
 original vector, then the elements of the cumulative sum, $C$, are:
@@ -299,10 +247,10 @@ inverse of {\tt cumsum}, so that {\tt cumsum(mydiff(X))} and
 \end{ex}
 
 
-\section{Products and ratios}
+\subsection{Products and Ratios}
 
 The multiplicative version of {\tt cumsum} is {\tt cumprod},
-which computes the {\bf cumulative product}.  In math notation,
+which computes the {\emph cumulative product}.  In math notation,
 that's:
 
 \index{cumulative product}
@@ -346,24 +294,24 @@ Exercise~\ref{fibratio}).
 % TODO
 \end{ex}
 
-
-
-\section{Existential quantification}
+\section{Computing with Vectors}
+...
+\subsection{Existential Quantification}
 
 \index{existential quantification}
 \index{quantification!existential}
 
-It is often useful to check the elements of a vector to see if there
+It's often useful to check the elements of a vector to see if there
 are any that satisfy a condition.  For example, you might want to
 know if there are any positive elements.  In logic, this condition
-is called {\bf existential quantification}, and it is denoted with
+is called {\emph existential quantification}, and it's denoted with
 the symbol $\exists$, which is pronounced ``there exists.''  For example,
 this expression
 %
 \[ \exists x \mbox{~in~} S: x>0  \]
 %
 means, ``there exists some element $x$ in the set $S$ such that
-$x>0$.''  In MATLAB it is natural to express this idea with a logical
+$x>0$.''  In MATLAB it's natural to express this idea with a logical
 function, like {\tt exists}, that returns 1 if there is such an
 element and 0 if there is not.
 
@@ -372,14 +320,14 @@ function res = exists(X)
     for i=1:length(X)
         if X(i) > 0
             res = 1;
-            return
+(*\codewingding{1}*)            return
         end
     end
     res = 0;
 end
 \end{code}
 
-We haven't seen the {\tt return} statement before; it is similar
+We haven't seen the {\tt return} statement before \wingding{1}; it's similar
 to {\tt break} except that it breaks out of the whole function, not
 just the loop.  That behavior is what we want here because as soon
 as we find a positive element, we know the answer (it exists!) and
@@ -392,16 +340,14 @@ of the elements.
 If we get to the end of the loop, that means we didn't find what
 we were looking for, so the result is 0.
 
-
-
-\section{Universal quantification}
+\subsection{Universal Quantification}
 
 \index{universal quantification}
 \index{quantification!universal}
 
 Another common operation on vectors is to check whether {\em all}
 of the elements satisfy a condition, which is known to
-logicians as {\bf universal quantification}, denoted with
+logicians as {\emph universal quantification}, denoted with
 the symbol $\forall$, and pronounced ``for all.''  So this
 expression
 %
@@ -438,11 +384,11 @@ and 0 if there are any non-positive elements.
 
 
 
-\section{Logical vectors}
+\subsection{Logical Vectors}
 
 When you apply a logical operator to a vector, the result is a 
-{\bf logical vector}; that is, a vector whose elements are the logical
-values 1 and 0.
+{\emph logical vector}: a vector whose elements are the logical
+values 1 and 0. Let's look at an example:
 
 \index{logical vector}
 \index{vector!logical}
@@ -469,7 +415,7 @@ the indices of the elements that are ``true''.
 \index{flag}
 \index{find@{\tt find}}
 
-Applying {\tt find} to {\tt L} yields
+Applying {\tt find} to {\tt L} from the example above yields
 
 \begin{code}
 >> find(L)
@@ -506,7 +452,7 @@ Write a version of {\tt forall} using {\tt find}.
 \end{ex}
 
 
-\section{Debugging in four acts}
+\section{Debugging in Four Acts}
 
 \index{debugging}
 \index{reading}
@@ -514,7 +460,7 @@ Write a version of {\tt forall} using {\tt find}.
 \index{ruminating}
 \index{retreating}
 
-When you are debugging a program, and especially if you are working on a hard bug, there are four things to try:
+When you're debugging a program, and especially if you're working on a hard bug, there are four things to try:
 
 \begin{description}
 
@@ -588,13 +534,15 @@ and sometimes retreating.  If you get stuck on one of these
 activities, try the others.
 \end{quote}
 
+\section{Summary}
+...
 
 \section{Glossary}
 
 \begin{description}
 
 \item[top-level function:]  The first function in an M-file;
-it is the only function that can be called from the Command
+it's the only function that can be called from the Command
 Window or from another file.
 
 \item[helper function:] A function in an M-file that is not

@@ -41,6 +41,7 @@ That's just a convention; MATLAB doesn't require it, but it's a useful way to re
 \index{variable}
 
 \subsection{Vector Arithmetic}
+\label{elementwise}
 
 \index{vector arithmetic}
 \index{arithmetic!vector}
@@ -352,7 +353,7 @@ end
 
 Many apply operations can be done with elementwise operators.
 The following statement is more concise than the loop in
-Listing~\ref{vec_apply}.
+Listing~\ref{lst:vec_apply}.
 
 \begin{code}
 Y = X .^ 2
@@ -487,7 +488,7 @@ The logistic map (see \emph{https://en.wikipedia.org/wiki/Logistic\textunderscor
 X_{i+1} = r X_i (1-X_i)
 \end{equation}
 
-where $X_i$ is a number between zero and one and $r$ is a positive number that represents.
+where $X_i$ is a number between zero and one and $r$ is a positive number.
 
 \begin{itemize}
 

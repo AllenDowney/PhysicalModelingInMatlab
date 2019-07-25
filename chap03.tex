@@ -61,6 +61,7 @@ Debugging:
 \begin{quote}
 The best way to avoid a bug is to make it impossible.
 \end{quote}
+
 \index{debugging!Fifth Theorem}
 
 In this case, removing redundancy also eliminates the opportunity for a bug.
@@ -134,8 +135,8 @@ is too high or too low.
 The second way to think about numerical errors is \emph{relative error}, where the error is expressed as a fraction (or percentage) of the exact value.\index{Errors!relative}
 \index{relative error}
 
-For example, we might want to estimate $9!$ using the formula $\sqrt
-{18 \pi} ( 9 / e)^9$.  The exact answer is $9 \cdot 8 \cdot 7 \cdot 6
+For example, we might want to estimate $9!$ using the formula 
+$\sqrt {18 \pi} ( 9 / e)^9$.  The exact answer is $9 \cdot 8 \cdot 7 \cdot 6
 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 362,880$.  The approximation
 is $359,536.87$.  So the absolute error is 3,343.13.
 
@@ -185,7 +186,7 @@ The colon operator, {\tt :}, specifies a {\bf range} of integers.
 You can create a range at the prompt:
 
 \begin{code}
->> ***1:5***
+>> 1:5
 ans =  1     2     3     4     5
 \end{code}
 
@@ -210,9 +211,9 @@ To see the loop in action you can run a loop that displays the
 loop variable:
 
 \begin{code}
->> ***for i=1:5
+>> for i=1:5
     i
-end***
+end
 
 i = 1
 i = 2
@@ -249,7 +250,7 @@ We'll start simple and work our way up.
 To plot a single point, type
 
 \begin{code}
->> ***plot(1, 2, 'o')***
+>> plot(1, 2, 'o')
 \end{code}
 
 A Figure Window should appear with a graph and a single, blue circle at $x$ position 1 and $y$ position 2.  
@@ -269,7 +270,7 @@ Other shapes include {\tt +},
 You can also specify the color by starting the style string with a letter:
 
 \begin{code}
->> ***plot(1, 2, 'ro')***
+>> plot(1, 2, 'ro')
 \end{code}
 
 {\tt r} stands for red; the other colors include {\bf g}reen, {\bf
@@ -286,12 +287,12 @@ plot; {\tt hold off} returns to the default behavior.
 Try this:
 
 \begin{code}
->> ***clf***
->> ***hold on***
->> ***plot(1, 1, 'ro')***
->> ***plot(2, 2, 'go')***
->> ***plot(3, 3, 'bo')***
->> ***hold off***
+>> clf
+>> hold on
+>> plot(1, 1, 'ro')
+>> plot(2, 2, 'go')
+>> plot(3, 3, 'bo')
+>> hold off
 \end{code}
 
 The {\tt clf} command clears the figure before we start plotting.
@@ -443,16 +444,16 @@ I put this code in a file named {\tt series.m}, then
 ran it with different values of {\tt n}:
 
 \begin{code}
->> ***n=10; series***
+>> n=10; series
 total = 1.99804687500000
 
->> ***=20; series***
+>> =20; series
 total = 1.99999809265137
 
->> ***n=30; series***
+>> n=30; series
 total = 1.99999999813735
 
->> ***n=40; series***
+>> n=40; series
 total = 1.99999999999818
 \end{code}
 

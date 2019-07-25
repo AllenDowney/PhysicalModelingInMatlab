@@ -119,7 +119,7 @@ Here are the steps we will follow to develop the program incrementally:
 
 \item Write a second loop that enumerates values of $b$, and a third loop that enumerates values of $c$.
 
-\item Use {\tt is_pythagorean} to check whether {\tt a}, {\tt b}, and {\tt c} form a Pythagorean triple.
+\item Use \verb"is_pythagorean" to check whether {\tt a}, {\tt b}, and {\tt c} form a Pythagorean triple.
 
 \item Use an {\tt if} to display only values that pass the test.
 
@@ -236,7 +236,8 @@ the structure clear):
 
 The left column shows the values of {\tt a} and the right column shows the values of {\tt b}.
 
-The next step is to search for values of {\tt c} that might make a Pythagorean triple.  The largest possible value for {\tt c} is {\tt a+b}, because otherwise we couldn't form a triangle (see \emph{https://en.wikipedia.org/wiki/Triangle_inequality}).
+The next step is to search for values of {\tt c} that might make a Pythagorean triple.  The largest possible value for {\tt c} is {\tt a+b}, because otherwise we couldn't form a triangle 
+(see \url{https://en.wikipedia.org/wiki/Triangle_inequality}).
 
 \begin{code}
 for a=1:3
@@ -396,7 +397,7 @@ divisor of two numbers.  If the result is greater than 1,
 $a$ and $b$ share a common factor and we can use the {\tt continue}
 statement to skip to the next pair. Listing~\ref{lst:triples_function} contains the final version of this function:
 
-\begin{lstlisting}[caption={Our final Pythagorean triples function}, 
+\begin{lstlisting}[caption={Our final Pythagorean triples function}, label={lst:triples_function}] 
 function res = find_triples(n)
     for a=1:n
         for b=a:n
