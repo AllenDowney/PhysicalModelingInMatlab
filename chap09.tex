@@ -191,7 +191,7 @@ After testing these functions, I added code to {\tt euler} to implement these di
 
 \begin{eqnarray}
 T_{i+1} &=& T_i + \Delta t             \\
-Y_{i+1} &=& Y_i + r \Delta t           \\
+Y_{i+1} &=& Y_i + r \Delta t          
 \end{eqnarray}
 %
 where $r$ is the rate of population growth computed by \verb"rate_func".
@@ -203,7 +203,7 @@ function res = euler()
     Y(1) = 5;
     dt = 0.1;
     
-    for i=1:100
+    for i=1:40
         r = rate_func(T(i), Y(i));
         T(i+1) = T(i) + dt;
         Y(i+1) = Y(i) + r * dt;
