@@ -1,23 +1,23 @@
-\chapter{Two dimensions}
+\chapter{Two Dimensions}
+\minitoc{}
 
 In the previous chapter, we solved a one-dimensional problem, a penny falling from the Empire State Building.  Now we'll solve a two-dimensional problem, finding the trajectory of a baseball.
 
 \index{baseball}
 
+To do that, we'll use spatial vectors to represent quantities in two and three dimensions, including force, acceleration, velocity, and position.
 
-\section{Spatial vectors}
+\section{Spatial Vectors}
 \label{spacial}
 
-The word ``vector'' means different
+The word ''vector'' means different
 things to different people.  In MATLAB, a vector is a matrix that has
-either one row or one column.  So far we have used MATLAB vectors to
+either one row or one column.  So far we've used MATLAB vectors to
 represent:
 
 \begin{description}
 
-\item[sequences:] A sequence is a set of values identified by
-integer indices; it is natural to store the elements of the
-sequence as elements of a MATLAB vector.
+\item[sequences:] A mathematical sequence, like the Fibonacci numbers, is a set of values identified by integer indices; in Chapter~\ref{vecseq}, we used a MATLAB vector to store the elements of a sequence. 
 
 \item[state vectors:] A state vector is a set of values that
 describes the state of a physical system.  When you call
@@ -25,7 +25,7 @@ describes the state of a physical system.  When you call
 vector.  Then when {\tt ode45} calls your rate function, it
 gives you a state vector.
 
-\item[time series:] The results from {\tt ode45} are vectors, {\tt T} and {\tt Y}, that represent a time series, that is, a mapping from the time values in {\tt T} to the values in {\tt Y}.
+\item[time series:] One of the results from {\tt ode45} is a vector that represents a sequence of time values.
 
 \end{description}
 
@@ -35,8 +35,8 @@ gives you a state vector.
 \index{state}
 \index{time series}
 
-In this chapter we will see another use of MATLAB vectors: representing
-{\bf spatial vectors}.  A spatial vector represents a multidimensional physical quantity like position, velocity, acceleration, or force.
+In this chapter we'll see another use of MATLAB vectors: representing
+\emph{spatial vectors}.  A spatial vector represents a multidimensional physical quantity like position, velocity, acceleration, or force.
 
 \index{position}
 
@@ -53,14 +53,16 @@ To interpret this vector, we have to know what coordinate system it is defined i
 \index{direction}
 \index{Pythagorean theorem}
 
-Spatial vectors represent the magnitude and direction of a physical quantity.  For example, the magnitude of {\tt P} is the distance from the origin to {\tt P}, which is the hypotenuse of the triangle with sides 3 and 4.  We can compute it using the Pythagorean theorem:
+When a spatial vector is represented in this way, we can use it to compute the magnitude and direction of a physical quantity.  
+For example, the {\em magnitude} of {\tt P} is the distance from the origin to {\tt P}, which is the hypotenuse of the triangle with sides {\tt P(1)} and {\tt P(2)}.  
+We can compute it using the Pythagorean theorem:
 
 \begin{code}
->> sqrt(sum(P.*P))
+>> sqrt(P(1)^2 + P(2)^2)
 ans = 5
 \end{code}
 
-Or more simply by using the function {\tt norm}, which computes the
+Or we can do the same thing using the function {\tt norm}, which computes the
 ``Euclidean norm'' of a vector, which is its magnitude:
 
 \index{norm@{\tt norm}}
@@ -78,7 +80,7 @@ There are two ways to get the direction of a vector.  One convention is to compu
 ans = 0.9273
 \end{code}
 
-In this example, the angle is about \SI{0.9}{\radian}.  But for computational purposes, we often represent direction with a {\bf unit vector}, which is a vector with length 1.  To get a unit vector we can divide a vector by its length:
+In this example, the angle is about \SI{0.9}{\radian}.  But for computational purposes, we often represent direction with a \emph{unit vector}, which is a vector with length 1.  To get a unit vector we can divide a vector by its length:
 
 \begin{code}
 function res = hat(V)
@@ -86,15 +88,15 @@ function res = hat(V)
 end
 \end{code}
  
-This function takes a vector, {\tt V}, and returns a unit vector with the same direction as {\tt V}.  It is called {\tt hat} because in mathematical notation, unit vectors are written with a ``hat'' symbol.  
+This function takes a vector, {\tt V}, and returns a unit vector with the same direction as {\tt V}.  It's called {\tt hat} because in mathematical notation, unit vectors are written with a ``hat'' symbol.  
 For example, the unit vector with the same direction as $\vec{P}$ would be written $\uvec{P}$. 
 
 \index{unit vector}
 \index{vector!unit}
 
-\section{Adding vectors}
+\section{Adding Vectors}
 
-Vectors are particularly useful for representing quantities like force and acceleration because we can add them up without having to think explicitly about direction.
+Vectors are useful for representing quantities like force and acceleration because we can add them up without having to think explicitly about direction.
 
 \index{force}
 \index{acceleration}
@@ -108,7 +110,7 @@ As an example, suppose we have two vectors representing forces:
 
 {\tt A} represents a force pulling northeast; {\tt B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}
 
-\begin{figure}
+\begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/vector2.eps}}
 \caption{The sum of two forces represented by vectors.}
 \label{fig:vector2}
@@ -121,26 +123,25 @@ To compute the sum of these forces, all we have to do is add the vectors:
 ans = 4     2
 \end{code}
 
-This will come in handy later in the chapter.
+Later in the chapter, we'll use vector addition to add accelerations due to different forces acting on a baseball.
 
 
-\section{ODEs in two dimensions}
+\section{ODEs in Two Dimensions}
 \label{projectile}
 
-So far we have used {\tt ode45} to solve a system of first-order equations and a single second-order equation.  Now we'll take one more step, solving a system of second-order equations.
+So far we've used {\tt ode45} to solve a system of first-order equations and a single second-order equation.  Now we'll take one more step, solving a system of second-order equations.
 
 As an example, we'll simulate the flight of a baseball.
-Assuming there is no wind and no spin on the ball, it should travel in a vertical plane, so we can think of the system as
-two-dimensional, with $x$ representing the horizontal distance
-travelled and $y$ representing height or altitude.
+If there is no wind and no spin on the ball, the ball travels in a vertical plane, so we can think of the system as two-dimensional, with $x$ representing the horizontal distance
+travelled from the starting place and $y$ representing height or altitude.
 
 \index{baseball}
 \index{altitude}
 \index{rate function}
 
-Here's a rate function we can use to simulate this system with {\tt ode45}:
+Listing~\ref{lst:baseball_rate_func} shows a rate function we can use to simulate this system with {\tt ode45}:
 
-\begin{code}
+\begin{lstlisting}[caption={A rate function we can use to model the flight of a baseball}, label={lst:baseball_rate_func}]
 function res = rate_func(t, W)
     P = W(1:2);
     V = W(3:4);
@@ -156,7 +157,7 @@ function res = acceleration(t, P, V)
     a_gravity = [0; -g];
     res = a_gravity;
 end
-\end{code}
+\end{lstlisting}
 
 The second argument of \verb"rate_func" is understood to be a vector,
 {\tt W}, with four elements.  The first two are assigned to {\tt P},
@@ -168,10 +169,8 @@ representing the $x$ and $y$ components.
 \index{velocity}
 
 The goal of the rate function is to compute the derivative of {\tt W}, so the output has to be a vector with four elements, where the first two represent the derivative of {\tt P}  and the last two represent the derivative of {\tt V}.
-
 The derivative of {\tt P} is velocity.  We don't have to compute it; we were given it as part of {\tt W}.
-
-The derivative of {\tt V} is acceleration.  To compute it, we call {\tt acceleration}, which takes as input variables time, position and velocity.  In this example, we don't use any of the input variables, but we will soon.
+The derivative of {\tt V} is acceleration.  To compute it, we call {\tt acceleration}, which takes as input variables time, position, and velocity.  In this example, we don't use any of the input variables, but we will soon.
 
 \index{air resistance}
 \index{gravity}
@@ -193,8 +192,9 @@ Here's how we can call {\tt ode45} with these initial conditions:
     [T, M] = ode45(@rate_func, tspan, W);
 \end{code}
 
-{\tt P} and {\tt V} are column vectors because we put semi-colons between the elements.  So {\tt W} is a column vector with four elements.
-{\tt tspan} specifies that we want to run the simulation for \SI{6}{\second}.
+{\tt P} and {\tt V} are column vectors because we put semi-colons between the elements.  
+So {\tt W} is a column vector with four elements.
+{\tt tspan} specifies that we want to run the simulation for \SI{8}{\second}.
 
 \index{time span}
 \index{output variable}
@@ -214,18 +214,18 @@ Here's how we can plot position as a function of time:
 
 {\tt X} and {\tt Y} get the first and second columns from {\tt M}, which are the $x$ and $y$ coordinates of position.
 
-\begin{figure}
+\begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/baseball1.eps}}
 \caption{Simulated flight of a baseball neglecting drag force.}
 \label{fig:baseball1}
 \end{figure}
 
-Figure~\ref{fig:baseball1} shows what they look like.  The $x$ coordinate increases linearly because the $x$ velocity is constant.  The $y$ coordinate goes up and down, as we expect.
+Figure~\ref{fig:baseball1} shows what these coordinates look like as a function of time.  The $x$ coordinate increases linearly because the $x$ velocity is constant.  The $y$ coordinate goes up and down, as we expect.
 
 The simulation ends just before the ball lands, having traveled almost \SI{250}{\meter}.  That's substantially farther than a real baseball would travel, because we have ignored air resistance, or ``drag force''.
 
 
-\section{Drag force}
+\section{Drag Force}
 \label{drag}
 
 \index{drag}
@@ -246,13 +246,13 @@ $A$ is the cross-sectional area .
 \index{drag coefficient}
 \index{coefficient!drag}
 
-$\vec{V}$ is the baseball's velocity vector; $v$ is the magnitude of $V$ and $\uvec{V}$ is a unit vector in the same direction as $V$.  The minus sign at the beginning means that the result is in the opposite direction as $V$.
+$\vec{V}$ is the baseball's velocity vector; $v$ is the magnitude of $V$ and $\uvec{V}$ is a unit vector in the same direction as $V$.  The minus sign at the beginning means that the result is in the opposite direction of $V$.
 
 \index{unit vector}
 
-The following function computes the drag force on a baseball:
+The function in Listing~\ref{lst:baseball_drag} computes the drag force on a baseball:
 
-\begin{code}
+\begin{lstlisting}[caption={A function that calculates the drag force on a baseball}, label={lst:baseball_drag}]
  function res = drag_force(V)
     C_d = 0.3;      % dimensionless
     rho = 1.3;      % kg / m^3
@@ -261,7 +261,7 @@ The following function computes the drag force on a baseball:
 
     res = -1/2 * C_d * rho * A * v * V;
 end
-\end{code}
+\end{lstlisting}
   
 The drag coefficient for a baseball is about 0.3.  
 The density of air at sea level is about \SI{1.3}{\kilogram\per\meter\cubed}.
@@ -283,18 +283,18 @@ function res = acceleration(t, P, V)
 end
 \end{code}
 
-As in Section~\ref{projectile}, {\tt acceleration} represents acceleration due to gravity with a vector that has magnitude {\tt g} and direction along the negative $y$ axis.
-But now it also computes drag force, then divides by the mass of the baseball to get acceleration due to drag.
+As in Listing~\ref{lst:baseball_rate_func}, {\tt acceleration} represents acceleration due to gravity with a vector that has magnitude {\tt g} and direction along the negative $y$ axis.
+But now it also computes drag force and divides by the mass of the baseball to get acceleration due to drag.
 Finally, it adds \verb"a_gravity" and \verb"a_drag" to get the total acceleration of the baseball.
 
-\begin{figure}
+\begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/vector3.eps}}
 \caption{Diagram of velocity, $\vec{V}$, acceleration due to drag force, 
 $\vec{D}$, acceleration due to gravity, $\vec{G}$, and total acceleration, $\vec{A}$.}
 \label{fig:vector3}
 \end{figure}
 
-Figure~\ref{fig:vector3} shows these quantities graphically.  Acceleration due to drag, $\vec{D}$, is in the opposite direction of velocity, $\vec{V}$.  Acceleration of gravity, $\vec{G}$, is straight down.  Total acceleration, $\vec{A}$, is the sum of $\vec{D}$ and $\vec{G}$.
+Figure~\ref{fig:vector3} shows the following quantities graphically:  (1) Acceleration due to drag, $\vec{D}$, is in the opposite direction of (2) velocity, $\vec{V}$, (3) acceleration of gravity, $\vec{G}$, is straight down, and (4) total acceleration, $\vec{A}$, is the sum of $\vec{D}$ and $\vec{G}$.
 
 \index{acceleration}
 
@@ -309,10 +309,10 @@ Figure~\ref{fig:baseball2} shows the results from {\tt ode45}.  The ball lands a
 This result suggests that ignoring air resistance is not a good choice for modeling a baseball.
 
 
-\section{What could go wrong?}
+\section{What Could Go Wrong?}
 
 What could go wrong?  Well, {\tt vertcat} for one.  To explain
-what that means, I'll start with {\bf concatenation}, which is
+what that means, I'll start with \emph{concatenation}, which is
 the operation of joining two matrices into a larger matrix.
 ``Vertical concatenation'' joins the matrices by stacking them on
 top of each other; ``horizontal concatenation'' lays them
@@ -336,7 +336,8 @@ z = 1     2     3     4     5
 \end{code}
 
 Inside brackets, the comma operator performs horizontal concatenation.
-The vertical concatenation operator is the semi-colon.  Here is an
+
+The vertical concatenation operator is the semi-colon.  Here's an
 example with matrices:
 
 \index{comma operator}
@@ -387,9 +388,9 @@ Dimensions of matrices being concatenated are not consistent.
 In this example, {\tt a} is a row vector and {\tt b} is a column
 vector, so they can't be concatenated in either direction.
 
-Reading the error messages, you probably guessed that {\tt horzcat}
+Reading the error messages, you might guess that {\tt horzcat}
 is the function that performs horizontal concatenation, and likewise
-with {\tt vertcat} and vertical concatenation.
+with {\tt vertcat} and vertical concatenation.  You would be correct.
 
 \index{horzcat@{\tt horzcat}}
 
@@ -415,12 +416,19 @@ row vector, that's trouble.
 \index{column vector}
 
 {\tt ode45} expects the result from \verb"rate_func" to be a
-column vector, so if you are working with {\tt ode45}, it is
+column vector, so if you are working with {\tt ode45}, it's
 probably a good idea to make {\em everything} a column vector.
 
 In general, if you run into problems with {\tt horzcat} and
 {\tt vertcat}, use {\tt size} to display the dimensions of the operands,
 and make sure you are clear on which way your vectors go.
+
+\section{Summary}
+
+In this chapter we simulated the flight of a baseball with and without air resistance, and saw that the difference is substantial.
+We can conclude that it's important to model air resistance if we want to make accurate prediction about baseballs and similar projectiles.
+
+In the next chapter we'll extend this example using {\tt fzero}, which we saw in Chapter~\ref{fzero}, and a new tool for optimization, called {\tt fminsearch}.
 
 
 \section{Glossary}
@@ -438,8 +446,8 @@ direction.
 but not to be confused with the number of elements in a MATLAB
 vector.
 
-\item[concatenation:] The operation of joining two matrices end-to-end to
-form a new matrix.
+\item[concatenation:] The operation of joining two vectors or matrices end-to-end to
+form a new vector or matrix.
 
 \end{description}
 
@@ -466,8 +474,7 @@ does this have on drag?  What effect does it have on the distance the baseball t
 The actual drag on a baseball is more complicated than what is
 captured by our simple model.  In particular, the drag coefficient
 depends on velocity.  You can get some of the details from {\em The
-Physics of Baseball}\footnote{Robert K. Adair, Harper Paperbacks, 3rd
-Edition, 2002.}; the figure you need is reproduced at \url{https://github.com/AllenDowney/ModSimMatlab/blob/master/code/data/baseball_drag.png}.
+Physics of Baseball} by Robert K. Adair; the figure you need is reproduced at \emph{https://github.com/AllenDowney/ModSimMatlab/blob/master/code/data/baseball\_drag.png}.
 
 Use this data to specify a more realistic model of drag and modify your
 program to implement it.  How big is the effect on the distance the baseball travels?
@@ -480,11 +487,13 @@ program to implement it.  How big is the effect on the distance the baseball tra
 \index{cannon}
 \index{human cannonball}
 
-According to Wikipedia, the record distance for a human cannonball is 59.05 meters\footnote{See \url{https://en.wikipedia.org/wiki/Human_cannonball}.}.
+According to Wikipedia, the record distance for a human cannonball is 59.05 meters (see \url{https://en.wikipedia.org/wiki/Human_cannonball}).
 
 Modify the example from this chapter to simulate the flight of a human cannonball.  You might have to do some research to find the drag coefficient and cross sectional area for a flying human.
 
 Find the initial velocity (both magnitude and direction) you would need to break this record.  You might have to experiment to find the optimal launch angle.
+
+How much acceleration can a human withstand without injury?  At this maximum acceleration, how long would the barrel of the cannon have to be to reach the initial velocity needed to break the record?
 \end{ex}
 
 
