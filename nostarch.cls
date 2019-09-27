@@ -59,8 +59,9 @@
 \ProcessOptions\relax
 \LoadClass[10pt]{book}
 \RequirePackage{ifpdf, fancyhdr, fancyvrb, booktabs, graphicx,
-  listings, caption, makeidx, upquote, fontspec, pifont, xcolor}
+  listings, caption, makeidx, upquote, fontspec, pifont, xcolor, textcomp, lmodern, nameref}
 \RequirePackage{ragged2e}
+\RequirePackage[T1]{fontenc}
 \setlength\RaggedRightParindent{\parindent}
 \RaggedRight
 \def\@nschapterpreamble{}
@@ -70,6 +71,7 @@
   %\RequirePackage[scaled=0.85]{thsmc}%
   %\RequirePackage{dogma}%
   \newcommand{\dgdefault}{fdg}
+    \def\UrlFont{\emph}
   % ===== Wingdings =====
   \newcommand{\wingding}[1]
     {\ding{\the\numexpr #1 + 181 \relax}} 
@@ -708,7 +710,7 @@
     title=\lstname,
     numbers = none,
     caption={},
-    literate={\ }{{\ }}1,
+    literate={\ }{{\ }}{1}{"}{\textquotedbl}1,  
     escapeinside={(*}{*)},
     captionpos=b,
     basicstyle=\ttfamily,
@@ -790,7 +792,7 @@
        {\@latex@warning{Empty `thebibliography' environment}}%
       \endlist}
       
-% ===== BIBLIOGRAPHY =====
+% ===== INDEX =====
 \renewenvironment{theindex}{%
   \clearpage
   {\pagestyle{empty}\cleardoublepage}%

@@ -106,7 +106,7 @@ According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of 
 \index{inverse quadratic interpolation
 \index{root}}
 
-To understand what that means, suppose we're trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two place, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
+To understand what that means, suppose we're trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two places, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
 \begin{figure}[ht]
 \centerline{\includegraphics[height=1.6in]{book/figs/secant.eps}}
@@ -114,8 +114,8 @@ To understand what that means, suppose we're trying to find a root of a function
 \label{fig:secant}
 \end{figure}
 
-As long as $f$ is continuous, there must be at least one root in this interval.  In this case we would say that $x_1$ and $x_2$
-\emph{bracket} a zero.
+As long as $f$ is continuous, there must be at least one root in this interval.  
+In this case we would say that $x_1$ and $x_2$ \emph{bracket} a zero.
 
 \index{bracket}
 
@@ -130,7 +130,8 @@ congratulations!  You just invented the \emph{secant method}!
 
 And if you said, ``I would evaluate $f$ at a third point, find the
 parabola that passes through all three points, and compute the zeros
-of the parabola,'' then congratulations, you just invented \emph{inverse quadratic interpolation}.
+of the parabola,'' then congratulations, you just invented 
+\emph{inverse quadratic interpolation}.
 
 That's most of how {\tt fzero} works.  The details of how these methods are combined are interesting, but beyond the scope of this book.  You can read more at \emph{https://en.wikipedia.org/wiki/Brents\_method}.  
 
@@ -138,14 +139,15 @@ That's most of how {\tt fzero} works.  The details of how these methods are comb
 \section{How fminsearch works}
 \label{howfminsearch}
 
-According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead\_method}, but you might find it 
-overwhelming.
+According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead\_method}, but you might find it overwhelming.
 
 \index{fminsearch@{\tt fminsearch}}
 \index{Nelder-Mead}
 \index{golden section search}
 
-To give you a sense of how it works, I will present a simpler algorithm, the \emph{golden-section search}.  Suppose we're trying to find the minimum of a function of a single variable, $f(x)$.  As a starting place, assume that we have evaluated the function at three places, 
+To give you a sense of how it works, I will present a simpler algorithm, the \emph{golden-section search}.  Suppose we're trying to find the minimum of a function of a single variable, $f(x)$.  
+
+As a starting place, assume that we have evaluated the function at three places, 
 $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
@@ -155,8 +157,7 @@ value. Figure~\ref{fig:golden1} shows this initial state.
 \label{fig:golden1}
 \end{figure}
 
-If $f$ is continuous, there has to be at least one
-minimum point between $x_1$ and $x_3$.
+We will assume that $f(x)$ is continuous and ``unimodal'' in this range, which means that there is exactly one minimum between $x_1$ and $x_3$.
 
 \index{minimum}
 
@@ -172,7 +173,7 @@ Figure~\ref{fig:golden2} shows the two possible states.
 \end{figure}
 
 If $f(x_4)$ is less than than $f(x_2)$ (shown on the left), the
-local minimum must be between $x_2$ and $x_3$, so we would discard $x_1$ and proceed with the new triple $(x_2, x_4, x_3)$.
+minimum must be between $x_2$ and $x_3$, so we would discard $x_1$ and proceed with the new triple $(x_2, x_4, x_3)$.
 
 If $f(x_4)$ is greater than $f(x_2)$ (shown on the right), the
 local minimum must be between $x_1$ and $x_4$, so we would discard $x_3$ and proceed with the new triple $(x_1, x_2, x_4)$.
