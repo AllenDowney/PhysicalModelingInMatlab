@@ -3,8 +3,7 @@
 \minitoc{}
 
 
-So far we've typed all of our programs ``at the prompt.'' If you're only writing a few lines, this isn't so bad. But what if you're writing a hundred? Re-entering each line of code every time you want to change or test your program will be time consuming and tedious. 
-
+So far we've typed all of our programs ``at the prompt.'' If you're only writing a few lines, this isn't so bad. But what if you're writing a hundred? Re-entering each line of code every time you want to change or test your program will be time consuming and tedious. Luckily, you don't have to. In this chapter, we'll look at a way to run many lines at once: scripts.
 
 
 \section{Your First Script}
@@ -16,7 +15,7 @@ also sometimes called ``M-files'' because they use the extension {\tt .m}, short
 \index{m-file}
 \index{file extension}
 
-You can create scripts with any text editor or word processor, but the simplest way is to click the {\sf New Script} button in the upper left corner of the MATLAB interface, which opens text editor designed for MATLAB.
+You can create scripts with any text editor or word processor, but the simplest way is to click the New Script button in the upper left corner of the MATLAB interface, which opens text editor designed for MATLAB.
 
 To try it out, create a new script and enter the following code:
 
@@ -24,15 +23,15 @@ To try it out, create a new script and enter the following code:
 x = 5
 \end{code}
 
-Then press the {\sf Save} button.  A dialog window should appear where you can choose the file name and the folder where your script will go.  
+Then press the {\bf Save} button.  A dialog window should appear where you can choose the file name and the folder where your script will go.  
 Change the name to {\tt myscript.m} and save it into any folder you like.
 
-Now press the green {\sf Run} button.  You might get a message that says the script is not found in the current folder.  
-If so, click the button that says {\sf Change Folder} and it should run.
+Now press the green {\bf Run} button.  You might get a message that says the script is not found in the current folder.  
+If so, click the button that says {\bf Change Folder} and it should run.
 
 \index{Command Window}
 
-You can also run a script by typing its name in the Command Window and pressing Enter. For example, if you enter {\tt myscript}, MATLAB should execute your script and display the result, as in Listing 2-1.
+You can also run a script by typing its name in the Command Window and pressing Enter. For example, if you enter {\tt myscript}, MATLAB should execute your script and display the result:
 
 \begin{code}
 >> myscript
@@ -64,7 +63,7 @@ Undefined function or variable 'my'.
 It can be hard to remember which folder a script is in.  To keep things simple,
 for now, I suggest putting all of your scripts in one folder.
 
-\section{Why scripts?}
+\section{Why Scripts?}
 
 There are a few good reasons to use a script. When you're writing more than a couple of lines of code, it might take a few tries to get everything right.  Putting your code
 in a script makes it easier to edit than typing it at the prompt. Likewise, if you're running a script repeatedly, it's much faster to type the name of the script than to retype the code! And you might be able to reuse a script from one project to the next, saving you considerable time across projects.
@@ -279,7 +278,7 @@ Short, simple programs are easy to read, but as they get bigger and more complex
 A \emph{comment} is a line of text added to a program to explain how it works. It has no effect on the execution of the program; it is there for human readers.  
 Good comments make programs more readable; bad comments are useless at best and misleading at worst.
 
-To write a comment, you use the percent symbol {\tt \%} followed by the text of the comment, like in Listing 2-X.
+To write a comment, you use the percent symbol {\tt \%} followed by the text of the comment.
 
 \index{comment}
 \index{\%@{\tt \%}}
@@ -337,8 +336,8 @@ For example, I might put something like this at the beginning of {\tt fibonacci1
 % Postcondition: the result is stored in ans.
 \end{code}
 
-A {\bf precondition} is something that must be true when the script
-starts in order for it to work correctly.  A {\bf postcondition}
+A \emph{precondition} is something that must be true when the script
+starts in order for it to work correctly.  A \emph{postcondition}
 is something that will be true when the script completes.
 
 \index{precondition}
@@ -365,7 +364,7 @@ You can even use the {\tt doc} command to see your comment in the
 \index{doc@{\tt doc}}
 \index{help@{\tt dhelpoc}}
 
-\section{Assignment and equality}
+\section{Assignment and Equality}
 
 For beginning programmers, a common source of confusion is assignment and the use of the equals sign.
 
@@ -440,7 +439,7 @@ In the next chapter, you'll learn how to write programs that perform repetitive 
 
 \item[script:] An M-file that contains a sequence of MATLAB commands.
 
-\item[search path:] The list of folder where MATLAB looks for
+\item[search path:] The list of folders where MATLAB looks for
 M-files.
 
 \item[precondition:] Something that must be true when the script

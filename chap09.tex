@@ -1,5 +1,4 @@
 \chapter{Ordinary Differential Equations}
-\minitoc
 
 In the previous chapter, we found the equilibrium point where a duck would float on water.  This kind of problem is called {\em static} because it does not move.  In this chapter I introduce {\em dynamic} problems, which involve things that change over time.
  
@@ -12,9 +11,9 @@ But first I have a quick suggestion about organizing code in files.
 
 So far we've only put one function in each file.  It's also possible
 to put more than one function in a file, but only the first one, the
-{\emph top-level function}, can be called from the Command
+{\em top-level function}, can be called from the Command
 Window. 
-The other {\emph helper functions} can be called from anywhere inside the file, 
+The other {\em helper functions} can be called from anywhere inside the file, 
 but not from the Command Window or any other file.
 
 \index{function!top-level}
@@ -29,13 +28,13 @@ Window.
 To help with this problem, I often use the top-level function
 to develop and test my helper functions.  For example, to write
 a program for Exercise~\ref{duck}, I would create a file named
-{\emph duck.m} and start with a top-level function named {\tt duck}
+{\em duck.m} and start with a top-level function named {\tt duck}
 that takes no input variables and returns no output value.
 
 Then I would write a function named \verb"error_func" to
 evaluate the error function for {\tt fzero}.  To test
 \verb"error_func" I would call it from {\tt duck} and then
-call {\tt duck} from the \sf Command Window.
+call {\tt duck} from the Command Window.
 
 \index{incremental development}
 
@@ -68,7 +67,7 @@ Now, let's get back to differential equations.
 \section{Differential Equations}
 \label{diffeq}
 
-A {\emph differential equation} (DE) is an equation that describes the
+A {\em differential equation} (DE) is an equation that describes the
 derivatives of an unknown function.  ``Solving a DE'' means finding a
 function whose derivatives satisfy the equation.
 
@@ -80,7 +79,6 @@ For example, suppose we would like to predict the population of yeast growing in
 When yeast grow in particularly yeast-friendly
 conditions, the rate of growth at any point in time is proportional to
 the current population.
-
 If we define $y(t)$ to be the population at 
 time $t$, we can write the following equation for the rate of growth:
 %
@@ -95,22 +93,22 @@ This equation is ``differential'' because it relates a function to one of its de
 
 \index{ordinary differential equation}
 
-It is an {\emph ordinary} differential equation (ODE) because all the
+It is an {\em ordinary} differential equation (ODE) because all the
 derivatives involved are taken with respect to the
 same variable.
 If it related derivatives with respect to
-different variables (partial derivatives), it would be a {\emph partial}
+different variables (partial derivatives), it would be a {\em partial}
 differential equation.
 
 \index{first-order differential equation}
 
-This equation is {\emph first-order} because it involves only first
+This equation is {\em first-order} because it involves only first
 derivatives.  If it involved second derivatives, it would be second order,
 and so on.
 
 \index{linear differential equation}
 
-Lastly, it's {\bf linear} because each term involves $t$, $f$, or
+Lastly, it's \emph{linear} because each term involves $t$, $f$, or
 $df/dt$ raised to the first power; if any of the terms involved
 products or powers of $t$, $f$, and $df/dt$ it would be
 nonlinear.
@@ -134,7 +132,7 @@ $r$ changes slowly and $\Delta t$ is small.
 
 What if we want to make a prediction when $\Delta t$ is large?
 One option is to break $\Delta t$ into smaller pieces, called
-{\emph time steps}. Then we can use the following equations to get from one time step to the next:
+{\em time steps}. Then we can use the following equations to get from one time step to the next:
 
 \begin{eqnarray}
 T_{i+1} &=& T_i + dt                       \\
@@ -167,7 +165,7 @@ the growth parameter $a = 0.2$ per hour.
 
 \index{top-level function}
 
-As a first step, I created a file named {\emph euler.m} with a top-level function and a helper function:
+As a first step, I created a file named {\em euler.m} with a top-level function and a helper function:
 
 \begin{code}
 function res = euler()
@@ -301,7 +299,7 @@ The differential equation might be something like
 %
 where $t$ is time in days and $y(t)$ is the population at time $t$.
 
-$a$ and $\omega$ are {\emph parameters}, which are values that
+$a$ and $\omega$ are {\em parameters}, which are values that
 quantify a physical aspect of the scenario.  Parameters are often constants, but in some models they vary in time.
 
 \index{parameter}
@@ -324,7 +322,7 @@ function res = rate_func(t, y)
 end
 \end{code}
 
-To test this function, I put it in a file called {\emph rats.m} with a top-level function called 
+To test this function, I put it in a file called {\em rats.m} with a top-level function called 
 {\tt rats}:
 
 \begin{code}

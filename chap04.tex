@@ -1,9 +1,7 @@
 \chapter{Vectors}
 \label{vectors}
-\minitoc{}
 
 In the previous chapter we used a loop to compute the elements of a sequence, but we were only able to store the last element.  In this chapter, we'll use a vector to store all of the elements.
-
 We'll also learn how to select elements from a vector, and how to perform vector arithmetic and common vector operations like reduce and apply.
 
 
@@ -40,13 +38,13 @@ That's just a convention; MATLAB doesn't require it, but it's a useful way to re
 
 \index{variable}
 
-\subsection{Vector Arithmetic}
+\section{Vector Arithmetic}
 \label{elementwise}
 
 \index{vector arithmetic}
 \index{arithmetic!vector}
 
-You can perform arithmetic with vectors, too.  If you add a number
+As with numbers, you can do arithmetic with vectors.  If you add a number
 to a vector, MATLAB increments each element of the vector:
 
 \begin{code}
@@ -54,7 +52,7 @@ to a vector, MATLAB increments each element of the vector:
 Y = 6     7     8
 \end{code}
 
-The result is a new vector; the original value of {\tt X} is not
+\noindent The result is a new vector; the original value of {\tt X} has not
 changed.
 
 If you add two vectors, MATLAB adds the corresponding elements of each
@@ -76,7 +74,7 @@ W = 1     2     3
 Matrix dimensions must agree.
 \end{code}
 
-The error message in this case is confusing, because we think of these values as vectors, not matrices.
+\noindent The error message in this case is confusing, because we think of these values as vectors, not matrices.
 We'll come back to this topic later, but for now you can think of a vector as a kind of matrix.
 
 \index{matrix}
@@ -90,7 +88,7 @@ If you divide two vectors, you might be surprised by the result:
 ans = 0.4156
 \end{code}
 
-MATLAB is performing a matrix operation called right division, which I will not try to explain. If you want to divide the elements of {\tt X} by the elements of {\tt Y}, you have to use {\tt ./}, which is elementwise division:
+MATLAB is performing a matrix operation called right division; an explanation of right division is outside the scope of this book. If you want to divide the elements of {\tt X} by the elements of {\tt Y}, you have to use {\tt ./}, which is elementwise division:
 
 \begin{code}
 >> X ./ Y
@@ -121,8 +119,7 @@ ans = 4    10    18
 As an exercise, see what happens if you use the exponentiation operator,
 \verb"^", with a vector.
 
-
-\subsection{Indices}
+\section{Selecting Elements}
 
 \index{element}
 \index{parentheses}
@@ -220,7 +217,7 @@ but they mean the same thing, at least for now.
 
 \index{array}
 
-\subsection{Vectors and Sequences}
+\section{Vectors and Sequences}
 \label{vecseq}
 
 \index{vector}
@@ -255,16 +252,8 @@ If you only want the $n$th Fibonacci number, storing
 the whole sequence wastes some space.  But if wasting space
 makes your code easier to write and debug, that's probably ok.
 
-\begin{ex}
-Write a loop that computes the first {\tt n} elements
-of the geometric sequence $A_{i+1} = A_i/2$ with $A_1 = 1$.  Notice that
-math notation puts $A_{i+1}$ on the left side of the equality.
-When you translate to MATLAB, you might want to rewrite it with
-$A_{i}$ on the left side.
-\end{ex}
 
-
-\subsection{Plotting Vectors}
+\section{Plotting Vectors}
 
 \index{plotting vector}
 \index{vector!plotting}
@@ -278,13 +267,14 @@ $y$-axis.  To plot the Fibonacci numbers we computed in Listing~\ref{lst:fib_vec
 plot(F)
 \end{code}
 
-\begin{figure}
+Figure~\ref{fig:fibonacci} shows the result.
+
+\begin{figure}[h]
 \centerline{\includegraphics[height=3in]{book/figs/fibonacci.eps}}
 \caption{The first 10 elements of the Fibonacci sequence.}
 \label{fig:fibonacci}
 \end{figure}
 
-Figure~\ref{fig:fibonacci} shows the result.
 This way of looking at a vector is often useful for debugging, especially
 if it is big enough that displaying the elements on
 the screen is unwieldy.
@@ -298,8 +288,8 @@ We've covered some of the basic features of vectors. Let's now look at three com
 \label{reduce}
 
 We frequently use loops to run through the elements of a vector
-and add them up, or multiply them together, or compute the sum
-of their squares, etc.  This kind of operation is called \emph{reduce},
+and add them up, multiply them together, compute the sum
+of their squares, and so on.  This kind of operation is called \emph{reduce},
 because it reduces a vector with multiple elements down to a single
 number.
 
@@ -365,7 +355,7 @@ It also runs faster!
 
 \section{Summary}
 
-In this chapter we use a vector to store the elements of a sequence.  We learned how to select elements from a vector and perform vector arithmetic.  We performed reduce and apply operations using {\tt for} loops, MATLAB function, and elementwise operations.
+In this chapter we used a vector to store the elements of a sequence.  We learned how to select elements from a vector and perform vector arithmetic.  We performed reduce and apply operations using {\tt for} loops, MATLAB function, and elementwise operations.
 
 In the next chapter, you'll learn the most important idea in computer programming: functions!
 
@@ -379,14 +369,11 @@ contains other statements in an indented body.
 
 \item[nesting:] Putting one compound statement in the body of another.
 
-\item[relational operator:] An operator that compares two values and
-generates a logical value as a result.
+%\item[relational operator:] An operator that compares two values and generates a logical value as a result.
 
-\item[logical value:] A value that represents either ``true'' or
-``false''.  MATLAB uses the values 1 and 0, respectively.
+%\item[logical value:] A value that represents either ``true'' or ``false''.  MATLAB uses the values 1 and 0, respectively.
 
-\item[flag:] A variable that contains a logical value, often used
-to store the status of some condition.
+% \item[flag:] A variable that contains a logical value, often used to store the status of some condition.
 
 \item[scalar:] A single value.
 
@@ -420,6 +407,15 @@ same variable name interfere with each other.
 
 \section{Exercises}
 
+
+\begin{ex}
+Write a loop that computes the first {\tt n} elements
+of the geometric sequence $A_{i+1} = A_i/2$ with $A_1 = 1$.  Notice that
+math notation puts $A_{i+1}$ on the left side of the equality.
+When you translate to MATLAB, you might want to rewrite it with
+$A_{i}$ on the left side.
+\end{ex}
+
 \begin{ex}
 Write an expression that computes the square root of the sum of the squares of the elements of a vector, without using a loop.
 
@@ -443,7 +439,7 @@ it converge on?
 \end{ex}
 
 \begin{ex}
-  The following set of equations is based on a famous example of a chaotic system, the Lorenz attractor\footnote{See \url{https://en.wikipedia.org/wiki/Lorenz_system}.}:
+  The following set of equations is based on a famous example of a chaotic system, the Lorenz attractor (see \url{https://en.wikipedia.org/wiki/Lorenz_system}):
 %
 \begin{eqnarray}
 x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt  \\
@@ -481,7 +477,7 @@ system.
 
 
 \begin{ex}
-The logistic map (see \emph{https://en.wikipedia.org/wiki/Logistic\textunderscore map}) is described by the following equation:
+The logistic map (see \url{https://en.wikipedia.org/wiki/Logistic_map}) is described by the following equation:
 
 \index{logistic map}
 

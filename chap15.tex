@@ -7,7 +7,7 @@ In this chapter we ``open the hood'', looking more closely at how some of the to
 \section{How ode45 Works}
 \label{howode45}
 
-According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair''.  You can read about it at \emph{https://en.wikipedia.org/wiki/Runge-Kutta\_methods}, but I'll give you a sense of it here.
+According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair''.  You can read about it at \url{https://en.wikipedia.org/wiki/Runge-Kutta_methods}, but I'll give you a sense of it here.
 
 \index{Runge-Kutta}
 \index{ode45@{\tt ode45}}
@@ -133,7 +133,7 @@ parabola that passes through all three points, and compute the zeros
 of the parabola,'' then congratulations, you just invented 
 \emph{inverse quadratic interpolation}.
 
-That's most of how {\tt fzero} works.  The details of how these methods are combined are interesting, but beyond the scope of this book.  You can read more at \emph{https://en.wikipedia.org/wiki/Brents\_method}.  
+That's most of how {\tt fzero} works.  The details of how these methods are combined are interesting, but beyond the scope of this book.  You can read more at \url{https://en.wikipedia.org/wiki/Brents_method}.  
 
 
 \section{How fminsearch works}
@@ -181,4 +181,6 @@ local minimum must be between $x_1$ and $x_4$, so we would discard $x_3$ and pro
 Either way the range gets smaller and our estimate of the optimal value of $x$ gets better.
 
 This method works for almost any value of $x_4$, but some choices
-are better than others.  You might be tempted to bisect the interval between $x_2$ and $x_3$, but that turns out not to be the best choice.  You can read about a better option at \emph{https://en.wikipedia.org/wiki/Golden-section\_search\#Probe\_point\_selection}.
+are better than others.  You might be tempted to bisect the interval between $x_2$ and $x_3$, but that turns out not to be the best choice.  You can read about a better option at \url{https://en.wikipedia.org/wiki/Golden-section_search#Probe_point_selection}.
+
+\section{Summary}

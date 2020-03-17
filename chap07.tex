@@ -1,11 +1,9 @@
 \chapter{Zero-finding}
 \label{fzero}
-\minitoc{}
 
 In this chapter we'll use the MATLAB function {\tt fzero} to solve nonlinear equations.
 Nonlinear equations are useful for modeling physical systems; for example, in one of
 the exercises at the end of this chapter, you can use {\tt fzero} to find the equilibrium point of an object floating on water.
-
 Using {\tt fzero} is also an opportunity to learn about {\em function handles}, which we'll need for the following chapters.
 
 \section{Solving Nonlinear Equations}
@@ -31,7 +29,7 @@ equivalent to the relationship you started with---they contain the
 same information about $x$---so why is the second one preferable
 to the first?
 
-There are two reasons.  One is that the relationship is now {\emph explicit}
+There are two reasons.  One is that the relationship is now \emph{explicit}
 in $x$: because $x$ is all alone on the left side, we can treat
 the right side as a recipe for computing $x$, assuming that we
 know the value of $a$.
@@ -46,8 +44,8 @@ roots, we can compute the value of $x$ for any value of $a$.
 When people talk about solving an equation, what they usually mean
 is something like ``finding an equivalent relationship that is
 explicit in one of the variables''.  In the context of this book,
-that's what I'll call an {\emph analytic solution}, to distinguish
-it from a {\emph numerical solution}, which is what we are going to
+that's what I'll call an {\em analytic solution}, to distinguish
+it from a {\em numerical solution}, which is what we are going to
 do next.
 
 \index{analytic solution}
@@ -65,7 +63,7 @@ reason to expect a solution near 4.
 We could start with $x=4$ as an {\em initial value}, and then use
 the equation $x = \sqrt{2x+3}$ to compute successive
 approximations of the solution. (To understand why this
-works, see \emph{https://en.wikipedia.org/wiki/Fixed-point\_iteration}.)
+works, see \url{https://en.wikipedia.org/wiki/Fixed-point_iteration}.)
 
 \index{fixed-point iteration}
 
@@ -117,8 +115,7 @@ f(x) = x^2 - 2x -3
 
 The value of the error function is 0 if $x$ is a solution and non-zero if it is not.
 This function is useful because we can use values of $f(x)$, evaluated at various values of $x$, to infer the location of the solutions.  And that's what {\tt fzero} does.
-
-Values of $x$ where $f(x) = 0$ are called zeros of the function or {\emph roots}.
+Values of $x$ where $f(x) = 0$ are called zeros of the function or \emph{roots}.
 
 \index{root}
 \index{fzero@{\tt fzero}}
@@ -204,7 +201,7 @@ Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a 
 {\tt fzero} stops when the interval is so small that the estimated
 zero is correct to about 15 digits.
  
-If you'd like to know more about how {\tt fzero} works, see Section~\ref{howfzero}.
+If you'd like to know more about how {\tt fzero} works, see Chapter~\ref{howfzero}.
 
 
 \subsection{What Could Go Wrong?}

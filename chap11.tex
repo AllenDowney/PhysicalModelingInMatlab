@@ -279,7 +279,7 @@ Listing~\ref{lst:acceleration_drag} defines a function that takes {\tt t} and {\
 function res = acceleration(t, X)
 (*\codewingding{1}*)    b = 75e-6;                % drag constant in kg/m
     v = X(2);                 % velocity in m/s
-    f_d = -sgn(v) * b * v^2;  % drag force in N
+    f_d = -sign(v) * b * v^2;  % drag force in N
 
 (*\codewingding{2}*)     m = 2.5e-3;               % mass in kg
     a_d = f_d / m;            % drag acceleration in m/s^2
@@ -382,7 +382,7 @@ What is the lowest altitude where the skydiver can open the parachute and still 
 \index{Sun}
 \index{Law of Universal Gravitation}
 
-Here's a question from the web site {\em Ask an Astronomer} (\emph{https://web.archive.org/web/20180617133223/http://curious.astro.cornell.edu/about-us/39-our-solar-system/the-earth/other-catastrophes/57-how-long-would-it-take-the-earth-to-fall-into-the-sun-intermediate}):
+Here's a question from the web site {\em Ask an Astronomer} (\url{https://web.archive.org/web/20180617133223/http://curious.astro.cornell.edu/about-us/39-our-solar-system/the-earth/other-catastrophes/57-how-long-would-it-take-the-earth-to-fall-into-the-sun-intermediate}):
 
 \begin{quote}
 ``If the Earth suddenly stopped orbiting the Sun, I know eventually it would be pulled in by the Sun's gravity and hit it. How long would it take the Earth to hit the Sun? I imagine it would go slowly at first and then pick up speed.''

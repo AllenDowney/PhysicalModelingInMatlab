@@ -59,9 +59,11 @@
 \ProcessOptions\relax
 \LoadClass[10pt]{book}
 \RequirePackage{ifpdf, fancyhdr, fancyvrb, booktabs, graphicx,
-  listings, caption, makeidx, upquote, fontspec, pifont, xcolor, textcomp, lmodern, nameref}
+  listings, caption, makeidx, upquote, fontspec, pifont, textcomp, xcolor, lmodern, nameref, float, amssymb}
+\RequirePackage[framemethod=TikZ]{mdframed}
+\RequirePackage{soulutf8}
+\RequirePackage[T1]{fontenc}  
 \RequirePackage{ragged2e}
-\RequirePackage[T1]{fontenc}
 \setlength\RaggedRightParindent{\parindent}
 \RaggedRight
 \def\@nschapterpreamble{}
@@ -70,14 +72,28 @@
   %\RequirePackage{futurans}%
   %\RequirePackage[scaled=0.85]{thsmc}%
   %\RequirePackage{dogma}%
-  \newcommand{\dgdefault}{fdg}
-    \def\UrlFont{\emph}
-  % ===== Wingdings =====
+  %\newcommand{\dgdefault}{fdg}
+  
+  % ===== URLs =====
+  \def\UrlFont{\em}
+  
+  % ===== WINGDINGS =====
   \newcommand{\wingding}[1]
     {\ding{\the\numexpr #1 + 181 \relax}} 
     
 \newcommand{\codewingding}[1]
     {\vbox{\llap{\wingding{#1}\hskip 1em}}}
+    
+    
+% ===== TERMS =====
+\newcommand{\term}[1]{\emph{#1}\index{#1}}
+
+% ===== SPACING =====
+\sodef\sochapter{}{.150em}{.5em}{1em}
+\sodef\sotitle{}{.125em}{.5em}{1em}
+\sodef\sobox{}{.075em}{.5em}{1em}
+\sodef\sonote{}{.200em}{.5em}{1em}
+
 
 
   % ===== FONTS =====
@@ -89,6 +105,7 @@
   \newfontface\futurabook[
     Path=fonts/futurans/,
     UprightFont=FuturB37.ttf,
+    BoldFont=FuturH79.ttf
 ]{futurabook}
 
   \newfontface\futuraheavy[
@@ -106,30 +123,29 @@
     UprightFont=FutCBO63.ttf,
 ]{futuraboldcoblique}
 
-
-
-\setmainfont[
+\setmainfont{nbaskerv}[
     Path=fonts/nbaskerv/,
     UprightFont=NewBaskervilleEF-Roman.ttf,
     BoldFont=NewBaskervilleEF-Bold.ttf,
     ItalicFont=NewBaskervilleEF-RomanIta.ttf,
     BoldItalicFont=NewBaskervilleEF-BoldIta.ttf,
-    Ligatures=TeX]{nbaskerv}
+    Ligatures=TeX]
     
-\setmonofont[
+\setmonofont[Scale=0.85,
     Path=fonts/thsmc/,
     UprightFont=ThSMCP25.ttf,
     BoldFont=ThSMCB02.ttf,
     ItalicFont=ThSMCI29.ttf,
     BoldItalicFont=TSMCBI56.ttf,
     Ligatures=TeX]{thsmc}
-    
+
 \setsansfont[
     Path=fonts/futurans/,
     UprightFont=futura.ttf,
     BoldFont=FuturB41.ttf,
     ItalicFont=FutuBO08.ttf,
     BoldItalicFont=FutCBO63.ttf]{futurans}
+    
     
 \else
   \newcommand{\dgdefault}{\sfdefault}%
@@ -174,18 +190,20 @@
 \lhead{}
 \rhead{}
 \chead{}
+
+% ===== FOOTERS =====
 \fancyhfoffset[L]{1in}
 \fancyfoot[RO]{\sffamily \fontsize{6pt}{6pt}%
-  \rightmark%
+  \fontseries{lq}\selectfont\rightmark%
   \hspace{2em} \futuraboldc \fontsize{9pt}{6pt}\selectfont\thepage}
 \fancyfoot[LO]{}
 \fancyfoot[CO]{}
-\fancyfoot[LE]{ \futuraboldc\fontsize{9pt}{6pt}%
-  \selectfont\thepage\hspace{2em}%
-  \fontseries{lq}\fontsize{6pt}{6pt}\selectfont%
-  \leftmark}
 \fancyfoot[RE]{}
 \fancyfoot[CE]{}
+\fancyfoot[LE]{\futuraboldc \fontsize{9pt}{6pt}%
+\selectfont\thepage%
+\fontseries{lq} \sffamily \fontsize{6pt}{6pt}\selectfont%
+\hspace{2em}\leftmark}
 
 % ===== SUBTITLE =====
 \newcommand{\subtitle}[1]{\gdef\@subtitle{#1}}
@@ -224,11 +242,11 @@
   \centering
   \null\vskip0.855in%
   {\dogma \fontsize{36\p@}{37\p@}\selectfont
-    \MakeUppercase{\@title}\par}%
+    \MakeUppercase{\sotitle{\@title}}\par}%
   \if\@subtitle\@empty\relax\else
      {\null\vskip25\p@%
      \dogma \fontsize{24\p@}{25\p@}\selectfont
-    \@subtitle\par}%
+     \@subtitle\par}%
   \fi
   \vspace{1.7in}%
   \vspace{-\baselineskip}%
@@ -274,14 +292,16 @@
   \null\vskip1.175in%
   \centering\normalfont}{\clearpage}
   
-\def\briefcontentsname{{\dogma Brief Contents}}
-\def\contentsname{{\dogma Contents in Detail}}%
+\def\briefcontentsname{{Brief Contents}}
+\def\contentsname{Contents in Detail}%
 \AtBeginDocument{\@ifpackageloaded{babel}{%
   \addto\captionsenglish{%
     \renewcommand{\contentsname}%
     {Contents in Detail}}}{}}
     
 % ===== BRIEF TABLE OF CONTENTS =====
+\newcommand{\apptoc}{\renewcommand{\chaptername}{Appendix}}
+
 \newcommand\brieftableofcontents{%
   \clearpage
   {\pagestyle{empty}\cleardoublepage}%
@@ -295,7 +315,7 @@
   \item\relax
     {\centering
       \dogma\fontsize{16\p@}{18\p@}\selectfont
-      \MakeUppercase{\briefcontentsname}\par}\vskip40pt%
+      \MakeUppercase{\sochapter{Brief Contents}}\par}\vskip40pt%
   \@starttoc{tbc}%
   \endlist
   \egroup}
@@ -313,8 +333,8 @@
     \topsep\z@\partopsep\z@}%
   \item\relax
     {\centering
-      \dogma\fontsize{16\p@}{18\p@}
-      \MakeUppercase{\contentsname}\par}\vskip18pt%
+      \dogma\fontsize{16\p@}{18\p@}\selectfont
+      \MakeUppercase{\sochapter{Contents in Detail}}\par}\vskip18pt%
   \@starttoc{toc}%
   \endlist
   \egroup}
@@ -347,8 +367,8 @@
       \parindent \z@ \rightskip \@pnumwidth
       \parfillskip -\@pnumwidth
       \leavevmode
-      \sffamily \bfseries \fontsize{10\p@}{12\p@}
-      {#1} \nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+      \sffamily \bfseries \fontsize{10\p@}{12\p@}{#1} 
+      \nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
       \vskip4\p@\penalty\@highpenalty
     \endgroup
   \fi}
@@ -458,14 +478,14 @@
        \vskip 0.45in%
      \fi
      \dogma \fontsize{16pt}{16pt}\fontseries{br}\selectfont
-     \MakeUppercase{#2}\par}%
+     \MakeUppercase{\sochapter{#2}}\par}%
     \@endpart}
 \def\@spart[#1]#2{%
   \addcontentsline{toc}{part}{\MakeUppercase{#1}}%
   \addcontentsline{tbc}{bpart}{\MakeUppercase{#1}}%
     {\centering
       \dogma\fontsize{16pt}{16pt}\fontseries{br}\selectfont
-     \MakeUppercase{#2}\par}%
+     \MakeUppercase{\sochapter{#2}}\par}%
     \@endpart}
 \def\@endpart{%
   \@afterindentfalse
@@ -506,8 +526,8 @@
   \markboth{#1}{#1}%
   \fi
   {\centering
-    \dogma\fontsize{16pt}{20pt}\selectfont
-    \MakeUppercase{#2}\par}\nobreak\vskip25pt\relax%
+    \dogma\fontsize{16pt}{18pt}\selectfont
+    \MakeUppercase{\sochapter{#2}}\par}\nobreak\vskip25pt\relax%
   \@firstparatrue
   \@afterheading}%
 \def\@schapter[#1]#2{%
@@ -517,8 +537,8 @@
       \MakeUppercase{#1}}%
     \addcontentsline{tbc}{bchapter}{#1}%
     \markboth{#1}{#1}%
-    {\fontsize{16pt}{20pt}\selectfont
-      \MakeUppercase{\dogma #2}\par}}\nobreak\vskip25pt\relax%
+    {\fontsize{16pt}{18pt}\selectfont
+      \MakeUppercase{\dogma \sochapter{#2}}\par}}\nobreak\vskip25pt\relax%
    \@firstparatrue
    \@afterheading}%
 \def\@afterheading{%
@@ -574,6 +594,8 @@
   \@startsection{subsubsection}{3}{0pt}{10pt}{2pt}{%
   \futuraboldc \fontsize{10pt}{14pt}%
     \selectfont}}%
+    
+% ===== LISTS =====
 \setlength{\leftmargin}{0.25in}
 \setlength{\leftmargini}{0.25in}
 \setlength{\leftmarginii}{0.25in}
@@ -581,7 +603,7 @@
 \setlength{\leftmarginiv}{0.25in}
 \setlength{\rightmargin}{0pt}
 \def\@listi{\leftmargin\leftmargini
-  \labelwidth\leftmargin\relax
+  \labelwidth\leftmargini
   \advance\labelwidth-\labelsep\relax
   \parsep0\p@\relax
   \topsep6\p@\relax
@@ -617,6 +639,8 @@
   \parsep0\p@\relax
   \topsep0\p@\relax
   \itemsep0\p@\relax}
+
+% ===== ITEMIZE =====
 \def\itemize{%
   \ifnum \@itemdepth >\thr@@\@toodeep\else
     \advance\@itemdepth\@ne
@@ -627,7 +651,7 @@
       {\def\makelabel##1{##1}}%
   \fi}
   
-% ===== BULLETS =====
+% ===== ENUMERATE =====
 \def\enumerate{%
   \ifnum \@enumdepth >\thr@@\@toodeep\else
     \advance\@enumdepth\@ne
@@ -636,7 +660,14 @@
       \list
         \csname label\@enumctr\endcsname
         {\usecounter\@enumctr\def\makelabel##1{##1}}%
-        \fi}
+  \fi}
+  
+      
+% ===== LIST PLAIN ===== 
+\renewenvironment{description}%
+  {\list{}{\labelwidth=0pt \leftmargin=18pt
+   \let\makelabel\descriptionlabel}}
+  {\endlist}
         
 % ===== QUOTES =====
 \renewenvironment{quotation}{%
@@ -654,8 +685,8 @@
 
 % ===== NOTE =====
 \newenvironment{note}{%
-  \list{\makebox[0pt][r]{\dogma \fontsize{9pt}{11pt}
-       \colorbox{black}{\textcolor{white}{N~O~T~E}}\hspace{2em}}}{\listparindent0pt\relax
+  \list{\makebox[0pt][r]{\dogma \fontsize{7.5pt}{12pt}
+       \colorbox{black}{\textcolor{white}{\sonote{NOTE}}}\hspace{2em}}}{\listparindent0pt\relax
     \topsep9\p@\relax
     \itemindent0\p@\relax
     \rightmargin0\p@\relax
@@ -682,25 +713,30 @@
       \@makefntext{%
         \rule\z@{13.5pt}\ignorespaces#1}%
     \color@endgroup}}%
-\setlength{\skip\footins}{16\p@ \@plus 4\p@ \@minus 0\p@}
+\setlength{\skip\footins}{20\p@ \@plus 4\p@ \@minus 0\p@}
 \renewcommand\@makefntext[1]{%
     \parindent 0\p@%
     \RaggedRightParindent0\p@%
     \noindent
     \@makefnmark\space#1}
+    
+\renewcommand\@makefntext[1]{%
+\@thefnmark.~#1}
+ 
 
-% ===== FIGURE =====
+% ===== FIGURE NUMBERING =====
 \renewcommand \thefigure
-     {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@figure}
+     {\ifnum \c@chapter>-1 \thechapter-\fi \@arabic\c@figure}
      
-% ===== TABLE =====
+% ===== TABLE NUMBERING =====
 \renewcommand \thetable
-     {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@table}
+     {\ifnum \c@chapter>-1 \thechapter-\fi \@arabic\c@table}
+
 
 % ===== LISTING =====
 \AtBeginDocument{%
   \renewcommand \thelstlisting
-       {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@lstlisting}%
+       {\ifnum \c@chapter>-1 \thechapter-\fi \@arabic\c@lstlisting}%
 }
 
 \lstset{
@@ -710,31 +746,64 @@
     title=\lstname,
     numbers = none,
     caption={},
-    literate={\ }{{\ }}{1}{"}{\textquotedbl}1,  
+    literate={\ }{{\ }}1{"}{\textquotedbl}1,  
     escapeinside={(*}{*)},
     captionpos=b,
     basicstyle=\ttfamily,
     columns=fullflexible,
     moredelim=[is][\bfseries]{***}{***},
-    moredelim=[is][\itshape]{___}{___}
+    moredelim=[is][\itshape]{___}{___},
+    aboveskip=8pt,
 }
 
+\lstnewenvironment
+    {codewide}[1][]
+    {
+    \renewcommand{\codewingding}[1]
+    {\ding{\the\numexpr ##1 + 181 \relax}} 
+    \captionsetup[lstlisting]{font=nostarchfigfont,singlelinecheck=off,
+  aboveskip=4pt, belowskip=0pt, margin=-50pt}
+    \lstset{
+    frame = lines, 
+    showstringspaces=false,
+    tabsize=4,
+    title=\lstname,
+    numbers = none,
+    literate={\ }{{\ }}1{"}{\textquotedbl}1,  
+    escapeinside={(*}{*)},
+    captionpos=b,
+    basicstyle=\ttfamily,
+    columns=fullflexible,
+    moredelim=[is][\bfseries]{***}{***},
+    moredelim=[is][\itshape]{___}{___},
+    xleftmargin=-50pt,
+    aboveskip=8pt,
+    #1
+    }}
+    {
+    \renewcommand{\codewingding}[1]
+    {\vbox{\llap{\wingding{#1}\hskip 1em}}}
+    \captionsetup[lstlisting]{font=nostarchfigfont,singlelinecheck=off,
+  aboveskip=4pt, belowskip=0pt, margin=0pt}}
+
+
+
 % ===== CAPTIONS =====
-\DeclareCaptionFont{nostarchfigfont}{\sffamily \itshape \fontsize{8.5pt}{9pt}}
-\DeclareCaptionFont{nostarchtabfont}{\sffamily \fontsize{8.5pt}{9pt}}
+\DeclareCaptionFont{nostarchfigfont}{\sffamily \itshape \fontsize{8.5pt}{9pt}\selectfont}
+\DeclareCaptionFont{nostarchtabfont}{\futurabook \fontsize{9pt}{9pt}\selectfont}
 \captionsetup[figure]{font=nostarchfigfont,singlelinecheck=off,
-  aboveskip=8pt,belowskip=8pt}
+  aboveskip=8pt,belowskip=-8pt}
 \captionsetup[lstlisting]{font=nostarchfigfont,singlelinecheck=off,
-  aboveskip=8pt, belowskip=8pt}
+  aboveskip=4pt, belowskip=0pt}
 \captionsetup[table]{font=nostarchtabfont,singlelinecheck=off,
-  aboveskip=0pt,belowskip=4pt}
+  aboveskip=0pt,belowskip=4pt, labelfont=bf}
 
   
 % ===== TABLES =====
 \def\tbfont{%
-  \futurabook\fontsize{8pt}{10pt}}
+  \futurabook\fontsize{8.5pt}{10pt}\selectfont}
 \def\thfont{%
-  \futuraheavy\fontsize{8pt}{10pt}\selectfont}
+  \futuraheavy\fontsize{9pt}{10pt}\selectfont}
  
 \heavyrulewidth=3\p@
 \lightrulewidth=1.5\p@
@@ -752,8 +821,44 @@
 \FV@AddToHook\FV@ListParameterHook{\vspace{-6pt}}
 \VerbatimFootnotes
 
+% ===== BOX =====
+\mdfdefinestyle{nspbox}{%
+    linecolor=black,
+    outerlinewidth=1pt,
+    roundcorner=5pt,
+    innertopmargin=\baselineskip,
+    innerbottommargin=\baselineskip,
+    innerrightmargin=18pt,
+    innerleftmargin=18pt,
+    backgroundcolor=gray!50!white,
+    }
+    
+\newenvironment{nspbox}[1]
+{\begin{mdframed}[style=nspbox]
+    \begin{center} 
+    {\dogma \fontsize{9pt}{15pt} \MakeUppercase{\sobox{#1}}} \vspace{6pt}
+    \end{center}
+    \begin{flushright}
+    \begin{flushleft}
+}
+{\end{flushleft}\end{flushright}
+\end{mdframed}}
 
-
+% ===== KEYCAP =====
+% Taken from: https://tex.stackexchange.com/questions/55664/fake-small-caps-with-xetex-fontspec/225078
+\newcommand\keycap[1]{\fauxschelper#1 \relax\relax}
+\def\fauxschelper#1 #2\relax{%
+  \fauxschelphelp#1\relax\relax%
+  \if\relax#2\relax\else\ \fauxschelper#2\relax\fi%
+}
+\def\Hscale{.83}\def\Vscale{.72}\def\Cscale{1.00}
+\def\fauxschelphelp#1#2\relax{%
+  \ifnum`#1>``\ifnum`#1<`\{\scalebox{\Hscale}[\Vscale]{\uppercase{#1}}\else%
+    \scalebox{\Cscale}[1]{#1}\fi\else\scalebox{\Cscale}[1]{#1}\fi%
+  \ifx\relax#2\relax\else\fauxschelphelp#2\relax\fi}
+ 
+ % ===== MENU ARROW =====
+ \newcommand\menuarrow{{\small $\blacktriangleright$}}
 
 % ===== BIBLIOGRAPHY =====
 \AtBeginDocument{
@@ -771,7 +876,7 @@
     \addcontentsline{tbc}{bchapter}{\bibname}%
     {\centering
       {\dogma\fontsize{16pt}{20pt}\selectfont
-        \MakeUppercase{\bibname}\par}}\nobreak\vskip25pt\relax%
+        \MakeUppercase{\sochapter{\bibname}}\par}}\nobreak\vskip25pt\relax%
     \@mkboth{\bibname}{\bibname}}}%
 \renewenvironment{thebibliography}[1]{%
   \bibsection
@@ -814,7 +919,7 @@
   {\centering
     {\dogma%
       \fontsize{16pt}{20pt}\selectfont
-      \MakeUppercase{\indexname}\par}}%
+      \MakeUppercase{\sochapter{\indexname}}\par}}%
   \nobreak\vskip25pt\relax]%
   \@mkboth{\MakeUppercase\indexname}%
   {\MakeUppercase\indexname}%
@@ -845,7 +950,7 @@
   {\centering
    \dogma%
     \fontsize{16pt}{20pt}\selectfont
-    \MakeUppercase{\updatesname}\par\nobreak\vskip40\p@}%
+    \MakeUppercase{\sochapter{\updatesname}}\par\nobreak\vskip40\p@}%
   \@nobreaktrue
   \everypar{%
     \if@nobreak
@@ -867,7 +972,7 @@
   {\centering
     \dogma%
     \fontsize{16pt}{20pt}\selectfont
-    \MakeUppercase{\colophonname}\par\nobreak\vskip40\p@}%
+    \MakeUppercase{\sochapter{\colophonname}}\par\nobreak\vskip40\p@}%
   \@nobreaktrue
   \everypar{%
     \if@nobreak

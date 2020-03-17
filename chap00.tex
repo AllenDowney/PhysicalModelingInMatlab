@@ -3,33 +3,47 @@
 
 Modeling and simulation are powerful tools for explaining the world, making predictions, designing things that work, and making them work better.  Learning to use these tools can be difficult; this book is my attempt to make the experience as enjoyable and productive as possible.
 
-By reading this book --- and working on the exercises --- you will learn some programming, some modeling, and some simulation:
-
-\begin{itemize}
-
-\item With basic programming skills, you can create models for a wide range of physical systems.
+By reading this book --- and working on the exercises --- you will learn some programming, some modeling, and some simulation.
+With basic programming skills, you can create models for a wide range of physical systems.
 My goal is to help you develop these skills in a way you can apply immediately to real-world problems.
 
-\item This book presents the entire modeling process, including model selection, analysis, simulation, and validation.  I explain this process in Chapter~\ref{modeling}, and there are examples throughout the book.
+This book presents the entire modeling process, including model selection, analysis, simulation, and validation.  I explain this process in Chapter~\ref{modeling}, and there are examples throughout the book.
 
-\item Simulation is an approach to modeling that uses computer programs to  implement models and generate predictions.  This book shows how simulations are used to run experiments, answer questions, and guide decision-making.
+Simulation is an approach to modeling that uses computer programs to  implement models and generate predictions.  This book shows how simulations are used to run experiments, answer questions, and guide decision-making.
 
-\end{itemize}
-
-To make this book accessible to the widest possible audience, I try to minimize the ``prerequisites''.  
-
+\section{Who This Book Is For}
+To make this book accessible to the widest possible audience, I've tried to minimize the ``prerequisites''.  
 In particular, this book is intended for people who have never programmed before.  I start from the beginning, define new terms when they are introduced, and present only the features you need, when you need them.
 
 I assume that you know trigonometry and some calculus, but not much.  If you understand that a derivative represents a rate of change, that's enough.  You will learn about differential equations and some linear algebra, but I will explain what you need to know as we go along.
 
-I assume you know basic physics, in particular the concepts of force, acceleration, velocity, and position.  If you know Newton's second law of motion in the form $F = m a$, that's enough.
+I also assume you know basic physics, in particular the concepts of force, acceleration, velocity, and position.  If you know Newton's second law of motion in the form $F = m a$, that's enough.
 
-You will learn to use numerical methods to search for roots of non-linear equations, to solve differential equations, and to search for optimal solutions.  You will learn how to use these methods first; then in Chapter~\ref{how} you will learn more about how they work.  But if you can't stand the suspense, you can look ``under the hood'' whenever you want.
+\section{About This Book}
 
 I have tried to present a small set of tools that provides the most versatility and power, to explain them as clearly as possible, and to give you chances to practice what you learn.
 
-I hope you enjoy the book and find it valuable.
+Here's what you will find in this book:
+\begin{description}
+\item [Chapter 1: Modeling and Simulation] . . .
+\item [Chapter 2: Scripts] . . .
+\item [Chapter 3: Loops] . . .
+\item [Chapter 4: Vectors] . . .
+\item [Chapter 5: Functions] . . .
+\item [Chapter 6: Conditionals] . . .
+\item [Chapter 7: Zero-Finding] . . .
+\item [Chapter 8: Functions of Vectors] . . .
+\item [Chapter 9: Ordinary Differential Equations] . . .
+\item [Chapter 10: Systems of ODEs] . . .
+\item [Chapter 11: Second-Order Systems] . . .
+\item [Chapter 12: Two Dimensions] . . .
+\item [Chapter 13: Optimization] . . .
+\item [Chapter 14: Springs and Things] . . .
+\item [Chapter 15: Under the Hood] . . .
 
+\end{description}
+
+I hope you enjoy the book and find it valuable.
 
 \section*{Installing software}
 
@@ -66,7 +80,7 @@ octave
 The first time you run it, a start window should appear to guide you through some configuration.
 
 
-\section{Working with the code}
+\section{Working with the Code}
 
 %TODO: apply link shorteners
 
@@ -80,14 +94,15 @@ Once you have the Zip file, you can unzip it on the command line by running
 unzip ModSimMatlabCode.zip
 \end{code}
 
-In Windows you can right-click on the Zip file and select {\sf Extract All}.
+In Windows you can right-click on the Zip file and select {\textbf Extract All}.
 
-If you open any of these files in MATLAB, you should be able to read the code.  To run it, press the green {\sf Run} button.
+If you open any of these files in MATLAB, you should be able to read the code.  To run it, press the green {\textbf Run} button.
 
 You might get a message like, ``File not found in the current folder''.
-MATLAB will give you the option to {\sf Change Folder} or {\sf Add to Path}.  If you change folders, you will be able to run this file until you change folder again.  If you add to the path, you will always be able to run this file.
+MATLAB will give you the option to Change Folder or Add to Path.  If you change folders, you will be able to run this file until you change folder again.  If you add to the path, you will always be able to run this file.
 
-However, as you add more folders to the path, you are more likely to run into problems with name collisions (see Section~\ref{collision}).  I recommend you change folders when necessary and avoid adding folders to the path.
+However, as you add more folders to the path, you are more likely to run into problems with name collisions (see Section~\ref{collision}).
+I recommend you change folders when necessary and avoid adding folders to the path.
 
 
 \newpage

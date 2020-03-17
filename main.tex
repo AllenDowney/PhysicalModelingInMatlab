@@ -16,6 +16,8 @@
 \usepackage{upquote}
 \usepackage{url}
 \usepackage{subfiles}
+\usepackage[italic]{mathastext}
+\usepackage{enumitem}
 
 \usepackage{minitoc}
 \setcounter{minitocdepth}{3} 
@@ -40,7 +42,13 @@
    \fi
 }}
 
-
+% ===== CONFIGURE =====
+% Configurations go here
+\setlist[enumerate]{leftmargin=36pt,labelsep=0.15in} % Use normal paragraph indentation in enumerate lists
+\setlist[itemize]{leftmargin=36pt,labelsep=0.18in} % Use normal paragraph indentation in itemize lists
+\setlist[description]{leftmargin=18pt,labelwidth=0pt, labelindent=0pt, labelsep=0pt, itemindent=0pt} % Use normal paragraph indentation in description lists
+\renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\textbf{#1 \quad}} % Add em space to description label
+%\setcounter{secnumdepth}{0}
 
 
 %\setlength{\headsep}{3ex}
@@ -106,10 +114,12 @@
 
 \begin{document}
 \sloppy
+\def\UrlFont{\em}
 
 \frontmatter
 
-\newcommand{\thetitle}{Physical Modeling in MATLAB\myreg}
+
+\newcommand{\thetitle}{Physical Modeling in MATLAB}
 \newcommand{\theversion}{3.0.0}
 
 \title {\thetitle}
@@ -151,15 +161,19 @@ MATLAB\myreg is a registered trademark of The
 Mathworks, Inc.  The Mathworks does not warrant the accuracy
 of this book.
 
-\include{chap00}
 %\pdfbookmark[chapter]{\contentsname}{toc}
 
 % This lets us do mini ToCs at the start of the chapter.
 \dominitoc
 \dominilof
 \dominilot
+
+\brieftableofcontents
+
 \tableofcontents
 \adjustmtc{}
+
+\include{chap00}
 
 \mainmatter
 

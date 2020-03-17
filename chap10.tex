@@ -1,6 +1,5 @@
 \chapter{Systems of ODEs}
 \label{systems}
-\minitoc
 
 In the previous chapter we used Euler's method and {\tt ode45} to solve a single first-order differential equation.  In this chapter we'll move on to systems of ODEs and implement a model of a predator-prey system.  But first, we have to learn more about matrices.
 
@@ -116,9 +115,9 @@ ans = 1     5
 \end{code}
 
 Well, some vectors, anyway.  Actually, there are two kind
-of vectors.  The ones we've seen so far are called {\emph row vectors},
+of vectors.  The ones we've seen so far are called {\em row vectors},
 because the elements are arranged in a row; the other kind are
-{\emph column vectors}, where the elements are in a single column.
+{\em column vectors}, where the elements are in a single column.
 
 One way to create a column vector is to create a matrix with only
 one element per row:
@@ -159,7 +158,7 @@ ans = 2
 \index{Matrices!transpose}
 
 The transpose operator, which looks remarkably like an apostrophe,
-computes the {\emph transpose} of a matrix, which is a new matrix
+computes the {\em transpose} of a matrix, which is a new matrix
 that has all of the elements of the original, but with each row
 transformed into a column (or you can think of it the other way around).
 
@@ -214,12 +213,12 @@ The model is governed by the following system of differential equations:
 where $x$ and $y$ are the populations of rabbits and foxes,
 and $a$, $b$, $c$, and $d$ are parameters
 that quantify the interactions between the two species (See
-\emph{https://en.wikipedia.org/wiki/Lotka-Volterra\_equations}.)
+\url{https://en.wikipedia.org/wiki/Lotka-Volterra_equations}.)
 
 At first glance you might think you could solve these equations by
 calling {\tt ode45} once to solve for $x$ and
 once to solve for $y$.  The problem is that each equation involves
-both variables, which is what makes this a {\emph system of equations}
+both variables, which is what makes this a {\em system of equations}
 and not just a list of unrelated equations.  To solve a system, you
 have to solve the equations simultaneously.
 
@@ -266,7 +265,7 @@ $x(t)$ and $y(t)$.
 
 The body of the function includes four sections, each explained by a comment.
 
-The first section {\emph unpacks} the vector by copying the elements
+The first section {\em unpacks} the vector by copying the elements
 into variables.  This isn't necessary, but giving names to
 these values helps me remember what's what.  It also makes the third
 section, where we compute the derivatives, resemble the mathematical
@@ -286,7 +285,7 @@ I chose values that yield interesting results.
 The third section computes the derivatives of $x$ and $y$ using the equations
 we were given.
 
-The last section {\emph packs} the computed derivatives back into a
+The last section {\em packs} the computed derivatives back into a
 vector.  When {\tt ode45} calls this function, it provides a vector
 as input and expects to get a vector as output.
 
@@ -445,7 +444,7 @@ the variables we're solving for.
 
 Over time, the state moves around the plane; Figure~\ref{fig:phase} shows
 the path traced by the state over time; this path
-is called a {\emph trajectory}.
+is called a {\em trajectory}.
 
 Since the behavior of this system is periodic, the trajectory is a loop.
 
