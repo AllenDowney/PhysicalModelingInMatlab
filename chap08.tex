@@ -96,11 +96,7 @@ V = 1     4     9
 
 The input variable is a vector with the elements {\tt 1,2,3}.  The output variable is a vector with elements {\tt 1,4,9}.
 
-\begin{ex}
-Write a function named {\tt myfind} that
-encapsulates the code from Section~\ref{search} that finds the
-location of a target value in a vector.
-\end{ex}
+
 
 
 \subsection{Vectorizing Functions}
@@ -116,7 +112,7 @@ length 1.
 >> mysum(17)
 ans = 17
 
->> myapply(9)
+>> mysquare(9)
 ans = 81
 \end{code}
 
@@ -192,10 +188,7 @@ function will also work on vectors.
 
 \subsection{Sums and Differences}
 
-Another common vector operation is {\emph cumulative sum}, which takes a
-vector as an input and computes a new vector that contains all of the
-partial sums of the original.  In math notation, if $V$ is the
-original vector, then the elements of the cumulative sum, $C$, are:
+Another common vector operation is {\emph cumulative sum}, which takes a vector as an input and computes a new vector that contains all of the partial sums of the original.  In math notation, if $V$ is the original vector, the elements of the cumulative sum, $C$, are:
 
 \index{cumulative sum}
 \index{sum!cumulative}
@@ -205,8 +198,7 @@ C_i = \sum_{j=1}^i V_j
 \end{equation}
 
 In other words, the $i$th element of $C$ is the sum of the first
-$i$ elements from $V$.  MATLAB provides a function named {\tt cumsum}
-that computes cumulative sums:
+$i$ elements from $V$.  MATLAB provides a function named {\tt cumsum} that computes cumulative sums:
 
 \index{cumsum@{\tt cumsum}}
 
@@ -233,7 +225,7 @@ D = 2     3     4     5
 
 Notice that the output vector is shorter by one than the input
 vector.  As a result, MATLAB's version of {\tt diff} is not
-exactly the inverse of {\tt cumsum}.  If it were, then we would
+exactly the inverse of {\tt cumsum}.  If it were, we would
 expect {\tt cumsum(diff(X)} to be {\tt X}:
 
 \begin{code}
@@ -551,24 +543,12 @@ In the next chapter we will apply to tools we have learned so far to the central
 
 \begin{description}
 
-\item[top-level function:]  The first function in an M-file;
-it's the only function that can be called from the Command
-Window or from another file.
-
-\item[helper function:] A function in an M-file that is not
-the top-level function; it only be called from another function
-in the same file.
-
-\item[existential quantification:] A logical condition that expresses
-the idea that ``there exists'' an element of a set with a certain
-property.
+\item[existential quantification:] A logical condition that expresses the idea that ``there exists'' an element of a set with a certain property.
 
 \item[universal quantification:] A logical condition that expresses
 the idea that all elements of a set have a certain property.
 
-\item[logical vector:] A vector, usually the result of applying a logical
-operator to a vector, that contains logical values 1 and 0.
-
+\item[logical vector:] A vector, usually the result of applying a logical operator to a vector, that contains logical values 1 and 0.
 
 \end{description}
 

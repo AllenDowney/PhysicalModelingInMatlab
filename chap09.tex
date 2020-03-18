@@ -12,9 +12,7 @@ But first I have a quick suggestion about organizing code in files.
 So far we've only put one function in each file.  It's also possible
 to put more than one function in a file, but only the first one, the
 {\em top-level function}, can be called from the Command
-Window. 
-The other {\em helper functions} can be called from anywhere inside the file, 
-but not from the Command Window or any other file.
+Window.  The other {\em helper functions} can be called from anywhere inside the file, but not from the Command Window or any other file.
 
 \index{function!top-level}
 \index{top-level function}
@@ -77,10 +75,7 @@ function whose derivatives satisfy the equation.
 For example, suppose we would like to predict the population of yeast growing in a nutrient solution.  Assume that we know the initial population is 5 billion yeast cells.
 
 When yeast grow in particularly yeast-friendly
-conditions, the rate of growth at any point in time is proportional to
-the current population.
-If we define $y(t)$ to be the population at 
-time $t$, we can write the following equation for the rate of growth:
+conditions, the rate of growth at any point in time is proportional to the current population.  If we define $y(t)$ to be the population at  time $t$, we can write the following equation for the rate of growth:
 %
 \begin{equation}
 \frac{dy}{dt}(t) = a y(t)
@@ -165,7 +160,7 @@ the growth parameter $a = 0.2$ per hour.
 
 \index{top-level function}
 
-As a first step, I created a file named {\em euler.m} with a top-level function and a helper function:
+As a first step, I created a file named {\tt euler.m} with a top-level function and a helper function:
 
 \begin{code}
 function res = euler()
@@ -585,14 +580,21 @@ room temperature after about an hour.
 
 \begin{description}
 
+\item[top-level function:]  The first function in an M-file;
+it's the only function that can be called from the Command
+Window or from another file.
+
+\item[helper function:] A function in an M-file that is not
+the top-level function; it only be called from another function
+in the same file.
+
 \item[differential equation (DE):] An equation that relates the
 derivatives of an unknown function.
 
 \item[ordinary DE (ODE):] A DE in which all derivatives are taken with
 respect to the same variable.
 
-\item[partial DE (PDE):] A DE that includes derivatives with respect to
-more than one variable
+\item[partial DE (PDE):] A DE that includes derivatives with respect to more than one variable
 
 \item[first-order DE:] A DE that includes only first derivatives.
 
