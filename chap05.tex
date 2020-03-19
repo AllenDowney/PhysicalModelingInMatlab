@@ -55,7 +55,7 @@ unexpected interactions.
 
 To define a new function, you create an M-file with the name you
 want, and put a function definition in it.  For example, to create
-a function named {\tt myfunc}, create an M-file named {\tt myfunc.m}
+a function named {\tt myfunc}, create an M-file named {\em myfunc.m}
 and put the following definition into it:
 
 \index{M-file}
@@ -254,7 +254,7 @@ In the spirit of making errors on purpose, change the name of
 the function in \verb"myfunc" to \verb"something_else", and
 then run it again.
 
-If this is what you put in \verb"myfunc.m":
+If this is what you put in \emph{myfunc.m}:
 
 \begin{code}
 function res = something_else (x)
@@ -279,7 +279,7 @@ Undefined function or variable 'something_else'.
 
 The second gotcha is that the name of the file can't have spaces.
 For example, if you write a function and rename the file to 
-{\tt my func.m},
+{\em my func.m},
 and then try to run it, you get:
 
 \begin{code}
@@ -293,11 +293,11 @@ This fails because MATLAB thinks \verb"my" and \verb"func" are two different
 variable names.
 
 The third gotcha is that your function names can collide with built-in
-MATLAB functions.  For example, if you create an M-file named {\tt sum.m}, and then call {\tt sum}, MATLAB might call {\em your} new
+MATLAB functions.  For example, if you create an M-file named {\em sum.m}, and then call {\tt sum}, MATLAB might call {\em your} new
 function, not the built-in version!  Which one actually gets called
 depends on the order of the directories in the search path, and
 (in some cases) on the arguments.  As an example, put the following
-code in a file named {\tt sum.m}:
+code in a file named {\em sum.m}:
 
 \index{name collision}
 \index{collision!name}
@@ -388,6 +388,7 @@ Now that we know about functions, and all the ways they can go wrong, let's put 
 \section{Exercises}
 
 \begin{ex}
+\label{hypotenuse_exercise}
 Write a function called {\tt hypotenuse} that takes two parameters, {\tt a} and {\tt b}, that represent the lengths of two sides of a right triangle.  It should assign to {\tt res} the length of the third side of the triangle, given by the formula:
 
 \[ c = \sqrt{a^2 + b^2} \]

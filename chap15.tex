@@ -14,7 +14,7 @@ According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutt
 \index{Dormand-Prince}
 
 The key idea behind all Runge-Kutta methods is to evaluate the rate function several times at each time step and use a weighted average of the computed slopes to estimate the value at the next time step.  
-Different methods evaluate the rate function in different places, and compute the average with different weights.
+Different methods evaluate the rate function in different places and compute the average with different weights.
 
 \index{differential equation}
 \index{rate function}
@@ -33,7 +33,7 @@ function res = rate_func(t, y)
 end
 \end{code}
 
-And we can call it like this:
+And we can use it like this:
 
 \begin{code}
     y0 = 1;
@@ -79,7 +79,9 @@ The circles show the places where the rate function was evaluated.
 
 We can see that {\tt ode45} evaluates the rate function several times per time step, at several places between the end points.  
 We can also see that most of the places where {\tt ode45} evaluates the rate function are not part of the solution it returns, and they are not always good estimates of the solution.
-This is good to know when you are writing a rate function; you should not assume that time and state you get as input variables will be part of the solution.
+This is good to know when you are writing a rate function; you should not assume that the time and state you get as input variables will be part of the solution.
+
+In a sense, the rate function is answering a hypothetical question: ``{\tt em If} the state at a particular time has these particular values, what {\em would} the slope be''.
 
 \begin{figure}
 \centerline{\includegraphics[height=3in]{book/figs/odeplot2.eps}}
@@ -95,7 +97,7 @@ Because {\tt ode45} is \emph{adaptive} in this way, it minimizes the number of t
 \index{adaptive}
 
 
-\section{How fzero works}
+\section{How fzero Works}
 \label{howfzero}
 
 According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of bisection, secant, and inverse quadratic interpolation methods''.
@@ -106,7 +108,7 @@ According to the MATLAB documentation, {\tt fzero} uses uses ``a combination of 
 \index{inverse quadratic interpolation
 \index{root}}
 
-To understand what that means, suppose we're trying to find a root of a function on one variable, $f(x)$, and assume we have evaluated the function at two places, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
+To understand what that means, suppose we're trying to find a root of a function of one variable, $f(x)$, and assume we have evaluated the function at two places, $x_1$ and $x_2$, and found that the result have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
 \begin{figure}[ht]
 \centerline{\includegraphics[height=1.6in]{book/figs/secant.eps}}
@@ -130,13 +132,13 @@ congratulations!  You just invented the \emph{secant method}!
 
 And if you said, ``I would evaluate $f$ at a third point, find the
 parabola that passes through all three points, and compute the zeros
-of the parabola,'' then congratulations, you just invented 
+of the parabola,'' congratulations, you just invented 
 \emph{inverse quadratic interpolation}.
 
 That's most of how {\tt fzero} works.  The details of how these methods are combined are interesting, but beyond the scope of this book.  You can read more at \url{https://en.wikipedia.org/wiki/Brents_method}.  
 
 
-\section{How fminsearch works}
+\section{How fminsearch Works}
 \label{howfminsearch}
 
 According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead\_method}, but you might find it overwhelming.
@@ -163,7 +165,7 @@ We will assume that $f(x)$ is continuous and ``unimodal'' in this range, which m
 
 The next step is to choose a fourth point, $x_4$, and evaluate
 $f(x_4)$.  There are two possible outcomes, depending on whether
-$f(x_4)$ is greater than $f(x_2)$.
+$f(x_4)$ is greater than $f(x_2)$ or not.
 Figure~\ref{fig:golden2} shows the two possible states.
 
 \begin{figure}[ht]
@@ -184,3 +186,13 @@ This method works for almost any value of $x_4$, but some choices
 are better than others.  You might be tempted to bisect the interval between $x_2$ and $x_3$, but that turns out not to be the best choice.  You can read about a better option at \url{https://en.wikipedia.org/wiki/Golden-section_search#Probe_point_selection}.
 
 \section{Summary}
+
+The information in the chapter is not strictly necessary; usually you can use these methods without knowing much about how they work.  But there are two reasons you might want to know.
+
+One reason is pure curiosity.  If you use these methods, and especially if you come to rely on them, you might find it unsatisfying to treat them as ``black boxes''.  At the risk of mixing metaphors, I hope you enjoyed opening the hood.
+
+The other reason is that these methods are not infallible; sometimes things go wrong.  If you know how they work, at least in a general sense, you might find it easier to debug them.
+
+With that, you have reached the end of the book, so congratulations!  I hope you enjoyed it and learned a lot.  I think the tools in this book are useful and the ways of thinking are important, not just in engineering and science, but in practically every field of inquiry.
+
+Models are the tools we use to understand the world: if you build good models, you are more likely to get things right.  Good luck!

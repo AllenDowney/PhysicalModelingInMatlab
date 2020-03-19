@@ -151,7 +151,7 @@ too big, Euler's method is accurate enough for most purposes.
 
 \section{Implementing Euler's method}
 
-As an example I'll use Euler's method to solve the equation from Section~\ref{diffeq}:
+As an example I'll use Euler's method to solve the equation from ``\nameref{diffeq}'':
 
 \[ \frac{dy}{dt}(t) = a y(t) \]
 
@@ -160,7 +160,7 @@ the growth parameter $a = 0.2$ per hour.
 
 \index{top-level function}
 
-As a first step, I created a file named {\tt euler.m} with a top-level function and a helper function:
+As a first step, I created a file named {\em euler.m} with a top-level function and a helper function:
 
 \begin{code}
 function res = euler()
@@ -230,7 +230,7 @@ A limitation of Euler's method is that it assumes that the derivative is constan
 \index{time step} 
 \index{ode45@{\tt ode45}}
 
-MATLAB provides a function called {\tt ode45} that implements one of these methods.  In this section I'll explain how to use it; you can read more about how it works in Section~\ref{howode45}.
+MATLAB provides a function called {\tt ode45} that implements one of these methods.  In this section I'll explain how to use it; you can read more about how it works in ``\nameref{howode45}'' on page~\pageref{howode45}.
 
 \index{rate function}
 \index{function!rate}
@@ -252,7 +252,7 @@ We can call {\tt ode45} from the Command Window like this:
 plot(T, Y)
 \end{code}
 
-The first argument is a function handle, as we saw in Section~\ref{fzero}.  The second argument is the time interval where we want to evaluate the solution; in this case the interval is from $t=0$ to $t=4$ hours.  The third argument is the initial population, 5 billion cells.
+The first argument is a function handle, as we saw in Chapter~\ref{fzero}.  The second argument is the time interval where we want to evaluate the solution; in this case the interval is from $t=0$ to $t=4$ hours.  The third argument is the initial population, 5 billion cells.
 
 \index{function handle}
 \index{handle!function}
@@ -273,7 +273,7 @@ For the first 2-3 hours, the two solutions are visually indistinguishable.  Duri
 
 For many purposes, the difference between Euler's method and {\tt ode45} is the least of our worries.  In this example, we probably don't know the initial population with perfect accuracy, or the growth constant, {\tt a}.  Also the assumption that the growth rate only depends on population is probably not true.  Any of these modeling errors could be bigger than 1\%.
 
-However, for some problems, Euler's method can be off by a lot more than 1\%.  In those cases {\tt ode45} is almost always more accurate, for two reasons: first, it computes the rate function several times per time step; also, if the time step is too big, {\tt ode45} can detect the problem and shrink the time step.  For more details, see Section~\ref{howode45}.
+However, for some problems, Euler's method can be off by a lot more than 1\%.  In those cases {\tt ode45} is almost always more accurate, for two reasons: first, it computes the rate function several times per time step; also, if the time step is too big, {\tt ode45} can detect the problem and shrink the time step.  For more details, see ``\nameref{howode45}'' on page~\pageref{howode45}.
 
 
 \section{Time Dependence}
@@ -342,7 +342,7 @@ r = 4
 Under these conditions, the growth rate is 4 new rats per day. 
 
 Now that we've tested \verb"rate_func", we can use {\tt ode} to solve the differential equation.
-Here's how to call it from the top-level function in {\tt rats.m}):
+Here's how to call it from the top-level function in {\em rats.m}):
 
 \begin{code}
 [T, Y] = ode45(@rate_func, [0, 365], 1000)
@@ -554,7 +554,7 @@ Here are some suggestions for getting started:
 
 \begin{itemize}
 
-\item Create a file named {\tt coffee.m} and write a function
+\item Create a file named {\em coffee.m} and write a function
 called {\tt coffee} that takes no input variables.  Put a simple statement like {\tt x=5} in the body of the function and invoke {\tt coffee} from the Command Window.
 
 \item Add a helper function called \verb"rate_func" that takes {\tt t} and {\tt y} and computes $\frac{dy}{dt}$.  In this case \verb"rate_func" does not actually depend on $t$; nevertheless, your function has to take $t$ as the first input variable in order to work with {\tt ode45}.
