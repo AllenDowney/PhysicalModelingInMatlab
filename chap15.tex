@@ -7,13 +7,13 @@ In this chapter we ``open the hood'', looking more closely at how some of the to
 \section{How ode45 Works}
 \label{howode45}
 
-According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair''.  You can read about it at \url{https://en.wikipedia.org/wiki/Runge-Kutta_methods}, but I'll give you a sense of it here.
+According to the MATLAB documentation, {\tt ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair''.  You can read about it at \url{https://greenteapress.com/matlab/runge}, but I'll give you a sense of it here.
 
 \index{Runge-Kutta}
 \index{ode45@{\tt ode45}}
 \index{Dormand-Prince}
 
-The key idea behind all Runge-Kutta methods is to evaluate the rate function several times at each time step and use a weighted average of the computed slopes to estimate the value at the next time step.  
+The key idea behind all Runge-Kutta methods is to evaluate the rate function several times at each time step and use a weighted average of the computed slopes to estimate the value at the next time step.
 Different methods evaluate the rate function in different places and compute the average with different weights.
 
 \index{differential equation}
@@ -22,7 +22,7 @@ Different methods evaluate the rate function in different places and compute the
 
 As an example, I'll solve the following differential equation:
 
-\[ \frac{dy}{dt}(t) = y \sin t \] 
+\[ \frac{dy}{dt}(t) = y \sin t \]
 
 Given a differential equation, it's usually straightforward to write a rate function:
 
@@ -73,11 +73,11 @@ Figure~\ref{fig:odeplot1} shows the result.  {\tt ode45} computes 10 time steps 
 \label{fig:odeplot1}
 \end{figure}
 
-Figure~\ref{fig:odeplot2} shows the same plot, zoomed in on a single time step.  
+Figure~\ref{fig:odeplot2} shows the same plot, zoomed in on a single time step.
 The dark squares at $0.8$ to $1.2$ show the values that were returned as part of the solution.
 The circles show the places where the rate function was evaluated.
 
-We can see that {\tt ode45} evaluates the rate function several times per time step, at several places between the end points.  
+We can see that {\tt ode45} evaluates the rate function several times per time step, at several places between the end points.
 We can also see that most of the places where {\tt ode45} evaluates the rate function are not part of the solution it returns, and they are not always good estimates of the solution.
 This is good to know when you are writing a rate function; you should not assume that the time and state you get as input variables will be part of the solution.
 
@@ -116,7 +116,7 @@ To understand what that means, suppose we're trying to find a root of a function
 \label{fig:secant}
 \end{figure}
 
-As long as $f$ is continuous, there must be at least one root in this interval.  
+As long as $f$ is continuous, there must be at least one root in this interval.
 In this case we would say that $x_1$ and $x_2$ \emph{bracket} a zero.
 
 \index{bracket}
@@ -132,24 +132,24 @@ congratulations!  You just invented the \emph{secant method}!
 
 And if you said, ``I would evaluate $f$ at a third point, find the
 parabola that passes through all three points, and compute the zeros
-of the parabola,'' congratulations, you just invented 
+of the parabola,'' congratulations, you just invented
 \emph{inverse quadratic interpolation}.
 
-That's most of how {\tt fzero} works.  The details of how these methods are combined are interesting, but beyond the scope of this book.  You can read more at \url{https://en.wikipedia.org/wiki/Brents_method}.  
+That's most of how {\tt fzero} works.  The details of how these methods are combined are interesting, but beyond the scope of this book.  You can read more at \url{https://greenteapress.com/matlab/brent}.
 
 
 \section{How fminsearch Works}
 \label{howfminsearch}
 
-According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://en.wikipedia.org/wiki/Nelder-Mead_method}, but you might find it overwhelming.
+According to the MATLAB documentation, {\tt fminsearch} uses the Nelder-Mead simplex algorithm.  You can read about it at \url{https://greenteapress.com/matlab/nelder}, but you might find it overwhelming.
 
 \index{fminsearch@{\tt fminsearch}}
 \index{Nelder-Mead}
 \index{golden section search}
 
-To give you a sense of how it works, I will present a simpler algorithm, the \emph{golden-section search}.  Suppose we're trying to find the minimum of a function of a single variable, $f(x)$.  
+To give you a sense of how it works, I will present a simpler algorithm, the \emph{golden-section search}.  Suppose we're trying to find the minimum of a function of a single variable, $f(x)$.
 
-As a starting place, assume that we have evaluated the function at three places, 
+As a starting place, assume that we have evaluated the function at three places,
 $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
@@ -183,7 +183,7 @@ local minimum must be between $x_1$ and $x_4$, so we would discard $x_3$ and pro
 Either way the range gets smaller and our estimate of the optimal value of $x$ gets better.
 
 This method works for almost any value of $x_4$, but some choices
-are better than others.  You might be tempted to bisect the interval between $x_2$ and $x_3$, but that turns out not to be the best choice.  You can read about a better option at \url{https://en.wikipedia.org/wiki/Golden-section_search#Probe_point_selection}.
+are better than others.  You might be tempted to bisect the interval between $x_2$ and $x_3$, but that turns out not to be the best choice.  You can read about a better option at \url{https://greenteapress.com/matlab/golden}.
 
 \section{Summary}
 

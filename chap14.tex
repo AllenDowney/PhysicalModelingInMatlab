@@ -19,7 +19,7 @@ I will present a motivating problem and some background information, and you wil
 \index{cookie}
 \index{tea}
 
-Suppose you want to set the world record for the highest ``bungee dunk'', which is a stunt in which a bungee jumper dunks a cookie in a cup of tea at the lowest point of a jump.  An example is shown in this video: \url{https://www.youtube.com/watch?v=UBf7WC19lpw}.
+Suppose you want to set the world record for the highest ``bungee dunk'', which is a stunt in which a bungee jumper dunks a cookie in a cup of tea at the lowest point of a jump.  An example is shown in this video: \url{https://greenteapress.com/matlab/dunk}.
 
 Since the record is \SI{70}{\meter}, let's design a jump for \SI{80}{\meter}.  We'll start with the following parameters:
 
@@ -83,13 +83,13 @@ It's tempting to say that the cord has no effect because it falls along with the
 
 \index{acceleration}
 
-At \url{https://iopscience.iop.org/article/10.1088/0031-9120/45/1/007} you'll find a paper by Heck, Uylings, and Kędzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
+At \url{https://greenteapress.com/matlab/bungee} you'll find a paper by Heck, Uylings, and Kędzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
 \[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
 %
 where $g$ is acceleration due to gravity, $L$ is the length of the cord, and $\mu$ is the ratio of the mass of the cord, $m$, and the mass of the jumper, $M$.
 
-If you don't believe that their model is correct, this video might convince you: \url{https://www.youtube.com/watch?v=X-QFAB0gEtE}.
+If you don't believe that their model is correct, this video might convince you: \url{https://greenteapress.com/matlab/chain}.
 
 \begin{ex}
 
@@ -163,7 +163,7 @@ We'll use the following parameters:
 
 \begin{enumerate}
 
-\item According to the Spider-Man Wiki (\url{https://spiderman.fandom.com/wiki/Peter_Parker_(Earth-616)}), Spider-Man weighs \SI{76}{\kg}.
+\item According to the Spider-Man Wiki (\url{https://greenteapress.com/matlab/spider}), Spider-Man weighs \SI{76}{\kg}.
 
 \item
   Let's assume his terminal velocity is \SI{60}{\meter\per\second}.
@@ -209,7 +209,7 @@ Given the mass of the Sun, $m1$, and the mass of the Earth, $m2$, the gravitatio
 \vec{F_g} = -G \frac{m_1 m_2}{r^2} \uvec{P}
 \end{equation*}
 
-where $G$ is the universal gravitational constant (see \url{https://en.wikipedia.org/wiki/Gravity}),
+where $G$ is the universal gravitational constant (see \url{https://greenteapress.com/matlab/gravity}),
 $r$ is the distance of Earth from the Sun, and
 $\uvec{P}$ is a unit vector in the direction of $\vec{P}$.
 
@@ -280,7 +280,7 @@ decreases.
 \index{ode23@{\tt ode23}}
 
 Along with {\tt ode45}, MATLAB provides several other ODE solvers 
-(see \url{https://www.mathworks.com/help/matlab/math/choose-an-ode-solver.html}).
+(see \url{https://greenteapress.com/matlab/solver}).
 Run your simulation with one of the other ODE solvers MATLAB provides
 and see if any of them conserve energy.  You might find that {\tt ode23} works surprisingly well (although technically it does not conserve energy either).
 
