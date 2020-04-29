@@ -226,9 +226,8 @@ function animate(T,M)
     minmax = [min([X]), max([X]), min([Y]), max([Y])];
 
     for i=1:length(T)
-        clf
+        clf; hold on
         axis(minmax)
-        hold on;
         plot(X(i), Y(i), 'o')
         drawnow;
         

@@ -39,9 +39,7 @@ And we can use it like this:
     y0 = 1;
     tspan=[0 4];
     options = odeset('Refine', 1);
-    hold on;
     [T, Y] = ode45(@rate_func, tspan, y0, options);
-    plot(T, Y);
 \end{code}
 
 For this example I use {\tt odeset} to set the {\tt Refine} option to 1, which tells {\tt ode45} to return only the time steps it computes, rather than interpolating between them.
@@ -63,7 +61,7 @@ function res = rate_func(t, y)
 end
 \end{code}
 
-When \verb"rate_func" runs it plot a red circle at each location, and a short red line showing the computed slope.
+When \verb"rate_func" runs, it plots a red circle at each location and a short red line showing the computed slope.
 
 \index{time step}
 
@@ -92,7 +90,7 @@ In a sense, the rate function is answering a hypothetical question: ``{\em If} t
 \end{figure}
 
 At each time step, {\tt ode45} actually computes {\em two} estimates of the next value.
-By comparing them, it can estimate the magnitude of the error, which is uses to adjust the time step.
+By comparing them, it can estimate the magnitude of the error, which it uses to adjust the time step.
 If the error is too big, it uses a smaller time step; if the error is small enough, it uses a bigger time step.
 Because {\tt ode45} is \emph{adaptive} in this way, it minimizes the number of times it calls the rate function to achieve a given level of accuracy.
 
