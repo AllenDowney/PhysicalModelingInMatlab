@@ -9,7 +9,7 @@ logistic,https://en.wikipedia.org/wiki/Logistic_map
 lorenz,https://en.wikipedia.org/wiki/Lorenz_system
 lotka,https://en.wikipedia.org/wiki/Lotka-Volterra_equations
 magnus,https://en.wikipedia.org/wiki/Magnus_effect
-nelder,https://en.wikipedia.org/wiki/Nelder-Mead\_method
+nelder,https://en.wikipedia.org/wiki/Nelder-Mead_method
 newton,https://en.wikipedia.org/wiki/Newton's_law_of_cooling
 right,https://en.wikipedia.org/wiki/Right-hand_rule
 runge,https://en.wikipedia.org/wiki/Runge-Kutta_methods
@@ -19,7 +19,7 @@ drag,https://github.com/AllenDowney/PhysicalModelingInMatlab/blob/master/code/da
 bungee,https://iopscience.iop.org/article/10.1088/0031-9120/45/1/007
 spider,https://spiderman.fandom.com/wiki/Peter_Parker_(Earth-616)
 astro,https://web.archive.org/web/20180617133223/http://curious.astro.cornell.edu/about-us/39-our-solar-system/the-earth/other-catastrophes/57-how-long-would-it-take-the-earth-to-fall-into-the-sun-intermediate
-anaconda,https://www.anaconda.com/download
+anaconda,https://www.anaconda.com/products/individual#Downloads
 octave,https://www.gnu.org/software/octave/
 matlab,https://www.mathworks.com/downloads/web_downloads/
 solver,https://www.mathworks.com/help/matlab/math/choose-an-ode-solver.html
