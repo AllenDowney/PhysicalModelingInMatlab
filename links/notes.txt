@@ -1,0 +1,29 @@
+0) Replace http: with https:, and make sure all URLs are fully qualified.
+
+1) Get the links in an HTML document for checking
+
+python get_links.py > links.html; firefox links.html &
+
+2) Get the links into a CSV file and give them nicknames
+
+python get_urls.py > urls.csv; localc urls.csv &
+
+3) Replace the long URLs with the short ones:
+
+python set_urls.py > book.tex
+meld ../book.tex book.tex
+
+4) Generate the htaccess lines
+
+python gen_htaccess.py > htaccess
+
+5) Paste the htaccess lines into ~/public_html/greent/.htaccess
+
+6) Commit the latest version of book.tex, then replace it
+
+python set_urls.py > book.tex
+mv book.tex ..
+
+7) Get the URLs again and test them
+
+python get_links.py > links.html; firefox links.html &
