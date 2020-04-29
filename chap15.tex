@@ -39,7 +39,9 @@ And we can use it like this:
     y0 = 1;
     tspan=[0 4];
     options = odeset('Refine', 1);
+    hold on;
     [T, Y] = ode45(@rate_func, tspan, y0, options);
+    plot(T, Y);
 \end{code}
 
 For this example I use {\tt odeset} to set the {\tt Refine} option to 1, which tells {\tt ode45} to return only the time steps it computes, rather than interpolating between them.
@@ -81,7 +83,7 @@ We can see that {\tt ode45} evaluates the rate function several times per time s
 We can also see that most of the places where {\tt ode45} evaluates the rate function are not part of the solution it returns, and they are not always good estimates of the solution.
 This is good to know when you are writing a rate function; you should not assume that the time and state you get as input variables will be part of the solution.
 
-In a sense, the rate function is answering a hypothetical question: ``{\tt em If} the state at a particular time has these particular values, what {\em would} the slope be''.
+In a sense, the rate function is answering a hypothetical question: ``{\em If} the state at a particular time has these particular values, what {\em would} the slope be''.
 
 \begin{figure}
 \centerline{\includegraphics[height=3in]{book/figs/odeplot2.eps}}

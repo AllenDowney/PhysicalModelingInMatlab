@@ -255,7 +255,7 @@ directed up, so if velocity is negative, drag force is positive.
 Here's how we can compute the force of drag as a function of velocity in one dimension:
 
 \begin{equation}
-    f_d = -sgn(v) b v^2 
+    f_d = -sign(v) b v^2 
 \end{equation}
 
 where $v$ is velocity and
@@ -263,11 +263,11 @@ $b$ is a drag constant that depends on the density of
 air, the cross-sectional area of the object and the shape
 of the object.  
 
-$sgn$ is the sign or signum function, which is 1 for positive values of 
+$sign$ is the sign or signum function, which is 1 for positive values of 
 $v$ and -1 for negative values.  So $f_d$ is always in the opposite direction of $v$.
 
 \index{signum function}
-\index{sgn@{\tt sgn}}
+\index{sign@{\tt sign}}
 \index{mass}
 \index{terminal velocity}
 

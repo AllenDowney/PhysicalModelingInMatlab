@@ -2,6 +2,17 @@
 % Copyright 2012, 2019 Allen B. Downey
 %
 
+\begin{filecontents*}{\jobname.mst}
+delim_0 "\\idxdelim"
+delim_1 "\\idxdelim"
+delim_2 "\\idxdelim"
+delim_n "\\nohyperpage{\\idxdelim}"
+delim_r "--"
+headings_flag 1
+heading_prefix "\\indexgroup{{"
+heading_suffix "}}\\nopagebreak\n"
+\end{filecontents*}
+
 % Use the No Starch Press document class
 \documentclass[cfonts]{nostarch}
 
@@ -110,7 +121,15 @@
 \usepackage{siunitx}
 \sisetup{per-mode=symbol}
 
+\usepackage{nshyper}
+% ---- Index, Chicago style ----
+\renewcommand{\seename}{See}
+\renewcommand{\alsoname}{See also}
+
 \makeindex
+\makeatletter
+\def\idxdelim{\@ifnextchar{\hyperindexformat}{. }{, }}
+\makeatother
 
 \begin{document}
 \sloppy

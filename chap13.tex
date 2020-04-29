@@ -228,6 +228,7 @@ function animate(T,M)
     for i=1:length(T)
         clf
         axis(minmax)
+        hold on;
         plot(X(i), Y(i), 'o')
         drawnow;
         
