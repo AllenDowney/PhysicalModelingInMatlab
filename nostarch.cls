@@ -840,6 +840,7 @@
     \end{center}
     \begin{flushright}
     \begin{flushleft}
+    \parskip=.5\baselineskip
 }
 {\end{flushleft}\end{flushright}
 \end{mdframed}}
