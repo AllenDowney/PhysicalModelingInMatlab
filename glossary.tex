@@ -1,0 +1,368 @@
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[interpreter:] The program that reads and executes MATLAB code.
+
+\item[command:] A line of MATLAB code executed by the interpreter.
+
+\item[prompt:] The symbols the interpreter prints to indicate that it's
+waiting for you to type a command.
+
+\item[operator:] One of the symbols, like \lstinline{*} and \lstinline{+}, that
+represent mathematical operations.
+
+\item[operand:] A number or variable that appears in an expression along
+with operators.
+
+\item[expression:] A sequence of operands and operators that specifies
+a mathematical computation and yields a value.
+
+\item[value:] The numerical result of a computation.
+
+\item[evaluate:] To compute the value of an expression.
+
+\item[order of operations:] The rules that specify which operations
+in an expression are performed first.
+
+\item[function:] A named computation; for example {\tt log10} is the
+name of a function that computes logarithms in base 10.
+
+\item[call:] To cause a function to execute and compute a result.
+
+\item[function call:] A kind of command that executes a function.
+
+\item[argument:] An expression that appears in a function call to
+specify the value the function operates on.
+
+\item[nested function call:] An expression that uses the result from
+one function call as an argument for another.
+
+\item[variable:] A named value.
+
+\item[assignment statement:] A command that creates a new variable
+(if necessary) and gives it a value.
+
+\item[workspace:] A set of variables and their values.
+
+\item[string:] A value that consists of a sequence of characters (as
+opposed to a number).
+
+
+\end{description}
+
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[M-file:] A file that contains a MATLAB program.
+
+\item[script:] An M-file that contains a sequence of MATLAB commands.
+
+\item[search path:] The list of folders where MATLAB looks for
+M-files.
+
+\item[precondition:] Something that must be true when the script
+starts, in order for it to work correctly.
+
+\item[postcondition:] Something that will be true when the script
+completes.
+
+\item[target:] The variable on the left side of an assignment statement.
+
+\item[floating-point:] A way to represent numbers in a computer.
+
+\item[scientific notation:] A format for typing and displaying large
+and small numbers; e.g. {\tt 3.0e8}, which represents $3.0 \times 10^8$
+or 300,000,000.
+
+\item[comment:] Part of a program that provides additional information
+about the program, but does not affect its execution.
+
+\end{description}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[absolute error:] The difference between an approximation and
+an exact answer.
+
+\item[relative error:] The difference between an approximation and
+an exact answer, expressed as a fraction or percentage of the exact
+answer.
+
+\item[loop:] A part of a program that runs repeatedly.
+
+\item[loop variable:] A variable, defined in a {\tt for} statement,
+that gets assigned a different value each time through the loop.
+
+\item[range:] The set of values assigned to the loop variable, often
+specified with the colon operator; for example {\tt 1:5}.
+
+\item[body:] The statements inside the for loop that are run
+repeatedly.
+
+\item[sequence:] In mathematics, a set of numbers that correspond
+to the positive integers.
+
+\item[element:] A member of the set of numbers in a sequence.
+
+\item[recurrently:] A way of computing the next element of a sequence
+based on previous elements.
+
+\item[directly:] A way of computing an element in a sequence without
+using previous elements.
+
+\item[series:] The sum of the elements in a sequence.
+
+\item[accumulator:] A variable that is used to accumulate a result
+a little bit at a time.
+
+\item[generalization:] A way to make a program more versatile, for
+example by replacing a specific value with a variable that can have
+any value.
+
+\item[incremental development:] A way of programming by making a series
+of small, testable changes.
+
+\item[scaffolding:] Code you write to help you program or debug, but
+which is not part of the finished program.
+
+\end{description}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[compound statement:] A statement, like {\tt if} and {\tt for}, that
+contains other statements in an indented body.
+
+\item[nesting:] Putting one compound statement in the body of another.
+
+%\item[relational operator:] An operator that compares two values and generates a logical value as a result.
+
+%\item[logical value:] A value that represents either ``true'' or ``false''.  MATLAB uses the values 1 and 0, respectively.
+
+% \item[flag:] A variable that contains a logical value, often used to store the status of some condition.
+
+\item[scalar:] A single value.
+
+\item[vector:] A sequence of values.
+
+\item[matrix:] A two-dimensional collection of values (also called
+``array'' in some MATLAB documentation).
+
+\item[index] An integer value used to indicate one of the values
+in a vector or matrix (also called subscript in some MATLAB documentation).
+
+\item[element:] One of the values in a vector or matrix.
+
+\item[elementwise:] An operation that acts on the individual elements
+of a vector or matrix (unlike some linear algebra operations).
+
+\item[reduce:] A way of processing the elements of a vector and
+generating a single value; for example, the sum of the elements.
+
+\item[apply:] A way of processing a vector by performing some operation
+on each of the elements, producing a vector that contains the
+results.
+
+\item[search:] A way of processing a vector by examining the
+elements in order until one is found that has the desired property.
+
+\item[name collision:] The scenario where two scripts that use the
+same variable name interfere with each other.
+
+\end{description}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[side-effect:] An effect, like modifying the workspace, that
+is not the primary purpose of a script.
+
+\item[input variable:] A variable in a function that gets its value,
+when the function is called, from one of the arguments.
+
+\item[output variable:] A variable in a function that is used to
+return a value from the function to the caller.
+
+\item[signature:] The first line of a function definition, which
+specifies the names of the function, the input variables and the
+output variables.
+
+\item[silent function:] A function that doesn't display anything
+or generate a figure, or have any other side-effects.
+
+\item[logical function:] A function that returns a logical value
+(1 for ``true'' or 0 for ``false'').
+
+\item[encapsulation:] The process of wrapping part of a program in
+a function in order to limit interactions (including name collisions)
+between the function and the rest of the program.
+
+\item[generalization:] Making a function more versatile by replacing
+specific values with input variables.
+
+\item[abstraction:] The process of ignoring the details of how
+a function works in order to focus on a simpler model of what the
+function does.
+
+\end{description}
+
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[analytic solution:] A way of solving an equation by performing
+algebraic operations and deriving an explicit way to
+compute a value.
+
+\item[numerical solution:] A way of solving an equation by finding
+a numerical value that satisfies the equation, often approximately.
+
+\item[numerical method:] A method (or algorithm) for generating
+a numerical solution.
+
+\item[zero (of a function):] An argument that makes the result of a function $0$.
+
+\item[function handle:] In MATLAB, a function handle is a way of
+referring to a function by name (and passing it as an argument)
+without calling it.
+
+\item[shadow:] A kind of name collision in which a new definition
+causes an existing definition to become invisible.  In MATLAB,
+variable names can shadow built-in functions (with hilarious results).
+
+\end{description}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[existential quantification:] A logical condition that expresses the idea that ``there exists'' an element of a set with a certain property.
+
+\item[universal quantification:] A logical condition that expresses
+the idea that all elements of a set have a certain property.
+
+\item[logical vector:] A vector, usually the result of applying a logical operator to a vector, that contains logical values 1 and 0.
+
+\end{description}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[top-level function:]  The first function in an M-file;
+it's the only function that can be called from the Command
+Window or from another file.
+
+\item[helper function:] A function in an M-file that is not
+the top-level function; it only be called from another function
+in the same file.
+
+\item[differential equation (DE):] An equation that relates the
+derivatives of an unknown function.
+
+\item[ordinary DE (ODE):] A DE in which all derivatives are taken with
+respect to the same variable.
+
+\item[partial DE (PDE):] A DE that includes derivatives with respect to more than one variable
+
+\item[first-order DE:] A DE that includes only first derivatives.
+
+\item[linear DE:] A DE that includes no products or powers of the
+function and its derivatives.
+
+\item[time step:] The interval in time between successive estimates
+in the numerical solution of a DE.
+
+\item[parameter:] A value that appears in a model to quantify some
+physical aspect of the scenario being modeled.
+
+\end{description}
+
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[row vector:] A matrix that has only one row.
+
+\item[column vector:] A matrix that has only one column.
+
+\item[transpose:] An operation that transforms the rows of a matrix
+into columns (or the other way around, if you prefer).
+
+\item[system of equations:] A collection of equations written in terms of
+the same set of variables.
+
+\item[unpack:] To copy the elements of a vector into a set of variables.
+
+\item[pack:] To copy values from a set of variables into a vector.
+
+\item[state:] If a system can be described by a set of variables,
+the values of those variables are called the state of the system.
+
+\item[phase plot:] A plot that shows the state of a system as point
+in the space of possible states.
+
+\item[trajectory:] A path in a phase plot that shows how the state of
+a system changes over time.
+
+
+\end{description}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[spatial vector:] A value that represents a
+multidimensional physical quantity like position, velocity,
+acceleration or force.
+
+\item[unit vector:] A vector with norm 1, used to indicate
+direction.
+
+\item[norm:] The magnitude of a vector.  Sometimes called ``length,''
+but not to be confused with the number of elements in a MATLAB
+vector.
+
+\item[concatenation:] The operation of joining two vectors or matrices end-to-end to
+form a new vector or matrix.
+
+\end{description}
+
+
+\section{Glossary}
+
+\begin{description}
+
+\item[dot product:] A scalar product of two vectors, proportional to the
+norms of the vectors and the cosine of the smallest angle between them.
+
+\item[cross product:] A vector product of two vectors with norm
+proportional to the norms of the vectors and the sine of the angle
+between them, and direction perpendicular to both.
+
+\item[projection:] The component of one vector that is in the
+direction of the other (might be used to mean ``scalar projection'' or
+``vector projection'').
+
+\end{description}
+
