@@ -1,6 +1,5 @@
 
 \chapter{Loops}
-\minitoc{}
 
 The programs we have seen so far are {\it straight-line code}, that is, they execute one instruction after another from top to bottom.
 This chapter introduces one of the most important programming language features, the {\tt for} loop, which allows simple programs to perform complex, repetitive tasks. This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development. 
@@ -186,7 +185,7 @@ The colon operator, {\tt :}, specifies a {\bf range} of integers.
 You can create a range at the prompt:
 
 \begin{code}
->> 1:5
+>> ***1:5***
 ans =  1     2     3     4     5
 \end{code}
 
@@ -211,9 +210,9 @@ To see the loop in action you can run a loop that displays the
 loop variable:
 
 \begin{code}
->> for i=1:5
+>> ***for i=1:5
     i
-end
+end***
 
 i = 1
 i = 2
@@ -250,7 +249,7 @@ We'll start simple and work our way up.
 To plot a single point, type
 
 \begin{code}
->> plot(1, 2, 'o')
+>> ***plot(1, 2, 'o')***
 \end{code}
 
 A Figure Window should appear with a graph and a single, blue circle at $x$ position 1 and $y$ position 2.  
@@ -270,7 +269,7 @@ Other shapes include {\tt +},
 You can also specify the color by starting the style string with a letter:
 
 \begin{code}
->> plot(1, 2, 'ro')
+>> ***plot(1, 2, 'ro')***
 \end{code}
 
 {\tt r} stands for red; the other colors include {\bf g}reen, {\bf
@@ -287,12 +286,12 @@ plot; {\tt hold off} returns to the default behavior.
 Try this:
 
 \begin{code}
->> clf
->> hold on
->> plot(1, 1, 'ro')
->> plot(2, 2, 'go')
->> plot(3, 3, 'bo')
->> hold off
+>> ***clf***
+>> ***hold on***
+>> ***plot(1, 1, 'ro')***
+>> ***plot(2, 2, 'go')***
+>> ***plot(3, 3, 'bo')***
+>> ***hold off***
 \end{code}
 
 The {\tt clf} command clears the figure before we start plotting.
@@ -444,16 +443,16 @@ I put this code in a file named {\em series.m}, then
 ran it with different values of {\tt n}:
 
 \begin{code}
->> n=10; series
+>> ***n=10; series***
 total = 1.99804687500000
 
->> =20; series
+>> ***=20; series***
 total = 1.99999809265137
 
->> n=30; series
+>> ***n=30; series***
 total = 1.99999999813735
 
->> n=40; series
+>> ***n=40; series***
 total = 1.99999999999818
 \end{code}
 
@@ -533,57 +532,27 @@ In this chapter, we used a loop to perform a repetitive computation -- updating 
 
 In the next chapter, we'll use a vector to store the results from a loop.
 
+Here are some terms from this chapter you might want to remember.
 
+Absolute error is the difference between an approximation and
+an exact answer. Relative error is the same difference expressed as a fraction or percentage of the exact answer.
 
-\section{Glossary}
-
-\begin{description}
-
-\item[absolute error:] The difference between an approximation and
-an exact answer.
-
-\item[relative error:] The difference between an approximation and
-an exact answer, expressed as a fraction or percentage of the exact
-answer.
-
-\item[loop:] A part of a program that runs repeatedly.
-
-\item[loop variable:] A variable, defined in a {\tt for} statement,
+A loop is part of a program that runs repeatedly.  A loop variable is a variable
 that gets assigned a different value each time through the loop.
-
-\item[range:] The set of values assigned to the loop variable, often
+A range is a sequence of values assigned to the loop variable, often
 specified with the colon operator; for example {\tt 1:5}.
+The body of a loop is the set of statements inside the loop that run repeatedly.
+An accumulator is variable that is used to accumulate a result a little bit at a time.
 
-\item[body:] The statements inside the for loop that are run
-repeatedly.
-
-\item[sequence:] In mathematics, a set of numbers that correspond
+In mathematics, a sequence is a set of numbers that correspond
 to the positive integers.
+The numbers that make up the sequence are called elements.  A series is the sum of a sequence of elements.
+Sometimes we compute the elements of a sequence recurrently, which means that each new element depends on previous elements.  Sometimes we can compute the elements directly, without using previous elements.
 
-\item[element:] A member of the set of numbers in a sequence.
-
-\item[recurrently:] A way of computing the next element of a sequence
-based on previous elements.
-
-\item[directly:] A way of computing an element in a sequence without
-using previous elements.
-
-\item[series:] The sum of the elements in a sequence.
-
-\item[accumulator:] A variable that is used to accumulate a result
-a little bit at a time.
-
-\item[generalization:] A way to make a program more versatile, for
-example by replacing a specific value with a variable that can have
-any value.
-
-\item[incremental development:] A way of programming by making a series
-of small, testable changes.
-
-\item[scaffolding:] Code you write to help you program or debug, but
+Generalization is way to make a program more versatile, for example by replacing a specific value with a variable that can have any value.
+Incremental development is a way of programming by making a series of small, testable changes.
+Scaffolding is code you write to help you program or debug, but
 which is not part of the finished program.
-
-\end{description}
 
 
 \section{Exercises}

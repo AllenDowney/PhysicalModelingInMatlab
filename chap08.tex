@@ -1,5 +1,4 @@
 \chapter{Functions of Vectors}
-\minitoc
 
 Now that we have functions and vectors, we'll put them together to write functions that take vectors as input variables and return vectors as output variables.  You'll also see two patterns for computing with vectors: existential and universal quantification.
 
@@ -32,7 +31,7 @@ a capital letter to remind me that {\tt X} is a vector.
 \verb"display_vector" doesn't actually return a value; it just displays the elements of the vector it gets as an input variable:
 
 \begin{code}
->> display_vector(1:3)
+>> ***display_vector(1:3)***
     1
     2
     3
@@ -61,7 +60,7 @@ function {\tt sum}, which does pretty much the same thing.
 Here's how you call it from the Command Window:
 
 \begin{code}
->> total = mysum(1:3)
+>> ***total = mysum(1:3)***
 total = 6
 \end{code}
 
@@ -90,7 +89,7 @@ This function squares each element of {\tt X} and stores it as an element of {\t
 \index{apply}
 
 \begin{code}
->> V = mysquare(1:3)
+>> ***V = mysquare(1:3)***
 V = 1     4     9
 \end{code}
 
@@ -109,10 +108,10 @@ length 1.
 \index{function!vectorizing}
 
 \begin{code}
->> mysum(17)
+>> ***mysum(17)***
 ans = 17
 
->> mysquare(9)
+>> ***mysquare(9)***
 ans = 81
 \end{code}
 
@@ -136,7 +135,7 @@ end
 And lo!  It turns out to work on vectors:
 
 \begin{code}
->> Y = myfunc(1:3)
+>> ***Y = myfunc(1:3)***
 Y = 1.3818    1.3254    1.1311
 \end{code}
 
@@ -157,7 +156,7 @@ square matrices.
 \index{matrix exponentiation}
 
 \begin{code}
->> hypotenuse(1:3, 1:3)
+>> ***hypotenuse(1:3, 1:3)***
 Error using  ^  (line 51)
 Incorrect dimensions for raising a matrix to a power. 
 Check that the matrix is square and the power is a scalar. 
@@ -170,9 +169,9 @@ But if you replace \verb+^+ with the elementwise operator
 \index{elementwise operator}
 
 \begin{code}
->> A = [3,5,8];
->> B = [4,12,15];
->> C = hypotenuse(A, B)
+>> ***A = [3,5,8];***
+>> ***B = [4,12,15];***
+>> ***C = hypotenuse(A, B)***
 
 C = 5    13    17
 \end{code}
@@ -203,11 +202,11 @@ $i$ elements from $V$.  MATLAB provides a function named {\tt cumsum} that compu
 \index{cumsum@{\tt cumsum}}
 
 \begin{code}
->> X = 1:5
+>> ***X = 1:5***
 
 X = 1     2     3     4     5
 
->> C = cumsum(X)
+>> ***C = cumsum(X)***
 
 C = 1     3     6    10    15
 \end{code}
@@ -218,7 +217,7 @@ the difference between successive elements of the input vector.
 \index{diff@{\tt diff}}
 
 \begin{code}
->> D = diff(C)
+>> ***D = diff(C)***
 
 D = 2     3     4     5
 \end{code}
@@ -229,7 +228,7 @@ exactly the inverse of {\tt cumsum}.  If it were, we would
 expect {\tt cumsum(diff(X)} to be {\tt X}:
 
 \begin{code}
->> cumsum(diff(X))
+>> ***cumsum(diff(X))***
 
 ans = 1     2     3     4
 \end{code}
@@ -262,11 +261,11 @@ P_i = \prod_{j=1}^i V_j
 In MATLAB, that looks like:
 
 \begin{code}
->> V = 1:5
+>> ***V = 1:5***
 
 V = 1     2     3     4     5
 
->> P = cumprod(V)
+>> ***P = cumprod(V)***
 
 P = 1     2     6    24   120
 \end{code}
@@ -390,11 +389,11 @@ values 1 and 0. Let's look at an example:
 \index{vector!logical}
 
 \begin{code}
->> V = -3:3
+>> ***V = -3:3***
 
 V = -3    -2    -1     0     1     2     3
 
->> L = V>0
+>> ***L = V>0***
 
 L =  0     0     0     0     1     1     1
 \end{code}
@@ -414,7 +413,7 @@ the indices of the elements that are ``true''.
 Applying {\tt find} to {\tt L} from the example above yields
 
 \begin{code}
->> find(L)
+>> ***find(L)***
 
 ans = 5     6     7
 \end{code}
@@ -424,7 +423,7 @@ which indicates that elements 5, 6 and 7 have the value 1.
 If there are no ``true'' elements, the result is an empty vector.
 
 \begin{code}
->> find(V>10)
+>> ***find(V>10)***
 
 ans = Empty matrix: 1x0
 \end{code}

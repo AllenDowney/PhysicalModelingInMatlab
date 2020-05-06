@@ -160,21 +160,21 @@ end
 We can call {\tt fzero} like this:
 
 \begin{code}
->> x = fzero(@error_func, 1)
+>> ***x = fzero(@error_func, 1)***
 ans = 1.4142
 \end{code}
 
 The result is near the square root of 2.  If we call {\tt fminsearch} with the same function:
 
 \begin{code}
->> x = fminsearch(@error_func, 1)
+>> ***x = fminsearch(@error_func, 1)***
 x = -8.8818e-16
 \end{code}
 
 The result is close to 0, which is where this function is minimized.  Optionally, {\tt fminsearch} returns two values:
 
 \begin{code}
->> [x, fval] = fminsearch(@error_func, 1)
+>> ***[x, fval] = fminsearch(@error_func, 1)***
 x = -8.8818e-16
 
 fval = -2
@@ -194,7 +194,7 @@ end
 And call {\tt fminsearch} like this:
 
 \begin{code}
->> [x, fval] = fminsearch(@min_func, pi/4)
+>> ***[x, fval] = fminsearch(@min_func, pi/4)***
 
 x = 0.6921
 
