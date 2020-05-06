@@ -42,7 +42,7 @@ In this chapter we'll see another use of MATLAB vectors: representing
 For example, to represent a position in two-dimensional space, we can use a vector with two elements:
 
 \begin{code}
->> P = [3 4]
+>> ***P = [3 4]***
 \end{code}
 
 To interpret this vector, we have to know what coordinate system it is defined in.  Most commonly, we use a Cartesian system where the x-axis points east and the y-axis points north.  In that case {\tt P} represents a point 3 units east and 4 units north of the origin.
@@ -57,7 +57,7 @@ For example, the {\em magnitude} of {\tt P} is the distance from the origin to {
 We can compute it using the Pythagorean theorem:
 
 \begin{code}
->> sqrt(P(1)^2 + P(2)^2)
+>> ***sqrt(P(1)^2 + P(2)^2)***
 ans = 5
 \end{code}
 
@@ -68,14 +68,14 @@ Or we can do the same thing using the function {\tt norm}, which computes the
 \index{Euclidean norm}
 
 \begin{code}
->> norm(P)
+>> ***norm(P)***
 ans = 5
 \end{code}
 
 There are two ways to get the direction of a vector.  One convention is to compute the angle between the vector and the x-axis:
 
 \begin{code}
->> atan2(P(2), P(1))
+>> ***atan2(P(2), P(1))***
 ans = 0.9273
 \end{code}
 
@@ -103,8 +103,8 @@ Vectors are useful for representing quantities like force and acceleration becau
 As an example, suppose we have two vectors representing forces:
 
 \begin{code}
->> A = [2, 4];
->> B = [2, -2];
+>> ***A = [2, 4];***
+>> ***B = [2, -2];***
 \end{code}
 
 {\tt A} represents a force pulling northeast; {\tt B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}
@@ -118,7 +118,7 @@ As an example, suppose we have two vectors representing forces:
 To compute the sum of these forces, all we have to do is add the vectors:
 
 \begin{code}
->> A + B
+>> ***A + B***
 ans = 4     2
 \end{code}
 
@@ -324,13 +324,13 @@ side by side.
 Here's an example of horizontal concatenation with row vectors:
 
 \begin{code}
->> x = 1:3
+>> ***x = 1:3***
 x = 1     2     3
 
->> y = 4:5
+>> ***y = 4:5***
 y = 4     5
 
->> z = [x, y]
+>> ***z = [x, y]***
 z = 1     2     3     4     5
 \end{code}
 
@@ -343,17 +343,17 @@ example with matrices:
 \index{operator!comma}
 
 \begin{code}
->> X = zeros(2, 3)
+>> ***X = zeros(2, 3)***
 
 X =  0     0     0
      0     0     0
 
->> Y = ones(2, 3)
+>> ***Y = ones(2, 3)***
 
 Y =  1     1     1
      1     1     1
 
->> Z = [X; Y]
+>> ***Z = [X; Y]***
 
 Z =  0     0     0
      0     0     0
@@ -365,21 +365,21 @@ These operations only work if the matrices are the same size along
 the dimension where they are glued together.  If not, you get:
 
 \begin{code}
->> a = 1:3
+>> ***a = 1:3***
 
 a = 1     2     3
 
->> b = a'
+>> ***b = a'***
 
 b =  1
      2
      3
 
->> c = [a, b]
+>> ***c = [a, b]***
 Error using horzcat
 Dimensions of matrices being concatenated are not consistent.
 
->> c = [a; b]
+>> ***c = [a; b]***
 Error using vertcat
 Dimensions of matrices being concatenated are not consistent.
 \end{code}

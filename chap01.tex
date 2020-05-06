@@ -1,14 +1,12 @@
 \chapter{Modeling and Simulation}
 \label{modeling}
 
-\minitoc{}
-
 This book is about modeling and simulating physical systems. Before we can build any models, it'll help to have a high level understanding of what a model is. We'll also need to familiarize ourselves with the tools we use to build them. In this chapter, we'll look at the modeling process and introduce MATLAB, the programming language we'll use to represent models and run simulations.
 
 
 \section{Modeling}
 
-When I say "modeling", I'm talking about something like Figure~\ref{fig:modeling}:
+When I say ``modeling'', I'm talking about something like Figure~\ref{fig:modeling}:
 
 \begin{figure}[h]
   \includegraphics[height=3in]{book/figs/modeling_framework.pdf} 
@@ -96,7 +94,7 @@ If you type an expression and then press Enter (or Return), MATLAB
 \emph{evaluates} the expression and prints the result.
 
 \begin{code}
->> 2 + 1
+>> ***2 + 1***
 ans = 3
 \end{code}
 
@@ -112,7 +110,7 @@ don't have to put spaces between them; some people do and some people
 don't. Here's an example with no spaces:
 
 \begin{code}
->> 1+2+3+4+5+6+7+8+9
+>> ***1+2+3+4+5+6+7+8+9***
 ans = 45
 \end{code}
 
@@ -129,7 +127,7 @@ Subtraction is denoted by a minus sign, \lstinline{-}; multiplication by
 an asterisk, \lstinline{*}; division by a forward slash, \lstinline{/}.
 
 \begin{code}
->> 2*3 - 4/5
+>> ***2*3 - 4/5***
 ans = 5.2000
 \end{code}
 
@@ -138,7 +136,7 @@ symbol, sometimes pronounced ``carat'' or ``hat''.  So 2 raised to the
 16th power is
 
 \begin{code}
->> 2^16
+>> ***2^16***
 ans = 65536
 \end{code}
 
@@ -151,7 +149,7 @@ If you want to override the order of operations, you can use parentheses.
 \index{parentheses}
 
 \begin{code}
->> 2 * (3-4) / 5
+>> ***2 * (3-4) / 5***
 ans = -0.4000
 \end{code}
 
@@ -183,7 +181,7 @@ use them:
 \index{math function!trigonometric}
 
 \begin{code}
->> sin(1)
+>> ***sin(1)***
 ans = 0.8415
 \end{code}
 
@@ -203,7 +201,7 @@ tangent, which is the angle in radians between the positive x-axis and
 the point with the given $y$ and $x$ coordinates.
 
 \begin{code}
->> atan2(1,1)
+>> ***atan2(1,1)***
 ans = 0.7854
 \end{code}
 
@@ -216,7 +214,7 @@ it.  It's just an example of a function with multiple arguments.
 MATLAB also provides exponential functions, like \lstinline{exp}, which computes $e$ raised to the given power.  So \lstinline{exp(1)} is just $e$:
 
 \begin{code}
->> exp(1)
+>> ***exp(1)***
 ans = 2.7183
 \end{code}
 
@@ -225,7 +223,7 @@ ans = 2.7183
 The inverse of \lstinline{exp} is \lstinline{log}, which computes the logarithm base $e$:
 
 \begin{code}
->> log(exp(3))
+>> ***log(exp(3))***
 ans = 3
 \end{code}
 
@@ -240,7 +238,7 @@ another.
 More generally, you can use a function call as an operand in an expression.
 
 \begin{code}
->> sqrt(sin(0.5)^2 + cos(0.5)^2)
+>> ***sqrt(sin(0.5)^2 + cos(0.5)^2)***
 ans = 1
 \end{code}
 
@@ -266,7 +264,7 @@ example, the name \lstinline{pi} refers to the
 mathematical quantity $\pi$, which is approximately
 
 \begin{code}
->> pi
+>> ***pi***
 ans = 3.1416
 \end{code}
 
@@ -282,14 +280,14 @@ You can use a variable name anywhere you can use a number; for example, as
 an operand in an expression:
 
 \begin{code}
->> pi * 3^2
+>> ***pi * 3^2***
 ans = 28.2743
 \end{code}
 
 Or as an argument to a function:
 
 \begin{code}
->> sin(pi/2)
+>> ***sin(pi/2)***
 ans = 1
 \end{code}
 
@@ -301,10 +299,10 @@ a variable named \lstinline{ans}.  You can use \lstinline{ans} in a subsequent
 calculation as shorthand for ``the value of the previous expression''.
 
 \begin{code}
->> 3^2 + 4^2
+>> ***3^2 + 4^2***
 ans = 25
 
->> sqrt(ans)
+>> ***sqrt(ans)***
 ans = 5
 \end{code}
 
@@ -323,7 +321,7 @@ equals sign, \lstinline{=}, used like so:
 \index{statement!assignment}
 
 \begin{code}
->> x = 6 * 7
+>> ***x = 6 * 7***
 x = 42
 \end{code}
 
@@ -349,11 +347,11 @@ Spaces are not allowed.  Variable names are
 Let's look at some examples of assignment statements:
 
 \begin{code}
->> fibonacci0 = 1;
+>> ***fibonacci0 = 1;***
 
->> LENGTH = 10;
+>> ***LENGTH = 10;***
 
->> first_name = 'bob'
+>> ***first_name = 'bob'***
 first_name = 'bob'
 \end{code}
 
@@ -395,10 +393,10 @@ names of the variables in the workspace.
 \index{command!{\tt who}}
 
 \begin{code}
->> x=5;
->> y=7;
->> z=9;
->> who
+>> ***x=5;***
+>> ***y=7;***
+>> ***z=9;***
+>> ***who***
 
 Your variables are:
 
@@ -408,8 +406,8 @@ x  y  z
 The \lstinline{clear} command removes specified variables from the workspace
 
 \begin{code}
->> clear x
->> who
+>> ***clear x***
+>> ***who***
 
 Your variables are:
 
@@ -424,14 +422,14 @@ But be careful: if you don't specify any variables, \lstinline{clear} removes th
 To display the value of a variable, you can use the \lstinline{disp} function.
 
 \begin{code}
->> disp(z)
+>> ***disp(z)***
      9
 \end{code}
 
 But it's easier to just type the variable name.
 
 \begin{code}
->> z
+>> ***z***
 z = 9
 \end{code}
 
@@ -445,7 +443,7 @@ example, if your computation uses $e$ frequently, you might
 want to compute it once and save the result.
 
 \begin{code}
->> e = exp(1)
+>> ***e = exp(1)***
 e = 2.7183
 \end{code}
 
@@ -454,10 +452,10 @@ mathematics more apparent.  If you're computing the area of a circle,
 you might want to use a variable named \lstinline{r}:
 
 \begin{code}
->> r = 3
+>> ***r = 3***
 r = 3
 
->> area = pi * r^2
+>> ***area = pi * r^2***
 area = 28.2743
 \end{code}
 
@@ -550,7 +548,7 @@ In this case the error message is helpful, but in other cases the results can be
 For example, if you call \lstinline{abs}, which computes absolute values, and forget the parentheses, you get a surprising result:
 
 \begin{code}
->> abs pi
+>> ***abs pi***
 ans =  112   105
 \end{code}
 
@@ -615,7 +613,7 @@ enter \lstinline{help} followed by the name of a command.
 % avoid nonsensical syntax highlighting.
 
 \begin{code}
->> help sin
+>> ***help sin***
 \end{code}
 
 You should see output like this:
@@ -649,58 +647,30 @@ It also introduced MATLAB, the programming language we'll use to write simulatio
 In the next chapter you'll start writing longer programs and learn about floating-point numbers.
 
 
-\section{Glossary}
+Here are a few terms from this chapter you might want to remember.  
 
-\begin{description}
+The interpreter is the program that reads and executes MATLAB or Octave code.
+The interpreter prints a prompt to indicate that it's waiting for you to type a command.
+A command is a line of code executed by the interpreter.
 
-\item[interpreter:] The program that reads and executes MATLAB code.
-
-\item[command:] A line of MATLAB code executed by the interpreter.
-
-\item[prompt:] The symbols the interpreter prints to indicate that it's
-waiting for you to type a command.
-
-\item[operator:] One of the symbols, like \lstinline{*} and \lstinline{+}, that
-represent mathematical operations.
-
-\item[operand:] A number or variable that appears in an expression along
+An expression is a sequence of operands and operators that specifies
+a mathematical computation and yields a value.
+An operator is a symbol, like \lstinline{*} and \lstinline{+}, that
+represents a mathematical operation.
+An operand is a number or variable that appears in an expression along
 with operators.
 
-\item[expression:] A sequence of operands and operators that specifies
-a mathematical computation and yields a value.
-
-\item[value:] The numerical result of a computation.
-
-\item[evaluate:] To compute the value of an expression.
-
-\item[order of operations:] The rules that specify which operations
-in an expression are performed first.
-
-\item[function:] A named computation; for example \lstinline{log10} is the
+A function is a named computation; for example \lstinline{log10} is the
 name of a function that computes logarithms in base 10.
-
-\item[call:] To cause a function to execute and compute a result.
-
-\item[function call:] A kind of command that executes a function.
-
-\item[argument:] An expression that appears in a function call to
+A function call is a statement that causes a function to execute and compute a result.
+An argument is an expression that appears in a function call to
 specify the value the function operates on.
 
-\item[nested function call:] An expression that uses the result from
-one function call as an argument for another.
-
-\item[variable:] A named value.
-
-\item[assignment statement:] A command that creates a new variable
+A variable is a named value. An assignment statement is the command that creates a new variable
 (if necessary) and gives it a value.
+A workspace is a set of variables and their values.
 
-\item[workspace:] A set of variables and their values.
-
-\item[string:] A value that consists of a sequence of characters (as
-opposed to a number).
-
-
-\end{description}
+A string is a value that consists of a sequence of characters (as opposed to a number).
 
 
 \section{Exercises}

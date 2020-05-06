@@ -13,10 +13,10 @@ This example will also demonstrate a way to write programs called {\em increment
 Suppose we have three variables, {\tt a}, {\tt b}, and {\tt c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator, {\tt ==}, to compare two values:
 
 \begin{code}
->> a = 3;
->> b = 4;
->> c = 5;
->> a^2 + b^2 == c^2
+>> ***a = 3;***
+>> ***b = 4;***
+>> ***c = 5;***
+>> ***a^2 + b^2 == c^2***
 
 ans = logical 1
 \end{code}
@@ -24,15 +24,15 @@ ans = logical 1
 The result is a {\em logical} value, which means it's either 1, which means ``true'', or 0, which means ``false''.  Here's an example where the result is false:
 
 \begin{code}
->> c = 6;
->> a^2 + b^2 == c^2
+>> ***c = 6;***
+>> ***a^2 + b^2 == c^2***
 ans = logical 0
 \end{code}
 
 It's a common error to use the assignment operator, {\tt =}, instead of the equality operator, {\tt ==}.  If you do, you get an error:
 
 \begin{code}
->> a^2 + b^2 = c^2
+>> ***a^2 + b^2 = c^2***
  a^2 + b^2 = c^2
            |
 Error: Incorrect use of '=' operator. 
@@ -145,7 +145,7 @@ end
 We can use this function like this:
 
 \begin{code}
->> is_pythagorean(3, 4, 5)
+>> ***is_pythagorean(3, 4, 5)***
 ans = 1
 \end{code}
 
@@ -216,7 +216,7 @@ Now one loop is inside the other.  The inner loop gets executed 3 times, once fo
 the structure clear):
 
 \begin{code}
->> find_triples
+>> ***find_triples***
      1     1
      1     2
      1     3
@@ -267,7 +267,7 @@ end
 The result is just one triple:
 
 \begin{code}
->> find_triples
+>> ***find_triples***
      3     4     5
 \end{code}
 
@@ -331,7 +331,7 @@ when I call the new function, I like to use parentheses to remind me
 that it's a function, not a script:
 
 \begin{code}
->> find_triples()
+>> ***find_triples()***
 \end{code}
 
 The output variable isn't necessary, either; it
@@ -363,7 +363,7 @@ end
 Here are the results for the range from 1 to 15:
 
 \begin{code}
->> find_triples(15)
+>> ***find_triples(15)***
      3     4     5
      5    12    13
      6     8    10
@@ -419,7 +419,7 @@ In this case, since there are three loops, it might not be obvious which loop to
 Here are the results with {\tt n=40}:
 
 \begin{code}
->> find_triples(40)
+>> ***find_triples(40)***
      3     4     5
      5    12    13
      7    24    25
@@ -500,45 +500,15 @@ complexity of large programs.
 \section{Summary}
 
 In this chapter, I presented relational operators and {\tt if} statements, and we used them to develop a program that searches for Pythagorean triples.
-
-This example demonstrates a way of developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way, you will have fewer bugs, and you will find them more quickly.
-
-
-\section{Glossary}
-
-\begin{description}
-
-\item[side-effect:] An effect, like modifying the workspace, that
-is not the primary purpose of a script.
-
-\item[input variable:] A variable in a function that gets its value,
-when the function is called, from one of the arguments.
-
-\item[output variable:] A variable in a function that is used to
-return a value from the function to the caller.
-
-\item[signature:] The first line of a function definition, which
-specifies the names of the function, the input variables and the
-output variables.
-
-\item[silent function:] A function that doesn't display anything
-or generate a figure, or have any other side-effects.
-
-\item[logical function:] A function that returns a logical value
+We wrote a ``logical function'', which is a function that returns a logical value
 (1 for ``true'' or 0 for ``false'').
 
-\item[encapsulation:] The process of wrapping part of a program in
+And I demonstrated a way of developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way, you will have fewer bugs, and you will find them more quickly.
+
+And I defined two new terms: Encapsulation is the process of wrapping part of a program in
 a function in order to limit interactions (including name collisions)
-between the function and the rest of the program.
-
-\item[generalization:] Making a function more versatile by replacing
-specific values with input variables.
-
-\item[abstraction:] The process of ignoring the details of how
-a function works in order to focus on a simpler model of what the
+between the function and the rest of the program; Abstraction is the process of ignoring the details of how a function works in order to focus on a simpler model of what the
 function does.
-
-\end{description}
 
 
 \section{Exercises}

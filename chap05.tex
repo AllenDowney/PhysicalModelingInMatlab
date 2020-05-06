@@ -1,6 +1,5 @@
 \chapter{Functions}
 \label{functions}
-\minitoc{}
 
 This chapter introduces the most important idea in computer programming: functions! 
 To explain why functions are so important, I'll start by explaining one of the problems they solve: name collisions.
@@ -101,7 +100,7 @@ call built-in MATLAB functions.  If you call the function as a statement,
 MATLAB puts the result into {\tt ans}:
 
 \begin{code}
->> myfunc(1)
+>> ***myfunc(1)***
 
 s = 0.84147098480790
 
@@ -116,7 +115,7 @@ But it's more common (and better style) to assign the result to
 a variable:
 
 \begin{code}
->> y = myfunc(1)
+>> ***y = myfunc(1)***
 
 s = 0.84147098480790
 
@@ -144,12 +143,12 @@ access (read or write) the variables defined inside a function, you
 will find that they don't exist.
 
 \begin{code}
->> clear
->> y = myfunc(1);
->> who
+>> ***clear***
+>> ***y = myfunc(1);***
+>> ***who***
 Your variables are: y
 
->> s
+>> ***s***
 Undefined function or variable 's'.
 \end{code}
 
@@ -161,10 +160,10 @@ before you call {\tt myfunc}, they will still be there when the
 function completes.
 
 \begin{code}
->> s = 1;
->> c = 1;
->> y = myfunc(1);
->> s, c
+>> ***s = 1;***
+>> ***c = 1;***
+>> ***y = myfunc(1);***
+>> ***s, c***
 
 s = 1
 c = 1
@@ -206,7 +205,7 @@ When you ask for {\tt help}, MATLAB prints the comment you provide.
 \index{help@{\tt help}}
 
 \begin{code}
->> help myfunc
+>> ***help myfunc***
   res = myfunc(x)
   Compute the Manhattan distance from the origin to the
   point on the unit circle with angle (x) in radians.
@@ -267,10 +266,10 @@ end
 Here's what you'll get:
 
 \begin{code}
->> y = myfunc(1)
+>> ***y = myfunc(1)***
 y = 1.3818
 
->> y = something_else(1)
+>> ***y = something_else(1)***
 Undefined function or variable 'something_else'.
 \end{code}
 
@@ -283,7 +282,7 @@ For example, if you write a function and rename the file to
 and then try to run it, you get:
 
 \begin{code}
->> y = my func(1)
+>> ***y = my func(1)***
  y = my func(1)
         |
 Error: Unexpected MATLAB expression.
@@ -311,11 +310,11 @@ end
 And then try this:
 
 \begin{code}
->> sum(1:3)
+>> ***sum(1:3)***
 
 ans = 6
 
->> sum
+>> ***sum***
 
 ans = 7
 \end{code}
@@ -349,7 +348,7 @@ If we call it from the Command Window with arguments 3 and 4, we can
 confirm that the sum of their squares is 25.
 
 \begin{code}
->> ss = sum_squares(3, 4)
+>> ***ss = sum_squares(3, 4)***
 ss = 25
 \end{code}
 
@@ -359,7 +358,7 @@ order, so in this case 3 is assigned to {\tt a} and 4 is assigned to
 if you provide too few, you get
 
 \begin{code}
->> ss = sum_squares(3)
+>> ***ss = sum_squares(3)***
 Not enough input arguments.
 
 Error in sum_squares (line 4)
@@ -383,6 +382,17 @@ That's a better error message, because it's clear that the problem isn't in the 
 \section{Summary}
 
 Now that we know about functions, and all the ways they can go wrong, let's put them to good use.  In the next chapter we'll develop a program that uses several functions to search for Pythagorean triples (and I'll explain what those are).
+
+Here are a few terms in this chapter you might want to remember:
+
+A function is a named sequence of statements stored in an M-file.
+A function can have one or more input variables, which get their values when the function is called, and output variables, which return a value from the function to the caller.
+
+The first line of a function definition is its ``signature'', which
+specifies the name of the function, the input variables, and the
+output variables.
+
+A ``silent function'' doesn't display anything, generate a figure, or have any other effect other than returning output values.
 
 
 \section{Exercises}
