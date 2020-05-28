@@ -481,45 +481,32 @@ provide when you call {\tt ode45} has to be the same as the order,
 inside \verb"rate_func", where you unpack the input vector, and the
 same as the order of the derivatives in the output vector.
 
-\section{Summary}
+\section{Chapter Review}
 
-In this chapter, we use {\tt ode45} to solve a system of first order differential equations.
-As an exercise, you'll have a chance to solve the famous Lorenz equations, one of the first
-examples of a chaotic system.
+In this chapter, we used {\tt ode45} to solve a system of first order differential equations.
+As an exercise, you'll have a chance to solve the famous Lorenz equations, one of the first examples of a chaotic system.
 
-In the next chapter, we move on to second-order systems, which we will use to describe systems
-with objects moving in space, governed by Newton's laws of motion.
+Here are the terms from this chapter you might want to remember.
 
-
-\section{Glossary}
-
-\begin{description}
-
-\item[row vector:] A matrix that has only one row.
-
-\item[column vector:] A matrix that has only one column.
-
-\item[transpose:] An operation that transforms the rows of a matrix
+A {\em row vector} is a matrix that has only one row, and a {\em column vector} is a matrix that has only one column.
+The {\em transpose} operation transforms the rows of a matrix
 into columns (or the other way around, if you prefer).
 
-\item[system of equations:] A collection of equations written in terms of
+A {\em system of equations} is a collection of equations written in terms of
 the same set of variables.
 
-\item[unpack:] To copy the elements of a vector into a set of variables.
+In a rate function, we often have to {\em unpack} the input variable,
+copying the elements of a vector into a set of variables.
+Then we have to {\em pack} the results into a vector as an output variable.
 
-\item[pack:] To copy values from a set of variables into a vector.
+The {\em state} of a system is a set of variables that quantify the condition of the system as it changes over time.
 
-\item[state:] If a system can be described by a set of variables,
-the values of those variables are called the state of the system.
+When we solve a system of differential equations, we can visualize the results with a {\em phase plot}, which shows the state of a system as point in the space of possible states.
+A {\em trajectory} is a path in a phase plot that shows how the state of a system changes over time.
 
-\item[phase plot:] A plot that shows the state of a system as point
-in the space of possible states.
+In the next chapter, we move on to second-order systems, which we use to describe systems
+with objects moving in space, governed by Newton's laws of motion.
 
-\item[trajectory:] A path in a phase plot that shows how the state of
-a system changes over time.
-
-
-\end{description}
 
 \section{Exercises}
 

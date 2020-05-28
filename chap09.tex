@@ -176,18 +176,18 @@ function res = rate_func(t, y)
 end
 \end{code}
 
-In {\tt euler} I initialize the initial conditions and then call \verb"rate_func".  In \verb"rate_func" I compute the rate of change in the population.
+In {\tt euler} I initialize the initial conditions and then call \verb"rate_func", so called because it computes the rate of growth in the population.
 
 \index{initial condition}
 
-After testing these functions, I added code to {\tt euler} to implement these difference equations:
+After testing these functions, I added code to {\tt euler} to compute these difference equations:
 
 \begin{eqnarray}
 T_{i+1} &=& T_i + \Delta t             \\
 Y_{i+1} &=& Y_i + r \Delta t          
 \end{eqnarray}
 %
-where $r$ is the rate of population growth computed by \verb"rate_func".
+where $r$ is the rate of growth computed by \verb"rate_func".
 Listing~\ref{lst:euler_method} has the code we need:
 
 \begin{lstlisting}[caption={A function implementing Euler's method}, label={lst:euler_method}]
@@ -207,9 +207,9 @@ end
 
 Before the loop, we create two vectors, {\tt T} and {\tt Y}, and set the first element of each with the initial conditions.  {\tt dt}, which is the size of the time steps, is 0.1 hours.
 
-Inside the loop, we compute the rate of growth based on the current time, {\tt T(i)}, and population, {\tt Y(i)}.  You might notice that the rate depends only on population, but I pass time as an input variable anyway, for reasons you'll see soon.
+Inside the loop, we compute the growth rate based on the current time, {\tt T(i)}, and population, {\tt Y(i)}.  You might notice that the rate depends only on population, but I pass time as an input variable anyway, for reasons you'll see soon.
 
-After computing the rate function, we add an element to each of {\tt T} and {\tt Y}.  Then, when the loop exits, we plot {\tt Y} and a function of {\tt T}.
+After computing the growth rate, we add an element to each of {\tt T} and {\tt Y}.  Then, when the loop exits, we plot {\tt Y} as a function of {\tt T}.
 
 If you run the code, you should get a plot of population over time, shown in Figure~\ref{fig:euler}. 
 
@@ -259,7 +259,8 @@ The first argument is a function handle, as we saw in Chapter~\ref{fzero}.  The 
 \index{output variable}
 \index{variable!output}
 
-{\tt ode45} is the first function we've seen that returns {\em two} output variables.  In order to store them, we have to assign them to two variables, {\tt T} and {\tt Y}.
+{\tt ode45} is the first function we've seen that returns {\em two} output variables.
+In order to store them, we have to assign them to two variables, {\tt T} and {\tt Y}.
 
 \begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/runge.eps}}
@@ -273,7 +274,8 @@ For the first 2-3 hours, the two solutions are visually indistinguishable.  Duri
 
 For many purposes, the difference between Euler's method and {\tt ode45} is the least of our worries.  In this example, we probably don't know the initial population with perfect accuracy, or the growth constant, {\tt a}.  Also the assumption that the growth rate only depends on population is probably not true.  Any of these modeling errors could be bigger than 1\%.
 
-However, for some problems, Euler's method can be off by a lot more than 1\%.  In those cases {\tt ode45} is almost always more accurate, for two reasons: first, it computes the rate function several times per time step; also, if the time step is too big, {\tt ode45} can detect the problem and shrink the time step.  For more details, see ``\nameref{howode45}'' on page~\pageref{howode45}.
+However, for some problems, Euler's method can be off by a lot more than 1\%.  
+In those cases {\tt ode45} is almost always more accurate, for two reasons: first, it computes the rate function several times per time step; also, if the time step is too big, {\tt ode45} can detect the problem and shrink the time step.  For more details, see ``\nameref{howode45}'' on page~\pageref{howode45}.
 
 
 \section{Time Dependence}
@@ -283,9 +285,7 @@ Looking at \verb"rate_func" in the previous section, you might notice that it ta
 \index{time dependence}
 
 But rats do.  Or, at least, they know what season it is.
-Suppose that the population growth rate for rats
-depends on the current population and the availability of food,
-which varies over the course of the year.
+Suppose that the growth rate for rats depends on the current population {\em and} the availability of food, which varies over the course of the year.
 The differential equation might be something like
 %
 \begin{equation}
@@ -349,8 +349,7 @@ Here's how to call it from the top-level function in {\em rats.m}):
 plot(T, Y)
 \end{code}
 
-The first argument is a function handle, again.  The second argument is the interval we are interested
-in, a duration of one year, expressed in units of days.
+The first argument is a function handle, again.  The second argument is the interval we are interested in, a duration of one year, expressed in units of days.
 The third argument is the initial population, $y(0) = 1000$.
 
 \index{interval}
@@ -364,8 +363,6 @@ Figure~\ref{fig:rats} shows the results.
 \end{figure}
 
 The population grows slowly during the winter, quickly during the summer, and the slowly again in the fall.
-
-% TODO
 
 To see the population at the end of the year, you can display the last element of {\tt Y}:
 
@@ -509,10 +506,23 @@ The first argument is the figure we want to save; {\tt gcf} is a MATLAB command 
 \index{gcf@{\tt gcf}}
 \index{saveas@{\tt saveas}}
 
-\section{Summary}
+\section{Chapter Review}
 
-In this chapter we solved two ODEs, one of them time dependent.  In the next chapter we'll solve systems of ODEs, which are used to describe physical systems with multiple parts that interact.
+In this chapter I defined a differential equation (DE) as an equation that relates the
+derivatives of an unknown function.  
+In an ordinary DE (ODE), all derivatives are taken with
+respect to the same variable, as opposed to a partial DE (PDE), which includes derivatives with respect to more than one variable
 
+A {\em first-order DE} includes only first derivatives, and a {\em linear DE} includes no products or powers of the function and its derivatives.
+A differential equation is {\em time dependent} if the rate function depends on time.
+
+When we solve a differential equation numerically, the {\em time step} is the interval in time between successive elements of the solution.
+A {\em parameter} is a value that appears in a model to quantify some
+physical aspect of the scenario being modeled.
+
+Until now we have only put one function in each M-file, but in this chapter we wrote a {\em top-level function}, which is the first function in an M-file and a {\em helper function} which is any function in an M-file that is not the top-level function.
+
+In the next chapter we'll solve {\em systems} of ODEs, which are used to describe physical systems with multiple parts that interact.
 But first, here's an exercise where you can apply what you've learned so far.
 
 
@@ -576,36 +586,5 @@ room temperature after about an hour.
 \end{ex}
 
 
-\section{Glossary}
 
-\begin{description}
-
-\item[top-level function:]  The first function in an M-file;
-it's the only function that can be called from the Command
-Window or from another file.
-
-\item[helper function:] A function in an M-file that is not
-the top-level function; it only be called from another function
-in the same file.
-
-\item[differential equation (DE):] An equation that relates the
-derivatives of an unknown function.
-
-\item[ordinary DE (ODE):] A DE in which all derivatives are taken with
-respect to the same variable.
-
-\item[partial DE (PDE):] A DE that includes derivatives with respect to more than one variable
-
-\item[first-order DE:] A DE that includes only first derivatives.
-
-\item[linear DE:] A DE that includes no products or powers of the
-function and its derivatives.
-
-\item[time step:] The interval in time between successive estimates
-in the numerical solution of a DE.
-
-\item[parameter:] A value that appears in a model to quantify some
-physical aspect of the scenario being modeled.
-
-\end{description}
 

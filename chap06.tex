@@ -400,7 +400,7 @@ function res = find_triples(n)
         for b=a:n
             for c=b:a+b
                 if gcd(a,b) > 1
-(*\codewingding{1}*)	                continue
+	                (*\codewingding{1}*)continue
                 end
                 if is_pythagorean(a, b, c)
                     disp([a,b,c])
@@ -497,18 +497,20 @@ process of abstraction is an important tool for managing the
 complexity of large programs.
 
 
-\section{Summary}
+\section{Chapter Review}
 
 In this chapter, I presented relational operators and {\tt if} statements, and we used them to develop a program that searches for Pythagorean triples.
-We wrote a ``logical function'', which is a function that returns a logical value
+We wrote a {\em logical function}, which is a function that returns a logical value
 (1 for ``true'' or 0 for ``false'').
 
 And I demonstrated a way of developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way, you will have fewer bugs, and you will find them more quickly.
 
-And I defined two new terms: Encapsulation is the process of wrapping part of a program in
+This chapter defines two new terms: {\em Encapsulation} is the process of wrapping part of a program in
 a function in order to limit interactions (including name collisions)
-between the function and the rest of the program; Abstraction is the process of ignoring the details of how a function works in order to focus on a simpler model of what the
+between the function and the rest of the program; {\em Abstraction} is the process of ignoring the details of how a function works in order to focus on a simpler model of what the
 function does.
+
+In the next chapter, I introduce a new tool, called {\tt fzero}, that we'll use to solve nonlinear equations.
 
 
 \section{Exercises}

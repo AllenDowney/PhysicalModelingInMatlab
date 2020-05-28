@@ -318,7 +318,7 @@ function res = exists(X)
     for i=1:length(X)
         if X(i) > 0
             res = 1;
-(*\codewingding{1}*)            return
+            (*\codewingding{1}*)return
         end
     end
     res = 0;
@@ -529,27 +529,17 @@ and sometimes retreating.  If you get stuck on one of these
 activities, try the others.
 \end{quote}
 
-\section{Summary}
+\section{Chapter Review}
 
-This chapter presents patterns for working with vectors and functions.  At this point, you know how write functions that take vectors as input variables and return vectors as output variables.
+This chapter presents patterns for working with vectors, including existential and universal quantification.
+We learned how to write functions that take vectors as input variables and return vectors as output variables.
+And we learned about {\em logical vectors} which contain the values 1 and 0 to represent true and false.
 
-Some of the functions in this chapter are not idiomatic MATLAB; many of them can be done more simply using built-in MATLAB operators and functions rather than writing them yourself.  These simple examples are meant to demonstrate concepts you will need to know when you work on more complicated examples.
+Some of the functions in this chapter are not idiomatic MATLAB; many of them can be done more simply using built-in MATLAB operators and functions, rather than writing them yourself.  But these examples demonstrate concepts you will need to know when you work on more complicated problems.
 
 In the next chapter we will apply to tools we have learned so far to the central goal of this book, modeling physical systems.
 
 
-\section{Glossary}
-
-\begin{description}
-
-\item[existential quantification:] A logical condition that expresses the idea that ``there exists'' an element of a set with a certain property.
-
-\item[universal quantification:] A logical condition that expresses
-the idea that all elements of a set have a certain property.
-
-\item[logical vector:] A vector, usually the result of applying a logical operator to a vector, that contains logical values 1 and 0.
-
-\end{description}
 
 %\section{Exercises}
 

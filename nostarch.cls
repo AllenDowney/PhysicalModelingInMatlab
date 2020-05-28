@@ -82,7 +82,7 @@
     {\ding{\the\numexpr #1 + 181 \relax}} 
     
 \newcommand{\codewingding}[1]
-    {\vbox{\llap{\wingding{#1}\hskip 1em}}}
+    {\vbox{\llap{\wingding{#1}\hskip 0.5em}}}
     
     
 % ===== TERMS =====
@@ -782,11 +782,14 @@
     }}
     {
     \renewcommand{\codewingding}[1]
-    {\vbox{\llap{\wingding{#1}\hskip 1em}}}
+    {\vbox{\llap{\wingding{#1}\hskip 0.5em}}}
     \captionsetup[lstlisting]{font=nostarchfigfont,singlelinecheck=off,
   aboveskip=4pt, belowskip=0pt, margin=0pt}}
 
-
+  % ===== ALT LST =====
+\newcommand{\captionlst}[1]{{\ttfamily \itshape \fontsize{10pt}{9pt}\selectfont #1}}
+\newcommand{\boxlst}[1]{{\ttfamily \fontsize{10pt}{9pt}\selectfont #1}}
+\newcommand{\tablelst}[1]{{\ttfamily \fontsize{10pt}{9pt}\selectfont #1}}
 
 % ===== CAPTIONS =====
 \DeclareCaptionFont{nostarchfigfont}{\sffamily \itshape \fontsize{8.5pt}{9pt}\selectfont}
@@ -841,6 +844,7 @@
     \begin{flushright}
     \begin{flushleft}
     \parskip=.5\baselineskip
+    \tbfont
 }
 {\end{flushleft}\end{flushright}
 \end{mdframed}}

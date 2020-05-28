@@ -276,14 +276,14 @@ Listing~\ref{lst:acceleration_drag} defines a function that takes {\tt t} and {\
 
 \begin{lstlisting}[caption={Calculating acceleration of a penny with drag}, label={lst:acceleration_drag}]
 function res = acceleration(t, X)
-(*\codewingding{1}*)    b = 75e-6;                % drag constant in kg/m
+    (*\codewingding{1}*)b = 75e-6;                % drag constant in kg/m
     v = X(2);                 % velocity in m/s
     f_d = -sign(v) * b * v^2;  % drag force in N
 
-(*\codewingding{2}*)     m = 2.5e-3;               % mass in kg
+    (*\codewingding{2}*)m = 2.5e-3;               % mass in kg
     a_d = f_d / m;            % drag acceleration in m/s^2
 
-(*\codewingding{3}*)     a_g = -9.8;               % acceleration of gravity in m/s^2
+    (*\codewingding{3}*)a_g = -9.8;               % acceleration of gravity in m/s^2
     res = a_g + a_d;          % total acceleration
 end
 \end{lstlisting}
@@ -333,22 +333,15 @@ With air resistance, the time until the penny hits the sidewalk is \SI{22.4}{\se
 
 And the final velocity is \SI{18.1}{\meter \per \second}, substantially slower than before (\SI{86}{\meter \per \second}).
 
-\section{Summary}
+\section{Chapter Review}
 
-In this chapter we used Newton's laws motion to write a differential equation that describes the motion of a falling penny.  We re-wrote that equation as a system of first-order differential equations, so we could use {\tt ode45} to solve it.  Then we ran simulations of a falling penny with and without drag.
+In this chapter we used Newton's laws motion to write a differential equation that describes the motion of a falling penny.  
 
-In the next chapter, we extend the same idea to two dimensions and model the flight of a baseball.
+We re-wrote that equation as a system of first-order differential equations, so we could use {\tt ode45} to solve it.  Then we ran simulations of a falling penny with and without air resistance, also known as {\em drag}.
 
+We defined an {\em event} as something of interest that happens during a simulation, like a collision between moving objects, and we wrote an {\em event function}, which allows {\tt ode45} to figure out when an event occurs.
 
-%\section{Glossary}
-%
-%\begin{description}
-%
-%\item[ODE event:] Something of interest that happens during a simulation, like a collision between moving objects.
-%
-%\item[event function:] A function that allows {\tt ode45} to figure out when an event occurs.
-%
-%\end{description}
+In the next chapter, we extend Newtonian motion to two dimensions and model the flight of a baseball.
 
 
 \section{Exercises}
