@@ -44,9 +44,11 @@ Sometimes the best model is the most detailed.  If we include more features, the
 But often a simpler model is better.  If we include only the essential features and leave out the rest, we get models that are easier to work with, and the explanations they provide can be clearer and more compelling. \index{simplicity}
 
 As an example, suppose someone asked you why the orbit of the Earth is nearly elliptical.  If you model the Earth and Sun as point masses (ignoring their actual size), compute the gravitational force between them using Newton's law of universal gravitation, and compute the resulting orbit using Newton's laws of motion, you can show that the result is an ellipse.\index{orbit}\index{ellipse}
+
 Of course, the actual orbit of Earth is not a perfect ellipse, because of the gravitational forces of the Moon, Jupiter, and other objects in the solar system, and because Newton's laws of motion are only approximately true (they don't take into account relativistic effects).
 \index{Newton}%
 \index{relativity}%
+
 But adding these features to the model would not improve the explanation; more detail would only be a distraction from the fundamental cause.  However, if the goal is to predict the position of the Earth with great precision, including more details might be necessary.  
 
 Choosing the best model depends on what the model is for.  It is usually a good idea to start with a simple model, even if it's likely to be too simple, and test whether it's good enough for its purpose.  Then you can add features gradually, starting with the ones you expect to be most essential.  This process is called \emph{iterative modeling}.
@@ -183,6 +185,7 @@ function is \lstinline{sin}, which is the usual abbreviation for the
 trigonometric sine.  The value in parentheses is called the \emph{argument}.
 \index{argument}%
 \index{function!argument}%
+
 The trig functions \lstinline{sin}, \lstinline{cos}, \lstinline{tan}---among many
 others---work in radians, so the argument in the example is interpreted as 1~radian.
 MATLAB also provides trig functions that work in degrees: \lstinline{sind}, \lstinline{cosd}, and \lstinline{tand}.
@@ -352,6 +355,7 @@ variables and assigns them values, but displays nothing.
 \index{semicolon}%
 \index{suppress output}%
 \index{output!suppress}%
+
 The third example demonstrates that not everything
 in MATLAB is a number.
 A sequence of characters in single quotes is
@@ -572,7 +576,7 @@ or make the division explicit:
 \index{division}
 \index{debugging!Second Theorem}
 
-The last two examples bring us to the Second Theorem of Debugging: ``The only thing worse than getting an error message is \emph{not} getting an error message."
+The last two examples bring us to the Second Theorem of Debugging: ``The only thing worse than getting an error message is \emph{not} getting an error message.''
 
 Beginning programmers often hate error messages and do everything they
 can to make the messages go away.  Experienced programmers know that error
@@ -622,7 +626,7 @@ but you can get a preview of what's coming.
 
 This chapter provides an overview of the modeling process, including abstraction, analysis and simulation, measurement, and validation. 
 
-It also introduces MATLAB, the programming language we'll use to write simulations.  So far, we've seen variables and values, arithmetic operations, and mathematical functions.  At the end of the chapter you'll find an exercise you can use to test your knowledge.
+It also introduces MATLAB, the programming language we'll use to write simulations.  So far, we've seen variables and values, arithmetic operations, and mathematical functions.  At the end of the chapter you'll find exercises you can use to test your knowledge.
 
 Here are a few terms from this chapter you might want to remember.
 The {\em interpreter} is the program that reads and executes MATLAB or Octave code.
