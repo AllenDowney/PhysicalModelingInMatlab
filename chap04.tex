@@ -14,14 +14,14 @@ There are several ways to create vectors; one of the most common is
 to put a sequence of numbers in square brackets:
 
 \begin{code}
->> [1 2 3]
+>> ***[1 2 3]***
 ans = 1     2     3
 \end{code}
 
 Another way to create a vector is the colon operator, which we have already used to create a range of values in a {\tt for} loop.
 
 \begin{code}
->> 1:3
+>> ***1:3***
 ans = 1     2     3
 \end{code}
 
@@ -29,7 +29,7 @@ In general, anything you can do with a number, you can also do with
 a vector.  For example, you can assign a vector value to a variable:
 
 \begin{code}
->> X = [1 2 3]
+>> ***X = [1 2 3]***
 X = 1     2     3
 \end{code}
 
@@ -48,7 +48,7 @@ As with numbers, you can do arithmetic with vectors.  If you add a number
 to a vector, MATLAB increments each element of the vector:
 
 \begin{code}
->> Y = X + 5
+>> ***Y = X + 5***
 Y = 6     7     8
 \end{code}
 
@@ -59,7 +59,7 @@ If you add two vectors, MATLAB adds the corresponding elements of each
 vector and creates a new vector that contains the sums:
 
 \begin{code}
->> Z = X+Y
+>> ***Z = X+Y***
 Z = 7     9    11
 \end{code}
 
@@ -67,10 +67,10 @@ But adding vectors only works if the operands are the same size.
 Otherwise you get an error:
 
 \begin{code}
->> W = [1 2]
+>> ***W = [1 2]***
 W = 1     2     3
 
->> X + W
+>> ***X + W***
 Matrix dimensions must agree.
 \end{code}
 
@@ -84,21 +84,21 @@ We'll come back to this topic later, but for now you can think of a vector as a 
 If you divide two vectors, you might be surprised by the result:
 
 \begin{code}
->> X / Y
+>> ***X / Y***
 ans = 0.4156
 \end{code}
 
 MATLAB is performing a matrix operation called right division; an explanation of right division is outside the scope of this book. If you want to divide the elements of {\tt X} by the elements of {\tt Y}, you have to use {\tt ./}, which is elementwise division:
 
 \begin{code}
->> X ./ Y
+>> ***X ./ Y***
 ans = 0.2500    0.4000    0.5000
 \end{code}
 
 Multiplication has the same problem.  If you use {\tt *}, MATLAB does matrix multiplication.  With these two vectors, matrix multiplication is not defined, and you get an error:
 
 \begin{code}
->> X * Y
+>> ***X * Y***
 Error using  * 
 Incorrect dimensions for matrix multiplication. 
 Check that the number of columns in the first matrix 
@@ -112,7 +112,7 @@ In this case, the error message is pretty helpful.  As it suggests, you can use 
 \index{multiplication!matrix}
 
 \begin{code}
->> X .* Y
+>> ***X .* Y***
 ans = 4    10    18
 \end{code}
 
@@ -127,13 +127,13 @@ As an exercise, see what happens if you use the exponentiation operator,
 You can select an element from a vector with parentheses:
 
 \begin{code}
->> Y = [6 7 8 9]
+>> ***Y = [6 7 8 9]***
 Y = 6    7     8     9
 
->> Y(1)
+>> ***Y(1)***
 ans = 6
 
->> Y(4)
+>> ***Y(4)***
 ans = 9
 \end{code}
 
@@ -146,10 +146,10 @@ The number in parentheses is called the \emph{index} because it indicates which 
 The index can be a variable name or a mathematical expression:
 
 \begin{code}
->> i = 1;
->> Y(i)
+>> ***i = 1;***
+>> ***Y(i)***
 ans = 6
->> Y(i+1)
+>> ***Y(i+1)***
 ans = 7
 \end{code}
 
@@ -194,25 +194,25 @@ less than or equal to the length of the vector.  If it's
 zero or negative, you'll get an error:
 
 \begin{code}
->> Y(0)
+>> ***Y(0)***
 Array indices must be positive integers or logical values.
 \end{code}
 
 If it's not an integer, you get an error:
 
 \begin{code}
->> Y(1.5)
+>> ***Y(1.5)***
 Array indices must be positive integers or logical values.
 \end{code}
 
 If the index is too big, you also get an error:
 
 \begin{code}
->> Y(5)
+>> ***Y(5)***
 Index exceeds the number of array elements (4).
 \end{code}
 
-The error messages use the word ``array'' rather than ``matrix'', 
+The error messages use the word {\em array}' rather than {\em matrix}, 
 but they mean the same thing, at least for now.
 
 \index{array}
@@ -353,60 +353,33 @@ Y = X .^ 2
 It also runs faster!
 
 
-\section{Summary}
+\section{Chapter Review}
 
 In this chapter we used a vector to store the elements of a sequence.  We learned how to select elements from a vector and perform vector arithmetic.  We performed reduce and apply operations using {\tt for} loops, MATLAB function, and elementwise operations.
+
+Here are some terms from this chapter you might want to remember.
+
+A {\em compound statement} is a statement, like {\tt if} and {\tt for}, that
+contains other statements in an indented body.
+If you put one compound statement in the body of another, they are {\em nested}.
+
+A {\em scalar} is single value; a {\em vector} is a sequence of values, and a {\em matrix} is a two-dimensional collection of values (also called {\em array} in some MATLAB documentation).
+
+An {\em index} is an integer value used to indicate one of the elements
+in a vector or matrix (also called {\em subscript} in some MATLAB documentation).
+
+An operation is {\em elementwise} if it acts on the individual elements of a vector or matrix (unlike some linear algebra operations).
+
+You can {\em search} a vector for an element that has some desired property.
+You can {\em apply} an operation to all elements of a vector, and you can {\em reduce} a vector to a single value, for example by computing the sum of the elements.
+
+A {\em name collision} is a scenario where two scripts that use the same variable name interfere with each other.
 
 In the next chapter, you'll learn the most important idea in computer programming: functions!
 
 
-\section{Glossary}
-
-\begin{description}
-
-\item[compound statement:] A statement, like {\tt if} and {\tt for}, that
-contains other statements in an indented body.
-
-\item[nesting:] Putting one compound statement in the body of another.
-
-%\item[relational operator:] An operator that compares two values and generates a logical value as a result.
-
-%\item[logical value:] A value that represents either ``true'' or ``false''.  MATLAB uses the values 1 and 0, respectively.
-
-% \item[flag:] A variable that contains a logical value, often used to store the status of some condition.
-
-\item[scalar:] A single value.
-
-\item[vector:] A sequence of values.
-
-\item[matrix:] A two-dimensional collection of values (also called
-``array'' in some MATLAB documentation).
-
-\item[index] An integer value used to indicate one of the values
-in a vector or matrix (also called subscript in some MATLAB documentation).
-
-\item[element:] One of the values in a vector or matrix.
-
-\item[elementwise:] An operation that acts on the individual elements
-of a vector or matrix (unlike some linear algebra operations).
-
-\item[reduce:] A way of processing the elements of a vector and
-generating a single value; for example, the sum of the elements.
-
-\item[apply:] A way of processing a vector by performing some operation
-on each of the elements, producing a vector that contains the
-results.
-
-\item[search:] A way of processing a vector by examining the
-elements in order until one is found that has the desired property.
-
-\item[name collision:] The scenario where two scripts that use the
-same variable name interfere with each other.
-
-\end{description}
 
 \section{Exercises}
-
 
 \begin{ex}
 Write a loop that computes the first {\tt n} elements

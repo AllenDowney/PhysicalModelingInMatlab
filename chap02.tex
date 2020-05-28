@@ -1,8 +1,5 @@
 \chapter{Scripts}
 
-\minitoc{}
-
-
 So far we've typed all of our programs ``at the prompt.'' If you're only writing a few lines, this isn't so bad. But what if you're writing a hundred? Re-entering each line of code every time you want to change or test your program will be time consuming and tedious. Luckily, you don't have to. In this chapter, we'll look at a way to run many lines at once: scripts.
 
 
@@ -34,14 +31,14 @@ If so, click the button that says {\bf Change Folder} and it should run.
 You can also run a script by typing its name in the Command Window and pressing Enter. For example, if you enter {\tt myscript}, MATLAB should execute your script and display the result:
 
 \begin{code}
->> myscript
+>> ***myscript***
 x = 5
 \end{code}
 
 A few things to keep in mind when using scripts. First, you should not include the extension {\em .m} when you run a script.  If you do, you'll get an error message like this:
 
 \begin{code}
->> myscript.m
+>> ***myscript.m***
 Undefined variable "myscript" or class "myscript.m".
 \end{code}
 
@@ -56,7 +53,7 @@ a file named {\em my script.m}, MATLAB will complain when you try
 to run it:
 
 \begin{code}
->> my script
+>> ***my script***
 Undefined function or variable 'my'.
 \end{code}
 
@@ -126,8 +123,8 @@ I use temporary variables like {\tt t1} and {\tt t2} to make the code readable a
 If we save this script in a file named {\em fibonacci1.m}, we can run it like this:
 
 \begin{code}
->> n = 10
->> fibonacci1
+>> ***n = 10***
+>> ***fibonacci1***
 ans = 55.0000
 \end{code}
 
@@ -135,8 +132,8 @@ Before calling this script, you have to assign a value to {\tt n}.
 If {\tt n} is not defined, you get an error:
 
 \begin{code}
->> clear n
->> fibonacci1
+>> ***clear n***
+>> ***fibonacci1***
 Undefined function or variable 'n'.
 
 Error in fibonacci1 (line 9)
@@ -173,7 +170,7 @@ They are there because MATLAB performs calculations using floating-point numbers
 For example, if you compute the fraction {\tt 2/3}:
 
 \begin{code}
->> 2/3
+>> ***2/3***
 ans = 0.6666
 \end{code}
 
@@ -185,8 +182,8 @@ You can use the {\tt format} command to change the output format:
 \index{format@{\tt format}}
 
 \begin{code}
->> format long
->> 2/3
+>> ***format long***
+>> ***2/3***
 ans = 0.666666666666667
 \end{code}
 
@@ -199,7 +196,7 @@ Large and small numbers are displayed in scientific notation.
 For example, if we use the built in function {\tt factorial} to compute $50!$, we get the following result:
 
 \begin{code}
->> factorial(100)
+>> ***factorial(100)***
 ans = 9.332621544394410e+157
 \end{code}
 
@@ -214,7 +211,7 @@ exact solution is a 158-digit integer, but with double-precision floating-point 
 You can enter numbers using the same notation.
 
 \begin{code}
->> speed_of_light = 3.0e8
+>> ***speed_of_light = 3.0e8***
 speed_of_light = 300000000
 \end{code}
 
@@ -228,10 +225,10 @@ can handle.
 \index{realmax@{\tt realmax}}
 
 \begin{code}
->> realmax
+>> ***realmax***
 ans = 1.797693134862316e+308
 
->> realmin
+>> ***realmin***
 ans = 2.225073858507201e-308
 \end{code}
 
@@ -241,17 +238,17 @@ to infinity.
 \index{Inf@{\tt Inf}}
 
 \begin{code}
->> factorial(170)
+>> ***factorial(170)***
 ans = 7.257415615307994e+306
 
->> factorial(171)
+>> ***factorial(171)***
 ans = Inf
 \end{code}
 
 Division by zero also returns {\tt Inf}.
 
 \begin{code}
->> 1/0
+>> ***1/0***
 ans = Inf
 \end{code}
 
@@ -266,7 +263,7 @@ which stands for ``not a number''.
 \index{undefined operation}
 
 \begin{code}
->> 0/0
+>> ***0/0***
 ans = NaN
 \end{code}
 
@@ -285,7 +282,7 @@ To write a comment, you use the percent symbol {\tt \%} followed by the text of 
 \index{percent sign}
 
 \begin{code}
->> speed_of_light = 3.0e8     % meters per second
+>> ***speed_of_light = 3.0e8     % meters per second***
 speed_of_light = 300000000
 \end{code}
 
@@ -299,16 +296,16 @@ computation, but for now that burden falls on the programmer.
 Avoid comments that are redundant with the code:
 
 \begin{code}
->> x = 5        % assign the value 5 to x
+>> ***x = 5        % assign the value 5 to x***
 \end{code}
 
 Good comments provide additional information that's not in the
 code, like units in the example above, or the meaning of a variable:
 
 \begin{code}
->> p = 0         % position from the origin in meters
->> v = 100       % velocity in meters / second
->> a = -9.8      % acceleration of gravity in meters / second^2
+>> ***p = 0         % position from the origin in meters***
+>> ***v = 100       % velocity in meters / second***
+>> ***a = -9.8      % acceleration of gravity in meters /*** second^2
 \end{code}
 
 If you use longer variable names, you might not need explanatory
@@ -350,7 +347,7 @@ fibonacci1}, you get the contents of the comment (without the percent
 signs).
 
 \begin{code}
->> help fibonacci1
+>> ***help fibonacci1***
   Computes a numerical approximation of the nth Fibonacci number.  
   Precondition: you must assign a value to n before running this script.
   Postcondition: the result is stored in ans.
@@ -382,15 +379,15 @@ the left side has to be a variable, which is called the
 {\bf target} of the assignment.  So this is legal:
 
 \begin{code}
->> y = 1;
->> x = y+1
+>> ***y = 1;***
+>> ***x = y+1***
 x = 2
 \end{code}
 
 But this is not:
 
 \begin{code}
->> y+1 = x
+>> ***y+1 = x***
  y+1 = x
      |
 Error: Incorrect use of '=' operator. 
@@ -415,8 +412,8 @@ In MATLAB, {\tt y = y+1} is a sensible and useful assignment statement.
 It reads the current value of {\tt y}, adds one, and replaces the old value with the new value.
 
 \begin{code}
->> y = 1;
->> y = y+1
+>> ***y = 1;***
+>> ***y = y+1***
 y = 2
 \end{code}
 
@@ -424,42 +421,31 @@ When you read MATLAB code, you might find it helpful to pronounce
 the equals sign ``gets'' rather than ``equals.''  So {\tt x = y+1}
 is pronounced ``{\tt x} gets the value of {\tt y} plus one.''
 
-\section{Summary}
+\section{Chapter Review}
 
-In this chapter I explained scripts and suggested reasons to use them.  We computed elements of a Fibonacci sequence, and saw that the results are floating-point numbers, which are sometimes exactly correct, but often only approximately correct.
+In this chapter I presented scripts and suggested reasons to use them.  We computed elements of a Fibonacci sequence, and saw that the results are floating-point numbers, which are sometimes exactly correct, but often only approximate.
 And I explained how to add comments to a program to document what it does and explain how it works.
 
-In the next chapter, you'll learn how to write programs that perform repetitive tasks using loops.
+Here are some terms from this chapter you might want to remember.
 
-\section{Glossary}
-
-\begin{description}
-
-\item[M-file:] A file that contains a MATLAB program.
-
-\item[script:] An M-file that contains a sequence of MATLAB commands.
-
-\item[search path:] The list of folders where MATLAB looks for
+An {\em M-file} is a file that contains a {\em script}, which is a sequence of MATLAB/Octave commands.
+The {\em search path} is the list of folders where the interpreter looks for
 M-files.
 
-\item[precondition:] Something that must be true when the script
-starts, in order for it to work correctly.
+A {\em precondition} is something that must be true when the script
+starts, in order for it to work correctly; a {\em postcondition} is something that will be true when the script completes.
 
-\item[postcondition:] Something that will be true when the script
-completes.
+The {\em target} of an assignment statement is the variable on the left side.
 
-\item[target:] The variable on the left side of an assignment statement.
-
-\item[floating-point:] A way to represent numbers in a computer.
-
-\item[scientific notation:] A format for typing and displaying large
-and small numbers; e.g. {\tt 3.0e8}, which represents $3.0 \times 10^8$
+{\em Floating-point} is a way to represent and store numbers in a computer.
+{\em Scientific notation} is a format for typing and displaying large
+and small numbers; for example, {\tt 3.0e8} represents $3.0 \times 10^8$
 or 300,000,000.
 
-\item[comment:] Part of a program that provides additional information
+A {\em comment} is part of a program that provides additional information
 about the program, but does not affect its execution.
 
-\end{description}
+In the next chapter, you'll learn how to write programs that perform repetitive tasks using loops.
 
 
 \section{Exercises}
@@ -471,13 +457,13 @@ Put your code in a script called {\tt swap} and test it.
 If it works correctly, to should be able to run it like this:
 
 \begin{code}
->> x = 1, y = 2
+>> ***x = 1, y = 2***
 x = 1
 y = 2
 
->> swap
+>> ***swap***
 
->> x, y
+>> ***x, y***
 x = 2
 y = 1
 \end{code}

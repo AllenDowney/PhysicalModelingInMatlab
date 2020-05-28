@@ -21,7 +21,7 @@ which returns a matrix with the given size filled with zeros.
 This example creates a matrix with two rows and three columns.
 
 \begin{code}
->> M = zeros(2, 3)
+>> ***M = zeros(2, 3)***
 
 M =  0     0     0
      0     0     0
@@ -30,7 +30,7 @@ M =  0     0     0
 If you don't know the size of a matrix, you can use {\tt whos} to display it:
 
 \begin{code}
->> whos M
+>> ***whos M***
   Name      Size            Bytes  Class     Attributes
   M         2x3                48  double   
 \end{code}
@@ -41,7 +41,7 @@ Or the {\tt size} function, which returns a vector:
 \index{size@{\tt size}}
 
 \begin{code}
->> V = size(M)
+>> ***V = size(M)***
 
 V = 2    3
 \end{code}
@@ -56,11 +56,11 @@ columns.
 To read an element of a matrix, you specify the row and column numbers:
 
 \begin{code}
->> M(1,2)
+>> ***M(1,2)***
 
 ans = 0
 
->> M(2,3)
+>> ***M(2,3)***
 
 ans = 0
 \end{code}
@@ -74,12 +74,12 @@ Another way to create a matrix is to enclose the elements in
 brackets, with semi-colons between rows:
 
 \begin{code}
->> D = [1,2,3 ; 4,5,6]
+>> ***D = [1,2,3 ; 4,5,6]***
 
 D =  1     2     3
      4     5     6
 
->> size(D)
+>> ***size(D)***
 
 ans = 2     3
 \end{code}
@@ -99,8 +99,8 @@ from MATLAB's point of view, everything is a matrix.  A number
 is just a matrix that happens to have one row and one column:
 
 \begin{code}
->> x = 5;
->> size(x)
+>> ***x = 5;***
+>> ***size(x)***
 
 ans = 1     1
 \end{code}
@@ -108,8 +108,8 @@ ans = 1     1
 And a vector is a matrix with only one row:
 
 \begin{code}
->> R = 1:5;
->> size(R)
+>> ***R = 1:5;***
+>> ***size(R)***
 
 ans = 1     5
 \end{code}
@@ -123,7 +123,7 @@ One way to create a column vector is to create a matrix with only
 one element per row:
 
 \begin{code}
->> C = [1;2;3]
+>> ***C = [1;2;3]***
 
 C =
 
@@ -131,7 +131,7 @@ C =
      2
      3
 
->> size(C)
+>> ***size(C)***
 
 ans = 3     1
 \end{code}
@@ -144,11 +144,11 @@ it is:
 \index{linear algebra}
 
 \begin{code}
->> R(2)
+>> ***R(2)***
 
 ans = 2
 
->> C(2)
+>> ***C(2)***
 
 ans = 2
 \end{code}
@@ -167,7 +167,7 @@ transformed into a column (or you can think of it the other way around).
 In this example:
 
 \begin{code}
->> D = [1,2,3 ; 4,5,6]
+>> ***D = [1,2,3 ; 4,5,6]***
 
 D =  1     2     3
      4     5     6
@@ -176,7 +176,7 @@ D =  1     2     3
 {\tt D} has two rows, so its transpose has two columns:
 
 \begin{code}
->> Dt = D'
+>> ***Dt = D'***
 
 Dt = 1     4
      2     5
@@ -345,10 +345,10 @@ The third argument is the initial condition.
 and {\tt M}, which is a matrix.
 
 \begin{code}
->> size(T)
+>> ***size(T)***
 ans = 101     1
 
->> size(M)
+>> ***size(M)***
 ans = 101     2
 \end{code}
 
@@ -363,7 +363,7 @@ use matrices.  {\tt plot} understands this structure, so if you
 do this:
 
 \begin{code}
->> plot(T, M)
+>> ***plot(T, M)***
 \end{code}
 
 MATLAB understands that it should plot each column from {\tt M}
@@ -375,8 +375,8 @@ You can copy the columns of {\tt M} into other variables like
 this:
 
 \begin{code}
->> R = M(:, 1);
->> F = M(:, 2);
+>> ***R = M(:, 1)***;
+>> ***F = M(:, 2);***
 \end{code}
 
 In this context, the colon represents the range from 1 to {\tt end},
@@ -384,10 +384,10 @@ so {\tt M(:, 1)} means ``all the rows, column 1'' and
 {\tt M(:, 2)} means ``all the rows, column 2.''
 
 \begin{code}
->> size(R)
+>> ***size(R)***
 ans = 101     1
 
->> size(F)
+>> ***size(F)***
 ans = 101     1
 \end{code}
 
@@ -398,8 +398,8 @@ So {\tt R} and {\tt F} are column vectors.
 Now we can plot these vectors separately, which makes it easier to give them different style strings:
 
 \begin{code}
->> plot(T, R, '-')
->> plot(T, F, '--')
+>> ***plot(T, R, '-')***
+>> ***plot(T, F, '--')***
 \end{code}
 
 \begin{figure}[ht]
@@ -422,7 +422,7 @@ This cycle of ``boom and bust'' is typical of the Lotka-Volterra model.
 Instead of plotting the two populations over time, it is sometimes useful to plot them against each other:
 
 \begin{code}
->> plot(R, F)
+>> ***plot(R, F)***
 \end{code}
 \begin{figure}[ht]
 
@@ -481,45 +481,32 @@ provide when you call {\tt ode45} has to be the same as the order,
 inside \verb"rate_func", where you unpack the input vector, and the
 same as the order of the derivatives in the output vector.
 
-\section{Summary}
+\section{Chapter Review}
 
-In this chapter, we use {\tt ode45} to solve a system of first order differential equations.
-As an exercise, you'll have a chance to solve the famous Lorenz equations, one of the first
-examples of a chaotic system.
+In this chapter, we used {\tt ode45} to solve a system of first order differential equations.
+As an exercise, you'll have a chance to solve the famous Lorenz equations, one of the first examples of a chaotic system.
 
-In the next chapter, we move on to second-order systems, which we will use to describe systems
-with objects moving in space, governed by Newton's laws of motion.
+Here are the terms from this chapter you might want to remember.
 
-
-\section{Glossary}
-
-\begin{description}
-
-\item[row vector:] A matrix that has only one row.
-
-\item[column vector:] A matrix that has only one column.
-
-\item[transpose:] An operation that transforms the rows of a matrix
+A {\em row vector} is a matrix that has only one row, and a {\em column vector} is a matrix that has only one column.
+The {\em transpose} operation transforms the rows of a matrix
 into columns (or the other way around, if you prefer).
 
-\item[system of equations:] A collection of equations written in terms of
+A {\em system of equations} is a collection of equations written in terms of
 the same set of variables.
 
-\item[unpack:] To copy the elements of a vector into a set of variables.
+In a rate function, we often have to {\em unpack} the input variable,
+copying the elements of a vector into a set of variables.
+Then we have to {\em pack} the results into a vector as an output variable.
 
-\item[pack:] To copy values from a set of variables into a vector.
+The {\em state} of a system is a set of variables that quantify the condition of the system as it changes over time.
 
-\item[state:] If a system can be described by a set of variables,
-the values of those variables are called the state of the system.
+When we solve a system of differential equations, we can visualize the results with a {\em phase plot}, which shows the state of a system as point in the space of possible states.
+A {\em trajectory} is a path in a phase plot that shows how the state of a system changes over time.
 
-\item[phase plot:] A plot that shows the state of a system as point
-in the space of possible states.
+In the next chapter, we move on to second-order systems, which we use to describe systems
+with objects moving in space, governed by Newton's laws of motion.
 
-\item[trajectory:] A path in a phase plot that shows how the state of
-a system changes over time.
-
-
-\end{description}
 
 \section{Exercises}
 

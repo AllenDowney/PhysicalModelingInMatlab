@@ -1,22 +1,18 @@
 \chapter{Modeling and Simulation}
 \label{modeling}
 
-\minitoc{}
-
-This book is about modeling and simulating physical systems. Before we can build any models, it'll help to have a high level understanding of what a model is. We'll also need to familiarize ourselves with the tools we use to build them. In this chapter, we'll look at the modeling process and introduce MATLAB, the programming language we'll use to represent models and run simulations.
+This book is about modeling and simulating physical systems. Before we can build any models, it'll help to have a high-level understanding of what a model is. We'll also need to familiarize ourselves with the tools we use to build them. In this chapter, we'll look at the modeling process and introduce MATLAB, the programming language we'll use to represent models and run simulations.
 
 
 \section{Modeling}
 
-When I say "modeling", I'm talking about something like Figure~\ref{fig:modeling}:
-
+When I say ``modeling,'' I'm talking about something like Figure~\ref{fig:modeling}.
 \begin{figure}[h]
   \includegraphics[height=3in]{book/figs/modeling_framework.pdf} 
   \index{modeling}
-  \caption{The modeling process.}
+  \caption{The modeling process}
   \label{fig:modeling}
 \end{figure}
-
 In the lower left corner of the figure is the \emph{system}, something in the real world we're interested in.  Often, it's something complicated, so we have to decide which 
 details can be left out; removing details is called \emph{abstraction}.  
 
@@ -40,31 +36,31 @@ We can validate predictions and test designs by taking measurements from the rea
 \index{validation}
 \index{data}
 
-For any physical system, there are many possible models, each one including and excluding different features, or including different levels of detail.  The goal of the modeling process is to find the model best suited to its purpose (prediction, explanation, or design).
+For any physical system there are many possible models, each one including and excluding different features, or including different levels of detail.  The goal of the modeling process is to find the model best suited to its purpose (prediction, explanation, or design).
 
 \index{iterative modeling}
 
 Sometimes the best model is the most detailed.  If we include more features, the model is more realistic, and we expect its predictions to be more accurate. \index{realism} 
 But often a simpler model is better.  If we include only the essential features and leave out the rest, we get models that are easier to work with, and the explanations they provide can be clearer and more compelling. \index{simplicity}
 
-As an example, suppose someone asked you why the orbit of the Earth is nearly elliptical.  If you model the Earth and Sun as point masses (ignoring their actual size), compute the gravitational force between them using Newton's law of universal gravitation, and compute the resulting orbit using Newton's laws of motion, you can show that the result is an ellipse. \index{orbit} \index{ellipse}
+As an example, suppose someone asked you why the orbit of the Earth is nearly elliptical.  If you model the Earth and Sun as point masses (ignoring their actual size), compute the gravitational force between them using Newton's law of universal gravitation, and compute the resulting orbit using Newton's laws of motion, you can show that the result is an ellipse.\index{orbit}\index{ellipse}
 Of course, the actual orbit of Earth is not a perfect ellipse, because of the gravitational forces of the Moon, Jupiter, and other objects in the solar system, and because Newton's laws of motion are only approximately true (they don't take into account relativistic effects).
-\index{Newton}
-\index{relativity}
+\index{Newton}%
+\index{relativity}%
 But adding these features to the model would not improve the explanation; more detail would only be a distraction from the fundamental cause.  However, if the goal is to predict the position of the Earth with great precision, including more details might be necessary.  
 
 Choosing the best model depends on what the model is for.  It is usually a good idea to start with a simple model, even if it's likely to be too simple, and test whether it's good enough for its purpose.  Then you can add features gradually, starting with the ones you expect to be most essential.  This process is called \emph{iterative modeling}.
 
 \index{iterative modeling}
 
-Comparing results of successive models provides a form of \emph{internal validation}, so you can catch conceptual, mathematical, and software errors.  And by adding and removing features, you can tell which ones have the biggest effect on the results, and which can be ignored.
-\index{internal validation}
-\index{validation!internal}
-\index{external validation}
-\index{validation!external}
-Comparing results to data from the real world provides \emph{external validation}, which is generally the strongest test.
+Comparing the results of successive models provides a form of \emph{internal validation}, so you can catch conceptual, mathematical, and software errors.  And by adding and removing features, you can tell which ones have the biggest effect on the results, and which can be ignored.
+\index{internal validation}%
+\index{validation!internal}%
+\index{external validation}%
+\index{validation!external}%
+Comparing results with data from the real world provides \emph{external validation}, which is generally the strongest test.
 
-The figure shows that models can be used for analysis and simulation; in this book, we will do some analysis, but the focus in on simulation.  And the tool we will use to build simulations is MATLAB.  So let's get started.
+Figure~\ref{fig:modeling} shows that models can be used for both analysis and simulation; in this book we will do some analysis, but the focus is on simulation.  And the tool we will use to build simulations is MATLAB.  So let's get started.
 
 
 \section{A Glorified Calculator}
@@ -92,16 +88,16 @@ about the version of the software you're running, followed by a \emph{prompt}, w
 The \lstinline{>>} symbol prompts you to enter a command. 
 The simplest kind of command is a mathematical \emph{expression},
 like \lstinline{2 + 1}.\index{expression}
-If you type an expression and then press Enter (or Return), MATLAB
+If you type an expression and then press \keycap{enter} (or \keycap{return}), MATLAB
 \emph{evaluates} the expression and prints the result.
 
 \begin{code}
->> 2 + 1
+>> ***2 + 1***
 ans = 3
 \end{code}
 
 Just to be clear: in this example, MATLAB displayed \lstinline{>>}; I
-typed {\tt 2 + 1} and then hit Enter, and MATLAB displayed \lstinline{ans = 3}.
+typed \textbf{\lstinline{2 + 1}} and then hit \keycap{enter}, and MATLAB displayed \lstinline{ans = 3}.
 
 \index{operator}
 \index{operand}
@@ -112,7 +108,7 @@ don't have to put spaces between them; some people do and some people
 don't. Here's an example with no spaces:
 
 \begin{code}
->> 1+2+3+4+5+6+7+8+9
+>> ***1+2+3+4+5+6+7+8+9***
 ans = 45
 \end{code}
 
@@ -129,16 +125,16 @@ Subtraction is denoted by a minus sign, \lstinline{-}; multiplication by
 an asterisk, \lstinline{*}; division by a forward slash, \lstinline{/}.
 
 \begin{code}
->> 2*3 - 4/5
+>> ***2*3 - 4/5***
 ans = 5.2000
 \end{code}
 
-Another common operator is exponentiation, which uses the \verb+^+
-symbol, sometimes pronounced ``carat'' or ``hat''.  So 2 raised to the
+Another common operator is exponentiation, which uses the \lstinline{^}
+symbol, sometimes called ``caret'' or ``hat.''  So, 2 raised to the
 16th power is
 
 \begin{code}
->> 2^16
+>> ***2^16***
 ans = 65536
 \end{code}
 
@@ -151,7 +147,7 @@ If you want to override the order of operations, you can use parentheses.
 \index{parentheses}
 
 \begin{code}
->> 2 * (3-4) / 5
+>> ***2 * (3-4) / 5***
 ans = -0.4000
 \end{code}
 
@@ -164,17 +160,12 @@ most important human who will read your code is you.
 
 \index{debugging!First Theorem}
 
-And that brings us to the First Theorem of Debugging:
-
-\begin{quote}
-Readable code is debuggable code.
-\end{quote}
-
+And that brings us to the First Theorem of Debugging: ``Readable code is debuggable code."
 It's worth spending time to make your code pretty; it will save
-you time debugging!
+you time \mbox{debugging}!
 
 
-\subsection{Math functions}
+\subsection{Math Functions}
 
 MATLAB knows how to compute pretty much every math function you've
 heard of. For example, it knows all the trigonometric functions---here's how you
@@ -183,27 +174,26 @@ use them:
 \index{math function!trigonometric}
 
 \begin{code}
->> sin(1)
+>> ***sin(1)***
 ans = 0.8415
 \end{code}
 
 This command is an example of a \emph{function call}.  The name of the
 function is \lstinline{sin}, which is the usual abbreviation for the
 trigonometric sine.  The value in parentheses is called the \emph{argument}.
-\index{argument}
-\index{function!argument}
-The trig functions \lstinline{sin}, \lstinline{cos},\lstinline{tan}---among many
-others---work in radians, so the argument in the example is interpreted as 1 radian.
-MATLAB also provides trig functions that work in degrees: {\tt sind},{\tt cosd}, and {\tt
-tand}.
+\index{argument}%
+\index{function!argument}%
+The trig functions \lstinline{sin}, \lstinline{cos}, \lstinline{tan}---among many
+others---work in radians, so the argument in the example is interpreted as 1~radian.
+MATLAB also provides trig functions that work in degrees: \lstinline{sind}, \lstinline{cosd}, and \lstinline{tand}.
 
-Some functions take more than one argument, in which case they are
+Some functions take more than one argument, in which case the arguments are
 separated by commas.  For example, \lstinline{atan2} computes the inverse
 tangent, which is the angle in radians between the positive x-axis and
 the point with the given $y$ and $x$ coordinates.
 
 \begin{code}
->> atan2(1,1)
+>> ***atan2(1,1)***
 ans = 0.7854
 \end{code}
 
@@ -213,10 +203,10 @@ it.  It's just an example of a function with multiple arguments.
 \index{trigonometry}
 \index{math function!exponential}
 
-MATLAB also provides exponential functions, like \lstinline{exp}, which computes $e$ raised to the given power.  So \lstinline{exp(1)} is just $e$:
+MATLAB also provides exponential functions, like \lstinline{exp}, which computes $e$ raised to the given power.  So, \lstinline{exp(1)} is just $e$:
 
 \begin{code}
->> exp(1)
+>> ***exp(1)***
 ans = 2.7183
 \end{code}
 
@@ -225,7 +215,7 @@ ans = 2.7183
 The inverse of \lstinline{exp} is \lstinline{log}, which computes the logarithm base $e$:
 
 \begin{code}
->> log(exp(3))
+>> ***log(exp(3))***
 ans = 3
 \end{code}
 
@@ -240,13 +230,13 @@ another.
 More generally, you can use a function call as an operand in an expression.
 
 \begin{code}
->> sqrt(sin(0.5)^2 + cos(0.5)^2)
+>> ***sqrt(sin(0.5)^2 + cos(0.5)^2)***
 ans = 1
 \end{code}
 
 As you probably guessed, \lstinline{sqrt} computes the square root.
 
-\index{mathematical function!square root}
+\index{math function!square root}
 
 There are lots of other math functions, but this isn't meant to
 be a reference manual.  To learn about other functions, you should
@@ -263,10 +253,10 @@ Of course, MATLAB is good for more than just evaluating expressions. One of the 
  
 MATLAB comes with a few predefined variables. For
 example, the name \lstinline{pi} refers to the
-mathematical quantity $\pi$, which is approximately
+mathematical quantity $\pi$, which is approximately:
 
 \begin{code}
->> pi
+>> ***pi***
 ans = 3.1416
 \end{code}
 
@@ -279,17 +269,16 @@ root of $-1$.
 \index{expression}
 
 You can use a variable name anywhere you can use a number; for example, as
-an operand in an expression:
+an operand in an expression,
 
 \begin{code}
->> pi * 3^2
+>> ***pi * 3^2***
 ans = 28.2743
 \end{code}
-
-Or as an argument to a function:
+or as an argument to a function:
 
 \begin{code}
->> sin(pi/2)
+>> ***sin(pi/2)***
 ans = 1
 \end{code}
 
@@ -298,13 +287,13 @@ ans = 1
 
 Whenever you evaluate an expression, MATLAB assigns the result to
 a variable named \lstinline{ans}.  You can use \lstinline{ans} in a subsequent
-calculation as shorthand for ``the value of the previous expression''.
+calculation as shorthand for ``the value of the previous expression.''
 
 \begin{code}
->> 3^2 + 4^2
+>> ***3^2 + 4^2***
 ans = 25
 
->> sqrt(ans)
+>> ***sqrt(ans)***
 ans = 5
 \end{code}
 
@@ -323,10 +312,9 @@ equals sign, \lstinline{=}, used like so:
 \index{statement!assignment}
 
 \begin{code}
->> x = 6 * 7
+>> ***x = 6 * 7***
 x = 42
 \end{code}
-
 This example creates a new variable named \lstinline{x} and assigns it the
 value of the expression \lstinline{6 * 7}.  MATLAB responds with the
 variable name and the computed value.
@@ -334,14 +322,14 @@ variable name and the computed value.
 \index{expression}
 
 There are a few rules when assigning variables a value. In every assignment statement, the left side has to be a legal variable name.  The right side can be any expression, including function calls.
-\index{variable name}
-\index{name!variable}
-\index{underscore}
-\index{case sensitive}
+\index{variable name}%
+\index{name!variable}%
+\index{underscore}%
+\index{case sensitive}%
 Almost any sequence of lower and upper case letters is a legal
 variable name.  
 Some punctuation is also legal, but the underscore,
-\verb"_", is the only commonly-used non-letter.
+\lstinline{_}, is the only commonly used non-letter.
 Numbers are fine, but not at the beginning.  
 Spaces are not allowed.  Variable names are
 \emph{case sensitive}, so \lstinline{x} and \lstinline{X} are different variables.
@@ -349,21 +337,21 @@ Spaces are not allowed.  Variable names are
 Let's look at some examples of assignment statements:
 
 \begin{code}
->> fibonacci0 = 1;
+>> ***fibonacci0 = 1;***
 
->> LENGTH = 10;
+>> ***LENGTH = 10;***
 
->> first_name = 'bob'
+>> ***first_name = 'bob'***
 first_name = 'bob'
 \end{code}
 
-The first two examples demonstrate the use of the semi-colon, which
+The first two examples demonstrate the use of the semicolon, which
 suppresses the output from a command.  In this case MATLAB creates the
 variables and assigns them values, but displays nothing.
-\index{syntax!semi-colon}
-\index{semi-colon}
-\index{suppress output}
-\index{output!suppress}
+\index{syntax!semicolon}%
+\index{semicolon}%
+\index{suppress output}%
+\index{output!suppress}%
 The third example demonstrates that not everything
 in MATLAB is a number.
 A sequence of characters in single quotes is
@@ -389,27 +377,27 @@ set of variables and their values.
 \index{workspace}
 
 The \lstinline{who} command prints the
-names of the variables in the workspace.
+names of the variables in the workspace:
 
-\index{who@{\tt who}}
-\index{command!{\tt who}}
+\index{who@\lstinline{who}}
+% \index{command!\lstinline{who}}
 
 \begin{code}
->> x=5;
->> y=7;
->> z=9;
->> who
+>> ***x=5;***
+>> ***y=7;***
+>> ***z=9;***
+>> ***who***
 
 Your variables are:
 
 x  y  z
 \end{code}
 
-The \lstinline{clear} command removes specified variables from the workspace
+The \lstinline{clear} command removes specified variables from the workspace:
 
 \begin{code}
->> clear x
->> who
+>> ***clear x***
+>> ***who***
 
 Your variables are:
 
@@ -418,20 +406,19 @@ y z
 
 But be careful: if you don't specify any variables, \lstinline{clear} removes them all.
 
-\index{clear@{\tt clear}}
-\index{disp@{\tt disp}}
+\index{clear@\lstinline{clear}}
+\index{disp@\lstinline{disp}}
 
-To display the value of a variable, you can use the \lstinline{disp} function.
+To display the value of a variable, you can use the \lstinline{disp} function:
 
 \begin{code}
->> disp(z)
+>> ***disp(z)***
      9
 \end{code}
-
-But it's easier to just type the variable name.
+but it's easier to just type the variable name.
 
 \begin{code}
->> z
+>> ***z***
 z = 9
 \end{code}
 
@@ -439,13 +426,13 @@ Now that you've seen how to use them, let's take a step back and think about why
 
 \subsection{Why Variables?}
 
-There are a number of reasons use variables. \index{variable!reasons for}
+There are a number of reasons to use variables.\index{variable!reasons for}
 A big one is to avoid recomputing a value you use repeatedly.  For
 example, if your computation uses $e$ frequently, you might
 want to compute it once and save the result.
 
 \begin{code}
->> e = exp(1)
+>> ***e = exp(1)***
 e = 2.7183
 \end{code}
 
@@ -454,14 +441,14 @@ mathematics more apparent.  If you're computing the area of a circle,
 you might want to use a variable named \lstinline{r}:
 
 \begin{code}
->> r = 3
+>> ***r = 3***
 r = 3
 
->> area = pi * r^2
+>> ***area = pi * r^2***
 area = 28.2743
 \end{code}
 
-That way your code resembles the familiar formula $a = \pi r^2$.
+That way, your code resembles the familiar formula $a = \pi r^2$.
 
 You might also use a variable to break a long computation into a sequence of steps.
 Suppose you're evaluating a big, hairy expression like this:
@@ -470,11 +457,10 @@ Suppose you're evaluating a big, hairy expression like this:
 p = ((x - theta) * sqrt(2 * pi) * sigma)^-1 * ...
 exp(-1/2 * (log(x - theta) - zeta)^2 / sigma^2)
 \end{code}
-
 You can use an ellipsis to break the expression into multiple lines.
 Just enter \lstinline{...} at the end of the first line and continue on the
 next.
-\index{syntax!{\tt ...}}
+\index{syntax!\lstinline{...}}
 \index{ellipsis}
 But often it's better to break the computation into a sequence of
 steps and assign intermediate results to variables:
@@ -488,8 +474,8 @@ p = exp(exponent) / denom
 \end{code}
 
 The names of the intermediate variables explain their role in the
-computation.  \lstinline{shiftx} is the value of \lstinline{x} shifted by 
-\lstinline{theta}.  It should be no surprise that \lstinline{exponent} is the argument of \lstinline{exp}, and \lstinline{denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes them easier to debug.
+computation:  \lstinline{shiftx} is the value of \lstinline{x} shifted by 
+\lstinline{theta};  it should be no surprise that \lstinline{exponent} is the argument of \lstinline{exp}; and \lstinline{denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes it easier to debug.
 
 \index{numerator}
 \index{denominator}
@@ -521,24 +507,22 @@ Error: Invalid expression. Check for missing multiplication
 operator, missing or unbalanced delimiters, or other syntax 
 error. To construct matrices, use brackets instead of parentheses.
 \end{stdout}
+\index{invalid expression}%
+\index{expression!invalid}%
 
-\index{invalid expression}
-\index{expression!invalid}
-
-The message indicates that the expression in invalid and suggests several things that might be wrong.
-In this case, one of its guesses is right; we're missing a multiplication operator.
+The message indicates that the expression is invalid and suggests several things that might be wrong.
+In this case, one of its guesses is right: we're missing a multiplication operator.
 
 \index{parentheses}
 
 Another common error is to leave out the parentheses around the
-arguments of a function.  For example, in math notation, it's common
+arguments of a function.  For example, in math notation it's common
 to write something like $\sin \pi$, but in MATLAB if you write
 
 \begin{code}
 sin pi
 \end{code}
-
-You should get the following error message:
+you should get the following error message:
 
 \begin{stdout}
 Undefined function 'sin' for input arguments of type 'char'.
@@ -550,7 +534,7 @@ In this case the error message is helpful, but in other cases the results can be
 For example, if you call \lstinline{abs}, which computes absolute values, and forget the parentheses, you get a surprising result:
 
 \begin{code}
->> abs pi
+>> ***abs pi***
 ans =  112   105
 \end{code}
 
@@ -563,7 +547,7 @@ If you were translating this mathematical expression into MATLAB:
 %
 \[ \frac{1}{2 \sqrt \pi} \]
 %
-You might be tempted to write this:
+you might be tempted to write this:
 
 \begin{code}
 1 / 2 * sqrt(pi)
@@ -574,13 +558,12 @@ But that would be wrong because of the order of operations.  Division and multip
 \index{order of operations}
 \index{denominator}
 
-To keep \lstinline{sqrt(pi)} in the denominator, you could use parentheses:
+To keep \lstinline{sqrt(pi)} in the denominator, you could use parentheses,
 
 \begin{code}
 1 / (2 * sqrt(pi))
 \end{code}
-
-or make the division explicit.
+or make the division explicit:
 
 \begin{code}
 1 / 2 / sqrt(pi)
@@ -589,11 +572,7 @@ or make the division explicit.
 \index{division}
 \index{debugging!Second Theorem}
 
-The last two examples bring us to the Second Theorem of Debugging:
-
-\begin{quote}
-The only thing worse than getting an error message is \emph{not} getting an error message.
-\end{quote}
+The last two examples bring us to the Second Theorem of Debugging: ``The only thing worse than getting an error message is \emph{not} getting an error message."
 
 Beginning programmers often hate error messages and do everything they
 can to make the messages go away.  Experienced programmers know that error
@@ -604,18 +583,16 @@ misleading, but it's worth the effort to understand them.
 
 MATLAB comes with two forms of documentation, \lstinline{help}
 and \lstinline{doc}.
-
-\index{documentation!doc@{\tt doc}}
-\index{documentation!doc@{\tt help}}
-
+\index{documentation!doc@\lstinline{doc}}
+\index{documentation!help@\lstinline{help}}
 The \lstinline{help} command works in the Command Window; just 
-enter \lstinline{help} followed by the name of a command.
+enter \textbf{\lstinline{help}} followed by the name of a command.
 
 % Here's an example where the output is in a stdout environment to
 % avoid nonsensical syntax highlighting.
 
 \begin{code}
->> help sin
+>> ***help sin***
 \end{code}
 
 You should see output like this:
@@ -636,76 +613,46 @@ we get to vectors and matrices a few chapters from now.
 \index{matrix}
 
 The \lstinline{doc} pages are usually better.  
-If you enter \lstinline{doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
+If you enter \textbf{\lstinline{doc sin}}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
 use vectors and matrices, so they may not make sense yet, 
 but you can get a preview of what's coming.
 
 
-\section{Summary}
+\section{Chapter Review}
 
-This chapter provided an overview of the modeling process, including abstraction, analysis and simulation, measurement, and validation. 
-It also introduced MATLAB, the programming language we'll use to write simulations.  So far, we've seen variables and values, arithmetic operations, and mathematical functions.  At the end of this chapter, you'll find an exercise you can use to test your knowledge.
+This chapter provides an overview of the modeling process, including abstraction, analysis and simulation, measurement, and validation. 
+
+It also introduces MATLAB, the programming language we'll use to write simulations.  So far, we've seen variables and values, arithmetic operations, and mathematical functions.  At the end of the chapter you'll find an exercise you can use to test your knowledge.
+
+Here are a few terms from this chapter you might want to remember.
+The {\em interpreter} is the program that reads and executes MATLAB or Octave code.
+It prints a {\em prompt} to indicate that it's waiting for you to type a {\em command}, which is a line of code executed by the interpreter.
+
+An {\em operator} is a symbol, like \lstinline{*} and \lstinline{+}, that
+represents a mathematical operation.
+An {\em operand} is a number or variable that appears in an expression along
+with operators.
+An {\em expression} is a sequence of operands and operators that specifies
+a mathematical computation and yields a value.
+
+A {\em function} is a named computation; for example, \lstinline{log10} is the
+name of the function that computes logarithms in base 10.
+A {\em function call} is a command that causes a function to execute and compute a result.
+An {\em argument} is an expression that appears in a function call to
+specify the value the function operates on.
+
+A {\em variable} is a named value. An {\em assignment statement} is a command that creates a new variable (if necessary) and gives it a value.
+A {\em workspace} is a set of variables and their values.
+
+Finally, a {\em string} is a value that consists of a sequence of characters (as opposed to a number).
 
 In the next chapter you'll start writing longer programs and learn about floating-point numbers.
 
-
-\section{Glossary}
-
-\begin{description}
-
-\item[interpreter:] The program that reads and executes MATLAB code.
-
-\item[command:] A line of MATLAB code executed by the interpreter.
-
-\item[prompt:] The symbols the interpreter prints to indicate that it's
-waiting for you to type a command.
-
-\item[operator:] One of the symbols, like \lstinline{*} and \lstinline{+}, that
-represent mathematical operations.
-
-\item[operand:] A number or variable that appears in an expression along
-with operators.
-
-\item[expression:] A sequence of operands and operators that specifies
-a mathematical computation and yields a value.
-
-\item[value:] The numerical result of a computation.
-
-\item[evaluate:] To compute the value of an expression.
-
-\item[order of operations:] The rules that specify which operations
-in an expression are performed first.
-
-\item[function:] A named computation; for example \lstinline{log10} is the
-name of a function that computes logarithms in base 10.
-
-\item[call:] To cause a function to execute and compute a result.
-
-\item[function call:] A kind of command that executes a function.
-
-\item[argument:] An expression that appears in a function call to
-specify the value the function operates on.
-
-\item[nested function call:] An expression that uses the result from
-one function call as an argument for another.
-
-\item[variable:] A named value.
-
-\item[assignment statement:] A command that creates a new variable
-(if necessary) and gives it a value.
-
-\item[workspace:] A set of variables and their values.
-
-\item[string:] A value that consists of a sequence of characters (as
-opposed to a number).
-
-
-\end{description}
-
-
 \section{Exercises}
 
-\begin{ex}
+Before you go on, you might want to work on the following exercises.
+
+\subsection{Exercise 1}
 \label{penny}
 You might have heard that a penny dropped from the top of the Empire State Building would be going so fast when it hit the pavement that it would be embedded in the concrete; or if it hit a person, it would break their skull.
 
@@ -731,18 +678,17 @@ Plugging in the acceleration of gravity,
 $a = \SI{9.8}{\meter\per\second\squared}$, and the height of the Empire State Building, 
 $h = \SI{381}{\meter}$, we get 
 $t = \SI{8.8}{\second}$.  
-Then computing $v = a t$ we get a velocity on impact of $\SI{86}{\meter\per\second}$, which is about 190 miles per hour.  That sounds like it could hurt.
+Then, computing $v = a t$ we get a velocity on impact of $\SI{86}{\meter\per\second}$, which is about 190 miles per hour.  That sounds like it could hurt.
 
 Use MATLAB to perform these computations, and check that you get the same result.
-\end{ex}
 
-\begin{ex}
+\subsection{Exercise 2}
 The result in the previous exercise is not accurate because it ignores air resistance.  In reality, once the penny gets to about \SI{18}{\meter\per\second}, the upward force of air resistance equals the downward force of gravity, so the penny stops accelerating.  After that, it doesn't matter how far the penny falls; it hits the sidewalk at about \SI{18}{\meter\per\second}, much less than \SI{86}{\meter\per\second}.
 
 As an exercise, compute the time it takes for the penny to reach the sidewalk if we assume that it accelerates with constant acceleration
-$a = \SI{9.8}{\meter\per\second\squared}$ until it reaches terminal velocity, then falls with constant velocity until it hits this sidewalk.
+$a = \SI{9.8}{\meter\per\second\squared}$ until it reaches terminal velocity, then falls with constant velocity until it hits the sidewalk.
 
 The result you get is not exact, but it's a pretty good approximation.
 
-\end{ex}
+
 
