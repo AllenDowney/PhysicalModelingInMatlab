@@ -1,10 +1,10 @@
 \chapter{Zero-finding}
 \label{fzero}
 
-In this chapter we'll use the MATLAB function {\tt fzero} to solve nonlinear equations.
+In this chapter we'll use the MATLAB function \lstinline{fzero} to solve nonlinear equations.
 Nonlinear equations are useful for modeling physical systems; for example, in one of
-the exercises at the end of this chapter, you can use {\tt fzero} to find the equilibrium point of an object floating on water.
-Using {\tt fzero} is also an opportunity to learn about {\em function handles}, which we'll need for the following chapters.
+the exercises at the end of this chapter, you can use \lstinline{fzero} to find the equilibrium point of an object floating on water.
+Using \lstinline{fzero} is also an opportunity to learn about {\em function handles}, which we'll need for the following chapters.
 
 \section{Solving Nonlinear Equations}
 
@@ -12,10 +12,10 @@ Using {\tt fzero} is also an opportunity to learn about {\em function handles}, 
 \index{equation!nonlinear}
 
 What does it mean to ``solve'' an equation?  That may seem like an
-obvious question, but I want to take a minute to think about it,
+obvious question, but let's take a minute to think about it,
 starting with a simple example.
 
-Let's say that we want to know the
+Suppose we want to know the
 value of a variable, $x$, but all we know about it is the relationship
 $x^2 = a$. If you've taken algebra, you probably know how to solve this
 equation: you take the square root of both sides and get
@@ -40,19 +40,20 @@ roots, we can compute the value of $x$ for any value of $a$.
 
 When people talk about solving an equation, what they usually mean
 is something like ``finding an equivalent relationship that is
-explicit in one of the variables''.  In the context of this book,
-that's what I'll call an {\em analytic solution}, to distinguish
+explicit in one of the variables.''  In the context of this book,
+that's what we'll call an {\em analytic solution}, to distinguish
 it from a {\em numerical solution}, which is what we are going to
 do next.
 
 \index{analytic solution}
 \index{numerical solution}
 
-To demonstrate a numerical solution, consider the equation $x^2 - 2x =
-3$.  You could solve this analytically, either by factoring it or by
-using the quadratic equation, and you would discover that there are
+{\binoppenalty=\maxdimen%
+\relpenalty=\maxdimen% [keeps the equation from being broken across lines]
+To demonstrate a numerical solution, consider the equation $x^2 - 2x = 3$.  You could solve this analytically, either by factoring it or by
+using the quadratic formula, and you would discover that there are
 two solutions, $x=3$ and $x=-1$.  Alternatively, you could solve it
-numerically by rewriting it as $x = \pm \sqrt{2x+3}$.
+numerically by rewriting it as $x = \pm \sqrt{2x+3}$.}
 
 This equation is not explicit, since $x$ appears on both sides, so
 it's not clear that this move did any good at all.  But suppose we had
@@ -84,18 +85,17 @@ x = 3.0114
 x = 3.0038
 \end{code}
 
-After each iteration, {\tt x} is closer to the correct answer,
-and after 5 iterations, the relative error is about 0.1\%, which
+After each iteration, \lstinline{x} is closer to the correct answer,
+and after five iterations the relative error is about 0.1\%, which
 is good enough for most purposes.
 
 \index{numerical method}
 
 Techniques that generate numerical solutions are called
 \emph{numerical methods}.  
-The nice thing about the method I
-just demonstrated is that it's simple---but it doesn't always
+The nice thing about the method we just used is that it's simple.  But it doesn't always
 work, and it's not often used in practice.
-We'll see better alternatives soon.
+We'll see a better alternatives in the next section.
 
 \subsection{Zero-finding}
 \label{zero}
@@ -104,20 +104,20 @@ We'll see better alternatives soon.
 \index{error function}
 \index{function!error}
 
-{\tt fzero} is a MATLAB function that uses numerical methods to search for solutions to nonlinear equations.  In order to use it, we have to rewrite the equation as an {\em error function}, like this:
+\lstinline{fzero} is a MATLAB function that uses numerical methods to search for solutions to nonlinear equations.  In order to use it, we have to rewrite the equation as an {\em error function}, like this:
 
-\begin{equation}
-f(x) = x^2 - 2x -3
-\end{equation}
+\begin{equation*}
+f(x) = x^2 - 2x -3.
+\end{equation*}
 
-The value of the error function is 0 if $x$ is a solution and non-zero if it is not.
-This function is useful because we can use values of $f(x)$, evaluated at various values of $x$, to infer the location of the solutions.  And that's what {\tt fzero} does.
+The value of the error function is 0 if $x$ is a solution and nonzero if it is not.
+This function is useful because we can use values of $f(x)$, evaluated at various values of $x$, to infer the location of the solutions.  And that's what \lstinline{fzero} does.
 Values of $x$ where $f(x) = 0$ are called zeros of the function or \emph{roots}.
 
 \index{root}
-\index{fzero@{\tt fzero}}
+\index{fzero@\lstinline{fzero}}
 
-To use {\tt fzero} you have to define a MATLAB function that computes the error function, like this:
+To use \lstinline{fzero} you have to define a MATLAB function that computes the error function, like this:
 
 \begin{code}
 function res = error_func(x)
@@ -125,7 +125,7 @@ function res = error_func(x)
 end
 \end{code}
 
-You can call \verb"error_func" from the Command Window and confirm that 3 and -1 are zeros.
+You can call \lstinline{error_func} from the Command Window and confirm that $3$ and $-1$ are zeros:
 
 \begin{code}
 >> ***error_func(3)***
@@ -135,7 +135,7 @@ ans = 0
 ans = 0
 \end{code}
 
-But let's pretend that we don't know where the roots are; we only know that one of them is near 4.  Then we could call {\tt fzero} like this:
+But let's pretend that we don't know where the roots are; we only know that one of them is near 4.  Then we could call \lstinline{fzero} like this:
 
 \begin{code}
 >> ***fzero(@error_func, 4)***
@@ -145,11 +145,11 @@ ans = 3.0000
 Success!  We found one of the zeros.
 
 The first argument is a {\em function handle} that specifies
-the error function.  The {\tt @} symbol allows us to name the
+the error function.  The \lstinline{@} symbol allows us to name the
 function without calling it.  The interesting thing here is
-that you're not actually calling \verb"error_func" directly;
-you're just telling {\tt fzero} where it is.  In turn, {\tt fzero}
-calls your error function --- more than once, in fact.
+that you're not actually calling \lstinline{error_func} directly;
+you're just telling \lstinline{fzero} where it is.  In turn, \lstinline{fzero}
+calls your error function---more than once, in fact.
 
 \index{function handle}
 \index{handle!function}
@@ -174,9 +174,9 @@ The second argument is a vector that contains two elements.
 
 \index{vector}
 
-You might be curious to know how many times {\tt fzero} calls your
-function, and where.  If you modify \verb"error_func" so that it displays
-the value of {\tt x} when it is called and then run {\tt fzero}
+You might be curious to know how many times \lstinline{fzero} calls your
+function, and where.  If you modify \lstinline{error_func} so that it displays
+the value of \lstinline{x} when it is called and then run \lstinline{fzero}
 again, you get:
 
 \begin{code}
@@ -194,17 +194,17 @@ x = 3
 ans = 3
 \end{code}
 
-Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a point in the interval, $2.75$ and evaluates $f$ there.  After each iteration, the interval gets smaller and the guess gets closer to the true root.
-{\tt fzero} stops when the interval is so small that the estimated
-zero is correct to about 15 digits.
+Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a point in the interval, $2.75$, and evaluates $f$ there.  After each iteration, the interval gets smaller and the guess gets closer to the true root.
+\lstinline{fzero} stops when the interval is so small that the estimated
+zero is correct to about 15~digits.
  
-If you'd like to know more about how {\tt fzero} works, see Chapter~\ref{howfzero}.
+If you'd like to know more about how \lstinline{fzero} works, see Chapter~\ref{howfzero}.
 
 
 \subsection{What Could Go Wrong?}
 
-The most common problem people have with {\tt fzero} is leaving
-out the {\tt @}.  In that case, you get something like:
+The most common problem people have with \lstinline{fzero} is leaving
+out the \lstinline{@}.  In that case, you get something like:
 
 \begin{code}
 >> ***fzero(error_func, [2,4])***
@@ -214,7 +214,7 @@ Error in error_func (line 2)
     res = x^2 - 2*x -3;
 \end{code}
 
-The error occurs because MATLAB treats the first argument as a function call, so it calls \verb"error_func" with no arguments.
+The error occurs because MATLAB treats the first argument as a function call, so it calls \lstinline{error_func} with no arguments.
 
 \index{output variable}
 \index{variable!output}
@@ -223,25 +223,22 @@ Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
 {\em always} assign a value to the output variable, but MATLAB doesn't
 enforce this rule, so it's easy to forget.  For example, if you
-write:
+write
 
 \begin{code}
 function res = error_func(x)
     y = x^2 - 2*x -3
 end
 \end{code}
-
-and then call it from the Command Window:
-
+and then call it from the Command Window
 \begin{code}
 >> ***error_func(4)***
 y = 5
 \end{code}
-
-It looks like it worked, but don't be fooled.  This function assigns
-a value to {\tt y}, and it displays the result, but when the function
-ends, {\tt y} disappears along with the function's workspace.
-If you try to use it with {\tt fzero}, you get
+it looks like it worked, but don't be fooled.  This function assigns
+a value to \lstinline{y}, and it displays the result, but when the function
+ends, \lstinline{y} disappears along with the function's workspace.
+If you try to use it with \lstinline{fzero}, you get
 
 \begin{code}
 >> ***fzero(@error_func, [2,4])***
@@ -261,8 +258,7 @@ provided you understand that ``output argument'' and ``output variable'' are the
 \index{argument}
 \index{output argument}
 
-You would have seen the same error message when you called \verb"error_func" from the interpreter, if you had assigned the result
-to a variable:
+You would have seen the same error message when calling \lstinline{error_func} from the interpreter, if you had assigned the result to a variable:
 
 \begin{code}
 >> ***x = error_func(4)***
@@ -283,40 +279,38 @@ The function values at the interval endpoints must differ in sign.
 
 \index{interval}
 
-There is one other thing that can go wrong when you use {\tt fzero}, but
-this one is less likely to be your fault.  It's possible that {\tt fzero}
+There is one other thing that can go wrong when you use \lstinline{fzero}, but
+this one is less likely to be your fault.  It's possible that \lstinline{fzero}
 won't be able to find a root.
 
-{\tt fzero} is generally robust, so you may never have a problem, but you should remember that there is no guarantee that {\tt fzero} will work, especially if you provide a single value as an initial guess.  Even if you provide an interval that brackets a root, things can still go wrong if the error function is discontinuous.
+\lstinline{fzero} is generally robust, so you may never have a problem, but you should remember that there is no guarantee that \lstinline{fzero} will work, especially if you provide a single value as an initial guess.  Even if you provide an interval that brackets a root, things can still go wrong if the error function is discontinuous.
 
 
 \subsection{Choosing an Initial Value}
 
-The better your initial value is, the more likely
-{\tt fzero} will work, and the fewer iterations it will
+The better your initial value, the more likely it is that
+\lstinline{fzero} will work, and the fewer iterations it will
 need.
 
 When you're solving problems in the real world, you'll usually
 have some intuition about the answer.  This intuition is often enough
 to provide a good initial guess.
 
-\index{ezplot@{\tt ezplot}}
-\index{plot!{\tt ezplot}}
+\index{ezplot@\lstinline{ezplot}}
+\index{plot!\lstinline{ezplot}}
 
-Another approach is to plot the error function and see if you can
-approximate the zeros visually.  If you have a function, like
-\verb"error_func" that takes a scalar input variable and returns
-a scalar output variable, you can plot it with {\tt ezplot}:
+If not, another way to choose an initial guess is to plot the error function and
+approximate the zeros visually.  If you have a function like
+\lstinline{error_func} that takes a scalar input variable and returns
+a scalar output variable, you can plot it with \lstinline{ezplot}:
 
 \begin{code}
 >> ***ezplot(@error_func, [-2,5])***
 \end{code}
 
-\index{ezplot}
-
 The first argument is a function handle; the second is the interval you want to plot the function in.
 
-By examining the plot, you can estimate the location of the two roots.
+By examining the plot, you can estimate the locations of the two roots.
 
 
 \subsection{Vectorizing Functions}
@@ -324,7 +318,7 @@ By examining the plot, you can estimate the location of the two roots.
 \index{vectorizing}
 \index{function!vectorizing}
 
-When you call {\tt ezplot}, you might get the following warning (or error, if you're using Octave):
+When you call \lstinline{ezplot}, you might get the following warning (or error, if you're using Octave):
 
 \begin{code}
 Warning: Function failed to evaluate on array inputs;
@@ -332,27 +326,26 @@ vectorizing the function may speed up its evaluation and
 avoid the need to loop over array elements. 
 \end{code}
 
-This means that MATLAB tried to call \verb"error_func" with a vector, and it failed. 
-The problem is that it uses \verb"*" and \verb"^" operators.  With vectors, those operators don't do what we want, which is {\em elementwise} multiplication and exponentiation
-(see ``\nameref{elementwise}'' on page~\pageref{elementwise}),
+This means that MATLAB tried to call \lstinline{error_func} with a vector, and it failed. 
+The problem is that it uses the \lstinline{*} and \lstinline{^} operators.  With vectors, those operators don't do what we want, which is {\em elementwise} multiplication and exponentiation
+(see ``\nameref{elementwise}'' on page~\pageref{elementwise}).
 
 \index{elementwise operator}
 \index{operator!elementwise}
 
-If you rewrite \verb"error_func" like this:
+If you rewrite \lstinline{error_func} like this:
 
 \begin{code}
 function res = error_func(x)
     res = x.^2 - 2.*x -3;
 end
 \end{code}
-
-The warning message goes away, and {\tt ezplot} runs faster.
+the warning message goes away, and \lstinline{ezplot} runs faster.
 
 
 \section{Debugging}
 
-When you start writing longer programs, you might spend more time debugging.  So I'll end this chapter with some debugging tips.
+When you start writing longer programs, you might spend more time debugging.  So we'll end this chapter with some debugging tips.
 
 \subsection{More Name Collisions}
 
@@ -369,7 +362,7 @@ As a result, if you have a variable with the same name as a function,
 the variable {\em shadows} the function; metaphorically, you can't see the function because the variable is in the way.  
 
 For example, if you assign
-a value to {\tt sin}, and then try to use the {\tt sin} function, you
+a value to \lstinline{sin}, and then try to use the \lstinline{sin} function, you
 {\em might} get an error:
 
 \begin{code}
@@ -382,10 +375,10 @@ If this is unintentional, use 'clear sin' to remove
 the variable 'sin' from the workspace.
 \end{code}
 
-Since the value we assigned to {\tt sin} is a number, and a number is considered a 1x1 matrix, MATLAB tries to access the 5th element of the matrix and finds that there isn't one.
+Since the value we assigned to \lstinline{sin} is a number, and a number is considered a $1 \times 1$ matrix, MATLAB tries to access the fifth element of the matrix and finds that there isn't one.
 
 In this case MATLAB is able to detect the error, and the error message is pretty helpful.
-But if the value of {\tt sin} was a vector, or if the argument was smaller, you would be in trouble.  For example:
+But if the value of \lstinline{sin} was a vector, or if the argument was smaller, you would be in trouble.  For example:
 
 \begin{code}
 >> ***sin = 3;***
@@ -395,7 +388,7 @@ ans = 3
 
 Just to review, the sine of 1 is not 3!
 
-You can avoid these problems by choosing function names carefully. Use long, descriptive names for functions, not single letters like {\tt f}. To be even clearer, use function names that end in {\tt func}. And before you define a function, check whether MATLAB already has a function with the same name.
+You can avoid these problems by choosing function names carefully. Use long, descriptive names for functions, not single letters like \lstinline{f}. To be even clearer, use function names that end in \lstinline{func}. And before you define a function, check whether MATLAB already has a function with the same name.
 
 \subsection{Debugging Your Head}
 
@@ -405,9 +398,9 @@ put it into your program.
 
 \index{debugging}
 
-For example, suppose you know that {\tt x} is the sine of some
+For example, suppose you know that \lstinline{x} is the sine of some
 angle and you want to find the angle.  You find the MATLAB function
-{\tt asin}, and you're pretty sure it computes the inverse sine
+\lstinline{asin}, and you're pretty sure it computes the inverse sine
 function.  Pretty sure is not good enough; you want to be very sure.
 
 Since we know $\sin 0 = 0$, we could try
@@ -416,9 +409,8 @@ Since we know $\sin 0 = 0$, we could try
 >> ***asin(0)***
 ans = 0
 \end{code}
-
-which is correct.  Now, we also know that the sine of 90 degrees is
-1, so if we try {\tt asin(1)}, we expect the answer to be 90, right?
+which is correct.  Now, we also know that the sine of $90^\circ$ is
+1, so if we try \lstinline{***asin(1)***}, we expect the answer to be 90, right?
 
 \begin{code}
 >> ***asin(1)***
@@ -426,7 +418,7 @@ ans = 1.5708
 \end{code}
 
 Oops.  We forgot that the trig functions in MATLAB work in radians,
-not degrees.  The answer we got is $\pi/2$, which is 90 degrees, in radians
+not degrees.  The answer we got is $\pi/2$, which is $90^\circ$ in radians.
 
 With this kind of testing, you're not really checking for
 errors in your program; you're checking your understanding.  If you
@@ -444,15 +436,15 @@ The worst bugs aren't in your code; they're in your head.
 
 \section{Chapter Review}
 
-In this chapter I introduced {\tt fzero}, a function we can use to solve nonlinear equations.
-To use {\tt fzero}, you have to write an error function and pass a function handle as an argument.  Using functions in this way can be tricky at first, but get comfortable with it, because we are going to use it a lot.
+This chapter introduced \lstinline{fzero}, a function we can use to solve nonlinear equations.
+To use \lstinline{fzero}, you have to write an error function and pass a function handle as an argument.  Using functions in this way can be tricky at first, but get comfortable with it, because we are going to use it a lot.
 
 Here are some of the terms from this chapter you might want to remember.
 
 If we can solve an equation by performing algebraic operations and deriving an explicit way to compute a value, the result is an {\em analytic solution}.
-Other wise, we can use a {\em numerical method}, which finds a {\em numerical solution} to the equation, which is usually an approximation.
+Otherwise, we can use a {\em numerical method}, which finds a {\em numerical solution} to the equation, which is usually an approximation.
 
-To solve nonlinear equations, we often rewrite them as functions and then find one or more {\em zeroes} of the function, that is, arguments that make the value of the function $0$.
+To solve nonlinear equations, we often rewrite them as functions and then find one or more {\em zeros} of the function, that is, arguments that make the value of the function $0$.
 
 A {\em function handle} is a way of
 referring to a function by name (and passing it as an argument)
@@ -467,39 +459,40 @@ In the next chapter we'll write functions that take vectors as inputs and return
 
 \section{Exercises}
 
-\begin{ex}
+Before you go on, you might want to work on the following exercises.
+
+\subsection{Exercise~1}
 
 \begin{enumerate}
 
 \index{Chebyshev polynomial}
-\index{ezplot@{\tt ezplot}}
+\index{ezplot@\lstinline{ezplot}}
 
-\item Write a function called {\tt cheby6} that evaluates the
-6th Chebyshev polynomial.  It should take an input variable,
+\item Write a function called \lstinline{cheby6} that evaluates the
+sixth Chebyshev polynomial.  It should take an input variable,
 $x$, and return
 
-\begin{equation}
-32 x^6 - 48 x^4 + 18 x^2 - 1
-\end{equation}
+\begin{equation*}
+32 x^6 - 48 x^4 + 18 x^2 - 1 .
+\end{equation*}
 
-\item Use {\tt ezplot} to display a graph of this function in the
-interval from -1 to 1.  Estimate the location of any zeros in this
+\item Use \lstinline{ezplot} to display a graph of this function in the
+interval from $-1$ to $1$.  Estimate the location of any zeros in this
 range.
 
-\item Use {\tt fzero} to find as many different roots as you can.
-Does {\tt fzero} always find the root that is closest to the initial
+\item Use \lstinline{fzero} to find as many different roots as you can.
+Does \lstinline{fzero} always find the root that is closest to the initial
 value?
 
 \end{enumerate}
 
 % cheby6.m
-\end{ex}
 
 
-\begin{ex}
+\subsection{Exercise~2}
 \label{duck}
 
-When a duck is floating on water, how much of its body is submerged?\footnote{This exercise is adapted from Gerald and Wheatley, {\em Applied Numerical Analysis}, Fourth Edition, Addison-Wesley, 1989.}
+When a duck is floating on water, how much of its body is submerged?\footnote{This exercise is adapted from C.~F.~Gerald and P.~O.~Wheatley, {\em Applied Numerical Analysis} (Boston: Addison-Wesley, 1989), fourth edition.}
 
 \index{duck}
 \index{sphere}
@@ -509,9 +502,9 @@ If a sphere with radius $r$ is submerged in water to a depth $d$, the
 volume of the sphere below the water line is
 
 \[ V = \frac{\pi}{3} (3r d^2 - d^3) \quad
-\mbox{as long as} \quad d < 2 r  \]
+\mbox{as long as} \quad d < 2 r.  \]
 
-We'll also assume that the density of a duck is $\rho$, is $0.3 g / cm^3$ (0.3 times the density of water), and that its mass is $\frac{4}{3} \pi r^3 \rho$.
+We'll also assume that the density of a duck is $\rho = 0.3$\,g/cm$^3$ (0.3 times the density of water), and that its mass is $\frac{4}{3} \pi r^3 \rho$\,g.
 
 Finally, according to the law of buoyancy, an object floats at the level where the weight of the displaced water equals the total weight of the object.
 
@@ -532,7 +525,7 @@ Our goal is to find values of $d$ that are roots of this equation.
 
 \item Make a guess about the value of $d_0$ to use as an initial value.
 
-\item Use {\tt fzero} to find a root near $d_0$.
+\item Use \lstinline{fzero} to find a root near $d_0$.
 
 \item Check to make sure the result makes sense.  In particular,
    check that $d < 2 r$, because otherwise the volume equation
@@ -544,19 +537,6 @@ Our goal is to find values of $d$ that are roots of this equation.
   infinity?  Goes to zero?
 
 \end{enumerate}
-
-% duck.m
-\end{ex}
-
-% for another time, figure out how to use fzero to find zeros of...
-
-%\item The Riemann zeta function can be written
-
-%\[ zeta \equiv w \to sum_{k=1}^\infty k^w \]
-
-%where $w$ is a complex number.  If you are not familiar with
-%complex numbers, you should skip this problem.
-
 
 
 % TODO: Find places in the book where error messages are getting syntax highlighting, and put them in a verbatim environment.

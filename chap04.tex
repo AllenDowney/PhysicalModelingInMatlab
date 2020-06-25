@@ -18,7 +18,7 @@ to put a sequence of numbers in square brackets:
 ans = 1     2     3
 \end{code}
 
-Another way to create a vector is the colon operator, which we have already used to create a range of values in a {\tt for} loop.
+Another way to create a vector is the colon operator, which we have already used to create a range of values in a \lstinline{for} loop.
 
 \begin{code}
 >> ***1:3***
@@ -52,14 +52,14 @@ to a vector, MATLAB increments each element of the vector:
 Y = 6     7     8
 \end{code}
 
-\noindent The result is a new vector; the original value of {\tt X} has not
+\noindent The result is a new vector; the original value of \lstinline{X} has not
 changed.
 
 If you add two vectors, MATLAB adds the corresponding elements of each
 vector and creates a new vector that contains the sums:
 
 \begin{code}
->> ***Z = X+Y***
+>> ***Z = X + Y***
 Z = 7     9    11
 \end{code}
 
@@ -68,7 +68,7 @@ Otherwise you get an error:
 
 \begin{code}
 >> ***W = [1 2]***
-W = 1     2     3
+W = 1     2     
 
 >> ***X + W***
 Matrix dimensions must agree.
@@ -88,25 +88,25 @@ If you divide two vectors, you might be surprised by the result:
 ans = 0.4156
 \end{code}
 
-MATLAB is performing a matrix operation called right division; an explanation of right division is outside the scope of this book. If you want to divide the elements of {\tt X} by the elements of {\tt Y}, you have to use {\tt ./}, which is elementwise division:
+MATLAB is performing a matrix operation called right division; an explanation of right division is outside the scope of this book. If you want to divide the elements of \lstinline{X} by the elements of \lstinline{Y}, you have to use \lstinline{./}, which is elementwise division:
 
 \begin{code}
 >> ***X ./ Y***
 ans = 0.2500    0.4000    0.5000
 \end{code}
 
-Multiplication has the same problem.  If you use {\tt *}, MATLAB does matrix multiplication.  With these two vectors, matrix multiplication is not defined, and you get an error:
+Multiplication has the same problem.  If you use \lstinline{*}, MATLAB does matrix multiplication.  With these two vectors, matrix multiplication is not defined, and you get an error:
 
 \begin{code}
 >> ***X * Y***
 Error using  * 
 Incorrect dimensions for matrix multiplication. 
 Check that the number of columns in the first matrix 
-matches the number of rows in the second matrix
+matches the number of rows in the second matrix.
 To perform elementwise multiplication, use '.*'.
 \end{code}
 
-In this case, the error message is pretty helpful.  As it suggests, you can use {\tt .*} to perform elementwise multiplication:
+In this case, the error message is pretty helpful.  As it suggests, you can use \lstinline{.*} to perform elementwise multiplication:
 
 \index{matrix multiplication}
 \index{multiplication!matrix}
@@ -117,7 +117,7 @@ ans = 4    10    18
 \end{code}
 
 As an exercise, see what happens if you use the exponentiation operator,
-\verb"^", with a vector.
+\lstinline{^}, with a vector.
 
 \section{Selecting Elements}
 
@@ -137,8 +137,8 @@ ans = 6
 ans = 9
 \end{code}
 
-This means that the first element of {\tt Y} is 6 and the
-fourth element is 9.
+This means that the first element of \lstinline{Y} is 6 and the
+fourth element is~9.
 The number in parentheses is called the \emph{index} because it indicates which element of the vector you want.
 
 \index{index}
@@ -153,7 +153,7 @@ ans = 6
 ans = 7
 \end{code}
 
-We can use a loop to display the elements of {\tt Y}:
+We can use a loop to display the elements of \lstinline{Y}:
 
 \index{loop}
 
@@ -163,15 +163,15 @@ for i=1:4
 end
 \end{code}
 
-Each time through the loop we use a different value of {\tt i}
-as an index into {\tt Y}.
+Each time through the loop we use a different value of \lstinline{i}
+as an index into \lstinline{Y}.
 
-\index{length function@{\tt length} function}
-\index{function!{\tt length}}
+\index{length function@\lstinline{length} function}
+\index{function!\lstinline{length}}
 
 In the previous example we have to know the number
-of elements in {\tt Y}.  We can make it more general by using
-the {\tt length} function, which returns the number of elements
+of elements in \lstinline{Y}.  We can make it more general by using
+the \lstinline{length} function, which returns the number of elements
 in a vector:
 
 \begin{code}
@@ -225,14 +225,15 @@ but they mean the same thing, at least for now.
 \index{Fibonacci}
 
 Vectors and sequences go together nicely.
-For example, another way to evaluate the Fibonacci sequence from Chapter 2 is to
+For example, another way to evaluate the Fibonacci sequence from Chapter~2 is to
 store successive values in a vector.  Remember that the definition of the
 Fibonacci sequence is $F_1 = 1$, $F_2 = 1$, and
 $F_{i} = F_{i-1} + F_{i-2}$ for $i > 2$.
 
-Listing~\ref{lst:fib_vec} shows how we can compute the elements of this sequence and store them in a vector.
+Listing~\ref{lst:fib_vec} shows how we can compute the elements of this sequence and store them in a vector, using a capital letter for the vector \lstinline{F}
+and lower-case letters for the integers \lstinline{i} and \lstinline{n}.
 
-\begin{lstlisting}[caption={Calculating the Fibonacci sequence using a vector }, label={lst:fib_vec}]
+\begin{lstlisting}[caption={Calculating the Fibonacci sequence using a vector}, label={lst:fib_vec}]
 F(1) = 1
 F(2) = 1
 for i=3:n
@@ -240,28 +241,25 @@ for i=3:n
 end
 \end{lstlisting}
 
-I use a capital letter for the vector {\tt F}
-and lower-case letters for the integers {\tt i} and {\tt n}.
-
-If you had any trouble with Exercise~\ref{fib2}, you have to
+If you had any trouble with \nameref{fib2} in the previous chapter, you have to
 appreciate the simplicity of this script.  The MATLAB syntax is
 similar to the math notation, which makes it easier to check
 correctness.  
 
 If you only want the $n$th Fibonacci number, storing
 the whole sequence wastes some space.  But if wasting space
-makes your code easier to write and debug, that's probably ok.
+makes your code easier to write and debug, that's probably okay.
 
 
 \section{Plotting Vectors}
 
 \index{plotting vector}
 \index{vector!plotting}
-\index{plot@{\tt plot}}
+\index{plot@\lstinline{plot}}
 
-If you call {\tt plot} with a vector as an argument,
-MATLAB plots the indices on the $x$-axis and the elements on the
-$y$-axis.  To plot the Fibonacci numbers we computed in Listing~\ref{lst:fib_vec}, we'd use:
+If you call \lstinline{plot} with a vector as an argument,
+MATLAB plots the indices on the x-axis and the elements on the
+y-axis.  To plot the Fibonacci numbers we computed in Listing~\ref{lst:fib_vec}, we'd use:
 
 \begin{code}
 plot(F)
@@ -270,7 +268,7 @@ plot(F)
 Figure~\ref{fig:fibonacci} shows the result.
 
 \begin{figure}[h]
-\centerline{\includegraphics[height=3in]{book/figs/fibonacci.eps}}
+\centerline{\includegraphics{book/images/figure04_01_new_v1.eps}}
 \caption{The first 10 elements of the Fibonacci sequence.}
 \label{fig:fibonacci}
 \end{figure}
@@ -296,7 +294,7 @@ number.
 \index{reduce}
 \index{vector}
 
-For example, the loop in Listing~\ref{lst:vec_reduce} adds up the elements of a vector named {\tt X} (which we assume has been defined).
+For example, the loop in Listing~\ref{lst:vec_reduce} adds up the elements of a vector named \lstinline{X} (which we assume has been defined).
 
 \begin{lstlisting}[caption={Reducing a vector to a single scalar value (the sum)}, label={lst:vec_reduce}]
 total = 0
@@ -306,20 +304,20 @@ end
 ans = total
 \end{lstlisting}
 
-The use of {\tt total} as an accumulator is similar to what we
-saw in Chapter 3.  Again, we use the {\tt length} function
+The use of \lstinline{total} as an accumulator is similar to what we
+saw in Chapter~3.  Again, we use the \lstinline{length} function
 to find the upper bound of the range, so this loop will work
-regardless of the length of {\tt X}.
+regardless of the length of \lstinline{X}.
 Each time through the loop, we add
-in the {\tt i}th element of {\tt X}, so at the end of the loop
-{\tt total} contains the sum of the elements.
+in the \lstinline{i}th element of \lstinline{X}, so at the end of the loop
+\lstinline{total} contains the sum of the elements.
 
 \index{accumulator}
-\index{length function@{\tt length} function}
+\index{length function@\lstinline{length} function}
 
 MATLAB provides functions that perform some reduce operations.
-For example, the {\tt sum} function computes the sum of the elements
-in a vector and {\tt prod} computes the product.
+For example, the \lstinline{sum} function computes the sum of the elements
+in a vector and \lstinline{prod} computes the product.
 
 
 \subsection{Apply}
@@ -333,10 +331,10 @@ the vector.
 
 \index{apply}
 
-For example, the loop in Listing ~\ref{lst:vec_apply} creates a vector {\tt Y} that
-contains the squares of the elements of {\tt X} (assuming, again, that {\tt X} is already defined).
+For example, the loop in Listing ~\ref{lst:vec_apply} creates a vector \lstinline{Y} that
+contains the squares of the elements of \lstinline{X} (assuming, again, that \lstinline{X} is already defined).
 
-\begin{lstlisting}[caption={Making a new vector Y by squaring the elements in X }, label={lst:vec_apply}]
+\begin{lstlisting}[caption={Making a new vector Y by squaring the elements in X}, label={lst:vec_apply}]
 for i=1:length(X)
     Y(i) = X(i)^2
 end
@@ -355,53 +353,56 @@ It also runs faster!
 
 \section{Chapter Review}
 
-In this chapter we used a vector to store the elements of a sequence.  We learned how to select elements from a vector and perform vector arithmetic.  We performed reduce and apply operations using {\tt for} loops, MATLAB function, and elementwise operations.
+In this chapter we used a vector to store the elements of a sequence.  We learned how to select elements from a vector and perform vector arithmetic.  We performed reduce and apply operations using \lstinline{for} loops, MATLAB functions, and elementwise operations.
 
 Here are some terms from this chapter you might want to remember.
 
-A {\em compound statement} is a statement, like {\tt if} and {\tt for}, that
-contains other statements in an indented body.
-If you put one compound statement in the body of another, they are {\em nested}.
+% A {\em compound statement} is a statement, like \lstinline{if} and \lstinline{for}, that
+% contains other statements in an indented body.
+% If you put one compound statement in the body of another, they are {\em nested}.
 
-A {\em scalar} is single value; a {\em vector} is a sequence of values, and a {\em matrix} is a two-dimensional collection of values (also called {\em array} in some MATLAB documentation).
+% A {\em scalar} is single value; a
+A {\em vector} is a sequence of values, and a {\em matrix} is a two-dimensional collection of values (also called an {\em array} in some MATLAB documentation).
 
 An {\em index} is an integer value used to indicate one of the elements
-in a vector or matrix (also called {\em subscript} in some MATLAB documentation).
+in a vector or matrix (also called a {\em subscript} in some MATLAB documentation).
 
 An operation is {\em elementwise} if it acts on the individual elements of a vector or matrix (unlike some linear algebra operations).
 
-You can {\em search} a vector for an element that has some desired property.
+% You can {\em search} a vector for an element that has some desired property.
 You can {\em apply} an operation to all elements of a vector, and you can {\em reduce} a vector to a single value, for example by computing the sum of the elements.
 
-A {\em name collision} is a scenario where two scripts that use the same variable name interfere with each other.
+% A {\em name collision} is a scenario where two scripts that use the same variable name interfere with each other.
 
-In the next chapter, you'll learn the most important idea in computer programming: functions!
+In the next chapter, we'll meet the most important idea in computer programming: functions!
 
 
 
 \section{Exercises}
 
-\begin{ex}
-Write a loop that computes the first {\tt n} elements
+Before you go on, you might want to work on the following exercises.
+
+\subsection{Exercise~1}
+Write a loop that computes the first \lstinline{n} elements
 of the geometric sequence $A_{i+1} = A_i/2$ with $A_1 = 1$.  Notice that
 math notation puts $A_{i+1}$ on the left side of the equality.
 When you translate to MATLAB, you might want to rewrite it with
 $A_{i}$ on the left side.
-\end{ex}
 
-\begin{ex}
+
+\subsection{Exercise~2}
 Write an expression that computes the square root of the sum of the squares of the elements of a vector, without using a loop.
 
 \index{square root}
-\end{ex}
 
-\begin{ex}
+
+\subsection{Exercise~3}
 \label{fibratio}
 
 The ratio of consecutive Fibonacci numbers, $F_{n+1}/F_{n}$, converges
 to a constant value as $n$ increases.  Write a script that computes
 a vector with the first $n$ elements of a Fibonacci sequence (assuming
-that the variable {\tt n} is defined), and then computes a new
+that the variable \lstinline{n} is defined), and then computes a new
 vector that contains the ratios of consecutive Fibonacci numbers.
 Plot this vector to see if it seems to converge.  What value does
 it converge on?
@@ -409,36 +410,36 @@ it converge on?
 \index{Fibonacci}
 
 % fibonacci4.m
-\end{ex}
 
-\begin{ex}
+
+\subsection{Exercise~4}
   The following set of equations is based on a famous example of a chaotic system, the Lorenz attractor (see \url{https://greenteapress.com/matlab/lorenz}):
 %
-\begin{eqnarray}
-x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt  \\
-y_{i+1} &=& y_i + \left[ x_i (r - z_i) - y_i \right] dt   \\
-z_{i+1} &=& z_i + \left( x_i y_i - b z_i \right) dt
-\end{eqnarray}
+\begin{eqnarray*}
+x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt,  \\
+y_{i+1} &=& y_i + \left[ x_i (r - z_i) - y_i \right] dt,   \\
+z_{i+1} &=& z_i + \left( x_i y_i - b z_i \right) dt.
+\end{eqnarray*}
 %
 \begin{itemize}
 
 \item Write a script that computes the first 10 elements of the sequences
-$X$, $Y$, and $Z$ and stores them in vectors named {\tt X}, {\tt Y},
-and {\tt Z}.
+$X$, $Y$, and $Z$ and stores them in vectors named \lstinline{X}, \lstinline{Y},
+and \lstinline{Z}.
 
-Use the initial values $X_1 = 1$, $Y_1 = 2$, and $Z_1 = 3$, with values
+Use the initial values $X_1 = 1$, $Y_1 = 2$, and $Z_1 = 3$ with the values
 $\sigma = 10$, $b = 8/3$, and $r = 28$, and with $dt = 0.01$.
 
-\item Read the documentation for {\tt plot3} and {\tt comet3} and
-plot the results in 3 dimensions.
+\item Read the documentation for \lstinline{plot3} and \lstinline{comet3}, and
+plot the results in three dimensions.
 
-\item Once the code is working, use semi-colons to suppress the output
-and then run the program with sequence length 100, 1000, and 10000.
+\item Once the code is working, use semicolons to suppress the output
+and then run the program with sequence lengths of 100, 1,000, and 10,000.
 
 \item Run the program again with different starting conditions.
 What effect does it have on the result?
 
-\item Run the program with different values for $\sigma$, $b$, and $r$
+\item Run the program with different values for $\sigma$, $b$, and $r$,
 and see if you can get a sense of how each variable affects the
 system.
 
@@ -446,25 +447,25 @@ system.
 
 \index{Lorenz attractor}
 % lorenz.m
-\end{ex}
 
 
-\begin{ex}
+
+\subsection{Exercise~5}
 The logistic map (see \url{https://greenteapress.com/matlab/logistic}) is described by the following equation:
 
 \index{logistic map}
 
-\begin{equation}
-X_{i+1} = r X_i (1-X_i)
-\end{equation}
+\begin{equation*}
+X_{i+1} = r X_i (1-X_i),
+\end{equation*}
 
-where $X_i$ is a number between zero and one and $r$ is a positive number.
+where $X_i$ is a number between zero and one, and $r$ is a positive number.
 
 \begin{itemize}
 
-\item Write a script named {\tt logmap} that computes the first 50
-elements of $X$ with {\tt r=3.9} and {\tt X1=0.5}, where
-{\tt r} is the parameter of the logistic map and {\tt X1} is the
+\item Write a script named \lstinline{logmap} that computes the first 50
+elements of $X$ with \lstinline{r} = 3.9 and \lstinline{X1} = 0.5, where
+\lstinline{r} is the parameter of the logistic map and \lstinline{X1} is the
 initial value.
 
 \item Plot the results for a range of values of $r$ from 2.4 to 4.0.
@@ -473,6 +474,6 @@ How does the behavior of the system change as you vary $r$?
 \end{itemize}
 
 % logmap.m
-\end{ex}
+
 
 

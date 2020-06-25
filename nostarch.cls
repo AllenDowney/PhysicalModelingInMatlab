@@ -533,6 +533,7 @@
 \def\@schapter[#1]#2{%
   \vspace*{2.747in}
   {\centering
+    \phantomsection
     \addcontentsline{toc}{chapter}{%
       \MakeUppercase{#1}}%
     \addcontentsline{tbc}{bchapter}{#1}%
@@ -726,17 +727,17 @@
 
 % ===== FIGURE NUMBERING =====
 \renewcommand \thefigure
-     {\ifnum \c@chapter>-1 \thechapter-\fi \@arabic\c@figure}
+     {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@figure}
      
 % ===== TABLE NUMBERING =====
 \renewcommand \thetable
-     {\ifnum \c@chapter>-1 \thechapter-\fi \@arabic\c@table}
+     {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@table}
 
 
 % ===== LISTING =====
 \AtBeginDocument{%
   \renewcommand \thelstlisting
-       {\ifnum \c@chapter>-1 \thechapter-\fi \@arabic\c@lstlisting}%
+       {\ifnum \c@chapter>\z@ \thechapter-\fi \@arabic\c@lstlisting}%
 }
 
 \lstset{

@@ -13,12 +13,12 @@ To explain why functions are so important, I'll start by explaining one of the p
 \index{collision!name}
 \index{workspace}
 
-All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between scripts become unmanageable.
+All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts that's not a problem, but eventually the interactions between scripts become unmanageable.
 
-For example, the following (increasingly familiar) script computes the
-sum of the first {\tt n} terms in a geometric sequence, but it also
-has the {\em side-effect} of assigning values to {\tt A1}, {\tt total},
-{\tt i}, and {\tt a}.
+For example, the following script computes the
+sum of the first \lstinline{n} terms in a geometric sequence, but it also
+has the {\em side effect} of assigning values to \lstinline{A1}, \lstinline{total},
+\lstinline{i}, and \lstinline{a}.
 
 \begin{code}
 A1 = 1;
@@ -69,7 +69,7 @@ function res = myfunc(x)
 end
 \end{lstlisting}
 
-The first non-comment word of the file has to be {\tt function}, because
+The first non-comment word of the file has to be \lstinline{function}, because
 that's how MATLAB tells the difference between a script and a function
 file.
 
@@ -78,8 +78,8 @@ file.
 
 A function definition is a compound statement.  The first line
 is called the {\em signature} of the function; it defines
-the inputs and outputs of the function.  In Listing~\ref{lst:function_def} the {\em input variable} is named {\tt x}.  When this function is called, the
-argument provided by the user will be assigned to {\tt x}.
+the inputs and outputs of the function.  In Listing~\ref{lst:function_def} the {\em input variable} is named \lstinline{x}.  When this function is called, the
+argument provided by the user will be assigned to \lstinline{x}.
 
 \index{input variable}
 \index{variable!input}
@@ -87,17 +87,17 @@ argument provided by the user will be assigned to {\tt x}.
 \index{output variable}
 \index{variable!output}
 
-The {\em output variable} is named {\tt res}, which is short for
-``result''.  You can call the output variable whatever you want, but
-as a convention, I like to call it {\tt res}.  Usually the last
+The {\em output variable} is named \lstinline{res}, which is short for
+``result.''  You can call the output variable whatever you want, but
+as a convention, I like to call it \lstinline{res}.  Usually the last
 thing a function does is assign a value to the output variable.
 
-\index{res@{\tt res}}
-\index{ans@{\tt ans}}
+\index{res@\lstinline{res}}
+\index{ans@\lstinline{ans}}
 
 Once you've defined a new function, you call it the same way you
 call built-in MATLAB functions.  If you call the function as a statement,
-MATLAB puts the result into {\tt ans}:
+MATLAB puts the result into \lstinline{ans}:
 
 \begin{code}
 >> ***myfunc(1)***
@@ -128,7 +128,7 @@ y = 1.38177329067604
 
 While you're debugging a new function, you might want to display
 intermediate results like this, but once it's working, you'll want
-to add semi-colons to make it a {\em silent function}.  A silent function
+to add semicolons to make it a {\em silent function}.  A silent function
 computes a result but doesn't display
 anything (except sometimes warning messages). Most built-in
 functions are silent.
@@ -153,10 +153,10 @@ Undefined function or variable 's'.
 \end{code}
 
 The only value from the function that you can access is the result,
-which in this case is assigned to {\tt y}.
+which in this case is assigned to \lstinline{y}.
 
-If you have variables named {\tt s} or {\tt c} in your workspace
-before you call {\tt myfunc}, they will still be there when the
+If you have variables named \lstinline{s} or \lstinline{c} in your workspace
+before you call \lstinline{myfunc}, they will still be there when the
 function completes.
 
 \begin{code}
@@ -178,13 +178,13 @@ want without worrying about collisions.
 
 \section{Function Documentation}
 
-\index{documentation}
+% \index{documentation}
 \index{comment}
 
 At the beginning of every function file, you should include a comment
 that explains what the function does:
 
-\index{Documentation!functions}
+\index{documentation!function}
 
 \begin{code}
 % res = myfunc(x)
@@ -200,9 +200,9 @@ function res = myfunc(x)
 end
 \end{code}
 
-When you ask for {\tt help}, MATLAB prints the comment you provide.
+When you ask for \textbf{\lstinline{help}}, MATLAB prints the comment you provide.
 
-\index{help@{\tt help}}
+\index{help@\lstinline{help}}
 
 \begin{code}
 >> ***help myfunc***
@@ -213,24 +213,24 @@ When you ask for {\tt help}, MATLAB prints the comment you provide.
 
 There are lots of conventions about what should be included
 in these comments.  Among other things, it's a good idea to
-include
+include:
 
 \begin{description}
 
-\item [Signature:] The signature of the function, which includes the name
-of the function, the input variable(s) and the output variable(s).
+\item [Signature] The signature of the function, which includes the name
+of the function, the input variable(s), and the output variable(s).
 
-\item [Description:] A clear, concise, abstract description of what the function does.
+\item [Description] A clear, concise, abstract description of what the function does.
 An {\em abstract} description is one that leaves out the
 details of {\em how} the function works, and includes only information
 that someone using the function needs to know.  You can put additional
 comments inside the function that explain the details.
 
-\item [Variables:] An explanation of what the input variables mean; for example,
-in this case it is important to note that {\tt x} is considered
+\item [Variables] An explanation of what the input variables mean; for example,
+in this case it is important to note that \lstinline{x} is considered
 to be an angle in radians.
 
-\item [Conditions:] Any preconditions and postconditions.
+\item [Conditions] Any preconditions and postconditions.
 
 \end{description}
 
@@ -238,7 +238,7 @@ to be an angle in radians.
 \index{postcondition}
 
 \section{Naming Functions}
-\index{Functions!naming}
+%\index{Functions!naming}
 
 There are a few ``gotchas'' that come up when you start defining functions.
 The first is that the ``real'' name of your function is determined by the file name, {\em not} by the name you put in the function signature.  As a matter of style, you
@@ -250,7 +250,7 @@ easy to get confused.
 \index{name!function}
 
 In the spirit of making errors on purpose, change the name of
-the function in \verb"myfunc" to \verb"something_else", and
+the function \lstinline{myfunc} to \lstinline{something_else}, and
 then run it again.
 
 If this is what you put in \emph{myfunc.m}:
@@ -262,8 +262,7 @@ function res = something_else (x)
     res = abs(s) + abs(c);
 end
 \end{code}
-
-Here's what you'll get:
+here's what you'll get:
 
 \begin{code}
 >> ***y = myfunc(1)***
@@ -273,8 +272,8 @@ y = 1.3818
 Undefined function or variable 'something_else'.
 \end{code}
 
-{\tt myfunc} still works because that's the name of the file.
-\verb"something_else" doesn't work because the name of the function is ignored.
+Entering \textbf{\lstinline{myfunc}} still works because that's the name of the file;
+\lstinline{something_else} doesn't work because the name of the function is ignored.
 
 The second gotcha is that the name of the file can't have spaces.
 For example, if you write a function and rename the file to 
@@ -287,12 +286,11 @@ and then try to run it, you get:
         |
 Error: Unexpected MATLAB expression.
 \end{code}
-
-This fails because MATLAB thinks \verb"my" and \verb"func" are two different
+This fails because MATLAB thinks \lstinline{my} and \lstinline{func} are two different
 variable names.
 
 The third gotcha is that your function names can collide with built-in
-MATLAB functions.  For example, if you create an M-file named {\em sum.m}, and then call {\tt sum}, MATLAB might call {\em your} new
+MATLAB functions.  For example, if you create an M-file named {\em sum.m}, and then call \lstinline{sum}, MATLAB might call {\em your} new
 function, not the built-in version!  Which one actually gets called
 depends on the order of the directories in the search path, and
 (in some cases) on the arguments.  As an example, put the following
@@ -333,7 +331,7 @@ another name!
 
 Functions can take more than one input variable.
 For example, the following function takes two input variables,
-{\tt a} and {\tt b}:
+\lstinline{a} and \lstinline{b}:
 
 \begin{lstlisting}[caption={A function that computes the sum of squares of two numbers}, label={lst:hyp_function}]
 function res = sum_squares(a, b)
@@ -341,8 +339,8 @@ function res = sum_squares(a, b)
 end
 \end{lstlisting}
   
-This function computes the sum of squares of two numbers, {\tt a}
-and {\tt b}.
+This function computes the sum of squares of two numbers, \lstinline{a}
+and \lstinline{b}.
 
 If we call it from the Command Window with arguments 3 and 4, we can
 confirm that the sum of their squares is 25.
@@ -353,8 +351,8 @@ ss = 25
 \end{code}
 
 The arguments you provide are assigned to the input variables in
-order, so in this case 3 is assigned to {\tt a} and 4 is assigned to
-{\tt b}.  MATLAB checks that you provide the right number of arguments;
+order, so in this case 3 is assigned to \lstinline{a} and 4 is assigned to
+\lstinline{b}.  MATLAB checks that you provide the right number of arguments;
 if you provide too few, you get
 
 \begin{code}
@@ -366,7 +364,7 @@ Error in sum_squares (line 4)
 \end{code}
 
 This error message might be confusing, because it suggests that
-the problem is in \verb"sum_squares" rather than in the function call.
+the problem is in \lstinline{sum_squares} rather than in the function call.
 Keep that in mind when you're debugging.
 
 If you provide too many arguments, you get
@@ -377,7 +375,7 @@ Error using sum_squares
 Too many input arguments.
 \end{code}
 
-That's a better error message, because it's clear that the problem isn't in the function; it's in the way we're using the function.
+That's a better error message, because it's clear that the problem isn't in the function, it's in the way we're using the function.
 
 \section{Chapter Review}
 
@@ -397,9 +395,10 @@ A {\em silent function} doesn't display anything, generate a figure, or have any
 
 \section{Exercises}
 
-\begin{ex}
+Before you go on, you might want to work on the following exercise.
+\subsection{Exercise~1}
 \label{hypotenuse_exercise}
-Write a function called {\tt hypotenuse} that takes two parameters, {\tt a} and {\tt b}, that represent the lengths of two sides of a right triangle.  It should assign to {\tt res} the length of the third side of the triangle, given by the formula:
+Write a function called \lstinline{hypotenuse} that takes two parameters, \lstinline{a} and \lstinline{b}, that represent the lengths of two sides of a right triangle.  It should assign to \lstinline{res} the length of the third side of the triangle, given by the formula
 
-\[ c = \sqrt{a^2 + b^2} \]
-\end{ex}
+\[ c = \sqrt{a^2 + b^2}. \]
+

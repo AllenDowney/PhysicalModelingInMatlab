@@ -1,4 +1,4 @@
-\chapter{Second-order Systems}
+\chapter{Second-Order Systems}
 
 So far we've seen first-order differential equations and systems of first-order ODEs.  In this chapter we'll introduce second-order systems, which are particularly useful for modeling Newtonian motion.
 
@@ -9,15 +9,15 @@ So far we've seen first-order differential equations and systems of first-order 
 
 Newton's second law of motion is often written like this:
 
-\begin{equation}
-    F = m a
-\end{equation}
+\begin{equation*}
+    F = m a,
+\end{equation*}
 
 where $F$ is the net force acting on an object, $m$ is the
 mass of the object, and $a$ is the acceleration of the object.
 
 This equation suggests
-that if you know $m$ and $a$ you can compute force, which is true,
+that if you know $m$ and $a$ you can compute the force, which is true,
 but in most physical simulations it's the other way around:  based on a
 physical model, you know $F$ and $m$, and you compute $a$.
 
@@ -27,33 +27,32 @@ physical model, you know $F$ and $m$, and you compute $a$.
 
 So if we know acceleration as a function of time, how do we
 find the position of the object, $r$?  Well, we know that acceleration
-is the second derivative of position, so we can write a differential
+is the second derivative of position, so we can write the differential
 equation
 
-\begin{equation}
-    \frac{d^2r}{dt^2} = a
-\end{equation}
-
+\begin{equation*}
+    \frac{d^2r}{dt^2} = a,
+\end{equation*}
 where $\frac{d^2r}{dt^2}$ is the second time derivative of $r$.
 
 Because this equation includes a second derivative, it's
-a second-order ODE.  {\tt ode45} can't solve the equation this form, but
-by introducing a new variable, {\tt v}, for velocity, we can rewrite it
+a second-order ODE.  \lstinline{ode45} can't solve the equation in this form, but
+by introducing a new variable, \lstinline{v}, for velocity, we can rewrite it
 as a system of first-order ODEs:
 
-\begin{eqnarray}
-    \frac{dr}{dt} &=& v   \\
-    \frac{dv}{dt} &=& a
-\end{eqnarray}
+\begin{eqnarray*}
+    \frac{dr}{dt} &=& v,   \\
+    \frac{dv}{dt} &=& a.
+\end{eqnarray*}
 
 The first equation says that the first derivative of $r$ is $v$;
 the second equation says that the first derivative of $v$ is $a$.
 
 
-\section{Freefall}
+\section{Free Fall}
 \label{freefall}
 
-As an example of Newtonian motion, let's go back to the question from Exercise~\ref{penny}:
+As an example of Newtonian motion, let's go back to the question from \nameref{penny} on page~\pageref{penny}:
 
 \begin{quote}
 If you drop a penny from the top of the Empire State Building, how long does it take to reach the sidewalk, and how fast it is going when it gets there?
@@ -64,7 +63,7 @@ We'll start with no air resistance; then we'll add air resistance to the model a
 \index{air resistance}
 \index{gravity}
 
-Near the surface of the earth,
+Near the surface of the earth, the
 acceleration due to gravity is \SI{-9.8}{\meter \per \second \squared}, where the minus sign
 indicates that gravity pulls down.
 If the object falls straight down, we can describe its position with a
@@ -72,8 +71,8 @@ scalar value $y$, representing altitude.
 
 \index{position}
 \index{velocity}
-\index{rate function }
-Listing~\ref{lst:penny_rate_func} contains a rate function we can use with {\tt ode45} to solve
+\index{rate function}
+Listing~\ref{lst:penny_rate_func} contains a rate function we can use with \lstinline{ode45} to solve
 this problem:
 
 \begin{lstlisting}[caption={A rate function for the falling penny problem}, label={lst:penny_rate_func}]
@@ -91,17 +90,17 @@ function res = rate_func(t, X)
 end
 \end{lstlisting}
 
-The rate function in Listing~\ref{lst:penny_rate_func} takes {\tt t} and {\tt X} as input variables, where the elements of {\tt X} are understood to be the position and velocity of the penny.
+The rate function in Listing~\ref{lst:penny_rate_func} takes \lstinline{t} and \lstinline{X} as input variables, where the elements of \lstinline{X} are understood to be the position and velocity of the penny.
 
-It returns a column vector that contains {\tt dydt} and {\tt dvdt}, which
-are velocity and acceleration, respectively.
-Since velocity is the second element of {\tt X}, we can simply assign this value to {\tt dydt}.
-And since the derivative of velocity is acceleration, we can assign the acceleration of gravity to {\tt dvdt}.
+It returns a column vector that contains \lstinline{dydt} and \lstinline{dvdt}, which
+are the velocity and acceleration, respectively.
+Since velocity is the second element of \lstinline{X}, we can simply assign this value to \lstinline{dydt}.
+And since the derivative of velocity is acceleration, we can assign the acceleration due to gravity to \lstinline{dvdt}.
 
 \index{column vector}
 \index{acceleration}
 
-As always, we should test the rate function before we call {\tt ode45}.  Here's the top-level function we can use to test it:
+As always, we should test the rate function before we call \lstinline{ode45}.  Here's the top-level function we can use to test it:
 
 \begin{code}
 function penny()
@@ -111,21 +110,20 @@ function penny()
 end
 \end{code}
 
-The initial condition of {\tt X} is the initial position, which is the height of the Empire State Building, about \SI{381}{\meter}, and the initial velocity, which is \SI{0}{\meter \per \second}.
+The initial condition of \lstinline{X} is the initial position, which is the height of the Empire State Building, about \SI{381}{\meter}, and the initial velocity, which is \SI{0}{\meter \per \second}.
 
 \index{Empire State Building}
 \index{penny}
 
-The result from \verb"rate_func" is:
+The result from \lstinline{rate_func} is:
 
 \begin{code}
     0
    -9.8000
 \end{code}
-
 which is what we expect.
 
-Now we can run {\tt ode45} with this rate function:
+Now we can run \lstinline{ode45} with this rate function:
 
 \begin{code}
 tspan = [0, 10]
@@ -133,10 +131,10 @@ tspan = [0, 10]
 \end{code}
 
 As always, the first argument is the function handle, the second
-is the time span (30 seconds) and the third is the initial
+is the time span (10 seconds), and the third is the initial
 condition.
 
-The result is a vector, {\tt T}, that contains the time values and a matrix, {\tt M}, that contains two columns, one for altitude and one for velocity.
+The result is a vector, \lstinline{T}, that contains the time values, and a matrix, \lstinline{M}, that contains two columns, one for altitude and one for velocity.
 \index{function handle}
 \index{time span}
 \index{matrix}
@@ -151,20 +149,20 @@ plot(T, Y)
 
 \begin{figure}
 \centerline{\includegraphics[height=3in]{book/figs/penny.eps}}
-\caption{Altitude versus time for an object in free fall.}
+\caption{Altitude versus time for an object in free fall}
 \label{fig:penny}
 \end{figure}
 
-Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and picks up speed.  Between 8 and 9 seconds, the altitude reaches 0, which means the penny hits the sidewalk.  But {\tt ode45} doesn't know where the ground is, so the penny keeps going through zero into negative altitude.  We'll solve that problem in the next section
+Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and picks up speed.  Between 8 and 9 seconds, the altitude reaches 0, which means the penny hits the sidewalk.  But \lstinline{ode45} doesn't know where the ground is, so the penny keeps going through zero into negative altitude.  We'll solve that problem in the next section.
 
 \section{ODE Events}
 \label{events}
 
-\index{ODE events}
+\index{ODE event}
 
-Normally when you call {\tt ode45} you specify a start time and
+Normally when you call \lstinline{ode45} you specify a start time and
 an end time.  But sometimes you don't know ahead of time when the
-simulation should end.  To solve this problem, we can define an \emph{event}, 
+simulation should end.  To solve this problem we can define an \emph{event}, 
 something of interest that happens during a simulation,
 like the penny reaching the ground.
 
@@ -176,7 +174,7 @@ Here are the steps:
 
 \begin{enumerate}
 
-\item First we define an \emph{event function} that allows {\tt ode45} to figure out when
+\item First we define an \emph{event function} that allows \lstinline{ode45} to figure out when
 an event occurs.  Here's an event function for the penny example:
 
 \begin{code}
@@ -187,42 +185,42 @@ function [value, isterminal, direction] = event_func(t,X)
 end
 \end{code}
 
-The event function takes the the same input variables as the rate function and returns three output variables: {\tt value} determines when an event can occur, {\tt direction} determines whether it does, and {\tt isterminal} determines what happens.
+The event function takes the the same input variables as the rate function and returns three output variables: \lstinline{value} determines when an event can occur, \lstinline{direction} determines whether it does, and \lstinline{isterminal} determines what happens.
 
-More specifically, an event can occur when {\tt value} passes through 0.
-If {\tt direction} is positive, the event only occurs if {\tt value} is increasing.
-If {\tt direction} is negative, the event only occurs if {\tt value} is decreasing.
-If {\tt direction} is 0, the event always occurs.
+More specifically, an event can occur when \lstinline{value} passes through 0.
+If \lstinline{direction} is positive, the event only occurs if \lstinline{value} is increasing.
+If \lstinline{direction} is negative, the event only occurs if \lstinline{value} is decreasing.
+If \lstinline{direction} is 0, the event always occurs.
 
-If {\tt isterminal} is 1, the event causes the simulation to end; if it is 0, the simulation continues.
+If \lstinline{isterminal} is 1, the event causes the simulation to end; if it is 0, the simulation continues.
 
-This event function uses the altitude of the penny as {\tt value} so an event can occur when altitude passes through 0.  
-Because {\tt direction} is negative, an event occurs only when altitude is decreasing, and
-because {\tt isterminal} is 1, the simulation ends if an event occurs.
+This event function uses the altitude of the penny as \lstinline{value} so an event can occur when the altitude passes through 0.  
+Because \lstinline{direction} is negative, an event occurs only when the altitude is decreasing, and
+because \lstinline{isterminal} is 1, the simulation ends if an event occurs.
 
-\index{odeset@{\tt odeset}}
-\index{options@{\tt options}}
+\index{odeset@\lstinline{odeset}}
+\index{options@\lstinline{options}}
 
-\item Next we use {\tt odeset} to create an object called {\tt options}:
+\item Next, we use \lstinline{odeset} to create an object called \lstinline{options}:
 
 \begin{code}
 options = odeset('Events', @event_func);
 \end{code}
 %
-The name of the option is {\tt Events} and the value is the handle of the event function.  
+The name of the option is \lstinline{Events} and the value is the handle of the event function.  
 
-\item Finally, we pass {\tt options} as a fourth argument to {\tt ode45}:
+\item Finally, we pass \lstinline{options} as a fourth argument to \lstinline{ode45}:
 
 \begin{code}
 [T, M] = ode45(@rate_func, tspan, X, options);
 \end{code}
 
-When {\tt ode45} runs, it invokes \verb"event_func" after each timestep.  If the event function indicates that a terminal event occurred, 
-{\tt ode45} stops the simulation.
+When \lstinline{ode45} runs, it invokes \lstinline{event_func} after each time step.  If the event function indicates that a terminal event occurred, 
+\lstinline{ode45} stops the simulation.
 
 \end{enumerate}
 
-Let's look at the results from the penny example.  
+Let's look at the results from the penny example:  
 
 \begin{code}
 >> ***T(end)***
@@ -232,9 +230,9 @@ Let's look at the results from the penny example.
 0.0000  -86.4153
 \end{code}
 
-The last value of {\tt T} is about 8.8, which is the number of seconds the penny takes to reach the sidewalk.
+The last value of \lstinline{T} is about 8.8, which is the number of seconds the penny takes to reach the sidewalk.
 
-The last row of {\tt M} indicates that the final altitude is 0, which is what we wanted, and the final velocity is about \SI{-86}{\meter \per \second}.
+The last row of \lstinline{M} indicates that the final altitude is 0, which is what we wanted, and the final velocity is about \SI{-86}{\meter \per \second}.
 
 
 \section{Air Resistance}
@@ -253,31 +251,30 @@ directed up, so if velocity is negative, drag force is positive.
 
 Here's how we can compute the force of drag as a function of velocity in one dimension:
 
-\begin{equation}
-    f_d = -sign(v) b v^2 
-\end{equation}
-
+\begin{equation*}
+    f_\mathrm{d} = -\mathrm{sign}(v) b v^2 ,
+\end{equation*}
 where $v$ is velocity and
 $b$ is a drag constant that depends on the density of
-air, the cross-sectional area of the object and the shape
+air, the cross-sectional area of the object, and the shape
 of the object.  
 
-$sign$ is the sign or signum function, which is 1 for positive values of 
-$v$ and -1 for negative values.  So $f_d$ is always in the opposite direction of $v$.
+The sign or signum function takes the value $1$ for positive values of 
+$v$ and $-1$ for negative values.  So $f_\mathrm{d}$ is always in the opposite direction of $v$.
 
 \index{signum function}
-\index{sign@{\tt sign}}
+\index{sign@\lstinline{sign}}
 \index{mass}
 \index{terminal velocity}
 
-To convert from force to acceleration, we have to know mass, but that's easy to find: the mass of a penny is about \SI{2.5}{\gram}.  It's not as easy to find the drag constant, but based on reports that the terminal velocity of a penny is about \SI{18}{\meter \per \second}, I've estimated that it's about \SI{75e-6}{\kilogram \per \meter}.
+To convert from force to acceleration we have to know mass, but that's easy to find: the mass of a penny is about \SI{2.5}{\gram}.  It's not as easy to find the drag constant, but based on reports that the terminal velocity of a penny is about \SI{18}{\meter \per \second}, I've estimated that it's about \SI{75e-6}{\kilogram \per \meter}.
 
-Listing~\ref{lst:acceleration_drag} defines a function that takes {\tt t} and {\tt X} as input variables and returns the total acceleration of the penny due to gravity and drag:
+Listing~\ref{lst:acceleration_drag} defines a function that takes \lstinline{t} and \lstinline{X} as input variables and returns the total acceleration of the penny due to gravity and drag:
 
 \begin{lstlisting}[caption={Calculating acceleration of a penny with drag}, label={lst:acceleration_drag}]
 function res = acceleration(t, X)
-    (*\codewingding{1}*)b = 75e-6;                % drag constant in kg/m
-    v = X(2);                 % velocity in m/s
+    (*\codewingding{1}*)b = 75e-6;                 % drag constant in kg/m
+    v = X(2);                  % velocity in m/s
     f_d = -sign(v) * b * v^2;  % drag force in N
 
     (*\codewingding{2}*)m = 2.5e-3;               % mass in kg
@@ -290,7 +287,7 @@ end
 
 First, we compute force due to drag \wingding{1}.
 Then we compute acceleration due to drag \wingding{2}.
-Lastly we compute total acceleration due to drag and gravity\wingding{3}.
+Lastly, we compute total acceleration due to drag and gravity~\wingding{3}.
 
 \index{acceleration}
 \index{force}
@@ -300,7 +297,7 @@ you only add forces to forces or accelerations to accelerations.  In my
 code, I use comments to remind myself what units the values have.
 That helps me avoid errors like adding forces to accelerations.
 
-To use this function, I made a small change in \verb"rate_func":
+To use this function we make a small change in \lstinline{rate_func}:
 
 \begin{code}
 function res = rate_func(t, X)
@@ -315,19 +312,19 @@ end
 
 \end{code}
 
-In the previous version, {\tt dvdt} is always {\tt -9.8}, the acceleration of gravity.
-In this version, we call {\tt acceleration} to compute total acceleration due to gravity and drag \wingding{1}.
+In the previous version, \lstinline{dvdt} is always \lstinline{-9.8}, the acceleration due to gravity.
+In this version, we call \lstinline{acceleration} to compute the total acceleration due to gravity {\em and} drag \wingding{1}.
 
 \begin{figure}[ht]
 \centerline{\includegraphics[height=3in]{book/figs/penny2.eps}}
-\caption{Altitude versus time for an penny in free fall with air resistance.}
+\caption{Altitude versus time for a penny in free fall with air resistance}
 \label{fig:penny2}
 \end{figure}
 
 Everything else is the same.  Figure~\ref{fig:penny2} shows the result. 
 
-Air resistance makes a big difference!  Velocity increases until
-the drag acceleration equals $g$; after that, velocity is constant and position decreases linearly (and much more slowly than it would in a vacuum).
+Air resistance makes a big difference!  The velocity increases until
+the drag acceleration equals $g$; after that, the velocity is constant and the position decreases linearly (and much more slowly than it would in a vacuum).
 
 With air resistance, the time until the penny hits the sidewalk is \SI{22.4}{\second}, substantially longer than before (\SI{8.8}{\second}).
 
@@ -337,54 +334,54 @@ And the final velocity is \SI{18.1}{\meter \per \second}, substantially slower t
 
 In this chapter we used Newton's laws motion to write a differential equation that describes the motion of a falling penny.  
 
-We re-wrote that equation as a system of first-order differential equations, so we could use {\tt ode45} to solve it.  Then we ran simulations of a falling penny with and without air resistance, also known as {\em drag}.
+We rewrote that equation as a system of first-order differential equations, so we could use \lstinline{ode45} to solve it.  Then we ran simulations of a falling penny with and without air resistance, also known as {\em drag}.
 
-We defined an {\em event} as something of interest that happens during a simulation, like a collision between moving objects, and we wrote an {\em event function}, which allows {\tt ode45} to figure out when an event occurs.
+We defined an {\em event} as something of interest that happens during a simulation, like a collision between moving objects, and we wrote an {\em event function}, which allows \lstinline{ode45} to figure out when an event occurs.
 
-In the next chapter, we extend Newtonian motion to two dimensions and model the flight of a baseball.
+In the next chapter we extend Newtonian motion to two dimensions and model the flight of a baseball.
 
 
 \section{Exercises}
 
+Before you go on, you might want to work on the following exercises.
 
-\begin{ex}
-
+\subsection{Exercise 1}
 \index{skydiver}
 \index{parachute}
 
 The drag constant for a skydiver without a parachute is about \SI{0.2}{\kilogram \meter}.  Modify the penny code from this chapter to simulate the descent of a \SI{75}{\kilogram} skydiver from an initial altitude of \SI{4000}{\meter}.  What would the velocity of the skydiver be on impact?
 
-After opening a parachute, the velocity of the skydiver slows to about \SI{5}{\meter\per\second}.  Use your simulation to find the drag constant that yields a terminal velocity of \SI{5}{\meter\per\second}.
+After opening their parachute, the velocity of the skydiver slows to about \SI{5}{\meter\per\second}.  Use your simulation to find the drag constant that yields a terminal velocity of \SI{5}{\meter\per\second}.
 
-Increase the mass of the skydiver, and confirm that terminal velocity increases.  This phenomenon is the source of the intuition that heavy objects fall faster; in air, they do!
+Increase the mass of the skydiver, and confirm that the terminal velocity increases.  This phenomenon is the source of the intuition that heavy objects fall faster; in air, they do!
 
-Now suppose the skydiver free falls until they get to altitude \SI{1000}{\meter} before opening the parachute.  How long would it take them to reach the ground?
+Now suppose the skydiver free-falls until they get to an altitude of \SI{1000}{\meter} before opening the parachute.  How long would it take them to reach the ground?
 
 What is the lowest altitude where the skydiver can open the parachute and still land at less than \SI{6}{\meter\per\second} (assuming that the parachute opens and deploys instantly)?
 
 % skydiver.m
-\end{ex}
 
 
 
-\begin{ex}
+
+\subsection{Exercise 2}
 \label{earth}
 
 \index{Earth}
 \index{Sun}
 \index{Law of Universal Gravitation}
 
-Here's a question from the web site {\em Ask an Astronomer} (\url{https://greenteapress.com/matlab/astro}):
+Here's a question from the website {Ask an Astronomer} (\url{https://greenteapress.com/matlab/astro}):
 
 \begin{quote}
-``If the Earth suddenly stopped orbiting the Sun, I know eventually it would be pulled in by the Sun's gravity and hit it. How long would it take the Earth to hit the Sun? I imagine it would go slowly at first and then pick up speed.''
+If the Earth suddenly stopped orbiting the Sun, I know eventually it would be pulled in by the Sun's gravity and hit it. How long would it take the Earth to hit the Sun? I imagine it would go slowly at first and then pick up speed.
 \end{quote}
 
-Use {\tt ode45} to answer this question.  Here are some suggestions about how to proceed:
+Use \lstinline{ode45} to answer this question.  Here are some suggestions about how to proceed:
 
 \begin{enumerate}
 
-\item Look up the Law of Universal Gravitation and any constants you need. I suggest you work entirely in SI units: meters, kilograms, and Newtons.
+\item Look up the Law of Universal Gravitation and any constants you need. I suggest you work entirely in SI units: meters, kilograms, and newtons.
 
 \item When the distance between the Earth and the Sun gets small, this system behaves badly, so you should use an event function to stop when the surface of Earth reaches the surface of the Sun.
 
@@ -393,7 +390,7 @@ Use {\tt ode45} to answer this question.  Here are some suggestions about how to
 \end{enumerate}
 
 % earth.m
-\end{ex}
+
 
 
 % chpt11

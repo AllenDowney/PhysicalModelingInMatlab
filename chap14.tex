@@ -1,14 +1,14 @@
 \chapter{Springs and Things}
 
-The computational tools you have learned so far make up a versatile toolkit for modeling physical systems described by first and second order differential equations and systems of equations.
+The computational tools you have learned so far make up a versatile toolkit for modeling physical systems described by first- and second-order differential equations and systems of equations.
 
-With {\tt ode45} you can compute the state variables of these systems as they change over time.
+With \lstinline{ode45} you can compute the state variables of these systems as they change over time.
 By varying the parameters of the model, you can see what effect they have on the results.
-Then you can use {\tt fminsearch} and {\tt fzero} to find minimums, maximums, and places where the outputs pass through zero.
+Then you can use \lstinline{fminsearch} and \lstinline{fzero} to find minimums, maximums, and places where the outputs pass through zero.
 
 These tools are all you need to solve a lot of problems, so this chapter doesn't present new computational tools (whew!).  Instead, we'll look at some different physical systems and some forces we haven't dealt with yet, including spring forces and universal gravitation.
 
-The examples in this chapter are a little more open ended than the previous ones.
+The examples in this chapter are a little more open-ended than the previous ones.
 I will present a motivating problem and some background information, and you will have a chance to implement the models as exercises.
 
 
@@ -19,13 +19,13 @@ I will present a motivating problem and some background information, and you wil
 \index{cookie}
 \index{tea}
 
-Suppose you want to set the world record for the highest ``bungee dunk'', which is a stunt in which a bungee jumper dunks a cookie in a cup of tea at the lowest point of a jump.  An example is shown in this video: \url{https://greenteapress.com/matlab/dunk}.
+Suppose you want to set the world record for the highest ``bungee dunk,'' which is a stunt in which a bungee jumper dunks a cookie in a cup of tea at the lowest point of a jump.  An example is shown in this video: \url{https://greenteapress.com/matlab/dunk}.
 
 Since the record is \SI{70}{\meter}, let's design a jump for \SI{80}{\meter}.  We'll start with the following parameters:
 
 \begin{itemize}
 
-\item  Initially the jumper stands on a platform \SI{80}{\meter} above a cup of tea.  One end of the bungee cord is connected to the platform, the other end is attached to the jumper, and the middle hangs down.
+\item  Initially, the jumper stands on a platform \SI{80}{\meter} above a cup of tea.  One end of the bungee cord is connected to the platform, the other end is attached to the jumper, and the middle hangs down.
 
 \item The mass of the jumper is \SI{75}{\kilogram}, and they are subject to gravitational acceleration of \SI{9.8}{\meter \per \second \squared}.
 
@@ -43,14 +43,14 @@ To model the force of the bungee cord on the jumper, I'll make the following ass
 
 \end{itemize}
 
-We can write Hooke's Law like this:
+We can write Hooke's Law as
 %
-$F_s = -k x$
+$F_\mathrm{s} = -k x$,
 %
-where $F_s$ is the force of the spring (bungee cord) on the jumper in Newtons, $x$ is the distance the spring is stretched by in meters, and $k$ is a spring constant that represents the strength of the spring in Newtons per meter.
-The minus sign indicates that the spring force is opposite the direction the spring is stretched.
+where $F_\mathrm{s}$ is the force of the spring (bungee cord) on the jumper in newtons, $x$ is the distance the spring is stretched by in meters, and $k$ is a spring constant that represents the strength of the spring in newtons per meter.
+The minus sign indicates that the spring force is opposite to the direction the spring is stretched.
 
-\index{Hooke's law}
+\index{Hooke's Law}
 \index{spring constant}
 
 Hooke's Law is not a law in the sense that it is always true; really, it is a model of how some things behave under some conditions.
@@ -59,22 +59,19 @@ Almost everything obeys Hooke's Law when $x$ is small enough, but for large valu
 In reality, the spring constant of a bungee cord depends on $x$ over the range we are interested in, but as a starting place I'll assume $k$ is constant.
 
 
-
-\begin{ex}
+\subsection{Exercise 1}
 
 Write a simulation of this scenario, based on these parameters and modeling assumptions.
-Use your simulation to choose the length of the cord, {\tt L}, and its spring constant, {\tt k}, so that the jumper falls all the way to the tea cup, but no farther!
+Use your simulation to choose the length of the cord, \lstinline{L}, and its spring constant, \lstinline{k}, so that the jumper falls all the way to the tea cup, but no farther!
 
 You could start with the length \SI{25}{\meter} and spring constant \SI{40}{\newton \per \meter}.
-
-\end{ex}
 
 
 \section{Bungee Revisited}
 
 \index{bungee jump}
 
-In the previous section, we modeled the motion of a bungee jumper taking into account gravity, air resistance, and the spring force of the bungee cord.  But we ignored the weight of the cord.
+In the previous section we modeled the motion of a bungee jumper taking into account gravity, air resistance, and the spring force of the bungee cord.  But we ignored the weight of the cord.
 
 \index{bungee jump}
 \index{bungee cord}
@@ -85,17 +82,15 @@ It's tempting to say that the cord has no effect because it falls along with the
 
 At \url{https://greenteapress.com/matlab/bungee} you'll find a paper by Heck, Uylings, and Kędzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
-\[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
+\[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L}, \] 
 %
-where $g$ is acceleration due to gravity, $L$ is the length of the cord, and $\mu$ is the ratio of the mass of the cord, $m$, and the mass of the jumper, $M$.
+where $g$ is the acceleration due to gravity, $L$ is the length of the cord, and $\mu$ is the ratio of the mass of the cord, $m$, and the mass of the jumper, $M$.
 
 If you don't believe that their model is correct, this video might convince you: \url{https://greenteapress.com/matlab/chain}.
 
-\begin{ex}
+\subsection{Exercise 2}
 
 Modify your solution to the previous problem to model this effect.  How does the behavior of the system change as we vary the mass of the cord?  When the mass of the cord equals the mass of the jumper, what is the net effect on the lowest point in the jump?
-
-\end{ex}
 
 
 \section{Spider-Man}
@@ -110,27 +105,27 @@ shown in Figure~\ref{spiderman}.
 
 \begin{figure}
 \centerline{\includegraphics[height=2.5in]{book/figs/spiderman.pdf}}
-\caption{Diagram of the initial state for the Spider-Man example.}
+\caption{Diagram of the initial state for the Spider-Man example}
 \label{spiderman}
 \end{figure}
 
-The origin, {\tt O}, is at the base of the Empire State Building. The
-vector {\tt H} represents the position where the webbing is attached
-to the building, relative to {\tt O}. The vector {\tt P} is the
-position of Spider-Man relative to {\tt O}. And {\tt L} is the
+The origin, \lstinline{O}, is at the base of the Empire State Building. The
+vector \lstinline{H} represents the position where the webbing is attached
+to the building, relative to \lstinline{O}. The vector \lstinline{P} is the
+position of Spider-Man relative to \lstinline{O}. And \lstinline{L} is the
 vector from the attachment point to Spider-Man.
 
 \index{vector addition}
 \index{addition!vector}
 
-By following the arrows from {\tt O}, along {\tt H}, and along
-{\tt L}, we can see that
+By following the arrows from \lstinline{O}, along \lstinline{H}, and along
+\lstinline{L}, we can see that
 
 \begin{code}
 H + L = P
 \end{code}
 
-So we can compute {\tt L} like this:
+So we can compute \lstinline{L} like this:
 
 \begin{code}
 L = P - H
@@ -178,7 +173,7 @@ We'll use the following parameters:
   down.
 
 \item
-  The spring constant of the web is \SI{40}{\newton\per\meter} when the cord is stretched, and 0 when it's compressed.
+  The spring constant of the web is \SI{40}{\newton\per\meter} when the cord is stretched, and \SI{0}{\newton\per\meter} when it's compressed.
   
 \index{spring constant}
 
@@ -191,7 +186,7 @@ We'll use the following parameters:
 \index{mechanics!celestial}
 
 \emph{Celestial mechanics} describes how objects move in outer space.
-If you did Exercise~\ref{earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now we'll simulate the Earth orbiting the Sun in two dimensions.
+If you did \nameref{earth} on page~\pageref{earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now we'll simulate the Earth orbiting the Sun in two dimensions.
 
 \index{Earth}
 \index{Sun}
@@ -201,34 +196,31 @@ To keep things simple, we'll consider only the effect of the Sun on the Earth, a
 \index{position}
 \index{spatial vector}
 \index{mass}
-\index{Law of universal gravitation}
+\index{Law of Universal Gravitation}
 
 Given the mass of the Sun, $m1$, and the mass of the Earth, $m2$, the gravitational force between them is
 
 \begin{equation*}
-\vec{F_g} = -G \frac{m_1 m_2}{r^2} \uvec{P}
+\vec{F}_\mathrm{g} = -G \frac{m_1 m_2}{r^2} \uvec{P} ,
 \end{equation*}
-
 where $G$ is the universal gravitational constant (see \url{https://greenteapress.com/matlab/gravity}),
 $r$ is the distance of Earth from the Sun, and
 $\uvec{P}$ is a unit vector in the direction of $\vec{P}$.
 
 \index{universal gravitation constant}
 
-\begin{ex}
-Write a simulation of Earth orbiting the Sun.  You can look up the orbital velocity of the Earth, or manually search for the initial velocity that causes the earth to make one complete orbit in one year.  Optionally, use {\tt fminsearch} to find the velocity that gets the Earth as close as possible to the starting place after one year.
+\subsection{Exercise 3}
+Write a simulation of Earth orbiting the Sun.  You can look up the orbital velocity of the Earth, or manually search for the initial velocity that causes the Earth to make one complete orbit in one year.  Optionally, use \lstinline{fminsearch} to find the velocity that gets the Earth as close as possible to the starting place after one year.
 
 \index{velocity}
-\index{fminsearch{\tt fminsearch}}
-
-\end{ex}
+\index{fminsearch@\lstinline{fminsearch}}
 
 
 \section{Conservation of Energy}
 
-A useful way to check the accuracy of an ODE solver is to see whether it conserves energy.  For planetary motion, it turns out that {\tt ode45} does not.
+A useful way to check the accuracy of an ODE solver is to see whether it conserves energy.  For planetary motion, it turns out that \lstinline{ode45} does not.
 
-\index{ode45@{\tt ode45}}
+\index{ode45@\lstinline{ode45}}
 \index{conservation of energy}
 \index{energy}
 \index{kinetic energy}
@@ -237,17 +229,17 @@ A useful way to check the accuracy of an ODE solver is to see whether it conserv
 The kinetic energy of a moving body is
 
 \begin{equation*}
-KE = m v^2 / 2
+KE = m v^2 / 2.
 \end{equation*}
 
 The potential energy of a sun with mass $m_1$ and a
 planet with mass $m_2$ and a distance $r$ between them is
 
-\begin{equation}
-PE = -G \frac{m_1 m_2}{r}
-\end{equation}
+\begin{equation*}
+PE = -G \frac{m_1 m_2}{r}.
+\end{equation*}
 
-Write a function called {\tt energy\_func} that takes the output of
+Write a function called \lstinline{energy\_func} that takes the output of
 your Earth simulation and computes the total
 energy (kinetic and potential) of the system for each estimated
 position and velocity.
@@ -256,33 +248,33 @@ Plot the result as a function of time and
 check whether it increases or decreases over the course of the simulation.
 
 \index{tolerance}
-\index{odeset@{\tt odeset}}
+\index{odeset@\lstinline{odeset}}
 
-You can reduce the rate of energy loss by decreasing {\tt ode45}'s
-tolerance option using {\tt odeset} (see ``\nameref{events}'' on page~\pageref{events}):
+You can reduce the rate of energy loss by decreasing \lstinline{ode45}'s
+tolerance option using \lstinline{odeset} (see ``\nameref{events}'' on page~\pageref{events}):
 
 \begin{code}
 options = odeset('RelTol', 1e-5);
 [T, M] = ode45(@rate_func, tspan, W, options);
 \end{code}
 
-The name of the option is {\tt RelTol} for ``relative tolerance.''
-The default value is {\tt 1e-3} or 0.001.  Smaller values
-make {\tt ode45} less ``tolerant'', so it does more work to
+The name of the option is \lstinline{RelTol} for ``relative tolerance.''
+The default value is \lstinline{1e-3} or 0.001.  Smaller values
+make \lstinline{ode45} less ``tolerant,'' so it does more work to
 make the errors smaller.
 
-\index{RelTol@{\tt RelTol}}
+\index{RelTol@\lstinline{RelTol}}
 
-Run {\tt ode45} with a range of values for {\tt RelTol} and confirm
+Run \lstinline{ode45} with a range of values for \lstinline{RelTol} and confirm
 that as the tolerance gets smaller, the rate of energy loss
 decreases.
 
-\index{ode23@{\tt ode23}}
+\index{ode23@\lstinline{ode23}}
 
-Along with {\tt ode45}, MATLAB provides several other ODE solvers 
+Along with \lstinline{ode45}, MATLAB provides several other ODE solvers 
 (see \url{https://greenteapress.com/matlab/solver}).
 Run your simulation with one of the other ODE solvers MATLAB provides
-and see if any of them conserve energy.  You might find that {\tt ode23} works surprisingly well (although technically it does not conserve energy either).
+and see if any of them conserve energy.  You might find that \lstinline{ode23} works surprisingly well (although technically it does not conserve energy either).
 
 
 \section{Chapter Review}

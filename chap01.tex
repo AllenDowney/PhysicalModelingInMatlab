@@ -8,7 +8,7 @@ This book is about modeling and simulating physical systems. Before we can build
 
 When I say ``modeling,'' I'm talking about something like Figure~\ref{fig:modeling}.
 \begin{figure}[h]
-  \includegraphics[height=3in]{book/figs/modeling_framework.pdf} 
+  \includegraphics{book/images/figure01_01_new.eps} 
   \index{modeling}
   \caption{The modeling process}
   \label{fig:modeling}
@@ -72,7 +72,7 @@ MATLAB is a programming language with features that support modeling and simulat
 In Octave, Current Folder is called File Browser.
 
 \index{Command Window}
-\index{Workspace}
+\index{workspace}
 \index{interpreter}
 \index{command}
 
@@ -162,7 +162,12 @@ most important human who will read your code is you.
 
 \index{debugging!First Theorem}
 
-And that brings us to the First Theorem of Debugging: ``Readable code is debuggable code."
+And that brings us to the First Theorem of Debugging:
+
+\begin{quote}
+Readable code is debuggable code.
+\end{quote}
+
 It's worth spending time to make your code pretty; it will save
 you time \mbox{debugging}!
 
@@ -193,7 +198,7 @@ MATLAB also provides trig functions that work in degrees: \lstinline{sind}, \lst
 Some functions take more than one argument, in which case the arguments are
 separated by commas.  For example, \lstinline{atan2} computes the inverse
 tangent, which is the angle in radians between the positive x-axis and
-the point with the given $y$ and $x$ coordinates.
+the point with the given y- and x-coordinates.
 
 \begin{code}
 >> ***atan2(1,1)***
@@ -325,7 +330,7 @@ variable name and the computed value.
 \index{expression}
 
 There are a few rules when assigning variables a value. In every assignment statement, the left side has to be a legal variable name.  The right side can be any expression, including function calls.
-\index{variable name}%
+\index{variable!name}%
 \index{name!variable}%
 \index{underscore}%
 \index{case sensitive}%
@@ -576,7 +581,11 @@ or make the division explicit:
 \index{division}
 \index{debugging!Second Theorem}
 
-The last two examples bring us to the Second Theorem of Debugging: ``The only thing worse than getting an error message is \emph{not} getting an error message.''
+The last two examples bring us to the Second Theorem of Debugging:
+
+\begin{quote}
+The only thing worse than getting an error message is \emph{not} getting an error message.
+\end{quote}
 
 Beginning programmers often hate error messages and do everything they
 can to make the messages go away.  Experienced programmers know that error
@@ -640,7 +649,7 @@ An {\em expression} is a sequence of operands and operators that specifies
 a mathematical computation and yields a value.
 
 A {\em function} is a named computation; for example, \lstinline{log10} is the
-name of the function that computes logarithms in base 10.
+name of a function that computes logarithms in base 10.
 A {\em function call} is a command that causes a function to execute and compute a result.
 An {\em argument} is an expression that appears in a function call to
 specify the value the function operates on.
@@ -656,7 +665,7 @@ In the next chapter you'll start writing longer programs and learn about floatin
 
 Before you go on, you might want to work on the following exercises.
 
-\subsection{Exercise 1}
+\subsection{Exercise~1}
 \label{penny}
 You might have heard that a penny dropped from the top of the Empire State Building would be going so fast when it hit the pavement that it would be embedded in the concrete; or if it hit a person, it would break their skull.
 
@@ -672,11 +681,11 @@ If air resistance is negligible, the primary force acting on the penny is gravit
 
 If the initial velocity is 0, the velocity after $t$ seconds is $a t$, and the distance the penny has dropped is
 %
-\[ h = a t^2 / 2 \]
+\[ h = a t^2 / 2. \]
 %
 Using algebra, we can solve for $t$:
 %
-\[ t = \sqrt{ 2 h / a} \]
+\[ t = \sqrt{ 2 h / a}. \]
 %
 Plugging in the acceleration of gravity, 
 $a = \SI{9.8}{\meter\per\second\squared}$, and the height of the Empire State Building, 
@@ -686,7 +695,7 @@ Then, computing $v = a t$ we get a velocity on impact of $\SI{86}{\meter\per\sec
 
 Use MATLAB to perform these computations, and check that you get the same result.
 
-\subsection{Exercise 2}
+\subsection{Exercise~2}
 The result in the previous exercise is not accurate because it ignores air resistance.  In reality, once the penny gets to about \SI{18}{\meter\per\second}, the upward force of air resistance equals the downward force of gravity, so the penny stops accelerating.  After that, it doesn't matter how far the penny falls; it hits the sidewalk at about \SI{18}{\meter\per\second}, much less than \SI{86}{\meter\per\second}.
 
 As an exercise, compute the time it takes for the penny to reach the sidewalk if we assume that it accelerates with constant acceleration

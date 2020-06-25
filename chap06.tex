@@ -1,16 +1,16 @@
 \chapter{Conditionals}
 
 In this chapter we'll use functions and a new feature, conditional statements, to search for Pythagorean triples.
-A Pythagorean triple is a set of integers, like 3, 4, and 5,
-that are the lengths of the sides of a right triangle.  Mathematically, it's a set of integers, $a$, $b$, and $c$ such that $a^2 + b^2 = c^2$.
-This example will also demonstrate a way to write programs called {\em incremental development}.
+A Pythagorean triple is a set of integers, like~3, 4, and 5,
+that are the lengths of the sides of a right triangle.  Mathematically, it's a set of integers $a$, $b$, and $c$ such that $a^2 + b^2 = c^2$.
+This example will also demonstrate the {\em incremental development} process we talked about in Chapter~\ref{loops}.
 
 \index{Pythagorean triple}
 
 \section{Relational Operators}
 \index{operator!relational}
 
-Suppose we have three variables, {\tt a}, {\tt b}, and {\tt c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator, {\tt ==}, to compare two values:
+Suppose we have three variables, \lstinline{a},\lstinline{b}, and \lstinline{c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator, \lstinline{==}, to compare two values:
 
 \begin{code}
 >> ***a = 3;***
@@ -21,7 +21,7 @@ Suppose we have three variables, {\tt a}, {\tt b}, and {\tt c}, and we want to c
 ans = logical 1
 \end{code}
 
-The result is a {\em logical} value, which means it's either 1, which means ``true'', or 0, which means ``false''.  Here's an example where the result is false:
+The result is a {\em logical} value, which means it's either~1, which means ``true,'' or~0, which means ``false.''  Here's an example where the result is false:
 
 \begin{code}
 >> ***c = 6;***
@@ -29,7 +29,7 @@ The result is a {\em logical} value, which means it's either 1, which means ``tr
 ans = logical 0
 \end{code}
 
-It's a common error to use the assignment operator, {\tt =}, instead of the equality operator, {\tt ==}.  If you do, you get an error:
+It's a common error to use the assignment operator, \lstinline{=}, instead of the equality operator, \lstinline{==}.  If you do, you get an error:
 
 \begin{code}
 >> ***a^2 + b^2 = c^2***
@@ -40,19 +40,19 @@ To assign a value to a variable, use '='.
 To compare values for equality, use '=='.
 \end{code}
 
-The equality operator is one of several {\em relational operators}, so-called because they test relations between values.
-For example, {\tt x < 10} is true (1) if the value of {\tt x} is less than 10, or false (0) otherwise.  And {\tt x > 0} is true if {\tt x} is greater than 0.
+The equality operator is one of several {\em relational operators}, so called because they test relations between values.
+For example, \lstinline{x < 10} is true (1) if the value of \lstinline{x} is less than 10, or false (0) otherwise.  And \lstinline{x > 0} is true if \lstinline{x} is greater than~0.
 
-The other relational operators are {\tt <=} for ``less or equal'', {\tt >=}, for ``greater or equal'', and  \verb+~=+, for ``not equal.''
+The other relational operators are \lstinline{<=} for ``less or equal,'' \lstinline{>=} for ``greater or equal,'' and  \lstinline{~=} for ``not equal.''
 
 
 \section{if Statement}
 
-\index{if statement@{\tt if} statement}
+\index{if statement@\lstinline{if} statement}
 \index{conditional statement}
 
 Now suppose that when we find a Pythagorean triple we want to display a message.
-The {\tt if} statement allows you to check for certain conditions
+The \lstinline{if} statement allows you to check for certain conditions
 and execute statements if the conditions are met.  For example:
 
 \begin{code}
@@ -61,14 +61,14 @@ if a^2 + b^2 == c^2
 end
 \end{code}
 
-The syntax is similar to a {\tt for} loop.  The first line
+The syntax is similar to a \lstinline{for} loop.  The first line
 specifies the condition we're interested in.  If the condition is true, 
 MATLAB executes the {\em body} of the statement, which is the indented sequence of
-statements between the {\tt if} and the {\tt end}.
+statements between the \lstinline{if} and the \lstinline{end}.
 
 \index{indentation}
 
-MATLAB doesn't require you to indent the body of an {\tt if}
+MATLAB doesn't require you to indent the body of an \lstinline{if}
 statement, but it makes your code more readable, so you should do it.
 
 If the condition is not satisfied, the statements in the body are
@@ -76,9 +76,9 @@ not executed.
 
 Sometimes there are alternative statements to
 execute when the condition is false.  In that case you can extend
-the {\tt if} statement with an {\tt else} clause.
+the \lstinline{if} statement with an \lstinline{else} clause.
 
-\index{else clause@{\tt else} clause}
+\index{else clause@\lstinline{else} clause}
 
 The complete version of the previous example might look like this:
 
@@ -90,9 +90,9 @@ else
 end
 \end{code}
 
-Statements like {\tt if} and {\tt for} that contain other statements
+Statements like \lstinline{if} and \lstinline{for} that contain other statements
 are called \emph{compound} statements.  All compound statements end
-with... {\tt end}.
+with \lstinline{end}.
 
 \index{compound statement}
 \index{statement!compound}
@@ -103,22 +103,22 @@ with... {\tt end}.
 \label{increxample}
 \index{incremental development}
 
-Now that we have relational operators and {\tt if} statements, let's start writing
+Now that we have relational operators and \lstinline{if} statements, let's start writing
 the program.
 
 Here are the steps we will follow to develop the program incrementally:
 
 \begin{enumerate}
 
-\item Encapsulate the if statement from the previous section in a function called \verb"is_pythagorean".
+\item Encapsulate the \lstinline{if} statement from the previous section in a function called \lstinline{is_pythagorean}.
 
-\item Write a script named \verb"find_triples" and start with a loop that enumerates values of {\tt a} and displays them.
+\item Write a script named \lstinline{find_triples} and start with a loop that enumerates values of \lstinline{a} and displays them.
 
-\item Write a second loop that enumerates values of $b$, and a third loop that enumerates values of $c$.
+\item Write a second loop that enumerates values of \lstinline{b}, and a third loop that enumerates values of \lstinline{c}.
 
-\item Use \verb"is_pythagorean" to check whether {\tt a}, {\tt b}, and {\tt c} form a Pythagorean triple.
+\item Use \lstinline{is_pythagorean} to check whether \lstinline{a}, \lstinline{b}, and \lstinline{c} form a Pythagorean triple.
 
-\item Use an {\tt if} to display only values that pass the test.
+\item Use an \lstinline{if} statement to display only values that pass the test.
 
 \item Transform the script into a function and make it take an input variable that specifies the range to search.
 
@@ -130,7 +130,7 @@ Along the way, we'll optimize the program to eliminate unnecessary work.
 \section{Logical Functions}
 
 The first step is to create a {\em logical function}, which is a function that returns a logical value.
-The following function takes three input variables, {\tt a}, {\tt b}, and {\tt c}, and returns true (1) if they form a Pythagorean triple and false (0) otherwise.
+The following function takes three input variables, \lstinline{a}, \lstinline{b}, and \lstinline{c}, and returns true (1) if they form a Pythagorean triple and false (0) otherwise.
 
 \begin{code}
 function res = is_pythagorean(a, b, c)
@@ -158,20 +158,20 @@ end
 \end{code}
 
 The result of the equality operator is a logical value, which we can assign directly 
-to {\tt res}.
+to \lstinline{res}.
 
-I'll put this function is in a file called {\em is\_pythagorean.m}, so we can use it as part of our program.
+Put this function in a file called {\em is\_pythagorean.m}, so we can use it as part of our program.
 
 
-\section{Nested loops}
+\section{Nested Loops}
 
-The next step is to write loops that enumerate different values of {\tt a}, {\tt b}, and 
-{\tt c}.  I'll create a new file called {\em find\_triples.m} where I'll develop the rest of the program.
+The next step is to write loops that enumerate different values of \lstinline{a}, \lstinline{b}, and 
+\lstinline{c}.  Create a new file called {\em find\_triples.m} where we'll develop the rest of the program.
 
 \index{nested loop}
 \index{loop!nested}
 
-And I'll start with a loop for {\tt a}:
+We'll start with a loop for \lstinline{a}:
 
 \begin{code}
 for a=1:3
@@ -189,7 +189,7 @@ The output is as expected.
 3
 \end{code}
 
-Now I'll add a second loop for {\tt b}.  It might be tempting to write something like this:
+Now we'll add a second loop for \lstinline{b}.  It might be tempting to write something like this:
 
 \begin{code}
 for a=1:3
@@ -200,7 +200,7 @@ for b=1:4
 end
 \end{code}
 
-But that loops through the values of {\tt a} and then loops through the values of {\tt b}, and that's not what we want.
+But that loops through the values of \lstinline{a} and then loops through the values of \lstinline{b}, and that's not what we want.
 
 Instead, we want to consider every possible pair of values, like this:
 
@@ -212,8 +212,7 @@ for a=1:3
 end
 \end{code}
 
-Now one loop is inside the other.  The inner loop gets executed 3 times, once for each value of {\tt a}, so here's what the output looks like (I adjusted the spacing to make
-the structure clear):
+Now one loop is inside the other.  The inner loop gets executed three times, once for each value of \lstinline{a}, so here's what the output looks like (I've adjusted the spacing to make the structure clear):
 
 \begin{code}
 >> ***find_triples***
@@ -231,9 +230,9 @@ the structure clear):
      3     4
 \end{code}
 
-The left column shows the values of {\tt a} and the right column shows the values of {\tt b}.
+The left column shows the values of \lstinline{a} and the right column shows the values of \lstinline{b}.
 
-The next step is to search for values of {\tt c} that might make a Pythagorean triple.  The largest possible value for {\tt c} is {\tt a+b}, because otherwise we couldn't form a triangle 
+The next step is to search for values of \lstinline{c} that might make a Pythagorean triple.  The largest possible value for \lstinline{c} is \lstinline{a + b}, because otherwise we couldn't form a triangle 
 (see \url{https://greenteapress.com/matlab/triangle}).
 
 \begin{code}
@@ -246,11 +245,11 @@ for a=1:3
 end
 \end{code}
 
-After each small change, I run the program again and check the output.
+After each small change, run the program again and check the output.
 
-\section{Putting it together}
+\section{Putting It Together}
 
-Now instead of displaying all of the triples, I'll add an {\tt if} statement and display only Pythagorean triples:
+Now instead of displaying all of the triples, we'll add an \lstinline{if} statement and display only Pythagorean triples:
 
 \begin{code}
 for a=1:3
@@ -272,15 +271,15 @@ The result is just one triple:
 \end{code}
 
 You might notice that we're wasting some effort here.
-After checking $a=1$ and $b=2$, there's no point in checking
-$a=2$ and $b=1$.  We can save the extra work by adjusting the
-range of {\tt b}.
+After checking the case when \lstinline{a} is~1 and \lstinline{b} is~2, there's no point in checking
+the case when \lstinline{a} is~2 and \lstinline{b} is~1.  We can save the extra work by adjusting the
+range of \lstinline{b}:
 
 \begin{code}
 for b=a:4
 \end{code}
 
-We can save even more work by adjusting the range of {\tt c}.
+We can save even more work by adjusting the range of \lstinline{c}.
 
 \begin{code}
 for c=b:a+b
@@ -302,8 +301,8 @@ end
 
 \section{Encapsulation and Generalization}
 
-As a script, this program has the side-effect of assigning values to
-{\tt a}, {\tt b}, and {\tt c}, which would be bad if any of those names were in use.  
+As a script, this program has the side effect of assigning values to
+\lstinline{a}, \lstinline{b}, and \lstinline{c}, which would be bad if any of those names were in use.  
 By wrapping the code in a function, we can avoid name collisions; this process is called {\em encapsulation} because it isolates this program from the workspace.
 
 \index{encapsulation}
@@ -327,7 +326,7 @@ end
 
 The empty parentheses in the signature are not necessary, but
 they make it apparent that there are no input variables.  Similarly,
-when I call the new function, I like to use parentheses to remind me
+it's a good idea when calling the new function to use parentheses as a reminder
 that it's a function, not a script:
 
 \begin{code}
@@ -343,7 +342,7 @@ habit, and also so my function signatures all have the same structure.
 
 The next step is to generalize this function by adding input
 variables.  The natural generalization is to replace the constant
-values 3 and 4 with a variable so we can search an arbitrarily large
+values~3 and~4 with a variable so we can search an arbitrarily large
 range of values.
 
 \begin{code}
@@ -375,23 +374,23 @@ The triples $5,12,13$ and $8,15,17$ are new, but the others are just multiples o
 
 \section{Adding a continue Statement}
 
-\index{continue@{\tt continue}}
+\index{continue@\lstinline{continue}}
 
 As a final improvement, let's modify the function so it only
 displays the ``lowest'' of each Pythagorean triple, and not the
 multiples.
 
 The simplest way to eliminate the multiples is to check whether
-$a$ and $b$ share a common factor.  If they do, dividing both
+\lstinline{a} and \lstinline{b} share a common factor.  If they do, dividing both
 by the common factor yields a smaller, similar triangle that has
 already been checked.
 
-\index{gcd function@{\tt gcd} function}
-\index{function!{\tt gcd}}
+\index{gcd function@\lstinline{gcd} function}
+\index{function!gcd@\lstinline{gcd}}
 
-MATLAB provides a {\tt gcd} function that computes the greatest common
-divisor of two numbers.  If the result is greater than 1,
-$a$ and $b$ share a common factor and we can use the {\tt continue}
+MATLAB provides a \lstinline{gcd} function that computes the greatest common
+divisor of two numbers.  If \lstinline{gcd(a,b)} is greater than 1,
+\lstinline{a} and \lstinline{b} share a common factor and we can use the \lstinline{continue}
 statement to skip to the next pair. Listing~\ref{lst:triples_function} contains the final version of this function:
 
 \begin{lstlisting}[caption={Our final Pythagorean triples function}, label={lst:triples_function}] 
@@ -411,12 +410,12 @@ function res = find_triples(n)
 end
 \end{lstlisting}
 
-The {\tt continue} statement \wingding{1} causes the program to end the current iteration
+The \lstinline{continue} statement \wingding{1} causes the program to end the current iteration
 immediately, jump to the top of the loop, and ``continue'' with the next iteration.
 
-In this case, since there are three loops, it might not be obvious which loop to jump to, but the rule is to jump to the inner-most loop (which is what we want).
+In this case, since there are three loops, it might not be obvious which loop to jump to, but the rule is to jump to the innermost loop (which is what we want).
 
-Here are the results with {\tt n=40}:
+Here are the results with \lstinline{n = 40}:
 
 \begin{code}
 >> ***find_triples(40)***
@@ -461,11 +460,11 @@ When you're reading a program and you come to a function call,
 there are two ways to interpret it. You can think about the mechanism I just described,
 and follow the execution of the program into the function and back, or you can assume that the function works correctly, and go on to the next statement after the function call.
 
-When you use built-in functions, it's natural to assume that it work, in part because you don't
+When you use a built-in function, it's natural to assume that it works, in part because you don't
 usually have access to the code in the body of the function.
 
 But when you start writing your own functions, you might
-find yourself following the ``flow of execution''.  This can
+find yourself following the ``flow of execution.''  This can
 be useful while you are learning, but as you gain experience, you
 should get more comfortable with the idea of writing a function,
 testing it to make sure it works, and then forgetting about the
@@ -499,41 +498,43 @@ complexity of large programs.
 
 \section{Chapter Review}
 
-In this chapter, I presented relational operators and {\tt if} statements, and we used them to develop a program that searches for Pythagorean triples.
+In this chapter we encountered relational operators and \lstinline{if} statements, and we used them to develop a program that searches for Pythagorean triples.
 We wrote a {\em logical function}, which is a function that returns a logical value
-(1 for ``true'' or 0 for ``false'').
+(1 for ``true'' or 0~for ``false'').
 
-And I demonstrated a way of developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way, you will have fewer bugs, and you will find them more quickly.
+We also saw an example of {\em incremental development}, or developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way you will have fewer bugs and you will find them more quickly.
 
-This chapter defines two new terms: {\em Encapsulation} is the process of wrapping part of a program in
+This chapter defined two new terms: {\em Encapsulation} is the process of wrapping part of a program in
 a function in order to limit interactions (including name collisions)
-between the function and the rest of the program; {\em Abstraction} is the process of ignoring the details of how a function works in order to focus on a simpler model of what the
+between the function and the rest of the program; {\em abstraction} is the process of ignoring the details of how a function works in order to focus on a simpler model of what the
 function does.
 
-In the next chapter, I introduce a new tool, called {\tt fzero}, that we'll use to solve nonlinear equations.
+The next chapter introduces a new tool, called \lstinline{fzero}, that we'll use to solve nonlinear equations.
 
 
 \section{Exercises}
 
-\begin{ex}
+Before you go on, you might want to work on the following exercise.
+
+\subsection{Exercise~1}
 \index{Fibonacci number}
 \index{Pythagorean triple}
 
 There is an interesting connection between Fibonacci numbers and
 Pythagorean triples.  If $F$ is a Fibonacci sequence,
 
-\begin{equation}
-(F_i F_{i+3}, 2 F_{i+1} F_{i+2}, F_{i+1}^2 + F_{i+2}^2 )
-\end{equation}
+\begin{equation*}
+\big(F_i F_{i+3}, \, 2 F_{i+1} F_{i+2}, \, F_{i+1}^2 + F_{i+2}^2 \big)
+\end{equation*}
 
 is a Pythagorean triple, for all $i \ge 1$.
 
-Write a function named {\tt fib\_triple} that
-takes {\tt n} as an input variable, computes 
-the first {\tt n} Fibonacci numbers, stores them in a vector,
+Write a function named \lstinline{fib_triple} that
+takes \lstinline{n} as an input variable, computes 
+the first \lstinline{n} Fibonacci numbers, stores them in a vector,
 and checks whether this formula produces Pythagorean triples for numbers in the sequence.
 
 % fib_triple.m
-\end{ex}
+
 
 

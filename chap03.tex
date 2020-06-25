@@ -1,14 +1,15 @@
 
 \chapter{Loops}
+\label{loops}
 
 The programs we have seen so far are {\it straight-line code}, that is, they execute one instruction after another from top to bottom.
-This chapter introduces one of the most important programming language features, the {\tt for} loop, which allows simple programs to perform complex, repetitive tasks. This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development. 
+This chapter introduces one of the most important programming language features, the \lstinline{for} loop, which allows simple programs to perform complex, repetitive tasks. This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development. 
 
 We'll start by reviewing the exercise from the previous chapter; if you didn't do it, you might want to take a look before you go on.
 
 \section{Updating Variables}
 
-In Exercise~\ref{bikegame}, I asked you to write a program that models a bike share system with bikes moving between two stations.
+In \nameref{bikegame} on page~\pageref{bikegame}, I asked you to write a program that models a bike share system with bikes moving between two stations.
 Each day 5\% of the bikes in Boston are dropped off in Cambridge, and 3\% of the bikes
 in Cambridge get dropped off in Boston.
 
@@ -23,13 +24,13 @@ c = c + 0.05*b - 0.03*c
 \end{code}
 
 But that would be wrong, so very wrong.  Why?  The problem is that
-the first line changes the value of {\tt b}, so when the second line
-runs, it gets the old value of {\tt c} and the new value of {\tt b}.
-As a result, the change in {\tt b} is not always the same as the
-change in {\tt c}, which violates the principle of Conversation
+the first line changes the value of \lstinline{b}, so when the second line
+runs, it gets the old value of \lstinline{c} and the new value of \lstinline{b}.
+As a result, the change in \lstinline{b} is not always the same as the
+change in \lstinline{c}, which violates the Principle of Conservation
 of Bikes!
 
-One solution is to use temporary variables \verb|b_new| and \verb|c_new|:
+One solution is to use temporary variables like \lstinline{b_new} and \lstinline{c_new}:
 
 \begin{code}
 b_new = b - 0.05*b + 0.03*c
@@ -52,17 +53,14 @@ b = b - b_to_c
 c = c + b_to_c
 \end{code}
 
-It's easy to look at this code and confirm that it obeys Conversation
-of Bikes.  Even if the value of \verb"b_to_c" is wrong, at least the total
+It's easy to look at this code and confirm that it obeys Conservation
+of Bikes.  Even if the value of \lstinline{b_to_c} is wrong, at least the total
 number of bikes is right.  And that brings us to the Fifth Theorem of
-Debugging:
+Debugging:\index{debugging!Fifth Theorem}
 
 \begin{quote}
 The best way to avoid a bug is to make it impossible.
 \end{quote}
-
-\index{debugging!Fifth Theorem}
-
 In this case, removing redundancy also eliminates the opportunity for a bug.
 
 \section{Bug Taxonomy}
@@ -77,25 +75,25 @@ There are four kinds of bugs:
 
 \begin{description}
 
-\item[Syntax error:] You have written a command that cannot
+\item[Syntax error] You have written a command that cannot
 execute because it violates one of the language's syntax rules.  For example, in MATLAB,
 you can't have two operands in a row without an operator, so
-\verb+pi r^2+ contains a syntax error.  When the interpreter finds a syntax
-error, it prints an error message and stops running your program.\index{Errors!syntax}
+\lstinline{pi r^2} contains a syntax error.  When the interpreter finds a syntax
+error, it prints an error message and stops running your program.\index{error!syntax}
 
-\item[Runtime error:] Your program starts running, but something goes
+\item[Runtime error] Your program starts running, but something goes
 wrong along the way.  For example, if you try to access a variable
 that doesn't exist, that's a runtime error.  When the interpreter detects the
-problem, it prints an error message and stops.\index{Errors!runtime}
+problem, it prints an error message and stops.\index{error!runtime}
 
-\item[Logical error:] Your program runs without generating any error
+\item[Logical error] Your program runs without generating any error
 messages, but it doesn't do the right thing.  The problem in the
-previous section, where we changed the value of {\tt b} before
-reading the old value, is a logical error.\index{Errors!logical}
+previous section, where we changed the value of \lstinline{b} before
+reading the old value, is a logical error.\index{error!logical}
 
-\item[Numerical error:] Most computations in MATLAB are only
+\item[Numerical error] Most computations in MATLAB are only
 approximately right.  Most of the time the errors are small enough
-that we don't care, but in some cases the round-off errors are a problem.\index{Errors!numerical}
+that we don't care, but in some cases the round-off errors are a problem.\index{error!numerical}
 
 \end{description}
 
@@ -107,18 +105,18 @@ Runtime errors are harder because, as I mentioned before, MATLAB
 can tell you where it detected the problem, but not what caused it.
 
 Logical errors are hard because MATLAB can't help at all.  
-From MATLAB's point of view, there's nothing wrong with the program; only you
+From MATLAB's point of view there's nothing wrong with the program; only you
 know what the program is supposed to do, so only you can check it.
 
 \index{bug}
 
 Numerical errors can be tricky because it's not clear whether the
-problem is your fault.  For most simple computations, MATLAB produces
+problem is your fault.  For most simple computations MATLAB produces
 the floating-point value that is closest to the exact solution, which
 means that the first 15 significant digits should be correct.  
 
 But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct digits can be smaller.  Sometimes MATLAB can warn you that
-this is happening, but not always!  \emph{Precision}(the number of digits
+this is happening, but not always!  \emph{Precision} (the number of digits
 in the answer) does not imply \emph{accuracy} (the number of digits that
 are right).
 
@@ -129,39 +127,39 @@ There are two ways of thinking about numerical errors.
 The first is \emph{absolute error}, or the difference between the correct value and the approximation.  We often write the magnitude of the error,
 ignoring its sign, when it doesn't matter whether the approximation
 is too high or too low.
-\index{Errors!absolute} \index{absolute error}
+\index{error!absolute} \index{absolute error}
 
-The second way to think about numerical errors is \emph{relative error}, where the error is expressed as a fraction (or percentage) of the exact value.\index{Errors!relative}
+The second way to think about numerical errors is \emph{relative error}, where the error is expressed as a fraction (or percentage) of the exact value.\index{error!relative}
 \index{relative error}
 
 For example, we might want to estimate $9!$ using the formula 
 $\sqrt {18 \pi} ( 9 / e)^9$.  The exact answer is $9 \cdot 8 \cdot 7 \cdot 6
 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 362,880$.  The approximation
-is $359,536.87$.  So the absolute error is 3,343.13.
+is $359,536.87$.  So the absolute error is $3,343.13$.
 
 At first glance, that sounds like a lot---we're off by three
-thousand --- but we should consider the size of the
-thing we are estimating.  For example, \$3000 matters a lot
+thousand---but we should consider the size of the
+thing we are estimating.  For example, \$3,000 matters a lot
 if we're talking about an annual salary, but not at all if we're talking about the national debt.
 
 A natural way to handle this problem is to use relative
 error.
 In this case, we would divide the error
-by 362,880, yielding $.00921$, which is just less than 1\%.
+by $362,880$, yielding $0.00921$, which is just less than 1\%.
 For many purposes, being off by 1\% is good enough.
 
 
 \section{for Loops}
 
-\index{for loop@{\tt for} loop}
+\index{for loop@\lstinline{for} loop}
 \index{loop}
 
 Let's return to the bike share example. 
-In the previous chapter, we wrote a \verb"bike_update" script to simulate a
+In the previous chapter, we wrote a \lstinline{bike_update} script to simulate a
 day in the life of a bike share system. To simulate an entire
-month, we'd have to run the script 30 times. We could enter the same command 30 times, but it's simpler to use a \emph{loop}, which is a set of statements that execute repeatedly.
+month, we'd have to run the script 30 times. We could enter the same command 30 times, but it's simpler to use a \emph{loop}, which is a set of statements that executes repeatedly.
 
-To create a loop, we can use the {\tt for} statement, like this:
+To create a loop, we can use the \lstinline{for} statement, like this:
 
 \begin{code}
 for i=1:30
@@ -169,10 +167,10 @@ for i=1:30
 end
 \end{code}
 
-The first line looks like an assignment statement, and it {\em is}
+The first line includes what looks like an assignment statement, and it {\em is}
 like an assignment statement, except that it runs more than once.  The
-first time, it creates the variable {\tt i} and assigns it the
-value 1.  The second time, {\tt i} gets the value 2, and so on, up to
+first time, it creates the variable \lstinline{i} and assigns it the
+value~1.  The second time, \lstinline{i} gets the value~2, and so on, up to
 and including 30.
 
 \index{assignment statement}
@@ -181,7 +179,7 @@ and including 30.
 \index{operator!colon}
 \index{range}
 
-The colon operator, {\tt :}, specifies a {\bf range} of integers.
+The colon operator, \lstinline{:}, specifies a {\em range} of integers.
 You can create a range at the prompt:
 
 \begin{code}
@@ -189,9 +187,9 @@ You can create a range at the prompt:
 ans =  1     2     3     4     5
 \end{code}
 
-The variable you use in the for statement is called the \emph{loop
-variable}.  It's common to use the names {\tt i},
-{\tt j}, and {\tt k} as loop variables.
+The variable you use in the \lstinline{for} statement is called the \emph{loop
+variable}.  It's common to use the names \lstinline{i},
+\lstinline{j}, and \lstinline{k} as loop variables.
 
 \index{body of loop}
 \index{loop body}
@@ -201,12 +199,12 @@ variable}.  It's common to use the names {\tt i},
 The statements inside the loop are called the \emph{body}.  By convention,
 they are indented to show that they're inside the loop, but the
 indentation doesn't affect the execution of the program.
-The {\tt end} statement marks the end of the loop.
+The \lstinline{end} statement marks the end of the loop.
 
-\index{end statement@{\tt end} statement}
-\index{statement!{\tt end}}
+\index{end statement@\lstinline{end} statement}
+\index{statement!end@\lstinline{end}}
 
-To see the loop in action you can run a loop that displays the
+To see a loop in action you can run one that displays the
 loop variable:
 
 \begin{code}
@@ -221,29 +219,29 @@ i = 4
 i = 5
 \end{code}
 
-As this example shows, you {\em can} run a \verb|for| loop from the
+As this example shows, you {\em can} run a \lstinline{for} loop from the
 command line, but it's more common to put it in a script.
 
-\begin{ex}
-Create a script named \verb"bike_loop" that uses a {\tt for} loop to run \verb"bike_update" 30 times.  Before you run it, you have to assign values to {\tt b} and {\tt c}.
-For this exercise, start with the values {\tt b = 100} and {\tt c = 100}.
+\subsection{Exercise~1}
+Create a script named \lstinline{bike_loop} that uses a \lstinline{for} loop to run \lstinline{bike_update} 30 times.  Before you run it, you have to assign values to \lstinline{b} and \lstinline{c}.
+For this exercise, start with the values \lstinline{b = 100} and \lstinline{c = 100}.
 
 If everything goes smoothly, your script will display a long stream
 of numbers on the screen.  It's probably too long
-to fit, and even if it fit, it would be hard to interpret.
+to fit, and even if it did fit, it would be hard to interpret.
 A graph would be much better!
-\end{ex}
+
 
 
 \section{Plotting}
 \label{plotting}
 
-\index{plot@{\tt plot}}
+\index{plot@\lstinline{plot}}
 
 If the output of your program is a long stream of numbers, it can be hard to see what is happening.
 Plotting the results can make things clearer.
 
-The {\tt plot} function is a versatile tool for plotting two-dimensional graphs.  Unfortunately, it's so versatile that it can be hard to use (and hard to read the documentation).
+The \lstinline{plot} function is a versatile tool for plotting two-dimensional graphs.  Unfortunately, it's so versatile that it can be hard to use (and hard to read the documentation).
 We'll start simple and work our way up.
 
 To plot a single point, type
@@ -258,13 +256,13 @@ A Figure Window should appear with a graph and a single, blue circle at $x$ posi
 \index{style string}
 
 The letter in single quotes is a \emph{style string} that specifies how the
-point should be plotted.  {\tt o} indicates a circle.
-Other shapes include {\tt +},
-{\tt *},
-{\tt x},
-{\tt s} (for square),
-{\tt d} (for diamond), 
-\verb+^+ (for a triangle).
+point should be plotted;  \lstinline{o} indicates a circle.
+Other shapes include \lstinline{+},
+\lstinline{*},
+\lstinline{x},
+\lstinline{s} (for square),
+\lstinline{d} (for diamond), and
+\lstinline{^} (for a triangle).
 
 You can also specify the color by starting the style string with a letter:
 
@@ -272,16 +270,16 @@ You can also specify the color by starting the style string with a letter:
 >> ***plot(1, 2, 'ro')***
 \end{code}
 
-{\tt r} stands for red; the other colors include {\bf g}reen, {\bf
+Here, \lstinline{r} stands for red; the other colors include {\bf g}reen, {\bf
 b}lue, {\bf c}yan, {\bf m}agenta, {\bf y}ellow, and blac{\bf k}.
 
-When you use {\tt plot} this way, it can only plot one point at a
-time.  If you run {\tt plot} again, it clears the figure before making
-the new plot.  The {\tt hold} command lets you override that behavior.
-{\tt hold on} tells MATLAB not to clear the figure when it makes a new
-plot; {\tt hold off} returns to the default behavior.
+When you use \lstinline{plot} this way, it can only plot one point at a
+time.  If you run \lstinline{plot} again, it clears the figure before making
+the new plot.  The \lstinline{hold} command lets you override that behavior:
+\lstinline{hold on} tells MATLAB not to clear the figure when it makes a new
+plot; \lstinline{hold off} returns to the default behavior.
 
-\index{hold@{\tt hold}}
+\index{hold@\lstinline{hold}}
 
 Try this:
 
@@ -294,25 +292,24 @@ Try this:
 >> ***hold off***
 \end{code}
 
-The {\tt clf} command clears the figure before we start plotting.
+The \lstinline{clf} command clears the figure before we start plotting.
 
 \index{clear figure}
-\index{clf@{\tt clf}}
+\index{clf@\lstinline{clf}}
 
-If you run the code above, you should see a figure with three circles.  MATLAB scales the plot automatically so that the axes runs from the lowest values in the plot to the highest.
+If you run the code above, you should see a figure with three circles.  MATLAB scales the plot automatically so that the axes run from the lowest values in the plot to the highest.
 
-\begin{ex}
-Modify \verb"bike_loop" so that it clears the figure before running the loop.  Then, each time through the loop, it should plot the value of {\tt b} versus the value of {\tt i} with a red circle.
+\subsection{Exercise~2}
+Modify \lstinline{bike_loop} so that it clears the figure before running the loop.  Then, each time through the loop, it should plot the value of \lstinline{b} versus the value of \lstinline{i} with a red circle.
 
-Once you get that working, modify it so it plots the values of {\tt c} with blue diamonds.
-\end{ex}
+Once you get that working, modify it so it plots the values of \lstinline{c} with blue diamonds.
 
 
 \section{Sequences}
 
 Now that we have the ability to write loops, we can use them to explore sequences and series, which are useful for describing and analyzing systems that change over time.
 
-In mathematics a \emph{sequence} is a set of numbers that corresponds to the positive integers.  The numbers in the sequence are called \emph{elements}.  In math notation, the elements are denoted with subscripts, so the first element of the series $A$ is
+In mathematics, a \emph{sequence} is a set of numbers that corresponds to the positive integers.  The numbers in the sequence are called \emph{elements}.  In math notation, the elements are denoted with subscripts, so the first element of the series $A$ is
 $A_1$, followed by $A_2$, and so on.
 
 \index{sequence}
@@ -320,7 +317,7 @@ $A_1$, followed by $A_2$, and so on.
 \index{loop}
 \index{geometric sequence}
 
-A {\tt for} loop is a natural way to compute the elements of a sequence.
+A \lstinline{for} loop is a natural way to compute the elements of a sequence.
 As an example, in a geometric sequence, each element is a constant
 multiple of the previous element.  As a more specific example, let's
 look at the sequence with $A_1 = 1$ and the relationship $A_{i+1} = A_i/2$,
@@ -335,14 +332,14 @@ for i=2:10
 end
 \end{code}
 
-Each time through the loop, we find the next value of {\tt a}
-by dividing the previous value by 2.  Notice that the loop
-range starts at 2 because the initial value of {\tt a} corresponds
+Each time through the loop, we find the next value of \lstinline{a}
+by dividing the previous value by~2.  Notice that the loop
+range starts at~2 because the initial value of \lstinline{a} corresponds
 to $A_1$.  So the first time through the loop we are computing
 $A_2$.
 
 Each time through the loop, we replace the previous element with
-the next; at the end, {\tt a} contains the 10th element.  The
+the next; at the end, \lstinline{a} contains the 10th element.  The
 other elements are displayed on the screen, but they are not saved
 in a variable.  Later, we'll see how to save the elements
 of a sequence in a vector.
@@ -358,10 +355,9 @@ For this sequence it's also possible to compute the $i$th element
 In math notation, $A_i = A_1 r^{i-1}$, where $r$ is the ratio of successive elements.
 In the previous example, $A_{i+1} = A_i/2$, so $r = 1/2$.
 
-\begin{ex}
-Write a script named {\tt sequence} that uses a loop to 
+\subsection{Exercise~3}
+Write a script named \lstinline{sequence} that uses a loop to 
 compute elements of $A$ directly.
-\end{ex}
 
 
 \section{Series}
@@ -378,13 +374,13 @@ is often written using the summation symbol $\sum$.
 \index{sum}
 
 For example, the sum of the first 10 elements of $A$ is
-\begin{equation}
-\sum_{i=1}^{10} A_i
-\end{equation}
+\begin{equation*}
+\sum_{i=1}^{10} A_i.
+\end{equation*}
 
-A {\tt for} loop is a natural way to compute the value of this series:
+A \lstinline{for} loop is a natural way to compute the value of this series:
 
-\begin{lstlisting}[caption={A program that calculates a simple series}, label={lst:series_10}]
+\begin{lstlisting}[caption={A program that calculates a simple series.}, label={lst:series_10}]
 (*\codewingding{1}*)A1 = 1;
 (*\codewingding{2}*)total = 0;
 for i=1:10
@@ -394,21 +390,20 @@ end
 (*\codewingding{5}*)ans = total
 \end{lstlisting}
 
-Let's walk through what's happening here. {\tt A1} is the first element of the sequence, so we assign it to be 1 \wingding{1}; we also create {\tt total}, which will store the cumulative sum.
-Each time through the loop, we set {\tt a} to the $i$th element \wingding{3} and add {\tt a} to the {\tt total} \wingding{4}.
-At the end, outside the loop, we store {\tt total} as {\tt ans} \wingding{5}.
+Let's walk through what's happening here. \lstinline{A1} is the first element of the sequence, so we assign it to be 1~\wingding{1}; we also create \lstinline{total}, which will store the cumulative sum.
+Each time through the loop, we set \lstinline{a} to the $i$th element~\wingding{3} and add \lstinline{a} to the \lstinline{total}~\wingding{4}.
+At the end, outside the loop, we store \lstinline{total} as \lstinline{ans}~\wingding{5}.
 
-The way we're using {\tt total} is called an \emph{accumulator} that is, a variable that accumulates the result a little bit at a time.  
+The way we're using \lstinline{total} is called an \emph{accumulator}, that is, a variable that accumulates the result a little bit at a time.  
 \index{accumulator}
 
 
 
-\begin{ex}
-This example computes the terms of the series directly; as
-an exercise, write a script named {\tt series} that computes
+\subsection{Exercise~4}
+This example computes the terms of the series directly. As
+an exercise, write a script named \lstinline{series} that computes
 the same sum by computing the elements recurrently.  You will
 have to be careful about where you start and stop the loop.
-\end{ex}
 
 
 \section{Generalization}
@@ -417,16 +412,15 @@ have to be careful about where you start and stop the loop.
 
 As written, the previous example always adds up the first 10
 elements of the sequence, but we might be curious to know what
-happens to {\tt total} as we increase the
+happens to \lstinline{total} as we increase the
 number of terms in the series.  If you've studied geometric
-series, you might know that this series converges on 2; that is,
-as the number of terms goes to infinity, the sum approaches
-2 asymptotically.
+series, you might know that this series converges on~2; that is,
+as the number of terms goes to infinity, the sum approaches~2 asymptotically.
 
 To see if that's true for our program, we can replace the
-constant in Listing~\ref{lst:series_10}, 10, with a variable named {\tt n} \wingding{1}:
+constant 10 in Listing~\ref{lst:series_10} with a variable named \lstinline{n}~\wingding{1}:
 
-\begin{lstlisting}[caption={Updating our code from Listing 1-1 to have a variable number of terms}, label={lst:series_n}]
+\begin{lstlisting}[caption={Updating our code from Listing~\ref{lst:series_10} to have a variable number of terms}, label={lst:series_n}]
 A1 = 1;
 total = 0;
 (*\codewingding{1}*)for i=1:n
@@ -437,16 +431,16 @@ ans = total
 \end{lstlisting}
 
 The code in Listing~\ref{lst:series_n} can now compute any number of terms, with the
-precondition that you have to set {\tt n} before you execute
+precondition that you have to set \lstinline{n} before you execute
 the code.  
 I put this code in a file named {\em series.m}, then
-ran it with different values of {\tt n}:
+ran it with different values of \lstinline{n}:
 
 \begin{code}
 >> ***n=10; series***
 total = 1.99804687500000
 
->> ***=20; series***
+>> ***n=20; series***
 total = 1.99999809265137
 
 >> ***n=30; series***
@@ -463,7 +457,7 @@ Instead of computing a fixed, specific number of terms, the new script
 is more general; it can compute any number of terms.
 This is an important idea we'll come back to when we talk about functions.
 
-\section{Incremental development}
+\section{Incremental Development}
 
 \index{incremental development}
 
@@ -479,7 +473,7 @@ to minimize the pain of debugging by developing and testing in small steps.  The
 \item Always start with a working program.  If you have an
 example from a book, or a program you wrote that is similar to
 what you are working on, start with that.  Otherwise, start with
-something you {\em know} is correct, like {\tt x=5}.  Run the program
+something you {\em know} is correct, like \lstinline{x = 5}.  Run the program
 and confirm that you are running the program you think you are
 running.
 This step is important, because in most environments there
@@ -493,14 +487,14 @@ the correct answer is, or be able to check it by performing another
 computation.
 
 \item Run the program and see if the change worked.  If so, go back
-to Step 2.  If not, you'll have to do some debugging, but if the
+to Step~2.  If not, you'll have to do some debugging, but if the
 change you made was small, it shouldn't take long to find the problem.
 
 \end{enumerate}
 
 \index{debugging!Sixth Theorem}
 
-With incremental development, your code is more likely to work the first time; and if it doesn't the problem is more likely to be obvious.  And that brings us to the Sixth Theorem of Debugging:
+With incremental development, your code is more likely to work the first time; and if it doesn't, the problem is more likely to be obvious.  And that brings us to the Sixth Theorem of Debugging:
 
 \begin{quote}
 The best kind of debugging is the kind you don't have to do.
@@ -510,14 +504,14 @@ In practice, there are two problems with incremental development.
 First, sometimes you have to write extra code to
 generate visible output that you can check.  This extra code is
 called \emph{scaffolding} because you use it to build the program
-and then remove it when you are done.  But time you save on
+and then remove it when you are done.  But the time you save on
 debugging is almost always worth the time you invest in
 scaffolding.
 \index{scaffolding}
 
 The second problem is that when you're getting started, you might not know how to
-choose steps that get from {\tt x=5} to the program you're trying
-to write.  We'll look at an extended example in Chapter 6.
+choose steps that get from \lstinline{x = 5} to the program you're trying
+to write.  We'll look at an extended example in Chapter~6.
 
 If you find yourself writing more than a few lines of code before
 you start testing, and you're spending a lot of time debugging,
@@ -528,7 +522,7 @@ you should try incremental development.
 
 \section{Chapter Review}
 
-In this chapter, we used a loop to perform a repetitive computation -- updating a model 30 times -- and to compute sequences and series.  Also, we used the {\tt plot} function to visualize the results.
+In this chapter we used a loop to perform a repetitive computation---updating a model 30 times---and to compute sequences and series.  Also, we used the \lstinline{plot} function to visualize the results.
 
 Here are some terms from this chapter you might want to remember.
 
@@ -538,9 +532,9 @@ an exact answer. {\em Relative error} is the same difference expressed as a frac
 A {\em loop} is part of a program that runs repeatedly.
 A {\em loop variable} is a variable that gets assigned a different value each time through the loop.
 A {\em range} is a sequence of values assigned to the loop variable, often
-specified with the colon operator; for example {\tt 1:5}.
-The {\em body} of a loop is the set of statements inside the loop that run repeatedly.
-An {\em accumulator} is variable that is used to accumulate a result a little bit at a time.
+specified with the colon operator; for example \lstinline{1:5}.
+The {\em body} of a loop is the set of statements inside the loop that runs repeatedly.
+An {\em accumulator} is a variable that is used to accumulate a result a little bit at a time.
 
 In mathematics, a {\em sequence} is a set of numbers that correspond
 to the positive integers.
@@ -558,7 +552,9 @@ In the next chapter, we'll use a vector to store the results from a loop.
 
 \section{Exercises}
 
-\begin{ex}
+Before you go on, you might want to work on the following exercises.
+
+\subsection{Exercise~5}
 Years ago I was in a fudge shop and saw a sign that said ``Buy one pound of fudge, get another quarter pound free.''  That's simple enough.
 
 But if I ran the fudge shop, I would offer a special deal to anyone who can solve the following problem:
@@ -567,40 +563,40 @@ But if I ran the fudge shop, I would offer a special deal to anyone who can solv
 If you buy a pound of fudge, we'll give you another quarter pound free.  And then we'll give you a quarter of a quarter pound, or 1/16.  And then we'll give you a quarter of that, and so on.  How much fudge would you get in total?
 \end{quote}
 
-Write a script called {\em fudge.m} that solves this problem.  Hint: start with {\em series.m} and generalize it by replacing the ratio {\tt 1/2} with a variable, {\tt r}.
+Write a script called {\em fudge.m} that solves this problem.  Hint: start with {\em series.m} and generalize it by replacing the ratio \lstinline{1/2} with a variable, \lstinline{r}.
 
 % fudge.m
-\end{ex}
 
 
 
-\begin{ex}
+
+\subsection{Exercise~6}
 \label{fib2}
 
 We have already seen the Fibonacci sequence, $F$, which
 is defined recurrently as
 
-\[ for~~i \ge 3, ~~  F_{i} = F_{i-1} + F_{i-2} \]
+\[ \mathrm{for } i \ge 3, \quad  F_{i} = F_{i-1} + F_{i-2}. \]
 
-In order to get started, you have to specify the first two
+In order to get started you have to specify the first two
 elements, but once you have those, you can compute the rest.
 The most common Fibonacci sequence starts with $F_1 = 1$ and $F_2 = 1$.
 
-Write a script called {\tt fibonacci2} that uses a for loop
+Write a script called \lstinline{fibonacci2} that uses a \lstinline{for} loop
 to compute the first 10 elements of this Fibonacci sequence.
 As a postcondition, your script should assign the 10th element to
-{\tt ans}.
+\lstinline{ans}.
 
 Now generalize your script so that it computes the $n$th element
-for any value of {\tt n}, with the precondition that you have to
-set {\tt n} before you run the script.  To keep things simple for
-now, you can assume that {\tt n} is greater than 0.
+for any value of \lstinline{n}, with the precondition that you have to
+set \lstinline{n} before you run the script.  To keep things simple for
+now, you can assume that \lstinline{n} is greater than~0.
 
 Hint: you'll have to use two variables to keep track of the
 previous two elements of the sequence.  You might want to call
-them {\tt prev1} and {\tt prev2}.  Initially, {\tt prev1 =} $F_1$
-and {\tt prev2 =} $F_2$.  At the end of the loop, you'll have
-to update {\tt prev1} and {\tt prev2}; think carefully about the
+them \lstinline{prev1} and \lstinline{prev2}.  Initially, \lstinline{prev1} = $F_1$
+and \lstinline{prev2} = $F_2$.  At the end of the loop, you'll have
+to update \lstinline{prev1} and \lstinline{prev2}; think carefully about the
 order of the updates!
-\end{ex}
+
 
