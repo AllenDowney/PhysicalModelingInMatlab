@@ -17,8 +17,8 @@ where $F$ is the net force acting on an object, $m$ is the
 mass of the object, and $a$ is the acceleration of the object.
 
 This equation suggests
-that if you know $m$ and $a$ you can compute the force, which is true,
-but in most physical simulations it's the other way around:  based on a
+that if you know $m$ and $a$ you can compute the force.  And that's true,
+but in most physical simulations it's the other way around: based on a
 physical model, you know $F$ and $m$, and you compute $a$.
 
 \index{second derivative}
@@ -63,7 +63,7 @@ We'll start with no air resistance; then we'll add air resistance to the model a
 \index{air resistance}
 \index{gravity}
 
-Near the surface of the earth, the
+Near the surface of the earth,
 acceleration due to gravity is \SI{-9.8}{\meter \per \second \squared}, where the minus sign
 indicates that gravity pulls down.
 If the object falls straight down, we can describe its position with a
@@ -93,7 +93,7 @@ end
 The rate function in Listing~\ref{lst:penny_rate_func} takes \lstinline{t} and \lstinline{X} as input variables, where the elements of \lstinline{X} are understood to be the position and velocity of the penny.
 
 It returns a column vector that contains \lstinline{dydt} and \lstinline{dvdt}, which
-are the velocity and acceleration, respectively.
+are velocity and acceleration, respectively.
 Since velocity is the second element of \lstinline{X}, we can simply assign this value to \lstinline{dydt}.
 And since the derivative of velocity is acceleration, we can assign the acceleration due to gravity to \lstinline{dvdt}.
 
@@ -194,8 +194,8 @@ If \lstinline{direction} is 0, the event always occurs.
 
 If \lstinline{isterminal} is 1, the event causes the simulation to end; if it is 0, the simulation continues.
 
-This event function uses the altitude of the penny as \lstinline{value} so an event can occur when the altitude passes through 0.  
-Because \lstinline{direction} is negative, an event occurs only when the altitude is decreasing, and
+This event function uses the altitude of the penny as \lstinline{value} so an event can occur when altitude passes through 0.  
+Because \lstinline{direction} is negative, an event occurs only when altitude is decreasing, and
 because \lstinline{isterminal} is 1, the simulation ends if an event occurs.
 
 \index{odeset@\lstinline{odeset}}
@@ -259,7 +259,7 @@ $b$ is a drag constant that depends on the density of
 air, the cross-sectional area of the object, and the shape
 of the object.  
 
-The sign or signum function takes the value $1$ for positive values of 
+The sign or signum function returns the value $1$ for positive values of 
 $v$ and $-1$ for negative values.  So $f_\mathrm{d}$ is always in the opposite direction of $v$.
 
 \index{signum function}
@@ -323,8 +323,8 @@ In this version, we call \lstinline{acceleration} to compute the total accelerat
 
 Everything else is the same.  Figure~\ref{fig:penny2} shows the result. 
 
-Air resistance makes a big difference!  The velocity increases until
-the drag acceleration equals $g$; after that, the velocity is constant and the position decreases linearly (and much more slowly than it would in a vacuum).
+Air resistance makes a big difference!  Velocity increases until
+the drag acceleration equals $g$; after that, velocity is constant and position decreases linearly (and much more slowly than it would in a vacuum).
 
 With air resistance, the time until the penny hits the sidewalk is \SI{22.4}{\second}, substantially longer than before (\SI{8.8}{\second}).
 
@@ -353,7 +353,7 @@ The drag constant for a skydiver without a parachute is about \SI{0.2}{\kilogram
 
 After opening their parachute, the velocity of the skydiver slows to about \SI{5}{\meter\per\second}.  Use your simulation to find the drag constant that yields a terminal velocity of \SI{5}{\meter\per\second}.
 
-Increase the mass of the skydiver, and confirm that the terminal velocity increases.  This phenomenon is the source of the intuition that heavy objects fall faster; in air, they do!
+Increase the mass of the skydiver, and confirm that terminal velocity increases.  This phenomenon is the source of the intuition that heavy objects fall faster; in air, they do!
 
 Now suppose the skydiver free-falls until they get to an altitude of \SI{1000}{\meter} before opening the parachute.  How long would it take them to reach the ground?
 

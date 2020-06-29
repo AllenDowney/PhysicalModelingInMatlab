@@ -282,7 +282,7 @@ end
 \end{code}
 
 As in Listing~\ref{lst:baseball_rate_func}, \lstinline{acceleration} represents acceleration due to gravity with a vector that has magnitude \lstinline{g} and direction along the negative y-axis.
-But now it also computes the drag force and divides by the mass of the baseball to get acceleration due to drag.
+But now it also computes drag force and divides by the mass of the baseball to get acceleration due to drag.
 Finally, it adds \lstinline{a_gravity} and \lstinline{a_drag} to get the total acceleration of the baseball.
 
 \begin{figure}[ht]
@@ -310,7 +310,7 @@ This result suggests that ignoring air resistance is not a good choice for model
 \section{What Could Go Wrong?}
 
 What could go wrong?  Well, \lstinline{vertcat} for one.  To explain
-what that means, we'll start with \emph{concatenation}, which is
+what that means, I'll start with \emph{concatenation}, which is
 the operation of joining two matrices into a larger matrix.
 ``Vertical concatenation'' joins the matrices by stacking them on
 top of each other; ``horizontal concatenation'' lays them

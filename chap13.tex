@@ -2,7 +2,7 @@
 
 In \nameref{cannon} in the previous chapter you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  This kind of problem, finding minimums and maximums, is called {\em optimization}.
 
-In this chapter we solve a similar problem, finding the best launch angle for a baseball.
+In this chapter we'll solve a similar problem, finding the best launch angle for a baseball.
 We'll solve the problem two ways, first running simulations with a range of values and plotting the results; then using a MATLAB function that automates the process, \lstinline{fminsearch}.
 \index{baseball}
 \index{launch angle}
@@ -43,7 +43,7 @@ Now we can call \lstinline{ode45} like this:
     [T, M] = ode45(@rate_func, tspan, W, options);
 \end{code}
 
-The initial position of the ball is \SI{1}{\meter} above the home plate.  Its initial velocity is \SI{40}{\meter\per\second} in the $x$ direction and \SI{30}{\meter\per\second} in the $y$ direction.
+The initial position of the ball is \SI{1}{\meter} above home plate.  Its initial velocity is \SI{40}{\meter\per\second} in the $x$ direction and \SI{30}{\meter\per\second} in the $y$ direction.
 
 \index{initial condition}
 
@@ -107,7 +107,7 @@ function res = baseball_range(theta)
 end
 \end{lstlisting}
 
-The launch angle, \lstinline{theta}, is in radians.  The magnitude of the velocity, \lstinline{v}, is always \SI{50}{\meter\per\second}.  We use \lstinline{pol2cart} to convert the angle and magnitude ({\em polar} coordinates) to Cartesian components, \lstinline{vx} and \lstinline{vy}.
+The launch angle, \lstinline{theta}, is in radians.  The magnitude of velocity, \lstinline{v}, is always \SI{50}{\meter\per\second}.  We use \lstinline{pol2cart} to convert the angle and magnitude ({\em polar} coordinates) to Cartesian components, \lstinline{vx} and \lstinline{vy}.
 
 \index{radian}
 \index{pol2cart@\lstinline{pol2cart}}
@@ -308,14 +308,14 @@ complex or the time step is small.
 
 \section{Chapter Review}
 
-This chapter presented two new tools, \lstinline{fminsearch} and \lstinline{animate}.  
+This chapter presents two new tools, \lstinline{fminsearch} and \lstinline{animate}.  
 \lstinline{fminsearch} is a MATLAB function that searches efficiently for the minimum of a function, and can be adapted to search for the maximum, too.
 
-\lstinline{animate} is a function written to read results from \lstinline{ode45} and generate an animation; the version in this chapter works with the results from the baseball simulation, but it can be adapted for other simulations.
+\lstinline{animate} is a function I wrote to read results from \lstinline{ode45} and generate an animation; the version in this chapter works with the results from the baseball simulation, but it can be adapted for other simulations.
 
 In the exercises below, you have a chance to extend the example from this chapter and bring together many of the tools we have used so far.
 
-Then, in the next chapter, we move on to a new example, celestial mechanics, which describes the motion of planets and other bodies in outer space.
+In the next chapter, we move on to a new example, celestial mechanics, which describes the motion of planets and other bodies in outer space.
 
 
 \section{Exercises}
@@ -333,7 +333,7 @@ Manny Ramirez is a former member of the Boston Red Sox who was famous for his re
 
 \index{Fenway Park}
 
-Fenway Park is a baseball stadium in Boston, Massachusetts.  One of its most famous features is the ``Green Monster,'' which is a wall in left field that is unusually close to the home plate, only 310 feet away.  To compensate for the short distance, the wall is unusually high, at 37 feet.
+Fenway Park is a baseball stadium in Boston, Massachusetts.  One of its most famous features is the ``Green Monster,'' which is a wall in left field that is unusually close to home plate, only 310 feet away.  To compensate for the short distance, the wall is unusually high, at 37 feet.
 
 \index{Ramirez, Manny}
 \index{Fenway Park}
