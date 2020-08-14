@@ -1,5 +1,6 @@
 \chapter{Functions}
 \label{functions}
+\chapterartfile{book/images/matlab_circleart.eps}
 
 This chapter introduces the most important idea in computer programming: functions! 
 To explain why functions are so important, I'll start by explaining one of the problems they solve: name collisions.
@@ -13,7 +14,7 @@ To explain why functions are so important, I'll start by explaining one of the p
 \index{collision!name}
 \index{workspace}
 
-All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts that's not a problem, but eventually the interactions between scripts become unmanageable.
+All scripts run in the same workspace, so if one script changes the value of a variable, all other scripts see the change.  With a small number of simple scripts, that's not a problem, but eventually the interactions between scripts become unmanageable.
 
 For example, the following script computes the
 sum of the first \lstinline{n} terms in a geometric sequence, but it also
@@ -45,7 +46,7 @@ this problem is one of several motivations for functions.
 
 \section{Defining Functions}
 
-A {\em function} is like a script, except that each function has its own workspace, so any variables defined
+A \emph{function} is like a script, except that each function has its own workspace, so any variables defined
 inside a function only exist while the function is running, and don't
 interfere with variables in other workspaces, even if they have the
 same name. 
@@ -54,8 +55,8 @@ unexpected interactions.
 
 To define a new function, you create an M-file with the name you
 want, and put a function definition in it.  For example, to create
-a function named {\tt myfunc}, create an M-file named {\em myfunc.m}
-and put the following definition into it:
+a function named \lstinline{myfunc}, create an M-file named \emph{myfunc.m}
+and put the following definition into it (Listing~\ref{lst:function_def}):
 
 \index{M-file}
 \index{script}
@@ -77,8 +78,8 @@ file.
 \index{definition!function}
 
 A function definition is a compound statement.  The first line
-is called the {\em signature} of the function; it defines
-the inputs and outputs of the function.  In Listing~\ref{lst:function_def} the {\em input variable} is named \lstinline{x}.  When this function is called, the
+is called the \emph{signature} of the function; it defines
+the inputs and outputs of the function.  In Listing~\ref{lst:function_def} the \emph{input variable} is named \lstinline{x}.  When this function is called, the
 argument provided by the user will be assigned to \lstinline{x}.
 
 \index{input variable}
@@ -87,7 +88,7 @@ argument provided by the user will be assigned to \lstinline{x}.
 \index{output variable}
 \index{variable!output}
 
-The {\em output variable} is named \lstinline{res}, which is short for
+The \emph{output variable} is named \lstinline{res}, which is short for
 ``result.''  You can call the output variable whatever you want, but
 as a convention, I like to call it \lstinline{res}.  Usually the last
 thing a function does is assign a value to the output variable.
@@ -128,7 +129,7 @@ y = 1.38177329067604
 
 While you're debugging a new function, you might want to display
 intermediate results like this, but once it's working, you'll want
-to add semicolons to make it a {\em silent function}.  A silent function
+to add semicolons to make it a \emph{silent function}.  A silent function
 computes a result but doesn't display
 anything (except sometimes warning messages). Most built-in
 functions are silent.
@@ -221,8 +222,8 @@ include:
 of the function, the input variable(s), and the output variable(s).
 
 \item [Description] A clear, concise, abstract description of what the function does.
-An {\em abstract} description is one that leaves out the
-details of {\em how} the function works, and includes only information
+An \emph{abstract} description is one that leaves out the
+details of \emph{how} the function works, and includes only information
 that someone using the function needs to know.  You can put additional
 comments inside the function that explain the details.
 
@@ -241,7 +242,7 @@ to be an angle in radians.
 %\index{Functions!naming}
 
 There are a few ``gotchas'' that come up when you start defining functions.
-The first is that the ``real'' name of your function is determined by the file name, {\em not} by the name you put in the function signature.  As a matter of style, you
+The first is that the ``real'' name of your function is determined by the file name, \emph{not} by the name you put in the function signature.  As a matter of style, you
 should make sure that they are always the same, but if you
 make a mistake, or if you change the name of a function, it's
 easy to get confused.
@@ -250,7 +251,7 @@ easy to get confused.
 \index{name!function}
 
 In the spirit of making errors on purpose, change the name of
-the function \lstinline{myfunc} to \lstinline{something_else}, and
+the function \textbf{\lstinline{myfunc}} to \textbf{\lstinline{something_else}}, and
 then run it again.
 
 If this is what you put in \emph{myfunc.m}:
@@ -272,12 +273,12 @@ y = 1.3818
 Undefined function or variable 'something_else'.
 \end{code}
 
-Entering \textbf{\lstinline{myfunc}} still works because that's the name of the file;
+Entering \lstinline{myfunc} still works because that's the name of the file;
 \lstinline{something_else} doesn't work because the name of the function is ignored.
 
-The second gotcha is that the name of the file can't have spaces.
+The second ``gotcha'' is that the name of the file can't have spaces.
 For example, if you write a function and rename the file to 
-{\em my func.m},
+\emph{my func.m},
 and then try to run it, you get:
 
 \begin{code}
@@ -286,15 +287,16 @@ and then try to run it, you get:
         |
 Error: Unexpected MATLAB expression.
 \end{code}
+
 This fails because MATLAB thinks \lstinline{my} and \lstinline{func} are two different
 variable names.
 
-The third gotcha is that your function names can collide with built-in
-MATLAB functions.  For example, if you create an M-file named {\em sum.m}, and then call \lstinline{sum}, MATLAB might call {\em your} new
+The third ``gotcha'' is that your function names can collide with built-in
+MATLAB functions.  For example, if you create an M-file named \emph{sum.m}, and then call \lstinline{sum}, MATLAB might call your new
 function, not the built-in version!  Which one actually gets called
 depends on the order of the directories in the search path, and
 (in some cases) on the arguments.  As an example, put the following
-code in a file named {\em sum.m}:
+code in a file named \emph{sum.m}:
 
 \index{name collision}
 \index{collision!name}
@@ -330,7 +332,7 @@ another name!
 \index{variable!input}
 
 Functions can take more than one input variable.
-For example, the following function takes two input variables,
+For example, the following function in Listing~\ref{lst:hyp_function} takes two input variables,
 \lstinline{a} and \lstinline{b}:
 
 \begin{lstlisting}[caption={A function that computes the sum of squares of two numbers}, label={lst:hyp_function}]
@@ -383,14 +385,14 @@ Now that we know about functions, and all the ways they can go wrong, let's put 
 
 Here are a few terms in this chapter you might want to remember.
 
-A {\em function} is a named sequence of statements stored in an M-file.
-A function can have one or more {\em input variables}, which get their values when the function is called, and {\em output variables}, which return a value from the function to the caller.
+A \emph{function} is a named sequence of statements stored in an M-file.
+A function can have one or more \emph{input variables}, which get their values when the function is called, and \emph{output variables}, which return a value from the function to the caller.
 
-The first line of a function definition is its {\em signature}, which
+The first line of a function definition is its \emph{signature}, which
 specifies the name of the function, the input variables, and the
 output variables.
 
-A {\em silent function} doesn't display anything, generate a figure, or have any other effect other than returning output values.
+A \emph{silent function} doesn't display anything, generate a figure, or have any other effect other than returning output values.
 
 
 \section{Exercises}
@@ -398,7 +400,7 @@ A {\em silent function} doesn't display anything, generate a figure, or have any
 Before you go on, you might want to work on the following exercise.
 \subsection{Exercise~1}
 \label{hypotenuse_exercise}
-Write a function called \lstinline{hypotenuse} that takes two parameters, \lstinline{a} and \lstinline{b}, that represent the lengths of two sides of a right triangle.  It should assign to \lstinline{res} the length of the third side of the triangle, given by the formula
+Write a function called \lstinline{hypotenuse} that takes two parameters, \lstinline{a} and \lstinline{b}, that represent the lengths of two sides of a right triangle.  It should assign to \lstinline{res} the length of the third side of the triangle, given by the formula:
 
-\[ c = \sqrt{a^2 + b^2}. \]
+\[ c = \sqrt{a^2 + b^2} \]
 

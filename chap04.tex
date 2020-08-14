@@ -1,5 +1,6 @@
 \chapter{Vectors}
 \label{vectors}
+\chapterartfile{book/images/matlab_circleart.eps}
 
 In the previous chapter we used a loop to compute the elements of a sequence, but we were only able to store the last element.  In this chapter, we'll use a vector to store all of the elements.
 We'll also learn how to select elements from a vector, and how to perform vector arithmetic and common vector operations like reduce and apply.
@@ -52,7 +53,7 @@ to a vector, MATLAB increments each element of the vector:
 Y = 6     7     8
 \end{code}
 
-\noindent The result is a new vector; the original value of \lstinline{X} has not
+The result is a new vector; the original value of \lstinline{X} has not
 changed.
 
 If you add two vectors, MATLAB adds the corresponding elements of each
@@ -74,7 +75,7 @@ W = 1     2
 Matrix dimensions must agree.
 \end{code}
 
-\noindent The error message in this case is confusing, because we think of these values as vectors, not matrices.
+The error message in this case is confusing, because we think of these values as vectors, not matrices.
 We'll come back to this topic later, but for now you can think of a vector as a kind of matrix.
 
 \index{matrix}
@@ -88,7 +89,7 @@ If you divide two vectors, you might be surprised by the result:
 ans = 0.4156
 \end{code}
 
-MATLAB is performing a matrix operation called right division; an explanation of right division is outside the scope of this book. If you want to divide the elements of \lstinline{X} by the elements of \lstinline{Y}, you have to use \lstinline{./}, which is elementwise division:
+MATLAB is performing a matrix operation called right division; an explanation of right division is outside the scope of this book. If you want to divide the elements of \lstinline{X} by the elements of \lstinline{Y}, you have to use \lstinline{./}, which is element-wise division:
 
 \begin{code}
 >> ***X ./ Y***
@@ -103,10 +104,10 @@ Error using  *
 Incorrect dimensions for matrix multiplication. 
 Check that the number of columns in the first matrix 
 matches the number of rows in the second matrix.
-To perform elementwise multiplication, use '.*'.
+To perform element-wise multiplication, use '.*'.
 \end{code}
 
-In this case, the error message is pretty helpful.  As it suggests, you can use \lstinline{.*} to perform elementwise multiplication:
+In this case, the error message is pretty helpful.  As it suggests, you can use \lstinline{.*} to perform element-wise multiplication:
 
 \index{matrix multiplication}
 \index{multiplication!matrix}
@@ -116,8 +117,8 @@ In this case, the error message is pretty helpful.  As it suggests, you can use 
 ans = 4    10    18
 \end{code}
 
-As an exercise, see what happens if you use the exponentiation operator,
-\lstinline{^}, with a vector.
+As an exercise, see what happens if you use the exponentiation operator 
+(\lstinline{^}) with a vector.
 
 \section{Selecting Elements}
 
@@ -241,9 +242,9 @@ for i=3:n
 end
 \end{lstlisting}
 
-If you had any trouble with \nameref{fib2} in the previous chapter, you have to
+If you had any trouble with \nameref{fib2} on page 32, you have to
 appreciate the simplicity of this script.  The MATLAB syntax is
-similar to the math notation, which makes it easier to check
+similar to the math notation, which makes it easier to check for
 correctness.  
 
 If you only want the $n$th Fibonacci number, storing
@@ -267,8 +268,8 @@ plot(F)
 
 Figure~\ref{fig:fibonacci} shows the result.
 
-\begin{figure}[h]
-\centerline{\includegraphics{book/images/figure04_01_new_v1.eps}}
+\begin{figure}[H]
+\includegraphics{book/images/figure04_01_new_v1.eps}
 \caption{The first 10 elements of the Fibonacci sequence.}
 \label{fig:fibonacci}
 \end{figure}
@@ -331,7 +332,7 @@ the vector.
 
 \index{apply}
 
-For example, the loop in Listing ~\ref{lst:vec_apply} creates a vector \lstinline{Y} that
+For example, the loop in Listing~\ref{lst:vec_apply} creates a vector \lstinline{Y} that
 contains the squares of the elements of \lstinline{X} (assuming, again, that \lstinline{X} is already defined).
 
 \begin{lstlisting}[caption={Making a new vector Y by squaring the elements in X}, label={lst:vec_apply}]
@@ -340,7 +341,7 @@ for i=1:length(X)
 end
 \end{lstlisting}
 
-Many apply operations can be done with elementwise operators.
+Many apply operations can be done with element-wise operators.
 The following statement is more concise than the loop in
 Listing~\ref{lst:vec_apply}.
 
@@ -353,7 +354,7 @@ It also runs faster!
 
 \section{Chapter Review}
 
-In this chapter we used a vector to store the elements of a sequence.  We learned how to select elements from a vector and perform vector arithmetic.  We performed reduce and apply operations using \lstinline{for} loops, MATLAB functions, and elementwise operations.
+In this chapter, we used a vector to store the elements of a sequence.  We learned how to select elements from a vector and perform vector arithmetic.  We performed reduce and apply operations using \lstinline{for} loops, MATLAB functions, and element-wise operations.
 
 Here are some terms from this chapter you might want to remember.
 
@@ -367,7 +368,7 @@ A {\em vector} is a sequence of values, and a {\em matrix} is a two-dimensional 
 An {\em index} is an integer value used to indicate one of the elements
 in a vector or matrix (also called a {\em subscript} in some MATLAB documentation).
 
-An operation is {\em elementwise} if it acts on the individual elements of a vector or matrix (unlike some linear algebra operations).
+An operation is {\em element-wise} if it acts on the individual elements of a vector or matrix (unlike some linear algebra operations).
 
 % You can {\em search} a vector for an element that has some desired property.
 You can {\em apply} an operation to all elements of a vector, and you can {\em reduce} a vector to a single value, for example by computing the sum of the elements.
@@ -416,15 +417,15 @@ it converge on?
   The following set of equations is based on a famous example of a chaotic system, the Lorenz attractor (see \url{https://greenteapress.com/matlab/lorenz}):
 %
 \begin{eqnarray*}
-x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt,  \\
-y_{i+1} &=& y_i + \left[ x_i (r - z_i) - y_i \right] dt,   \\
-z_{i+1} &=& z_i + \left( x_i y_i - b z_i \right) dt.
+x_{i+1} &=& x_i + \sigma \left( y_i - x_i \right) dt  \\
+y_{i+1} &=& y_i + \left[ x_i (r - z_i) - y_i \right] dt   \\
+z_{i+1} &=& z_i + \left( x_i y_i - b z_i \right) dt
 \end{eqnarray*}
 %
-\begin{itemize}
+\begin{enumerate}
 
 \item Write a script that computes the first 10 elements of the sequences
-$X$, $Y$, and $Z$ and stores them in vectors named \lstinline{X}, \lstinline{Y},
+$X$, $Y$, and $Z$, and stores them in vectors named \lstinline{X}, \lstinline{Y},
 and \lstinline{Z}.
 
 Use the initial values $X_1 = 1$, $Y_1 = 2$, and $Z_1 = 3$ with the values
@@ -443,7 +444,7 @@ What effect does it have on the result?
 and see if you can get a sense of how each variable affects the
 system.
 
-\end{itemize}
+\end{enumerate}
 
 \index{Lorenz attractor}
 % lorenz.m
@@ -456,14 +457,13 @@ The logistic map (see \url{https://greenteapress.com/matlab/logistic}) is descri
 \index{logistic map}
 
 \begin{equation*}
-X_{i+1} = r X_i (1-X_i),
+X_{i+1} = r X_i (1-X_i)
 \end{equation*}
-
 where $X_i$ is a number between zero and one, and $r$ is a positive number.
 
-\begin{itemize}
+\begin{enumerate}
 
-\item Write a script named \lstinline{logmap} that computes the first 50
+\item Write a script named \emph{logmap.m} that computes the first 50
 elements of $X$ with \lstinline{r} = 3.9 and \lstinline{X1} = 0.5, where
 \lstinline{r} is the parameter of the logistic map and \lstinline{X1} is the
 initial value.
@@ -471,7 +471,7 @@ initial value.
 \item Plot the results for a range of values of $r$ from 2.4 to 4.0.
 How does the behavior of the system change as you vary $r$?
 
-\end{itemize}
+\end{enumerate}
 
 % logmap.m
 

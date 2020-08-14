@@ -1,4 +1,5 @@
 \chapter{Functions of Vectors}
+\chapterartfile{book/images/matlab_circleart.eps}
 
 Now that we have functions and vectors, we'll put them together to write functions that take vectors as input variables and return vectors as output variables.  You'll also see two patterns for computing with vectors: existential and universal quantification.
 
@@ -28,7 +29,7 @@ There's nothing special about this function.  The only
 difference from the scalar functions we've seen is that this one uses
 a capital letter to remind us that \lstinline{X} is a vector.
 
-\lstinline{display_vector} doesn't actually return a value; it just displays the elements of the vector it gets as an input variable:
+Using \lstinline{display_vector} doesn't actually return a value; it just displays the elements of the vector it gets as an input variable:
 
 \begin{code}
 >> ***display_vector(1:3)***
@@ -38,7 +39,7 @@ a capital letter to remind us that \lstinline{X} is a vector.
 \end{code}
 
 Here's a more interesting example that encapsulates the code
-from Listing~\ref{lst:vec_reduce} (page~\pageref{lst:vec_reduce}) to add up the elements of a vector:
+from Listing~\ref{lst:vec_reduce} on page~\pageref{lst:vec_reduce} to add up the elements of a vector:
 
 \index{encapsulation}
 
@@ -74,7 +75,7 @@ point of assigning it to a variable.
 
 There's also nothing wrong with assigning a vector to an output
 variable. Here's an example that encapsulates the code from
-Listing~\ref{lst:vec_apply} (page~\pageref{lst:vec_apply}):
+Listing~\ref{lst:vec_apply} on page~\pageref{lst:vec_apply}:
 
 \begin{code}
 function res = mysquare(X)
@@ -121,7 +122,6 @@ a function with scalar inputs in mind, it might not work on vectors.
 But it might!  If the operators and functions
 you use in the body of your function work on vectors, then your
 function will probably work on vectors.
-
 For example, here's the very first function we wrote:
 
 \begin{code}
@@ -187,13 +187,13 @@ function will also work on vectors.
 
 \subsection{Sums and Differences}
 
-Another common vector operation is {\emph cumulative sum}, which takes a vector as an input and computes a new vector that contains all of the partial sums of the original.  In math notation, if $V$ is the original vector, the elements of the cumulative sum, $C$, are
+Another common vector operation is \emph{cumulative sum}, which takes a vector as an input and computes a new vector that contains all of the partial sums of the original.  In math notation, if $V$ is the original vector, the elements of the cumulative sum, $C$, are
 
 \index{cumulative sum}
 \index{sum!cumulative}
 
 \begin{equation*}
-C_i = \sum_{j=1}^i V_j.
+C_i = \sum_{j=1}^i V_j
 \end{equation*}
 
 In other words, the $i$th element of $C$ is the sum of the first
@@ -246,7 +246,7 @@ inverse of \lstinline{cumsum}, so that \lstinline{cumsum(mydiff(X))} and
 \subsection{Products and Ratios}
 
 The multiplicative version of \lstinline{cumsum} is \lstinline{cumprod},
-which computes the {\emph cumulative product}.  In math notation,
+which computes the \emph{cumulative product}.  In math notation,
 that's
 
 \index{cumulative product}
@@ -254,7 +254,7 @@ that's
 \index{cumprod@\lstinline{cumprod}}
 
 \begin{equation*}
-P_i = \prod_{j=1}^i V_j .
+P_i = \prod_{j=1}^i V_j
 \end{equation*}
 
 In MATLAB, that looks like:
@@ -292,7 +292,7 @@ converges on the golden ratio, $(1+\sqrt{5})/2$ (see
 
 \section{Computing with Vectors}
 
-In this section we'll look at two common patterns for working with vectors and connect them to the corresponding ideas from mathematics, existential and universal quantification.  And you'll learn about logical vectors, which contain the Boolean values 0 and 1. 
+In this section, we'll look at two common patterns for working with vectors and connect them to the corresponding ideas from mathematics, existential and universal quantification.  And you'll learn about logical vectors, which contain the Boolean values 0 and 1. 
 
 \subsection{Existential Quantification}
 
@@ -301,14 +301,14 @@ In this section we'll look at two common patterns for working with vectors and c
 
 It's often useful to check the elements of a vector to see if there
 are any that satisfy a condition.  For example, you might want to
-know if there are any positive elements.  In mathematical terms, checking whether something exists is called is called {\emph existential quantification}, and it's denoted with
+know if there are any positive elements.  In mathematical terms, checking whether something exists is called \emph{existential quantification}, and it's denoted with
 the symbol $\exists$, which is pronounced ``there exists.''  For example,
 % this expression
 %
 \[ \exists x \mbox{~in~} S: x>0  \]
 %
 means, ``there exists some element $x$ in the set $S$ such that
-$x>0$.''  In MATLAB it's natural to express this idea with a logical
+$x>0$.''  In MATLAB, it's natural to express this idea with a logical
 function, like \lstinline{exists}, that returns 1 if there is such an
 element and 0 if there is not.
 
@@ -342,9 +342,9 @@ we were looking for, so the result is 0.
 \index{universal quantification}
 \index{quantification!universal}
 
-Another common operation on vectors is to check whether {\em all}
-of the elements satisfy a condition, which is called {\emph universal quantification}, denoted with
-the symbol $\forall$, and pronounced ``for all.''  So % this expression
+Another common operation on vectors is to check whether \emph{all}
+of the elements satisfy a condition, which is called \emph{universal quantification}, denoted with
+the symbol $\forall$, and pronounced ``for all.''  So the expression % this expression
 %
 \[ \forall x \mbox{~in~} S: x>0 \]
 %
@@ -356,19 +356,19 @@ existential quantification; that is, to rewrite
 \begin{equation*}
 \forall x \mbox{~in~} S: x>0
 \end{equation*}
-as
+to the following:
 \begin{equation*}
-{\sim} \exists x \mbox{~in~} S: x \le 0 ,
+{\sim} \exists x \mbox{~in~} S: x \le 0
 \end{equation*}
 where ${\sim} \exists$ means ``does not exist.''
 In other words, checking that all the elements are positive is
 the same as checking that there are no elements
-that are non-positive.
+that are nonpositive.
 
 \subsection{Exercise~3}
 Write a function named \lstinline{forall} that
 takes a vector and returns 1 if all of the elements are positive
-and 0 if there are any non-positive elements.
+and 0 if there are any nonpositive elements.
 
 
 
@@ -377,7 +377,7 @@ and 0 if there are any non-positive elements.
 \subsection{Logical Vectors}
 
 When you apply a logical operator to a vector, the result is a 
-{\emph logical vector}: a vector whose elements are the logical
+\emph{logical vector}: a vector whose elements are the logical
 values 1 and 0. Let's look at an example:
 
 \index{logical vector}
@@ -474,7 +474,6 @@ works, and that you understand.  Then you can starting rebuilding.
 Beginning programmers sometimes get stuck on one of these activities
 and forget the others.  Each activity comes with its own failure
 mode.
-
 For example, reading your code might help if the problem is a
 typographical error, but not if the problem is a conceptual
 misunderstanding.  If you don't understand what your program does, you
@@ -526,11 +525,11 @@ activities, try the others.
 
 This chapter presents patterns for working with vectors, including existential and universal quantification.
 We learned how to write functions that take vectors as input variables and return vectors as output variables.
-And we learned about {\em logical vectors}, which contain the values 1 and 0 to represent true and false.
+And we learned about \emph{logical vectors}, which contain the values 1 and 0 to represent true and false.
 
 Some of the functions in this chapter are not idiomatic MATLAB; many of them can be done more simply using built-in MATLAB operators and functions, rather than writing them yourself.  But these examples demonstrate concepts you will need to know when you work on more complicated problems.
 
-In the next chapter we will apply the tools we have learned so far to the central goal of this book, modeling physical systems.
+In the next chapter, we will apply the tools we have learned so far to the central goal of this book, modeling physical systems.
 
 
 
