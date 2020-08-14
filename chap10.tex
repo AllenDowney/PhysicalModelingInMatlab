@@ -1,7 +1,8 @@
 \chapter{Systems of ODEs}
 \label{systems}
+\chapterartfile{book/images/matlab_circleart.eps}
 
-In the previous chapter we used Euler's method and {\tt ode45} to solve a single first-order differential equation.  In this chapter we'll move on to systems of ODEs and implement a model of a predator-prey system.  But first, we have to learn more about matrices.
+In the previous chapter we used Euler's method and \lstinline{ode45} to solve a single first-order differential equation.  In this chapter, we'll move on to systems of ODEs and implement a model of a predator-prey system.  But first, we have to learn more about matrices.
 
 
 \section{Matrices}
@@ -9,7 +10,7 @@ In the previous chapter we used Euler's method and {\tt ode45} to solve a single
 A \emph{matrix} is a two-dimensional version of a vector.  Like a vector,
 it contains elements that are identified by indices.  The difference
 is that the elements are arranged in rows and columns, so it takes
-{\em two} indices to identify an element.
+\emph{two} indices to identify an element.
 
 \subsection{Creating a Matrix}
 
@@ -45,6 +46,7 @@ Or the \lstinline{size} function, which returns a vector:
 
 V = 2    3
 \end{code}
+
 The first element is the number of rows, the second is the number of
 columns.
 
@@ -52,7 +54,7 @@ columns.
 \index{column}
 \index{element}
 
-To read an element of a matrix, you specify the row and column numbers:
+To read an element of a matrix, you specify the row and column \mbox{numbers}:
 
 \begin{code}
 >> ***M(1,2)***
@@ -114,9 +116,9 @@ ans = 1     5
 \end{code}
 
 Well, some vectors, anyway.  Actually, there are two kinds
-of vectors.  The ones we've seen so far are called {\em row vectors},
+of vectors.  The ones we've seen so far are called \emph{row vectors},
 because the elements are arranged in a row; the other kind are
-{\em column vectors}, where the elements are in a single column.
+\emph{column vectors}, where the elements are in a single column.
 
 One way to create a column vector is to create a matrix with only
 one element per row:
@@ -157,7 +159,7 @@ ans = 2
 \index{matrix transpose}
 
 The transpose operator, which looks remarkably like an apostrophe,
-computes the {\em transpose} of a matrix, which is a new matrix
+computes the \emph{transpose} of a matrix, which is a new matrix
 that has all of the elements of the original, but with each row
 transformed into a column (or you can think of it the other way around).
 
@@ -203,8 +205,8 @@ species in an ecosystem, a predator and its prey.  As an example, we'll consider
 The model is governed by the following system of differential equations:
 
 \begin{eqnarray*}
-    \frac{dx}{dt} &=& a x - b x y  ,       \\
-    \frac{dy}{dt} &=& -c y + d x y  ,  
+    \frac{dx}{dt} &=& a x - b x y         \\
+    \frac{dy}{dt} &=& -c y + d x y    
 \end{eqnarray*}
 %
 where $x$ and $y$ are the populations of rabbits and foxes,
@@ -212,10 +214,10 @@ and $a$, $b$, $c$, and $d$ are parameters
 that quantify the interactions between the two species (see
 \url{https://greenteapress.com/matlab/lotka}).
 
-At first glance you might think you could solve these equations by
+At first glance, you might think you could solve these equations by
 calling \lstinline{ode45} once to solve for $x$ and
 once to solve for $y$.  The problem is that each equation involves
-both variables, which is what makes this a {\em system of equations}
+both variables, which is what makes this a \emph{system of equations}
 and not just a list of unrelated equations.  To solve a system, you
 have to solve the equations simultaneously.
 
@@ -256,13 +258,11 @@ end
 The first input variable, \lstinline{t}, is time.
 Even though the time variable is not used in this rate function,
 it has to be there in order for this function to work with \lstinline{ode45}.
-
 The second input variable, \lstinline{V}, is a vector with two elements,
 $x(t)$ and $y(t)$.
-
 The body of the function includes four sections, each explained by a comment.
 
-The first section {\em unpacks} the vector by copying the elements
+The first section \emph{unpacks} the vector by copying the elements
 into variables.  This isn't necessary, but giving names to
 these values helps remember what's what.  It also makes the third
 section, where we compute the derivatives, resemble the mathematical
@@ -279,11 +279,11 @@ I chose values that yield interesting results.
 
 \index{parameter}
 
-The third section computes the derivatives of $x$ and $y$ using the equations
+The third section computes the derivatives of $x$ and $y$, using the equations
 we were given.
 
-The last section {\em packs} the computed derivatives back into a
-vector.  When \lstinline{ode45} calls this function it provides a vector
+The last section \emph{packs} the computed derivatives back into a
+vector.  When \lstinline{ode45} calls this function, it provides a vector
 as input and expects to get a vector as output.
 
 Sharp-eyed readers will notice something different about this line:
@@ -299,7 +299,7 @@ this function to be a column vector.
 \index{semicolon}
 
 As always, it's a good idea to test your rate function before you call \lstinline{ode45}.  
-Create a file named {\em lotka.m} with the following top-level function:
+Create a file named \emph{lotka.m} with the following top-level function:
 
 \begin{code}
 function res = lotka()
@@ -318,7 +318,8 @@ The result from \lstinline{rate_func} is:
 -8.0000
  1.2000
  \end{code}
-Which means that with these initial conditions we expect the rabbit population to decline initially at a rate of 8 per week, and the fox population to increase by 1.2 per week.  
+  
+Which means that with these initial conditions, we expect the rabbit population to decline initially at a rate of 8 per week, and the fox population to increase by 1.2 per week.  
   
 Now we can run \lstinline{ode45} like this:
 
@@ -348,14 +349,14 @@ ans = 101     1
 ans = 101     2
 \end{code}
 
-\lstinline{T} has 101 rows and one column, so it is a column vector with one row for
+\lstinline{T} has 101 rows and 1 column, so it is a column vector with one row for
 each time step.
 
 \lstinline{M} has 101 rows, one for each time step, and 2 columns, one for each variable,
 $x$ and $y$.
 
 This structure---one column per variable---is a common way to
-use matrices.  \lstinline{plot} understands this structure, so if you
+use matrices. And \lstinline{plot} understands this structure, so if you
 do this:
 
 \begin{code}
@@ -397,17 +398,18 @@ Now we can plot these vectors separately, which makes it easier to give them dif
 >> ***plot(T, F, '--')***
 \end{code}
 
+
+Figure~\ref{fig:lotka} shows the results. The x-axis is time in weeks; the y-axis is population.  The top curve shows the population of rabbits; the bottom curve shows foxes.
+
 \begin{figure}[ht]
-\centerline{\includegraphics[height=3in]{book/figs/lotka.eps}}
+\includegraphics{book/images/figure10_01_new.eps}
 \caption{Solution for the Lotka-Volterra model}
 \label{fig:lotka}
 \end{figure}
 
-Figure~\ref{fig:lotka} shows the results. The x-axis is time in weeks; the y-axis is population.  The top curve shows the population of rabbits; the bottom curve shows foxes.
-
 \index{boom and bust}
 
-Initially there are too many foxes, so the rabbit population declines.  Then there are not enough rabbits, and the fox population declines.  That allows the rabbit population to recover, and the pattern repeats.
+Initially, there are too many foxes, so the rabbit population declines.  Then there are not enough rabbits, and the fox population declines.  That allows the rabbit population to recover, and the pattern repeats.
 
 This cycle of ``boom and bust'' is typical of the Lotka-Volterra model.
 
@@ -420,11 +422,6 @@ Instead of plotting the two populations over time, it is sometimes useful to plo
 >> ***plot(R, F)***
 \end{code}
 
-\begin{figure}[ht]
-\centerline{\includegraphics[height=3in]{book/figs/phase.eps}}
-\caption{Phase plot from the Lotka-Volterra model}
-\label{fig:phase}
-\end{figure}
 
 Figure~\ref{fig:phase} shows the result.  
 Each point on this plot represents a certain number of rabbits (on the
@@ -433,20 +430,26 @@ Since these are the only two variables in the system, each point in
 this plane describes the complete state of the system, that is, the values of
 the variables we're solving for.
 
+\begin{figure}[ht]
+\includegraphics{book/images/figure10_02_new.eps}
+\caption{Phase plot from the Lotka-Volterra model}
+\label{fig:phase}
+\end{figure}
+
 \index{phase plot}
 \index{trajectory}
 \index{state}
 
 Over time, the state moves around the plane. Figure~\ref{fig:phase} shows
 the path traced by the state over time; this path
-is called a {\em trajectory}.
+is called a \emph{trajectory}.
 
 Since the behavior of this system is periodic, the trajectory is a loop.
 
 If there are three variables in the system, we need three dimensions to show
 the state of the system, so the trajectory is a 3D curve.
 You can use \lstinline{plot3} to trace trajectories in three dimensions,
-but for four or more variables you're on your own.
+but for four or more variables, you're on your own.
 
 \index{plot3@\lstinline{plot3}}
 
@@ -460,7 +463,7 @@ Error using odearguments (line 93)
 RATE_FUNC must return a column vector.
 \end{code}
 
-Which is a pretty good error message.  It's not clear {\em why}
+Which is a pretty good error message.  It's not clear \emph{why}
 it needs to be a column vector, but that's not our problem.
 
 \index{column vector}
@@ -478,28 +481,28 @@ same as the order of the derivatives in the output vector.
 
 \section{Chapter Review}
 
-In this chapter we used \lstinline{ode45} to solve a system of first-order differential equations.
+In this chapter, we used \lstinline{ode45} to solve a system of first-order differential equations.
 As an exercise, you'll have a chance to solve the famous Lorenz equations, one of the first examples of a chaotic system.
 
 Here are the terms from this chapter you might want to remember.
 
-A {\em row vector} is a matrix that has only one row, and a {\em column vector} is a matrix that has only one column.
-The {\em transpose} operation transforms the rows of a matrix
+A \emph{row vector} is a matrix that has only one row, and a \emph{column vector} is a matrix that has only one column.
+The \emph{transpose operation} transforms the rows of a matrix
 into columns (or the other way around, if you prefer).
 
-A {\em system of equations} is a collection of equations written in terms of
+A \emph{system of equations} is a collection of equations written in terms of
 the same set of variables.
 
-In a rate function, we often have to {\em unpack} the input variable,
+In a rate function, we often have to \emph{unpack} the input variable,
 copying the elements of a vector into a set of variables.
-Then we have to {\em pack} the results into a vector as an output variable.
+Then we have to \emph{pack} the results into a vector as an output variable.
 
-The {\em state} of a system is a set of variables that quantify the condition of the system as it changes over time.
+The \emph{state} of a system is a set of variables that quantify the condition of the system as it changes over time.
 
-When we solve a system of differential equations, we can visualize the results with a {\em phase plot}, which shows the state of a system as a point in the space of possible states.
-A {\em trajectory} is a path in a phase plot that shows how the state of a system changes over time.
+When we solve a system of differential equations, we can visualize the results with a \emph{phase plot}, which shows the state of a system as a point in the space of possible states.
+A \emph{trajectory} is a path in a phase plot that shows how the state of a system changes over time.
 
-In the next chapter we move on to second-order systems, which we use to describe systems
+In the next chapter, we move on to second-order systems, which we use to describe systems
 with objects moving in space, governed by Newton's laws of motion.
 
 
@@ -527,11 +530,12 @@ a strange attractor . . .
 The system is described by this system of differential equations:
 %
 \begin{eqnarray*}
-x_t &=& \sigma (y - x),  \\
-y_t &=& x (r - z) - y  , \\
-z_t &=& xy - b z.
+x_t &=& \sigma (y - x)  \\
+y_t &=& x (r - z) - y   \\
+z_t &=& xy - b z
 \end{eqnarray*}
 %
+
 Common values for the parameters are $\sigma = 10$, $b = 8/3$, and $r=28$.
 
 Use \lstinline{ode45} to estimate a solution to this system of equations.
@@ -539,7 +543,7 @@ Use \lstinline{ode45} to estimate a solution to this system of equations.
 
 \begin{enumerate}
 
-\item Create a file named {\em lorentz.m} with a top-level function named \lstinline{lorenz} and a helper function named \lstinline{rate_func}.
+\item Create a file named \emph{lorentz.m} with a top-level function named \lstinline{lorenz} and a helper function named \lstinline{rate_func}.
 
 \item  The rate function should
 take \lstinline{t} and \lstinline{V} as input variables, where the components

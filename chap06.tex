@@ -1,16 +1,17 @@
 \chapter{Conditionals}
+\chapterartfile{book/images/matlab_circleart.eps}
 
-In this chapter we'll use functions and a new feature, conditional statements, to search for Pythagorean triples.
+In this chapter, we'll use functions and a new feature---conditional statements---to search for Pythagorean triples.
 A Pythagorean triple is a set of integers, like~3, 4, and 5,
 that are the lengths of the sides of a right triangle.  Mathematically, it's a set of integers $a$, $b$, and $c$ such that $a^2 + b^2 = c^2$.
-This example will also demonstrate the {\em incremental development} process we talked about in Chapter~\ref{loops}.
+This example will also demonstrate the \emph{incremental development} process we talked about in Chapter~\ref{loops}.
 
 \index{Pythagorean triple}
 
 \section{Relational Operators}
 \index{operator!relational}
 
-Suppose we have three variables, \lstinline{a},\lstinline{b}, and \lstinline{c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator, \lstinline{==}, to compare two values:
+Suppose we have three variables, \lstinline{a},\lstinline{b}, and \lstinline{c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator (\lstinline{==}) to compare two values:
 
 \begin{code}
 >> ***a = 3;***
@@ -21,7 +22,7 @@ Suppose we have three variables, \lstinline{a},\lstinline{b}, and \lstinline{c},
 ans = logical 1
 \end{code}
 
-The result is a {\em logical} value, which means it's either~1, which means ``true,'' or~0, which means ``false.''  Here's an example where the result is false:
+The result is a \emph{logical} value, which means it's either~1, which means ``true,'' or~0, which means ``false.''  Here's an example where the result is false:
 
 \begin{code}
 >> ***c = 6;***
@@ -29,7 +30,7 @@ The result is a {\em logical} value, which means it's either~1, which means ``tr
 ans = logical 0
 \end{code}
 
-It's a common error to use the assignment operator, \lstinline{=}, instead of the equality operator, \lstinline{==}.  If you do, you get an error:
+It's a common error to use the assignment operator (\lstinline{=}) instead of the equality operator (\lstinline{==}).  If you do, you get an error:
 
 \begin{code}
 >> ***a^2 + b^2 = c^2***
@@ -40,8 +41,8 @@ To assign a value to a variable, use '='.
 To compare values for equality, use '=='.
 \end{code}
 
-The equality operator is one of several {\em relational operators}, so called because they test relations between values.
-For example, \lstinline{x < 10} is true (1) if the value of \lstinline{x} is less than 10, or false (0) otherwise.  And \lstinline{x > 0} is true if \lstinline{x} is greater than~0.
+The equality operator is one of several \emph{relational operators}, so called because they test relations between values.
+For example, \lstinline{x < 10} is true (1) if the value of \lstinline{x} is less than 10, or false (0) if otherwise.  And \lstinline{x > 0} is true if \lstinline{x} is greater than~0.
 
 The other relational operators are \lstinline{<=} for ``less or equal,'' \lstinline{>=} for ``greater or equal,'' and  \lstinline{~=} for ``not equal.''
 
@@ -63,7 +64,7 @@ end
 
 The syntax is similar to a \lstinline{for} loop.  The first line
 specifies the condition we're interested in.  If the condition is true, 
-MATLAB executes the {\em body} of the statement, which is the indented sequence of
+MATLAB executes the \emph{body} of the statement, which is the indented sequence of
 statements between the \lstinline{if} and the \lstinline{end}.
 
 \index{indentation}
@@ -75,7 +76,7 @@ If the condition is not satisfied, the statements in the body are
 not executed. 
 
 Sometimes there are alternative statements to
-execute when the condition is false.  In that case you can extend
+execute when the condition is false.  In that case, you can extend
 the \lstinline{if} statement with an \lstinline{else} clause.
 
 \index{else clause@\lstinline{else} clause}
@@ -91,7 +92,7 @@ end
 \end{code}
 
 Statements like \lstinline{if} and \lstinline{for} that contain other statements
-are called \emph{compound} statements.  All compound statements end
+are called \emph{compound} statements.  All compound statements finish
 with \lstinline{end}.
 
 \index{compound statement}
@@ -112,7 +113,7 @@ Here are the steps we will follow to develop the program incrementally:
 
 \item Encapsulate the \lstinline{if} statement from the previous section in a function called \lstinline{is_pythagorean}.
 
-\item Write a script named \lstinline{find_triples} and start with a loop that enumerates values of \lstinline{a} and displays them.
+\item Write a script named \emph{find_triples.m} and start with a loop that enumerates values of \lstinline{a} and displays them.
 
 \item Write a second loop that enumerates values of \lstinline{b}, and a third loop that enumerates values of \lstinline{c}.
 
@@ -129,7 +130,7 @@ Along the way, we'll optimize the program to eliminate unnecessary work.
 
 \section{Logical Functions}
 
-The first step is to create a {\em logical function}, which is a function that returns a logical value.
+The first step is to create a \emph{logical function}, which is a function that returns a logical value.
 The following function takes three input variables, \lstinline{a}, \lstinline{b}, and \lstinline{c}, and returns true (1) if they form a Pythagorean triple and false (0) otherwise.
 
 \begin{code}
@@ -143,6 +144,8 @@ end
 \end{code}
 
 We can use this function like this:
+
+\newpage
 
 \begin{code}
 >> ***is_pythagorean(3, 4, 5)***
@@ -160,13 +163,13 @@ end
 The result of the equality operator is a logical value, which we can assign directly 
 to \lstinline{res}.
 
-Put this function in a file called {\em is\_pythagorean.m}, so we can use it as part of our program.
+Put this function in a file called \emph{is\_pythagorean.m}, so we can use it as part of our program.
 
 
 \section{Nested Loops}
 
 The next step is to write loops that enumerate different values of \lstinline{a}, \lstinline{b}, and 
-\lstinline{c}.  Create a new file called {\em find\_triples.m} where we'll develop the rest of the program.
+\lstinline{c}.  Create a new file called \emph{find\_triples.m} where we'll develop the rest of the program.
 
 \index{nested loop}
 \index{loop!nested}
@@ -279,7 +282,7 @@ range of \lstinline{b}:
 for b=a:4
 \end{code}
 
-We can save even more work by adjusting the range of \lstinline{c}.
+We can save even more work by adjusting the range of \lstinline{c}:
 
 \begin{code}
 for c=b:a+b
@@ -303,7 +306,7 @@ end
 
 As a script, this program has the side effect of assigning values to
 \lstinline{a}, \lstinline{b}, and \lstinline{c}, which would be bad if any of those names were in use.  
-By wrapping the code in a function, we can avoid name collisions; this process is called {\em encapsulation} because it isolates this program from the workspace.
+By wrapping the code in a function, we can avoid name collisions; this process is called \emph{encapsulation} because it isolates this program from the workspace.
 
 \index{encapsulation}
 \index{generalization}
@@ -442,7 +445,7 @@ workspace for it.
 
 \item MATLAB evaluates each of the arguments and assigns
 the resulting values, in order, to the input variables (which
-live in the {\em new} workspace).
+live in the \emph{new} workspace).
 
 \item The body of the code executes.  Somewhere in the body
 a value gets assigned to the output variable.
@@ -462,7 +465,6 @@ and follow the execution of the program into the function and back, or you can a
 
 When you use a built-in function, it's natural to assume that it works, in part because you don't
 usually have access to the code in the body of the function.
-
 But when you start writing your own functions, you might
 find yourself following the ``flow of execution.''  This can
 be useful while you are learning, but as you gain experience, you
@@ -473,15 +475,12 @@ details of how it works.
 \index{flow of execution}
 \index{abstraction}
 
-Forgetting about details is called {\em abstraction}; in the context
-of functions, abstraction means forgetting about {\em how} a function
+Forgetting about details is called \emph{abstraction}; in the context
+of functions, abstraction means forgetting about \emph{how} a function
 works, and just assuming (after appropriate testing) that it works.
-
 For many people, it takes some time to get comfortable with functions.  If you are one of them, you might be tempted to avoid functions, and sometimes you can get by without them.
-
 But experienced programmers use functions extensively, for several good reasons. First, each function has its own workspace, so using functions helps
 avoid name collisions. 
-
 Functions also lend themselves to incremental development: you can
 debug the body of the function first (as a script), then encapsulate
 it as a function, and then generalize it by adding input variables.
@@ -498,15 +497,15 @@ complexity of large programs.
 
 \section{Chapter Review}
 
-In this chapter we encountered relational operators and \lstinline{if} statements, and we used them to develop a program that searches for Pythagorean triples.
-We wrote a {\em logical function}, which is a function that returns a logical value
+In this chapter, we encountered relational operators and \lstinline{if} statements, and we used them to develop a program that searches for Pythagorean triples.
+We wrote a \emph{logical function}, which is a function that returns a logical value
 (1 for ``true'' or 0~for ``false'').
 
-We also saw an example of {\em incremental development}, or developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way you will have fewer bugs and you will find them more quickly.
+We also saw an example of \emph{incremental development}, or developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way, you will have fewer bugs and you will find them more quickly.
 
-This chapter defined two new terms: {\em Encapsulation} is the process of wrapping part of a program in
+This chapter defined two new terms: \emph{encapsulation} is the process of wrapping part of a program in
 a function in order to limit interactions (including name collisions)
-between the function and the rest of the program; {\em abstraction} is the process of ignoring the details of how a function works in order to focus on a simpler model of what the
+between the function and the rest of the program; \emph{abstraction} is the process of ignoring the details of how a function works in order to focus on a simpler model of what the
 function does.
 
 The next chapter introduces a new tool, called \lstinline{fzero}, that we'll use to solve nonlinear equations.

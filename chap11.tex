@@ -1,6 +1,7 @@
 \chapter{Second-Order Systems}
+\chapterartfile{book/images/matlab_circleart.eps}
 
-So far we've seen first-order differential equations and systems of first-order ODEs.  In this chapter we'll introduce second-order systems, which are particularly useful for modeling Newtonian motion.
+So far we've seen first-order differential equations and systems of first-order ODEs.  In this chapter, we'll introduce second-order systems, which are particularly useful for modeling Newtonian motion.
 
 \index{Newtonian motion}
 \index{Newton's law of motion}
@@ -10,14 +11,13 @@ So far we've seen first-order differential equations and systems of first-order 
 Newton's second law of motion is often written like this:
 
 \begin{equation*}
-    F = m a,
+    F = m a
 \end{equation*}
-
 where $F$ is the net force acting on an object, $m$ is the
 mass of the object, and $a$ is the acceleration of the object.
 
 This equation suggests
-that if you know $m$ and $a$ you can compute the force.  And that's true,
+that if you know $m$ and $a$, you can compute the force. And that's true,
 but in most physical simulations it's the other way around: based on a
 physical model, you know $F$ and $m$, and you compute $a$.
 
@@ -31,18 +31,18 @@ is the second derivative of position, so we can write the differential
 equation
 
 \begin{equation*}
-    \frac{d^2r}{dt^2} = a,
+    \frac{d^2r}{dt^2} = a
 \end{equation*}
 where $\frac{d^2r}{dt^2}$ is the second time derivative of $r$.
 
 Because this equation includes a second derivative, it's
-a second-order ODE.  \lstinline{ode45} can't solve the equation in this form, but
+a second-order ODE.  We can't solve the equation using \lstinline{ode45} in this form, but
 by introducing a new variable, \lstinline{v}, for velocity, we can rewrite it
 as a system of first-order ODEs:
 
 \begin{eqnarray*}
-    \frac{dr}{dt} &=& v,   \\
-    \frac{dv}{dt} &=& a.
+    \frac{dr}{dt} &=& v   \\
+    \frac{dv}{dt} &=& a
 \end{eqnarray*}
 
 The first equation says that the first derivative of $r$ is $v$;
@@ -55,7 +55,7 @@ the second equation says that the first derivative of $v$ is $a$.
 As an example of Newtonian motion, let's go back to the question from \nameref{penny} on page~\pageref{penny}:
 
 \begin{quote}
-If you drop a penny from the top of the Empire State Building, how long does it take to reach the sidewalk, and how fast it is going when it gets there?
+If you drop a penny from the top of the Empire State Building, how long does it take to reach the sidewalk, and how fast is it going when it gets there?
 \end{quote}
 
 We'll start with no air resistance; then we'll add air resistance to the model and see what effect it has.
@@ -148,13 +148,13 @@ plot(T, Y)
 
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{book/figs/penny.eps}}
+\includegraphics{book/images/figure11_01_new.eps}
 \caption{Altitude versus time for an object in free fall}
 \label{fig:penny}
 \end{figure}
 
 Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and picks up speed.  Between 8 and 9 seconds, the altitude reaches 0, which means the penny hits the sidewalk.  But \lstinline{ode45} doesn't know where the ground is, so the penny keeps going through zero into negative altitude.  We'll solve that problem in the next section.
-
+\newpage
 \section{ODE Events}
 \label{events}
 
@@ -185,11 +185,11 @@ function [value, isterminal, direction] = event_func(t,X)
 end
 \end{code}
 
-The event function takes the the same input variables as the rate function and returns three output variables: \lstinline{value} determines when an event can occur, \lstinline{direction} determines whether it does, and \lstinline{isterminal} determines what happens.
+The event function takes the same input variables as the rate function and returns three output variables: \lstinline{value} determines when an event can occur, \lstinline{direction} determines whether it does, and \lstinline{isterminal} determines what happens.
 
 More specifically, an event can occur when \lstinline{value} passes through 0.
 If \lstinline{direction} is positive, the event only occurs if \lstinline{value} is increasing.
-If \lstinline{direction} is negative, the event only occurs if \lstinline{value} is decreasing.
+\linebreak If \lstinline{direction} is negative, the event only occurs if \lstinline{value} is decreasing.
 If \lstinline{direction} is 0, the event always occurs.
 
 If \lstinline{isterminal} is 1, the event causes the simulation to end; if it is 0, the simulation continues.
@@ -252,7 +252,7 @@ directed up, so if velocity is negative, drag force is positive.
 Here's how we can compute the force of drag as a function of velocity in one dimension:
 
 \begin{equation*}
-    f_\mathrm{d} = -\mathrm{sign}(v) b v^2 ,
+    f_\mathrm{d} = -\mathrm{sign}(v) b v^2 
 \end{equation*}
 where $v$ is velocity and
 $b$ is a drag constant that depends on the density of
@@ -287,7 +287,7 @@ end
 
 First, we compute force due to drag \wingding{1}.
 Then we compute acceleration due to drag \wingding{2}.
-Lastly, we compute total acceleration due to drag and gravity~\wingding{3}.
+Lastly, we compute total acceleration due to drag and \mbox{gravity~\wingding{3}}.
 
 \index{acceleration}
 \index{force}
@@ -297,7 +297,7 @@ you only add forces to forces or accelerations to accelerations.  In my
 code, I use comments to remind myself what units the values have.
 That helps me avoid errors like adding forces to accelerations.
 
-To use this function we make a small change in \lstinline{rate_func}:
+To use this function, we make a small change in \lstinline{rate_func}:
 
 \begin{code}
 function res = rate_func(t, X)
@@ -305,7 +305,7 @@ function res = rate_func(t, X)
     v = X(2);      
     
     dydt = v;
-(*\codewingding{1}*)    dvdt = acceleration(t, X);   % this line has changed
+    (*\codewingding{1}*)dvdt = acceleration(t, X);   % this line has changed
 
     res = [dydt; dvdt];
 end
@@ -313,17 +313,17 @@ end
 \end{code}
 
 In the previous version, \lstinline{dvdt} is always \lstinline{-9.8}, the acceleration due to gravity.
-In this version, we call \lstinline{acceleration} to compute the total acceleration due to gravity {\em and} drag \wingding{1}.
+In this version, we call \lstinline{acceleration} to compute the total acceleration due to gravity and drag \wingding{1}.
 
 \begin{figure}[ht]
-\centerline{\includegraphics[height=3in]{book/figs/penny2.eps}}
+\includegraphics{book/images/figure11_02_new.eps}
 \caption{Altitude versus time for a penny in free fall with air resistance}
 \label{fig:penny2}
 \end{figure}
 
 Everything else is the same.  Figure~\ref{fig:penny2} shows the result. 
 
-Air resistance makes a big difference!  Velocity increases until
+Air resistance makes a big difference! Velocity increases until
 the drag acceleration equals $g$; after that, velocity is constant and position decreases linearly (and much more slowly than it would in a vacuum).
 
 With air resistance, the time until the penny hits the sidewalk is \SI{22.4}{\second}, substantially longer than before (\SI{8.8}{\second}).
@@ -332,13 +332,13 @@ And the final velocity is \SI{18.1}{\meter \per \second}, substantially slower t
 
 \section{Chapter Review}
 
-In this chapter we used Newton's laws motion to write a differential equation that describes the motion of a falling penny.  
+In this chapter, we used Newton's laws of motion to write a differential equation that describes the motion of a falling penny.  
 
-We rewrote that equation as a system of first-order differential equations, so we could use \lstinline{ode45} to solve it.  Then we ran simulations of a falling penny with and without air resistance, also known as {\em drag}.
+We rewrote that equation as a system of first-order differential equations, so we could use \lstinline{ode45} to solve it.  Then we ran simulations of a falling penny with and without air resistance, also known as \emph{drag}.
 
-We defined an {\em event} as something of interest that happens during a simulation, like a collision between moving objects, and we wrote an {\em event function}, which allows \lstinline{ode45} to figure out when an event occurs.
+We defined an \emph{event} as something of interest that happens during a simulation, like a collision between moving objects, and we wrote an \emph{event function}, which allows \lstinline{ode45} to figure out when an event occurs.
 
-In the next chapter we extend Newtonian motion to two dimensions and model the flight of a baseball.
+In the next chapter, we extend Newtonian motion to two dimensions and model the flight of a baseball.
 
 
 \section{Exercises}
@@ -355,7 +355,7 @@ After opening their parachute, the velocity of the skydiver slows to about \SI{5
 
 Increase the mass of the skydiver, and confirm that terminal velocity increases.  This phenomenon is the source of the intuition that heavy objects fall faster; in air, they do!
 
-Now suppose the skydiver free-falls until they get to an altitude of \SI{1000}{\meter} before opening the parachute.  How long would it take them to reach the ground?
+Now suppose the skydiver free falls until they get to an altitude of \SI{1000}{\meter} before opening the parachute.  How long would it take them to reach the ground?
 
 What is the lowest altitude where the skydiver can open the parachute and still land at less than \SI{6}{\meter\per\second} (assuming that the parachute opens and deploys instantly)?
 
@@ -371,7 +371,7 @@ What is the lowest altitude where the skydiver can open the parachute and still 
 \index{Sun}
 \index{Law of Universal Gravitation}
 
-Here's a question from the website {Ask an Astronomer} (\url{https://greenteapress.com/matlab/astro}):
+Here's a question from the website Ask an Astronomer (\url{https://greenteapress.com/matlab/astro}):
 
 \begin{quote}
 If the Earth suddenly stopped orbiting the Sun, I know eventually it would be pulled in by the Sun's gravity and hit it. How long would it take the Earth to hit the Sun? I imagine it would go slowly at first and then pick up speed.

@@ -1,6 +1,7 @@
 \chapter{Two Dimensions}
+\chapterartfile{book/images/matlab_circleart.eps}
 
-In the previous chapter we solved a one-dimensional problem, a penny falling from the Empire State Building.  Now we'll solve a two-dimensional problem, finding the trajectory of a baseball.
+In the previous chapter, we solved a one-dimensional problem---a penny falling from the Empire State Building.  Now we'll solve a two-dimensional problem---finding the trajectory of a baseball.
 
 \index{baseball}
 
@@ -9,7 +10,7 @@ To do that, we'll use spatial vectors to represent quantities in two and three d
 \section{Spatial Vectors}
 \label{spacial}
 
-The word {\em vector} means different
+The word \emph{vector} means different
 things to different people.  In MATLAB, a vector is a matrix that has
 either one row or one column.  So far, we've used MATLAB vectors to
 represent:
@@ -34,7 +35,7 @@ gives you a state vector.
 \index{state}
 \index{time series}
 
-In this chapter we'll see another use of MATLAB vectors: representing
+In this chapter, we'll see another use of MATLAB vectors: representing
 \emph{spatial vectors}.  A spatial vector represents a multidimensional physical quantity like position, velocity, acceleration, or force.
 
 \index{position}
@@ -53,7 +54,7 @@ To interpret this vector, we have to know the coordinate system it is defined in
 \index{Pythagorean theorem}
 
 When a spatial vector is represented in this way, we can use it to compute the magnitude and direction of a physical quantity.  
-For example, the {\em magnitude} of \lstinline{P} is the distance from the origin to \lstinline{P}, which is the hypotenuse of the triangle with sides \lstinline{P(1)} and \lstinline{P(2)}.  
+For example, the \emph{magnitude} of \lstinline{P} is the distance from the origin to \lstinline{P}, which is the hypotenuse of the triangle with sides \lstinline{P(1)} and \lstinline{P(2)}.  
 We can compute it using the Pythagorean theorem:
 
 \begin{code}
@@ -72,7 +73,7 @@ Or we can do the same thing using the function \lstinline{norm}, which computes 
 ans = 5
 \end{code}
 
-There are two ways to get the {\em direction} of a vector.  One convention is to compute the angle between the vector and the x-axis:
+There are two ways to get the \emph{direction} of a vector.  One convention is to compute the angle between the vector and the x-axis:
 
 \begin{code}
 >> ***atan2(P(2), P(1))***
@@ -110,7 +111,7 @@ As an example, suppose we have two vectors representing forces:
 \lstinline{A} represents a force pulling northeast; \lstinline{B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}
 
 \begin{figure}[ht]
-\centerline{\includegraphics[height=3in]{book/figs/vector2.eps}}
+\includegraphics{book/images/figure12_01_new.eps}
 \caption{The sum of two forces represented by vectors}
 \label{fig:vector2}
 \end{figure}
@@ -122,7 +123,7 @@ To compute the sum of these forces, all we have to do is add the vectors:
 ans = 4     2
 \end{code}
 
-Later in the chapter we'll use vector addition to add accelerations due to different forces acting on a baseball.
+Later in the chapter, we'll use vector addition to add accelerations due to different forces acting on a baseball.
 
 
 \section{ODEs in Two Dimensions}
@@ -169,7 +170,7 @@ representing the $x$ and $y$ components.
 
 The goal of the rate function is to compute the derivative of \lstinline{W}, so the output has to be a vector with four elements, where the first two represent the derivative of \lstinline{P}  and the last two represent the derivative of \lstinline{V}.
 The derivative of \lstinline{P} is velocity.  We don't have to compute it; we were given it as part of \lstinline{W}.
-The derivative of \lstinline{V} is acceleration.  To compute it, we call \lstinline{acceleration}, which takes as input variables time, position, and velocity.  In this example we don't use any of the input variables, but we will soon.
+The derivative of \lstinline{V} is acceleration.  To compute it, we call \lstinline{acceleration}, which takes as input variables time, position, and velocity.  In this example, we don't use any of the input variables, but we will soon.
 
 \index{air resistance}
 \index{gravity}
@@ -193,7 +194,7 @@ Here's how we can call \lstinline{ode45} with these initial conditions:
 
 \lstinline{P} and \lstinline{V} are column vectors because we put semicolons between the elements.  
 So \lstinline{W} is a column vector with four elements.
-\lstinline{tspan} specifies that we want to run the simulation for \SI{8}{\second}.
+And \lstinline{tspan} specifies that we want to run the simulation for \SI{8}{\second}.
 
 \index{time span}
 \index{output variable}
@@ -213,13 +214,14 @@ Here's how we can plot position as a function of time:
 
 \lstinline{X} and \lstinline{Y} get the first and second columns from \lstinline{M}, which are the $x$ and $y$ position coordinates.
 
+
+Figure~\ref{fig:baseball1} shows what these coordinates look like as a function of time.  The x-coordinate increases linearly because the $x$ velocity is constant.  The y-coordinate goes up and down, as we expect.
+
 \begin{figure}[ht]
-\centerline{\includegraphics[height=3in]{book/figs/baseball1.eps}}
+\includegraphics{book/images/figure12_02_new.eps}
 \caption{Simulated flight of a baseball neglecting drag force}
 \label{fig:baseball1}
 \end{figure}
-
-Figure~\ref{fig:baseball1} shows what these coordinates look like as a function of time.  The x-coordinate increases linearly because the $x$ velocity is constant.  The y-coordinate goes up and down, as we expect.
 
 The simulation ends just before the ball lands, having traveled almost \SI{250}{\meter}.  That's substantially farther than a real baseball would travel, because we have ignored air resistance, or ``drag force.''
 
@@ -233,7 +235,7 @@ The simulation ends just before the ball lands, having traveled almost \SI{250}{
 A simple model for the drag force on a baseball is:
 
 \begin{equation*}
-    \vec{F}_\mathrm{d} = - \frac{1}{2} \, \rho v C_\mathrm{d} A \uvec{V},
+    \vec{F}_\mathrm{d} = - \frac{1}{2} \, \rho v C_\mathrm{d} A \uvec{V}
 \end{equation*}
 where $\vec{F}_\mathrm{d}$ is a vector that represents the force on the baseball
 due to drag, 
@@ -286,34 +288,40 @@ But now it also computes drag force and divides by the mass of the baseball to g
 Finally, it adds \lstinline{a_gravity} and \lstinline{a_drag} to get the total acceleration of the baseball.
 
 \begin{figure}[ht]
-\centerline{\includegraphics[height=3in]{book/figs/vector3.eps}}
-\caption{Diagram of velocity, $\vec{V}$, acceleration due to drag force, 
-$\vec{D}$, acceleration due to gravity, $\vec{G}$, and total acceleration, $\vec{A}$}
+\includegraphics{book/images/figure12_03_new.eps}
+\caption{Diagram of velocity, $\vec{V}$; acceleration due to drag force, 
+$\vec{D}$; acceleration due to gravity, $\vec{G}$; and total acceleration, $\vec{A}$}
 \label{fig:vector3}
 \end{figure}
 
 Figure~\ref{fig:vector3} shows the following quantities graphically:  (1) acceleration due to drag, $\vec{D}$, which is in the opposite direction to (2)~velocity, $\vec{V}$; (3)~acceleration due to gravity, $\vec{G}$, is straight down; and (4)~total acceleration, $\vec{A}$, is the sum of $\vec{D}$ and $\vec{G}$.
 
 \index{acceleration}
+\newpage
+Figure~\ref{fig:baseball2} shows the results from \lstinline{ode45}.  The ball lands after about \SI{5}{\second}, having traveled less than \SI{150}{\meter}, substantially less than what we got without air resistance, about \SI{250}{\meter}.
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{book/figs/baseball2.eps}}
+\includegraphics[scale=0.90]{book/images/figure12_04_new.eps}
 \caption{Simulated flight of a baseball including drag force}
 \label{fig:baseball2}
 \end{figure}
 
-Figure~\ref{fig:baseball2} shows the results from \lstinline{ode45}.  The ball lands after about \SI{5}{\second}, having traveled less than \SI{150}{\meter}, substantially less than what we got without air resistance, about \SI{250}{\meter}.
-
+\newpage
 This result suggests that ignoring air resistance is not a good choice for modeling a baseball.
 
+\begin{figure}
+\includegraphics[scale=0.90]{book/images/figure12_04_new.eps}
+\caption{Simulated flight of a baseball including drag force}
+\label{fig:baseball2}
+\end{figure}
 
 \section{What Could Go Wrong?}
 
 What could go wrong?  Well, \lstinline{vertcat} for one.  To explain
 what that means, I'll start with \emph{concatenation}, which is
 the operation of joining two matrices into a larger matrix.
-``Vertical concatenation'' joins the matrices by stacking them on
-top of each other; ``horizontal concatenation'' lays them
+\emph{Vertical concatenation} joins the matrices by stacking them on
+top of each other; \emph{horizontal concatenation} lays them
 side by side.
 
 \index{concatenation}
@@ -334,7 +342,6 @@ z = 1     2     3     4     5
 \end{code}
 
 Inside brackets, the comma operator performs horizontal concatenation.
-
 The vertical concatenation operator is the semicolon.  Here's an
 example with matrices:
 
@@ -415,7 +422,7 @@ row vector, that's trouble.
 
 \lstinline{ode45} expects the result from \lstinline{rate_func} to be a
 column vector, so if you are working with \lstinline{ode45}, it's
-probably a good idea to make {\em everything} a column vector.
+probably a good idea to make everything a column vector.
 
 In general, if you run into problems with \lstinline{horzcat} and
 \lstinline{vertcat}, use \lstinline{size} to display the dimensions of the operands,
@@ -423,20 +430,20 @@ and make sure you are clear on which way your vectors go.
 
 \section{Chapter Review}
 
-In this chapter we simulated the flight of a baseball with and without air resistance, and saw that the difference is substantial.
+In this chapter, we simulated the flight of a baseball with and without air resistance, and saw that the difference is substantial.
 We can conclude that it's important to model air resistance if we want to make accurate predictions about baseballs and similar projectiles.
 
 Here are some of the terms from this chapter you might want to remember.
 
-A {\em spatial vector} is a value that represents a multidimensional physical quantity like position, velocity, acceleration, or force.
-A spatial vector has a direction and a magnitude.  The magnitude is also called the {\em norm} of the vector.
-A {\em unit vector} is a vector with norm 1, which is often used to represent a
+A \emph{spatial vector} is a value that represents a multidimensional physical quantity like position, velocity, acceleration, or force.
+A spatial vector has a direction and a magnitude.  The magnitude is also called the \emph{norm} of the vector.
+A \emph{unit vector} is a vector with norm 1, which is often used to represent a
 direction.
 
-{\em Concatenation} is the operation of joining two vectors or matrices end-to-end to
+\emph{Concatenation} is the operation of joining two vectors or matrices end-to-end to
 form a new vector or matrix.
 
-In the next chapter we'll continue with the baseball example, using \lstinline{fzero}, which we saw in Chapter~\ref{fzero}, and a new tool for optimization, called \lstinline{fminsearch}.  We'll also see a simple way to animate the solution of a differential equation.
+In the next chapter, we'll continue with the baseball example, using \lstinline{fzero}, which we saw in Chapter~\ref{fzero}, and a new tool for optimization, called \lstinline{fminsearch}.  We'll also see a simple way to animate the solution of a differential equation.
 
 
 \section{Exercises}
@@ -461,7 +468,7 @@ does this have on drag?  What effect does it have on the distance the baseball t
 
 The actual drag on a baseball is more complicated than what is
 captured by our simple model.  In particular, the drag coefficient
-depends on velocity.  You can get some of the details from Robert~K.\ Adair's {\em The
+depends on velocity.  You can get some of the details from Robert~K.\ Adair's \emph{The
 Physics of Baseball} (Harper Perennial, 2002); the figure you need is reproduced at \url{https://greenteapress.com/matlab/drag}.
 
 Use this data to specify a more realistic model of drag and modify your

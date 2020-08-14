@@ -1,4 +1,5 @@
 \chapter{Scripts}
+\chapterartfile{filename}
 
 So far we've typed all of our programs ``at the prompt.'' If you're only writing a few lines, this isn't so bad. But what if you're writing a hundred? Retyping each line of code every time you want to change or test your program will be time-consuming and tedious. Luckily, you don't have to. In this chapter, we'll look at a way to run many lines at once: scripts.
 
@@ -20,15 +21,15 @@ To try it out, create a new script and enter the following code:
 x = 5
 \end{code}
 
-Then press the {\bf Save} button.  A dialog window should appear where you can choose the file name and the folder where your script will go.  
+Then press the {\bf Save} button.  A dialog window should appear where you can choose the filename and the folder where your script will go.  
 Change the name to {\em myscript.m} and save it into any folder you like.
 
-Now press the green {\bf Run} button.  You might get a message that says the script is not found in the current folder.  
+Now click the green {\bf Run} button.  You might get a message that says the script is not found in the current folder.  
 If so, click the button that says {\bf Change Folder} and it should run.
 
-\index{Command Window}
+\index{Command window}
 
-You can also run a script by typing its name in the Command Window and pressing \keycap{enter}. For example, if you enter \textbf{\lstinline{myscript}}, MATLAB should execute your script and display the result:
+You can also run a script by typing its name in the Command window and pressing \keycap{enter}. For example, if you enter \textbf{\lstinline{myscript}}, MATLAB should execute your script and display the result:
 
 \begin{code}
 >> ***myscript***
@@ -103,9 +104,10 @@ F_n = \frac{1}{\sqrt{5}}
 \left[
 \left( \frac{1 + \sqrt{5}}{2} \right)^{n} -
 \left( \frac{1 - \sqrt{5}}{2} \right)^{n}
-\right].
+\right]
 \end{equation*}
 %
+
 We can translate this expression into MATLAB, like this:
 
 \begin{code}
@@ -200,10 +202,10 @@ For example, if we use the built-in function \lstinline{factorial} to compute $1
 ans = 9.332621544394410e+157
 \end{code}
 
-The {\tt e} in this notation is {\em not} the transcendental number
+The \lstinline{e} in this notation is {\em not} the transcendental number
 known as $e$; it's just an abbreviation for ``exponent.''  So
 this means that $100!$ is approximately $9.33 \times 10^{157}$.  The
-exact solution is a 158-digit integer, but with double-precision floating-point numbers we only know the first 16 digits.
+exact solution is a 158-digit integer, but with double-precision floating-point numbers, we only know the first 16 digits.
 
 \index{transcendental number}
 \index{exponent}
@@ -255,7 +257,7 @@ ans = Inf
 \index{division!by zero}
 \index{zero!division by}
 
-For operations that are undefined, MATLAB returns \lstinline{ NaN},
+For operations that are undefined, MATLAB returns \lstinline{NaN},
 which stands for ``not a number.''
 
 \index{NaN@\lstinline{NaN}}
@@ -293,7 +295,7 @@ computation, but for now that burden falls on the programmer.
 
 \index{unit}
 
-Avoid redundant comments:
+Avoid comments that are redundant with the code:
 
 \begin{code}
 >> ***x = 5        % assign the value 5 to x***
@@ -369,9 +371,9 @@ For beginning programmers, a common source of confusion is assignment and the us
 \index{assignment!target}
 \index{equality}
 
-In mathematics the equals sign means that the two sides of the
+In mathematics, the equals sign means that the two sides of the
 equation have the same value.
-In MATLAB an assignment statement {\em looks} like a mathematical equality, but it's not.
+In MATLAB, an assignment statement {\em looks} like a mathematical equality, but it's not.
 
 One difference is that the sides of an assignment statement are not
 interchangeable.  The right side can be any legal expression, but
@@ -409,7 +411,7 @@ A third difference is that a mathematical equality is a statement that
 may or may not be true.  In mathematics, $y = y+1$ is a statement that
 happens to be false for all values of $y$.  
 In MATLAB, \lstinline{y = y + 1} is a sensible and useful assignment statement.
-It reads the current value of \lstinline{y}, adds one, and replaces the old value with the new value.
+It reads the current value of \lstinline{y}, adds 1, and replaces the old value with the new value.
 
 \begin{code}
 >> ***y = 1;***
@@ -418,8 +420,8 @@ y = 2
 \end{code}
 
 When you read MATLAB code, you might find it helpful to pronounce
-the equals sign ``gets'' rather than ``equals.''  So \lstinline{x = y + 1}
-is pronounced ``\lstinline{x}~gets the value of \lstinline{y} plus one.''
+the equals sign as ``gets'' rather than ``equals.''  So \lstinline{x = y + 1}
+is pronounced ``\lstinline{x}~gets the value of \lstinline{y} plus .''
 
 \section{Chapter Review}
 
@@ -481,8 +483,8 @@ y = 1
 Imagine that you are the operator of a bike share system with two
 locations: Boston and Cambridge.
 
-You observe that every day 5\%
-of the bikes in Boston are dropped off in Cambridge, and 3\% of the bikes
+You observe that every day 5 percent
+of the bikes in Boston are dropped off in Cambridge, and 3 percent of the bikes
 in Cambridge get dropped off in Boston.
 At the beginning of the month, there are 100 bikes at each location.
 
@@ -505,7 +507,7 @@ of time from day to day (you can repeat a command by pressing the \keycap{up} ar
 
 What happens to the bikes?  Do they all end up in one place?  Does the system reach an equilibrium, does it oscillate, or does it do something else?
 
-In the next chapter we will see how to execute your script automatically,
+In the next chapter, we will see how to execute your script automatically,
 and how to plot the values of \lstinline{b} and \lstinline{c} over time.
 
 

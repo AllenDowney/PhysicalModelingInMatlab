@@ -68,7 +68,7 @@ When \lstinline{rate_func} runs, it plots a red circle at each location and a sh
 Figure~\ref{fig:odeplot1} shows the result.  \lstinline{ode45} computes 10 time steps (not counting the initial condition) and evaluates the rate function 61 times.
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{book/figs/odeplot1.eps}}
+\centerline{\includegraphics{book/images/figure15_01_new.eps}}
 \caption{Points where \lstinline{ode45} evaluates the rate function}
 \label{fig:odeplot1}
 \end{figure}
@@ -84,7 +84,7 @@ This is good to know when you are writing a rate function; you should not assume
 In a sense, the rate function is answering a hypothetical question: ``{\em If} the state at a particular time has these particular values, what {\em would} the slope be?''
 
 \begin{figure}
-\centerline{\includegraphics[height=3in]{book/figs/odeplot2.eps}}
+\centerline{\includegraphics{book/images/figure15_02_new.eps}}
 \caption{Points where \lstinline{ode45} evaluates the rate function, zoomed in}
 \label{fig:odeplot2}
 \end{figure}
@@ -111,7 +111,7 @@ According to the MATLAB documentation, \lstinline{fzero} uses uses ``a combinati
 To understand what that means, suppose we're trying to find a root of a function of one variable, $f(x)$, and assume we have evaluated the function at two places, $x_1$ and $x_2$, and found that the results have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
 \begin{figure}[ht]
-\centerline{\includegraphics[height=1.6in]{book/figs/secant.eps}}
+\centerline{\includegraphics{book/images/figure15_03_new.eps}}
 \caption{Initial state of a root-finding search}
 \label{fig:secant}
 \end{figure}
@@ -154,7 +154,7 @@ $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
 \begin{figure}[ht]
-\centerline{\includegraphics[height=1.5in]{book/figs/golden1.eps}}
+\centerline{\includegraphics{book/images/figure15_04_new.eps}}
 \caption{Initial state of a golden-section search}
 \label{fig:golden1}
 \end{figure}
@@ -169,7 +169,7 @@ $f(x_4)$ is greater than $f(x_2)$ or not.
 Figure~\ref{fig:golden2} shows the two possible states.
 
 \begin{figure}[ht]
-\centerline{\includegraphics[height=1.5in]{book/figs/golden2.eps}}
+\centerline{\includegraphics{book/images/figure15_05_new.eps}}
 \caption{Possible states of a golden-section search after evaluating $f(x_4)$}
 \label{fig:golden2}
 \end{figure}

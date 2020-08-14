@@ -59,7 +59,7 @@
 \ProcessOptions\relax
 \LoadClass[10pt]{book}
 \RequirePackage{ifpdf, fancyhdr, fancyvrb, booktabs, graphicx,
-  listings, caption, makeidx, upquote, fontspec, pifont, textcomp, xcolor, lmodern, nameref, float, amssymb}
+  listings, caption, makeidx, upquote, fontspec, pifont, textcomp, xcolor, lmodern, nameref, float, amssymb, etoolbox}
 \RequirePackage[framemethod=TikZ]{mdframed}
 \RequirePackage{soulutf8}
 \RequirePackage[T1]{fontenc}  
@@ -122,6 +122,11 @@
     Path=fonts/futurans/,
     UprightFont=FutCBO63.ttf,
 ]{futuraboldcoblique}
+
+  \newfontface\futuraoblique[
+    Path=fonts/futurans/,
+    UprightFont=FutuBO08.ttf,
+]{futuraoblique}
 
 \setmainfont{nbaskerv}[
     Path=fonts/nbaskerv/,
@@ -763,7 +768,7 @@
     \renewcommand{\codewingding}[1]
     {\ding{\the\numexpr ##1 + 181 \relax}} 
     \captionsetup[lstlisting]{font=nostarchfigfont,singlelinecheck=off,
-  aboveskip=4pt, belowskip=0pt, margin=-50pt}
+  aboveskip=4pt, belowskip=-12pt, margin=-50pt}
     \lstset{
     frame = lines, 
     showstringspaces=false,
@@ -808,6 +813,8 @@
   \futurabook\fontsize{8.5pt}{10pt}\selectfont}
 \def\thfont{%
   \futuraheavy\fontsize{9pt}{10pt}\selectfont}
+\AtBeginEnvironment{tabular}{\tbfont}
+
  
 \heavyrulewidth=3\p@
 \lightrulewidth=1.5\p@
@@ -864,7 +871,16 @@
   \ifx\relax#2\relax\else\fauxschelphelp#2\relax\fi}
  
  % ===== MENU ARROW =====
- \newcommand\menuarrow{{\small $\blacktriangleright$}}
+ \newcommand\menuarrow{\raisebox{.2ex}{\small $\blacktriangleright$}}
+ 
+  % ===== PLAIN LIST =====
+ \newenvironment{plainlist}{%
+   \renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\textbf{##1}} % Add em space to description label
+   \begin{description}%
+}{%
+    \renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\textbf{##1 \quad}} % Add em space to description label
+   \end{description}%
+}
 
 % ===== BIBLIOGRAPHY =====
 \AtBeginDocument{
