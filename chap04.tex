@@ -20,7 +20,7 @@ ans = 1     2     3
 \end{code}
 
 Another way to create a vector is the colon operator, which we have already used to create a range of values in a \lstinline{for} loop.
-
+\newpage
 \begin{code}
 >> ***1:3***
 ans = 1     2     3
@@ -75,8 +75,9 @@ W = 1     2
 Matrix dimensions must agree.
 \end{code}
 
-The error message in this case is confusing, because we think of these values as vectors, not matrices.
-We'll come back to this topic later, but for now you can think of a vector as a kind of matrix.
+This error message might be confusing, because we think of \lstinline{X} and \lstinline{W} as vectors, not matrices.
+But in MATLAB, a vector is a kind of matrix.
+We'll come back to matrices later, but in the meantime, you might see the term in error messages and documentation.
 
 \index{matrix}
 \index{elementwise operator}
@@ -86,17 +87,18 @@ If you divide two vectors, you might be surprised by the result:
 
 \begin{code}
 >> ***X / Y***
-ans = 0.4156
+ans = 0.2953
 \end{code}
 
-MATLAB is performing a matrix operation called right division; an explanation of right division is outside the scope of this book. If you want to divide the elements of \lstinline{X} by the elements of \lstinline{Y}, you have to use \lstinline{./}, which is element-wise division:
+MATLAB is performing an operation called right division, which is not what we expected. 
+To divide the elements of \lstinline{X} by the elements of \lstinline{Y}, you have to use \lstinline{./}, which is element-wise division:
 
 \begin{code}
 >> ***X ./ Y***
-ans = 0.2500    0.4000    0.5000
+ans = 0.1667    0.2857    0.3750
 \end{code}
 
-Multiplication has the same problem.  If you use \lstinline{*}, MATLAB does matrix multiplication.  With these two vectors, matrix multiplication is not defined, and you get an error:
+Multiplication has the same problem.  If you use \lstinline{*}, MATLAB does matrix multiplication.  With these two vectors, matrix multiplication is not defined, so you get an error:
 
 \begin{code}
 >> ***X * Y***
@@ -114,7 +116,7 @@ In this case, the error message is pretty helpful.  As it suggests, you can use 
 
 \begin{code}
 >> ***X .* Y***
-ans = 4    10    18
+ans = 6    14    24
 \end{code}
 
 As an exercise, see what happens if you use the exponentiation operator 
@@ -138,8 +140,8 @@ ans = 6
 ans = 9
 \end{code}
 
-This means that the first element of \lstinline{Y} is 6 and the
-fourth element is~9.
+This means that the first element of \lstinline{Y} is \lstinline{6} and the
+fourth element is~\lstinline{9}.
 The number in parentheses is called the \emph{index} because it indicates which element of the vector you want.
 
 \index{index}
@@ -153,7 +155,7 @@ ans = 6
 >> ***Y(i+1)***
 ans = 7
 \end{code}
-
+\newpage
 We can use a loop to display the elements of \lstinline{Y}:
 
 \index{loop}
@@ -165,12 +167,12 @@ end
 \end{code}
 
 Each time through the loop we use a different value of \lstinline{i}
-as an index into \lstinline{Y}.
+as an index into~\lstinline{Y}.
 
 \index{length function@\lstinline{length} function}
 \index{function!\lstinline{length}}
 
-In the previous example we have to know the number
+In the previous example we had to know the number
 of elements in \lstinline{Y}.  We can make it more general by using
 the \lstinline{length} function, which returns the number of elements
 in a vector:
@@ -184,7 +186,7 @@ end
 This version works for a vector of any length.
 
 
-\subsection{Indexing Errors}
+\section{Indexing Errors}
 
 \index{index}
 \index{expression}
@@ -213,8 +215,7 @@ If the index is too big, you also get an error:
 Index exceeds the number of array elements (4).
 \end{code}
 
-The error messages use the word {\em array}' rather than {\em matrix}, 
-but they mean the same thing, at least for now.
+The error messages use the word \emph{array} rather than \emph{matrix}, but they mean the same thing, at least for now.
 
 \index{array}
 
@@ -233,7 +234,7 @@ $F_{i} = F_{i-1} + F_{i-2}$ for $i > 2$.
 
 Listing~\ref{lst:fib_vec} shows how we can compute the elements of this sequence and store them in a vector, using a capital letter for the vector \lstinline{F}
 and lower-case letters for the integers \lstinline{i} and \lstinline{n}.
-
+\newpage
 \begin{lstlisting}[caption={Calculating the Fibonacci sequence using a vector}, label={lst:fib_vec}]
 F(1) = 1
 F(2) = 1
@@ -260,7 +261,7 @@ makes your code easier to write and debug, that's probably okay.
 
 If you call \lstinline{plot} with a vector as an argument,
 MATLAB plots the indices on the x-axis and the elements on the
-y-axis.  To plot the Fibonacci numbers we computed in Listing~\ref{lst:fib_vec}, we'd use:
+y-axis.  To plot the Fibonacci numbers we computed in Listing~\ref{lst:fib_vec}, we'd use
 
 \begin{code}
 plot(F)
@@ -270,7 +271,7 @@ Figure~\ref{fig:fibonacci} shows the result.
 
 \begin{figure}[H]
 \includegraphics{book/images/figure04_01_new_v1.eps}
-\caption{The first 10 elements of the Fibonacci sequence.}
+\caption{The first 10 elements of the Fibonacci sequence}
 \label{fig:fibonacci}
 \end{figure}
 
@@ -318,7 +319,7 @@ in the \lstinline{i}th element of \lstinline{X}, so at the end of the loop
 
 MATLAB provides functions that perform some reduce operations.
 For example, the \lstinline{sum} function computes the sum of the elements
-in a vector and \lstinline{prod} computes the product.
+in a vector, and \lstinline{prod} computes the product.
 
 
 \subsection{Apply}
@@ -344,7 +345,7 @@ end
 Many apply operations can be done with element-wise operators.
 The following statement is more concise than the loop in
 Listing~\ref{lst:vec_apply}.
-
+\newpage
 \begin{code}
 Y = X .^ 2
 \end{code}
@@ -363,15 +364,15 @@ Here are some terms from this chapter you might want to remember.
 % If you put one compound statement in the body of another, they are {\em nested}.
 
 % A {\em scalar} is single value; a
-A {\em vector} is a sequence of values, and a {\em matrix} is a two-dimensional collection of values (also called an {\em array} in some MATLAB documentation).
+A \emph{vector} is a sequence of values, which is a kind of \emph{matrix}, also called an \emph{array} in some MATLAB documentation.
 
-An {\em index} is an integer value used to indicate one of the elements
-in a vector or matrix (also called a {\em subscript} in some MATLAB documentation).
+An \emph{index} is an integer value used to indicate one of the elements
+in a vector or matrix (also called a \emph{subscript} in some MATLAB documentation).
 
-An operation is {\em element-wise} if it acts on the individual elements of a vector or matrix (unlike some linear algebra operations).
+An operation is \emph{element-wise} if it acts on the individual elements of a vector or matrix (unlike some linear algebra operations).
 
 % You can {\em search} a vector for an element that has some desired property.
-You can {\em apply} an operation to all elements of a vector, and you can {\em reduce} a vector to a single value, for example by computing the sum of the elements.
+You can \emph{apply} an operation to all elements of a vector, and you can \mbox{\emph{reduce}} a vector to a single value, for example by computing the sum of the elements.
 
 % A {\em name collision} is a scenario where two scripts that use the same variable name interfere with each other.
 
@@ -384,7 +385,7 @@ In the next chapter, we'll meet the most important idea in computer programming:
 Before you go on, you might want to work on the following exercises.
 
 \subsection{Exercise~1}
-Write a loop that computes the first \lstinline{n} elements
+Write a loop that computes the first $n$ elements
 of the geometric sequence $A_{i+1} = A_i/2$ with $A_1 = 1$.  Notice that
 math notation puts $A_{i+1}$ on the left side of the equality.
 When you translate to MATLAB, you might want to rewrite it with
@@ -403,7 +404,7 @@ Write an expression that computes the square root of the sum of the squares of t
 The ratio of consecutive Fibonacci numbers, $F_{n+1}/F_{n}$, converges
 to a constant value as $n$ increases.  Write a script that computes
 a vector with the first $n$ elements of a Fibonacci sequence (assuming
-that the variable \lstinline{n} is defined), and then computes a new
+that the variable \lstinline{n} is defined) and then computes a new
 vector that contains the ratios of consecutive Fibonacci numbers.
 Plot this vector to see if it seems to converge.  What value does
 it converge on?
@@ -425,11 +426,11 @@ z_{i+1} &=& z_i + \left( x_i y_i - b z_i \right) dt
 \begin{enumerate}
 
 \item Write a script that computes the first 10 elements of the sequences
-$X$, $Y$, and $Z$, and stores them in vectors named \lstinline{X}, \lstinline{Y},
-and \lstinline{Z}.
+$X$, $Y$, and $Z$ and stores them in vectors named \textbf{\lstinline{X}}, \textbf{\lstinline{Y}},
+and \textbf{\lstinline{Z}}.
 
 Use the initial values $X_1 = 1$, $Y_1 = 2$, and $Z_1 = 3$ with the values
-$\sigma = 10$, $b = 8/3$, and $r = 28$, and with $dt = 0.01$.
+$\sigma = 10$, $b = 8/3$, $r = 28$, and $dt = 0.01$.
 
 \item Read the documentation for \lstinline{plot3} and \lstinline{comet3}, and
 plot the results in three dimensions.
@@ -459,7 +460,7 @@ The logistic map (see \url{https://greenteapress.com/matlab/logistic}) is descri
 \begin{equation*}
 X_{i+1} = r X_i (1-X_i)
 \end{equation*}
-where $X_i$ is a number between zero and one, and $r$ is a positive number.
+where $X_i$ is a number between 0 and 1, and $r$ is a positive number.
 
 \begin{enumerate}
 

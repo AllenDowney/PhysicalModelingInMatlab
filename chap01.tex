@@ -2,7 +2,7 @@
 \label{modeling}
 \chapterartfile{book/images/matlab_circleart.eps}
 
-This book is about modeling and simulating physical systems. Before we can build any models, it'll help to have a high-level understanding of what a model is. We'll also need to familiarize ourselves with the tools we use to build them. In this chapter, we'll look at the modeling process and introduce MATLAB, the programming language we'll use to represent models and run \mbox{simulations}.
+This book is about modeling and simulating physical systems. Before we can build any models, it'll help to have a high-level understanding of what a model is. We'll also need to familiarize ourselves with the tools we use to build them. In this chapter, we'll look at the modeling process and introduce MATLAB, the programming language we'll use to represent models and run \mbox{simulations}. At the end of the chapter you'll find exercises you can use to test your knowledge.
 
 
 \section{Modeling}
@@ -345,7 +345,7 @@ Numbers are fine, but not at the beginning.
 Spaces are not allowed.  Variable names are
 \emph{case sensitive}, so \lstinline{x} and \lstinline{X} are different variables.
 
-Let's look at some examples of assignment statements:
+Let's look at some examples of assignment statements.
 
 \begin{code}
 >> ***fibonacci0 = 1;***
@@ -554,11 +554,11 @@ I won't explain this result; for now, I'll just suggest that you should \mbox{\e
 \index{error message}
 
 Here's another common error.
-If you were translating this mathematical expression into MATLAB:
+If you were translating the mathematical expression
 %
 \[ \frac{1}{2 \sqrt \pi} \]
 %
-you might be tempted to write this:
+into MATLAB, you might be tempted to write this:
 
 \begin{code}
 1 / 2 * sqrt(pi)
@@ -574,7 +574,7 @@ To keep \lstinline{sqrt(pi)} in the denominator, you could use parentheses,
 \begin{code}
 1 / (2 * sqrt(pi))
 \end{code}
-or make the division explicit:
+or make the division explicit,
 
 \begin{code}
 1 / 2 / sqrt(pi)
@@ -627,7 +627,7 @@ we get to vectors and matrices a few chapters from now.
 \index{matrix}
 
 The \lstinline{doc} pages are usually better.  
-If you enter \textbf{\lstinline{doc sin}}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
+If you enter \lstinline{doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
 use vectors and matrices, so they may not make sense yet, 
 but you can get a preview of what's coming.
 
@@ -636,30 +636,30 @@ but you can get a preview of what's coming.
 
 This chapter provided an overview of the modeling process, including abstraction, analysis and simulation, measurement, and validation. 
 
-It also introduced MATLAB, the programming language we'll use to write simulations.  So far, we've seen variables and values, arithmetic operations, and mathematical functions.  At the end of the chapter you'll find exercises you can use to test your knowledge.
+It also introduced MATLAB, the programming language we'll use to write simulations.  So far, we've seen variables and values, arithmetic operations, and mathematical functions.
 
 Here are a few terms from this chapter you might want to remember.
 
-The {\em interpreter} is the program that reads and executes MATLAB or Octave code.
-It prints a {\em prompt} to indicate that it's waiting for you to type a {\em command}, which is a line of code executed by the interpreter.
+The \emph{interpreter} is the program that reads and executes MATLAB or \mbox{Octave} code.
+It prints a \emph{prompt} to indicate that it's waiting for you to type a \emph{command}, which is a line of code executed by the interpreter.
 
-An {\em operator} is a symbol, like \lstinline{*} and \lstinline{+}, that
+An \emph{operator} is a symbol, like \lstinline{*} or \lstinline{+}, that
 represents a mathematical operation.
-An {\em operand} is a number or variable that appears in an expression along
+An \emph{operand} is a number or variable that appears in an expression along
 with operators.
-An {\em expression} is a sequence of operands and operators that specifies
+An \emph{expression} is a sequence of operands and operators that specifies
 a mathematical computation and yields a value.
 
-A {\em function} is a named computation; for example, \lstinline{log10} is the
+A \emph{function} is a named computation; for example, \lstinline{log10} is the
 name of a function that computes logarithms in base 10.
-A {\em function call} is a command that causes a function to execute and compute a result.
-An {\em argument} is an expression that appears in a function call to
+A \emph{function call} is a command that causes a function to execute and compute a result.
+An \emph{argument} is an expression that appears in a function call to
 specify the value the function operates on.
 
-A {\em variable} is a named value. An {\em assignment statement} is a command that creates a new variable (if necessary) and gives it a value.
-A {\em workspace} is a set of variables and their values.
+A \emph{variable} is a named value. An \emph{assignment statement} is a command that creates a new variable (if necessary) and gives it a value.
+A \emph{workspace} is a set of variables and their values.
 
-Finally, a {\em string} is a value that consists of a sequence of characters (as opposed to a number).
+Finally, a \emph{string} is a value that consists of a sequence of characters (as opposed to a number).
 
 In the next chapter, you'll start writing longer programs and learn about floating-point numbers.
 
@@ -669,7 +669,7 @@ Before you go on, you might want to work on the following exercises.
 
 \subsection{Exercise~1}
 \label{penny}
-You might have heard that a penny dropped from the top of the Empire State Building would be going so fast when it hit the pavement that it would be embedded in the concrete; or if it hit a person, it would break their skull.
+You might have heard that a penny dropped from the top of the Empire State Building would be going so fast when it hit the pavement that it would be embedded in the concrete or that if it hit a person it would break their skull.
 
 \index{Empire State Building}
 \index{penny}

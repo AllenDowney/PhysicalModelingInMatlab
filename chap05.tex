@@ -2,7 +2,7 @@
 \label{functions}
 \chapterartfile{book/images/matlab_circleart.eps}
 
-This chapter introduces the most important idea in computer programming: functions! 
+This chapter introduces the most important idea in computer programming: \mbox{functions}! 
 To explain why functions are so important, I'll start by explaining one of the problems they solve: name collisions.
 
 \index{function}
@@ -47,14 +47,14 @@ this problem is one of several motivations for functions.
 \section{Defining Functions}
 
 A \emph{function} is like a script, except that each function has its own workspace, so any variables defined
-inside a function only exist while the function is running, and don't
+inside a function only exist while the function is running and don't
 interfere with variables in other workspaces, even if they have the
 same name. 
 Function inputs and outputs are defined carefully to avoid
 unexpected interactions.
 
 To define a new function, you create an M-file with the name you
-want, and put a function definition in it.  For example, to create
+want and put a function definition in it.  For example, to create
 a function named \lstinline{myfunc}, create an M-file named \emph{myfunc.m}
 and put the following definition into it (Listing~\ref{lst:function_def}):
 
@@ -89,9 +89,9 @@ argument provided by the user will be assigned to \lstinline{x}.
 \index{variable!output}
 
 The \emph{output variable} is named \lstinline{res}, which is short for
-``result.''  You can call the output variable whatever you want, but
+\emph{result}.  You can call the output variable whatever you want, but
 as a convention, I like to call it \lstinline{res}.  Usually the last
-thing a function does is assign a value to the output variable.
+thing a function does is assign a value to the output \mbox{variable}.
 
 \index{res@\lstinline{res}}
 \index{ans@\lstinline{ans}}
@@ -182,8 +182,7 @@ want without worrying about collisions.
 % \index{documentation}
 \index{comment}
 
-At the beginning of every function file, you should include a comment
-that explains what the function does:
+At the beginning of every function file, you should include a comment that explains what the function does:
 
 \index{documentation!function}
 
@@ -201,7 +200,7 @@ function res = myfunc(x)
 end
 \end{code}
 
-When you ask for \textbf{\lstinline{help}}, MATLAB prints the comment you provide.
+When you ask for \lstinline{help}, MATLAB prints the comment you provide.
 
 \index{help@\lstinline{help}}
 
@@ -214,7 +213,7 @@ When you ask for \textbf{\lstinline{help}}, MATLAB prints the comment you provid
 
 There are lots of conventions about what should be included
 in these comments.  Among other things, it's a good idea to
-include:
+include the following:
 
 \begin{description}
 
@@ -223,8 +222,8 @@ of the function, the input variable(s), and the output variable(s).
 
 \item [Description] A clear, concise, abstract description of what the function does.
 An \emph{abstract} description is one that leaves out the
-details of \emph{how} the function works, and includes only information
-that someone using the function needs to know.  You can put additional
+details of \emph{how} the function works and includes only information
+that someone \linebreak using the function needs to know.  You can put additional
 comments inside the function that explain the details.
 
 \item [Variables] An explanation of what the input variables mean; for example,
@@ -250,11 +249,7 @@ easy to get confused.
 \index{function name}
 \index{name!function}
 
-In the spirit of making errors on purpose, change the name of
-the function \textbf{\lstinline{myfunc}} to \textbf{\lstinline{something_else}}, and
-then run it again.
-
-If this is what you put in \emph{myfunc.m}:
+In the spirit of making errors on purpose, edit \emph{myfunc.m} and change the name of the function from \textbf{\lstinline{myfunc}} to \textbf{\lstinline{something_else}}, like this:
 
 \begin{code}
 function res = something_else (x)
@@ -263,23 +258,27 @@ function res = something_else (x)
     res = abs(s) + abs(c);
 end
 \end{code}
-here's what you'll get:
+
+Now call the function from the Command Window, like this:
 
 \begin{code}
 >> ***y = myfunc(1)***
 y = 1.3818
+\end{code}
 
+The function is still called \lstinline{myfunc}, because that's the name of the file.
+If you try to call it like this:
+
+\begin{code}
 >> ***y = something_else(1)***
 Undefined function or variable 'something_else'.
 \end{code}
 
-Entering \lstinline{myfunc} still works because that's the name of the file;
-\lstinline{something_else} doesn't work because the name of the function is ignored.
+It doesn't work.  The name of the file is what matters; the name of the function is ignored.
 
 The second ``gotcha'' is that the name of the file can't have spaces.
-For example, if you write a function and rename the file to 
-\emph{my func.m},
-and then try to run it, you get:
+For example, if you rename the file to \emph{my func.m}
+and try to run it, you get:
 
 \begin{code}
 >> ***y = my func(1)***
@@ -292,9 +291,9 @@ This fails because MATLAB thinks \lstinline{my} and \lstinline{func} are two dif
 variable names.
 
 The third ``gotcha'' is that your function names can collide with built-in
-MATLAB functions.  For example, if you create an M-file named \emph{sum.m}, and then call \lstinline{sum}, MATLAB might call your new
+MATLAB functions.  For example, if you create an M-file named \emph{sum.m} and then call \lstinline{sum}, MATLAB might call your new
 function, not the built-in version!  Which one actually gets called
-depends on the order of the directories in the search path, and
+depends on the order of the directories in the search path and
 (in some cases) on the arguments.  As an example, put the following
 code in a file named \emph{sum.m}:
 
@@ -395,12 +394,12 @@ output variables.
 A \emph{silent function} doesn't display anything, generate a figure, or have any other effect other than returning output values.
 
 
-\section{Exercises}
+\section{Exercise}
 
 Before you go on, you might want to work on the following exercise.
 \subsection{Exercise~1}
 \label{hypotenuse_exercise}
-Write a function called \lstinline{hypotenuse} that takes two parameters, \lstinline{a} and \lstinline{b}, that represent the lengths of two sides of a right triangle.  It should assign to \lstinline{res} the length of the third side of the triangle, given by the formula:
+Write a function called \textbf{\lstinline{hypotenuse}} that takes two parameters, \textbf{\lstinline{a}} and \textbf{\lstinline{b}}, that represent the lengths of two sides of a right triangle.  It should assign to \lstinline{res} the length of the third side of the triangle, given by the formula
 
 \[ c = \sqrt{a^2 + b^2} \]
 

@@ -6,7 +6,7 @@ Now that we have functions and vectors, we'll put them together to write functio
 
 \section{Functions and Vectors}
 
-In this section we'll look at common patterns involving functions and vectors, and you will learn how to write a single function that can work with vectors as well as scalars.
+In this section we'll look at common patterns involving functions and vectors, and you will learn how to write a single function that can work with \mbox{vectors} as well as scalars.
 
 \subsection{Vectors as Input Variables}
 
@@ -94,7 +94,7 @@ This function squares each element of \lstinline{X} and stores it as an element 
 V = 1     4     9
 \end{code}
 
-The input variable is a vector with the elements \lstinline{1,2,3}.  The output variable is a vector with elements \lstinline{1,4,9}.
+The input variable is a vector with the elements \lstinline{1,2,3}.  The output variable is a vector with the elements \lstinline{1,4,9}.
 
 
 
@@ -160,13 +160,13 @@ square matrices.
 Error using  ^  (line 51)
 Incorrect dimensions for raising a matrix to a power. 
 Check that the matrix is square and the power is a scalar. 
-To perform elementwise matrix powers, use '.^'.
+To perform element-wise matrix powers, use '.^'.
 \end{code}
 
-But if you replace \lstinline{^} with the elementwise operator
-\lstinline{.^}, it works!
+But if you replace \lstinline{^} with the element-wise operator
+(\lstinline{.^}), it works!
 
-\index{elementwise operator}
+\index{element-wise operator}
 
 \begin{code}
 >> ***A = [3,5,8];***
@@ -180,7 +180,7 @@ The function matches up corresponding elements from the two
 input vectors, so the elements of \lstinline{C} are the hypotenuses of
 the pairs $(3,4)$, $(5,12)$, and $(8,15)$, respectively.
 
-In general, if you write a function using only elementwise
+In general, if you write a function using only element-wise
 operators and functions that work on vectors, the new
 function will also work on vectors.
 
@@ -237,7 +237,7 @@ But it isn't.
 
 \subsection{Exercise~1}
 Write a function named \lstinline{mydiff} that computes the
-inverse of \lstinline{cumsum}, so that \lstinline{cumsum(mydiff(X))} and
+inverse of \lstinline{cumsum} so that \lstinline{cumsum(mydiff(X))} and
 \lstinline{mydiff(cumsum(X))} both return \lstinline{X}.
 
 % mydiff.m
@@ -257,7 +257,7 @@ that's
 P_i = \prod_{j=1}^i V_j
 \end{equation*}
 
-In MATLAB, that looks like:
+In MATLAB, that looks like
 
 \begin{code}
 >> ***V = 1:5***
@@ -282,12 +282,8 @@ return \lstinline{X}.
 You can use a loop, or if you want to be clever, you can take
 advantage of the fact that $e^{\ln a + \ln b} = a b$.
 
-If you apply \lstinline{myratio} to a vector that contains Fibonacci
-numbers, you can confirm that the ratio of successive elements
-converges on the golden ratio, $(1+\sqrt{5})/2$ (see
-\nameref{fibratio} on page~\pageref{fibratio}).
+%If you apply \lstinline{myratio} to a vector that contains Fibonacci numbers, you can confirm that the ratio of successive elements converges on the golden ratio, $(1+\sqrt{5})/2$ (see \nameref{fibratio} on page~\pageref{fibratio}).
 
-% TODO
 
 
 \section{Computing with Vectors}
@@ -309,8 +305,8 @@ the symbol $\exists$, which is pronounced ``there exists.''  For example,
 %
 means, ``there exists some element $x$ in the set $S$ such that
 $x>0$.''  In MATLAB, it's natural to express this idea with a logical
-function, like \lstinline{exists}, that returns 1 if there is such an
-element and 0 if there is not.
+function, like \lstinline{exists}, that returns \lstinline{1} if there is such an
+element and \lstinline{0} if there is not.
 
 \begin{code}
 function res = exists(X)
@@ -335,7 +331,7 @@ of the elements.
 \index{statement!return@\lstinline{return}}
 
 If we get to the end of the loop, that means we didn't find what
-we were looking for, so the result is 0.
+we were looking for, so the result is \lstinline{0}.
 
 \subsection{Universal Quantification}
 
@@ -344,14 +340,14 @@ we were looking for, so the result is 0.
 
 Another common operation on vectors is to check whether \emph{all}
 of the elements satisfy a condition, which is called \emph{universal quantification}, denoted with
-the symbol $\forall$, and pronounced ``for all.''  So the expression % this expression
+the symbol $\forall$ and pronounced ``for all.''  So the expression % this expression
 %
 \[ \forall x \mbox{~in~} S: x>0 \]
 %
 means ``for all elements $x$ in the set $S$, $x>0$.''
 
 One way to evaluate this expression in MATLAB is to reduce the problem to
-existential quantification; that is, to rewrite
+existential quantification, that is, to rewrite
 
 \begin{equation*}
 \forall x \mbox{~in~} S: x>0
@@ -361,14 +357,14 @@ to the following:
 {\sim} \exists x \mbox{~in~} S: x \le 0
 \end{equation*}
 where ${\sim} \exists$ means ``does not exist.''
-In other words, checking that all the elements are positive is
+In other words, checking that all the \linebreak elements are positive is
 the same as checking that there are no elements
 that are nonpositive.
 
 \subsection{Exercise~3}
 Write a function named \lstinline{forall} that
-takes a vector and returns 1 if all of the elements are positive
-and 0 if there are any nonpositive elements.
+takes a vector and returns \lstinline{1} if all of the elements are positive
+and \lstinline{0} if there are any nonpositive elements.
 
 
 
@@ -378,7 +374,7 @@ and 0 if there are any nonpositive elements.
 
 When you apply a logical operator to a vector, the result is a 
 \emph{logical vector}: a vector whose elements are the logical
-values 1 and 0. Let's look at an example:
+values 1 and 0. Let's look at an \linebreak example:
 
 \index{logical vector}
 \index{vector!logical}
@@ -395,7 +391,7 @@ L =  0     0     0     0     1     1     1
 
 In this example, \lstinline{L} is a logical vector whose elements
 correspond to the elements of \lstinline{V}.  For each positive element of
-\lstinline{V}, the corresponding element of \lstinline{L} is 1.
+\lstinline{V}, the corresponding element of \lstinline{L} is \lstinline{1}.
 
 Logical vectors can be used like flags to store the state of
 a condition.  And they are often used with the \lstinline{find} function,
@@ -425,8 +421,8 @@ ans = Empty matrix: 1x0
 This example computes the logical vector and passes it as an
 argument to \lstinline{find} without assigning it to an intermediate
 variable.  You can read this version abstractly as ``find
-the indices of elements of \lstinline{V} that are greater than 10.''
-
+the indices of elements of \lstinline{V} that are greater than~10.''
+\newpage
 We can also use \lstinline{find} to write \lstinline{exists} more concisely:
 
 \begin{code}
@@ -461,13 +457,13 @@ in the program, the problem becomes obvious, but you might have to invest time b
 
 \item[Ruminating] Take some time to think!  What kind of error
 is it: syntax, runtime, or logical?  What information can you get from
-the error messages, or from the output of the program?  What kind of
+the error messages or from the output of the program?  What kind of
 error could cause the problem you're seeing?  What did you change
 last, before the problem appeared?
 
 \item[Retreating] At some point, the best thing to do is back
 off, undoing recent changes, until you get back to a program that
-works, and that you understand.  Then you can starting rebuilding.
+works and that you understand.  Then you can start rebuilding.
 
 \end{description}
 
@@ -501,7 +497,7 @@ If you explain the problem to someone else (or even yourself), you
 will sometimes find the answer before you finish asking the question.
 
 But even the best debugging techniques will fail if there are too many
-errors, or if the code you are trying to fix is too big and
+errors or if the code you are trying to fix is too big and
 complicated.  Sometimes the best option is to retreat, simplifying the
 program until you get to something that works, and then rebuild.
 

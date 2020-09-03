@@ -28,15 +28,14 @@ M =  0     0     0
      0     0     0
 \end{code}
 
-If you don't know the size of a matrix, you can use \lstinline{whos} to display it:
+If you don't know the size of a matrix, you can display it by using \lstinline{whos}:
 
 \begin{code}
 >> ***whos M***
   Name      Size            Bytes  Class     Attributes
   M         2x3                48  double   
 \end{code}
-
-Or the \lstinline{size} function, which returns a vector:
+or the \lstinline{size} function, which returns a vector:
 
 \index{whos@\lstinline{whos}}
 \index{size@\lstinline{size}}
@@ -47,7 +46,7 @@ Or the \lstinline{size} function, which returns a vector:
 V = 2    3
 \end{code}
 
-The first element is the number of rows, the second is the number of
+The first element is the number of rows; the second is the number of
 columns.
 
 \index{row}
@@ -69,7 +68,7 @@ ans = 0
 When you're working with matrices, it takes some effort to remember
 which index comes first, row or column.  I find it useful to repeat
 ``row, column'' to myself, like a mantra.  You might also find it
-helpful to remember ``down, across,'' or the abbreviation RC as in ``radio control'' or RC Cola.
+helpful to remember ``down, across'' or the abbreviation RC as in ``radio control'' or RC Cola.
 
 Another way to create a matrix is to enclose the elements in
 brackets, with semicolons between rows:
@@ -115,7 +114,7 @@ And a vector is a matrix with only one row:
 ans = 1     5
 \end{code}
 
-Well, some vectors, anyway.  Actually, there are two kinds
+Well, some vectors have only one row, anyway.  Actually, there are two kinds
 of vectors.  The ones we've seen so far are called \emph{row vectors},
 because the elements are arranged in a row; the other kind are
 \emph{column vectors}, where the elements are in a single column.
@@ -165,7 +164,7 @@ transformed into a column (or you can think of it the other way around).
 
 \index{transpose operator}
 
-In this example:
+In this example \lstinline{D} has two rows:
 
 \begin{code}
 >> ***D = [1,2,3 ; 4,5,6]***
@@ -173,7 +172,7 @@ In this example:
 D =  1     2     3
      4     5     6
 \end{code}
-\lstinline{D} has two rows, so its transpose has two columns:
+so its transpose has two columns:
 
 \begin{code}
 >> ***Dt = D'***
@@ -264,7 +263,7 @@ The body of the function includes four sections, each explained by a comment.
 
 The first section \emph{unpacks} the vector by copying the elements
 into variables.  This isn't necessary, but giving names to
-these values helps remember what's what.  It also makes the third
+these values will help you to remember what's what.  It also makes the third
 section, where we compute the derivatives, resemble the mathematical
 equations we were given, which helps prevent errors.
 
@@ -312,14 +311,13 @@ end
 \index{initial condition}
 
 \lstinline{V_init} is a vector that represents the initial condition, 80 rabbits and 20 foxes.  
-The result from \lstinline{rate_func} is:
+The result from \lstinline{rate_func} is
 
 \begin{code}
 -8.0000
  1.2000
  \end{code}
-  
-Which means that with these initial conditions, we expect the rabbit population to decline initially at a rate of 8 per week, and the fox population to increase by 1.2 per week.  
+which means that with these initial conditions, we expect the rabbit population to decline initially at a rate of 8 per week and the fox population to increase by 1.2 per week.  
   
 Now we can run \lstinline{ode45} like this:
 
@@ -338,8 +336,8 @@ The third argument is the initial condition.
 
 \subsection{Output Matrices}
 
-\lstinline{ode45} returns two values: \lstinline{T}, which is a vector, 
-and \lstinline{M}, which is a matrix.
+The \lstinline{ode45} function returns two values: \lstinline{T}, a vector, 
+and \lstinline{M}, a matrix.
 
 \begin{code}
 >> ***size(T)***
@@ -357,7 +355,7 @@ $x$ and $y$.
 
 This structure---one column per variable---is a common way to
 use matrices. And \lstinline{plot} understands this structure, so if you
-do this:
+do the following:
 
 \begin{code}
 >> ***plot(T, M)***
@@ -375,7 +373,7 @@ this:
 >> ***F = M(:, 2);***
 \end{code}
 
-In this context, the colon represents the range from 1 to \lstinline{end},
+In this context, the colon represents the range from \lstinline{1} to \lstinline{end},
 so \lstinline{M(:, 1)} means ``all the rows, column 1'' and
 \lstinline{M(:, 2)} means ``all the rows, column 2.''
 
@@ -427,7 +425,7 @@ Figure~\ref{fig:phase} shows the result.
 Each point on this plot represents a certain number of rabbits (on the
 x-axis) and a certain number of foxes (on the y-axis).
 Since these are the only two variables in the system, each point in
-this plane describes the complete state of the system, that is, the values of
+this plane describes the complete \emph{state} of the system, that is, the values of
 the variables we're solving for.
 
 \begin{figure}[ht]
@@ -462,21 +460,20 @@ The output vector from the rate function has to be a column vector, otherwise yo
 Error using odearguments (line 93)
 RATE_FUNC must return a column vector.
 \end{code}
-
-Which is a pretty good error message.  It's not clear \emph{why}
+which is a pretty good error message.  It's not clear \emph{why}
 it needs to be a column vector, but that's not our problem.
 
 \index{column vector}
 
 Another possible error is reversing the order of the elements in the
-initial conditions, or the vectors inside \lstinline{lotka}.  MATLAB
+initial conditions or the vectors inside \lstinline{lotka}.  MATLAB
 doesn't know what the elements are supposed to mean, so it can't catch
 errors like this; it will just produce incorrect results.
 
 The order of the elements (rabbits and foxes) is up to you, but
 you have to be consistent.  That is, the order of the initial conditions you
 provide when you call \lstinline{ode45} has to be the same as the order
-inside \lstinline{rate_func} where you unpack the input vector, and the
+inside \lstinline{rate_func} where you unpack the input vector and the
 same as the order of the derivatives in the output vector.
 
 \section{Chapter Review}
@@ -502,7 +499,7 @@ The \emph{state} of a system is a set of variables that quantify the condition o
 When we solve a system of differential equations, we can visualize the results with a \emph{phase plot}, which shows the state of a system as a point in the space of possible states.
 A \emph{trajectory} is a path in a phase plot that shows how the state of a system changes over time.
 
-In the next chapter, we move on to second-order systems, which we use to describe systems
+In the next chapter, we'll move on to second-order systems, which we use to describe systems
 with objects moving in space, governed by Newton's laws of motion.
 
 
@@ -543,7 +540,7 @@ Use \lstinline{ode45} to estimate a solution to this system of equations.
 
 \begin{enumerate}
 
-\item Create a file named \emph{lorentz.m} with a top-level function named \lstinline{lorenz} and a helper function named \lstinline{rate_func}.
+\item Create a file named \emph{lorenz.m} with a top-level function named \lstinline{lorenz} and a helper function named \lstinline{rate_func}.
 
 \item  The rate function should
 take \lstinline{t} and \lstinline{V} as input variables, where the components

@@ -2,7 +2,7 @@
 \chapterartfile{book/images/matlab_circleart.eps}
 
 In this chapter, we'll use functions and a new feature---conditional statements---to search for Pythagorean triples.
-A Pythagorean triple is a set of integers, like~3, 4, and 5,
+A Pytha\-gorean triple is a set of integers, like~3, 4, and 5,
 that are the lengths of the sides of a right triangle.  Mathematically, it's a set of integers $a$, $b$, and $c$ such that $a^2 + b^2 = c^2$.
 This example will also demonstrate the \emph{incremental development} process we talked about in Chapter~\ref{loops}.
 
@@ -11,18 +11,19 @@ This example will also demonstrate the \emph{incremental development} process we
 \section{Relational Operators}
 \index{operator!relational}
 
-Suppose we have three variables, \lstinline{a},\lstinline{b}, and \lstinline{c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator (\lstinline{==}) to compare two values:
+Suppose we have three variables, \lstinline{a}, \lstinline{b}, and \lstinline{c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator (\lstinline{==}) to compare two values:
 
 \begin{code}
 >> ***a = 3;***
 >> ***b = 4;***
 >> ***c = 5;***
+(*\pagebreak*)
 >> ***a^2 + b^2 == c^2***
 
 ans = logical 1
 \end{code}
 
-The result is a \emph{logical} value, which means it's either~1, which means ``true,'' or~0, which means ``false.''  Here's an example where the result is false:
+The result is a \emph{logical} value, which means it's either~\lstinline{1}, which means ``true,'' or~\lstinline{0}, which means ``false.''  Here's an example where the result is false:
 
 \begin{code}
 >> ***c = 6;***
@@ -42,7 +43,7 @@ To compare values for equality, use '=='.
 \end{code}
 
 The equality operator is one of several \emph{relational operators}, so called because they test relations between values.
-For example, \lstinline{x < 10} is true (1) if the value of \lstinline{x} is less than 10, or false (0) if otherwise.  And \lstinline{x > 0} is true if \lstinline{x} is greater than~0.
+For example, \lstinline{x < 10} is true (\lstinline{1}) if the value of \lstinline{x} is less than \lstinline{10} or false (\lstinline{0}) if otherwise.  And \lstinline{x > 0} is true if \lstinline{x} is greater than~\lstinline{0}.
 
 The other relational operators are \lstinline{<=} for ``less or equal,'' \lstinline{>=} for ``greater or equal,'' and  \lstinline{~=} for ``not equal.''
 
@@ -73,7 +74,7 @@ MATLAB doesn't require you to indent the body of an \lstinline{if}
 statement, but it makes your code more readable, so you should do it.
 
 If the condition is not satisfied, the statements in the body are
-not executed. 
+not \mbox{executed}. 
 
 Sometimes there are alternative statements to
 execute when the condition is false.  In that case, you can extend
@@ -113,9 +114,9 @@ Here are the steps we will follow to develop the program incrementally:
 
 \item Encapsulate the \lstinline{if} statement from the previous section in a function called \lstinline{is_pythagorean}.
 
-\item Write a script named \emph{find_triples.m} and start with a loop that enumerates values of \lstinline{a} and displays them.
+\item Write a script named \emph{find\textunderscore triples.m} and start with a loop that enumerates values of \lstinline{a} and displays them.
 
-\item Write a second loop that enumerates values of \lstinline{b}, and a third loop that enumerates values of \lstinline{c}.
+\item Write a second loop that enumerates values of \lstinline{b} and a third loop that enumerates values of \lstinline{c}.
 
 \item Use \lstinline{is_pythagorean} to check whether \lstinline{a}, \lstinline{b}, and \lstinline{c} form a Pythagorean triple.
 
@@ -131,7 +132,7 @@ Along the way, we'll optimize the program to eliminate unnecessary work.
 \section{Logical Functions}
 
 The first step is to create a \emph{logical function}, which is a function that returns a logical value.
-The following function takes three input variables, \lstinline{a}, \lstinline{b}, and \lstinline{c}, and returns true (1) if they form a Pythagorean triple and false (0) otherwise.
+The following function takes three input variables, \lstinline{a}, \lstinline{b}, and~\lstinline{c}, and returns true (\lstinline{1}) if they form a Pythagorean triple and false (\lstinline{0}) otherwise.
 
 \begin{code}
 function res = is_pythagorean(a, b, c)
@@ -142,10 +143,9 @@ function res = is_pythagorean(a, b, c)
     end
 end
 \end{code}
-
-We can use this function like this:
-
 \newpage
+We can use this function like so:
+
 
 \begin{code}
 >> ***is_pythagorean(3, 4, 5)***
@@ -204,7 +204,7 @@ end
 \end{code}
 
 But that loops through the values of \lstinline{a} and then loops through the values of \lstinline{b}, and that's not what we want.
-
+\newpage
 Instead, we want to consider every possible pair of values, like this:
 
 \begin{code}
@@ -329,7 +329,7 @@ end
 
 The empty parentheses in the signature are not necessary, but
 they make it apparent that there are no input variables.  Similarly,
-it's a good idea when calling the new function to use parentheses as a reminder
+it's a good \linebreak idea when calling the new function to use parentheses as a reminder
 that it's a function, not a script:
 
 \begin{code}
@@ -338,14 +338,14 @@ that it's a function, not a script:
 
 The output variable isn't necessary, either; it
 never gets assigned a value.  But I put it there as a matter of
-habit, and also so my function signatures all have the same structure.
+habit and so my function signatures all have the same structure.
 
 \index{output variable}
 \index{variable!output}
 
 The next step is to generalize this function by adding input
 variables.  The natural generalization is to replace the constant
-values~3 and~4 with a variable so we can search an arbitrarily large
+values~\lstinline{3} and~\lstinline{4} with a variable so we can search an arbitrarily large
 range of values.
 
 \begin{code}
@@ -477,8 +477,9 @@ details of how it works.
 
 Forgetting about details is called \emph{abstraction}; in the context
 of functions, abstraction means forgetting about \emph{how} a function
-works, and just assuming (after appropriate testing) that it works.
+works and just assuming (after appropriate testing) that it works.
 For many people, it takes some time to get comfortable with functions.  If you are one of them, you might be tempted to avoid functions, and sometimes you can get by without them.
+
 But experienced programmers use functions extensively, for several good reasons. First, each function has its own workspace, so using functions helps
 avoid name collisions. 
 Functions also lend themselves to incremental development: you can
@@ -499,9 +500,9 @@ complexity of large programs.
 
 In this chapter, we encountered relational operators and \lstinline{if} statements, and we used them to develop a program that searches for Pythagorean triples.
 We wrote a \emph{logical function}, which is a function that returns a logical value
-(1 for ``true'' or 0~for ``false'').
+(\lstinline{1} for ``true'' or \lstinline{0}~for ``false'').
 
-We also saw an example of \emph{incremental development}, or developing programs gradually, adding just a few lines of code at a time, and testing as you go.  If you develop programs this way, you will have fewer bugs and you will find them more quickly.
+We also saw an example of \emph{incremental development}, or developing programs gradually, adding just a few lines of code at a time and testing as you go.  If you develop programs this way, you will have fewer bugs and you will find them more quickly.
 
 This chapter defined two new terms: \emph{encapsulation} is the process of wrapping part of a program in
 a function in order to limit interactions (including name collisions)
@@ -511,7 +512,7 @@ function does.
 The next chapter introduces a new tool, called \lstinline{fzero}, that we'll use to solve nonlinear equations.
 
 
-\section{Exercises}
+\section{Exercise}
 
 Before you go on, you might want to work on the following exercise.
 
@@ -520,18 +521,17 @@ Before you go on, you might want to work on the following exercise.
 \index{Pythagorean triple}
 
 There is an interesting connection between Fibonacci numbers and
-Pythagorean triples.  If $F$ is a Fibonacci sequence,
+Pythagorean triples.  If $F$ is a Fibonacci sequence, then
 
 \begin{equation*}
 \big(F_i F_{i+3}, \, 2 F_{i+1} F_{i+2}, \, F_{i+1}^2 + F_{i+2}^2 \big)
 \end{equation*}
-
 is a Pythagorean triple, for all $i \ge 1$.
 
 Write a function named \lstinline{fib_triple} that
 takes \lstinline{n} as an input variable, computes 
 the first \lstinline{n} Fibonacci numbers, stores them in a vector,
-and checks whether this formula produces Pythagorean triples for numbers in the sequence.
+and checks whether this formula produces Pythagorean triples for numbers in the \mbox{sequence}.
 
 % fib_triple.m
 

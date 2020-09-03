@@ -1,15 +1,16 @@
 \chapter{Optimization}
+\chapterartfile{book/images/matlab_circleart.eps}
 
-In \nameref{cannon} in the previous chapter you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  This kind of problem, finding minimums and maximums, is called {\em optimization}.
+In \nameref{cannon} in the previous chapter you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  This kind of problem, finding minimums and maximums, is called \emph{optimization}.
 
-In this chapter we'll solve a similar problem, finding the best launch angle for a baseball.
+In this chapter, we'll solve a similar problem, finding the best launch angle for a baseball.
 We'll solve the problem two ways, first running simulations with a range of values and plotting the results; then using a MATLAB function that automates the process, \lstinline{fminsearch}.
 \index{baseball}
 \index{launch angle}
 
 \section{Optimal Baseball}
 
-In the previous chapter we wrote functions to simulate the flight of a baseball with a known initial velocity.  Now we'll use that code to find the launch angle that maximizes {\em range}, that is, the distance the ball travels before landing.
+In the previous chapter we wrote functions to simulate the flight of a baseball with a known initial velocity.  Now we'll use that code to find the launch angle that maximizes \emph{range}, that is, the distance the ball travels before landing.
 
 \index{optimization}
 \index{velocity}
@@ -72,13 +73,14 @@ In Chapter~\ref{projectile} we plotted \lstinline{X} and \lstinline{Y} separatel
     plot(X, Y)
 \end{code}
 
-\begin{figure}
-\centerline{\includegraphics{book/images/figure13_01_new.eps}}
+
+Figure~\ref{fig:baseball3} shows the result, which is the \emph{trajectory} of the baseball from launch, on the left, to landing, on the right.
+
+\begin{figure}[H]
+\includegraphics{book/images/figure13_01_new.eps}
 \caption{Simulated flight of a baseball plotted as a trajectory}
 \label{fig:baseball3}
 \end{figure}
-
-Figure~\ref{fig:baseball3} shows the result, which is the \emph{trajectory} of the baseball from launch, on the left, to landing, on the right.
 
 \index{trajectory}
 
@@ -107,7 +109,7 @@ function res = baseball_range(theta)
 end
 \end{lstlisting}
 
-The launch angle, \lstinline{theta}, is in radians.  The magnitude of velocity, \lstinline{v}, is always \SI{50}{\meter\per\second}.  We use \lstinline{pol2cart} to convert the angle and magnitude ({\em polar} coordinates) to Cartesian components, \lstinline{vx} and \lstinline{vy}.
+The launch angle, \lstinline{theta}, is in radians.  The magnitude of velocity, \lstinline{v}, is always \SI{50}{\meter\per\second}.  We use \lstinline{pol2cart} to convert the angle and magnitude (\emph{polar} coordinates) to Cartesian components, \lstinline{vx} and \lstinline{vy}.
 
 \index{radian}
 \index{pol2cart@\lstinline{pol2cart}}
@@ -130,14 +132,15 @@ And then plot \lstinline{ranges} as a function of \lstinline{thetas}:
     plot(thetas, ranges)
 \end{code}
 
-\begin{figure}
-\centerline{\includegraphics{book/images/figure13_02_new.eps}}
+Figure~\ref{fig:baseball4} shows the result.  As expected, the ball does not travel far if it's hit nearly horizontal or vertical. 
+The peak is apparently near \SI{0.7}{\radian}.
+
+\begin{figure}[H]
+\includegraphics{book/images/figure13_02_new.eps}
 \caption{Simulated flight of a baseball plotted as a trajectory}
 \label{fig:baseball4}
 \end{figure}
 
-Figure~\ref{fig:baseball4} shows the result.  As expected, the ball does not travel far if it's hit nearly horizontal or vertical. 
-The peak is apparently near \SI{0.7}{\radian}.
 
 Considering that our model is only approximate, this result might be good enough.  But if we want to find the peak more precisely, we can use \lstinline{fminsearch}.
 
@@ -178,7 +181,7 @@ x = -8.8818e-16
 fval = -2
 \end{code}
 
-\lstinline{x} is the location of the minimum and \lstinline{fval} is the value of the function evaluated at \lstinline{x}.
+The \lstinline{x} is the location of the minimum and \lstinline{fval} is the value of the function evaluated at \lstinline{x}.
 
 If we want to find the maximum of a function, rather than the minimum, we can still use \lstinline{fminsearch} by writing a short function that negates the function we want to maximize.
 In the baseball example, the function we want to maximize is \lstinline{baseball_range}; we can wrap it in another function like this:
@@ -188,6 +191,7 @@ function res = min_func(angle)
     res = -baseball_range(angle);
 end
 \end{code}
+
 And call \lstinline{fminsearch} like this:
 
 \begin{code}
@@ -254,7 +258,7 @@ to clear the figure and \lstinline{axis} to reset the axes.  Then it plots a cir
 
 We have to call \lstinline{drawnow} after \lstinline{plot} so
 that MATLAB actually displays each plot.  Otherwise it waits
-until you finish drawing all the figures and {\em then} updates
+until you finish drawing all the figures and then updates
 the display.
 
 We can call \lstinline{animate} like this:
@@ -308,10 +312,9 @@ complex or the time step is small.
 
 \section{Chapter Review}
 
-This chapter presents two new tools, \lstinline{fminsearch} and \lstinline{animate}.  
-\lstinline{fminsearch} is a MATLAB function that searches efficiently for the minimum of a function, and can be adapted to search for the maximum, too.
-
-\lstinline{animate} is a function I wrote to read results from \lstinline{ode45} and generate an animation; the version in this chapter works with the results from the baseball simulation, but it can be adapted for other simulations.
+This chapter presented two new tools, \lstinline{fminsearch} and \lstinline{animate}.  
+The \lstinline{fminsearch} is a MATLAB function that searches efficiently for the minimum of a function, and can be adapted to search for the maximum, too.
+The \lstinline{animate} is a function I wrote to read results from \lstinline{ode45} and generate an animation; the version in this chapter works with the results from the baseball simulation, but it can be adapted for other simulations.
 
 In the exercises below, you have a chance to extend the example from this chapter and bring together many of the tools we have used so far.
 
@@ -329,7 +332,9 @@ Before you go on, you might want to work on the following exercises.
 
 Manny Ramirez is a former member of the Boston Red Sox who was famous for his relaxed attitude.  The goal of this exercise is to solve the following Manny-inspired problem:
 
-{\it What is the minimum effort required to hit a home run in Fenway Park?}
+\begin{quote}
+What is the minimum effort required to hit a home run in Fenway Park?
+\end{quote}
 
 \index{Fenway Park}
 

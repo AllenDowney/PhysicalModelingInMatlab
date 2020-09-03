@@ -186,12 +186,10 @@ end
 \end{code}
 
 The event function takes the same input variables as the rate function and returns three output variables: \lstinline{value} determines when an event can occur, \lstinline{direction} determines whether it does, and \lstinline{isterminal} determines what happens.
-
 More specifically, an event can occur when \lstinline{value} passes through 0.
 If \lstinline{direction} is positive, the event only occurs if \lstinline{value} is increasing.
-\linebreak If \lstinline{direction} is negative, the event only occurs if \lstinline{value} is decreasing.
+ If \lstinline{direction} is negative, the event only occurs if \lstinline{value} is decreasing.
 If \lstinline{direction} is 0, the event always occurs.
-
 If \lstinline{isterminal} is 1, the event causes the simulation to end; if it is 0, the simulation continues.
 
 This event function uses the altitude of the penny as \lstinline{value} so an event can occur when altitude passes through 0.  

@@ -58,6 +58,7 @@
     Configuration file nostarch.cfg is not found}}
 \ProcessOptions\relax
 \LoadClass[10pt]{book}
+\RequirePackage[table]{xcolor}
 \RequirePackage{ifpdf, fancyhdr, fancyvrb, booktabs, graphicx,
   listings, caption, makeidx, upquote, fontspec, pifont, textcomp, xcolor, lmodern, nameref, float, amssymb, etoolbox}
 \RequirePackage[framemethod=TikZ]{mdframed}
@@ -828,6 +829,29 @@
 \belowbottomsep=0.65pt
 \aboverulesep=0.7ex
 \abovetopsep=0.65pt
+
+
+\newenvironment{tablewide}[1][]
+    {
+        \captionsetup[table]{font=nostarchtabfont,singlelinecheck=off,
+  aboveskip=0pt,belowskip=4pt, labelfont=bf, margin=-50pt}
+        \begin{table}[#1]
+    }
+    {
+        \end{table}
+        \captionsetup[table]{font=nostarchtabfont,singlelinecheck=off,
+  aboveskip=0pt,belowskip=4pt, labelfont=bf, margin=0pt}
+    }
+    
+\newenvironment{tabularwide}[1]
+    {
+        \hspace*{-52pt}
+        \begin{tabular}{#1}
+    }
+    {
+        \end{tabular}
+    }
+
 \DefineVerbatimEnvironment{Code}{Verbatim}{frame=lines,framerule=0.25pt, commandchars=\\\{\}}
 \FV@AddToHook\FV@ListParameterHook{\vspace{-6pt}}
 \VerbatimFootnotes

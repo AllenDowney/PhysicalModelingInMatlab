@@ -1,5 +1,5 @@
 \chapter{Scripts}
-\chapterartfile{filename}
+\chapterartfile{book/images/matlab_circleart.eps}
 
 So far we've typed all of our programs ``at the prompt.'' If you're only writing a few lines, this isn't so bad. But what if you're writing a hundred? Retyping each line of code every time you want to change or test your program will be time-consuming and tedious. Luckily, you don't have to. In this chapter, we'll look at a way to run many lines at once: scripts.
 
@@ -7,36 +7,36 @@ So far we've typed all of our programs ``at the prompt.'' If you're only writing
 \section{Your First Script}
 
 A \emph{script} is a file that contains MATLAB code. When you run a script, MATLAB executes the commands in it, one after another, exactly as if you had typed them at the prompt. Scripts are
-also sometimes called ``M-files'' because they use the extension {\em .m}, short for MATLAB. 
+also sometimes called \emph{M-files} because they use the extension \emph{.m}, short for MATLAB. 
 
 \index{script}
 \index{M-file}
 \index{file extension}
 
-You can create scripts with any text editor or word processor, but the simplest way is to click the \textbf{New Script} button in the upper left corner of the MATLAB interface, which opens a text editor designed for MATLAB.
-
+You can create scripts with any text editor or word processor, but the simplest way is to click the \textbf{New Script} button in the upper-left corner of the MATLAB interface, which opens a text editor designed for MATLAB.
+\newpage
 To try it out, create a new script and enter the following code:
 
 \begin{code}
 x = 5
 \end{code}
 
-Then press the {\bf Save} button.  A dialog window should appear where you can choose the filename and the folder where your script will go.  
-Change the name to {\em myscript.m} and save it into any folder you like.
+Then press the \textbf{Save} button.  A dialog window should appear where you can choose the filename and the folder where your script will go.  
+Change the name to \emph{myscript.m} and save it into any folder you like.
 
-Now click the green {\bf Run} button.  You might get a message that says the script is not found in the current folder.  
-If so, click the button that says {\bf Change Folder} and it should run.
+Now click the green \textbf{Run} button.  You might get a message that says the script is not found in the current folder.  
+If so, click the button that says Change Folder and it should run.
 
-\index{Command window}
+\index{Command Window}
 
-You can also run a script by typing its name in the Command window and pressing \keycap{enter}. For example, if you enter \textbf{\lstinline{myscript}}, MATLAB should execute your script and display the result:
+You can also run a script by typing its name in the Command Window and pressing \keycap{enter}. For example, if you enter \lstinline{myscript}, MATLAB should execute your script and display the result:
 
 \begin{code}
 >> ***myscript***
 x = 5
 \end{code}
 
-A few things to keep in mind when using scripts. First, you should not include the extension {\em .m} when you run a script.  If you do, you'll get an error message like this:
+There are a few things to keep in mind when using scripts. First, you should not include the extension \emph{.m} when you run a script.  If you do, you'll get an error message like this:
 
 \begin{code}
 >> ***myscript.m***
@@ -50,7 +50,7 @@ You might not notice right away, but you might get some confusing behavior later
 \index{script!file name}
 
 Also, the name of the script cannot contain spaces.  If you create
-a file named {\em my script.m}, MATLAB will complain when you try
+a file named \emph{my script.m}, MATLAB will complain when you try
 to run it:
 
 \begin{code}
@@ -71,7 +71,7 @@ in a script makes it easier to edit than typing it at the prompt. Likewise, if y
 
 But the great power of scripts comes with great responsibility: you have to make sure that the code you are running is the code you think you are running.
 Whenever you start a new script, start with something simple, like \lstinline{x = 5}, that produces a visible effect. Then run your script and confirm that you get what you expect.
-When you type the name of a script, MATLAB searches for the script in a {\em search path}, which is a sequence of folders.  If it doesn't find the script in the first folder, it searches the second, and so on.
+When you type the name of a script, MATLAB searches for the script in a \emph{search path}, which is a sequence of folders.  If it doesn't find the script in the first folder, it searches the second, and so on.
 If you have scripts with the same name in different folders, you could be looking at one version and running another.
 
 \index{search path}
@@ -80,8 +80,7 @@ If you have scripts with the same name in different folders, you could be lookin
 \index{debugging!Third Theorem}
 
 If the code you are running is not the code you are looking
-at, you'll find debugging a frustrating exercise!  And that brings
-us to the Third Theorem of Debugging:
+at, you'll find debugging a frustrating exercise!  So it's no surprise that this is the Third Theorem of Debugging:
 
 \begin{quote}
 Be sure that the code you are running
@@ -122,7 +121,7 @@ I use temporary variables like \lstinline{t1} and \lstinline{t2} to make the cod
 
 \index{semicolon}
 
-If we save this script in a file named {\em fibonacci1.m}, we can run it like this:
+If we save this script in a file named \emph{fibonacci1.m}, we can run it like this:
 
 \begin{code}
 >> ***n = 10***
@@ -143,28 +142,28 @@ diff = t1^n - t2^n;
 \end{code}
 
 This script only works if there is a variable named \lstinline{n} in the workspace; otherwise, you should get an error. 
-MATLAB will tell you what line of the script the error is in, and display the line.
+MATLAB will tell you what line of the script the error is in and display the line.
 
 \index{workspace}
 
 \index{debugging!Fourth Theorem}
 
-Error information can be helpful, but beware!  MATLAB is telling you
-where the error was \emph{discovered}, not where the error is.  In this
-case, the error is not in the script at all, which brings us to the Fourth Theorem of Debugging:
+Error messages can be helpful, but beware!
+In this example, the message says the error is in \lstinline{fibonacci}, but the actual problem is that we have not assigned a value to \lstinline{n}. 
+And that brings us to the Fourth Theorem of Debugging:
 
 \begin{quote}
 Error messages tell you where the problem was discovered,
 not where it was caused.
 \end{quote}
 
-Often you have to work backwards to find the line of code that caused the problem.
+Often you have to work backwards to find the line of code (or missing line) that caused the problem.
 
 \section{Floating-Point Numbers}
 
-In the previous section, one of the results we computed was \lstinline{55.0000}.  Since the Fibonacci numbers are integers, you might have been surprised to see the zeros after the decimal point.
+In the previous section, the result we computed was \lstinline{55.0000}.  Since the Fibonacci numbers are integers, you might have been surprised to see the zeros after the decimal point.
 
-They are there because MATLAB performs calculations using floating-point numbers.  With floating-point numbers, integers can be represented exactly, but most fractions cannot.
+They are there because MATLAB performs calculations using floating-point numbers.  With \emph{floating-point numbers}, integers can be represented exactly, but most fractions cannot.
 
 \index{floating-point}
 \index{number!floating-point}
@@ -194,7 +193,7 @@ In this example, the first 14 digits are correct; the last one has been rounded 
 \index{scientific notation}
 \index{factorial@\lstinline{factorial}}
 
-Large and small numbers are displayed in {\em scientific notation}. 
+Large and small numbers are displayed in \emph{scientific notation}. 
 For example, if we use the built-in function \lstinline{factorial} to compute $100!$, we get the following result:
 
 \begin{code}
@@ -202,7 +201,7 @@ For example, if we use the built-in function \lstinline{factorial} to compute $1
 ans = 9.332621544394410e+157
 \end{code}
 
-The \lstinline{e} in this notation is {\em not} the transcendental number
+The \lstinline{e} in this notation is \emph{not} the transcendental number
 known as $e$; it's just an abbreviation for ``exponent.''  So
 this means that $100!$ is approximately $9.33 \times 10^{157}$.  The
 exact solution is a 158-digit integer, but with double-precision floating-point numbers, we only know the first 16 digits.
@@ -235,7 +234,7 @@ ans = 2.225073858507201e-308
 \end{code}
 
 If the result of a computation is too big, MATLAB ``rounds up''
-to infinity.
+to \mbox{infinity}.
 
 \index{Inf@\lstinline{Inf}}
 
@@ -277,10 +276,10 @@ Short, simple programs are easy to read, but as they get bigger and more complex
 A \emph{comment} is a line of text added to a program to explain how it works. It has no effect on the execution of the program; it is there for human readers.  
 Good comments make programs more readable; bad comments are useless at best and misleading at worst.
 
-To write a comment, you use the percent symbol \lstinline{%} followed by the text of the comment.
-
+To write a comment, you use the percent symbol (\%) followed by the text of the comment.
+\newpage
 \index{comment}
-\index{\%@\lstinline{%}}
+\index{\%@\lstinline{\%}}
 \index{percent sign}
 
 \begin{code}
@@ -324,7 +323,7 @@ program consistent with your math.
 Every script should provide \emph{documentation}, which is a comment
 that explains what the script does and what its requirements are.
 
-For example, I might put something like this at the beginning of {\em fibonacci1.m}:
+For example, I might put something like this at the beginning of \emph{fibonacci1.m}:
 
 \index{documentation!function}
 \index{function!documentation}
@@ -344,8 +343,7 @@ is something that will be true when the script completes.
 \index{Fibonacci}
 
 If there is a comment at the beginning of a script, MATLAB assumes
-it's the documentation for the script. So if you type \textbf{\lstinline{help
-fibonacci1}}, you get the contents of the comment (without the percent
+it's the documentation for the script. So if you type \lstinline{help fibonacci1}, you get the contents of the comment (without the percent
 signs).
 
 \begin{code}
@@ -373,12 +371,12 @@ For beginning programmers, a common source of confusion is assignment and the us
 
 In mathematics, the equals sign means that the two sides of the
 equation have the same value.
-In MATLAB, an assignment statement {\em looks} like a mathematical equality, but it's not.
+In MATLAB, an assignment statement \emph{looks} like a mathematical equality, but it's not.
 
 One difference is that the sides of an assignment statement are not
 interchangeable.  The right side can be any legal expression, but
 the left side has to be a variable, which is called the 
-{\em target} of the assignment.  So this is legal:
+\emph{target} of the assignment.  So this is legal:
 
 \begin{code}
 >> ***y = 1;***
@@ -404,7 +402,7 @@ In this case the error message is not very helpful.  The problem here is that th
 Another difference between assignment and equality is that a mathematical equality is true (or false) for all eternity;
 an assignment statement is temporary.
 When you assign \lstinline{x = y + 1}, you get the
-{\em current} value of \lstinline{y}.  If \lstinline{y} changes later, \lstinline{x}
+\emph{current} value of \lstinline{y}.  If \lstinline{y} changes later, \lstinline{x}
 does not get updated.
 
 A third difference is that a mathematical equality is a statement that
@@ -421,30 +419,30 @@ y = 2
 
 When you read MATLAB code, you might find it helpful to pronounce
 the equals sign as ``gets'' rather than ``equals.''  So \lstinline{x = y + 1}
-is pronounced ``\lstinline{x}~gets the value of \lstinline{y} plus .''
+is pronounced ``\lstinline{x}~gets the value of \lstinline{y} plus one.''
 
 \section{Chapter Review}
 
-This chapter presented scripts and suggested reasons to use them.  We computed elements of a Fibonacci sequence, but because we used floating-point numbers, the results are sometimes only approximate.
+This chapter presented scripts and suggested reasons to use them.  We computed elements of a Fibonacci sequence, but because we used floating-point numbers, the results were sometimes only approximate.
 And we saw how to add comments to a program to document what it does and explain how it works.
 
 Here are some terms from this chapter you might want to remember.
 
-An {\em M-file} is a file that contains a {\em script}, which is a sequence of MATLAB/Octave commands.
-The {\em search path} is the list of folders where the interpreter looks for
+An \emph{M-file} is a file that contains a \emph{script}, which is a sequence of MATLAB/Octave commands.
+The \emph{search path} is the list of folders where the interpreter looks for
 M-files.
 
-A {\em precondition} is something that must be true when the script
-starts, in order for it to work correctly; a {\em postcondition} is something that will be true when the script completes.
+A \emph{precondition} is something that must be true when the script
+starts in order for it to work correctly; a \emph{postcondition} is something that will be true when the script completes.
 
-The {\em target} of an assignment statement is the variable on the left side.
+The \emph{target} of an assignment statement is the variable on the left side.
 
-{\em Floating-point} is a way to represent and store numbers in a computer.
-{\em Scientific notation} is a format for typing and displaying large
+\emph{Floating-point} is a way to represent and store numbers in a computer.
+\mbox{\emph{Scientific notation}} is a format for typing and displaying large
 and small numbers; for example, \lstinline{3.0e8} represents $3.0 \times 10^8$
 or 300,000,000.
 
-A {\em comment} is part of a program that provides additional information
+A \emph{comment} is part of a program that provides additional information
 about the program, but does not affect its execution.
 
 In the next chapter, you'll learn how to write programs that perform repetitive tasks using loops.
@@ -456,7 +454,7 @@ Before you go on, you might want to work on the following exercises.
 
 \subsection{Exercise~1}
 To test your understanding of assignment statements, write a few lines of code that swap the values of \lstinline{x} and \lstinline{y}. 
-Put your code in a script called \lstinline{swap} and test it.
+Put your code in a script called \emph{swap.m} and test it.
 
 If it works correctly, you should be able to run it like this:
 
@@ -480,7 +478,7 @@ y = 1
 \label{bikegame}
 \index{bike share system}
 
-Imagine that you are the operator of a bike share system with two
+Imagine that you are the operator of a bike-share system with two
 locations: Boston and Cambridge.
 
 You observe that every day 5 percent
@@ -488,7 +486,7 @@ of the bikes in Boston are dropped off in Cambridge, and 3 percent of the bikes
 in Cambridge get dropped off in Boston.
 At the beginning of the month, there are 100 bikes at each location.
 
-Write a script called \lstinline{bike_update} that updates the number
+Write a script called \emph{bike\textunderscore update.m} that updates the number
 of bikes in each location from one day to the next.  The precondition
 is that the variables \lstinline{b} and \lstinline{c} contain the number of bikes
 in each location at the beginning of the day.  The postcondition
@@ -507,7 +505,7 @@ of time from day to day (you can repeat a command by pressing the \keycap{up} ar
 
 What happens to the bikes?  Do they all end up in one place?  Does the system reach an equilibrium, does it oscillate, or does it do something else?
 
-In the next chapter, we will see how to execute your script automatically,
+In the next chapter, we will see how to execute your script automatically
 and how to plot the values of \lstinline{b} and \lstinline{c} over time.
 
 

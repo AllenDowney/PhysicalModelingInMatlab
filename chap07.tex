@@ -1,4 +1,4 @@
-\chapter{Zero-finding}
+\chapter{Zero-Finding}
 \label{fzero}
 \chapterartfile{book/images/matlab_circleart.eps}
 
@@ -14,11 +14,11 @@ Using \lstinline{fzero} is also an opportunity to learn about \emph{function han
 
 What does it mean to ``solve'' an equation?  That may seem like an
 obvious question, but let's take a minute to think about it,
-starting with a simple example.
+starting with a simple \mbox{example}.
 
 Suppose we want to know the
 value of a variable, $x$, but all we know about it is the relationship
-$x^2 = a$. If you've taken algebra, you probably know how to solve this
+$x^2 = a$. If you've taken algebra, you probably \linebreak know how to solve this
 equation: you take the square root of both sides and get
 $x = \pm \sqrt{a}$.  Then, with the satisfaction of a job well done,
 you move on to the next problem.
@@ -42,7 +42,7 @@ roots, we can compute the value of $x$ for any value of $a$.
 When people talk about solving an equation, what they usually mean
 is something like ``finding an equivalent relationship that is
 explicit in one of the variables.''  In the context of this book,
-that's what we'll call an \emph{analytic solution}, to distinguish
+that's what we'll call an \emph{analytic \mbox{solution}}, to distinguish
 it from a \emph{numerical solution}, which is what we are going to
 do next.
 
@@ -52,14 +52,14 @@ do next.
 {\binoppenalty=\maxdimen%
 \relpenalty=\maxdimen% [keeps the equation from being broken across lines]
 To demonstrate a numerical solution, consider the equation $x^2 - 2x = 3$.  You could solve this analytically, either by factoring it or by
-using the quadratic formula, and you would discover that there are
+using the quad\-ratic formula, and you would discover that there are
 two solutions, $x=3$ and $x=-1$.  Alternatively, you could solve it
 numerically by rewriting it as $x = \pm \sqrt{2x+3}$.}
 
 This equation is not explicit, since $x$ appears on both sides, so
 it's not clear that this move did any good at all.  But suppose we had
 reason to expect a solution near 4.
-We could start with $x=4$ as an \emph{initial value}, and then use
+We could start with $x=4$ as an \emph{initial value} and then use
 the equation $x = \sqrt{2x+3}$ to compute successive
 approximations of the solution. (To understand why this
 works, see \url{https://greenteapress.com/matlab/fixed}.)
@@ -93,19 +93,19 @@ is good enough for most purposes.
 \index{numerical method}
 
 Techniques that generate numerical solutions are called
-\emph{numerical methods}.  
+\emph{numerical \mbox{methods}}.  
 The nice thing about the method we just used is that it's simple.  But it doesn't always
 work, and it's not often used in practice.
 We'll see a better alternative in the next section.
 
-\subsection{Zero-finding}
+\subsection{Zero-Finding}
 \label{zero}
 
 \index{zero-finding}
 \index{error function}
 \index{function!error}
 
-The \lstinline{fzero} is a MATLAB function that uses numerical methods to search for solutions to nonlinear equations.  In order to use it, we have to rewrite the equation as an \emph{error function}, like this:
+The MATLAB function \lstinline{fzero} that uses numerical methods to search for solutions to nonlinear equations.  In order to use it, we have to rewrite the equation as an \emph{error function}, like this:
 
 \begin{equation*}
 f(x) = x^2 - 2x -3
@@ -162,6 +162,7 @@ value, we get a different root (at least sometimes).
 >> ***fzero(@error_func, -2)***
 ans = -1
 \end{code}
+\pagebreak
 
 Alternatively, if you know two values that bracket the root,
 you can provide both.
@@ -178,7 +179,7 @@ The second argument is a vector that contains two elements.
 You might be curious to know how many times \lstinline{fzero} calls your
 function, and where.  If you modify \lstinline{error_func} so that it displays
 the value of \lstinline{x} when it is called and then run \lstinline{fzero}
-again, you get:
+again, you get
 
 \begin{code}
 >> ***fzero(@error_func, [2,4])***
@@ -205,7 +206,7 @@ If you'd like to know more about how \lstinline{fzero} works, see Chapter~\ref{h
 \subsection{What Could Go Wrong?}
 
 The most common problem people have with \lstinline{fzero} is leaving
-out the \lstinline{@}.  In that case, you get something like:
+out the \lstinline{@}.  In that case, you get something like so:
 
 \begin{code}
 >> ***fzero(error_func, [2,4])***
@@ -223,7 +224,9 @@ The error occurs because MATLAB treats the first argument as a function call, so
 Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
 \emph{always} assign a value to the output variable, but MATLAB doesn't
-enforce this rule, so it's easy to forget.  For example, if you
+enforce this rule, so it's easy to forget.  
+\newpage
+For example, if you
 write
 
 \begin{code}
@@ -269,7 +272,7 @@ Output argument "res" (and maybe others) not assigned during
 call to "error_func".
 \end{code}
 
-Another thing that can go wrong: if you provide an interval for the
+Another thing can go wrong: if you provide an interval for the
 initial guess and it doesn't actually contain a root, you get
 
 \begin{code}
@@ -284,18 +287,18 @@ There is one other thing that can go wrong when you use \lstinline{fzero}, but
 this one is less likely to be your fault.  It's possible that \lstinline{fzero}
 won't be able to find a root.
 
-Generally, \lstinline{fzero} is robust, so you may never have a problem, but you should remember that there is no guarantee that \lstinline{fzero} will work, especially if you provide a single value as an initial guess.  Even if you provide an interval that brackets a root, things can still go wrong if the error function is discontinuous.
+Generally, \lstinline{fzero} is robust, so you may never have a problem, but you should remember that there is no guarantee that \lstinline{fzero} will work, especially \linebreak if you provide a single value as an initial guess.  Even if you provide an interval that brackets a root, things can still go wrong if the error function is discontinuous.
 
 
 \subsection{Choosing an Initial Value}
 
-The better your initial value, the more likely it is that
+The better your initial value is, the more likely it is that
 \lstinline{fzero} will work, and the fewer iterations it will
 need.
 
 When you're solving problems in the real world, you'll usually
 have some intuition about the answer.  This intuition is often enough
-to provide a good initial guess.
+to provide \linebreak a good initial guess.
 
 \index{ezplot@\lstinline{ezplot}}
 \index{plot!\lstinline{ezplot}}
@@ -327,11 +330,11 @@ avoid the need to loop over array elements.
 \end{code}
 
 This means that MATLAB tried to call \lstinline{error_func} with a vector, and it failed. 
-The problem is that it uses the \lstinline{*} and \lstinline{^} operators.  With vectors, those operators don't do what we want, which is \emph{elementwise} multiplication and exponentiation
+The problem is that it uses the \lstinline{*} and \lstinline{^} operators.  With vectors, those operators don't do what we want, which is \emph{element-wise} multiplication and exponentiation
 (see ``\nameref{elementwise}'' on page~\pageref{elementwise}).
 
-\index{elementwise operator}
-\index{operator!elementwise}
+\index{element-wise operator}
+\index{operator!element-wise}
 
 If you rewrite \lstinline{error_func} like this:
 
@@ -362,7 +365,7 @@ As a result, if you have a variable with the same name as a function,
 the variable \emph{shadows} the function; metaphorically, you can't see the function because the variable is in the way.  
 
 For example, if you assign
-a value to \lstinline{sin}, and then try to use the \lstinline{sin} function, you
+a value to \lstinline{sin} and then try to use the \lstinline{sin} function, you
 might get an error:
 
 \begin{code}
@@ -378,7 +381,7 @@ the variable 'sin' from the workspace.
 Since the value we assigned to \lstinline{sin} is a number, and a number is considered a $1 \times 1$ matrix, MATLAB tries to access the fifth element of the matrix and finds that there isn't one.
 
 In this case, MATLAB is able to detect the error, and the error message is pretty helpful.
-But if the value of \lstinline{sin} was a vector, or if the argument was smaller, you would be in trouble.  For example:
+But if the value of \lstinline{sin} were a vector, or if the argument were smaller, you would be in trouble.  For example,
 
 \begin{code}
 >> ***sin = 3;***
@@ -403,14 +406,14 @@ angle and you want to find the angle.  You find the MATLAB function
 \lstinline{asin}, and you're pretty sure it computes the inverse sine
 function.  Pretty sure is not good enough; you want to be very sure.
 
-Since we know $\sin 0 = 0$, we could try:
+Since we know $\sin 0 = 0$, we could try
 
 \begin{code}
 >> ***asin(0)***
 ans = 0
 \end{code}
-which is correct.  Now, we also know that the sine of $90$ degrees is
-1, so if we try \lstinline{***asin(1)***}, we expect the answer to be 90, right?
+which is correct.  Now, we also know that the sine of $90$\textdegree is
+1, so if we try \lstinline{asin(1)}, we expect the answer to be 90, right?
 
 \begin{code}
 >> ***asin(1)***
@@ -418,7 +421,7 @@ ans = 1.5708
 \end{code}
 
 Oops.  We forgot that the trig functions in MATLAB work in radians,
-not degrees.  The answer we got is $\pi/2$, which is $90$ degrees, in radians.
+not degrees.  The answer we got is $\pi/2$, which is $90$\textdegree, in radians.
 
 With this kind of testing, you're not really checking for
 errors in your program; you're checking your understanding.  If you
@@ -492,7 +495,7 @@ value?
 \subsection{Exercise~2}
 \label{duck}
 
-When a duck is floating on water, how much of its body is submerged?\footnote{This exercise is adapted from C.~F.~Gerald and P.~O.~Wheatley, \emph{Applied Numerical Analysis}, 4th edition, (Boston: Addison-Wesley, 1989).}
+When a duck is floating on water, how much of its body is submerged?\footnote{This exercise is adapted from C.~F.~Gerald and P.~O.~Wheatley, \emph{Applied Numerical Analysis}, 4th edition (Boston: Addison-Wesley, 1989).}
 
 \index{duck}
 \index{sphere}
@@ -504,7 +507,7 @@ volume of the sphere below the water line is
 \[ V = \frac{\pi}{3} (3r d^2 - d^3) \quad
 \mbox{as long as} \quad d < 2 r  \]
 
-We'll also assume that the density of a duck is $\rho = 0.3$\,g/cm$^3$ (0.3 times the density of water), and that its mass is $\frac{4}{3} \pi r^3 \rho$\,g.
+We'll also assume that the density of a duck is $\rho = 0.3$\,g/cm$^3$ (0.3 times the density of water) and that its mass is $\frac{4}{3} \pi r^3 \rho$\,g.
 
 Finally, according to the law of buoyancy, an object floats at the level where the weight of the displaced water equals the total weight of the object.
 

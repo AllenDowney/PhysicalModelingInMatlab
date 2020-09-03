@@ -1,4 +1,5 @@
 \chapter{Springs and Things}
+\chapterartfile{book/images/matlab_circleart.eps}
 
 The computational tools you have learned so far make up a versatile toolkit for modeling physical systems described by first- and second-order differential equations and systems of equations.
 
@@ -45,7 +46,7 @@ To model the force of the bungee cord on the jumper, I'll make the following ass
 
 We can write Hooke's Law as
 %
-$F_\mathrm{s} = -k x$,
+$F_\mathrm{s} = -k x$
 %
 where $F_\mathrm{s}$ is the force of the spring (bungee cord) on the jumper in newtons, $x$ is the distance the spring is stretched by in meters, and $k$ is a spring constant that represents the strength of the spring in newtons per meter.
 The minus sign indicates that the direction of the spring force is opposite to the direction the spring is stretched.
@@ -71,7 +72,7 @@ You could start with the length \SI{25}{\meter} and spring constant \SI{40}{\new
 
 \index{bungee jump}
 
-In the previous section we modeled the motion of a bungee jumper taking into account gravity, air resistance, and the spring force of the bungee cord.  But we ignored the weight of the cord.
+In the previous section, we modeled the motion of a bungee jumper taking into account gravity, air resistance, and the spring force of the bungee cord.  But we ignored the weight of the cord.
 
 \index{bungee jump}
 \index{bungee cord}
@@ -80,9 +81,9 @@ It's tempting to say that the cord has no effect because it falls along with the
 
 \index{acceleration}
 
-At \url{https://greenteapress.com/matlab/bungee} you'll find a paper by Heck, Uylings, and Kędzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
+At \url{https://greenteapress.com/matlab/bungee}, you'll find a paper by Heck, Uylings, and Kędzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
-\[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L}, \] 
+\[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
 %
 where $g$ is acceleration due to gravity, $L$ is the length of the cord, and $\mu$ is the ratio of the mass of the cord, $m$, and the mass of the jumper, $M$.
 
@@ -98,13 +99,13 @@ Modify your solution to the previous problem to model this effect.  How does the
 In this example we'll develop a model of Spider-Man swinging from a
 springy cable of webbing attached to the top of the Empire State
 Building.  Initially, Spider-Man is at the top of a nearby building, as
-shown in Figure~\ref{spiderman}.
+shown in \linebreak Figure~\ref{spiderman}.
 
 \index{Spider-Man}
 \index{Empire State Building}
 
-\begin{figure}
-\centerline{\includegraphics{book/images/figure14_01_new.eps}}
+\begin{figure}[H]
+\includegraphics{book/images/figure14_01_new.eps}
 \caption{Diagram of the initial state for the Spider-Man example}
 \label{spiderman}
 \end{figure}
@@ -156,7 +157,7 @@ We'll use the following parameters:
 
 \index{parameter}
 
-\begin{enumerate}
+\begin{itemize}
 
 \item According to the Spider-Man Wiki (\url{https://greenteapress.com/matlab/spider}), Spider-Man weighs \SI{76}{\kg}.
 
@@ -177,7 +178,7 @@ We'll use the following parameters:
   
 \index{spring constant}
 
-\end{enumerate}
+\end{itemize}
 
 
 \section{Celestial Mechanics}
@@ -186,7 +187,7 @@ We'll use the following parameters:
 \index{mechanics!celestial}
 
 \emph{Celestial mechanics} describes how objects move in outer space.
-If you did \nameref{earth} on page~\pageref{earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now we'll simulate the Earth orbiting the Sun in two dimensions.
+If you did \linebreak \nameref{earth} on page~\pageref{earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now we'll simulate the Earth orbiting the Sun in two dimensions.
 
 \index{Earth}
 \index{Sun}
@@ -201,7 +202,7 @@ To keep things simple, we'll consider only the effect of the Sun on the Earth, a
 Given the mass of the Sun, $m1$, and the mass of the Earth, $m2$, the gravitational force between them is
 
 \begin{equation*}
-\vec{F}_\mathrm{g} = -G \frac{m_1 m_2}{r^2} \uvec{P} ,
+\vec{F}_\mathrm{g} = -G \frac{m_1 m_2}{r^2} \uvec{P}
 \end{equation*}
 where $G$ is the universal gravitational constant (see \url{https://greenteapress.com/matlab/gravity}),
 $r$ is the distance of Earth from the Sun, and
@@ -229,14 +230,14 @@ A useful way to check the accuracy of an ODE solver is to see whether it conserv
 The kinetic energy of a moving body is
 
 \begin{equation*}
-KE = m v^2 / 2.
+KE = m v^2 / 2
 \end{equation*}
 
 The potential energy of a sun with mass $m_1$ and a
 planet with mass $m_2$ and a distance $r$ between them is
 
 \begin{equation*}
-PE = -G \frac{m_1 m_2}{r}.
+PE = -G \frac{m_1 m_2}{r}
 \end{equation*}
 
 Write a function called \lstinline{energy\_func} that takes the output of
@@ -279,7 +280,7 @@ and see if any of them conserve energy.  You might find that \lstinline{ode23} w
 
 \section{Chapter Review}
 
-This chapter presents examples where you can apply the tools in this book to solve more realistic problems.  Some of them are more serious than others, but I hope you have some fun with them.
+This chapter presented examples where you can apply the tools in this book to solve more realistic problems.  Some of them were more serious than others, but I hope you had some fun with them.
 
 I think this toolkit is powerful and versatile.  If you use it to solve an interesting problem, let me know!
 

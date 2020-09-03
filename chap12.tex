@@ -110,7 +110,7 @@ As an example, suppose we have two vectors representing forces:
 
 \lstinline{A} represents a force pulling northeast; \lstinline{B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \includegraphics{book/images/figure12_01_new.eps}
 \caption{The sum of two forces represented by vectors}
 \label{fig:vector2}
@@ -217,7 +217,7 @@ Here's how we can plot position as a function of time:
 
 Figure~\ref{fig:baseball1} shows what these coordinates look like as a function of time.  The x-coordinate increases linearly because the $x$ velocity is constant.  The y-coordinate goes up and down, as we expect.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \includegraphics{book/images/figure12_02_new.eps}
 \caption{Simulated flight of a baseball neglecting drag force}
 \label{fig:baseball1}
@@ -287,21 +287,22 @@ As in Listing~\ref{lst:baseball_rate_func}, \lstinline{acceleration} represents 
 But now it also computes drag force and divides by the mass of the baseball to get acceleration due to drag.
 Finally, it adds \lstinline{a_gravity} and \lstinline{a_drag} to get the total acceleration of the baseball.
 
-\begin{figure}[ht]
+
+Figure~\ref{fig:vector3} shows the following quantities graphically:  (1) acceleration due to drag, $\vec{D}$, which is in the opposite direction to (2)~velocity, $\vec{V}$; (3)~acceleration due to gravity, $\vec{G}$, is straight down; and (4)~total acceleration, $\vec{A}$, is the sum of $\vec{D}$ and $\vec{G}$.
+
+\begin{figure}[H]
 \includegraphics{book/images/figure12_03_new.eps}
 \caption{Diagram of velocity, $\vec{V}$; acceleration due to drag force, 
 $\vec{D}$; acceleration due to gravity, $\vec{G}$; and total acceleration, $\vec{A}$}
 \label{fig:vector3}
 \end{figure}
 
-Figure~\ref{fig:vector3} shows the following quantities graphically:  (1) acceleration due to drag, $\vec{D}$, which is in the opposite direction to (2)~velocity, $\vec{V}$; (3)~acceleration due to gravity, $\vec{G}$, is straight down; and (4)~total acceleration, $\vec{A}$, is the sum of $\vec{D}$ and $\vec{G}$.
-
 \index{acceleration}
-\newpage
+
 Figure~\ref{fig:baseball2} shows the results from \lstinline{ode45}.  The ball lands after about \SI{5}{\second}, having traveled less than \SI{150}{\meter}, substantially less than what we got without air resistance, about \SI{250}{\meter}.
 
-\begin{figure}
-\includegraphics[scale=0.90]{book/images/figure12_04_new.eps}
+\begin{figure}[H]
+\includegraphics{book/images/figure12_04_new.eps}
 \caption{Simulated flight of a baseball including drag force}
 \label{fig:baseball2}
 \end{figure}
@@ -309,11 +310,6 @@ Figure~\ref{fig:baseball2} shows the results from \lstinline{ode45}.  The ball l
 \newpage
 This result suggests that ignoring air resistance is not a good choice for modeling a baseball.
 
-\begin{figure}
-\includegraphics[scale=0.90]{book/images/figure12_04_new.eps}
-\caption{Simulated flight of a baseball including drag force}
-\label{fig:baseball2}
-\end{figure}
 
 \section{What Could Go Wrong?}
 
