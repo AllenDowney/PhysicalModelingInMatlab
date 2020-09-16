@@ -33,11 +33,11 @@ equation
 \begin{equation*}
     \frac{d^2r}{dt^2} = a
 \end{equation*}
-where $\frac{d^2r}{dt^2}$ is the second time derivative of $r$.
+where ${d^2r}/{dt^2}$ is the second time derivative of $r$.
 
 Because this equation includes a second derivative, it's
 a second-order ODE.  We can't solve the equation using \lstinline{ode45} in this form, but
-by introducing a new variable, \lstinline{v}, for velocity, we can rewrite it
+by introducing a new variable, \emph{v}, for velocity, we can rewrite it
 as a system of first-order ODEs:
 
 \begin{eqnarray*}
@@ -89,7 +89,7 @@ function res = rate_func(t, X)
     res = [dydt; dvdt];
 end
 \end{lstlisting}
-
+\newpage
 The rate function in Listing~\ref{lst:penny_rate_func} takes \lstinline{t} and \lstinline{X} as input variables, where the elements of \lstinline{X} are understood to be the position and velocity of the penny.
 
 It returns a column vector that contains \lstinline{dydt} and \lstinline{dvdt}, which
@@ -115,7 +115,7 @@ The initial condition of \lstinline{X} is the initial position, which is the hei
 \index{Empire State Building}
 \index{penny}
 
-The result from \lstinline{rate_func} is:
+The result from \lstinline{rate_func} is
 
 \begin{code}
     0
@@ -153,7 +153,7 @@ plot(T, Y)
 \label{fig:penny}
 \end{figure}
 
-Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and picks up speed.  Between 8 and 9 seconds, the altitude reaches 0, which means the penny hits the sidewalk.  But \lstinline{ode45} doesn't know where the ground is, so the penny keeps going through zero into negative altitude.  We'll solve that problem in the next section.
+Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and picks up speed.  Between 8 and 9 seconds, the altitude reaches 0, which means the penny hits the sidewalk.  But \lstinline{ode45} doesn't know where the ground is, so \linebreak the penny keeps going through 0 into negative altitude.  We'll solve that problem in the next section.
 \newpage
 \section{ODE Events}
 \label{events}
@@ -266,7 +266,7 @@ $v$ and $-1$ for negative values.  So $f_\mathrm{d}$ is always in the opposite d
 \index{terminal velocity}
 
 To convert from force to acceleration we have to know mass, but that's easy to find: the mass of a penny is about \SI{2.5}{\gram}.  It's not as easy to find the drag constant, but based on reports that the terminal velocity of a penny is about \SI{18}{\meter \per \second}, I've estimated that it's about \SI{75e-6}{\kilogram \per \meter}.
-
+\newpage
 Listing~\ref{lst:acceleration_drag} defines a function that takes \lstinline{t} and \lstinline{X} as input variables and returns the total acceleration of the penny due to gravity and drag:
 
 \begin{lstlisting}[caption={Calculating acceleration of a penny with drag}, label={lst:acceleration_drag}]
@@ -322,7 +322,7 @@ In this version, we call \lstinline{acceleration} to compute the total accelerat
 Everything else is the same.  Figure~\ref{fig:penny2} shows the result. 
 
 Air resistance makes a big difference! Velocity increases until
-the drag acceleration equals $g$; after that, velocity is constant and position decreases linearly (and much more slowly than it would in a vacuum).
+acceleration due to drag equals acceleration due to gravity; after that, velocity is constant and position decreases linearly (and much more slowly than it would in a vacuum).
 
 With air resistance, the time until the penny hits the sidewalk is \SI{22.4}{\second}, substantially longer than before (\SI{8.8}{\second}).
 
@@ -332,7 +332,7 @@ And the final velocity is \SI{18.1}{\meter \per \second}, substantially slower t
 
 In this chapter, we used Newton's laws of motion to write a differential equation that describes the motion of a falling penny.  
 
-We rewrote that equation as a system of first-order differential equations, so we could use \lstinline{ode45} to solve it.  Then we ran simulations of a falling penny with and without air resistance, also known as \emph{drag}.
+We rewrote that equation as a system of first-order differential equations so we could use \lstinline{ode45} to solve it.  Then we ran simulations of a falling penny with and without air resistance, also known as \emph{drag}.
 
 We defined an \emph{event} as something of interest that happens during a simulation, like a collision between moving objects, and we wrote an \emph{event function}, which allows \lstinline{ode45} to figure out when an event occurs.
 
@@ -347,15 +347,23 @@ Before you go on, you might want to work on the following exercises.
 \index{skydiver}
 \index{parachute}
 
-The drag constant for a skydiver without a parachute is about \SI{0.2}{\kilogram \meter}.  Modify the penny code from this chapter to simulate the descent of a \SI{75}{\kilogram} skydiver from an initial altitude of \SI{4000}{\meter}.  What would the velocity of the skydiver be on impact?
+In this exercise we'll model the descent of a skydiver, taking into account the change in drag when the parachute opens.
 
-After opening their parachute, the velocity of the skydiver slows to about \SI{5}{\meter\per\second}.  Use your simulation to find the drag constant that yields a terminal velocity of \SI{5}{\meter\per\second}.
+\begin{enumerate}
 
-Increase the mass of the skydiver, and confirm that terminal velocity increases.  This phenomenon is the source of the intuition that heavy objects fall faster; in air, they do!
+\item Modify the penny code from this chapter to simulate the descent of a \SI{75}{\kilogram} skydiver from an initial altitude of \SI{4000}{\meter}.
+The drag constant for a skydiver without a parachute is about \SI{0.2}{\kilogram \per \meter}.
+What would the velocity of the skydiver be on impact?
+ 
+\item After opening their parachute, the velocity of the skydiver slows to about \SI{5}{\meter\per\second}.  Use your simulation to find the drag constant that yields a terminal velocity of \SI{5}{\meter\per\second}.
 
-Now suppose the skydiver free falls until they get to an altitude of \SI{1000}{\meter} before opening the parachute.  How long would it take them to reach the ground?
+\item Increase the mass of the skydiver, and confirm that terminal velocity increases.  This phenomenon is the source of the intuition that heavy objects fall faster; in air, they do!
 
-What is the lowest altitude where the skydiver can open the parachute and still land at less than \SI{6}{\meter\per\second} (assuming that the parachute opens and deploys instantly)?
+\item Now suppose the skydiver free falls until they get to an altitude of \SI{1000}{\meter} before opening the parachute.  How long would it take them to reach the ground?
+
+\item What is the lowest altitude where the skydiver can open the parachute and still land at less than \SI{6}{\meter\per\second} (assuming that the parachute opens and deploys instantly)?
+
+\end{enumerate}
 
 % skydiver.m
 
@@ -369,7 +377,7 @@ What is the lowest altitude where the skydiver can open the parachute and still 
 \index{Sun}
 \index{Law of Universal Gravitation}
 
-Here's a question from the website Ask an Astronomer (\url{https://greenteapress.com/matlab/astro}):
+Here's a question from the website \emph{Ask an Astronomer} (see \url{https://greenteapress.com/matlab/astro}):
 
 \begin{quote}
 If the Earth suddenly stopped orbiting the Sun, I know eventually it would be pulled in by the Sun's gravity and hit it. How long would it take the Earth to hit the Sun? I imagine it would go slowly at first and then pick up speed.
@@ -381,7 +389,7 @@ Use \lstinline{ode45} to answer this question.  Here are some suggestions about 
 
 \item Look up the Law of Universal Gravitation and any constants you need. I suggest you work entirely in SI units: meters, kilograms, and newtons.
 
-\item When the distance between the Earth and the Sun gets small, this system behaves badly, so you should use an event function to stop when the surface of Earth reaches the surface of the Sun.
+\item When the distance between the Earth and the Sun gets small, this system behaves badly, so you should use an event function to stop when the surface of the Earth reaches the surface of the Sun.
 
 \item Express your answer in days, and plot the results as millions of kilometers versus days.
 

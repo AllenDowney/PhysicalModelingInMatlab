@@ -8,7 +8,7 @@ In this chapter we ``open the hood,'' looking more closely at how some of the to
 \section{How ode45 Works}
 \label{howode45}
 
-According to the MATLAB documentation, \lstinline{ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair.''  You can read about it at \url{https://greenteapress.com/matlab/runge}, but I'll give you a sense of it here.
+According to the MATLAB documentation, \lstinline{ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair.''  You can read about it at \linebreak \url{https://greenteapress.com/matlab/runge}, but I'll give you a sense of it here.
 
 \index{Runge-Kutta}
 \index{ode45@\lstinline{ode45}}
@@ -43,7 +43,7 @@ And we can use it like this:
     [T, Y] = ode45(@rate_func, tspan, y0, options);
 \end{code}
 
-For this example we'll use \lstinline{odeset} to set the \lstinline{Refine} option to 1, which tells \lstinline{ode45} to return only the time steps it computes, rather than interpolating between them.
+For this example we'll use \lstinline{odeset} to set the \lstinline{Refine} option to \lstinline{1}, which tells \lstinline{ode45} to return only the time steps it computes, rather than interpolating between them.
 
 \index{odeset@\lstinline{odeset}}
 
@@ -88,11 +88,11 @@ We can see that \lstinline{ode45} evaluates the rate function several times per 
 We can also see that most of the places where \lstinline{ode45} evaluates the rate function are not part of the solution it returns, and they are not always good estimates of the solution.
 This is good to know when you are writing a rate function; you should not assume that the time and state you get as input variables will be part of the solution.
 
-In a sense, the rate function is answering a hypothetical question: ``\emph{If} the state at a particular time has these particular values, what \emph{would} the slope be?''
+In a sense, the rate function is answering a hypothetical question: ``\emph{If} the state at a particular time has these particular values, what \emph{would} the slope~be?''
 
 
 At each time step, \lstinline{ode45} actually computes \emph{two} estimates of the next value.
-By comparing them, it can estimate the magnitude of the error, which it uses to adjust the time step.
+By comparing them, it can estimate the magnitude of the error, \linebreak which it uses to adjust the time step.
 If the error is too big, it uses a smaller time step; if the error is small enough, it uses a bigger time step.
 Because \lstinline{ode45} is \emph{adaptive} in this way, it minimizes the number of times it calls the rate function to achieve a given level of accuracy.
 
@@ -102,7 +102,7 @@ Because \lstinline{ode45} is \emph{adaptive} in this way, it minimizes the numbe
 \section{How fzero Works}
 \label{howfzero}
 
-According to the MATLAB documentation, \lstinline{fzero} uses ``a combination of bisection, secant, and inverse quadratic interpolation methods.''
+According to the MATLAB documentation, \lstinline{fzero} uses ``a combination of bisection, secant, and inverse quadratic interpolation methods.''  (See \url{https://greenteapress.com/matlab/fzero})
 
 \index{fzero@\lstinline{fzero}}
 \index{bisection}
@@ -123,7 +123,7 @@ In this case we would say that $x_1$ and $x_2$ \emph{bracket} a zero.
 
 \index{bracket}
 
-If this was all you knew about $f$, where would you go looking for
+If this were all you knew about $f$, where would you go looking for
 a root?  If you said ``halfway between $x_1$ and $x_2$,''
 congratulations!  You just invented a numerical method called
 \emph{bisection}!
@@ -176,7 +176,7 @@ Figure~\ref{fig:golden2} shows the two possible states.
 \label{fig:golden2}
 \end{figure}
 
-If $f(x_4)$ is less than than $f(x_2)$ (shown on the left), the
+If $f(x_4)$ is less than $f(x_2)$ (shown on the left), the
 minimum must be between $x_2$ and $x_3$, so we would discard $x_1$ and proceed with the new triple $(x_2, x_4, x_3)$.
 
 If $f(x_4)$ is greater than $f(x_2)$ (shown on the right), the

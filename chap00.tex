@@ -2,7 +2,7 @@
 \adjustmtc
 \chapterartfile{book/images/matlab_circleart.eps}
 
-Modeling and simulation are powerful tools for explaining the world, making predictions, designing things that work, and making them work better.  Learning to use these tools can be difficult; this book is my attempt to make the experience as enjoyable and productive as possible.
+Modeling and simulation are powerful tools for explaining the world, making \linebreak predictions, designing things that work, and making them work better.  Learning to use these tools can be difficult; this book is my attempt to make the experience as enjoyable and productive as possible.
 
 By reading this book---and working on the exercises---you will learn some programming, some modeling, and some simulation.
 With basic programming skills, you can create models for a wide range of physical systems.
@@ -16,13 +16,13 @@ To make this book accessible to the widest possible audience, I've tried to mini
 
 This book is intended for people who have never programmed before.  I start from the beginning, define new terms when they are introduced, and present only the features you need, when you need them.
 
-I assume that you know trigonometry and some calculus, but not much.  If you understand that a derivative represents a rate of change, that's enough.  You will learn about differential equations and some linear algebra, but I will explain what you need to know as we go along.
+I assume that you know trigonometry and some calculus, but not very much.  If you understand that a derivative represents a rate of change, that's enough.  You will learn about differential equations and some linear algebra, but I will explain what you need to know as we go along.
 
 I will assume you know basic physics, in particular the concepts of force, acceleration, velocity, and position.  If you know Newton's second law of motion in the form $F = m a$, that's enough.
 
 \section{About This Book}
 
-I have tried to present a small set of tools that provides the most versatility and power, to explain them as clearly as possible, and to give you chances to practice what you learn.
+I have tried to present a small set of tools that provides the most versatility and power, to explain those tools as clearly as possible, and to give you chances to practice what you learn.
 
 Here's what you will find in this book:
 \begin{description}
@@ -34,17 +34,17 @@ Here's what you will find in this book:
 
 \item [Chapter 4: Vectors] Introduces vectors, which provide a way to store a sequence of values.  And it presents common vector operators including reduce and apply
 
-\item [Chapter 5: Functions] Discusses name collisions and an important tool for avoiding them, functions.  It also explains input variables and function calls
+\item [Chapter 5: Functions] Discusses name collisions and an important tool for avoiding them: functions.  It also explains input variables and function calls
 
 \item [Chapter 6: Conditionals] Presents conditional statements, which check for conditions and determine the behavior of programs.  And it introduces a program development process called encapsulation and generalization
 
 \item [Chapter 7: Zero-Finding] Introduces \lstinline{fzero}, which is a MATLAB function that finds the zeros, or roots, of nonlinear equations.  It also presents some tips that might help you with debugging
 
-\item [Chapter 8: Functions of Vectors] Combines two topics from previous chapters, vectors and functions.  It presents functions that take vectors as input variables and returns them as output variables.  And it introduces logical vectors, which contain a sequence of true and false values
+\item [Chapter 8: Functions of Vectors] Combines two topics from previous chapters: vectors and functions.  It presents functions that take vectors as input variables and return them as output variables.  And it \mbox{introduces} logical vectors, which contain a sequence of true and false values
 
 \item [Chapter 9: Ordinary Differential Equations] Introduces the most important idea in the book, differential equations, and two ways to solve them, Euler's method and a MATLAB function called \lstinline{ode45}
 
-\item [Chapter 10: Systems of ODEs] Uses a system of differential equations to simulate the interactions of predator and prey species, and presents several ways to plot the results
+\item [Chapter 10: Systems of ODEs] Uses a system of differential equations to simulate the interactions of predator and prey species and presents several ways to plot the results
 
 \item [Chapter 11: Second-Order Systems] Describes Newtonian motion using a second-order differential equation and uses \lstinline{ode45} to simulate falling objects with and without air resistance
 
@@ -63,9 +63,9 @@ I hope you enjoy the book and find it valuable.
 
 \section*{Installing Software}
 
-This book is based on MATLAB, a programming language originally developed at the University of New Mexico and now produced by MathWorks, Inc.
+This book is based on MATLAB, a programming language originally \linebreak developed at the University of New Mexico and now produced by MathWorks, Inc.
 
-MATLAB is a high-level language with features that make it well suited for modeling and simulation, and it comes with a program development environment that makes it well suited for beginners.
+MATLAB is a high-level language with features that make it well-suited for modeling and simulation, and it comes with a program development environment that makes it well-suited for beginners.
 
 However, one challenge for beginners is that MATLAB uses vectors and matrices for almost everything, which can make it hard to get started.  The organization of this book is meant to help: we start with simple numerical computations, adding vectors in Chapter~\ref{vectors} and matrices in Chapter~\ref{systems}.
 
@@ -79,7 +79,7 @@ To install and run MATLAB, see \url{https://greenteapress.com/matlab/matlab}.
 
 The first time you run it, a start window should appear to guide you through some configuration.
 
-To install Octave, we recommend that you use Anaconda, which is a package management system that makes it easy to work with Octave and supporting software.
+To install Octave, we recommend that you use Anaconda, which is a package management system that makes it easy to work with Octave and \linebreak supporting software.
 
 Anaconda installs everything at the user level, so you can install it without admin or root permissions.  Follow the instructions for your operating system at \url{https://greenteapress.com/matlab/anaconda}.
 
@@ -94,7 +94,6 @@ Then you can launch it by typing:
 \begin{code}
 ***octave***
 \end{code}
-
 and pressing \keycap{enter}.
 
 \section{Working with the Code}
@@ -114,7 +113,7 @@ In Windows you can right-click on the ZIP file and select \textbf{Extract All}.
 If you open any of these files in MATLAB, you should be able to read the code.  To run it, press the green \textbf{Run} button.
 
 You might get a message like ``File not found in the current folder.''
-MATLAB will give you the option to Change Folder or Add to Path.  If you change folders, you will be able to run this file until you change folder again.  If you add to the path, you will always be able to run this file.
+MATLAB will give you the option to Change Folder or Add to Path.  If you change folders, you will be able to run this file until you change folders again.  If you add to the path, you will always be able to run this file.
 
 However, as you add more folders to the path, you are more likely to run into problems with name collisions (see ``\nameref{collision}'' on page~\pageref{collision}).
 I recommend you change folders when necessary and avoid adding folders to the path.
@@ -122,72 +121,5 @@ I recommend you change folders when necessary and avoid adding folders to the pa
 
 \newpage
 
-\section*{Contributors}
-
-If you have suggestions and corrections, please send them to
-\emph{downey@greenteapress.com}.
-
-\hyphenation{Michael}
-\hyphenation{Lintz}
-\hyphenation{Kaelyn}
-\hyphenation{Stadtmueller}
-\hyphenation{Roydan}
-\hyphenation{Ongie}
-\hyphenation{Keerthik}
-\hyphenation{Omanakuttan}
-\hyphenation{Pietro}
-\hyphenation{Peterlongo}
-\hyphenation{Li}
-\hyphenation{Tao}
-\hyphenation{Steven}
-\hyphenation{Zhang}
-\hyphenation{Elena}
-\hyphenation{Oleynikova}
-\hyphenation{Kelsey}
-\hyphenation{Breseman}
-\hyphenation{Philip}
-\hyphenation{Loh}
-\hyphenation{Harold}
-\hyphenation{Jaffe}
-\hyphenation{Vidie}
-\hyphenation{Pong}
-\hyphenation{Nik}
-\hyphenation{Martelaro}
-\hyphenation{Arjun}
-\hyphenation{Plakkat}
-\hyphenation{Zhen}
-\hyphenation{Gang}
-\hyphenation{Xiao}
-\hyphenation{Zavier}
-\hyphenation{Patrick}
-\hyphenation{Aguila}
-\hyphenation{Cline}
-\hyphenation{Denny}
-\hyphenation{Chen}
-\hyphenation{Matt}
-\hyphenation{Wiens}
-\hyphenation{Craig}
-\hyphenation{Scratchley}
-People who have found errors and helped improve this book include
-Michael Lintz,
-Kaelyn Stadtmueller,
-Roydan Ongie,
-Keerthik Omanakuttan,
-Pietro Peterlongo,
-Li Tao,
-Steven Zhang,
-Elena Oleynikova,
-Kelsey Breseman,
-Philip Loh,
-Harold Jaffe,
-Vidie Pong,
-Nik Martelaro,
-Arjun Plakkat,
-Zhen Gang Xiao,
-Zavier Patrick Aguila,
-Michael Cline,
-Denny Chen,
-Matt Wiens,
-and Craig Scratchley.
 
 \newpage

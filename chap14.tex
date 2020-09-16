@@ -48,13 +48,13 @@ We can write Hooke's Law as
 %
 $F_\mathrm{s} = -k x$
 %
-where $F_\mathrm{s}$ is the force of the spring (bungee cord) on the jumper in newtons, $x$ is the distance the spring is stretched by in meters, and $k$ is a spring constant that represents the strength of the spring in newtons per meter.
+where $F_\mathrm{s}$ is the force of the spring (bungee cord) on the jumper in newtons, $x$ is the distance the spring is stretched in meters, and $k$ is a spring constant that represents the strength of the spring in newtons per meter.
 The minus sign indicates that the direction of the spring force is opposite to the direction the spring is stretched.
 
 \index{Hooke's Law}
 \index{spring constant}
 
-Hooke's Law is not a law in the sense that it is always true; really, it is a model of how some things behave under some conditions.
+Hooke's Law is not \linebreak a law in the sense that it is always true; really, it is a model of how some things behave under some conditions.
 Almost everything obeys Hooke's Law when $x$ is small enough, but for large values everything deviates from this ideal behavior, one way or the other.
 
 In reality, the spring constant of a bungee cord depends on $x$ over the range we are interested in, but as a starting place I'll assume $k$ is constant.
@@ -65,7 +65,7 @@ In reality, the spring constant of a bungee cord depends on $x$ over the range w
 Write a simulation of this scenario, based on these parameters and modeling assumptions.
 Use your simulation to choose the length of the cord, \lstinline{L}, and its spring constant, \lstinline{k}, so that the jumper falls all the way to the tea cup, but no farther!
 
-You could start with the length \SI{25}{\meter} and spring constant \SI{40}{\newton \per \meter}.
+You could start with the length \SI{25}{\meter} and the spring constant \SI{40}{\newton \per \meter}.
 
 
 \section{Bungee Revisited}
@@ -81,11 +81,11 @@ It's tempting to say that the cord has no effect because it falls along with the
 
 \index{acceleration}
 
-At \url{https://greenteapress.com/matlab/bungee}, you'll find a paper by Heck, Uylings, and Kędzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
+At \url{https://greenteapress.com/matlab/bungee}, you'll find a paper by Heck, Uylings, and K{\timesnewroman\k{e}}dzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
 \[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
 %
-where $g$ is acceleration due to gravity, $L$ is the length of the cord, and $\mu$ is the ratio of the mass of the cord, $m$, and the mass of the jumper, $M$.
+where $g$ is acceleration due to gravity, $L$ is the length of the cord, and $\mu$ is the ratio of the mass of the cord, $m$, to the mass of the jumper, $M$.
 
 If you don't believe that their model is correct, this video might convince you: \url{https://greenteapress.com/matlab/chain}.
 
@@ -132,7 +132,9 @@ So we can compute \lstinline{L} like this:
 L = P - H
 \end{code}
 
-The goals of this example are:
+\subsection{Exercise 3}
+
+As an exercise, simulate this system and estimate the parameters that maximize the distance Spider-Man swings.
 
 \begin{enumerate}
 
@@ -153,7 +155,7 @@ The goals of this example are:
   
 \end{enumerate}
 
-We'll use the following parameters:
+Use the following parameters:
 
 \index{parameter}
 
@@ -161,20 +163,16 @@ We'll use the following parameters:
 
 \item According to the Spider-Man Wiki (\url{https://greenteapress.com/matlab/spider}), Spider-Man weighs \SI{76}{\kg}.
 
-\item
-  Let's assume his terminal velocity is \SI{60}{\meter\per\second}.
+\item Assume his terminal velocity is \SI{60}{\meter\per\second}.
 
 \index{terminal velocity}
 
-\item
-  The length of the web is \SI{100}{\meter}.
+\item  The length of the web is \SI{100}{\meter}.
 
-\item
-  The initial angle of the web is \SI{45}{\degree} to the left of straight
+\item  The initial angle of the web is \SI{45}{\degree} to the left of straight
   down.
 
-\item
-  The spring constant of the web is \SI{40}{\newton\per\meter} when the cord is stretched, and \SI{0}{\newton\per\meter} when it's compressed.
+\item  The spring constant of the web is \SI{40}{\newton\per\meter} when the cord is stretched and \SI{0}{\newton\per\meter} when it's compressed.
   
 \index{spring constant}
 
@@ -192,26 +190,26 @@ If you did \linebreak \nameref{earth} on page~\pageref{earth}, you simulated the
 \index{Earth}
 \index{Sun}
 
-To keep things simple, we'll consider only the effect of the Sun on the Earth, and ignore the effect of the Earth on the Sun.  So we'll place the Sun at the origin and use a spatial vector, $\vec{P}$, to represent the position of the Earth relative to the Sun.
+To keep things simple, we'll consider only the effect of the Sun on the Earth and ignore the effect of the Earth on the Sun.  So we'll place the Sun at the origin and use a spatial vector, $\vec{P}$, to represent the position of the Earth relative to the Sun.
 
 \index{position}
 \index{spatial vector}
 \index{mass}
 \index{Law of Universal Gravitation}
 
-Given the mass of the Sun, $m1$, and the mass of the Earth, $m2$, the gravitational force between them is
+Given the mass of the Sun, $m_{1}$, and the mass of the Earth, $m_{2}$, the gravitational force between them is
 
 \begin{equation*}
 \vec{F}_\mathrm{g} = -G \frac{m_1 m_2}{r^2} \uvec{P}
 \end{equation*}
 where $G$ is the universal gravitational constant (see \url{https://greenteapress.com/matlab/gravity}),
-$r$ is the distance of Earth from the Sun, and
+$r$ is the distance of the Earth from the Sun, and
 $\uvec{P}$ is a unit vector in the direction of $\vec{P}$.
 
 \index{universal gravitation constant}
 
-\subsection{Exercise 3}
-Write a simulation of Earth orbiting the Sun.  You can look up the orbital velocity of the Earth, or manually search for the initial velocity that causes the Earth to make one complete orbit in one year.  Optionally, use \lstinline{fminsearch} to find the velocity that gets the Earth as close as possible to the starting place after one year.
+\subsection{Exercise 4}
+Write a simulation of the Earth orbiting the Sun.  You can look up the orbital velocity of the Earth or manually search for the initial velocity that causes the Earth to make one complete orbit in one year.  Optionally, use \lstinline{fminsearch} to find the velocity that gets the Earth as close as possible to the starting place after one year.
 
 \index{velocity}
 \index{fminsearch@\lstinline{fminsearch}}
@@ -240,7 +238,9 @@ planet with mass $m_2$ and a distance $r$ between them is
 PE = -G \frac{m_1 m_2}{r}
 \end{equation*}
 
-Write a function called \lstinline{energy\_func} that takes the output of
+\subsection{Exercise 5}
+
+Write a function called \lstinline{energy_func} that takes the output of
 your Earth simulation and computes the total
 energy (kinetic and potential) of the system for each estimated
 position and velocity.
@@ -260,8 +260,8 @@ options = odeset('RelTol', 1e-5);
 \end{code}
 
 The name of the option is \lstinline{RelTol} for ``relative tolerance.''
-The default value is \lstinline{1e-3} or 0.001.  Smaller values
-make \lstinline{ode45} less ``tolerant,'' so it does more work to
+The default value is \lstinline{1e-3}, or 0.001.  Smaller values
+make \lstinline{ode45} less ``tolerant,'' so uses smaller step sizes to
 make the errors smaller.
 
 \index{RelTol@\lstinline{RelTol}}

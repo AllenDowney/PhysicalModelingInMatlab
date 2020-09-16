@@ -51,8 +51,9 @@ function res = error_func(d)
 end
 \end{code}
 
-This would be enough code to test even though I hadn't finished the line \lstinline{res = d}.
-Once I'd finished and tested \lstinline{error_func}, I would modify
+This program is not complete, but it is enough code to test.
+Once this program is working, I would finish writing \lstinline{error_func}.
+And once I'd finished and tested \lstinline{error_func}, I would modify
 \lstinline{duck} to use \lstinline{fzero}.
 
 This problem might only require two functions, but if there
@@ -85,7 +86,8 @@ $a$ is a constant that characterizes how quickly the population
 grows.
 This equation is \emph{differential} because it relates a function to one of its derivatives.
 
-\index{ordinary differential equation}
+\index{ordinary differential equation (ODE)}
+\index{partial differential equation (PDE)}
 
 It is an \emph{ordinary differential equation (ODE)} because all the
 derivatives involved are taken with respect to the
@@ -94,7 +96,7 @@ If it related derivatives with respect to
 different variables (partial derivatives), it would be a \emph{partial
 differential equation (PDE)}.
 
-\index{differential equation!first order}
+\index{differential equation!first-order}
 
 This equation is \emph{first order} because it involves only first
 derivatives.  If it involved second derivatives, it would be second order,
@@ -132,9 +134,8 @@ T_{i+1} &=& T_i + dt                       \\
 Y_{i+1} &=& Y_i + \frac{df}{dt}(t) \, dt          
 \end{eqnarray*}
 
-Here, $\{T_i\}$ is a sequence of times where we estimate the value
-of $y$, and $\{Y_i\}$ is the sequence of estimates.  For each
-index $i$, $Y_i$ is an estimate of $y(T_i)$.
+Here, $T_i$ is a sequence of times where we estimate the value of $y$, and $Y_i$ is the sequence of estimates.  
+For each index $i$, $Y_i$ is an estimate of $y(T_i)$.
 
 \index{time step}
 
@@ -204,7 +205,7 @@ Before the loop, we create two vectors, \lstinline{T} and \lstinline{Y}, and set
 
 Inside the loop, we compute the growth rate based on the current time, \lstinline{T(i)}, and population, \lstinline{Y(i)}.  You might notice that the rate depends only on population, but we pass time as an input variable anyway, for reasons you'll see soon.
 
-After computing the growth rate, we add an element to each of \lstinline{T} and \lstinline{Y}.  Then, when the loop exits, we plot \lstinline{Y} as a function of \lstinline{T}.
+After computing the growth rate, we add an element both \lstinline{T} and \lstinline{Y}.  Then, when the loop exits, we plot \lstinline{Y} as a function of \lstinline{T}.
 
 If you run the code, you should get a plot of population over time, as shown in Figure~\ref{fig:euler}. 
 
@@ -288,6 +289,7 @@ The differential equation might be something like
 \end{equation*}
 %
 where $t$ is time in days and $y(t)$ is the population at time $t$.
+Because the growth rate depends on time, this differential equation is \emph{time dependent}.
 
 The variables $a$ and $\omega$ are \emph{parameters}, which are values that
 quantify a physical aspect of the scenario.  Parameters are often constants, but in some models they vary in time.

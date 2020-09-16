@@ -13,7 +13,7 @@ To do that, we'll use spatial vectors to represent quantities in two and three d
 The word \emph{vector} means different
 things to different people.  In MATLAB, a vector is a matrix that has
 either one row or one column.  So far, we've used MATLAB vectors to
-represent:
+represent the following:
 
 \begin{description}
 
@@ -54,8 +54,8 @@ To interpret this vector, we have to know the coordinate system it is defined in
 \index{Pythagorean theorem}
 
 When a spatial vector is represented in this way, we can use it to compute the magnitude and direction of a physical quantity.  
-For example, the \emph{magnitude} of \lstinline{P} is the distance from the origin to \lstinline{P}, which is the hypotenuse of the triangle with sides \lstinline{P(1)} and \lstinline{P(2)}.  
-We can compute it using the Pythagorean theorem:
+For example,~the \emph{magnitude} of \lstinline{P} is the distance from the origin to \lstinline{P}, which is the hypotenuse of the triangle with sides \lstinline{P(1)} and \lstinline{P(2)}.  
+We can compute it using the Pytha\-gorean theorem:
 
 \begin{code}
 >> ***sqrt(P(1)^2 + P(2)^2)***
@@ -63,7 +63,7 @@ ans = 5
 \end{code}
 
 Or we can do the same thing using the function \lstinline{norm}, which computes the
-``Euclidean norm'' of a vector, which is its magnitude:
+\emph{Euclidean norm} of a vector, which is its magnitude:
 
 \index{norm@\lstinline{norm}}
 \index{Euclidean norm}
@@ -108,7 +108,7 @@ As an example, suppose we have two vectors representing forces:
 >> ***B = [2, -2];***
 \end{code}
 
-\lstinline{A} represents a force pulling northeast; \lstinline{B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}
+\lstinline{A} represents a force pulling northeast; \lstinline{B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}:
 
 \begin{figure}[H]
 \includegraphics{book/images/figure12_01_new.eps}
@@ -129,7 +129,7 @@ Later in the chapter, we'll use vector addition to add accelerations due to diff
 \section{ODEs in Two Dimensions}
 \label{projectile}
 
-So far we've used \lstinline{ode45} to solve a system of first-order equations and a single second-order equation.  Now we'll take one more step, solving a system of second-order equations.
+So far we've used \lstinline{ode45} to solve a system of first-order equations and a single second-order equation.  Now we'll take one more step, solving a system \linebreak of second-order equations.
 
 As an example, we'll simulate the flight of a baseball.
 If there is no wind and no spin on the ball, the ball travels in a vertical plane, so we can think of the system as two-dimensional, with $x$ representing the horizontal distance
@@ -200,7 +200,7 @@ And \lstinline{tspan} specifies that we want to run the simulation for \SI{8}{\s
 \index{output variable}
 
 The output variables from \lstinline{ode45} are a vector, 
-\lstinline{T}, that contains time values, and a matrix, \lstinline{M}, with four columns: the first two are position; the last two are velocity.
+\lstinline{T}, that contains time values and a matrix, \lstinline{M}, with four columns: the first two are position; the last two are velocity.
 
 Here's how we can plot position as a function of time:
 
@@ -232,7 +232,7 @@ The simulation ends just before the ball lands, having traveled almost \SI{250}{
 \index{drag}
 \index{force!drag}
 
-A simple model for the drag force on a baseball is:
+A simple model for the drag force on a baseball is
 
 \begin{equation*}
     \vec{F}_\mathrm{d} = - \frac{1}{2} \, \rho v C_\mathrm{d} A \uvec{V}
@@ -246,7 +246,7 @@ $A$ is the cross-sectional area.
 \index{drag coefficient}
 \index{coefficient!drag}
 
-$\vec{V}$ is the baseball's velocity vector; $v$ is the magnitude of $\vec{V}$ and $\uvec{V}$ is a unit vector in the same direction as $\vec{V}$.  The minus sign at the beginning means that the result is in the opposite direction to $\vec{V}$.
+$\vec{V}$ is the baseball's velocity vector, $v$ is the magnitude of $\vec{V}$, and $\uvec{V}$ is a unit vector in the same direction as $\vec{V}$.  The minus sign at the beginning means that the result is in the opposite direction to $\vec{V}$.
 
 \index{unit vector}
 
@@ -288,7 +288,7 @@ But now it also computes drag force and divides by the mass of the baseball to g
 Finally, it adds \lstinline{a_gravity} and \lstinline{a_drag} to get the total acceleration of the baseball.
 
 
-Figure~\ref{fig:vector3} shows the following quantities graphically:  (1) acceleration due to drag, $\vec{D}$, which is in the opposite direction to (2)~velocity, $\vec{V}$; (3)~acceleration due to gravity, $\vec{G}$, is straight down; and (4)~total acceleration, $\vec{A}$, is the sum of $\vec{D}$ and $\vec{G}$.
+Figure~\ref{fig:vector3} shows the following quantities graphically:  (1) acceleration due to drag, $\vec{D}$, which is in the opposite direction to (2)~velocity, $\vec{V}$; (3)~acceleration due to gravity, $\vec{G}$, which is straight down; and (4)~total acceleration, $\vec{A}$, which is the sum of $\vec{D}$ and $\vec{G}$.
 
 \begin{figure}[H]
 \includegraphics{book/images/figure12_03_new.eps}
@@ -364,7 +364,7 @@ Z =  0     0     0
 \end{code}
 
 These operations only work if the matrices are the same size along
-the dimension where they are glued together.  If not, you get:
+the dimension where they are glued together.  If not, you get
 
 \begin{code}
 >> ***a = 1:3***
@@ -416,7 +416,7 @@ row vector, that's trouble.
 
 \index{column vector}
 
-\lstinline{ode45} expects the result from \lstinline{rate_func} to be a
+The \lstinline{ode45} function expects the result from \lstinline{rate_func} to be a
 column vector, so if you are working with \lstinline{ode45}, it's
 probably a good idea to make everything a column vector.
 
@@ -426,10 +426,10 @@ and make sure you are clear on which way your vectors go.
 
 \section{Chapter Review}
 
-In this chapter, we simulated the flight of a baseball with and without air resistance, and saw that the difference is substantial.
+In this chapter, we simulated the flight of a baseball with and without air resistance and saw that the difference is substantial.
 We can conclude that it's important to model air resistance if we want to make accurate predictions about baseballs and similar projectiles.
 
-Here are some of the terms from this chapter you might want to remember.
+Here are some terms from this chapter you might want to remember.
 
 A \emph{spatial vector} is a value that represents a multidimensional physical quantity like position, velocity, acceleration, or force.
 A spatial vector has a direction and a magnitude.  The magnitude is also called the \emph{norm} of the vector.
@@ -444,7 +444,7 @@ In the next chapter, we'll continue with the baseball example, using \lstinline{
 
 \section{Exercises}
 
-Before you go on, you might like to work on the following exercises.
+Before you go on, you might want to work on the following exercises.
 
 \subsection{Exercise 1}
 
@@ -477,9 +477,9 @@ program to implement it.  How big is the effect on the distance the baseball tra
 \index{cannon}
 \index{human cannonball}
 
-According to Wikipedia, the record distance for a human cannonball is 59.05 meters (see \url{https://greenteapress.com/matlab/cannon}).
+According to Wikipedia, the record distance for a human cannonball is \SI {59.05}{\meter} (see \url{https://greenteapress.com/matlab/cannon}).
 
-Modify the example from this chapter to simulate the flight of a human cannonball.  You might have to do some research to find the drag coefficient and cross sectional area for a flying human.
+Modify the example from this chapter to simulate the flight of a human cannonball.  You might have to do some research to find the drag coefficient and cross-sectional area for a flying human.
 
 Find the initial velocity (both magnitude and direction) you would need to break this record.  You might have to experiment to find the optimal launch angle.
 

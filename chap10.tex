@@ -218,7 +218,7 @@ calling \lstinline{ode45} once to solve for $x$ and
 once to solve for $y$.  The problem is that each equation involves
 both variables, which is what makes this a \emph{system of equations}
 and not just a list of unrelated equations.  To solve a system, you
-have to solve the equations simultaneously.
+have \linebreak to solve the equations simultaneously.
 
 \index{system!of equations}
 \index{ode45@\lstinline{ode45}}
@@ -399,7 +399,7 @@ Now we can plot these vectors separately, which makes it easier to give them dif
 
 Figure~\ref{fig:lotka} shows the results. The x-axis is time in weeks; the y-axis is population.  The top curve shows the population of rabbits; the bottom curve shows foxes.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \includegraphics{book/images/figure10_01_new.eps}
 \caption{Solution for the Lotka-Volterra model}
 \label{fig:lotka}
@@ -420,8 +420,7 @@ Instead of plotting the two populations over time, it is sometimes useful to plo
 >> ***plot(R, F)***
 \end{code}
 
-
-Figure~\ref{fig:phase} shows the result.  
+Figure~\ref{fig:phase} shows the result, which is called a \emph{phase plot}.
 Each point on this plot represents a certain number of rabbits (on the
 x-axis) and a certain number of foxes (on the y-axis).
 Since these are the only two variables in the system, each point in
@@ -484,7 +483,7 @@ As an exercise, you'll have a chance to solve the famous Lorenz equations, one o
 Here are the terms from this chapter you might want to remember.
 
 A \emph{row vector} is a matrix that has only one row, and a \emph{column vector} is a matrix that has only one column.
-The \emph{transpose operation} transforms the rows of a matrix
+The \emph{transpose operation} transforms the \linebreak rows of a matrix
 into columns (or the other way around, if you prefer).
 
 A \emph{system of equations} is a collection of equations written in terms of
@@ -514,17 +513,11 @@ Before you go on, you might want to work on the following exercise.
 Based on the examples we've seen so far, you'd think that all ODEs describe population as
 a function of time, but that's not true.
 
-According to Wikipedia (see \url{https://greenteapress.com/matlab/lorenz}),
-\begin{quote}
-The Lorenz attractor, introduced by Edward Lorenz in 1963, is a
-non-linear three-dimensional deterministic dynamical system derived
-from the simplified equations of convection rolls arising in the
-dynamical equations of the atmosphere. For a certain set of parameters
-the system exhibits chaotic behavior and displays what is today called
-a strange attractor . . .
-\end{quote}
+For example, the Lorenz system is a system of differential equations based on a model of fluid dynamics in the atmosphere
+(see \url{https://greenteapress.com/matlab/lorenz}).
+It turns out to be interesting in part because its solutions are chaotic; that is, small changes in the initial conditions yield big differences in the solutions.
 
-The system is described by this system of differential equations:
+The system is described by these differential equations:
 %
 \begin{eqnarray*}
 x_t &=& \sigma (y - x)  \\
@@ -532,11 +525,9 @@ y_t &=& x (r - z) - y   \\
 z_t &=& xy - b z
 \end{eqnarray*}
 %
-
 Common values for the parameters are $\sigma = 10$, $b = 8/3$, and $r=28$.
 
 Use \lstinline{ode45} to estimate a solution to this system of equations.
-
 
 \begin{enumerate}
 

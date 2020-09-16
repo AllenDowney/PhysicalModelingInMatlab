@@ -4,7 +4,7 @@
 In \nameref{cannon} in the previous chapter you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  This kind of problem, finding minimums and maximums, is called \emph{optimization}.
 
 In this chapter, we'll solve a similar problem, finding the best launch angle for a baseball.
-We'll solve the problem two ways, first running simulations with a range of values and plotting the results; then using a MATLAB function that automates the process, \lstinline{fminsearch}.
+We'll solve the problem two ways, first running simulations with a range of values and plotting the results, then using a MATLAB function that automates the process, \lstinline{fminsearch}.
 \index{baseball}
 \index{launch angle}
 
@@ -44,23 +44,23 @@ Now we can call \lstinline{ode45} like this:
     [T, M] = ode45(@rate_func, tspan, W, options);
 \end{code}
 
-The initial position of the ball is \SI{1}{\meter} above home plate.  Its initial velocity is \SI{40}{\meter\per\second} in the $x$ direction and \SI{30}{\meter\per\second} in the $y$ direction.
+The initial position of the ball is \SI{1}{\meter} above home plate.  The ball's initial velocity is \SI{40}{\meter\per\second} in the $x$-direction and \SI{30}{\meter\per\second} in the $y$-direction.
 
 \index{initial condition}
 
-The maximum duration of the simulation is \SI{10}{\second}, but we expect an event to stop the simulation first.  We can get the final values of the simulation like this:
+The maximum duration of the simulation is \SI{10}{\second}, but we expect an event to stop the simulation first.  We can get the final values of the simulation like~this:
     
 \begin{code}
     T(end)
     M(end, :)
 \end{code}
 
-The final time is \SI{5.1}{\second}.  The final $x$ position is \SI{131}{\meter}; the final $y$ position is 0, as expected.
+The final time is \SI{5.1}{\second}.  The final $x$-position is \SI{131}{\meter}; the final $y$-position is 0, as expected.
 
 
 \section{Trajectory}
 
-Now we can extract the $x$ and $y$ positions:
+Now we can extract the $x$- and $y$-positions:
 
 \begin{code}
     X = M(:, 1);
@@ -87,7 +87,7 @@ Figure~\ref{fig:baseball3} shows the result, which is the \emph{trajectory} of t
 
 \section{Range Versus Angle}
 
-Now we'd like to simulate the trajectory of the baseball with a range of launch angles.  First, we'll take the code we have and wrap it in a function that takes the launch angle as an input variable, runs the simulation, and returns the distance the ball travels (Listing~\ref{lst:baseball_range}).
+Now we'll simulate the trajectory of the baseball with a range of launch angles.  First, we'll take the code we have and wrap it in a function that takes the launch angle as an input variable, runs the simulation, and returns the distance the ball travels (Listing~\ref{lst:baseball_range}).
 
 \index{range}
 \index{launch angle}
@@ -116,7 +116,7 @@ The launch angle, \lstinline{theta}, is in radians.  The magnitude of velocity, 
 \index{Cartesian coordinates}
 \index{polar coordinates}
 
-After running the simulation we extract the final $x$ position and return it as an output variable.  
+After running the simulation we extract the final $x$-position and return it as an output variable.  
 
 We can run this function for a range of angles like this:
 
@@ -147,8 +147,8 @@ Considering that our model is only approximate, this result might be good enough
 
 \section{fminsearch}
 
-The \lstinline{fminsearch} function is similar to \lstinline{fzero}, which we saw in Chapter~\ref{fzero}.  Recall that \lstinline{fzero} takes a function handle and an initial guess, and returns a root of the function.
-As an example, to find a root of this function:
+The \lstinline{fminsearch} function is similar to \lstinline{fzero}, which we saw in Chapter~\ref{fzero}.  Recall that \lstinline{fzero} takes a function handle and an initial guess, and it returns a root of the function.
+As an example, to find a root of the function
 
 \index{fminsearch@\lstinline{fminsearch}}
 \index{fzero@\lstinline{fzero}}
@@ -158,14 +158,14 @@ function res = error_func(x)
     res = x^2 - 2;
 end
 \end{code}
-We can call \lstinline{fzero} like this:
+we can call \lstinline{fzero} like this:
 
 \begin{code}
 >> ***x = fzero(@error_func, 1)***
 ans = 1.4142
 \end{code}
 
-The result is near the square root of 2.  If we call \lstinline{fminsearch} with the same function:
+The result is near the square root of 2.  Let's call \lstinline{fminsearch} with the same function:
 
 \begin{code}
 >> ***x = fminsearch(@error_func, 1)***
@@ -181,10 +181,10 @@ x = -8.8818e-16
 fval = -2
 \end{code}
 
-The \lstinline{x} is the location of the minimum and \lstinline{fval} is the value of the function evaluated at \lstinline{x}.
+The \lstinline{x} is the location of the minimum, and \lstinline{fval} is the value of the function evaluated at \lstinline{x}.
 
 If we want to find the maximum of a function, rather than the minimum, we can still use \lstinline{fminsearch} by writing a short function that negates the function we want to maximize.
-In the baseball example, the function we want to maximize is \lstinline{baseball_range}; we can wrap it in another function like this:
+In the baseball example, the function we want to maximize is \lstinline{baseball_range}; we can wrap it in another function like~this:
 
 \begin{code}
 function res = min_func(angle)
@@ -192,7 +192,7 @@ function res = min_func(angle)
 end
 \end{code}
 
-And call \lstinline{fminsearch} like this:
+And then we call \lstinline{fminsearch} like this:
 
 \begin{code}
 >> ***[x, fval] = fminsearch(@min_func, pi/4)***
@@ -212,7 +212,7 @@ If you're curious about how \lstinline{fminsearch} works, see ``\nameref{howfmin
 Animation is a useful tool for checking the results of a physical model.  
 If something is wrong, animation can make it obvious.
 There are two ways to do animation in MATLAB.  
-One is to use \lstinline{getframe} to capture a series of images and \lstinline{movie} to play them back.
+One is to use \lstinline{getframe} to capture a series of images and then use \lstinline{movie} to play them back.
 
 \index{animation}
 \index{getframe@\lstinline{getframe}}
@@ -244,7 +244,7 @@ The input variables are the output from \lstinline{ode45}: \lstinline{T}, which 
 
 \index{axis@\lstinline{axis}}
 
-\lstinline{minmax} is a vector of four elements which is used inside the loop to set the axes of the figure.  
+A vector of four elements, \lstinline{minmax} is used inside the loop to set the axes of the figure.  
 This is necessary because otherwise MATLAB scales the figure each time through the loop,
 so the axes keep changing, which makes the animation hard to watch.
 
@@ -252,7 +252,7 @@ so the axes keep changing, which makes the animation hard to watch.
 \index{clear figure}
 
 Each time through the loop, \lstinline{animate} uses \lstinline{clf}
-to clear the figure and \lstinline{axis} to reset the axes.  Then it plots a circle to represent the position of the baseball.
+to clear the figure and \lstinline{axis} to reset the axes.  Then it plots a circle to represent the position of the \mbox{baseball}.
 
 \index{drawnow@\lstinline{drawnow}}
 
@@ -275,7 +275,7 @@ of the animation depends on how fast your computer can generate
 the plots.  Since the results from \lstinline{ode45} are usually not
 equally spaced in time, your animation might slow down where
 \lstinline{ode45} takes small time steps and speed up where the time
-step is larger.
+steps are larger.
 
 \index{ode45@\lstinline{ode45}}
 \index{time span}
@@ -313,8 +313,8 @@ complex or the time step is small.
 \section{Chapter Review}
 
 This chapter presented two new tools, \lstinline{fminsearch} and \lstinline{animate}.  
-The \lstinline{fminsearch} is a MATLAB function that searches efficiently for the minimum of a function, and can be adapted to search for the maximum, too.
-The \lstinline{animate} is a function I wrote to read results from \lstinline{ode45} and generate an animation; the version in this chapter works with the results from the baseball simulation, but it can be adapted for other simulations.
+The MATLAB function \lstinline{fminsearch} searches efficiently for the minimum of a function and can be adapted to search for the maximum, too.
+The \lstinline{animate} function is one I wrote to read results from \lstinline{ode45} and generate an animation; the version in this chapter works with the results from the baseball simulation, but it can be adapted for other simulations.
 
 In the exercises below, you have a chance to extend the example from this chapter and bring together many of the tools we have used so far.
 
@@ -333,7 +333,7 @@ Before you go on, you might want to work on the following exercises.
 Manny Ramirez is a former member of the Boston Red Sox who was famous for his relaxed attitude.  The goal of this exercise is to solve the following Manny-inspired problem:
 
 \begin{quote}
-What is the minimum effort required to hit a home run in Fenway Park?
+What is the minimum effort required to hit a home run in Fenway~Park?
 \end{quote}
 
 \index{Fenway Park}

@@ -129,6 +129,14 @@
     UprightFont=FutuBO08.ttf,
 ]{futuraoblique}
 
+  \newfontface\timesnewroman[
+    Path=fonts/tnr/,
+    UprightFont=times.ttf,
+    BoldFont=timesbd.ttf,
+    ItalicFont=timesi.ttf,
+    BoldItalicFont=timesbi.ttf
+]{timesnewroman}
+
 \setmainfont{nbaskerv}[
     Path=fonts/nbaskerv/,
     UprightFont=NewBaskervilleEF-Roman.ttf,
@@ -254,11 +262,11 @@
      \dogma \fontsize{24\p@}{25\p@}\selectfont
      \@subtitle\par}%
   \fi
-  \vspace{1.7in}%
+  \vspace{2.15in}%
   \vspace{-\baselineskip}%
   {\futuraheavy\fontsize{18\p@}{22\p@}\selectfont
     by \@author\par}%
-  \vspace{0.45in}%
+  \vspace{12\p@}%
   \vspace{\baselineskip}%
   \if\@nostarchlogo\@empty\relax\else
     \includegraphics[height=1.08in]{\@nostarchlogo}\par
@@ -818,7 +826,7 @@
 
  
 \heavyrulewidth=3\p@
-\lightrulewidth=1.5\p@
+\lightrulewidth=1\p@
 \cmidrulewidth=1.5\p@
 \def\bottomrule{\noalign{\ifnum0=`}\fi
   \@aboverulesep=\aboverulesep
@@ -967,8 +975,8 @@
       \fontsize{16pt}{20pt}\selectfont
       \MakeUppercase{\sochapter{\indexname}}\par}}%
   \nobreak\vskip25pt\relax]%
-  \@mkboth{\MakeUppercase\indexname}%
-  {\MakeUppercase\indexname}%
+  \@mkboth{\indexname}%
+  {\indexname}%
   \parindent\z@
   \parskip\z@ \@plus .3\p@\relax
   \columnseprule \z@
