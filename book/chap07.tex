@@ -1,6 +1,6 @@
 \chapter{Zero-Finding}
 \label{fzero}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 In this chapter we'll use the MATLAB function \lstinline{fzero} to solve nonlinear equations.
 Nonlinear equations are useful for modeling physical systems; for example, in one of
@@ -69,20 +69,20 @@ works, see \url{https://greenteapress.com/matlab/fixed}.)
 Here's what happens:
 
 \begin{code}
->> ***x = 4;***
->> ***x = sqrt(2*x+3)***
+>> x = 4;
+>> x = sqrt(2*x+3)
 x = 3.3166
 
->> ***x = sqrt(2*x+3)***
+>> x = sqrt(2*x+3)
 x = 3.1037
 
->> ***x = sqrt(2*x+3)***
+>> x = sqrt(2*x+3)
 x = 3.0344
 
->> ***x = sqrt(2*x+3)***
+>> x = sqrt(2*x+3)
 x = 3.0114
 
->> ***x = sqrt(2*x+3)***
+>> x = sqrt(2*x+3)
 x = 3.0038
 \end{code}
 
@@ -129,17 +129,17 @@ end
 You can call \lstinline{error_func} from the Command Window and confirm that $3$ and $-1$ are zeros:
 
 \begin{code}
->> ***error_func(3)***
+>> error_func(3)
 ans = 0
 
->> ***error_func(-1)***
+>> error_func(-1)
 ans = 0
 \end{code}
 
 But let's pretend that we don't know where the roots are; we only know that one of them is near 4.  Then we could call \lstinline{fzero} like this:
 
 \begin{code}
->> ***fzero(@error_func, 4)***
+>> fzero(@error_func, 4)
 ans = 3.0000
 \end{code}
 
@@ -159,7 +159,7 @@ The second argument is the initial value.  If we provide a different
 value, we get a different root (at least sometimes).
 
 \begin{code}
->> ***fzero(@error_func, -2)***
+>> fzero(@error_func, -2)
 ans = -1
 \end{code}
 \pagebreak
@@ -168,7 +168,7 @@ Alternatively, if you know two values that bracket the root,
 you can provide both.
 
 \begin{code}
->> ***fzero(@error_func, [2,4])***
+>> fzero(@error_func, [2,4])
 ans = 3
 \end{code}
 
@@ -182,7 +182,7 @@ the value of \lstinline{x} when it is called and then run \lstinline{fzero}
 again, you get
 
 \begin{code}
->> ***fzero(@error_func, [2,4])***
+>> fzero(@error_func, [2,4])
 x = 2
 x = 4
 x = 2.75000000000000
@@ -209,7 +209,7 @@ The most common problem people have with \lstinline{fzero} is leaving
 out the \lstinline{@}.  In that case, you get something like so:
 
 \begin{code}
->> ***fzero(error_func, [2,4])***
+>> fzero(error_func, [2,4])
 Not enough input arguments.
 
 Error in error_func (line 2)
@@ -225,7 +225,7 @@ Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
 \emph{always} assign a value to the output variable, but MATLAB doesn't
 enforce this rule, so it's easy to forget.  
-\newpage
+
 For example, if you
 write
 
@@ -236,7 +236,7 @@ end
 \end{code}
 and then call it from the Command Window,
 \begin{code}
->> ***error_func(4)***
+>> error_func(4)
 y = 5
 \end{code}
 it looks like it worked, but don't be fooled.  This function assigns
@@ -245,7 +245,7 @@ ends, \lstinline{y} disappears along with the function's workspace.
 If you try to use it with \lstinline{fzero}, you get
 
 \begin{code}
->> ***fzero(@error_func, [2,4])***
+>> fzero(@error_func, [2,4])
 y = -3
 
 Error using fzero (line 231)
@@ -265,7 +265,7 @@ provided you understand that ``output argument'' and ``output variable'' are the
 You would have seen the same error message when calling \lstinline{error_func} from the interpreter, if you had assigned the result to a variable:
 
 \begin{code}
->> ***x = error_func(4)***
+>> x = error_func(4)
 y = 5
 
 Output argument "res" (and maybe others) not assigned during
@@ -276,7 +276,7 @@ Another thing can go wrong: if you provide an interval for the
 initial guess and it doesn't actually contain a root, you get
 
 \begin{code}
->> ***fzero(@error_func, [0,1])***
+>> fzero(@error_func, [0,1])
 Error using fzero (line 272)
 The function values at the interval endpoints must differ in sign.
 \end{code}
@@ -309,7 +309,7 @@ approximate the zeros visually.  If you have a function like
 a scalar output variable, you can plot it with \lstinline{ezplot}:
 
 \begin{code}
->> ***ezplot(@error_func, [-2,5])***
+>> ezplot(@error_func, [-2,5])
 \end{code}
 
 The first argument is a function handle; the second is the interval you want to plot the function in.
@@ -369,8 +369,8 @@ a value to \lstinline{sin} and then try to use the \lstinline{sin} function, you
 might get an error:
 
 \begin{code}
->> ***sin = 3;***
->> ***sin(5)***
+>> sin = 3;
+>> sin(5)
 Index exceeds the number of array elements (1).
 
 'sin' appears to be both a function and a variable.
@@ -384,8 +384,8 @@ In this case, MATLAB is able to detect the error, and the error message is prett
 But if the value of \lstinline{sin} were a vector, or if the argument were smaller, you would be in trouble.  For example,
 
 \begin{code}
->> ***sin = 3;***
->> ***sin(1)***
+>> sin = 3;
+>> sin(1)
 ans = 3
 \end{code}
 
@@ -409,14 +409,14 @@ function.  Pretty sure is not good enough; you want to be very sure.
 Since we know $\sin 0 = 0$, we could try
 
 \begin{code}
->> ***asin(0)***
+>> asin(0)
 ans = 0
 \end{code}
 which is correct.  Now, we also know that the sine of $90$\textdegree is
 1, so if we try \lstinline{asin(1)}, we expect the answer to be 90, right?
 
 \begin{code}
->> ***asin(1)***
+>> asin(1)
 ans = 1.5708
 \end{code}
 
@@ -543,4 +543,5 @@ Our goal is to find values of $d$ that are roots of this equation.
 
 
 % TODO: Find places in the book where error messages are getting syntax highlighting, and put them in a verbatim environment.
+
 

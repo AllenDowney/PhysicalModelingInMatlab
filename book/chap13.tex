@@ -1,5 +1,5 @@
 \chapter{Optimization}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 In \nameref{cannon} in the previous chapter you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  This kind of problem, finding minimums and maximums, is called \emph{optimization}.
 
@@ -76,8 +76,8 @@ In Chapter~\ref{projectile} we plotted \lstinline{X} and \lstinline{Y} separatel
 
 Figure~\ref{fig:baseball3} shows the result, which is the \emph{trajectory} of the baseball from launch, on the left, to landing, on the right.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure13_01_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure13_01_new.eps}
 \caption{Simulated flight of a baseball plotted as a trajectory}
 \label{fig:baseball3}
 \end{figure}
@@ -135,8 +135,8 @@ And then plot \lstinline{ranges} as a function of \lstinline{thetas}:
 Figure~\ref{fig:baseball4} shows the result.  As expected, the ball does not travel far if it's hit nearly horizontal or vertical. 
 The peak is apparently near \SI{0.7}{\radian}.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure13_02_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure13_02_new.eps}
 \caption{Simulated flight of a baseball plotted as a trajectory}
 \label{fig:baseball4}
 \end{figure}
@@ -161,21 +161,21 @@ end
 we can call \lstinline{fzero} like this:
 
 \begin{code}
->> ***x = fzero(@error_func, 1)***
+>> x = fzero(@error_func, 1)
 ans = 1.4142
 \end{code}
 
 The result is near the square root of 2.  Let's call \lstinline{fminsearch} with the same function:
 
 \begin{code}
->> ***x = fminsearch(@error_func, 1)***
+>> x = fminsearch(@error_func, 1)
 x = -8.8818e-16
 \end{code}
 
 The result is close to 0, which is where this function is minimized.  Optionally, \lstinline{fminsearch} returns two values:
 
 \begin{code}
->> ***[x, fval] = fminsearch(@error_func, 1)***
+>> [x, fval] = fminsearch(@error_func, 1)
 x = -8.8818e-16
 
 fval = -2
@@ -195,7 +195,7 @@ end
 And then we call \lstinline{fminsearch} like this:
 
 \begin{code}
->> ***[x, fval] = fminsearch(@min_func, pi/4)***
+>> [x, fval] = fminsearch(@min_func, pi/4)
 
 x = 0.6921
 
@@ -380,6 +380,7 @@ perpendicular to the axis of spin and the path of flight.  The
 coefficient of lift is proportional to the spin rate; for a ball
 spinning at 3000~rpm it is about 0.1.  The coefficient of drag of a
 golf ball is about 0.2 as long as the ball is moving faster than \SI{20}{\meter\per\second}.
+
 
 
 

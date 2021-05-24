@@ -1,6 +1,6 @@
 \chapter{Under the Hood}
 \label{how}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 In this chapter we ``open the hood,'' looking more closely at how some of the tools we have used---\lstinline{ode45}, \lstinline{fzero}, and \lstinline{fminsearch}---work.
 
@@ -24,7 +24,7 @@ Different methods evaluate the rate function in different places and compute the
 As an example, we'll solve the following differential equation:
 
 \[ \frac{dy}{dt}(t) = y \sin t \]
-\newpage
+
 Given a differential equation, it's usually straightforward to write a rate function:
 
 \begin{code}
@@ -68,8 +68,8 @@ When \lstinline{rate_func} runs, it plots a red circle at each location and a sh
 
 Figure~\ref{fig:odeplot1} shows the result;  \lstinline{ode45} computes 10 time steps (not counting the initial condition) and evaluates the rate function 61 times.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure15_01_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure15_01_new.eps}
 \caption{Points where \lstinline{ode45} evaluates the rate function}
 \label{fig:odeplot1}
 \end{figure}
@@ -78,8 +78,8 @@ Figure~\ref{fig:odeplot2} shows the same plot, zoomed in on a single time step.
 The dark squares at $0.8$ to $1.2$ show the values that were returned as part of the solution.
 The circles show the places where the rate function was evaluated.
 
-\begin{figure}[H]
-\includegraphics[scale=0.90]{book/images/figure15_02_new.eps}
+\begin{figure}[h]
+\includegraphics[scale=0.90]{images/figure15_02_new.eps}
 \caption{Points where \lstinline{ode45} evaluates the rate function, zoomed in}
 \label{fig:odeplot2}
 \end{figure}
@@ -112,8 +112,8 @@ According to the MATLAB documentation, \lstinline{fzero} uses ``a combination of
 
 To understand what that means, suppose we're trying to find a root of a function of one variable, $f(x)$, and assume we have evaluated the function at two places, $x_1$ and $x_2$, and found that the results have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure15_03_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure15_03_new.eps}
 \caption{Initial state of a root-finding search}
 \label{fig:secant}
 \end{figure}
@@ -155,8 +155,8 @@ As a starting place, assume that we have evaluated the function at three places,
 $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure15_04_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure15_04_new.eps}
 \caption{Initial state of a golden-section search}
 \label{fig:golden1}
 \end{figure}
@@ -171,8 +171,8 @@ $f(x_4)$.  There are two possible outcomes, depending on whether
 $f(x_4)$ is greater than $f(x_2)$ or not.
 Figure~\ref{fig:golden2} shows the two possible states.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure15_05_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure15_05_new.eps}
 \caption{Possible states of a golden-section search after evaluating $f(x_4)$}
 \label{fig:golden2}
 \end{figure}
@@ -199,3 +199,4 @@ The other reason is that these methods are not infallible; sometimes things go w
 With that, you have reached the end of the book, so congratulations!  I hope you enjoyed it and learned a lot.  I think the tools in this book are useful, and the ways of thinking are important, not just in engineering and science, but in practically every field of inquiry.
 
 Models are the tools we use to understand the world: if you build good models, you are more likely to get things right.  Good luck!
+

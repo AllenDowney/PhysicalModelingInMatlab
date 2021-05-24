@@ -1,5 +1,5 @@
 \chapter{Conditionals}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 In this chapter, we'll use functions and a new feature---conditional statements---to search for Pythagorean triples.
 A Pytha\-gorean triple is a set of integers, like~3, 4, and 5,
@@ -14,11 +14,11 @@ This example will also demonstrate the \emph{incremental development} process we
 Suppose we have three variables, \lstinline{a}, \lstinline{b}, and \lstinline{c}, and we want to check whether they form a Pythagorean triple.  We can use the equality operator (\lstinline{==}) to compare two values:
 
 \begin{code}
->> ***a = 3;***
->> ***b = 4;***
->> ***c = 5;***
+>> a = 3;
+>> b = 4;
+>> c = 5;
 (*\pagebreak*)
->> ***a^2 + b^2 == c^2***
+>> a^2 + b^2 == c^2
 
 ans = logical 1
 \end{code}
@@ -26,15 +26,15 @@ ans = logical 1
 The result is a \emph{logical} value, which means it's either~\lstinline{1}, which means ``true,'' or~\lstinline{0}, which means ``false.''  Here's an example where the result is false:
 
 \begin{code}
->> ***c = 6;***
->> ***a^2 + b^2 == c^2***
+>> c = 6;
+>> a^2 + b^2 == c^2
 ans = logical 0
 \end{code}
 
 It's a common error to use the assignment operator (\lstinline{=}) instead of the equality operator (\lstinline{==}).  If you do, you get an error:
 
 \begin{code}
->> ***a^2 + b^2 = c^2***
+>> a^2 + b^2 = c^2
  a^2 + b^2 = c^2
            |
 Error: Incorrect use of '=' operator. 
@@ -143,12 +143,12 @@ function res = is_pythagorean(a, b, c)
     end
 end
 \end{code}
-\newpage
+
 We can use this function like so:
 
 
 \begin{code}
->> ***is_pythagorean(3, 4, 5)***
+>> is_pythagorean(3, 4, 5)
 ans = 1
 \end{code}
 
@@ -204,7 +204,7 @@ end
 \end{code}
 
 But that loops through the values of \lstinline{a} and then loops through the values of \lstinline{b}, and that's not what we want.
-\newpage
+
 Instead, we want to consider every possible pair of values, like this:
 
 \begin{code}
@@ -218,7 +218,7 @@ end
 Now one loop is inside the other.  The inner loop gets executed three times, once for each value of \lstinline{a}, so here's what the output looks like (I've adjusted the spacing to make the structure clear):
 
 \begin{code}
->> ***find_triples***
+>> find_triples
      1     1
      1     2
      1     3
@@ -269,7 +269,7 @@ end
 The result is just one triple:
 
 \begin{code}
->> ***find_triples***
+>> find_triples
      3     4     5
 \end{code}
 
@@ -333,7 +333,7 @@ it's a good \linebreak idea when calling the new function to use parentheses as 
 that it's a function, not a script:
 
 \begin{code}
->> ***find_triples()***
+>> find_triples()
 \end{code}
 
 The output variable isn't necessary, either; it
@@ -365,7 +365,7 @@ end
 Here are the results for the range from 1 to 15:
 
 \begin{code}
->> ***find_triples(15)***
+>> find_triples(15)
      3     4     5
      5    12    13
      6     8    10
@@ -402,7 +402,7 @@ function res = find_triples(n)
         for b=a:n
             for c=b:a+b
                 if gcd(a,b) > 1
-	                (*\codewingding{1}*)continue
+	                continue
                 end
                 if is_pythagorean(a, b, c)
                     disp([a,b,c])
@@ -413,7 +413,7 @@ function res = find_triples(n)
 end
 \end{lstlisting}
 
-The \lstinline{continue} statement \wingding{1} causes the program to end the current iteration
+The \lstinline{continue} statement  causes the program to end the current iteration
 immediately, jump to the top of the loop, and ``continue'' with the next iteration.
 
 In this case, since there are three loops, it might not be obvious which loop to jump to, but the rule is to jump to the innermost loop (which is what we want).
@@ -421,7 +421,7 @@ In this case, since there are three loops, it might not be obvious which loop to
 Here are the results with \lstinline{n = 40}:
 
 \begin{code}
->> ***find_triples(40)***
+>> find_triples(40)
      3     4     5
      5    12    13
      7    24    25
@@ -534,6 +534,7 @@ the first \lstinline{n} Fibonacci numbers, stores them in a vector,
 and checks whether this formula produces Pythagorean triples for numbers in the \mbox{sequence}.
 
 % fib_triple.m
+
 
 
 

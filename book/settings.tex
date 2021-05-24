@@ -1,0 +1,138 @@
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp} % provide euro and other symbols
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[table]{xcolor}
+
+\usepackage{roboto}
+
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{makeidx}
+\usepackage{upquote}
+
+\usepackage{exercise}
+\usepackage{enumitem}
+\usepackage{textcomp}
+
+
+\newenvironment{ex}{\begin{Exercise}}{\end{Exercise}}
+
+% from https://tex.stackexchange.com/questions/188775/how-to-type-a-particular-kind-of-unit-vector
+\usepackage{bm}
+\renewcommand{\vec}[1]{\bm{\mathbf{#1}}}
+\newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
+\newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
+\DeclareRobustCommand{\uvec}[1]{{%
+  \ifcsname uvec#1\endcsname
+     \csname uvec#1\endcsname
+   \else
+    \bm{\hat{\mathbf{#1}}}%
+   \fi
+}}
+
+% set the page size
+\usepackage[twoside,centering]{geometry}
+
+% crown quarto
+\geometry{
+    %showframe=true,
+    %showcrop=true,
+    % total document size
+    papersize={195mm,252mm},
+    % book trim size
+    layoutsize={189mm,246mm},
+    layoutoffset={3mm,3mm},
+    % live area = 164mm x 220mm
+    % subtract 10 from width for the binding offset
+    % subtract 10 from both to improve the look
+    total={144mm,210mm},
+    bindingoffset=10mm,
+    includeheadfoot=true,
+    centering=true,
+    nofoot=true,
+}
+
+% paragraph spacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt plus 4pt minus 4pt}
+\linespread{1.05}
+\def\arraystretch{1.5}
+
+% list spacing
+%\setlength{\topsep}{5pt plus 2pt minus 3pt}      % 10.0pt plus 4.0pt minus 6.0pt
+%\setlength{\partopsep}{-6pt plus 2pt minus 2pt}  %  3.0pt plus 2.0pt minus 2.0pt
+%\setlength{\itemsep}{0pt}                        %  5.0pt plus 2.5pt minus 1.0pt
+
+% define colors
+\usepackage{xcolor}
+\definecolor{bgcolor}{HTML}{F0F0F0}
+\definecolor{comment}{HTML}{007C00}
+\definecolor{keyword}{HTML}{0000FF}
+\definecolor{string}{HTML}{B20000}
+\definecolor{urlcolor}{HTML}{0000FF}
+
+\usepackage{listings}
+
+\lstset{
+    language=matlab,
+    basicstyle=\ttfamily,
+    backgroundcolor=\color{bgcolor},
+    commentstyle=\color{comment},
+    keywordstyle=\color{keyword},
+    stringstyle=\color{string},
+    columns=fullflexible,
+    emph={label},  % keyword?
+    keepspaces=true,
+    showstringspaces=false,
+    upquote=true,
+    xleftmargin=0pt,  % \parindent
+    framexleftmargin=3pt,
+    aboveskip=\parskip,
+    belowskip=\parskip
+}
+
+\lstnewenvironment{code}{}{}
+\lstnewenvironment{stdout}{\lstset{commentstyle=,keywordstyle=,stringstyle=}}{}
+
+% inline syntax formatting
+\newcommand{\mcode}[1]{\lstinline{#1}}%{
+
+% customize page headers
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
+\lhead[\fancyplain{}{\bfseries\thepage}]%
+      {\fancyplain{}{\bfseries\rightmark}}
+\rhead[\fancyplain{}{\bfseries\leftmark}]%
+      {\fancyplain{}{\bfseries\thepage}}
+\cfoot{}
+\cfoot{}
+%\renewcommand{\headrulewidth}{0pt}
+%\rfoot{\textcolor{gray}{\tiny Draft \today}}
+
+% pdf hyperlinks, table of contents, and document properties
+\usepackage{hyperref}
+\hypersetup{%
+  pdftitle={\thetitle},
+  pdfauthor={\theauthors},
+  pdfsubject={Version \theversion},
+  pdfkeywords={},
+  bookmarksopen=false,
+  colorlinks=true,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=urlcolor
+}
+
+% to get siunitx
+% sudo apt-get install texlive-science
+\usepackage{siunitx}
+\sisetup{per-mode=symbol}
+
+\newcommand{\myreg}{\textsuperscript{{\tiny \textregistered}}}
+
+\newcommand{\console}[1]{>{}> \textbf{#1}}
+\newcommand{\keycap}{\textsf}

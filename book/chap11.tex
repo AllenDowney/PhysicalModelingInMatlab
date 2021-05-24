@@ -1,5 +1,5 @@
 \chapter{Second-Order Systems}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 So far we've seen first-order differential equations and systems of first-order ODEs.  In this chapter, we'll introduce second-order systems, which are particularly useful for modeling Newtonian motion.
 
@@ -52,7 +52,7 @@ the second equation says that the first derivative of $v$ is $a$.
 \section{Free Fall}
 \label{freefall}
 
-As an example of Newtonian motion, let's go back to the question from \nameref{penny} on page~\pageref{penny}:
+As an example of Newtonian motion, let's go back to the question from Section~\ref{penny}:
 
 \begin{quote}
 If you drop a penny from the top of the Empire State Building, how long does it take to reach the sidewalk, and how fast is it going when it gets there?
@@ -89,7 +89,7 @@ function res = rate_func(t, X)
     res = [dydt; dvdt];
 end
 \end{lstlisting}
-\newpage
+
 The rate function in Listing~\ref{lst:penny_rate_func} takes \lstinline{t} and \lstinline{X} as input variables, where the elements of \lstinline{X} are understood to be the position and velocity of the penny.
 
 It returns a column vector that contains \lstinline{dydt} and \lstinline{dvdt}, which
@@ -148,13 +148,13 @@ plot(T, Y)
 
 
 \begin{figure}
-\includegraphics{book/images/figure11_01_new.eps}
+\includegraphics{images/figure11_01_new.eps}
 \caption{Altitude versus time for an object in free fall}
 \label{fig:penny}
 \end{figure}
 
 Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and picks up speed.  Between 8 and 9 seconds, the altitude reaches 0, which means the penny hits the sidewalk.  But \lstinline{ode45} doesn't know where the ground is, so \linebreak the penny keeps going through 0 into negative altitude.  We'll solve that problem in the next section.
-\newpage
+
 \section{ODE Events}
 \label{events}
 
@@ -221,10 +221,10 @@ When \lstinline{ode45} runs, it invokes \lstinline{event_func} after each time s
 Let's look at the results from the penny example:  
 
 \begin{code}
->> ***T(end)***
+>> T(end)
 8.8179
 
->> ***M(end, :)***
+>> M(end, :)
 0.0000  -86.4153
 \end{code}
 
@@ -266,26 +266,26 @@ $v$ and $-1$ for negative values.  So $f_\mathrm{d}$ is always in the opposite d
 \index{terminal velocity}
 
 To convert from force to acceleration we have to know mass, but that's easy to find: the mass of a penny is about \SI{2.5}{\gram}.  It's not as easy to find the drag constant, but based on reports that the terminal velocity of a penny is about \SI{18}{\meter \per \second}, I've estimated that it's about \SI{75e-6}{\kilogram \per \meter}.
-\newpage
+
 Listing~\ref{lst:acceleration_drag} defines a function that takes \lstinline{t} and \lstinline{X} as input variables and returns the total acceleration of the penny due to gravity and drag:
 
 \begin{lstlisting}[caption={Calculating acceleration of a penny with drag}, label={lst:acceleration_drag}]
 function res = acceleration(t, X)
-    (*\codewingding{1}*)b = 75e-6;                 % drag constant in kg/m
+    b = 75e-6;                 % drag constant in kg/m
     v = X(2);                  % velocity in m/s
     f_d = -sign(v) * b * v^2;  % drag force in N
 
-    (*\codewingding{2}*)m = 2.5e-3;               % mass in kg
+    m = 2.5e-3;               % mass in kg
     a_d = f_d / m;            % drag acceleration in m/s^2
 
-    (*\codewingding{3}*)a_g = -9.8;               % acceleration of gravity in m/s^2
+    a_g = -9.8;               % acceleration of gravity in m/s^2
     res = a_g + a_d;          % total acceleration
 end
 \end{lstlisting}
 
-First, we compute force due to drag \wingding{1}.
-Then we compute acceleration due to drag \wingding{2}.
-Lastly, we compute total acceleration due to drag and \mbox{gravity~\wingding{3}}.
+First, we compute force due to drag .
+Then we compute acceleration due to drag .
+Lastly, we compute total acceleration due to drag and \mbox{gravity}.
 
 \index{acceleration}
 \index{force}
@@ -303,7 +303,7 @@ function res = rate_func(t, X)
     v = X(2);      
     
     dydt = v;
-    (*\codewingding{1}*)dvdt = acceleration(t, X);   % this line has changed
+    dvdt = acceleration(t, X);   % this line has changed
 
     res = [dydt; dvdt];
 end
@@ -311,10 +311,10 @@ end
 \end{code}
 
 In the previous version, \lstinline{dvdt} is always \lstinline{-9.8}, the acceleration due to gravity.
-In this version, we call \lstinline{acceleration} to compute the total acceleration due to gravity and drag \wingding{1}.
+In this version, we call \lstinline{acceleration} to compute the total acceleration due to gravity and drag .
 
 \begin{figure}[ht]
-\includegraphics{book/images/figure11_02_new.eps}
+\includegraphics{images/figure11_02_new.eps}
 \caption{Altitude versus time for a penny in free fall with air resistance}
 \label{fig:penny2}
 \end{figure}
@@ -400,3 +400,4 @@ Use \lstinline{ode45} to answer this question.  Here are some suggestions about 
 
 
 % chpt11
+

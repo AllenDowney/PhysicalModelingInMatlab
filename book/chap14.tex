@@ -1,5 +1,5 @@
 \chapter{Springs and Things}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 The computational tools you have learned so far make up a versatile toolkit for modeling physical systems described by first- and second-order differential equations and systems of equations.
 
@@ -81,9 +81,9 @@ It's tempting to say that the cord has no effect because it falls along with the
 
 \index{acceleration}
 
-At \url{https://greenteapress.com/matlab/bungee}, you'll find a paper by Heck, Uylings, and K{\timesnewroman\k{e}}dzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
+At \url{https://greenteapress.com/matlab/bungee}, you'll find a paper by Heck, Uylings, and Kedzierska titled ``Understanding the physics of bungee jumping''; it explains this phenomenon and derives the acceleration of the jumper, $a$, as a function of position, $y$, and velocity, $v$:
 %
-\[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \] 
+\[ a = g + \frac{\mu v^2/2}{\mu(L+y) + 2L} \]
 %
 where $g$ is acceleration due to gravity, $L$ is the length of the cord, and $\mu$ is the ratio of the mass of the cord, $m$, to the mass of the jumper, $M$.
 
@@ -104,8 +104,8 @@ shown in \linebreak Figure~\ref{spiderman}.
 \index{Spider-Man}
 \index{Empire State Building}
 
-\begin{figure}[H]
-\includegraphics{book/images/figure14_01_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure14_01_new.eps}
 \caption{Diagram of the initial state for the Spider-Man example}
 \label{spiderman}
 \end{figure}
@@ -151,8 +151,8 @@ As an exercise, simulate this system and estimate the parameters that maximize t
 \item
   Choose the best angle for Spider-Man to jump off the building, and the best time to let go of the webbing, to maximize range.
 
-\index{optimization}  
-  
+\index{optimization}
+
 \end{enumerate}
 
 Use the following parameters:
@@ -173,7 +173,7 @@ Use the following parameters:
   down.
 
 \item  The spring constant of the web is \SI{40}{\newton\per\meter} when the cord is stretched and \SI{0}{\newton\per\meter} when it's compressed.
-  
+
 \index{spring constant}
 
 \end{itemize}
@@ -185,7 +185,7 @@ Use the following parameters:
 \index{mechanics!celestial}
 
 \emph{Celestial mechanics} describes how objects move in outer space.
-If you did \linebreak \nameref{earth} on page~\pageref{earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now we'll simulate the Earth orbiting the Sun in two dimensions.
+If you did \linebreak Section~\ref{earth}, you simulated the Earth being pulled toward the Sun in one dimension.  Now we'll simulate the Earth orbiting the Sun in two dimensions.
 
 \index{Earth}
 \index{Sun}
@@ -272,7 +272,7 @@ decreases.
 
 \index{ode23@\lstinline{ode23}}
 
-Along with \lstinline{ode45}, MATLAB provides several other ODE solvers 
+Along with \lstinline{ode45}, MATLAB provides several other ODE solvers
 (see \url{https://greenteapress.com/matlab/solver}).
 Run your simulation with one of the other ODE solvers MATLAB provides
 and see if any of them conserve energy.  You might find that \lstinline{ode23} works surprisingly well (although technically it does not conserve energy either).
@@ -283,6 +283,3 @@ and see if any of them conserve energy.  You might find that \lstinline{ode23} w
 This chapter presented examples where you can apply the tools in this book to solve more realistic problems.  Some of them were more serious than others, but I hope you had some fun with them.
 
 I think this toolkit is powerful and versatile.  If you use it to solve an interesting problem, let me know!
-
-
-

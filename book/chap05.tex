@@ -1,6 +1,6 @@
 \chapter{Functions}
 \label{functions}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 This chapter introduces the most important idea in computer programming: \mbox{functions}! 
 To explain why functions are so important, I'll start by explaining one of the problems they solve: name collisions.
@@ -101,7 +101,7 @@ call built-in MATLAB functions.  If you call the function as a statement,
 MATLAB puts the result into \lstinline{ans}:
 
 \begin{code}
->> ***myfunc(1)***
+>> myfunc(1)
 
 s = 0.84147098480790
 
@@ -116,7 +116,7 @@ But it's more common (and better style) to assign the result to
 a variable:
 
 \begin{code}
->> ***y = myfunc(1)***
+>> y = myfunc(1)
 
 s = 0.84147098480790
 
@@ -144,12 +144,12 @@ access (read or write) the variables defined inside a function, you
 will find that they don't exist.
 
 \begin{code}
->> ***clear***
->> ***y = myfunc(1);***
->> ***who***
+>> clear
+>> y = myfunc(1);
+>> who
 Your variables are: y
 
->> ***s***
+>> s
 Undefined function or variable 's'.
 \end{code}
 
@@ -161,10 +161,10 @@ before you call \lstinline{myfunc}, they will still be there when the
 function completes.
 
 \begin{code}
->> ***s = 1;***
->> ***c = 1;***
->> ***y = myfunc(1);***
->> ***s, c***
+>> s = 1;
+>> c = 1;
+>> y = myfunc(1);
+>> s, c
 
 s = 1
 c = 1
@@ -205,7 +205,7 @@ When you ask for \lstinline{help}, MATLAB prints the comment you provide.
 \index{help@\lstinline{help}}
 
 \begin{code}
->> ***help myfunc***
+>> help myfunc
   res = myfunc(x)
   Compute the Manhattan distance from the origin to the
   point on the unit circle with angle (x) in radians.
@@ -262,7 +262,7 @@ end
 Now call the function from the Command Window, like this:
 
 \begin{code}
->> ***y = myfunc(1)***
+>> y = myfunc(1)
 y = 1.3818
 \end{code}
 
@@ -270,7 +270,7 @@ The function is still called \lstinline{myfunc}, because that's the name of the 
 If you try to call it like this:
 
 \begin{code}
->> ***y = something_else(1)***
+>> y = something_else(1)
 Undefined function or variable 'something_else'.
 \end{code}
 
@@ -281,7 +281,7 @@ For example, if you rename the file to \emph{my func.m}
 and try to run it, you get:
 
 \begin{code}
->> ***y = my func(1)***
+>> y = my func(1)
  y = my func(1)
         |
 Error: Unexpected MATLAB expression.
@@ -309,11 +309,11 @@ end
 And then try this:
 
 \begin{code}
->> ***sum(1:3)***
+>> sum(1:3)
 
 ans = 6
 
->> ***sum***
+>> sum
 
 ans = 7
 \end{code}
@@ -347,7 +347,7 @@ If we call it from the Command Window with arguments 3 and 4, we can
 confirm that the sum of their squares is 25.
 
 \begin{code}
->> ***ss = sum_squares(3, 4)***
+>> ss = sum_squares(3, 4)
 ss = 25
 \end{code}
 
@@ -357,7 +357,7 @@ order, so in this case 3 is assigned to \lstinline{a} and 4 is assigned to
 if you provide too few, you get
 
 \begin{code}
->> ***ss = sum_squares(3)***
+>> ss = sum_squares(3)
 Not enough input arguments.
 
 Error in sum_squares (line 4)
@@ -402,4 +402,5 @@ Before you go on, you might want to work on the following exercise.
 Write a function called \textbf{\lstinline{hypotenuse}} that takes two parameters, \textbf{\lstinline{a}} and \textbf{\lstinline{b}}, that represent the lengths of two sides of a right triangle.  It should assign to \lstinline{res} the length of the third side of the triangle, given by the formula
 
 \[ c = \sqrt{a^2 + b^2} \]
+
 

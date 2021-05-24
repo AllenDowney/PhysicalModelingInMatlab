@@ -1,5 +1,5 @@
 \chapter{Two Dimensions}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 In the previous chapter, we solved a one-dimensional problem---a penny falling from the Empire State Building.  Now we'll solve a two-dimensional problem---finding the trajectory of a baseball.
 
@@ -43,7 +43,7 @@ In this chapter, we'll see another use of MATLAB vectors: representing
 For example, to represent a position in two-dimensional space, we can use a vector with two elements:
 
 \begin{code}
->> ***P = [3 4]***
+>> P = [3 4]
 \end{code}
 
 To interpret this vector, we have to know the coordinate system it is defined in.  Most commonly, we use a Cartesian system where the x-axis points east and the y-axis points north.  In that case \lstinline{P} represents a point 3~units east and 4~units north of the origin.
@@ -58,7 +58,7 @@ For example,~the \emph{magnitude} of \lstinline{P} is the distance from the orig
 We can compute it using the Pytha\-gorean theorem:
 
 \begin{code}
->> ***sqrt(P(1)^2 + P(2)^2)***
+>> sqrt(P(1)^2 + P(2)^2)
 ans = 5
 \end{code}
 
@@ -69,14 +69,14 @@ Or we can do the same thing using the function \lstinline{norm}, which computes 
 \index{Euclidean norm}
 
 \begin{code}
->> ***norm(P)***
+>> norm(P)
 ans = 5
 \end{code}
 
 There are two ways to get the \emph{direction} of a vector.  One convention is to compute the angle between the vector and the x-axis:
 
 \begin{code}
->> ***atan2(P(2), P(1))***
+>> atan2(P(2), P(1))
 ans = 0.9273
 \end{code}
 
@@ -104,14 +104,14 @@ Vectors are useful for representing quantities like force and acceleration becau
 As an example, suppose we have two vectors representing forces:
 
 \begin{code}
->> ***A = [2, 4];***
->> ***B = [2, -2];***
+>> A = [2, 4];
+>> B = [2, -2];
 \end{code}
 
 \lstinline{A} represents a force pulling northeast; \lstinline{B} represents a force pulling southeast, as shown in Figure~\ref{fig:vector2}:
 
-\begin{figure}[H]
-\includegraphics{book/images/figure12_01_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure12_01_new.eps}
 \caption{The sum of two forces represented by vectors}
 \label{fig:vector2}
 \end{figure}
@@ -119,7 +119,7 @@ As an example, suppose we have two vectors representing forces:
 To compute the sum of these forces, all we have to do is add the vectors:
 
 \begin{code}
->> ***A + B***
+>> A + B
 ans = 4     2
 \end{code}
 
@@ -217,8 +217,8 @@ Here's how we can plot position as a function of time:
 
 Figure~\ref{fig:baseball1} shows what these coordinates look like as a function of time.  The x-coordinate increases linearly because the $x$ velocity is constant.  The y-coordinate goes up and down, as we expect.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure12_02_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure12_02_new.eps}
 \caption{Simulated flight of a baseball neglecting drag force}
 \label{fig:baseball1}
 \end{figure}
@@ -290,8 +290,8 @@ Finally, it adds \lstinline{a_gravity} and \lstinline{a_drag} to get the total a
 
 Figure~\ref{fig:vector3} shows the following quantities graphically:  (1) acceleration due to drag, $\vec{D}$, which is in the opposite direction to (2)~velocity, $\vec{V}$; (3)~acceleration due to gravity, $\vec{G}$, which is straight down; and (4)~total acceleration, $\vec{A}$, which is the sum of $\vec{D}$ and $\vec{G}$.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure12_03_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure12_03_new.eps}
 \caption{Diagram of velocity, $\vec{V}$; acceleration due to drag force, 
 $\vec{D}$; acceleration due to gravity, $\vec{G}$; and total acceleration, $\vec{A}$}
 \label{fig:vector3}
@@ -301,13 +301,13 @@ $\vec{D}$; acceleration due to gravity, $\vec{G}$; and total acceleration, $\vec
 
 Figure~\ref{fig:baseball2} shows the results from \lstinline{ode45}.  The ball lands after about \SI{5}{\second}, having traveled less than \SI{150}{\meter}, substantially less than what we got without air resistance, about \SI{250}{\meter}.
 
-\begin{figure}[H]
-\includegraphics{book/images/figure12_04_new.eps}
+\begin{figure}[h]
+\includegraphics{images/figure12_04_new.eps}
 \caption{Simulated flight of a baseball including drag force}
 \label{fig:baseball2}
 \end{figure}
 
-\newpage
+
 This result suggests that ignoring air resistance is not a good choice for modeling a baseball.
 
 
@@ -327,13 +327,13 @@ side by side.
 Here's an example of horizontal concatenation with row vectors:
 
 \begin{code}
->> ***x = 1:3***
+>> x = 1:3
 x = 1     2     3
 
->> ***y = 4:5***
+>> y = 4:5
 y = 4     5
 
->> ***z = [x, y]***
+>> z = [x, y]
 z = 1     2     3     4     5
 \end{code}
 
@@ -345,17 +345,17 @@ example with matrices:
 \index{operator!comma}
 
 \begin{code}
->> ***X = zeros(2, 3)***
+>> X = zeros(2, 3)
 
 X =  0     0     0
      0     0     0
 
->> ***Y = ones(2, 3)***
+>> Y = ones(2, 3)
 
 Y =  1     1     1
      1     1     1
 
->> ***Z = [X; Y]***
+>> Z = [X; Y]
 
 Z =  0     0     0
      0     0     0
@@ -367,21 +367,21 @@ These operations only work if the matrices are the same size along
 the dimension where they are glued together.  If not, you get
 
 \begin{code}
->> ***a = 1:3***
+>> a = 1:3
 
 a = 1     2     3
 
->> ***b = a'***
+>> b = a'
 
 b =  1
      2
      3
 
->> ***c = [a, b]***
+>> c = [a, b]
 Error using horzcat
 Dimensions of matrices being concatenated are not consistent.
 
->> ***c = [a; b]***
+>> c = [a; b]
 Error using vertcat
 Dimensions of matrices being concatenated are not consistent.
 \end{code}
@@ -484,6 +484,7 @@ Modify the example from this chapter to simulate the flight of a human cannonbal
 Find the initial velocity (both magnitude and direction) you would need to break this record.  You might have to experiment to find the optimal launch angle.
 
 How much acceleration can a human withstand without injury?  At this maximum acceleration, how long would the barrel of the cannon have to be to reach the initial velocity needed to break the record?
+
 
 
 

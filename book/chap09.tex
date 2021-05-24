@@ -1,5 +1,5 @@
 \chapter{Ordinary Differential Equations}
-\chapterartfile{book/images/matlab_circleart.eps}
+
 
 In the previous chapter, we found the equilibrium point where a duck would float on water.  This kind of problem is called \emph{static} because it does not move.  This chapter introduces \emph{dynamic} problems, which involve things that change over time.
  
@@ -26,7 +26,7 @@ Window.
 
 To help with this problem, I often use the top-level function
 to develop and test my helper functions.  For example, to write
-a program for \nameref{duck} on page~\pageref{duck}, I would create a file named
+a program for Section~\ref{duck}, I would create a file named
 \emph{duck.m} and start with a top-level function named \lstinline{duck}
 that takes no input variables and returns no output value.
 
@@ -210,7 +210,7 @@ After computing the growth rate, we add an element both \lstinline{T} and \lstin
 If you run the code, you should get a plot of population over time, as shown in Figure~\ref{fig:euler}. 
 
 \begin{figure}[ht]
-\includegraphics{book/images/figure09_01_new.eps}
+\includegraphics{images/figure09_01_new.eps}
 \caption{Solution to a simple differential equation by Euler's method}
 \label{fig:euler}
 \end{figure}
@@ -244,8 +244,8 @@ end
 We can call \lstinline{ode45} from the Command Window like this:
 
 \begin{code}
-***[T, Y] = ode45(@rate_func, [0, 4], 5);***
-***plot(T, Y)***
+[T, Y] = ode45(@rate_func, [0, 4], 5);
+plot(T, Y)
 \end{code}
 
 The first argument is a function handle, as we saw in Chapter~\ref{fzero}.  The second argument is the time interval where we want to evaluate the solution; in this case the interval is from $t=0$ to $t=4$ hours.  The third argument is the initial population, 5 billion cells.
@@ -259,7 +259,7 @@ The \lstinline{ode45} function is the first function we've seen that returns \em
 In order to store them, we have to assign them to two variables, \lstinline{T} and \lstinline{Y}. Figure~\ref{fig:runge} shows the results.
 
 \begin{figure}[ht]
-\includegraphics{book/images/figure09_02_new.eps}
+\includegraphics{images/figure09_02_new.eps}
 \caption{Solutions to a simple differential equation using Euler's method and \lstinline{ode45}}
 \label{fig:runge}
 \end{figure}
@@ -331,7 +331,7 @@ there are 1000 rats at $t=365/2$ (June~30) and computes the growth rate under th
 We can run the top-level function like this:
 
 \begin{code}
->> ***r = rats***
+>> r = rats
 
 r = 4
 \end{code}
@@ -354,7 +354,7 @@ The third argument is the initial population, $y(0) = 1000$.
 Figure~\ref{fig:rats} shows the results. 
 
 \begin{figure}[ht]
-\includegraphics{book/images/figure09_03_new.eps}
+\includegraphics{images/figure09_03_new.eps}
 \caption{Solutions to a simple differential equation by Euler's method and \lstinline{ode45}}
 \label{fig:rats}
 \end{figure}
@@ -376,7 +376,7 @@ The index here is \lstinline{end}, which is a special word in MATLAB that means 
 \index{end statement@\lstinline{end} statement}
 \index{index!end@\lstinline{end}}
 
-\newpage
+
 \section{What Could Go Wrong?}
 
 Don't forget the \lstinline{@} on the function handle.
@@ -448,7 +448,7 @@ function res = rate_func(t, y)
     r = a * y * (1 - cos(omega * t));    % WRONG
 end
 \end{code}
-\newpage and then call it from \lstinline{ode45}, you get
+ and then call it from \lstinline{ode45}, you get
 
 \begin{code}
 Output argument "res" (and maybe others) not assigned during call
@@ -579,6 +579,7 @@ room temperature after about an hour.
 \item Plot the results and estimate the time when the temperature reaches~\SI{60}{\celsius}.
 
 \end{enumerate}
+
 
 
 
