@@ -1,6 +1,5 @@
 \chapter{Modeling and Simulation}
 \label{modeling}
-\chapterartfile{book/images/matlab_circleart.eps}
 
 This book is about modeling and simulating physical systems. Before we can build any models, it'll help to have a high-level understanding of what a model is. We'll also need to familiarize ourselves with the tools we use to build them. In this chapter, we'll look at the modeling process and introduce MATLAB, the programming language we'll use to represent models and run \mbox{simulations}. At the end of the chapter you'll find exercises you can use to test your knowledge.
 
@@ -8,11 +7,11 @@ This book is about modeling and simulating physical systems. Before we can build
 \section{Modeling}
 
 When I say ``modeling,'' I'm talking about something like Figure~\ref{fig:modeling}.
-In the lower-left corner of the figure is the \emph{system}, something in the real world we're interested in.  Often, it's something complicated, so we have to decide which 
-details can be left out; removing details is called \emph{abstraction}.  
+In the lower-left corner of the figure is the \emph{system}, something in the real world we're interested in.  Often, it's something complicated, so we have to decide which
+details can be left out; removing details is called \emph{abstraction}.
 
 \begin{figure}[h]
-  \includegraphics{book/images/figure01_01_new.eps} 
+  \includegraphics{images/figure01_01_new.eps}
   \index{modeling}
   \caption{The modeling process}
   \label{fig:modeling}
@@ -28,7 +27,7 @@ The result of abstraction is a \emph{model}, shown in the upper left; a model is
 \index{simulation}
 \index{analysis}
 
-The result of analysis and simulation might be a prediction about what the system will do, an explanation of why it behaves the way it does, or a specific design engineered to satisfy a requirement or optimize performance.  
+The result of analysis and simulation might be a prediction about what the system will do, an explanation of why it behaves the way it does, or a specific design engineered to satisfy a requirement or optimize performance.
 
 \index{prediction}
 \index{explanation}
@@ -43,7 +42,7 @@ For any physical system there are many possible models, each one including and e
 
 \index{iterative modeling}
 
-Sometimes the best model is the most detailed.  If we include more features, the model is more realistic, and we expect its predictions to be more accurate. \index{realism} 
+Sometimes the best model is the most detailed.  If we include more features, the model is more realistic, and we expect its predictions to be more accurate. \index{realism}
 But often a simpler model is better.  If we include only the essential features and leave out the rest, we get models that are easier to work with, and the explanations they provide can be clearer and more compelling. \index{simplicity}
 
 As an example, suppose someone asked you why the orbit of the Earth is nearly elliptical.  If you model the Earth and Sun as point masses (ignoring their actual size), compute the gravitational force between them using Newton's law of universal gravitation, and compute the resulting orbit \linebreak using Newton's laws of motion, you can show that the result is an ellipse.\index{orbit}\index{ellipse}
@@ -52,7 +51,7 @@ Of course, the actual orbit of Earth is not a perfect ellipse, because of the gr
 \index{Newton}%
 \index{relativity}%
 
-But adding these features to the model would not improve the explanation; more detail would only be a distraction from the fundamental cause.  However, if the goal is to predict the position of the Earth with great precision, including more details might be necessary.  
+But adding these features to the model would not improve the explanation; more detail would only be a distraction from the fundamental cause.  However, if the goal is to predict the position of the Earth with great precision, including more details might be necessary.
 
 Choosing the best model depends on what the model is for.  It is usually a good idea to start with a simple model, even if it's likely to be too simple, and test whether it's good enough for its purpose.  Then you can add features gradually, starting with the ones you expect to be most essential.  This process is called \emph{iterative modeling}.
 
@@ -82,7 +81,7 @@ In Octave, Current Folder is called File Browser.
 \subsection{The Interpreter}
 The Command Window runs the \emph{interpreter}, which allows you
 to enter \emph{commands}; once entered, the interpreter executes the command and prints the
-result. 
+result.
 Initially, the Command Window contains a welcome message with information
 about the version of the software you're running, followed by a \emph{prompt}, which looks like this:\index{prompt}
 
@@ -90,7 +89,7 @@ about the version of the software you're running, followed by a \emph{prompt}, w
 >>
 \end{code}
 
-The \lstinline{>>} symbol prompts you to enter a command. 
+The \lstinline{>>} symbol prompts you to enter a command.
 The simplest kind of command is a mathematical \emph{expression},
 like \lstinline{2 + 1}.\index{expression}
 If you type an expression and then press \keycap{enter} (or \keycap{return}), MATLAB
@@ -261,7 +260,7 @@ Of course, MATLAB is good for more than just evaluating expressions. One of the 
 \index{variable}
 \index{variable!predefined}
 \index{predefined variable}
- 
+
 MATLAB comes with a few predefined variables. For
 example, the name \lstinline{pi} refers to the
 mathematical quantity $\pi$, which is approximately this:
@@ -339,9 +338,9 @@ There are a few rules when assigning variables a value. In every assignment stat
 \index{underscore}%
 \index{case sensitive}%
 Almost any sequence of lower- and uppercase letters is a legal
-variable name.  
+variable name.
 Some punctuation is also legal, but the underscore (\lstinline{_}) is the only commonly used non-letter.
-Numbers are fine, but not at the beginning.  
+Numbers are fine, but not at the beginning.
 Spaces are not allowed.  Variable names are
 \emph{case sensitive}, so \lstinline{x} and \lstinline{X} are different variables.
 
@@ -486,7 +485,7 @@ p = exp(exponent) / denom
 \end{code}
 
 The names of the intermediate variables explain their role in the
-computation:  \lstinline{shiftx} is the value of \lstinline{x} shifted by 
+computation:  \lstinline{shiftx} is the value of \lstinline{x} shifted by
 \lstinline{theta},  it should be no surprise that \lstinline{exponent} is the argument of \lstinline{exp}, and \lstinline{denom} ends up in the denominator.  Choosing informative names makes the code easier to read and understand, which makes it easier to debug.
 
 \index{numerator}
@@ -514,8 +513,8 @@ This code should produce the following error message:
 \begin{stdout}
  area = pi r^2
            |
-Error: Invalid expression. Check for missing multiplication 
-operator, missing or unbalanced delimiters, or other syntax 
+Error: Invalid expression. Check for missing multiplication
+operator, missing or unbalanced delimiters, or other syntax
 error. To construct matrices, use brackets instead of parentheses.
 \end{stdout}
 \index{invalid expression}%
@@ -599,7 +598,7 @@ misleading, but it's worth the effort to understand them.
 MATLAB comes with two forms of documentation, \lstinline{help}
 and \lstinline{doc}.
 \index{documentation!doc@\lstinline{doc}}
-\index{documentation!help@\lstinline{help}}The \lstinline{help} command works in the Command Window; just 
+\index{documentation!help@\lstinline{help}}The \lstinline{help} command works in the Command Window; just
 enter \textbf{\lstinline{help}} followed by the name of a command.
 
 % Here's an example where the output is in a stdout environment to
@@ -614,11 +613,11 @@ You should see output like this:
 \begin{stdout}
  sin    Sine of argument in radians.
     sin(X) is the sine of the elements of X.
- 
+
     See also asin, sind, sinpi.
 \end{stdout}
 
-Some documentation uses vocabulary we haven't covered yet.  
+Some documentation uses vocabulary we haven't covered yet.
 For example, \lstinline{the elements of X} might not make sense until
 we get to vectors and matrices a few chapters from now.
 
@@ -626,15 +625,15 @@ we get to vectors and matrices a few chapters from now.
 \index{vector}
 \index{matrix}
 
-The \lstinline{doc} pages are usually better.  
+The \lstinline{doc} pages are usually better.
 If you enter \lstinline{doc sin}, a browser window appears with more detailed information about the function, including examples of how to use it.  The examples often
-use vectors and matrices, so they may not make sense yet, 
+use vectors and matrices, so they may not make sense yet,
 but you can get a preview of what's coming.
 
 
 \section{Chapter Review}
 
-This chapter provided an overview of the modeling process, including abstraction, analysis and simulation, measurement, and validation. 
+This chapter provided an overview of the modeling process, including abstraction, analysis and simulation, measurement, and validation.
 
 It also introduced MATLAB, the programming language we'll use to write simulations.  So far, we've seen variables and values, arithmetic operations, and mathematical functions.
 
@@ -689,10 +688,10 @@ Using algebra, we can solve for $t$:
 %
 \[ t = \sqrt{ 2 h / a} \]
 %
-Plugging in the acceleration of gravity, 
-$a = \SI{9.8}{\meter\per\second\squared}$, and the height of the Empire State Building, 
-$h = \SI{381}{\meter}$, we get 
-$t = \SI{8.8}{\second}$.  
+Plugging in the acceleration of gravity,
+$a = \SI{9.8}{\meter\per\second\squared}$, and the height of the Empire State Building,
+$h = \SI{381}{\meter}$, we get
+$t = \SI{8.8}{\second}$.
 Then, computing $v = a t$ we get a velocity on impact of $\SI{86}{\meter\per\second}$, which is about 190 miles per hour.  That sounds like it could hurt.
 
 Use MATLAB to perform these computations, and check that you get the same result.
@@ -704,6 +703,3 @@ As an exercise, compute the time it takes for the penny to reach the sidewalk if
 $a = \SI{9.8}{\meter\per\second\squared}$ until it reaches terminal velocity, then falls with constant velocity until it hits the sidewalk.
 
 The result you get is not exact, but it's a pretty good approximation.
-
-
-

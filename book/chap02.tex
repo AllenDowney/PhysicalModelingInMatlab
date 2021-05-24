@@ -1,5 +1,4 @@
 \chapter{Scripts}
-\chapterartfile{book/images/matlab_circleart.eps}
 
 So far we've typed all of our programs ``at the prompt.'' If you're only writing a few lines, this isn't so bad. But what if you're writing a hundred? Retyping each line of code every time you want to change or test your program will be time-consuming and tedious. Luckily, you don't have to. In this chapter, we'll look at a way to run many lines at once: scripts.
 
@@ -7,7 +6,7 @@ So far we've typed all of our programs ``at the prompt.'' If you're only writing
 \section{Your First Script}
 
 A \emph{script} is a file that contains MATLAB code. When you run a script, MATLAB executes the commands in it, one after another, exactly as if you had typed them at the prompt. Scripts are
-also sometimes called \emph{M-files} because they use the extension \emph{.m}, short for MATLAB. 
+also sometimes called \emph{M-files} because they use the extension \emph{.m}, short for MATLAB.
 
 \index{script}
 \index{M-file}
@@ -21,10 +20,10 @@ To try it out, create a new script and enter the following code:
 x = 5
 \end{code}
 
-Then press the \textbf{Save} button.  A dialog window should appear where you can choose the filename and the folder where your script will go.  
+Then press the \textbf{Save} button.  A dialog window should appear where you can choose the filename and the folder where your script will go.
 Change the name to \emph{myscript.m} and save it into any folder you like.
 
-Now click the green \textbf{Run} button.  You might get a message that says the script is not found in the current folder.  
+Now click the green \textbf{Run} button.  You might get a message that says the script is not found in the current folder.
 If so, click the button that says Change Folder and it should run.
 
 \index{Command Window}
@@ -32,19 +31,19 @@ If so, click the button that says Change Folder and it should run.
 You can also run a script by typing its name in the Command Window and pressing \keycap{enter}. For example, if you enter \lstinline{myscript}, MATLAB should execute your script and display the result:
 
 \begin{code}
->> ***myscript***
+>> myscript
 x = 5
 \end{code}
 
 There are a few things to keep in mind when using scripts. First, you should not include the extension \emph{.m} when you run a script.  If you do, you'll get an error message like this:
 
 \begin{code}
->> ***myscript.m***
+>> myscript.m
 Undefined variable "myscript" or class "myscript.m".
 \end{code}
 
 Second, when you name a new script, try to choose something meaningful and memorable.
-Don't choose a name that's already in use; if you do, you'll replace one of MATLAB's functions with your own (at least temporarily). 
+Don't choose a name that's already in use; if you do, you'll replace one of MATLAB's functions with your own (at least temporarily).
 You might not notice right away, but you might get some confusing behavior later.
 
 \index{script!filename}
@@ -54,7 +53,7 @@ a file named \emph{my script.m}, MATLAB will complain when you try
 to run it:
 
 \begin{code}
->> ***my script***
+>> my script
 Undefined function or variable 'my'.
 \end{code}
 
@@ -87,14 +86,14 @@ Be sure that the code you are running
 is the code you think you are running.
 \end{quote}
 
-Now that you've seen how to write a script, let's use one to do something a little more complicated. 
+Now that you've seen how to write a script, let's use one to do something a little more complicated.
 
 \section{The Fibonacci Sequence}
 
 \index{Fibonacci number}
 \index{sequence!Fibonacci}
 
-The \emph{Fibonacci sequence}, denoted $F$, is a sequence of numbers where each number is the sum of the previous two. 
+The \emph{Fibonacci sequence}, denoted $F$, is a sequence of numbers where each number is the sum of the previous two.
 It's defined by the equations $F_1 = 1$, $F_2 = 1$, and, for $i > 2$, $F_{i} = F_{i-1} + F_{i-2}$.
 The following expression computes the $n$th Fibonacci number:
 %
@@ -124,8 +123,8 @@ I use temporary variables like \lstinline{t1} and \lstinline{t2} to make the cod
 If we save this script in a file named \emph{fibonacci1.m}, we can run it like this:
 
 \begin{code}
->> ***n = 10***
->> ***fibonacci1***
+>> n = 10
+>> fibonacci1
 ans = 55.0000
 \end{code}
 
@@ -133,15 +132,15 @@ Before calling this script, you have to assign a value to \lstinline{n}.
 If \lstinline{n} is not defined, you get an error:
 
 \begin{code}
->> ***clear n***
->> ***fibonacci1***
+>> clear n
+>> fibonacci1
 Undefined function or variable 'n'.
 
 Error in fibonacci1 (line 9)
 diff = t1^n - t2^n;
 \end{code}
 
-This script only works if there is a variable named \lstinline{n} in the workspace; otherwise, you should get an error. 
+This script only works if there is a variable named \lstinline{n} in the workspace; otherwise, you should get an error.
 MATLAB will tell you what line of the script the error is in and display the line.
 
 \index{workspace}
@@ -149,7 +148,7 @@ MATLAB will tell you what line of the script the error is in and display the lin
 \index{debugging!Fourth Theorem}
 
 Error messages can be helpful, but beware!
-In this example, the message says the error is in \lstinline{fibonacci}, but the actual problem is that we have not assigned a value to \lstinline{n}. 
+In this example, the message says the error is in \lstinline{fibonacci}, but the actual problem is that we have not assigned a value to \lstinline{n}.
 And that brings us to the Fourth Theorem of Debugging:
 
 \begin{quote}
@@ -171,11 +170,11 @@ They are there because MATLAB performs calculations using floating-point numbers
 For example, if you compute the fraction 2/3, the result is only approximate---the correct answer has an infinite number of 6s:
 
 \begin{code}
->> ***2/3***
+>> 2/3
 ans = 0.6666
 \end{code}
 
- 
+
 
 It's not as bad as this example makes it seem: MATLAB uses more digits than it shows by default.
 You can use the \lstinline{format} command to change the output format:
@@ -183,8 +182,8 @@ You can use the \lstinline{format} command to change the output format:
 \index{format@\lstinline{format}}
 
 \begin{code}
->> ***format long***
->> ***2/3***
+>> format long
+>> 2/3
 ans = 0.666666666666667
 \end{code}
 
@@ -193,11 +192,11 @@ In this example, the first 14 digits are correct; the last one has been rounded 
 \index{scientific notation}
 \index{factorial@\lstinline{factorial}}
 
-Large and small numbers are displayed in \emph{scientific notation}. 
+Large and small numbers are displayed in \emph{scientific notation}.
 For example, if we use the built-in function \lstinline{factorial} to compute $100!$, we get the following result:
 
 \begin{code}
->> ***factorial(100)***
+>> factorial(100)
 ans = 9.332621544394410e+157
 \end{code}
 
@@ -212,24 +211,24 @@ exact solution is a 158-digit integer, but with double-precision floating-point 
 You can enter numbers using the same notation.
 
 \begin{code}
->> ***speed_of_light = 3.0e8***
+>> speed_of_light = 3.0e8
 speed_of_light = 300000000
 \end{code}
 
-Although the floating-point format can represent very large and small numbers, 
-there are limits.  
+Although the floating-point format can represent very large and small numbers,
+there are limits.
 The predefined variables \lstinline{realmax} and \lstinline{realmin}
-contain the largest and smallest numbers MATLAB 
+contain the largest and smallest numbers MATLAB
 can handle.
 
 \index{realmin@\lstinline{realmin}}
 \index{realmax@\lstinline{realmax}}
 
 \begin{code}
->> ***realmax***
+>> realmax
 ans = 1.797693134862316e+308
 
->> ***realmin***
+>> realmin
 ans = 2.225073858507201e-308
 \end{code}
 
@@ -239,17 +238,17 @@ to \mbox{infinity}.
 \index{Inf@\lstinline{Inf}}
 
 \begin{code}
->> ***factorial(170)***
+>> factorial(170)
 ans = 7.257415615307994e+306
 
->> ***factorial(171)***
+>> factorial(171)
 ans = Inf
 \end{code}
 
 Division by zero also returns \lstinline{Inf}.
 
 \begin{code}
->> ***1/0***
+>> 1/0
 ans = Inf
 \end{code}
 
@@ -264,7 +263,7 @@ which stands for ``not a number.''
 \index{undefined operation}
 
 \begin{code}
->> ***0/0***
+>> 0/0
 ans = NaN
 \end{code}
 
@@ -273,7 +272,7 @@ ans = NaN
 
 Short, simple programs are easy to read, but as they get bigger and more complex, it gets harder to figure out what they do and how.  That's what comments are for.
 
-A \emph{comment} is a line of text added to a program to explain how it works. It has no effect on the execution of the program; it is there for human readers.  
+A \emph{comment} is a line of text added to a program to explain how it works. It has no effect on the execution of the program; it is there for human readers.
 Good comments make programs more readable; bad comments are useless at best and misleading at worst.
 
 To write a comment, you use the percent symbol (\%) followed by the text of the comment.
@@ -283,7 +282,7 @@ To write a comment, you use the percent symbol (\%) followed by the text of the 
 \index{percent sign}
 
 \begin{code}
->> ***speed_of_light = 3.0e8     % meters per second***
+>> speed_of_light = 3.0e8     % meters per second
 speed_of_light = 300000000
 \end{code}
 
@@ -297,16 +296,16 @@ computation, but for now that burden falls on the programmer.
 Avoid comments that are redundant with the code:
 
 \begin{code}
->> ***x = 5        % assign the value 5 to x***
+>> x = 5        % assign the value 5 to x
 \end{code}
 
 Good comments provide additional information that's not in the
 code, like units in the example above, or the meaning of a variable:
 
 \begin{code}
->> ***p = 0         % position from the origin in meters***
->> ***v = 100       % velocity in meters / second***
->> ***a = -9.8      % acceleration of gravity in meters / second^2***
+>> p = 0         % position from the origin in meters
+>> v = 100       % velocity in meters / second
+>> a = -9.8      % acceleration of gravity in meters / second^2
 \end{code}
 
 If you use longer variable names, you might not need explanatory
@@ -329,7 +328,7 @@ For example, I might put something like this at the beginning of \emph{fibonacci
 \index{function!documentation}
 
 \begin{code}
-% Computes a numerical approximation of the nth Fibonacci number.  
+% Computes a numerical approximation of the nth Fibonacci number.
 % Precondition: you must assign a value to n before running this script.
 % Postcondition: the result is stored in ans.
 \end{code}
@@ -347,8 +346,8 @@ it's the documentation for the script. So if you type \lstinline{help fibonacci1
 signs).
 
 \begin{code}
->> ***help fibonacci1***
-  Computes a numerical approximation of the nth Fibonacci number.  
+>> help fibonacci1
+  Computes a numerical approximation of the nth Fibonacci number.
   Precondition: you must assign a value to n before running this script.
   Postcondition: the result is stored in ans.
 \end{code}
@@ -375,23 +374,23 @@ In MATLAB, an assignment statement \emph{looks} like a mathematical equality, bu
 
 One difference is that the sides of an assignment statement are not
 interchangeable.  The right side can be any legal expression, but
-the left side has to be a variable, which is called the 
+the left side has to be a variable, which is called the
 \emph{target} of the assignment.  So this is legal:
 
 \begin{code}
->> ***y = 1;***
->> ***x = y + 1***
+>> y = 1;
+>> x = y + 1
 x = 2
 \end{code}
 
 But this is not:
 
 \begin{code}
->> ***y + 1 = x***
+>> y + 1 = x
  y + 1 = x
        |
-Error: Incorrect use of '=' operator. 
-To assign a value to a variable, use '='. 
+Error: Incorrect use of '=' operator.
+To assign a value to a variable, use '='.
 To compare values for equality, use '=='.
 \end{code}
 
@@ -407,13 +406,13 @@ does not get updated.
 
 A third difference is that a mathematical equality is a statement that
 may or may not be true.  In mathematics, $y = y+1$ is a statement that
-happens to be false for all values of $y$.  
+happens to be false for all values of $y$.
 In MATLAB, \lstinline{y = y + 1} is a sensible and useful assignment statement.
 It reads the current value of \lstinline{y}, adds 1, and replaces the old value with the new value.
 
 \begin{code}
->> ***y = 1;***
->> ***y = y + 1***
+>> y = 1;
+>> y = y + 1
 y = 2
 \end{code}
 
@@ -453,19 +452,19 @@ In the next chapter, you'll learn how to write programs that perform repetitive 
 Before you go on, you might want to work on the following exercises.
 
 \subsection{Exercise~1}
-To test your understanding of assignment statements, write a few lines of code that swap the values of \lstinline{x} and \lstinline{y}. 
+To test your understanding of assignment statements, write a few lines of code that swap the values of \lstinline{x} and \lstinline{y}.
 Put your code in a script called \emph{swap.m} and test it.
 
 If it works correctly, you should be able to run it like this:
 
 \begin{code}
->> ***x = 1, y = 2***
+>> x = 1, y = 2
 x = 1
 y = 2
 
->> ***swap***
+>> swap
 
->> ***x, y***
+>> x, y
 x = 2
 y = 1
 \end{code}
@@ -507,5 +506,4 @@ What happens to the bikes?  Do they all end up in one place?  Does the system re
 
 In the next chapter, we will see how to execute your script automatically
 and how to plot the values of \lstinline{b} and \lstinline{c} over time.
-
 

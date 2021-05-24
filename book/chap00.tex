@@ -1,6 +1,5 @@
 \chapter*{Introduction}
 \adjustmtc
-\chapterartfile{book/images/matlab_circleart.eps}
 
 Modeling and simulation are powerful tools for explaining the world, making \linebreak predictions, designing things that work, and making them work better.  Learning to use these tools can be difficult; this book is my attempt to make the experience as enjoyable and productive as possible.
 
@@ -25,6 +24,7 @@ I will assume you know basic physics, in particular the concepts of force, accel
 I have tried to present a small set of tools that provides the most versatility and power, to explain those tools as clearly as possible, and to give you chances to practice what you learn.
 
 Here's what you will find in this book:
+
 \begin{description}
 \item [Chapter 1: Modeling and Simulation] Presents the modeling framework we'll use in this book, introduces the MATLAB and Octave programming languages, and helps you debug some of the errors you are likely to make while you are getting started
 
@@ -79,22 +79,23 @@ To install and run MATLAB, see \url{https://greenteapress.com/matlab/matlab}.
 
 The first time you run it, a start window should appear to guide you through some configuration.
 
-To install Octave, we recommend that you use Anaconda, which is a package management system that makes it easy to work with Octave and \linebreak supporting software.
+To install Octave, we recommend that you use Anaconda, which is a package management system that makes it easy to work with Octave and supporting software.
 
 Anaconda installs everything at the user level, so you can install it without admin or root permissions.  Follow the instructions for your operating system at \url{https://greenteapress.com/matlab/anaconda}.
 
-Once you have Anaconda, you can install Octave by launching the Jupyter Prompt (on Windows) or a Terminal (on Mac OS or Linux), typing the following, and pressing \keycap{enter}:
+Once you have Anaconda, you can install Octave by launching the Jupyter Prompt (on Windows) or a Terminal (on Mac OS or Linux), typing the following, and pressing \textsf{enter}:
 
 \begin{code}
-***conda install -c conda-forge octave***
+conda install -c conda-forge octave
 \end{code}
 
 Then you can launch it by typing:
 
 \begin{code}
-***octave***
+octave
 \end{code}
-and pressing \keycap{enter}.
+
+and pressing \textsf{enter}.
 
 \section{Working with the Code}
 
@@ -105,7 +106,7 @@ The code for each chapter in this book is in a ZIP file you can download from \u
 Once you have the ZIP file, you can unzip it on the command line by running
 
 \begin{code}
-***unzip PhysicalModelingInMatlab-master.zip***
+unzip PhysicalModelingInMatlab-master.zip
 \end{code}
 
 In Windows you can right-click on the ZIP file and select \textbf{Extract All}.
@@ -115,7 +116,7 @@ If you open any of these files in MATLAB, you should be able to read the code.  
 You might get a message like ``File not found in the current folder.''
 MATLAB will give you the option to Change Folder or Add to Path.  If you change folders, you will be able to run this file until you change folders again.  If you add to the path, you will always be able to run this file.
 
-However, as you add more folders to the path, you are more likely to run into problems with name collisions (see ``\nameref{collision}'' on page~\pageref{collision}).
+However, as you add more folders to the path, you are more likely to run into problems with name collisions.
 I recommend you change folders when necessary and avoid adding folders to the path.
 
 
