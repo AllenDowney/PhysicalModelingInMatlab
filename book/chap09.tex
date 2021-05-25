@@ -2,7 +2,7 @@
 
 
 In the previous chapter, we found the equilibrium point where a duck would float on water.  This kind of problem is called \emph{static} because it does not move.  This chapter introduces \emph{dynamic} problems, which involve things that change over time.
- 
+
 Also, you'll learn about a mathematical tool for describing physical systems, \emph{differential equations}, and two computational tools for solving them, Euler's method and \lstinline{ode45}.
 
 But first I have a quick suggestion about organizing code in files.
@@ -124,23 +124,23 @@ Euler's method.
 
 This estimate is based on the assumption that $r$ is constant, but
 in general it's not, so we only expect the estimate to be good if
-$r$ changes slowly and $\Delta t$ is small. 
+$r$ changes slowly and $\Delta t$ is small.
 
 What if we want to make a prediction when $\Delta t$ is large?
 One option is to break $\Delta t$ into smaller pieces, called
 \emph{time steps}. Then we can use the following equations to get from one time step to the next:
 \begin{eqnarray*}
 T_{i+1} &=& T_i + dt                       \\
-Y_{i+1} &=& Y_i + \frac{df}{dt}(t) \, dt          
+Y_{i+1} &=& Y_i + \frac{df}{dt}(t) \, dt
 \end{eqnarray*}
 
-Here, $T_i$ is a sequence of times where we estimate the value of $y$, and $Y_i$ is the sequence of estimates.  
+Here, $T_i$ is a sequence of times where we estimate the value of $y$, and $Y_i$ is the sequence of estimates.
 For each index $i$, $Y_i$ is an estimate of $y(T_i)$.
 
 \index{time step}
 
 If the rate doesn't change too fast and the time step isn't
-too big, Euler's method is accurate enough for most purposes.  
+too big, Euler's method is accurate enough for most purposes.
 
 %One
 %way to check is to run it once with time step $dt$ and then run it
@@ -153,7 +153,7 @@ too big, Euler's method is accurate enough for most purposes.
 As an example we'll use Euler's method to solve the equation from page~\pageref{diffeq},
 \[ \frac{dy}{dt}(t) = a y(t) \]
 with the initial condition $y(0) = 5$ billion cells and
-the growth parameter $a = 0.2$ per hour. 
+the growth parameter $a = 0.2$ per hour.
 
 \index{top-level function}
 
@@ -180,7 +180,7 @@ In \lstinline{euler} we initialize the initial conditions and then call \lstinli
 After testing these functions, we can add code to \lstinline{euler} to compute these difference equations:
 \begin{eqnarray*}
 T_{i+1} &=& T_i + \Delta t             \\
-Y_{i+1} &=& Y_i + r \Delta t          
+Y_{i+1} &=& Y_i + r \Delta t
 \end{eqnarray*}
 %
 where $r$ is the rate of growth computed by \lstinline{rate_func}.
@@ -191,7 +191,7 @@ function res = euler()
     T(1) = 0;
     Y(1) = 5;
     dt = 0.1;
-    
+
     for i=1:40
         r = rate_func(T(i), Y(i));
         T(i+1) = T(i) + dt;
@@ -207,7 +207,7 @@ Inside the loop, we compute the growth rate based on the current time, \lstinlin
 
 After computing the growth rate, we add an element both \lstinline{T} and \lstinline{Y}.  Then, when the loop exits, we plot \lstinline{Y} as a function of \lstinline{T}.
 
-If you run the code, you should get a plot of population over time, as shown in Figure~\ref{fig:euler}. 
+If you run the code, you should get a plot of population over time, as shown in Figure~\ref{fig:euler}.
 
 \begin{figure}[ht]
 \centerline{\includegraphics[scale=0.8]{images/figure09_01_new.eps}}
@@ -223,7 +223,7 @@ As you can see, the population doubles in a little less than 4 hours.
 
 A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that's not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and  they are much more accurate.
 
-\index{time step} 
+\index{time step}
 \index{ode45@\lstinline{ode45}}
 
 MATLAB provides a function called \lstinline{ode45} that implements one of these methods.  In this section I'll explain how to use it; you can read more about how it works in ``\nameref{howode45}'' on page~\pageref{howode45}.
@@ -270,7 +270,7 @@ For the first 2--3 hours, the two solutions are visually indistinguishable.  Dur
 
 For many purposes, the difference between Euler's method and \lstinline{ode45} is the least of our worries.  In this example, we probably don't know the initial population with perfect accuracy or the growth constant, \lstinline{a}.  Also, the assumption that the growth rate only depends on population is probably not true.  Any of these modeling errors could be bigger than 1 percent.
 
-However, for some problems, Euler's method can be off by a lot more than 1 percent.  
+However, for some problems, Euler's method can be off by a lot more than 1 percent.
 In those cases \lstinline{ode45} is almost always more accurate, for two reasons: first, it computes the rate function several times per time step; second, if the time step is too big, \lstinline{ode45} can detect the problem and shrink the time step.  For more details, see ``\nameref{howode45}'' on page~\pageref{howode45}.
 
 
@@ -314,7 +314,7 @@ function res = rate_func(t, y)
 end
 \end{code}
 
-To test this function, I put it in a file called \emph{rats.m} with a top-level function called 
+To test this function, I put it in a file called \emph{rats.m} with a top-level function called
 \lstinline{rats}:
 
 \begin{code}
@@ -336,7 +336,7 @@ We can run the top-level function like this:
 r = 4
 \end{code}
 
-Under these conditions, the growth rate is 4 new rats per day. 
+Under these conditions, the growth rate is 4 new rats per day.
 
 Now that we've tested \lstinline{rate_func}, we can use \lstinline{ode45} to solve the differential equation.
 Here's how to call it from the top-level function in \emph{rats.m}:
@@ -351,7 +351,7 @@ The third argument is the initial population, $y(0) = 1000$.
 
 \index{interval}
 
-Figure~\ref{fig:rats} shows the results. 
+Figure~\ref{fig:rats} shows the results.
 
 \begin{figure}[ht]
 \centerline{\includegraphics[scale=0.8]{images/figure09_03_new.eps}}
@@ -402,8 +402,8 @@ Error in rats (line 6)
     [T, Y] = ode45(rate_func, [0, 365], 1000);
 \end{code}
 
-Also, the rate function you write has to take two input variables, 
-\lstinline{t} and \lstinline{y}, in that order, and return one output variable, 
+Also, the rate function you write has to take two input variables,
+\lstinline{t} and \lstinline{y}, in that order, and return one output variable,
 \lstinline{res}.
 
 \index{output variable}
@@ -524,7 +524,7 @@ But first, here's an exercise where you can apply what you've learned so far.
 
 Before you go on, you might want to work on the following exercise.
 
-\subsection{Exercise 1}
+\begin{ex}
 
 \index{coffee}
 \index{cooling}
@@ -532,7 +532,7 @@ Before you go on, you might want to work on the following exercise.
 
 Suppose that you're given an 8-ounce cup of coffee at \SI{90}{\celsius}.
 You have learned from bitter experience that the hottest coffee you
-can drink comfortably is \SI{60}{\celsius}.  
+can drink comfortably is \SI{60}{\celsius}.
 
 If the temperature of the coffee drops by \SI{0.7}{\celsius} during the first minute, how long will you have to wait to drink your coffee?
 
@@ -580,8 +580,4 @@ room temperature after about an hour.
 
 \end{enumerate}
 
-
-
-
-
-
+\end{ex}

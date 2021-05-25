@@ -33,7 +33,7 @@ If you don't know the size of a matrix, you can display it by using \lstinline{w
 \begin{code}
 >> whos M
   Name      Size            Bytes  Class     Attributes
-  M         2x3                48  double   
+  M         2x3                48  double
 \end{code}
 or the \lstinline{size} function, which returns a vector:
 
@@ -137,7 +137,7 @@ ans = 3     1
 \end{code}
 
 The difference between row and column vectors is important in
-linear algebra, but for most basic vector operations, it doesn't matter.  
+linear algebra, but for most basic vector operations, it doesn't matter.
 For example, when you index the elements of a vector, you don't have to know what kind
 it is:
 
@@ -182,9 +182,11 @@ Dt = 1     4
      3     6
 \end{code}
 
-\subsection{Exercise 1}
+\begin{ex}
 What effect does the transpose operator
 have on row vectors, column vectors, and numbers?
+\end{ex}
+
 
 \section{Solving Systems of ODEs}
 
@@ -205,7 +207,7 @@ The model is governed by the following system of differential equations:
 
 \begin{eqnarray*}
     \frac{dx}{dt} &=& a x - b x y         \\
-    \frac{dy}{dt} &=& -c y + d x y    
+    \frac{dy}{dt} &=& -c y + d x y
 \end{eqnarray*}
 %
 where $x$ and $y$ are the populations of rabbits and foxes,
@@ -297,7 +299,7 @@ this function to be a column vector.
 
 \index{semicolon}
 
-As always, it's a good idea to test your rate function before you call \lstinline{ode45}.  
+As always, it's a good idea to test your rate function before you call \lstinline{ode45}.
 Create a file named \emph{lotka.m} with the following top-level function:
 
 \begin{code}
@@ -310,15 +312,15 @@ end
 
 \index{initial condition}
 
-\lstinline{V_init} is a vector that represents the initial condition, 80 rabbits and 20 foxes.  
+\lstinline{V_init} is a vector that represents the initial condition, 80 rabbits and 20 foxes.
 The result from \lstinline{rate_func} is
 
 \begin{code}
 -8.0000
  1.2000
  \end{code}
-which means that with these initial conditions, we expect the rabbit population to decline initially at a rate of 8 per week and the fox population to increase by 1.2 per week.  
-  
+which means that with these initial conditions, we expect the rabbit population to decline initially at a rate of 8 per week and the fox population to increase by 1.2 per week.
+
 Now we can run \lstinline{ode45} like this:
 
 \begin{code}
@@ -336,7 +338,7 @@ The third argument is the initial condition.
 
 \subsection{Output Matrices}
 
-The \lstinline{ode45} function returns two values: \lstinline{T}, a vector, 
+The \lstinline{ode45} function returns two values: \lstinline{T}, a vector,
 and \lstinline{M}, a matrix.
 
 \begin{code}
@@ -506,7 +508,7 @@ with objects moving in space, governed by Newton's laws of motion.
 
 Before you go on, you might want to work on the following exercise.
 
-\subsection{Exercise 2}
+\begin{ex}
 
 \index{Lorenz attractor}
 
@@ -539,7 +541,7 @@ of \lstinline{V} are understood to be the current values of \lstinline{x},
 \lstinline{y}, and \lstinline{z}.  It should compute the corresponding derivatives
 and return them in a single column vector.
 
-\item Test the function by calling it from the top-level function with values like $t=0$, $x=1$, $y=2$, and $z=3$.  
+\item Test the function by calling it from the top-level function with values like $t=0$, $x=1$, $y=2$, and $z=3$.
 Once you get your function working, you should make it a silent function before calling \lstinline{ode45}.
 
 \item Use \lstinline{ode45} to estimate the solution for the time span $[0, 30]$
@@ -553,5 +555,4 @@ with the initial condition $x=1$, $y=2$, and $z=3$.
 
 % lorenz.m
 
-
-
+\end{ex}

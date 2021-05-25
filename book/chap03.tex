@@ -4,7 +4,7 @@
 
 
 The programs we have seen so far are \emph{straight-line code}; that is, they execute one instruction after another from top to bottom.
-This chapter introduces one of the most important programming-language features, the \lstinline{for}~loop, which allows simple programs to perform complex, repetitive tasks. This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development. 
+This chapter introduces one of the most important programming-language features, the \lstinline{for}~loop, which allows simple programs to perform complex, repetitive tasks. This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development.
 
 We'll start by reviewing the exercise from the previous chapter; if you didn't do it, you might want to take a look before you go on.
 
@@ -106,7 +106,7 @@ least roughly.
 Runtime errors are harder because, as I mentioned before, MATLAB
 can tell you where it detected the problem, but not what caused it.
 
-Logical errors are hard because MATLAB can't help at all.  
+Logical errors are hard because MATLAB can't help at all.
 From MATLAB's point of view there's nothing wrong with the program; only you
 know what the program is supposed to do, so only you can check it.
 
@@ -115,7 +115,7 @@ know what the program is supposed to do, so only you can check it.
 Numerical errors can be tricky because it's not clear whether the
 problem is your fault.  For most simple computations, MATLAB produces
 the floating-point value that is closest to the exact solution, which
-means that the first 15 significant digits should be correct.  
+means that the first 15 significant digits should be correct.
 
 But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct digits can be smaller.  Sometimes MATLAB can warn you that
 this is happening, but not always!  \emph{Precision} (the number of digits
@@ -125,7 +125,7 @@ are right).
 
 \section{Absolute and Relative Error}
 
-There are two ways of thinking about numerical errors. 
+There are two ways of thinking about numerical errors.
 The first is \emph{absolute error}, or the difference between the correct value and the approximation.  We often write the magnitude of the error,
 ignoring its sign, when it doesn't matter whether the approximation
 is too high or too low.
@@ -134,7 +134,7 @@ is too high or too low.
 The second way to think about numerical errors is \emph{relative error}, where the error is expressed as a fraction (or percentage) of the exact value.\index{error!relative}
 \index{relative error}
 
-For example, we might want to estimate $9!$ using the formula 
+For example, we might want to estimate $9!$ using the formula
 $\sqrt {18 \pi} ( 9 / e)^9$.  The exact answer is $9 \cdot 8 \cdot 7 \cdot 6
 \cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 362,880$.  The approximation
 is $359,536.87$.  So the absolute error is $3,343.13$.
@@ -156,7 +156,7 @@ For many purposes, being off by 1 percent is good enough.
 \index{for loop@\lstinline{for} loop}
 \index{loop}
 
-Let's return to the bike-share example. 
+Let's return to the bike-share example.
 In the previous chapter, we wrote a \emph{bike\textunderscore update.m} script to simulate a
 day in the life of a bike-share system. To simulate an entire
 month, we'd have to run the script 30 times. We could enter the same command 30 times, but it's simpler to use a \emph{loop}, which is a set of statements that executes repeatedly.
@@ -224,7 +224,7 @@ i = 5
 As this example shows, you \emph{can} run a \lstinline{for} loop from the
 command line, but it's more common to put it in a script.
 
-\subsection{Exercise~1}
+\begin{ex}
 Create a script named \emph{bike\textunderscore loop.m} that uses a \lstinline{for} loop to run \emph{bike\textunderscore update.m} 30 times.  Before you run it, you have to assign values to \lstinline{b} and \lstinline{c}.
 For this exercise, start with the values \textbf{\lstinline{b = 100}} and \textbf{\lstinline{c = 100}}.
 
@@ -232,6 +232,7 @@ If everything goes smoothly, your script will display a long stream
 of numbers on the screen.  It's probably too long
 to fit, and even if it did fit, it would be hard to interpret.
 A graph would be much better!
+\end{ex}
 
 
 
@@ -252,7 +253,7 @@ To plot a single point, type
 >> plot(1, 2, 'o')
 \end{code}
 
-A Figure Window should appear with a graph and a single blue circle at $x$ position 1 and $y$ position 2.  
+A Figure Window should appear with a graph and a single blue circle at $x$ position 1 and $y$ position 2.
 
 \index{Figure Window}
 \index{style string}
@@ -300,10 +301,11 @@ The \lstinline{clf} command clears the figure before we start plotting.
 
 If you run the code above, you should see a figure with three circles.  MATLAB scales the plot automatically so that the axes run from the lowest values in the plot to the highest.
 
-\subsection{Exercise~2}
+\begin{ex}
 Modify \emph{bike\textunderscore loop.m} so that it clears the figure before running the loop.  Then, each time through the loop, it should plot the value of \lstinline{b} versus the value of \lstinline{i} with a red circle.
 
 Once you get that working, modify it so it plots the values of \lstinline{c} with blue diamonds.
+\end{ex}
 
 
 \section{Sequences}
@@ -338,7 +340,7 @@ Each time through the loop, we find the next value of \lstinline{a}
 by dividing the previous value by~2, and assign the result back to \lstinline{a}.
 At the end, \lstinline{a} contains the 10th element.
 
-The other elements are displayed on the screen, but they are not saved in a variable.  
+The other elements are displayed on the screen, but they are not saved in a variable.
 Later, we'll see how to save the elements of a sequence in a vector.
 
 \index{direct computation}
@@ -352,9 +354,10 @@ For this sequence, it's also possible to compute the $i$th element
 In math notation, $A_i = A_1 r^{i-1}$, where $r$ is the ratio of successive elements.
 In the previous example, $A_{i+1} = A_i/2$, so $r = 1/2$.
 
-\subsection{Exercise~3}
-Write a script named \emph{sequence.m} that uses a loop to 
+\begin{ex}
+Write a script named \emph{sequence.m} that uses a loop to
 compute elements of $A$ \mbox{directly}.
+\end{ex}
 
 
 \section{Series}
@@ -391,16 +394,17 @@ Let's walk through what's happening here. \lstinline{A1} is the first element of
 Each time through the loop, we set \lstinline{a} to the $i$th element and add \lstinline{a} to the \lstinline{total}.
 At the end, outside the loop, we store  \lstinline{total} as \lstinline{ans}.
 
-The way we're using \lstinline{total} is called an \emph{accumulator}, that is, a variable that accumulates the result a little bit at a time.  
+The way we're using \lstinline{total} is called an \emph{accumulator}, that is, a variable that accumulates the result a little bit at a time.
 \index{accumulator}
 
 
 
-\subsection{Exercise~4}
+\begin{ex}
 This example computes the terms of the series directly. As
 an exercise, write a script named \emph{series.m} that computes
 the same sum by computing the elements recurrently.  You will
 have to be careful about where you start and stop the loop.
+\end{ex}
 
 
 \section{Generalization}
@@ -429,7 +433,7 @@ ans = total
 
 The code in Listing~\ref{lst:series_n} can now compute any number of terms, with the
 precondition that you have to set \lstinline{n} before you execute
-the code.  
+the code.
 I put this code in a file named \emph{series.m}, then
 ran it with different values of \lstinline{n}:
 
@@ -497,7 +501,7 @@ With incremental development, your code is more likely to work the first time, a
 The best kind of debugging is the kind you don't have to do.
 \end{quote}
 
-In practice, there are two problems with incremental development. 
+In practice, there are two problems with incremental development.
 First, sometimes you have to write extra code to
 generate visible output that you can check.  This extra code is
 called \emph{scaffolding} because you use it to build the program
@@ -535,7 +539,7 @@ An \emph{accumulator} is a variable that is used to accumulate a result a little
 
 In mathematics, a \emph{sequence} is a set of numbers that correspond
 to the positive integers.
-The numbers that make up the sequence are called \mbox{\emph{elements}}.  
+The numbers that make up the sequence are called \mbox{\emph{elements}}.
 A \emph{series} is the sum of a sequence of elements.
 Sometimes we compute the elements of a sequence \emph{recurrently}, which means that each new element depends on previous elements.  Sometimes we can compute the elements \emph{directly}, without using previous elements.
 
@@ -551,7 +555,7 @@ In the next chapter, we'll use a vector to store the results from a loop.
 
 Before you go on, you might want to work on the following exercises.
 
-\subsection{Exercise~5}
+\begin{ex}
 Years ago I was in a fudge shop and saw a sign that said ``Buy one pound of fudge, get another quarter pound free.''  That's simple enough.
 
 But if I ran the fudge shop, I would offer a special deal to anyone who could solve the following problem:
@@ -563,11 +567,12 @@ If you buy a pound of fudge, we'll give you another quarter pound free.  And the
 Write a script called \emph{fudge.m} that solves this problem.  Hint: start with \emph{series.m} and generalize it by replacing the ratio \lstinline{1/2} with a variable, \lstinline{r}.
 
 % fudge.m
+\end{ex}
 
 
 
 
-\subsection{Exercise~6}
+\begin{ex}
 \label{fib2}
 
 We have already seen the Fibonacci sequence, $F$, which
@@ -596,5 +601,4 @@ and \lstinline{prev2} = $F_2$.  At the end of the loop, you'll have
 to update \lstinline{prev1} and \lstinline{prev2}; think carefully about the
 order of the updates!
 
-
-
+\end{ex}

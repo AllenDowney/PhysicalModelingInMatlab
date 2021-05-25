@@ -37,8 +37,8 @@ It's a common error to use the assignment operator (\lstinline{=}) instead of th
 >> a^2 + b^2 = c^2
  a^2 + b^2 = c^2
            |
-Error: Incorrect use of '=' operator. 
-To assign a value to a variable, use '='. 
+Error: Incorrect use of '=' operator.
+To assign a value to a variable, use '='.
 To compare values for equality, use '=='.
 \end{code}
 
@@ -64,7 +64,7 @@ end
 \end{code}
 
 The syntax is similar to a \lstinline{for} loop.  The first line
-specifies the condition we're interested in.  If the condition is true, 
+specifies the condition we're interested in.  If the condition is true,
 MATLAB executes the \emph{body} of the statement, which is the indented sequence of
 statements between the \lstinline{if} and the \lstinline{end}.
 
@@ -74,7 +74,7 @@ MATLAB doesn't require you to indent the body of an \lstinline{if}
 statement, but it makes your code more readable, so you should do it.
 
 If the condition is not satisfied, the statements in the body are
-not \mbox{executed}. 
+not \mbox{executed}.
 
 Sometimes there are alternative statements to
 execute when the condition is false.  In that case, you can extend
@@ -160,7 +160,7 @@ function res = is_pythagorean(a, b, c)
 end
 \end{code}
 
-The result of the equality operator is a logical value, which we can assign directly 
+The result of the equality operator is a logical value, which we can assign directly
 to \lstinline{res}.
 
 Put this function in a file called \emph{is\_pythagorean.m}, so we can use it as part of our program.
@@ -168,7 +168,7 @@ Put this function in a file called \emph{is\_pythagorean.m}, so we can use it as
 
 \section{Nested Loops}
 
-The next step is to write loops that enumerate different values of \lstinline{a}, \lstinline{b}, and 
+The next step is to write loops that enumerate different values of \lstinline{a}, \lstinline{b}, and
 \lstinline{c}.  Create a new file called \emph{find\_triples.m} where we'll develop the rest of the program.
 
 \index{nested loop}
@@ -235,7 +235,7 @@ Now one loop is inside the other.  The inner loop gets executed three times, onc
 
 The left column shows the values of \lstinline{a} and the right column shows the values of \lstinline{b}.
 
-The next step is to search for values of \lstinline{c} that might make a Pythagorean triple.  The largest possible value for \lstinline{c} is \lstinline{a + b}, because otherwise we couldn't form a triangle 
+The next step is to search for values of \lstinline{c} that might make a Pythagorean triple.  The largest possible value for \lstinline{c} is \lstinline{a + b}, because otherwise we couldn't form a triangle
 (see \url{https://greenteapress.com/matlab/triangle}).
 
 \begin{code}
@@ -305,7 +305,7 @@ end
 \section{Encapsulation and Generalization}
 
 As a script, this program has the side effect of assigning values to
-\lstinline{a}, \lstinline{b}, and \lstinline{c}, which would be bad if any of those names were in use.  
+\lstinline{a}, \lstinline{b}, and \lstinline{c}, which would be bad if any of those names were in use.
 By wrapping the code in a function, we can avoid name collisions; this process is called \emph{encapsulation} because it isolates this program from the workspace.
 
 \index{encapsulation}
@@ -396,7 +396,7 @@ divisor of two numbers.  If \lstinline{gcd(a,b)} is greater than 1,
 \lstinline{a} and \lstinline{b} share a common factor and we can use the \lstinline{continue}
 statement to skip to the next pair. Listing~\ref{lst:triples_function} contains the final version of this function:
 
-\begin{lstlisting}[caption={Our final Pythagorean triples function}, label={lst:triples_function}] 
+\begin{lstlisting}[caption={Our final Pythagorean triples function}, label={lst:triples_function}]
 function res = find_triples(n)
     for a=1:n
         for b=a:n
@@ -481,14 +481,14 @@ works and just assuming (after appropriate testing) that it works.
 For many people, it takes some time to get comfortable with functions.  If you are one of them, you might be tempted to avoid functions, and sometimes you can get by without them.
 
 But experienced programmers use functions extensively, for several good reasons. First, each function has its own workspace, so using functions helps
-avoid name collisions. 
+avoid name collisions.
 Functions also lend themselves to incremental development: you can
 debug the body of the function first (as a script), then encapsulate
 it as a function, and then generalize it by adding input variables.
 
 Also, functions allow you to divide a large problem into small
 pieces, work on the pieces one at a time, and then assemble a
-complete solution. 
+complete solution.
 
 Once you have a function working, you can forget about the
 details of how it works and concentrate on what it does.  This
@@ -516,7 +516,7 @@ The next chapter introduces a new tool, called \lstinline{fzero}, that we'll use
 
 Before you go on, you might want to work on the following exercise.
 
-\subsection{Exercise~1}
+\begin{ex}
 \index{Fibonacci number}
 \index{Pythagorean triple}
 
@@ -529,12 +529,10 @@ Pythagorean triples.  If $F$ is a Fibonacci sequence, then
 is a Pythagorean triple, for all $i \ge 1$.
 
 Write a function named \lstinline{fib_triple} that
-takes \lstinline{n} as an input variable, computes 
+takes \lstinline{n} as an input variable, computes
 the first \lstinline{n} Fibonacci numbers, stores them in a vector,
 and checks whether this formula produces Pythagorean triples for numbers in the \mbox{sequence}.
 
 % fib_triple.m
 
-
-
-
+\end{ex}

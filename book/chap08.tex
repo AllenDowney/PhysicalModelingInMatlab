@@ -158,8 +158,8 @@ square matrices.
 \begin{code}
 >> hypotenuse(1:3, 1:3)
 Error using  ^  (line 51)
-Incorrect dimensions for raising a matrix to a power. 
-Check that the matrix is square and the power is a scalar. 
+Incorrect dimensions for raising a matrix to a power.
+Check that the matrix is square and the power is a scalar.
 To perform element-wise matrix powers, use '.^'.
 \end{code}
 
@@ -235,12 +235,13 @@ ans = 1     2     3     4
 
 But it isn't.
 
-\subsection{Exercise~1}
+\begin{ex}
 Write a function named \lstinline{mydiff} that computes the
 inverse of \lstinline{cumsum} so that \lstinline{cumsum(mydiff(X))} and
 \lstinline{mydiff(cumsum(X))} both return \lstinline{X}.
 
 % mydiff.m
+\end{ex}
 
 
 \subsection{Products and Ratios}
@@ -273,7 +274,7 @@ MATLAB doesn't provide the multiplicative version
 of \lstinline{diff}, which would be called \lstinline{ratio}, and which would
 compute the ratio of successive elements of the input vector.
 
-\subsection{Exercise~2}
+\begin{ex}
 Write a function named \lstinline{myratio} that computes the
 inverse of \lstinline{cumprod}, so that \lstinline{cumprod(myratio(X))} and
 \lstinline{myratio(cumprod(X))} both
@@ -284,11 +285,12 @@ advantage of the fact that $e^{\ln a + \ln b} = a b$.
 
 %If you apply \lstinline{myratio} to a vector that contains Fibonacci numbers, you can confirm that the ratio of successive elements converges on the golden ratio, $(1+\sqrt{5})/2$ (see Section~\ref{fibratio}).
 
+\end{ex}
 
 
 \section{Computing with Vectors}
 
-In this section, we'll look at two common patterns for working with vectors and connect them to the corresponding ideas from mathematics, existential and universal quantification.  And you'll learn about logical vectors, which contain the Boolean values 0 and 1. 
+In this section, we'll look at two common patterns for working with vectors and connect them to the corresponding ideas from mathematics, existential and universal quantification.  And you'll learn about logical vectors, which contain the Boolean values 0 and 1.
 
 \subsection{Existential Quantification}
 
@@ -361,18 +363,19 @@ In other words, checking that all the  elements are positive is
 the same as checking that there are no elements
 that are nonpositive.
 
-\subsection{Exercise~3}
+\begin{ex}
 Write a function named \lstinline{forall} that
 takes a vector and returns \lstinline{1} if all of the elements are positive
 and \lstinline{0} if there are any nonpositive elements.
 
+\end{ex}
 
 
 
 
 \subsection{Logical Vectors}
 
-When you apply a logical operator to a vector, the result is a 
+When you apply a logical operator to a vector, the result is a
 \emph{logical vector}: a vector whose elements are the logical
 values 1 and 0. Let's look at an  example:
 
@@ -432,8 +435,9 @@ function res = exists(X)
 end
 \end{code}
 
-\subsection{Exercise~4}
+\begin{ex}
 Write a version of \lstinline{forall} using \lstinline{find}.
+\end{ex}
 
 
 \section{Debugging in Four Acts}

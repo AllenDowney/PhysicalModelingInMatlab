@@ -17,7 +17,7 @@ represent the following:
 
 \begin{description}
 
-\item[Sequences] A mathematical sequence, like the Fibonacci numbers, is a set of values identified by integer indices; in Chapter~\ref{vecseq}, we used a MATLAB vector to store the elements of a sequence. 
+\item[Sequences] A mathematical sequence, like the Fibonacci numbers, is a set of values identified by integer indices; in Chapter~\ref{vecseq}, we used a MATLAB vector to store the elements of a sequence.
 
 \item[State vectors] A state vector is a set of values that
 describes the state of a physical system.  When you call
@@ -53,8 +53,8 @@ To interpret this vector, we have to know the coordinate system it is defined in
 \index{direction}
 \index{Pythagorean theorem}
 
-When a spatial vector is represented in this way, we can use it to compute the magnitude and direction of a physical quantity.  
-For example,~the \emph{magnitude} of \lstinline{P} is the distance from the origin to \lstinline{P}, which is the hypotenuse of the triangle with sides \lstinline{P(1)} and \lstinline{P(2)}.  
+When a spatial vector is represented in this way, we can use it to compute the magnitude and direction of a physical quantity.
+For example,~the \emph{magnitude} of \lstinline{P} is the distance from the origin to \lstinline{P}, which is the hypotenuse of the triangle with sides \lstinline{P(1)} and \lstinline{P(2)}.
 We can compute it using the Pytha\-gorean theorem:
 
 \begin{code}
@@ -87,9 +87,9 @@ function res = hat(V)
     res = V / norm(V)
 end
 \end{code}
- 
-This function takes a vector, \lstinline{V}, and returns a unit vector with the same direction as \lstinline{V}.  It's called \lstinline{hat} because in mathematical notation, unit vectors are written with a ``hat'' symbol.  
-For example, the unit vector with the same direction as $\vec{P}$ would be written $\uvec{P}$. 
+
+This function takes a vector, \lstinline{V}, and returns a unit vector with the same direction as \lstinline{V}.  It's called \lstinline{hat} because in mathematical notation, unit vectors are written with a ``hat'' symbol.
+For example, the unit vector with the same direction as $\vec{P}$ would be written $\uvec{P}$.
 
 \index{unit vector}
 \index{vector!unit}
@@ -182,24 +182,24 @@ Let's assume that a ball is batted from an initial position \SI{1}{\meter} above
 \index{initial condition}
 
 Here's how we can call \lstinline{ode45} with these initial conditions:
- 
+
 \begin{code}
     P = [0; 1];       % initial position in m
     V = [40; 30];     % initial velocity in m/s
     W = [P; V];       % initial condition
-    
+
     tspan = [0 8]
     [T, M] = ode45(@rate_func, tspan, W);
 \end{code}
 
-\lstinline{P} and \lstinline{V} are column vectors because we put semicolons between the elements.  
+\lstinline{P} and \lstinline{V} are column vectors because we put semicolons between the elements.
 So \lstinline{W} is a column vector with four elements.
 And \lstinline{tspan} specifies that we want to run the simulation for \SI{8}{\second}.
 
 \index{time span}
 \index{output variable}
 
-The output variables from \lstinline{ode45} are a vector, 
+The output variables from \lstinline{ode45} are a vector,
 \lstinline{T}, that contains time values and a matrix, \lstinline{M}, with four columns: the first two are position; the last two are velocity.
 
 Here's how we can plot position as a function of time:
@@ -207,7 +207,7 @@ Here's how we can plot position as a function of time:
 \begin{code}
     X = M(:, 1);
     Y = M(:, 2);
-    
+
     plot(T, X)
     plot(T, Y)
 \end{code}
@@ -238,8 +238,8 @@ A simple model for the drag force on a baseball is
     \vec{F}_\mathrm{d} = - \frac{1}{2} \, \rho v C_\mathrm{d} A \uvec{V}
 \end{equation*}
 where $\vec{F}_\mathrm{d}$ is a vector that represents the force on the baseball
-due to drag, 
-$\rho$ is the density of air, 
+due to drag,
+$\rho$ is the density of air,
 $C_\mathrm{d}$ is the drag coefficient, and
 $A$ is the cross-sectional area.
 
@@ -262,8 +262,8 @@ The function in Listing~\ref{lst:baseball_drag} computes the drag force on a bas
     res = -1/2 * C_d * rho * A * v * V;
 end
 \end{lstlisting}
-  
-The drag coefficient for a baseball is about 0.3.  
+
+The drag coefficient for a baseball is about 0.3.
 The density of air at sea level is about \SI{1.3}{\kilogram\per\meter\cubed}.
 The cross-sectional area of a baseball is \SI{0.0042}{\meter\squared}.
 
@@ -292,7 +292,7 @@ Figure~\ref{fig:vector3} shows the following quantities graphically:  (1) accele
 
 \begin{figure}[h]
 \centerline{\includegraphics[scale=0.8]{images/figure12_03_new.eps}}
-\caption{Diagram of velocity, $\vec{V}$; acceleration due to drag force, 
+\caption{Diagram of velocity, $\vec{V}$; acceleration due to drag force,
 $\vec{D}$; acceleration due to gravity, $\vec{G}$; and total acceleration, $\vec{A}$}
 \label{fig:vector3}
 \end{figure}
@@ -446,7 +446,7 @@ In the next chapter, we'll continue with the baseball example, using \lstinline{
 
 Before you go on, you might want to work on the following exercises.
 
-\subsection{Exercise 1}
+\begin{ex}
 
 \index{Boston Red Sox}
 \index{density}
@@ -455,8 +455,10 @@ When the Boston Red Sox won the World Series in 2007, they played the
 Colorado Rockies at their home field in Denver, Colorado.  Find an
 estimate of the density of air in the Mile High City.  What effect
 does this have on drag?  What effect does it have on the distance the baseball travels?
+\end{ex}
 
-\subsection{Exercise 2}
+
+\begin{ex}
 
 \index{drag}
 \index{air resistance}
@@ -469,9 +471,10 @@ Physics of Baseball} (Harper Perennial, 2002); the figure you need is reproduced
 
 Use this data to specify a more realistic model of drag and modify your
 program to implement it.  How big is the effect on the distance the baseball travels?
+\end{ex}
 
 
-\subsection{Exercise 3}
+\begin{ex}
 \label{cannon}
 
 \index{cannon}
@@ -485,6 +488,4 @@ Find the initial velocity (both magnitude and direction) you would need to break
 
 How much acceleration can a human withstand without injury?  At this maximum acceleration, how long would the barrel of the cannon have to be to reach the initial velocity needed to break the record?
 
-
-
-
+\end{ex}

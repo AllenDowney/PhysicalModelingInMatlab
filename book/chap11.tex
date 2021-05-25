@@ -78,9 +78,9 @@ this problem:
 \begin{lstlisting}[caption={A rate function for the falling penny problem}, label={lst:penny_rate_func}]
 function res = rate_func(t, X)
     % unpack position and velocity
-    y = X(1);      
-    v = X(2);      
-    
+    y = X(1);
+    v = X(2);
+
     % compute the derivatives
     dydt = v;
     dvdt = -9.8;
@@ -162,11 +162,11 @@ Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and pic
 
 Normally when you call \lstinline{ode45} you specify a start time and
 an end time.  But sometimes you don't know ahead of time when the
-simulation should end.  To solve this problem we can define an \emph{event}, 
+simulation should end.  To solve this problem we can define an \emph{event},
 something of interest that happens during a simulation,
 like the penny reaching the ground.
 
-Here are the steps: 
+Here are the steps:
 
 \index{event function}
 \index{function!event}
@@ -192,7 +192,7 @@ If \lstinline{direction} is positive, the event only occurs if \lstinline{value}
 If \lstinline{direction} is 0, the event always occurs.
 If \lstinline{isterminal} is 1, the event causes the simulation to end; if it is 0, the simulation continues.
 
-This event function uses the altitude of the penny as \lstinline{value} so an event can occur when altitude passes through 0.  
+This event function uses the altitude of the penny as \lstinline{value} so an event can occur when altitude passes through 0.
 Because \lstinline{direction} is negative, an event occurs only when altitude is decreasing, and
 because \lstinline{isterminal} is 1, the simulation ends if an event occurs.
 
@@ -205,7 +205,7 @@ because \lstinline{isterminal} is 1, the simulation ends if an event occurs.
 options = odeset('Events', @event_func);
 \end{code}
 %
-The name of the option is \lstinline{Events} and the value is the handle of the event function.  
+The name of the option is \lstinline{Events} and the value is the handle of the event function.
 
 \item Finally, we pass \lstinline{options} as a fourth argument to \lstinline{ode45}:
 
@@ -213,12 +213,12 @@ The name of the option is \lstinline{Events} and the value is the handle of the 
 [T, M] = ode45(@rate_func, tspan, X, options);
 \end{code}
 
-When \lstinline{ode45} runs, it invokes \lstinline{event_func} after each time step.  If the event function indicates that a terminal event occurred, 
+When \lstinline{ode45} runs, it invokes \lstinline{event_func} after each time step.  If the event function indicates that a terminal event occurred,
 \lstinline{ode45} stops the simulation.
 
 \end{enumerate}
 
-Let's look at the results from the penny example:  
+Let's look at the results from the penny example:
 
 \begin{code}
 >> T(end)
@@ -240,7 +240,7 @@ The last row of \lstinline{M} indicates that the final altitude is 0, which is w
 \index{air resistance}
 
 To make this simulation more realistic, we can add air resistance.
-For large objects moving quickly through air, the force due to air resistance, called \emph{drag}, is proportional to velocity squared.  
+For large objects moving quickly through air, the force due to air resistance, called \emph{drag}, is proportional to velocity squared.
 For an object falling down, drag is
 directed up, so if velocity is negative, drag force is positive.
 
@@ -250,14 +250,14 @@ directed up, so if velocity is negative, drag force is positive.
 Here's how we can compute the force of drag as a function of velocity in one dimension:
 
 \begin{equation*}
-    f_\mathrm{d} = -\mathrm{sign}(v) b v^2 
+    f_\mathrm{d} = -\mathrm{sign}(v) b v^2
 \end{equation*}
 where $v$ is velocity and
 $b$ is a drag constant that depends on the density of
 air, the cross-sectional area of the object, and the shape
-of the object.  
+of the object.
 
-The sign or signum function returns the value $1$ for positive values of 
+The sign or signum function returns the value $1$ for positive values of
 $v$ and $-1$ for negative values.  So $f_\mathrm{d}$ is always in the opposite direction of $v$.
 
 \index{signum function}
@@ -299,9 +299,9 @@ To use this function, we make a small change in \lstinline{rate_func}:
 
 \begin{code}
 function res = rate_func(t, X)
-    y = X(1);      
-    v = X(2);      
-    
+    y = X(1);
+    v = X(2);
+
     dydt = v;
     dvdt = acceleration(t, X);   % this line has changed
 
@@ -319,7 +319,7 @@ In this version, we call \lstinline{acceleration} to compute the total accelerat
 \label{fig:penny2}
 \end{figure}
 
-Everything else is the same.  Figure~\ref{fig:penny2} shows the result. 
+Everything else is the same.  Figure~\ref{fig:penny2} shows the result.
 
 Air resistance makes a big difference! Velocity increases until
 acceleration due to drag equals acceleration due to gravity; after that, velocity is constant and position decreases linearly (and much more slowly than it would in a vacuum).
@@ -330,7 +330,7 @@ And the final velocity is \SI{18.1}{\meter \per \second}, substantially slower t
 
 \section{Chapter Review}
 
-In this chapter, we used Newton's laws of motion to write a differential equation that describes the motion of a falling penny.  
+In this chapter, we used Newton's laws of motion to write a differential equation that describes the motion of a falling penny.
 
 We rewrote that equation as a system of first-order differential equations so we could use \lstinline{ode45} to solve it.  Then we ran simulations of a falling penny with and without air resistance, also known as \emph{drag}.
 
@@ -341,9 +341,9 @@ In the next chapter, we extend Newtonian motion to two dimensions and model the 
 
 \section{Exercises}
 
-Before you go on, you might want to work on the following exercises.
+Before you go on, you might want to work on the following exercise.
 
-\subsection{Exercise 1}
+\begin{ex}
 \index{skydiver}
 \index{parachute}
 
@@ -354,7 +354,7 @@ In this exercise we'll model the descent of a skydiver, taking into account the 
 \item Modify the penny code from this chapter to simulate the descent of a \SI{75}{\kilogram} skydiver from an initial altitude of \SI{4000}{\meter}.
 The drag constant for a skydiver without a parachute is about \SI{0.2}{\kilogram \per \meter}.
 What would the velocity of the skydiver be on impact?
- 
+
 \item After opening their parachute, the velocity of the skydiver slows to about \SI{5}{\meter\per\second}.  Use your simulation to find the drag constant that yields a terminal velocity of \SI{5}{\meter\per\second}.
 
 \item Increase the mass of the skydiver, and confirm that terminal velocity increases.  This phenomenon is the source of the intuition that heavy objects fall faster; in air, they do!
@@ -367,10 +367,11 @@ What would the velocity of the skydiver be on impact?
 
 % skydiver.m
 
+\end{ex}
 
 
 
-\subsection{Exercise 2}
+\begin{ex}
 \label{earth}
 
 \index{Earth}
@@ -397,7 +398,4 @@ Use \lstinline{ode45} to answer this question.  Here are some suggestions about 
 
 % earth.m
 
-
-
-% chpt11
-
+\end{ex}

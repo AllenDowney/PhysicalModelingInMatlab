@@ -38,7 +38,7 @@ Now we can call \lstinline{ode45} like this:
     P = [0; 1];       % initial position in m
     V = [40; 30];     % initial velocity in m/s
     W = [P; V];       % initial condition
-    
+
     tspan = [0 10];
     options = odeset('Events', @event_func);
     [T, M] = ode45(@rate_func, tspan, W, options);
@@ -49,7 +49,7 @@ The initial position of the ball is \SI{1}{\meter} above home plate.  The ball's
 \index{initial condition}
 
 The maximum duration of the simulation is \SI{10}{\second}, but we expect an event to stop the simulation first.  We can get the final values of the simulation like~this:
-    
+
 \begin{code}
     T(end)
     M(end, :)
@@ -94,17 +94,17 @@ Now we'll simulate the trajectory of the baseball with a range of launch angles.
 
 \begin{lstlisting}[caption={A function that takes the launch angle of a baseball and returns the distance it travels}, label={lst:baseball_range}]
 function res = baseball_range(theta)
-    P = [0; 1];       
-    v = 50;           
+    P = [0; 1];
+    v = 50;
     [vx, vy] = pol2cart(theta, v);
-    
+
     V = [vx; vy];     % initial velocity in m/s
     W = [P; V];       % initial condition
-    
+
     tspan = [0 10];
     options = odeset('Events', @event_func);
     [T, M] = ode45(@rate_func, tspan, W, options);
-    
+
     res = M(end, 1);
 end
 \end{lstlisting}
@@ -116,7 +116,7 @@ The launch angle, \lstinline{theta}, is in radians.  The magnitude of velocity, 
 \index{Cartesian coordinates}
 \index{polar coordinates}
 
-After running the simulation we extract the final $x$-position and return it as an output variable.  
+After running the simulation we extract the final $x$-position and return it as an output variable.
 
 We can run this function for a range of angles like this:
 
@@ -132,7 +132,7 @@ And then plot \lstinline{ranges} as a function of \lstinline{thetas}:
     plot(thetas, ranges)
 \end{code}
 
-Figure~\ref{fig:baseball4} shows the result.  As expected, the ball does not travel far if it's hit nearly horizontal or vertical. 
+Figure~\ref{fig:baseball4} shows the result.  As expected, the ball does not travel far if it's hit nearly horizontal or vertical.
 The peak is apparently near \SI{0.7}{\radian}.
 
 \begin{figure}[h]
@@ -209,9 +209,9 @@ If you're curious about how \lstinline{fminsearch} works, see ``\nameref{howfmin
 
 \section{Animation}
 
-Animation is a useful tool for checking the results of a physical model.  
+Animation is a useful tool for checking the results of a physical model.
 If something is wrong, animation can make it obvious.
-There are two ways to do animation in MATLAB.  
+There are two ways to do animation in MATLAB.
 One is to use \lstinline{getframe} to capture a series of images and then use \lstinline{movie} to play them back.
 
 \index{animation}
@@ -231,7 +231,7 @@ function animate(T,M)
         axis(minmax)
         plot(X(i), Y(i), 'o')
         drawnow;
-        
+
         if i < length(T)
             dt = T(i+1) - T(i);
             pause(dt);
@@ -244,7 +244,7 @@ The input variables are the output from \lstinline{ode45}: \lstinline{T}, which 
 
 \index{axis@\lstinline{axis}}
 
-A vector of four elements, \lstinline{minmax} is used inside the loop to set the axes of the figure.  
+A vector of four elements, \lstinline{minmax} is used inside the loop to set the axes of the figure.
 This is necessary because otherwise MATLAB scales the figure each time through the loop,
 so the axes keep changing, which makes the animation hard to watch.
 
@@ -287,8 +287,8 @@ Here's an example:
     tspan = 0:0.1:10;
 \end{code}
 
-The result is a vector that goes from 0 to 10 with a step size of 0.1.  
-Passing \lstinline{tspan} to \lstinline{ode45} in this form doesn't affect the accuracy of the results; 
+The result is a vector that goes from 0 to 10 with a step size of 0.1.
+Passing \lstinline{tspan} to \lstinline{ode45} in this form doesn't affect the accuracy of the results;
 \lstinline{ode45} still uses variable time steps to generate the estimates, but then it interpolates them before returning the results.
 
 \index{step size}
@@ -312,7 +312,7 @@ complex or the time step is small.
 
 \section{Chapter Review}
 
-This chapter presented two new tools, \lstinline{fminsearch} and \lstinline{animate}.  
+This chapter presented two new tools, \lstinline{fminsearch} and \lstinline{animate}.
 The MATLAB function \lstinline{fminsearch} searches efficiently for the minimum of a function and can be adapted to search for the maximum, too.
 The \lstinline{animate} function is one I wrote to read results from \lstinline{ode45} and generate an animation; the version in this chapter works with the results from the baseball simulation, but it can be adapted for other simulations.
 
@@ -325,7 +325,7 @@ In the next chapter, we move on to a new example, celestial mechanics, which des
 
 Before you go on, you might want to work on the following exercises.
 
-\subsection{Exercise 1}
+\begin{ex}
 
 \index{Manny Ramirez}
 \index{Boston Red Sox}
@@ -358,9 +358,10 @@ You can solve this problem in two steps:
 
 \end{enumerate}
 
+\end{ex}
 
 
-\subsection{Exercise 2}
+\begin{ex}
 \label{golf}
 
 \index{golf ball}
@@ -381,6 +382,4 @@ coefficient of lift is proportional to the spin rate; for a ball
 spinning at 3000~rpm it is about 0.1.  The coefficient of drag of a
 golf ball is about 0.2 as long as the ball is moving faster than \SI{20}{\meter\per\second}.
 
-
-
-
+\end{ex}

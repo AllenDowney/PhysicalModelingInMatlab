@@ -93,7 +93,7 @@ is good enough for most purposes.
 \index{numerical method}
 
 Techniques that generate numerical solutions are called
-\emph{numerical \mbox{methods}}.  
+\emph{numerical \mbox{methods}}.
 The nice thing about the method we just used is that it's simple.  But it doesn't always
 work, and it's not often used in practice.
 We'll see a better alternative in the next section.
@@ -172,7 +172,7 @@ you can provide both.
 ans = 3
 \end{code}
 
-The second argument is a vector that contains two elements.  
+The second argument is a vector that contains two elements.
 
 \index{vector}
 
@@ -199,7 +199,7 @@ ans = 3
 Not surprisingly, it starts by computing $f(2)$ and $f(4)$.  Then it computes a point in the interval, $2.75$, and evaluates $f$ there.  After each iteration, the interval gets smaller and the guess gets closer to the true root.
 The \lstinline{fzero} function stops when the interval is so small that the estimated
 zero is correct to about 15~digits.
- 
+
 If you'd like to know more about how \lstinline{fzero} works, see Chapter~\ref{howfzero}.
 
 
@@ -224,7 +224,7 @@ The error occurs because MATLAB treats the first argument as a function call, so
 Another common problem is writing an error function that never
 assigns a value to the output variable.  In general, functions should
 \emph{always} assign a value to the output variable, but MATLAB doesn't
-enforce this rule, so it's easy to forget.  
+enforce this rule, so it's easy to forget.
 
 For example, if you
 write
@@ -325,11 +325,11 @@ When you call \lstinline{ezplot}, you might get the following warning (or error,
 
 \begin{code}
 Warning: Function failed to evaluate on array inputs;
-vectorizing the function may speed up its evaluation and 
-avoid the need to loop over array elements. 
+vectorizing the function may speed up its evaluation and
+avoid the need to loop over array elements.
 \end{code}
 
-This means that MATLAB tried to call \lstinline{error_func} with a vector, and it failed. 
+This means that MATLAB tried to call \lstinline{error_func} with a vector, and it failed.
 The problem is that it uses the \lstinline{*} and \lstinline{^} operators.  With vectors, those operators don't do what we want, which is \emph{element-wise} multiplication and exponentiation
 (see ``\nameref{elementwise}'' on page~\pageref{elementwise}).
 
@@ -362,7 +362,7 @@ a function.
 \index{shadow}
 
 As a result, if you have a variable with the same name as a function,
-the variable \emph{shadows} the function; metaphorically, you can't see the function because the variable is in the way.  
+the variable \emph{shadows} the function; metaphorically, you can't see the function because the variable is in the way.
 
 For example, if you assign
 a value to \lstinline{sin} and then try to use the \lstinline{sin} function, you
@@ -374,7 +374,7 @@ might get an error:
 Index exceeds the number of array elements (1).
 
 'sin' appears to be both a function and a variable.
-If this is unintentional, use 'clear sin' to remove 
+If this is unintentional, use 'clear sin' to remove
 the variable 'sin' from the workspace.
 \end{code}
 
@@ -464,7 +464,7 @@ In the next chapter, we'll write functions that take vectors as inputs and retur
 
 Before you go on, you might want to work on the following exercises.
 
-\subsection{Exercise~1}
+\begin{ex}
 
 \begin{enumerate}
 
@@ -490,9 +490,10 @@ value?
 \end{enumerate}
 
 % cheby6.m
+\end{ex}
 
 
-\subsection{Exercise~2}
+\begin{ex}
 \label{duck}
 
 When a duck is floating on water, how much of its body is submerged?\footnote{This exercise is adapted from C.~F.~Gerald and P.~O.~Wheatley, \emph{Applied Numerical Analysis}, 4th edition (Boston: Addison-Wesley, 1989).}
@@ -545,3 +546,4 @@ Our goal is to find values of $d$ that are roots of this equation.
 % TODO: Find places in the book where error messages are getting syntax highlighting, and put them in a verbatim environment.
 
 
+\end{ex}

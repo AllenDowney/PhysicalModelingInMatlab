@@ -2,7 +2,7 @@
 \label{functions}
 
 
-This chapter introduces the most important idea in computer programming: \mbox{functions}! 
+This chapter introduces the most important idea in computer programming: \mbox{functions}!
 To explain why functions are so important, I'll start by explaining one of the problems they solve: name collisions.
 
 \index{function}
@@ -49,7 +49,7 @@ this problem is one of several motivations for functions.
 A \emph{function} is like a script, except that each function has its own workspace, so any variables defined
 inside a function only exist while the function is running and don't
 interfere with variables in other workspaces, even if they have the
-same name. 
+same name.
 Function inputs and outputs are defined carefully to avoid
 unexpected interactions.
 
@@ -339,7 +339,7 @@ function res = sum_squares(a, b)
     res = a^2 + b^2;
 end
 \end{lstlisting}
-  
+
 This function computes the sum of squares of two numbers, \lstinline{a}
 and \lstinline{b}.
 
@@ -397,10 +397,11 @@ A \emph{silent function} doesn't display anything, generate a figure, or have an
 \section{Exercise}
 
 Before you go on, you might want to work on the following exercise.
-\subsection{Exercise~1}
+
+\begin{ex}
 \label{hypotenuse_exercise}
 Write a function called \textbf{\lstinline{hypotenuse}} that takes two parameters, \textbf{\lstinline{a}} and \textbf{\lstinline{b}}, that represent the lengths of two sides of a right triangle.  It should assign to \lstinline{res} the length of the third side of the triangle, given by the formula
 
 \[ c = \sqrt{a^2 + b^2} \]
 
-
+\end{ex}
