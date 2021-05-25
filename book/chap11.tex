@@ -148,12 +148,12 @@ plot(T, Y)
 
 
 \begin{figure}
-\includegraphics{images/figure11_01_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure11_01_new.eps}}
 \caption{Altitude versus time for an object in free fall}
 \label{fig:penny}
 \end{figure}
 
-Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and picks up speed.  Between 8 and 9 seconds, the altitude reaches 0, which means the penny hits the sidewalk.  But \lstinline{ode45} doesn't know where the ground is, so \linebreak the penny keeps going through 0 into negative altitude.  We'll solve that problem in the next section.
+Figure~\ref{fig:penny} shows the result.  Altitude drops slowly at first and picks up speed.  Between 8 and 9 seconds, the altitude reaches 0, which means the penny hits the sidewalk.  But \lstinline{ode45} doesn't know where the ground is, so  the penny keeps going through 0 into negative altitude.  We'll solve that problem in the next section.
 
 \section{ODE Events}
 \label{events}
@@ -314,7 +314,7 @@ In the previous version, \lstinline{dvdt} is always \lstinline{-9.8}, the accele
 In this version, we call \lstinline{acceleration} to compute the total acceleration due to gravity and drag .
 
 \begin{figure}[ht]
-\includegraphics{images/figure11_02_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure11_02_new.eps}}
 \caption{Altitude versus time for a penny in free fall with air resistance}
 \label{fig:penny2}
 \end{figure}

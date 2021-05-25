@@ -20,7 +20,7 @@ Window.  The other \emph{helper functions} can be called from anywhere inside th
 \index{helper function}
 \index{function!helper}
 
-Keeping multiple functions in one file is convenient, but it makes \linebreak debugging
+Keeping multiple functions in one file is convenient, but it makes  debugging
 difficult because you can't call helper functions from the Command
 Window.
 
@@ -210,7 +210,7 @@ After computing the growth rate, we add an element both \lstinline{T} and \lstin
 If you run the code, you should get a plot of population over time, as shown in Figure~\ref{fig:euler}. 
 
 \begin{figure}[ht]
-\includegraphics{images/figure09_01_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure09_01_new.eps}}
 \caption{Solution to a simple differential equation by Euler's method}
 \label{fig:euler}
 \end{figure}
@@ -221,7 +221,7 @@ As you can see, the population doubles in a little less than 4 hours.
 \section{Solving ODEs with ode45}
 \label{ode45}
 
-A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that's not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and \linebreak they are much more accurate.
+A limitation of Euler's method is that it assumes that the derivative is constant between time steps, and that's not generally true.  Fortunately, there are better methods that estimate the derivative between time steps, and  they are much more accurate.
 
 \index{time step} 
 \index{ode45@\lstinline{ode45}}
@@ -259,7 +259,7 @@ The \lstinline{ode45} function is the first function we've seen that returns \em
 In order to store them, we have to assign them to two variables, \lstinline{T} and \lstinline{Y}. Figure~\ref{fig:runge} shows the results.
 
 \begin{figure}[ht]
-\includegraphics{images/figure09_02_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure09_02_new.eps}}
 \caption{Solutions to a simple differential equation using Euler's method and \lstinline{ode45}}
 \label{fig:runge}
 \end{figure}
@@ -354,7 +354,7 @@ The third argument is the initial population, $y(0) = 1000$.
 Figure~\ref{fig:rats} shows the results. 
 
 \begin{figure}[ht]
-\includegraphics{images/figure09_03_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure09_03_new.eps}}
 \caption{Solutions to a simple differential equation by Euler's method and \lstinline{ode45}}
 \label{fig:rats}
 \end{figure}
@@ -536,7 +536,7 @@ can drink comfortably is \SI{60}{\celsius}.
 
 If the temperature of the coffee drops by \SI{0.7}{\celsius} during the first minute, how long will you have to wait to drink your coffee?
 
-You can answer this question with Newton's Law of Cooling (see \linebreak \url{https://greenteapress.com/matlab/newton}):
+You can answer this question with Newton's Law of Cooling (see  \url{https://greenteapress.com/matlab/newton}):
 %
 \begin{equation*}
 \frac{dy}{dt}(t) = -k (y(t) - e)
@@ -562,7 +562,7 @@ Here are some suggestions for getting started:
 \begin{enumerate}
 
 \item Create a file named \emph{coffee.m} and write a function
-called \lstinline{coffee} that takes no input variables.  Put a simple statement like \lstinline{x = 5} in the body of the function and invoke \lstinline{coffee} from the Command \linebreak Window.
+called \lstinline{coffee} that takes no input variables.  Put a simple statement like \lstinline{x = 5} in the body of the function and invoke \lstinline{coffee} from the Command  Window.
 
 \item Add a helper function called \lstinline{rate_func} that takes \lstinline{t} and \lstinline{y} and computes $dy/dt$.  In this case, \lstinline{rate_func} does not actually depend on $t$; nevertheless, your function has to take $t$ as the first input variable in order to work with \lstinline{ode45}.
 

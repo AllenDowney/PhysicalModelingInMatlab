@@ -8,7 +8,7 @@ In this chapter we ``open the hood,'' looking more closely at how some of the to
 \section{How ode45 Works}
 \label{howode45}
 
-According to the MATLAB documentation, \lstinline{ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair.''  You can read about it at \linebreak \url{https://greenteapress.com/matlab/runge}, but I'll give you a sense of it here.
+According to the MATLAB documentation, \lstinline{ode45} uses ``an explicit Runge-Kutta formula, the Dormand-Prince pair.''  You can read about it at  \url{https://greenteapress.com/matlab/runge}, but I'll give you a sense of it here.
 
 \index{Runge-Kutta}
 \index{ode45@\lstinline{ode45}}
@@ -69,7 +69,7 @@ When \lstinline{rate_func} runs, it plots a red circle at each location and a sh
 Figure~\ref{fig:odeplot1} shows the result;  \lstinline{ode45} computes 10 time steps (not counting the initial condition) and evaluates the rate function 61 times.
 
 \begin{figure}[h]
-\includegraphics{images/figure15_01_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure15_01_new.eps}}
 \caption{Points where \lstinline{ode45} evaluates the rate function}
 \label{fig:odeplot1}
 \end{figure}
@@ -79,7 +79,7 @@ The dark squares at $0.8$ to $1.2$ show the values that were returned as part of
 The circles show the places where the rate function was evaluated.
 
 \begin{figure}[h]
-\includegraphics[scale=0.90]{images/figure15_02_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure15_02_new.eps}}
 \caption{Points where \lstinline{ode45} evaluates the rate function, zoomed in}
 \label{fig:odeplot2}
 \end{figure}
@@ -92,7 +92,7 @@ In a sense, the rate function is answering a hypothetical question: ``\emph{If} 
 
 
 At each time step, \lstinline{ode45} actually computes \emph{two} estimates of the next value.
-By comparing them, it can estimate the magnitude of the error, \linebreak which it uses to adjust the time step.
+By comparing them, it can estimate the magnitude of the error,  which it uses to adjust the time step.
 If the error is too big, it uses a smaller time step; if the error is small enough, it uses a bigger time step.
 Because \lstinline{ode45} is \emph{adaptive} in this way, it minimizes the number of times it calls the rate function to achieve a given level of accuracy.
 
@@ -113,7 +113,7 @@ According to the MATLAB documentation, \lstinline{fzero} uses ``a combination of
 To understand what that means, suppose we're trying to find a root of a function of one variable, $f(x)$, and assume we have evaluated the function at two places, $x_1$ and $x_2$, and found that the results have opposite signs.  Specifically, assume $f(x_1) > 0$ and $f(x_2) < 0$, as shown in Figure~\ref{fig:secant}.
 
 \begin{figure}[h]
-\includegraphics{images/figure15_03_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure15_03_new.eps}}
 \caption{Initial state of a root-finding search}
 \label{fig:secant}
 \end{figure}
@@ -156,7 +156,7 @@ $x_1$, $x_2$, and $x_3$, and found that $x_2$ yields the lowest
 value. Figure~\ref{fig:golden1} shows this initial state.
 
 \begin{figure}[h]
-\includegraphics{images/figure15_04_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure15_04_new.eps}}
 \caption{Initial state of a golden-section search}
 \label{fig:golden1}
 \end{figure}
@@ -172,7 +172,7 @@ $f(x_4)$ is greater than $f(x_2)$ or not.
 Figure~\ref{fig:golden2} shows the two possible states.
 
 \begin{figure}[h]
-\includegraphics{images/figure15_05_new.eps}
+\centerline{\includegraphics[scale=0.8]{images/figure15_05_new.eps}}
 \caption{Possible states of a golden-section search after evaluating $f(x_4)$}
 \label{fig:golden2}
 \end{figure}

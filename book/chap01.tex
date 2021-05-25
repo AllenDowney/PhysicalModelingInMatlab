@@ -11,7 +11,7 @@ In the lower-left corner of the figure is the \emph{system}, something in the re
 details can be left out; removing details is called \emph{abstraction}.
 
 \begin{figure}[h]
-  \includegraphics{images/figure01_01_new.eps}
+  \centerline{\includegraphics[scale=0.8]{images/figure01_01_new.eps}}
   \index{modeling}
   \caption{The modeling process}
   \label{fig:modeling}
@@ -20,7 +20,7 @@ details can be left out; removing details is called \emph{abstraction}.
 \index{system}
 \index{abstraction}
 
-\newpage
+
 The result of abstraction is a \emph{model}, shown in the upper left; a model is a description of the system that includes only the features we think are essential.  A model can be represented in the form of diagrams and equations, which can be used for mathematical analysis.  It can also be implemented in the form of a computer program, which can run simulations.
 
 \index{model}
@@ -45,7 +45,7 @@ For any physical system there are many possible models, each one including and e
 Sometimes the best model is the most detailed.  If we include more features, the model is more realistic, and we expect its predictions to be more accurate. \index{realism}
 But often a simpler model is better.  If we include only the essential features and leave out the rest, we get models that are easier to work with, and the explanations they provide can be clearer and more compelling. \index{simplicity}
 
-As an example, suppose someone asked you why the orbit of the Earth is nearly elliptical.  If you model the Earth and Sun as point masses (ignoring their actual size), compute the gravitational force between them using Newton's law of universal gravitation, and compute the resulting orbit \linebreak using Newton's laws of motion, you can show that the result is an ellipse.\index{orbit}\index{ellipse}
+As an example, suppose someone asked you why the orbit of the Earth is nearly elliptical.  If you model the Earth and Sun as point masses (ignoring their actual size), compute the gravitational force between them using Newton's law of universal gravitation, and compute the resulting orbit  using Newton's laws of motion, you can show that the result is an ellipse.\index{orbit}\index{ellipse}
 
 Of course, the actual orbit of Earth is not a perfect ellipse, because of the gravitational forces of the Moon, Jupiter, and other objects in the solar system, and because Newton's laws of motion are only approximately true (they don't take into account relativistic effects).
 \index{Newton}%
@@ -57,7 +57,7 @@ Choosing the best model depends on what the model is for.  It is usually a good 
 
 \index{iterative modeling}
 
-Comparing the results of successive models provides a form of \emph{internal \linebreak validation} so you can catch conceptual, mathematical, and software errors.  And by adding and removing features, you can tell which ones have the biggest effect on the results, and which can be ignored.
+Comparing the results of successive models provides a form of \emph{internal  validation} so you can catch conceptual, mathematical, and software errors.  And by adding and removing features, you can tell which ones have the biggest effect on the results, and which can be ignored.
 \index{internal validation}%
 \index{validation!internal}%
 \index{external validation}%
@@ -96,7 +96,7 @@ If you type an expression and then press \keycap{enter} (or \keycap{return}), MA
 \emph{evaluates} the expression and prints the result.
 
 \begin{code}
->> ***2 + 1***
+>> 2 + 1
 ans = 3
 \end{code}
 
@@ -112,12 +112,12 @@ don't have to put spaces between them; some people do and some people
 don't. Here's an example with no spaces:
 
 \begin{code}
->> ***1+2+3+4+5+6+7+8+9***
+>> 1+2+3+4+5+6+7+8+9
 ans = 45
 \end{code}
 
 Speaking of spaces, you might have noticed that MATLAB puts a blank
-line between \lstinline{ans =} and the result.  In my examples I'll leave it out to \linebreak save room.
+line between \lstinline{ans =} and the result.  In my examples I'll leave it out to  save room.
 
 \index{multiplication}
 \index{division}
@@ -129,7 +129,7 @@ Subtraction is denoted by a minus sign (\lstinline{-}), multiplication is design
 an asterisk (\lstinline{*}), division is denoted by a forward slash (\lstinline{/}).
 
 \begin{code}
->> ***2*3 - 4/5***
+>> 2*3 - 4/5
 ans = 5.2000
 \end{code}
 
@@ -138,7 +138,7 @@ symbol, sometimes called ``caret'' or ``hat.''  So, 2 raised to the
 16th power is
 
 \begin{code}
->> ***2^16***
+>> 2^16
 ans = 65536
 \end{code}
 
@@ -151,7 +151,7 @@ If you want to override the order of operations, you can use parentheses.
 \index{parentheses}
 
 \begin{code}
->> ***2 * (3-4) / 5***
+>> 2 * (3-4) / 5
 ans = -0.4000
 \end{code}
 
@@ -183,7 +183,7 @@ use them:
 \index{math function!trigonometric}
 
 \begin{code}
->> ***sin(1)***
+>> sin(1)
 ans = 0.8415
 \end{code}
 
@@ -203,7 +203,7 @@ tangent, which is the angle in radians between the positive x-axis and
 the point with the given x- and y-coordinates.
 
 \begin{code}
->> ***atan2(1,1)***
+>> atan2(1,1)
 ans = 0.7854
 \end{code}
 
@@ -216,7 +216,7 @@ it.  It's just an example of a function with multiple arguments.
 MATLAB also provides exponential functions, like \lstinline{exp}, which computes $e$ raised to the given power.  So \lstinline{exp(1)} is just $e$:
 
 \begin{code}
->> ***exp(1)***
+>> exp(1)
 ans = 2.7183
 \end{code}
 
@@ -225,7 +225,7 @@ ans = 2.7183
 The inverse of \lstinline{exp} is \lstinline{log}, which computes the logarithm base $e$:
 
 \begin{code}
->> ***log(exp(3))***
+>> log(exp(3))
 ans = 3
 \end{code}
 
@@ -240,7 +240,7 @@ another.
 More generally, you can use a function call as an operand in an \mbox{expression}.
 
 \begin{code}
->> ***sqrt(sin(0.5)^2 + cos(0.5)^2)***
+>> sqrt(sin(0.5)^2 + cos(0.5)^2)
 ans = 1
 \end{code}
 
@@ -266,7 +266,7 @@ example, the name \lstinline{pi} refers to the
 mathematical quantity $\pi$, which is approximately this:
 
 \begin{code}
->> ***pi***
+>> pi
 ans = 3.1416
 \end{code}
 
@@ -282,13 +282,13 @@ You can use a variable name anywhere you can use a number---for example, as
 an operand in an expression,
 
 \begin{code}
->> ***pi * 3^2***
+>> pi * 3^2
 ans = 28.2743
 \end{code}
 or as an argument to a function:
 
 \begin{code}
->> ***sin(pi/2)***
+>> sin(pi/2)
 ans = 1
 \end{code}
 
@@ -300,10 +300,10 @@ a variable named \lstinline{ans}.  You can use \lstinline{ans} in a subsequent
 calculation as shorthand for ``the value of the previous expression.''
 
 \begin{code}
->> ***3^2 + 4^2***
+>> 3^2 + 4^2
 ans = 25
 
->> ***sqrt(ans)***
+>> sqrt(ans)
 ans = 5
 \end{code}
 
@@ -322,7 +322,7 @@ equals sign (\lstinline{=}), used like so:
 \index{statement!assignment}
 
 \begin{code}
->> ***x = 6 * 7***
+>> x = 6 * 7
 x = 42
 \end{code}
 
@@ -347,11 +347,11 @@ Spaces are not allowed.  Variable names are
 Let's look at some examples of assignment statements.
 
 \begin{code}
->> ***fibonacci0 = 1;***
+>> fibonacci0 = 1;
 
->> ***LENGTH = 10;***
+>> LENGTH = 10;
 
->> ***first_name = 'bob'***
+>> first_name = 'bob'
 first_name = 'bob'
 \end{code}
 
@@ -394,10 +394,10 @@ names of the variables in the workspace:
 % \index{command!\lstinline{who}}
 
 \begin{code}
->> ***x = 5;***
->> ***y = 7;***
->> ***z = 9;***
->> ***who***
+>> x = 5;
+>> y = 7;
+>> z = 9;
+>> who
 
 Your variables are:
 
@@ -407,8 +407,8 @@ x  y  z
 The \lstinline{clear} command removes specified variables from the workspace:
 
 \begin{code}
->> ***clear x***
->> ***who***
+>> clear x
+>> who
 
 Your variables are:
 
@@ -423,13 +423,13 @@ But be careful: if you don't specify any variables, \lstinline{clear} removes th
 To display the value of a variable, you can use the \lstinline{disp} function:
 
 \begin{code}
->> ***disp(z)***
+>> disp(z)
      9
 \end{code}
 but it's easier to just type the variable name:
 
 \begin{code}
->> ***z***
+>> z
 z = 9
 \end{code}
 
@@ -443,7 +443,7 @@ example, if your computation uses $e$ frequently, you might
 want to compute it once and save the result.
 
 \begin{code}
->> ***e = exp(1)***
+>> e = exp(1)
 e = 2.7183
 \end{code}
 
@@ -452,10 +452,10 @@ mathematics more apparent.  If you're computing the area of a circle,
 you might want to use a variable named \lstinline{r}:
 
 \begin{code}
->> ***r = 3***
+>> r = 3
 r = 3
 
->> ***area = pi * r^2***
+>> area = pi * r^2
 area = 28.2743
 \end{code}
 
@@ -544,7 +544,7 @@ In this case the error message is helpful, but in other cases the results can be
 For example, if you call \lstinline{abs}, which computes absolute values, and forget the parentheses, you get a surprising result:
 
 \begin{code}
->> ***abs pi***
+>> abs pi
 ans =  112   105
 \end{code}
 
@@ -605,7 +605,7 @@ enter \textbf{\lstinline{help}} followed by the name of a command.
 % avoid nonsensical syntax highlighting.
 
 \begin{code}
->> ***help sin***
+>> help sin
 \end{code}
 
 You should see output like this:
@@ -703,3 +703,4 @@ As an exercise, compute the time it takes for the penny to reach the sidewalk if
 $a = \SI{9.8}{\meter\per\second\squared}$ until it reaches terminal velocity, then falls with constant velocity until it hits the sidewalk.
 
 The result you get is not exact, but it's a pretty good approximation.
+
