@@ -1,8 +1,7 @@
-function orbit_func()
-    % calculate and plot the trajectories of two bodies with
-    % the given parameters, acting under the force of gravity.
-    % by Allen Downey, available from http://wb/icb/studio/code/
+% Calculate and plot the trajectories of two bodies with
+% the given parameters, acting under the force of gravity.
 
+function binary()
     au = 150e9;                % astronomical unit in meters
     day = 24 * 60 * 60;        % year in seconds
     sunmass = 2.0e30;          % mass of the sun in kg

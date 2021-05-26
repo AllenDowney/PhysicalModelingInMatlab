@@ -1,8 +1,6 @@
-function orbit_func()
-    % calculate and plot the trajectories of two bodies with
-    % the given parameters, acting under the force of gravity.
-    % by Allen Downey, available from http://wb/icb/studio/code/
+% Calculate and plot the trajectory of a planet acting under the force of gravity.
 
+function planet()
     d = 1;             % initial distance between stars
     v = 0.6;           % initial velocity of the small one
     m1 = 1;            % mass of the large star
