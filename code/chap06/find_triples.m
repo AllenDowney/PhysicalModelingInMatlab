@@ -7,7 +7,7 @@ function res = find_triples (n)
                 continue
             end
             c = hypotenuse(a, b);
-            if isintegral(c)
+            if a^2 + b^2 == c^2
                 [a, b, c]
             end
         end

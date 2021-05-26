@@ -1,6 +1,5 @@
-% Plot the first n elements of the Fibonacci series
-% Precondition: n is a positive integer.
-% Postcondition: the result is stored in ans.
+% Plot the first `n` elements of the Fibonacci series
+% Precondition: `n` is a positive integer.
 
 F(1) = 1
 F(2) = 1
