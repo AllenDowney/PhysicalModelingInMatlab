@@ -1,8 +1,10 @@
+% Make a plot showing results from euler.
+
 function res = euler()
     T(1) = 0;
     Y(1) = 5;
     dt = 0.1;
-    
+
     for i=1:40
         r = rate_func(T(i), Y(i));
         T(i+1) = T(i) + dt;

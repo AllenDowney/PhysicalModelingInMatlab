@@ -1,3 +1,5 @@
+% Starting code for the duck problem.
+
 function res = duck()
     error = error_func(10)
 end

@@ -1,3 +1,5 @@
+% Rate function for an object in freefall.
+
 function res = freefall(t, X)
     y = X(1);      % the first component is position
     v = X(2);      % the second component is velocity

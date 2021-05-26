@@ -1,3 +1,5 @@
+% Plot a solution to the Lorenz difference equations.
+
 sigma = 10;
 b = 8/3;
 r = 28;

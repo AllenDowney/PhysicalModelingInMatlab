@@ -1,4 +1,6 @@
-sigma = 10; 
+% Plot a solution to the Lorenz equations.
+
+sigma = 10;
 b = 8/3;
 r = 28;
 dt = 0.01;

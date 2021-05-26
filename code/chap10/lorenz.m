@@ -1,9 +1,9 @@
-% Solve the Lorentz system and plot the results
+% Solve the Lorentz system and plot the results.
 
 function res = lorenz()
     % Run the ode solver
     [T, M] = ode45(@rate_func, [0 30], [1 2 3]);
-    
+
     % plot the results
     X = M(:,1);
     Y = M(:,2);
@@ -12,7 +12,7 @@ function res = lorenz()
     xlabel('X')
     ylabel('Y')
     zlabel('Z')
-    
+
     % uncomment this to see the trajectory animated
     % comet3(X, Y, Z);
 end
@@ -34,5 +34,5 @@ function res = rate_func(t, V)
     dzdt = x*y - b*z;
 
     % pack the results in a column vector
-    res = [dxdt; dydt; dzdt];    
+    res = [dxdt; dydt; dzdt];
 end

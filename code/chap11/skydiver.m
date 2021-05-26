@@ -4,27 +4,27 @@ function skydiver()
     t = 0;
     X = [4000, 0];
     rate_func(t, X)
-   
+
     tspan = [0, 1000];
     options = odeset('Events', @event_func);
     [T, M] = ode45(@rate_func, tspan, X, options);
-    
+
     Y = M(:, 1);
     V = M(:, 2);
-    
+
     plot(T, Y)
     xlabel('Time (s)')
     ylabel('Altitude (m)')
-    
+
     T(end)
     M(end, :)
 end
 
 function res = rate_func(t, X)
     % unpack position and velocity
-    y = X(1);      
-    v = X(2);      
-    
+    y = X(1);
+    v = X(2);
+
     % compute the derivatives
     dydt = v;
     dvdt = acceleration(t, X);
@@ -36,14 +36,14 @@ end
 function res = acceleration(t, X)
     b_free = 0.2;             % drag constant in kg/m
     b_parachute = 29;
-    
+
     y = X(1);
     if y < 8
         b = b_parachute;
     else
         b = b_free;
     end
-    
+
     v = X(2);                 % velocity in m/s
     f_d = -sign(v) * b * v^2; % drag force in N
 

@@ -1,31 +1,32 @@
 % Simulate a penny falling from the Empire State Building.
+% This version includes drag.
 
 function penny2()
     t = 0;
     X = [381, 0];
     rate_func(t, X)
-   
+
     tspan = [0, 30];
     options = odeset('Events', @event_func);
     [T, M] = ode45(@rate_func, tspan, X, options);
-    
+
     Y = M(:, 1);
     V = M(:, 2);
-    
+
     plot(T, Y)
     xlabel('Time (s)')
     ylabel('Altitude (m)')
     saveas(gcf, '../../book/figs/penny2.eps', 'epsc')
-    
+
     T(end)
     M(end, :)
 end
 
 function res = rate_func(t, X)
     % unpack position and velocity
-    y = X(1);      
-    v = X(2);      
-    
+    y = X(1);
+    v = X(2);
+
     % compute the derivatives
     dydt = v;
     dvdt = acceleration(t, X);

@@ -1,3 +1,5 @@
+% Plot results of the Lorenz equations.
+
 [T, M] = ode45(@lorenz, [0,30], [3, 2, 23]);
 X = M(:,1);
 Y = M(:,2);
