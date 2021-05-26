@@ -1,3 +1,5 @@
+% Solve the Manny Ramirez problem using fminsearch.
+
 function res = manny()
     % find the velocity that _just_ gets the ball over the wall
     initial_guess = 45;         % m/s
@@ -6,9 +8,9 @@ function res = manny()
 end
 
 function res = crossover_func(velocity)
-    % this function crosses through zero when the height of the ball at
-    % the wall is equal to the goal
-    goal = 97;         % height of the wall in meters
+    % this function crosses through zero when the height of 
+    % the ball at the wall is equal to the goal
+    goal = 12;         % height of the wall in meters
     res = optimal_height_at_wall_func(velocity) - goal;
 end
 
@@ -47,30 +49,30 @@ function res = height_func(velocity, angle)
     X = M(:,1);
     Y = M(:,2);
     %plot(X, Y)
-    res = X(end);      % the result is the final Y position in meters
+    res = Y(end);      % the result is the final Y position in meters
 end
 
 function [value,isterminal,direction] = events_func(t,W)
     % stop the integration when the ball gets to the wall.
-    wall_range = 97;                  % distance to the wall in meters
-    value = W(2) - 12;        % equals 0 when you hit the wall
+    wall_range = 97;             % distance to the wall in meters
+    value = W(1) - wall_range;   % equals 0 when you hit the wall
     isterminal = 1;
-    direction = -1;
+    direction = 1;
 end
 
 function res = slope_func(t, W)
     % this is a slope function invoked by ode45
     % W contains 4 elements, Rx, Ry, Vx, and Vy
-    P = W(1:2);             % position of the ball in meters
+    R = W(1:2);             % position of the ball in meters
     V = W(3:4);             % velocity of the ball in m/s
 
-    dPdt = V;
-    dVdt = acceleration_func(t, P, V);
+    dRdt = V;
+    dVdt = acceleration_func(t, R, V);
 
-    res = [dPdt; dVdt];
+    res = [dRdt; dVdt];
 end
 
-function res = acceleration_func(t, P, V)
+function res = acceleration_func(t, R, V)
     % compute acceleration due to gravity and drag
     Ag = [0; -9.8];                   % m / s^2
 
@@ -80,7 +82,8 @@ function res = acceleration_func(t, P, V)
 end
 
 function Fd = drag_force_func(V)
-    % compute the drag force of a baseball, given the velocity in m/s
+    % compute the drag force of a baseball, given the velocity
+    % in m/s
     C = 0.3;      % dimensionless
     rho = 1.3;    % kg / m^3
     A = 0.0042;   % m^2
@@ -88,4 +91,3 @@ function Fd = drag_force_func(V)
 
     Fd = - 1/2 * C * rho * A * v * V;       % kg m / s^2
 end
-

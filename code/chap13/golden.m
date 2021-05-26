@@ -1,3 +1,5 @@
+% Demonstrate a golden section search.
+
 function res = optimize(V)
     x1 = V(1);
     x2 = V(2);
@@ -92,5 +94,3 @@ function Fd = drag_force(V)
 
     Fd = - 1/2 * C * rho * A * v * V;
 end
-
-

@@ -1,19 +1,21 @@
+% Simulate the flight of a baseball with drag.
+
 function baseball2()
     P = [0; 1];       % initial position in m
     V = [40; 30];     % initial velocity in m/s
     W = [P; V];       % initial condition
     rate_func(0, W)
-    
+
     tspan = [0 6];
     [T, M] = ode45(@rate_func, tspan, W);
-    
+
     X = M(:, 1);
     Y = M(:, 2);
-    
+
     clf; hold on
     plot(T, X)
     plot(T, Y)
-    
+
     xlabel('Time (s)')
     ylabel('Position (m)')
     legend('X position', 'Y position', 'Location', 'northwest')

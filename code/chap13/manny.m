@@ -1,3 +1,5 @@
+% Solve the Manny Ramirez problem using a golden section search.
+
 function res = manny()
     % find the velocity that _just_ gets the ball over the wall
     initial_guess = 45;         % m/s
@@ -6,8 +8,8 @@ function res = manny()
 end
 
 function res = crossover_func(velocity)
-    % this function crosses through zero when the height of the ball at
-    % the wall is equal to the goal
+    % this function crosses through zero when the height of 
+    % the ball at the wall is equal to the goal
     goal = 12;         % height of the wall in meters
     res = height_at_wall_func(velocity) - goal;
 end
@@ -80,8 +82,8 @@ end
 
 function [value,isterminal,direction] = events_func(t,W)
     % stop the integration when the ball gets to the wall.
-    wall_range = 97;                  % distance to the wall in meters
-    value = W(1) - wall_range;        % equals 0 when you hit the wall
+    wall_range = 97;             % distance to the wall in meters
+    value = W(1) - wall_range;   % equals 0 when you hit the wall
     isterminal = 1;
     direction = 1;
 end
@@ -117,4 +119,3 @@ function Fd = drag_force_func(V)
 
     Fd = - 1/2 * C * rho * A * v * V;       % kg m / s^2
 end
-

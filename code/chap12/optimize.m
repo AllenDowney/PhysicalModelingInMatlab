@@ -1,6 +1,6 @@
-function res = optimal_angle(velocity)
-    % find the angle that yields the maximum range for
-    % a given velocity
+function res = optimize(velocity)
+    % Find the angle that yields the maximum range for
+    % a given velocity.
     angles = 20:70;
     for i=1:length(angles)
         angle = angles(i);

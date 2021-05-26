@@ -1,13 +1,15 @@
-function baseball3()
+% Animate the flight of a baseball.
+
+function baseball_anim()
     P = [0; 1];       % initial position in m
     V = [40; 30];     % initial velocity in m/s
     W = [P; V];       % initial condition
     rate_func(0, W)
-    
+
     tspan = 0:0.1:10;
     options = odeset('Events', @event_func);
     [T, M] = ode45(@rate_func, tspan, W, options);
-    
+
     animate(T, M)
 end
 
@@ -22,7 +24,7 @@ function animate(T,M)
         axis(minmax);
         plot(X(i), Y(i), 'o')
         drawnow;
-        
+
         if i < length(T)
             dt = T(i+1) - T(i);
             pause(dt);
@@ -63,6 +65,3 @@ function [value, isterminal, direction] = event_func(t, W)
     isterminal = 1;
     direction = -1;
 end
-
-
-
