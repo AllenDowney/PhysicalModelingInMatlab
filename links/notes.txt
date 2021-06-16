@@ -17,7 +17,7 @@ meld ../book.tex book.tex
 
 python gen_htaccess.py > htaccess
 
-5) pp htaccess into public_html
+5) cp htaccess into public_html
 
 cp htaccess ~/public_html/greent/matlab/.htaccess
 cd ~/public_html/greent; sh back
