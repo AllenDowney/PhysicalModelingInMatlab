@@ -1,6 +1,5 @@
 % Plot the ratios of successive elements of a Fibonacci sequence
-% Precondition: n is a positive integer.
-% Postcondition: the result is stored in ans.
+% Precondition: `n` is a positive integer.
 
 F(1) = 1
 F(2) = 1

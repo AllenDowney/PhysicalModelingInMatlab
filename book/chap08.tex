@@ -1,0 +1,541 @@
+\chapter{Functions of Vectors}
+
+
+Now that we have functions and vectors, we'll put them together to write functions that take vectors as input variables and return vectors as output variables.  You'll also see two patterns for computing with vectors: existential and universal quantification.
+
+
+\section{Functions and Vectors}
+
+In this section we'll look at common patterns involving functions and vectors, and you will learn how to write a single function that can work with \mbox{vectors} as well as scalars.
+
+\subsection{Vectors as Input Variables}
+
+Since many of the built-in functions take vectors as arguments,
+it should come as no surprise that you can write functions that
+take vectors as input.  Here's a simple (but not very useful) example:
+
+\index{vector}
+\index{input variable}
+
+\begin{code}
+function res = display_vector(X)
+    for i=1:length(X)
+        display(X(i))
+    end
+end
+\end{code}
+
+There's nothing special about this function.  The only
+difference from the scalar functions we've seen is that this one uses
+a capital letter to remind us that \lstinline{X} is a vector.
+
+Using \lstinline{display_vector} doesn't actually return a value; it just displays the elements of the vector it gets as an input variable:
+
+\begin{code}
+>> display_vector(1:3)
+    1
+    2
+    3
+\end{code}
+
+Here's a more interesting example that encapsulates the code
+from Listing~\ref{lst:vec_reduce} on page~\pageref{lst:vec_reduce} to add up the elements of a vector:
+
+\index{encapsulation}
+
+\begin{code}
+function res = mysum(X)
+    total = 0;
+    for i=1:length(X)
+        total = total + X(i);
+    end
+    res = total;
+end
+\end{code}
+
+I called this function \lstinline{mysum} to avoid a collision with the built-in
+function \lstinline{sum}, which does pretty much the same thing.
+
+\index{sum@\lstinline{sum}}
+
+Here's how you call it from the Command Window:
+
+\begin{code}
+>> total = mysum(1:3)
+total = 6
+\end{code}
+
+Because this function has an output variable, I made a
+point of assigning it to a variable.
+
+\index{output variable}
+
+
+\subsection{Vectors as Output Variables}
+
+There's also nothing wrong with assigning a vector to an output
+variable. Here's an example that encapsulates the code from
+Listing~\ref{lst:vec_apply} on page~\pageref{lst:vec_apply}:
+
+\begin{code}
+function res = mysquare(X)
+    for i=1:length(X)
+        Y(i) = X(i)^2;
+    end
+    res = Y;
+end
+\end{code}
+
+This function squares each element of \lstinline{X} and stores it as an element of \lstinline{Y}.  Then it assigns \lstinline{Y} to the output variable, \lstinline{res}.  Here's how we use this function:
+\index{apply}
+
+\begin{code}
+>> V = mysquare(1:3)
+V = 1     4     9
+\end{code}
+
+The input variable is a vector with the elements \lstinline{1,2,3}.  The output variable is a vector with the elements \lstinline{1,4,9}.
+
+
+
+
+\subsection{Vectorizing Functions}
+
+Functions that work on vectors will almost always work on scalars
+as well, because MATLAB considers a scalar to be a vector with
+length 1.
+
+\index{vectorizing}
+\index{function!vectorizing}
+
+\begin{code}
+>> mysum(17)
+ans = 17
+
+>> mysquare(9)
+ans = 81
+\end{code}
+
+Unfortunately, the converse isn't always true.  If you write
+a function with scalar inputs in mind, it might not work on vectors.
+
+But it might!  If the operators and functions
+you use in the body of your function work on vectors, then your
+function will probably work on vectors.
+For example, here's the very first function we wrote:
+
+\begin{code}
+function res = myfunc(x)
+    s = sin(x);
+    c = cos(x);
+    res = abs(s) + abs(c);
+end
+\end{code}
+
+And lo!  It turns out to work on vectors:
+
+\begin{code}
+>> Y = myfunc(1:3)
+Y = 1.3818    1.3254    1.1311
+\end{code}
+
+Some of the other functions we wrote don't work on vectors,
+but they can be patched up with just a little effort.  For example,
+here's \lstinline{hypotenuse} from Section~\ref{hypotenuse_exercise}:
+
+\begin{code}
+function res = hypotenuse(a, b)
+    res = sqrt(a^2 + b^2);
+end
+\end{code}
+
+This doesn't work on vectors because the \lstinline{^} operator
+tries to do matrix exponentiation, which only works on
+square matrices.
+
+\index{matrix exponentiation}
+
+\begin{code}
+>> hypotenuse(1:3, 1:3)
+Error using  ^  (line 51)
+Incorrect dimensions for raising a matrix to a power.
+Check that the matrix is square and the power is a scalar.
+To perform element-wise matrix powers, use '.^'.
+\end{code}
+
+But if you replace \lstinline{^} with the element-wise operator
+(\lstinline{.^}), it works!
+
+\index{element-wise operator}
+
+\begin{code}
+>> A = [3,5,8];
+>> B = [4,12,15];
+>> C = hypotenuse(A, B)
+
+C = 5    13    17
+\end{code}
+
+The function matches up corresponding elements from the two
+input vectors, so the elements of \lstinline{C} are the hypotenuses of
+the pairs $(3,4)$, $(5,12)$, and $(8,15)$, respectively.
+
+In general, if you write a function using only element-wise
+operators and functions that work on vectors, the new
+function will also work on vectors.
+
+
+\subsection{Sums and Differences}
+
+Another common vector operation is \emph{cumulative sum}, which takes a vector as an input and computes a new vector that contains all of the partial sums of the original.  In math notation, if $V$ is the original vector, the elements of the cumulative sum, $C$, are
+
+\index{cumulative sum}
+\index{sum!cumulative}
+
+\begin{equation*}
+C_i = \sum_{j=1}^i V_j
+\end{equation*}
+
+In other words, the $i$th element of $C$ is the sum of the first
+$i$ elements from $V$.  MATLAB provides a function named \lstinline{cumsum} that computes cumulative sums:
+
+\index{cumsum@\lstinline{cumsum}}
+
+\begin{code}
+>> X = 1:5
+
+X = 1     2     3     4     5
+
+>> C = cumsum(X)
+
+C = 1     3     6    10    15
+\end{code}
+
+The inverse operation of \lstinline{cumsum} is \lstinline{diff}, which computes
+the difference between successive elements of the input vector.
+
+\index{diff@\lstinline{diff}}
+
+\begin{code}
+>> D = diff(C)
+
+D = 2     3     4     5
+\end{code}
+
+Notice that the output vector is shorter by one than the input
+vector.  As a result, MATLAB's version of \lstinline{diff} is not
+exactly the inverse of \lstinline{cumsum}.  If it were, we would
+expect \lstinline{cumsum(diff(X))} to be \lstinline{X}:
+
+\begin{code}
+>> cumsum(diff(X))
+
+ans = 1     2     3     4
+\end{code}
+
+But it isn't.
+
+\begin{ex}
+Write a function named \lstinline{mydiff} that computes the
+inverse of \lstinline{cumsum} so that \lstinline{cumsum(mydiff(X))} and
+\lstinline{mydiff(cumsum(X))} both return \lstinline{X}.
+
+% mydiff.m
+\end{ex}
+
+
+\subsection{Products and Ratios}
+
+The multiplicative version of \lstinline{cumsum} is \lstinline{cumprod},
+which computes the \emph{cumulative product}.  In math notation,
+that's
+
+\index{cumulative product}
+\index{product!cumulative}
+\index{cumprod@\lstinline{cumprod}}
+
+\begin{equation*}
+P_i = \prod_{j=1}^i V_j
+\end{equation*}
+
+In MATLAB, that looks like
+
+\begin{code}
+>> V = 1:5
+
+V = 1     2     3     4     5
+
+>> P = cumprod(V)
+
+P = 1     2     6    24   120
+\end{code}
+
+MATLAB doesn't provide the multiplicative version
+of \lstinline{diff}, which would be called \lstinline{ratio}, and which would
+compute the ratio of successive elements of the input vector.
+
+\begin{ex}
+Write a function named \lstinline{myratio} that computes the
+inverse of \lstinline{cumprod}, so that \lstinline{cumprod(myratio(X))} and
+\lstinline{myratio(cumprod(X))} both
+return \lstinline{X}.
+
+You can use a loop, or if you want to be clever, you can take
+advantage of the fact that $e^{\ln a + \ln b} = a b$.
+
+%If you apply \lstinline{myratio} to a vector that contains Fibonacci numbers, you can confirm that the ratio of successive elements converges on the golden ratio, $(1+\sqrt{5})/2$ (see Section~\ref{fibratio}).
+
+\end{ex}
+
+
+\section{Computing with Vectors}
+
+In this section, we'll look at two common patterns for working with vectors and connect them to the corresponding ideas from mathematics, existential and universal quantification.  And you'll learn about logical vectors, which contain the Boolean values 0 and 1.
+
+\subsection{Existential Quantification}
+
+\index{existential quantification}
+\index{quantification!existential}
+
+It's often useful to check the elements of a vector to see if there
+are any that satisfy a condition.  For example, you might want to
+know if there are any positive elements.  In mathematical terms, checking whether something exists is called \emph{existential quantification}, and it's denoted with
+the symbol $\exists$, which is pronounced ``there exists.''  For example,
+% this expression
+%
+\[ \exists x \mbox{~in~} S: x>0  \]
+%
+means, ``there exists some element $x$ in the set $S$ such that
+$x>0$.''  In MATLAB, it's natural to express this idea with a logical
+function, like \lstinline{exists}, that returns \lstinline{1} if there is such an
+element and \lstinline{0} if there is not.
+
+\begin{code}
+function res = exists(X)
+    for i=1:length(X)
+        if X(i) > 0
+            res = 1;
+            return
+        end
+    end
+    res = 0;
+end
+\end{code}
+
+We haven't seen the \lstinline{return} statement before ; it's similar
+to \lstinline{break} except that it breaks out of the whole function, not
+just the loop.  That behavior is what we want here because as soon
+as we find a positive element, we know the answer (it exists!) and
+we can end the function immediately without looking at the rest
+of the elements.
+
+\index{return statement@\lstinline{return} statement}
+\index{statement!return@\lstinline{return}}
+
+If we get to the end of the loop, that means we didn't find what
+we were looking for, so the result is \lstinline{0}.
+
+\subsection{Universal Quantification}
+
+\index{universal quantification}
+\index{quantification!universal}
+
+Another common operation on vectors is to check whether \emph{all}
+of the elements satisfy a condition, which is called \emph{universal quantification}, denoted with
+the symbol $\forall$ and pronounced ``for all.''  So the expression % this expression
+%
+\[ \forall x \mbox{~in~} S: x>0 \]
+%
+means ``for all elements $x$ in the set $S$, $x>0$.''
+
+One way to evaluate this expression in MATLAB is to reduce the problem to
+existential quantification, that is, to rewrite
+
+\begin{equation*}
+\forall x \mbox{~in~} S: x>0
+\end{equation*}
+to the following:
+\begin{equation*}
+{\sim} \exists x \mbox{~in~} S: x \le 0
+\end{equation*}
+where ${\sim} \exists$ means ``does not exist.''
+In other words, checking that all the  elements are positive is
+the same as checking that there are no elements
+that are nonpositive.
+
+\begin{ex}
+Write a function named \lstinline{forall} that
+takes a vector and returns \lstinline{1} if all of the elements are positive
+and \lstinline{0} if there are any nonpositive elements.
+
+\end{ex}
+
+
+
+
+\subsection{Logical Vectors}
+
+When you apply a logical operator to a vector, the result is a
+\emph{logical vector}: a vector whose elements are the logical
+values 1 and 0. Let's look at an  example:
+
+\index{logical vector}
+\index{vector!logical}
+
+\begin{code}
+>> V = -3:3
+
+V = -3    -2    -1     0     1     2     3
+
+>> L = V>0
+
+L =  0     0     0     0     1     1     1
+\end{code}
+
+In this example, \lstinline{L} is a logical vector whose elements
+correspond to the elements of \lstinline{V}.  For each positive element of
+\lstinline{V}, the corresponding element of \lstinline{L} is \lstinline{1}.
+
+Logical vectors can be used like flags to store the state of
+a condition.  And they are often used with the \lstinline{find} function,
+which takes a logical vector and returns a vector that contains
+the indices of the elements that are ``true.''
+
+\index{flag}
+\index{find@\lstinline{find}}
+
+Applying \lstinline{find} to \lstinline{L} from the example above yields
+
+\begin{code}
+>> find(L)
+
+ans = 5     6     7
+\end{code}
+which indicates that elements 5, 6, and 7 have the value 1.
+
+If there are no ``true'' elements, the result is an empty vector.
+
+\begin{code}
+>> find(V>10)
+
+ans = Empty matrix: 1x0
+\end{code}
+
+This example computes the logical vector and passes it as an
+argument to \lstinline{find} without assigning it to an intermediate
+variable.  You can read this version abstractly as ``find
+the indices of elements of \lstinline{V} that are greater than~10.''
+
+We can also use \lstinline{find} to write \lstinline{exists} more concisely:
+
+\begin{code}
+function res = exists(X)
+    L = find(X>0)
+    res = length(L) > 0
+end
+\end{code}
+
+\begin{ex}
+Write a version of \lstinline{forall} using \lstinline{find}.
+\end{ex}
+
+
+\section{Debugging in Four Acts}
+
+\index{debugging}
+\index{reading}
+\index{running}
+\index{ruminating}
+\index{retreating}
+
+When you're debugging a program, and especially if you're working on a hard bug, there are four things to try:
+
+\begin{description}
+
+\item[Reading] Examine your code, read it back to yourself, and
+check that it means what you meant to say.
+
+\item[Running] Experiment by making changes and running different
+versions.  Often, if you display the right thing at the right place
+in the program, the problem becomes obvious, but you might have to invest time building scaffolding.
+
+\item[Ruminating] Take some time to think!  What kind of error
+is it: syntax, runtime, or logical?  What information can you get from
+the error messages or from the output of the program?  What kind of
+error could cause the problem you're seeing?  What did you change
+last, before the problem appeared?
+
+\item[Retreating] At some point, the best thing to do is back
+off, undoing recent changes, until you get back to a program that
+works and that you understand.  Then you can start rebuilding.
+
+\end{description}
+
+Beginning programmers sometimes get stuck on one of these activities
+and forget the others.  Each activity comes with its own failure
+mode.
+For example, reading your code might help if the problem is a
+typographical error, but not if the problem is a conceptual
+misunderstanding.  If you don't understand what your program does, you
+can read it 100 times and never see the error, because the error is in
+your head.
+
+Running experiments can help, especially if you run small, simple
+tests.  But if you run experiments without thinking or reading your
+code, you might fall into a pattern I call ``random walk programming,''
+which is the process of making random changes until the program
+does the right thing.  Needless to say, random walk programming
+can take a long time.
+
+\index{random walk programming}
+
+The way out is to take more time to think.  Debugging is like an
+experimental science.  You should have at least one hypothesis about
+what the problem is.  If there are two or more possibilities, try to
+think of a test that would eliminate one of them.
+
+\index{hypothesis}
+
+Taking a break sometimes helps with the thinking.  So does talking.
+If you explain the problem to someone else (or even yourself), you
+will sometimes find the answer before you finish asking the question.
+
+But even the best debugging techniques will fail if there are too many
+errors or if the code you are trying to fix is too big and
+complicated.  Sometimes the best option is to retreat, simplifying the
+program until you get to something that works, and then rebuild.
+
+Beginning programmers are often reluctant to retreat, because
+they can't stand to delete a line of code (even if it's wrong).
+If it makes you feel better, copy your program into another file
+before you start stripping it down.  Then you can paste the pieces
+back in, a little bit at a time.
+
+\index{debugging!Eighth Theorem}
+
+To summarize, here's the Eighth Theorem of Debugging:
+
+\begin{quote}
+Finding a hard bug requires reading, running, ruminating,
+and sometimes retreating.  If you get stuck on one of these
+activities, try the others.
+\end{quote}
+
+\section{Chapter Review}
+
+This chapter presents patterns for working with vectors, including existential and universal quantification.
+We learned how to write functions that take vectors as input variables and return vectors as output variables.
+And we learned about \emph{logical vectors}, which contain the values 1 and 0 to represent true and false.
+
+Some of the functions in this chapter are not idiomatic MATLAB; many of them can be done more simply using built-in MATLAB operators and functions, rather than writing them yourself.  But these examples demonstrate concepts you will need to know when you work on more complicated problems.
+
+In the next chapter, we will apply the tools we have learned so far to the central goal of this book, modeling physical systems.
+
+
+
+%\section{Exercises}
+
+%\begin{ex}
+%\end{ex}
+
+%TODO: any exercises for this chapter?

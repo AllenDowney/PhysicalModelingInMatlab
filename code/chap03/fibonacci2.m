@@ -1,6 +1,6 @@
-% Computes the nth Fibonacci number.  
-% Precondition: n must be a positive integer.
-% Postcondition: the result is stored in ans.
+% Computes the nth Fibonacci number.
+% Precondition: `n` must be a positive integer.
+% Postcondition: the result is stored in `ans`.
 
 prev1 = 1;
 prev2 = 1;

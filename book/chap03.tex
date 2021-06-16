@@ -1,0 +1,604 @@
+
+\chapter{Loops}
+\label{loops}
+
+
+The programs we have seen so far are \emph{straight-line code}; that is, they execute one instruction after another from top to bottom.
+This chapter introduces one of the most important programming-language features, the \lstinline{for}~loop, which allows simple programs to perform complex, repetitive tasks. This chapter also introduces the mathematical concepts of sequence and series, and a process for writing programs, incremental development.
+
+We'll start by reviewing the exercise from the previous chapter; if you didn't do it, you might want to take a look before you go on.
+
+\section{Updating Variables}
+
+In Section~\ref{bikegame}, I asked you to write a program that models a bike-share system with bikes moving between two stations.
+Each day 5 percent of the bikes in Boston are dropped off in Cambridge, and 3 percent of the bikes
+in Cambridge get dropped off in Boston.
+
+To update the state of the system, you might have been tempted to write something
+like
+
+\index{bike share system}
+
+\begin{code}
+b = b - 0.05*b + 0.03*c
+c = c + 0.05*b - 0.03*c
+\end{code}
+
+But that would be wrong, so very wrong.  Why?  The problem is that
+the first line changes the value of \lstinline{b}, so when the second line
+runs, it gets the old value of \lstinline{c} and the new value of \lstinline{b}.
+As a result, the change in \lstinline{b} is not always the same as the
+change in \lstinline{c}, which violates the Principle of Conservation
+of Bikes!
+
+One solution is to use temporary variables like \lstinline{b_new} and \lstinline{c_new}:
+
+\begin{code}
+b_new = b - 0.05*b + 0.03*c
+c_new = c + 0.05*b - 0.03*c
+b = b_new
+c = c_new
+\end{code}
+
+This has the effect of updating the variables \emph{simultaneously}; that
+is, it reads both old values before writing either new value.
+
+\index{update}
+
+The following is an alternative solution that
+has the added advantage of simplifying the computation:
+
+\begin{code}
+b_to_c = 0.05*b - 0.03*c
+b = b - b_to_c
+c = c + b_to_c
+\end{code}
+
+It's easy to look at this code and confirm that it obeys Conservation
+of Bikes.  Even if the value of \lstinline{b_to_c} is wrong, at least the total
+number of bikes is right.  And that brings us to the Fifth Theorem of
+Debugging:\index{debugging!Fifth Theorem}
+
+\begin{quote}
+The best way to avoid a bug is to make it impossible.
+\end{quote}
+
+In this case, removing redundancy also eliminates the opportunity for  a bug.
+
+\section{Bug Taxonomy}
+
+The more you understand bugs, the better you will be at debugging.
+There are four kinds of bugs:
+
+\index{syntax error}
+\index{runtime error}
+\index{logical error}
+\index{numerical error}
+
+\begin{description}
+
+\item[Syntax error] You have written a command that cannot
+execute because it violates one of the language's syntax rules.  For example, in MATLAB,
+you can't have two operands in a row without an operator, so
+\lstinline{pi r^2} contains a syntax error.  When the interpreter finds a syntax
+error, it prints an error message and stops running your program.\index{error!syntax}
+
+\item[Runtime error] Your program starts running, but something goes
+wrong along the way.  For example, if you try to access a variable
+that doesn't exist, that's a runtime error.  When the interpreter detects the
+problem, it prints an error message and stops.\index{error!runtime}
+
+\item[Logical error] Your program runs without generating any error
+messages, but it doesn't do the right thing.  The problem in the
+previous section, where we changed the value of \lstinline{b} before
+reading the old value, is a logical error.\index{error!logical}
+
+\item[Numerical error] Most computations in MATLAB are only
+approximately right.  Most of the time the errors are small enough
+that we don't care, but in some cases the round-off errors are a problem.\index{error!numerical}
+
+\end{description}
+
+Syntax errors are usually the easiest to deal with.  Sometimes the error messages
+are confusing, but MATLAB can usually tell you where the error is, at
+least roughly.
+
+Runtime errors are harder because, as I mentioned before, MATLAB
+can tell you where it detected the problem, but not what caused it.
+
+Logical errors are hard because MATLAB can't help at all.
+From MATLAB's point of view there's nothing wrong with the program; only you
+know what the program is supposed to do, so only you can check it.
+
+\index{bug}
+
+Numerical errors can be tricky because it's not clear whether the
+problem is your fault.  For most simple computations, MATLAB produces
+the floating-point value that is closest to the exact solution, which
+means that the first 15 significant digits should be correct.
+
+But some computations are ill-conditioned, which means that even if your program is correct, the round-off errors accumulate and the number of correct digits can be smaller.  Sometimes MATLAB can warn you that
+this is happening, but not always!  \emph{Precision} (the number of digits
+in the answer) does not imply \emph{accuracy} (the number of digits that
+are right).
+
+
+\section{Absolute and Relative Error}
+
+There are two ways of thinking about numerical errors.
+The first is \emph{absolute error}, or the difference between the correct value and the approximation.  We often write the magnitude of the error,
+ignoring its sign, when it doesn't matter whether the approximation
+is too high or too low.
+\index{error!absolute} \index{absolute error}
+
+The second way to think about numerical errors is \emph{relative error}, where the error is expressed as a fraction (or percentage) of the exact value.\index{error!relative}
+\index{relative error}
+
+For example, we might want to estimate $9!$ using the formula
+$\sqrt {18 \pi} ( 9 / e)^9$.  The exact answer is $9 \cdot 8 \cdot 7 \cdot 6
+\cdot 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 362,880$.  The approximation
+is $359,536.87$.  So the absolute error is $3,343.13$.
+
+At first glance, that sounds like a lot---we're off by three
+thousand---but we should consider the size of the
+thing we are estimating.  For example, \$3,000 matters a lot
+if we're talking about an annual salary, but not at all if we're talking about the national debt.
+
+A natural way to handle this problem is to use relative
+error.
+In this case, we would divide the error
+by $362,880$, yielding $0.00921$, which is just less than 1 percent.
+For many purposes, being off by 1 percent is good enough.
+
+
+\section{for Loops}
+
+\index{for loop@\lstinline{for} loop}
+\index{loop}
+
+Let's return to the bike-share example.
+In the previous chapter, we wrote a \emph{bike\textunderscore update.m} script to simulate a
+day in the life of a bike-share system. To simulate an entire
+month, we'd have to run the script 30 times. We could enter the same command 30 times, but it's simpler to use a \emph{loop}, which is a set of statements that executes repeatedly.
+
+To create a loop, we can use the \lstinline{for} statement, like this:
+
+\begin{code}
+for i=1:30
+    bike_update
+end
+\end{code}
+
+The first line includes what looks like an assignment statement, and it \emph{is}
+like an assignment statement, except that it runs more than once.  The
+first time, it creates the variable \lstinline{i} and assigns it the
+value~1.  The second time, \lstinline{i} gets the value~2, and so on, up to
+and including 30.
+
+\index{assignment statement}
+\index{statement!assignment}
+\index{colon operator}
+\index{operator!colon}
+\index{range}
+
+The colon operator (\lstinline{:}) specifies a \emph{range} of integers.
+You can create a range at the prompt:
+
+\begin{code}
+>> 1:5
+ans =  1     2     3     4     5
+\end{code}
+
+The variable you use in the \lstinline{for} statement is called the \emph{loop
+variable}.  It's common to use the names \lstinline{i},
+\lstinline{j}, and \lstinline{k} as loop variables.
+
+\index{body of loop}
+\index{loop body}
+\index{loop variable}
+\index{variable!loop}
+
+The statements inside the loop are called the \emph{body}.  By convention,
+they are indented to show that they're inside the loop, but the
+indentation doesn't affect the execution of the program.
+The \lstinline{end} statement marks the end of the loop.
+
+\index{end statement@\lstinline{end} statement}
+\index{statement!end@\lstinline{end}}
+
+To see a loop in action you can run one that displays the
+loop variable:
+
+\begin{code}
+>> for i=1:5
+    i
+end
+
+i = 1
+i = 2
+i = 3
+i = 4
+i = 5
+\end{code}
+
+As this example shows, you \emph{can} run a \lstinline{for} loop from the
+command line, but it's more common to put it in a script.
+
+\begin{ex}
+Create a script named \emph{bike\textunderscore loop.m} that uses a \lstinline{for} loop to run \emph{bike\textunderscore update.m} 30 times.  Before you run it, you have to assign values to \lstinline{b} and \lstinline{c}.
+For this exercise, start with the values \textbf{\lstinline{b = 100}} and \textbf{\lstinline{c = 100}}.
+
+If everything goes smoothly, your script will display a long stream
+of numbers on the screen.  It's probably too long
+to fit, and even if it did fit, it would be hard to interpret.
+A graph would be much better!
+\end{ex}
+
+
+
+\section{Plotting}
+\label{plotting}
+
+\index{plot@\lstinline{plot}}
+
+If the output of your program is a long stream of numbers, it can be hard to see what is happening.
+Plotting the results can make things clearer.
+
+The \lstinline{plot} function is a versatile tool for plotting two-dimensional graphs.  Unfortunately, it's so versatile that it can be hard to use (and hard to read the documentation).
+We'll start simple and work our way up.
+
+To plot a single point, type
+
+\begin{code}
+>> plot(1, 2, 'o')
+\end{code}
+
+A Figure Window should appear with a graph and a single blue circle at $x$ position 1 and $y$ position 2.
+
+\index{Figure Window}
+\index{style string}
+
+The letter in single quotes is a \emph{style string} that specifies how the
+point should be plotted;  \lstinline{o} indicates a circle.
+Other shapes include \lstinline{+},
+\lstinline{*},
+\lstinline{x},
+\lstinline{s} (for a square),
+\lstinline{d} (for a diamond), and
+\lstinline{^} (for a triangle).
+
+You can also specify the color by starting the style string with a color code:
+
+\begin{code}
+>> plot(1, 2, 'ro')
+\end{code}
+
+Here, \lstinline{r} stands for red; the other colors include \lstinline{g} for green, \lstinline{b} for blue, \lstinline{c} for cyan, \lstinline{m} for magenta, \lstinline{y} for yellow, and \lstinline{k} for black.
+
+When you use \lstinline{plot} this way, it can only plot one point at a
+time.  If you run \lstinline{plot} again, it clears the figure before making
+the new plot.  The \lstinline{hold}~command lets you override that behavior:
+\lstinline{hold on} tells MATLAB not to clear the figure when it makes a new
+plot; \lstinline{hold off} returns to the default behavior.
+
+\index{hold@\lstinline{hold}}
+
+Try this:
+
+\begin{code}
+>> clf
+>> hold on
+>> plot(1, 1, 'ro')
+>> plot(2, 2, 'go')
+>> plot(3, 3, 'bo')
+>> hold off
+\end{code}
+
+The \lstinline{clf} command clears the figure before we start plotting.
+
+\index{clear figure}
+\index{clf@\lstinline{clf}}
+
+If you run the code above, you should see a figure with three circles.  MATLAB scales the plot automatically so that the axes run from the lowest values in the plot to the highest.
+
+\begin{ex}
+Modify \emph{bike\textunderscore loop.m} so that it clears the figure before running the loop.  Then, each time through the loop, it should plot the value of \lstinline{b} versus the value of \lstinline{i} with a red circle.
+
+Once you get that working, modify it so it plots the values of \lstinline{c} with blue diamonds.
+\end{ex}
+
+
+\section{Sequences}
+
+Now that we have the ability to write loops, we can use them to explore sequences and series, which are useful for describing and analyzing systems that change over time.
+
+In mathematics, a \emph{sequence} is a set of numbers that corresponds to the positive integers.  The numbers in the sequence are called \emph{elements}.  In math notation, the elements are denoted with subscripts, so the first element of the series $A$ is
+$A_1$, followed by $A_2$, and so on.
+
+\index{sequence}
+\index{element}
+\index{loop}
+\index{geometric sequence}
+
+A \lstinline{for} loop is a natural way to compute the elements of a sequence.
+As an example, in a geometric sequence, each element is a constant
+multiple of the previous element.  As a more specific example, let's
+look at the sequence with $A_1 = 1$ and the relationship $A_{i+1} = A_i/2$,
+for all $i$.  In other words, each element is half as big as the one before it.
+
+The following loop computes the first 10 elements of $A$:
+
+\begin{code}
+a = 1
+for i=2:10
+    a = a/2
+end
+\end{code}
+
+The first line initializes the variable \lstinline{a} with the first element of the sequence, $A_1$.
+Each time through the loop, we find the next value of \lstinline{a}
+by dividing the previous value by~2, and assign the result back to \lstinline{a}.
+At the end, \lstinline{a} contains the 10th element.
+
+The other elements are displayed on the screen, but they are not saved in a variable.
+Later, we'll see how to save the elements of a sequence in a vector.
+
+\index{direct computation}
+\index{recurrent computation}
+
+This loop computes the sequence \emph{recurrently}, which means
+that each element depends on the previous one.
+For this sequence, it's also possible to compute the $i$th element
+\emph{directly}, as a function of $i$, without using the previous element.
+
+In math notation, $A_i = A_1 r^{i-1}$, where $r$ is the ratio of successive elements.
+In the previous example, $A_{i+1} = A_i/2$, so $r = 1/2$.
+
+\begin{ex}
+Write a script named \emph{sequence.m} that uses a loop to
+compute elements of $A$ \mbox{directly}.
+\end{ex}
+
+
+\section{Series}
+\label{series}
+
+In mathematics, a \emph{series} is the sum of the elements of
+a sequence.  It's a terrible name, because in common English,
+``sequence'' and ``series'' mean pretty much the same thing, but in
+math, a sequence is a set of numbers, and a series is an expression
+(a sum) that has a single value.  In math notation,  a series
+is often written using the summation symbol $\sum$.
+
+\index{series}
+\index{sum}
+
+For example, the sum of the first 10 elements of $A$ is
+\begin{equation*}
+\sum_{i=1}^{10} A_i
+\end{equation*}
+
+A \lstinline{for} loop is a natural way to compute the value of this series:
+
+\begin{lstlisting}[caption={A program that calculates a simple series}, label={lst:series_10}]
+A1 = 1;
+total = 0;
+for i=1:10
+    a = A1 * (1/2)^(i-1);
+    total = total + a;
+end
+ans = total
+\end{lstlisting}
+
+Let's walk through what's happening here. \lstinline{A1} is the first element of the sequence, so we assign it to be \lstinline{1}; we also create \lstinline{total}, which will store the cumulative sum.
+Each time through the loop, we set \lstinline{a} to the $i$th element and add \lstinline{a} to the \lstinline{total}.
+At the end, outside the loop, we store  \lstinline{total} as \lstinline{ans}.
+
+The way we're using \lstinline{total} is called an \emph{accumulator}, that is, a variable that accumulates the result a little bit at a time.
+\index{accumulator}
+
+
+
+\begin{ex}
+This example computes the terms of the series directly. As
+an exercise, write a script named \emph{series.m} that computes
+the same sum by computing the elements recurrently.  You will
+have to be careful about where you start and stop the loop.
+\end{ex}
+
+
+\section{Generalization}
+
+\index{generalization}
+
+As written, the previous example always adds up the first 10
+elements of the sequence, but we might be curious to know what
+happens to \lstinline{total} as we increase the
+number of terms in the series.  If you've studied geometric
+series, you might know that this series converges on~2; that is,
+as the number of terms goes to infinity, the sum approaches~2 asymptotically.
+
+To see if that's true for our program, we can replace the
+constant \lstinline{10} in Listing~\ref{lst:series_10} with a variable named \lstinline{n}:
+
+\begin{lstlisting}[caption={Updating our code from Listing~\ref{lst:series_10} to have a variable number of terms}, label={lst:series_n}]
+A1 = 1;
+total = 0;
+for i=1:n
+    a = A1 * (1/2)^(i-1);
+    total = total + a;
+end
+ans = total
+\end{lstlisting}
+
+The code in Listing~\ref{lst:series_n} can now compute any number of terms, with the
+precondition that you have to set \lstinline{n} before you execute
+the code.
+I put this code in a file named \emph{series.m}, then
+ran it with different values of \lstinline{n}:
+
+\begin{code}
+>> n=10; series
+total = 1.99804687500000
+
+>> n=20; series
+total = 1.99999809265137
+
+>> n=30; series
+total = 1.99999999813735
+
+>> n=40; series
+total = 1.99999999999818
+\end{code}
+
+It sure looks like it's converging on 2.
+
+Replacing a constant with a variable is called \emph{generalization}.
+Instead of computing a fixed, specific number of terms, the new script
+is more general; it can compute any number of terms.
+This is an important idea we'll come back to when we talk about functions.
+
+\section{Incremental Development}
+
+\index{incremental development}
+
+As you start writing longer programs, you might find yourself spending more time debugging.
+The more code you write before you start debugging, the harder it is to find
+the problem.
+
+\emph{Incremental development} is a way of programming that tries
+to minimize the pain of debugging by developing and testing in small steps.  The fundamental steps are:
+
+\begin{enumerate}
+
+\item Always start with a working program.  If you have an
+example from a book, or a program you wrote that is similar to
+what you are working on, start with that.  Otherwise, start with
+something you \emph{know}  is correct, like \lstinline{x = 5}.  Run the program
+and confirm that you are running the program you think you are
+running.
+This step is important, because in most environments there
+are little things that can trip you up when you start a new
+project.  Get them out of the way so you can focus on programming.
+
+\item Make one small, testable change at a time.  A \emph{testable}
+change is one that displays something on the screen (or has some
+other effect) that you can check.  Ideally, you should know what
+the correct answer is or be able to check it by performing another
+computation.
+
+\item Run the program and see if the change worked.  If so, go back
+to step~2.  If not, you'll have to do some debugging, but if the
+change you made was small, it shouldn't take long to find the problem.
+
+\end{enumerate}
+
+\index{debugging!Sixth Theorem}
+
+With incremental development, your code is more likely to work the first time, and if it doesn't, the problem is more likely to be obvious.  And that brings us to the Sixth Theorem of Debugging:
+
+\begin{quote}
+The best kind of debugging is the kind you don't have to do.
+\end{quote}
+
+In practice, there are two problems with incremental development.
+First, sometimes you have to write extra code to
+generate visible output that you can check.  This extra code is
+called \emph{scaffolding} because you use it to build the program
+and then remove it when you are done.  But the time you save on
+debugging is almost always worth the time you invest in
+scaffolding.
+\index{scaffolding}
+
+The second problem is that when you're getting started, you might not know how to
+choose steps that get from \lstinline{x = 5} to the program you're trying
+to write.  We'll look at an extended example in Chapter~6.
+
+If you find yourself writing more than a few lines of code before
+you start testing and you're spending a lot of time debugging,
+you should try incremental development.
+
+
+
+
+\section{Chapter Review}
+
+In this chapter, we used a loop to perform a repetitive computation---updating a model 30 times---and to compute sequences and series.  Also,  we used the \lstinline{plot} function to visualize the results.
+
+Here are some terms from this chapter you might want to remember.
+
+\emph{Absolute error} is the difference between an approximation and
+an exact answer. \emph{Relative error} is the same difference expressed as a fraction or percentage of the exact answer.
+
+A \emph{loop} is part of a program that runs repeatedly.
+A \emph{loop variable} is a variable that gets assigned a different value each time through the loop.
+A \emph{range} is a sequence of values assigned to the loop variable, often
+specified with the colon operator---for example, \lstinline{1:5}.
+The \emph{body} of a loop is the set of statements inside the loop that runs repeatedly.
+An \emph{accumulator} is a variable that is used to accumulate a result a little bit at a time.
+
+In mathematics, a \emph{sequence} is a set of numbers that correspond
+to the positive integers.
+The numbers that make up the sequence are called \mbox{\emph{elements}}.
+A \emph{series} is the sum of a sequence of elements.
+Sometimes we compute the elements of a sequence \emph{recurrently}, which means that each new element depends on previous elements.  Sometimes we can compute the elements \emph{directly}, without using previous elements.
+
+\emph{Generalization} is a way to make a program more versatile, for example, by replacing a specific value with a variable that can have any value.
+\emph{Incremental development} is a way of programming by making a series of small, testable changes.
+\emph{Scaffolding} is code you write to help you program or debug but
+that is not part of the finished program.
+
+In the next chapter, we'll use a vector to store the results from a loop.
+
+
+\section{Exercises}
+
+Before you go on, you might want to work on the following exercises.
+
+\begin{ex}
+Years ago I was in a fudge shop and saw a sign that said ``Buy one pound of fudge, get another quarter pound free.''  That's simple enough.
+
+But if I ran the fudge shop, I would offer a special deal to anyone who could solve the following problem:
+
+\begin{quote}
+If you buy a pound of fudge, we'll give you another quarter pound free.  And then we'll give you a quarter of a quarter pound, or one-sixteenth.  And then we'll give you a quarter of that, and so on.  How much fudge would you get in total?
+\end{quote}
+
+Write a script called \emph{fudge.m} that solves this problem.  Hint: start with \emph{series.m} and generalize it by replacing the ratio \lstinline{1/2} with a variable, \lstinline{r}.
+
+% fudge.m
+\end{ex}
+
+
+
+
+\begin{ex}
+\label{fib2}
+
+We have already seen the Fibonacci sequence, $F$, which
+is defined recurrently as
+
+\[ \mathrm{for}~i \ge 3, \quad  F_{i} = F_{i-1} + F_{i-2} \]
+
+In order to get started, you have to specify the first two
+elements, but once you have those, you can compute the rest.
+The most common Fibonacci sequence starts with $F_1 = 1$ and $F_2 = 1$.
+
+Write a script called \emph{fibonacci2.m} that uses a \lstinline{for} loop
+to compute the first 10 elements of this Fibonacci sequence.
+As a postcondition, your script should assign the 10th element to
+\lstinline{ans}.
+
+Now generalize your script so that it computes the $n$th element
+for any value of \lstinline{n}, with the precondition that you have to
+set \lstinline{n} before you run the script.  To keep things simple for
+now, you can assume that \lstinline{n} is greater than~0.
+
+Hint: you'll have to use two variables to keep track of the
+previous two elements of the sequence.  You might want to call
+them \lstinline{prev1} and \lstinline{prev2}.  Initially, \lstinline{prev1} = $F_1$
+and \lstinline{prev2} = $F_2$.  At the end of the loop, you'll have
+to update \lstinline{prev1} and \lstinline{prev2}; think carefully about the
+order of the updates!
+
+\end{ex}
