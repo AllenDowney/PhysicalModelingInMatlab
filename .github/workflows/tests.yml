@@ -21,7 +21,7 @@ jobs:
       - name: Install Octave
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq --no-install-recommends octave gnuplot-nox
+          sudo apt-get install -y -qq --no-install-recommends octave gnuplot-nox fonts-freefont-otf fonts-dejavu-core
           octave --version | head -1
 
       - name: Run the chapter code
