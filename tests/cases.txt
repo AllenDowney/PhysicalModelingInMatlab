@@ -1,0 +1,65 @@
+# Each line: folder | Octave code to run | text the output must contain (optional)
+# Lines starting with XFAIL are expected to fail (leftovers kept on purpose; see PROJECT_BOARD.md).
+chap02 | myscript |
+chap02 | n=10; fibonacci1 | 55
+chap02 | x=1; y=2; swap; disp([x y]) | 2   1
+chap02 | b=100; c=100; bike_update | b = 98
+chap03 | bike_loop |
+chap03 | b=100; c=100; bike_update | b = 98
+chap03 | n=10; fibonacci2 | ans = 55
+chap03 | n=10; fibonacci3 |
+chap03 | n=10; fudge | 1.3333
+chap03 | sequence |
+chap03 | n=10; series | 1.9980
+chap03 | n=10; series_recurrent | 1.9980
+chap04 | n=10; fibonacci4 |
+chap04 | n=10; fibonacci_ratio |
+chap04 | logchaos |
+chap04 | logmap; disp(numel(X)) | 50
+chap04 | lorenz |
+chap05 | hypotenuse(3, 4) | 5
+chap05 | myfunc(1) | 1.3818
+chap06 | find_triples(40) | 20   21   29
+chap06 | fib_triple(10) |
+chap06 | is_pythagorean(3, 4, 5) | 1
+chap06 | hypotenuse(3, 4) | 5
+chap07 | cheby6(0.5) |
+chap07 | duck() | 7.2651
+chap07 | error_func(3) | 0
+chap07 | plot_cheby6(-1, 1) |
+chap08 | exists2([1 2 3]) |
+chap08 | exists([1 2 3]) | 1
+chap08 | C = hypotenuse([3 5 8], [4 12 15]) | 5   13   17
+chap08 | myfunc(1:3) | 1.3818
+chap08 | mysum([1 2 3]) | 6
+chap09 | duck |
+chap09 | coffee |
+chap09 | euler |
+chap09 | rats |
+chap09 | runge |
+chap10 | lorenz_diff |
+chap10 | lorenz_loop |
+chap10 | lorenz |
+chap10 | x=1; y=2; z=3; sigma=10; r=28; b=8/3; dt=0.01; lorenz_update |
+chap10 | lotka |
+XFAIL chap10 | plot_lorenz |
+chap11 | earth |
+chap11 | freefall(0, [4000; 0]) | -9.8
+chap11 | penny |
+chap11 | penny2 |
+chap11 | skydiver |
+chap12 | baseball |
+chap12 | baseball2 |
+chap12 | diagram |
+chap12 | optimize(40) |
+chap12 | proj1(0, [0; 3; 40; 30]) |
+chap12 | proj2(0, [0; 3; 40; 30]) |
+chap13 | baseball3 |
+chap13 | baseball_anim |
+chap13 | golden([0 1 2]) |
+chap13 | manny |
+chap13 | manny2 |
+chap13 | optimization |
+chap14 | binary |
+chap15 | odeplot |
+chap15 | planet |
