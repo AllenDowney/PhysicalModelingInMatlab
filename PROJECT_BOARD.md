@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-10-31)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Step 0 done except edition tags; next, step 1 (run the chapter code in Octave)
+- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Step 1: chapter code runs in Octave, no incompatibilities; the code has drifted from the text (content issue 1)
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -29,7 +29,12 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [x] Environment (2026-10-31): `environment.yml` on conda-forge only, env `PhysicalModelingInMatlab` created: GNU Octave 10.3.0, `octave_kernel`, Jupyter
 
 **1. Runs in a current environment**
-- [ ] Every script and function in `code/chap02`–`chap15` runs in current Octave (and, if Allen can check, current MATLAB). List what fails and why: Octave incompatibilities, missing functions (e.g. toolboxes), scripts that need input
+- [x] Every script and function in `code/chap02`–`chap15` run in Octave 10.3.0, headless (2026-10-31; 58 files; scripts that expect variables, and functions that take arguments, called with inputs like the book's). **No Octave incompatibilities found**: everything runs except the three below (content issues 1–2). Not checked in MATLAB
+  - Fail: `chap06/fib_triple.m`, `find_triples.m` call `hypotenuse`, which is only in `chap05/`, so they fail when run from their own folder; `chap10/plot_lorenz.m` expects a rate function `lorenz(t, V)` but `chap10/lorenz.m` takes no arguments (older edition)
+  - Warnings: function name doesn't match file name in `chap08/exists2.m`, `chap12/proj1.m`, `proj2.m`, `chap13/golden.m` (`optimize`), `manny2.m`; `chap09/rats.m` shadows Octave's built-in `rats`, `chap15/odeplot.m` shadows the core `odeplot`
+  - `chap10/lorenz_update.m` is a fragment (needs `sigma`, `r`, `b`, `dt` set first)
+  - About 25 files are never named in the book (e.g. `fibonacci3`, `fibonacci_ratio`, `logchaos`, `plot_cheby6`, `exists2`, `runge`, `lorenz_diff`, `lorenz_loop`, `lorenz_update`, `plot_lorenz`, `penny2`, `baseball2`, `diagram`, `optimize`, `proj1`, `proj2`, `baseball3`, `baseball_anim`, `golden`, `manny`, `manny2`, `binary`, `odeplot`, `planet`); some may be the book's figure scripts (content issue 3)
+- [ ] Do the files match the book's listings? (content issue 1)
 - [ ] `code/data/`: the files the examples read are in the repo; no dead URLs
 - [ ] `code/other/` (about 100 scripts, mostly older editions and student work) and `code/notebooks/` (`.mlx` live scripts): which does the book use? Default for leftovers: remove from `master`; they stay in the tags and history
 - [ ] `PhysicalModelingInMatlab.zip` matches `code/` (the untracked `PhysicalModelingInMatlab/` folder looks like the ZIP's contents, a subset of `code/`); a script that builds it
@@ -77,7 +82,11 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Content issues
 
-(none yet)
+1. **The code has drifted from the 4th-edition text.** `code/chap06/find_triples.m` is not the book's final listing: the book's version calls `is_pythagorean` (not in `code/`), the file calls `hypotenuse`. Compare every listing in `book/*.tex` with the `.m` files and decide which is right. Matters for Task 2: the single-source question is whether listings can be included from the `.m` files
+2. **Chapter folders aren't self-contained:** `chap06/` needs `hypotenuse.m` from `chap05/`; `chap10/plot_lorenz.m` needs a different `lorenz.m`. Copy helpers into each folder that uses them (as `bike_update.m` already is in `chap02/` and `chap03/`), or delete the stale file
+3. **Files the book never names** (list in step 1): book figure scripts, solutions, or leftovers? Keep, move or delete
+4. **Name clashes:** `rats.m` shadows Octave's `rats` (a reader who runs `rats` in that folder gets the book's function, which is intended, but Octave warns); `odeplot.m` shadows the core `odeplot`. Rename?
+5. **Function names that don't match file names** (`exists2.m`, `proj1.m`, `proj2.m`, `golden.m`, `manny2.m`): MATLAB uses the file name; Octave warns. Rename the functions to match
 
 ---
 
