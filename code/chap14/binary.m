@@ -3,7 +3,7 @@
 
 function binary()
     au = 150e9;                % astronomical unit in meters
-    day = 24 * 60 * 60;        % year in seconds
+    day = 24 * 60 * 60;        % day in seconds
     sunmass = 2.0e30;          % mass of the sun in kg
 
     d = 779e9;                 % initial distance in meters

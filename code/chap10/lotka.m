@@ -17,7 +17,7 @@ function res = lotka()
     plot(T, R, 'LineWidth', 2)
     plot(T, F, '--', 'LineWidth', 2)
     xlabel('Time (weeks)')
-    ylabel('Polulation')
+    ylabel('Population')
     legend('rabbits', 'foxes')
     saveas(gcf, '../../book/figs/lotka.eps', 'epsc')
 

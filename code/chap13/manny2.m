@@ -10,7 +10,7 @@ end
 function res = crossover_func(velocity)
     % this function crosses through zero when the height of 
     % the ball at the wall is equal to the goal
-    goal = 12;         % height of the wall in meters
+    goal = 11.3;       % height of the wall in meters (37 feet)
     res = optimal_height_at_wall_func(velocity) - goal;
 end
 
@@ -54,7 +54,7 @@ end
 
 function [value,isterminal,direction] = events_func(t,W)
     % stop the integration when the ball gets to the wall.
-    wall_range = 97;             % distance to the wall in meters
+    wall_range = 94.5;           % distance to the wall in meters (310 feet)
     value = W(1) - wall_range;   % equals 0 when you hit the wall
     isterminal = 1;
     direction = 1;

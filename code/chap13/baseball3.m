@@ -19,8 +19,8 @@ function baseball3()
 
     plot(X, Y)
 
-    xlabel('Y Position (m)')
-    ylabel('X Position (m)')
+    xlabel('X Position (m)')
+    ylabel('Y Position (m)')
     saveas(gcf, '../../book/figs/baseball3.eps', 'epsc')
 
     thetas = linspace(0, pi/2);

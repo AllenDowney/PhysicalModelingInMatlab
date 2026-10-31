@@ -3,7 +3,7 @@
 function res = coffee()
     t = 0;
     y0 = 90;
-    r = rate_func(t, y0);
+    r = rate_func(t, y0)
 
     [T, Y] = ode45(@rate_func, [0, 60], y0);
     plot(T, Y)

@@ -18,7 +18,7 @@ function earth()
     Y = M(:, 1) / 1e9;
     
     plot(T, Y)
-    xlabel('Time (s)')
+    xlabel('Time (days)')
     ylabel('Distance from sun (million km)')
     % saveas(gcf, '../../book/figs/earth.eps', 'epsc')
     

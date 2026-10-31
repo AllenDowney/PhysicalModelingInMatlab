@@ -34,6 +34,6 @@ end
 
 function res = acceleration(t, P, V)
     g = 9.8;                       % acceleration of gravity in m/s^2
-    gravity = [0; -g];
-    res = gravity;
+    a_gravity = [0; -g];
+    res = a_gravity;
 end
