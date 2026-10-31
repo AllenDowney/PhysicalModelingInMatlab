@@ -265,7 +265,7 @@ We can call \lstinline{animate} like this:
 
 \begin{code}
     tspan = [0 10];
-    W = [0 1 30 40];
+    W = [0 1 40 30];
     [T, M] = ode45(@rate_func, tspan, W);
     animate(T, M)
 \end{code}

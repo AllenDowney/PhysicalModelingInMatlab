@@ -2,11 +2,11 @@
 
 function baseball()
     P = [0; 1];       % initial position in m
-    V = [30; 40];     % initial velocity in m/s
+    V = [40; 30];     % initial velocity in m/s
     W = [P; V];       % initial condition
     rate_func(0, W)
 
-    tspan = [0 8];
+    tspan = [0 6];
     [T, M] = ode45(@rate_func, tspan, W);
 
     X = M(:, 1);
