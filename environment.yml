@@ -1,0 +1,8 @@
+name: PhysicalModelingInMatlab
+channels:
+  - default
+  - conda-forge
+dependencies:
+  - jupyter
+  - octave
+  - octave_kernel

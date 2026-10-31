@@ -18,7 +18,7 @@ Open a real Octave Online bucket from a fresh browser session (private window, n
 
 - Chapter 2, *Scripts*, is `book/chap02.tex` (511 lines, about ten `code` listings). Its code is `code/chap02/`: `fibonacci1.m`, `myscript.m`, `swap.m`, `bike_update.m`. Check that it is still a good test case (no toolboxes, no input, short).
 - Listings are `\begin{code}` environments in the LaTeX, typed separately from the `.m` files, so the book and the code can already drift.
-- `environment.yml` has Octave, `octave_kernel` and Jupyter; `notebooks/chap01.ipynb` (untracked, 2021) is an earlier start on a notebook version of Chapter 1. Branch `thinkoctave` (2014) is an older Octave edition.
+- `environment.yml` has Octave, `octave_kernel` and Jupyter; `notebooks/chap01.ipynb` (local only, gitignored; 2021) is an earlier start on a notebook version of Chapter 1. Branch `thinkoctave` (2014) is an older Octave edition.
 - Octave is not installed on this machine; the env needs creating (Task 1, step 0).
 
 ## Options to investigate
@@ -71,7 +71,7 @@ Could examples run directly on the GitHub Pages site, with output and plots belo
 
 ## Chapter conversion
 
-- How hard is it to convert one chapter to Quarto Markdown (Allen uses Quarto elsewhere) and publish it on GitHub Pages? Keep math, figures, code listings, exercises and prose. `book/chap15.md` (untracked) may be an earlier conversion to look at.
+- How hard is it to convert one chapter to Quarto Markdown (Allen uses Quarto elsewhere) and publish it on GitHub Pages? Keep math, figures, code listings, exercises and prose. (A 2021 pandoc export of Chapter 15 to Markdown was deleted in the refresh; pandoc can regenerate one.)
 - Single source: runnable code should come from the same files used for the book and the hosted examples, so copies don't drift. Options: listings included from the `.m` files (`\lstinputlisting` in LaTeX, include shortcodes in Quarto), Quarto executable blocks with an Octave/Jupyter engine, or a shortcode that generates the "Run this example" link.
 
 ## Proof of concept (Chapter 2)

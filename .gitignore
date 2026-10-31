@@ -24,3 +24,10 @@
 *.synctex.gz
 *.tex.bak
 book/html
+*.mtc0
+*-eps-converted-to.pdf
+book/*.pdf
+octave-workspace
+
+# local start on a notebook version of Chapter 1 (input for Task 2)
+notebooks/

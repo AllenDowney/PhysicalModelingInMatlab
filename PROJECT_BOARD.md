@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-10-31)
 
-- **Task 1:** Refresh — set up (this board, `CLAUDE.md`); nothing else started
+- **Task 1:** Refresh — step 0 nearly done: board, tag `pre-refresh-2026`, 2021 edits committed, untracked files sorted; next, old branches and the env
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -21,11 +21,12 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 **0. Set up**
 - [x] `git fetch` and `git status`: up to date with `origin/master` (2026-10-31)
-- [x] `PROJECT_BOARD.md` and `CLAUDE.md` (not committed yet). Pages: none (`gh api …/pages` returns 404), so committed `.md` files are not published
-- [ ] Triage uncommitted edits and untracked files with Allen (commit, discard, keep local); back up anything discarded to the scratchpad. See the inventory below
-- [ ] Tags, before changing anything: `pre-refresh-2026` at HEAD (`26c259d`); a tag for each published edition if the commit can be found (4th edition PDF committed 2021-05-26). Push once Allen agrees
+- [x] `PROJECT_BOARD.md` and `CLAUDE.md`, committed (`cb5f018`, not pushed: Allen). Pages: none (`gh api …/pages` returns 404), so committed `.md` files are not published
+- [x] Triage uncommitted edits and untracked files with Allen (2026-10-31; see Decisions). Discarded files backed up to the session scratchpad (`discarded-2026-10-31/discarded.tar.gz`)
+- [x] `pre-refresh-2026` at `26c259d`, pushed 2026-10-31
+- [ ] A tag for each published edition if the commit can be found (4th edition PDF committed 2021-05-26).
 - [ ] Branches: `modsim`, `thinkoctave` (last commit 2014-12-09) and `wiki` on GitHub. Keep, tag-and-delete, or leave (Allen). Keep `master` as the default branch
-- [ ] Environment: `environment.yml` names the env `PhysicalModeling` (Octave, `octave_kernel`, Jupyter). Rename to `PhysicalModelingInMatlab`, check that it solves, and create it. Octave is not installed on this machine
+- [ ] Environment: `environment.yml` (Octave, `octave_kernel`, Jupyter; committed, env renamed `PhysicalModelingInMatlab`): check that it solves, and create it. Octave is not installed on this machine
 
 **1. Runs in a current environment**
 - [ ] Every script and function in `code/chap02`–`chap15` runs in current Octave (and, if Allen can check, current MATLAB). List what fails and why: Octave incompatibilities, missing functions (e.g. toolboxes), scripts that need input
@@ -62,14 +63,17 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Inventory (2026-10-31)
 
-- **Modified, uncommitted:** `.gitignore` (stops ignoring `*.pdf`), `book/Makefile` (`distrib` commits the PDF here instead of rsyncing to the old site), `book/chap00.tex` (ZIP name; Carey Smith in the acknowledgments), `book/chap06.tex` (escaped `find\_triples.m`), `book/links/urls.csv` (ZIP link), `book/figs/baseball3.eps`, `baseball4.eps` (regenerated)
-- **Untracked:** `PhysicalModelingInMATLAB.pdf` (2021-01-25, 2.7 MB; an earlier build?), `PhysicalModelingInMatlab/` (ZIP contents), `book/PhysicalModelingInMatlab4.pdf`, `book/backup/`, `book/chap15.md`, `book/images/*-eps-converted-to.pdf` (build output), `book/links/htaccess*`, `book/links/links.html`, `book/main.mtc0`, `book/replace.py`, `book/replace.sh`, `book/titlepages.tex`, `code/shift.sh`, `environment.yml`, `notebooks/chap01.ipynb` (a 2021 start on a notebook version of Chapter 1), `octave-workspace` (two copies)
+- **Modified, uncommitted (committed 2026-10-31, `06c5221`):** `.gitignore` (stops ignoring `*.pdf`), `book/Makefile` (`distrib` commits the PDF here instead of rsyncing to the old site), `book/chap00.tex` (ZIP name; Carey Smith in the acknowledgments), `book/chap06.tex` (escaped `find\_triples.m`), `book/links/urls.csv` (ZIP link), `book/figs/baseball3.eps`, `baseball4.eps` (regenerated)
+- **Untracked (sorted 2026-10-31, see Decisions):** `PhysicalModelingInMATLAB.pdf` (2021-01-25, 2.7 MB; an earlier build?), `PhysicalModelingInMatlab/` (ZIP contents), `book/PhysicalModelingInMatlab4.pdf`, `book/backup/`, `book/chap15.md`, `book/images/*-eps-converted-to.pdf` (build output), `book/links/htaccess*`, `book/links/links.html`, `book/main.mtc0`, `book/replace.py`, `book/replace.sh`, `book/titlepages.tex`, `code/shift.sh`, `environment.yml`, `notebooks/chap01.ipynb` (a 2021 start on a notebook version of Chapter 1), `octave-workspace` (two copies)
 - **Tracked at the root:** `ModSimMatlabCode.zip` (2019), `PhysicalModelingInMatlab.zip`, `PhysicalModelingInMatlab4.pdf`, `build.sh`, `fonts/`, `CONTRIBUTING.md`, `LICENSE`
 - **GitHub:** 96 stars; no open issues; PR #7 open; branches `modsim`, `thinkoctave`, `wiki`; no tags; no Pages
 
 ### Decisions
 
-(none yet)
+- 2026-10-31: the 2021 uncommitted book edits (ZIP name and link, acknowledgment, `find\_triples`, Makefile `distrib`, `.gitignore`, regenerated `baseball3/4.eps`) committed as `06c5221`
+- 2026-10-31: board files committed locally, not pushed
+- 2026-10-31: continue Task 1 before starting Task 2
+- 2026-10-31: untracked files: committed `book/titlepages.tex`, `environment.yml`, `book/links/htaccess` (the short-link redirects on GTP); build output ignored and deleted (`*-eps-converted-to.pdf`, `*.mtc0`, `book/*.pdf`); deleted the 2021 conversion leftovers (`book/backup/`, `replace.py`, `replace.sh`, `chap15.md`, `code/shift.sh`), `PhysicalModelingInMATLAB.pdf` (Jan 2021 build), `PhysicalModelingInMatlab/` (same as the ZIP's contents), `octave-workspace` (ignored), `htaccess.old`, `links.html`; `notebooks/chap01.ipynb` kept local and ignored, as input for Task 2
 
 ### Content issues
 
