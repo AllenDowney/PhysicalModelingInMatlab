@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-10-31)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tag `pre-refresh-2026`, 2021 edits committed, untracked files sorted; next, old branches and the env
+- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env being created
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -25,7 +25,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [x] Triage uncommitted edits and untracked files with Allen (2026-10-31; see Decisions). Discarded files backed up to the session scratchpad (`discarded-2026-10-31/discarded.tar.gz`)
 - [x] `pre-refresh-2026` at `26c259d`, pushed 2026-10-31
 - [ ] A tag for each published edition if the commit can be found (4th edition PDF committed 2021-05-26).
-- [ ] Branches: `modsim`, `thinkoctave` (last commit 2014-12-09) and `wiki` on GitHub. Keep, tag-and-delete, or leave (Allen). Keep `master` as the default branch
+- [x] Branches (2026-10-31): `modsim` (2013, draft modeling-and-simulation book), `thinkoctave` (2014, Octave edition) and `wiki` (2015, Google Code wiki page) tagged `archive/modsim`, `archive/thinkoctave`, `archive/wiki` and deleted on GitHub; `master` is the only branch
 - [ ] Environment: `environment.yml` (Octave, `octave_kernel`, Jupyter; committed, env renamed `PhysicalModelingInMatlab`): check that it solves, and create it. Octave is not installed on this machine
 
 **1. Runs in a current environment**
@@ -66,7 +66,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - **Modified, uncommitted (committed 2026-10-31, `06c5221`):** `.gitignore` (stops ignoring `*.pdf`), `book/Makefile` (`distrib` commits the PDF here instead of rsyncing to the old site), `book/chap00.tex` (ZIP name; Carey Smith in the acknowledgments), `book/chap06.tex` (escaped `find\_triples.m`), `book/links/urls.csv` (ZIP link), `book/figs/baseball3.eps`, `baseball4.eps` (regenerated)
 - **Untracked (sorted 2026-10-31, see Decisions):** `PhysicalModelingInMATLAB.pdf` (2021-01-25, 2.7 MB; an earlier build?), `PhysicalModelingInMatlab/` (ZIP contents), `book/PhysicalModelingInMatlab4.pdf`, `book/backup/`, `book/chap15.md`, `book/images/*-eps-converted-to.pdf` (build output), `book/links/htaccess*`, `book/links/links.html`, `book/main.mtc0`, `book/replace.py`, `book/replace.sh`, `book/titlepages.tex`, `code/shift.sh`, `environment.yml`, `notebooks/chap01.ipynb` (a 2021 start on a notebook version of Chapter 1), `octave-workspace` (two copies)
 - **Tracked at the root:** `ModSimMatlabCode.zip` (2019), `PhysicalModelingInMatlab.zip`, `PhysicalModelingInMatlab4.pdf`, `build.sh`, `fonts/`, `CONTRIBUTING.md`, `LICENSE`
-- **GitHub:** 96 stars; no open issues; PR #7 open; branches `modsim`, `thinkoctave`, `wiki`; no tags; no Pages
+- **GitHub:** 96 stars; no open issues; PR #7 open; branches `modsim`, `thinkoctave`, `wiki` (archived as tags 2026-10-31); no tags; no Pages
 
 ### Decisions
 

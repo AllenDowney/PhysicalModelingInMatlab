@@ -18,7 +18,7 @@ Open a real Octave Online bucket from a fresh browser session (private window, n
 
 - Chapter 2, *Scripts*, is `book/chap02.tex` (511 lines, about ten `code` listings). Its code is `code/chap02/`: `fibonacci1.m`, `myscript.m`, `swap.m`, `bike_update.m`. Check that it is still a good test case (no toolboxes, no input, short).
 - Listings are `\begin{code}` environments in the LaTeX, typed separately from the `.m` files, so the book and the code can already drift.
-- `environment.yml` has Octave, `octave_kernel` and Jupyter; `notebooks/chap01.ipynb` (local only, gitignored; 2021) is an earlier start on a notebook version of Chapter 1. Branch `thinkoctave` (2014) is an older Octave edition.
+- `environment.yml` has Octave, `octave_kernel` and Jupyter; `notebooks/chap01.ipynb` (local only, gitignored; 2021) is an earlier start on a notebook version of Chapter 1. Tag `archive/thinkoctave` (2014, formerly a branch) is an older Octave edition.
 - Octave is not installed on this machine; the env needs creating (Task 1, step 0).
 
 ## Options to investigate
