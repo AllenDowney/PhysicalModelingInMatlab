@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-10-31)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Step 1: chapter code runs in Octave, no incompatibilities; the code has drifted from the text (content issue 1)
+- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Step 1 done: chapter code runs in Octave and matches the book (drift fixed 2026-10-31); judgement calls in content issues 6–9. PR #7 closed
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -34,7 +34,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
   - Warnings: function name doesn't match file name in `chap08/exists2.m`, `chap12/proj1.m`, `proj2.m`, `chap13/golden.m` (`optimize`), `manny2.m`; `chap09/rats.m` shadows Octave's built-in `rats`, `chap15/odeplot.m` shadows the core `odeplot`
   - `chap10/lorenz_update.m` is a fragment (needs `sigma`, `r`, `b`, `dt` set first)
   - About 25 files are never named in the book (e.g. `fibonacci3`, `fibonacci_ratio`, `logchaos`, `plot_cheby6`, `exists2`, `runge`, `lorenz_diff`, `lorenz_loop`, `lorenz_update`, `plot_lorenz`, `penny2`, `baseball2`, `diagram`, `optimize`, `proj1`, `proj2`, `baseball3`, `baseball_anim`, `golden`, `manny`, `manny2`, `binary`, `odeplot`, `planet`); some may be the book's figure scripts (content issue 3)
-- [ ] Do the files match the book's listings? (content issue 1)
+- [x] Do the files match the book's listings? Compared all chapters 2026-10-31; the book is the source of truth (Allen). Fixed in `0da1450` (chapters 4–8) and the following commit (9–14): `find_triples.m` and a new `is_pythagorean.m`; duck mass r³ (it was r²) and a bracketed root search; `myfunc.m` header; `logmap.m` to the exercise spec; helpers copied where a chapter uses them (`hypotenuse.m` in chap06 and chap08, `myfunc.m` in chap08); the duck first draft moved to chap09; `a_gravity`; Manny wall constants (310 ft, 37 ft); axis labels and typos. Everything changed was rerun in Octave and matches the book's output where it shows any. Judgement calls left: content issues 6–9
 - [ ] `code/data/`: the files the examples read are in the repo; no dead URLs
 - [ ] `code/other/` (about 100 scripts, mostly older editions and student work) and `code/notebooks/` (`.mlx` live scripts): which does the book use? Default for leftovers: remove from `master`; they stay in the tags and history
 - [ ] `PhysicalModelingInMatlab.zip` matches `code/` (the untracked `PhysicalModelingInMatlab/` folder looks like the ZIP's contents, a subset of `code/`); a script that builds it
@@ -59,7 +59,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 **6. Book, releases and visibility**
 - [ ] The book builds from a clone (`book/Makefile`; `book/titlepages.tex` is untracked but `main.tex` inputs it)
 - [ ] PDF as a GitHub release asset (GreenTeaPress Task 7 pattern); the book page links `releases/latest/download/…`
-- [ ] Open PR #7 ("Resolving build errors", bsb808, 2024-08-23): review, merge or close with thanks
+- [x] PR #7 ("Resolving build errors", Brian Bingham, 2024-08-23): both fixes already on `master`; closed with thanks 2026-10-31
 - [ ] Repo description and topics (`scripts/repo_about.sh` in GreenTeaPress)
 - [ ] Site: none now. A web version is part of Task 2's decision; if it goes ahead, the SEO checklist (`~/GreenTeaPress/plans/seo.md`) applies
 
@@ -71,7 +71,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - **Modified, uncommitted (committed 2026-10-31, `06c5221`):** `.gitignore` (stops ignoring `*.pdf`), `book/Makefile` (`distrib` commits the PDF here instead of rsyncing to the old site), `book/chap00.tex` (ZIP name; Carey Smith in the acknowledgments), `book/chap06.tex` (escaped `find\_triples.m`), `book/links/urls.csv` (ZIP link), `book/figs/baseball3.eps`, `baseball4.eps` (regenerated)
 - **Untracked (sorted 2026-10-31, see Decisions):** `PhysicalModelingInMATLAB.pdf` (2021-01-25, 2.7 MB; an earlier build?), `PhysicalModelingInMatlab/` (ZIP contents), `book/PhysicalModelingInMatlab4.pdf`, `book/backup/`, `book/chap15.md`, `book/images/*-eps-converted-to.pdf` (build output), `book/links/htaccess*`, `book/links/links.html`, `book/main.mtc0`, `book/replace.py`, `book/replace.sh`, `book/titlepages.tex`, `code/shift.sh`, `environment.yml`, `notebooks/chap01.ipynb` (a 2021 start on a notebook version of Chapter 1), `octave-workspace` (two copies)
 - **Tracked at the root:** `ModSimMatlabCode.zip` (2019), `PhysicalModelingInMatlab.zip`, `PhysicalModelingInMatlab4.pdf`, `build.sh`, `fonts/`, `CONTRIBUTING.md`, `LICENSE`
-- **GitHub:** 96 stars; no open issues; PR #7 open; branches `modsim`, `thinkoctave`, `wiki` (archived as tags 2026-10-31); no tags; no Pages
+- **GitHub:** 96 stars; no open issues; PR #7 open (closed 2026-10-31); branches `modsim`, `thinkoctave`, `wiki` (archived as tags 2026-10-31); no tags; no Pages
 
 ### Decisions
 
@@ -87,6 +87,11 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 3. **Files the book never names** (list in step 1): book figure scripts, solutions, or leftovers? Keep, move or delete
 4. **Name clashes:** `rats.m` shadows Octave's `rats` (a reader who runs `rats` in that folder gets the book's function, which is intended, but Octave warns); `odeplot.m` shadows the core `odeplot`. Rename?
 5. **Function names that don't match file names** (`exists2.m`, `proj1.m`, `proj2.m`, `golden.m`, `manny2.m`): MATLAB uses the file name; Octave warns. Rename the functions to match
+6. **Chapter 12 initial velocity:** `baseball.m` has `V = [30; 40]`, the book's listing (chap12.tex:188, prose :180) has `[40; 30]`. But the prose at :226 ("ends just before the ball lands, having traveled almost 250 m") and the Chapter 13 animation (`W = [0 1 30 40]`, chap13.tex:268) fit `[30; 40]`; with `[40; 30]` the ball lands at 6.2 s and is underground at 8 s. So the listing may be the error
+7. **Chapter 3 `series.m`:** the file solves the exercise at chap03.tex:404 (recurrent version), but :437 says `series.m` holds Listing `lst:series_n` (direct version); the REPL at :440–452 shows `total =` where both print `ans =`
+8. **Figure scripts write to `book/figs/`, which the book no longer uses** (it includes `images/figureNN_MM_new.eps`). Keep the `saveas` lines, point them at `images/`, or remove them. `fibonacci4.m` writes an unused figure
+9. **Leftovers from earlier editions** (not in the book): `chap03/old/`, `chap03/fibonacci3.m`, `chap05/junk/`, `chap10/plot_lorenz.m` (broken), `lorenz_loop.m`, `lorenz_update.m`, `lorenz_diff.m` (duplicates `chap04/lorenz.m`), `chap11/freefall.m`, `chap12/optimize.m`, `proj1.m`, `proj2.m`, `chap13/golden.m`, `chap15/planet.m`
+10. **Book typos found on the way:** chap10.tex:293 `[drdt; dfdt]` vs the listing's `[dxdt; dydt]`; chap13.tex:140 repeats the caption of :81; chap13.tex:164–165 `x = fzero(...)` displays `ans =`; chap09.tex:345 vs :402 semicolon after `ode45`; chap11 penny2 needs a time span longer than the 10 s the text implies (:322, :327). Also exercise solutions that only partly do the exercise: `bike_loop.m` (no plot, chap03.tex:305), `lorenz.m` (no test call or time-series plot, chap10), `skydiver.m` (parachute at 8 m, not 1000 m)
 
 ---
 
