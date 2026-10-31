@@ -87,11 +87,19 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 3. **Files the book never names** (list in step 1): book figure scripts, solutions, or leftovers? Keep, move or delete
 4. **Name clashes:** `rats.m` shadows Octave's `rats` (a reader who runs `rats` in that folder gets the book's function, which is intended, but Octave warns); `odeplot.m` shadows the core `odeplot`. Rename?
 5. **Function names that don't match file names** (`exists2.m`, `proj1.m`, `proj2.m`, `golden.m`, `manny2.m`): MATLAB uses the file name; Octave warns. Rename the functions to match
-6. **Chapter 12 initial velocity:** `baseball.m` has `V = [30; 40]`, the book's listing (chap12.tex:188, prose :180) has `[40; 30]`. But the prose at :226 ("ends just before the ball lands, having traveled almost 250 m") and the Chapter 13 animation (`W = [0 1 30 40]`, chap13.tex:268) fit `[30; 40]`; with `[40; 30]` the ball lands at 6.2 s and is underground at 8 s. So the listing may be the error
-7. **Chapter 3 `series.m`:** the file solves the exercise at chap03.tex:404 (recurrent version), but :437 says `series.m` holds Listing `lst:series_n` (direct version); the REPL at :440–452 shows `total =` where both print `ans =`
-8. **Figure scripts write to `book/figs/`, which the book no longer uses** (it includes `images/figureNN_MM_new.eps`). Keep the `saveas` lines, point them at `images/`, or remove them. `fibonacci4.m` writes an unused figure
-9. **Leftovers from earlier editions** (not in the book): `chap03/old/`, `chap03/fibonacci3.m`, `chap05/junk/`, `chap10/plot_lorenz.m` (broken), `lorenz_loop.m`, `lorenz_update.m`, `lorenz_diff.m` (duplicates `chap04/lorenz.m`), `chap11/freefall.m`, `chap12/optimize.m`, `proj1.m`, `proj2.m`, `chap13/golden.m`, `chap15/planet.m`
+6. **DONE 2026-10-31 (Allen: [40; 30] everywhere).** Chapter 12 initial velocity: `baseball.m` has `V = [30; 40]`, the book's listing (chap12.tex:188, prose :180) has `[40; 30]`. But the prose at :226 ("ends just before the ball lands, having traveled almost 250 m") and the Chapter 13 animation (`W = [0 1 30 40]`, chap13.tex:268) fit `[30; 40]`; with `[40; 30]` the ball lands at 6.2 s and is underground at 8 s. So the listing may be the error
+7. **DONE 2026-10-31 (Allen: listing in `series.m`; solution moved to `series_recurrent.m`; REPL fixed to `ans =`).** Chapter 3 `series.m`: the file solves the exercise at chap03.tex:404 (recurrent version), but :437 says `series.m` holds Listing `lst:series_n` (direct version); the REPL at :440–452 shows `total =` where both print `ans =`
+8. **Leave as is (Allen, 2026-10-31).** Figure scripts write to `book/figs/`, which the book no longer uses** (it includes `images/figureNN_MM_new.eps`). Keep the `saveas` lines, point them at `images/`, or remove them. `fibonacci4.m` writes an unused figure
+9. **Keep for now (Allen, 2026-10-31).** Leftovers from earlier editions (not in the book): `chap03/old/`, `chap03/fibonacci3.m`, `chap05/junk/`, `chap10/plot_lorenz.m` (broken), `lorenz_loop.m`, `lorenz_update.m`, `lorenz_diff.m` (duplicates `chap04/lorenz.m`), `chap11/freefall.m`, `chap12/optimize.m`, `proj1.m`, `proj2.m`, `chap13/golden.m`, `chap15/planet.m`
 10. **Book typos found on the way:** chap10.tex:293 `[drdt; dfdt]` vs the listing's `[dxdt; dydt]`; chap13.tex:140 repeats the caption of :81; chap13.tex:164–165 `x = fzero(...)` displays `ans =`; chap09.tex:345 vs :402 semicolon after `ode45`; chap11 penny2 needs a time span longer than the 10 s the text implies (:322, :327). Also exercise solutions that only partly do the exercise: `bike_loop.m` (no plot, chap03.tex:305), `lorenz.m` (no test call or time-series plot, chap10), `skydiver.m` (parachute at 8 m, not 1000 m)
+11. **Figure 12.2 needs regenerating:** it shows the old `[30; 40]` trajectory (peak 82 m at 4 s, 240 m at 8 s). With `[40; 30]` and `tspan = [0 6]` the peak is 47 m near 3 s and the ball is at (240, 4.6) at 6 s
+
+### Errata (book changes, for the next build)
+
+- chap03.tex:440–452: REPL shows `ans =`, not `total =` (2026-10-31)
+- chap12.tex:191: `tspan = [0 6]` (was `[0 8]`, which ran the ball underground) (2026-10-31)
+- chap13.tex:268: `W = [0 1 40 30]` (was `[0 1 30 40]`) (2026-10-31)
+- Figure 12.2: regenerate (content issue 11)
 
 ---
 
