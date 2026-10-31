@@ -1,0 +1,90 @@
+# PhysicalModelingInMatlab Project Board
+
+Numbered tasks for tracking work. Each task has a permanent number; add new tasks at the end. Update status as work progresses.
+
+**Status values:** `Pending`, `In progress`, `DONE`
+
+This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX source (`book/`), the code for each chapter (`code/chapNN/`), the PDF (`PhysicalModelingInMatlab4.pdf`, committed) and the code ZIP the book links to (`PhysicalModelingInMatlab.zip`). The book page is <https://greenteapress.com/wp/physical-modeling-in-matlab/> (support code `matlab`). Last commit 2021-06-16. No GitHub Pages site.
+
+### Current focus (2026-10-31)
+
+- **Task 1:** Refresh — set up (this board, `CLAUDE.md`); nothing else started
+- **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
+
+---
+
+## Task 1: Refresh
+
+**Status:** In progress (board created 2026-10-31)
+
+**Context:** Same steps as the recent refreshes of the workshop and book repos. The guide is the "Refresh checklist" in `~/GreenTeaPress/plans/workshops.md`; the Python- and Colab-specific steps are adapted here for a MATLAB book (Octave in place of Python, no notebooks to run in CI). Related GreenTeaPress board items: Task 7 (PDF as a GitHub release asset; this book is the one remaining), Task 9 (`.tex` sources with lost-domain URLs, at the next build), Task 19 (support link, code `matlab`).
+
+**0. Set up**
+- [x] `git fetch` and `git status`: up to date with `origin/master` (2026-10-31)
+- [x] `PROJECT_BOARD.md` and `CLAUDE.md` (not committed yet). Pages: none (`gh api …/pages` returns 404), so committed `.md` files are not published
+- [ ] Triage uncommitted edits and untracked files with Allen (commit, discard, keep local); back up anything discarded to the scratchpad. See the inventory below
+- [ ] Tags, before changing anything: `pre-refresh-2026` at HEAD (`26c259d`); a tag for each published edition if the commit can be found (4th edition PDF committed 2021-05-26). Push once Allen agrees
+- [ ] Branches: `modsim`, `thinkoctave` (last commit 2014-12-09) and `wiki` on GitHub. Keep, tag-and-delete, or leave (Allen). Keep `master` as the default branch
+- [ ] Environment: `environment.yml` names the env `PhysicalModeling` (Octave, `octave_kernel`, Jupyter). Rename to `PhysicalModelingInMatlab`, check that it solves, and create it. Octave is not installed on this machine
+
+**1. Runs in a current environment**
+- [ ] Every script and function in `code/chap02`–`chap15` runs in current Octave (and, if Allen can check, current MATLAB). List what fails and why: Octave incompatibilities, missing functions (e.g. toolboxes), scripts that need input
+- [ ] `code/data/`: the files the examples read are in the repo; no dead URLs
+- [ ] `code/other/` (about 100 scripts, mostly older editions and student work) and `code/notebooks/` (`.mlx` live scripts): which does the book use? Default for leftovers: remove from `master`; they stay in the tags and history
+- [ ] `PhysicalModelingInMatlab.zip` matches `code/` (the untracked `PhysicalModelingInMatlab/` folder looks like the ZIP's contents, a subset of `code/`); a script that builds it
+
+**2. Tests and CI**
+- [ ] A test that runs the chapter code in Octave (headless, plots to files), with a list of expected failures
+- [ ] GitHub Actions `tests.yml`: push, pull request, monthly schedule, `workflow_dispatch`; Octave from apt; `actions/checkout@v5`; `timeout-minutes`. Watch the first run
+- [ ] Status badge in the README
+- [ ] Optional: the LaTeX build in CI
+
+**3. Running online** (in place of the Colab step)
+- [ ] See Task 2. Until it is decided, the book and README tell readers to install MATLAB or Octave
+
+**4. Text**
+- [ ] codespell and a link check over `book/*.tex`, `book/links/urls.csv` and the README; fix clear typos and broken links only (http → https where it works)
+- [ ] Everything else goes in the **content issues** list below for Allen
+- [ ] License: the text is CC BY-NC-SA? (check `LICENSE` and the copyright page); code MIT (Allen's rule for the workshops, 2026-10-20). README says both
+
+**5. README in a standard shape**
+- [ ] Title; badge; author; abstract; who it is for and prerequisites; table of contents with links to each chapter's code; the PDF (release asset) and the printed book; running the code (MATLAB, Octave, and online if Task 2 says so); support link (`/support/?book=matlab`); license
+
+**6. Book, releases and visibility**
+- [ ] The book builds from a clone (`book/Makefile`; `book/titlepages.tex` is untracked but `main.tex` inputs it)
+- [ ] PDF as a GitHub release asset (GreenTeaPress Task 7 pattern); the book page links `releases/latest/download/…`
+- [ ] Open PR #7 ("Resolving build errors", bsb808, 2024-08-23): review, merge or close with thanks
+- [ ] Repo description and topics (`scripts/repo_about.sh` in GreenTeaPress)
+- [ ] Site: none now. A web version is part of Task 2's decision; if it goes ahead, the SEO checklist (`~/GreenTeaPress/plans/seo.md`) applies
+
+**7. Close**
+- [ ] Tag `2026-refresh` and push; note what was done and what is on the content issues list on the GreenTeaPress board
+
+### Inventory (2026-10-31)
+
+- **Modified, uncommitted:** `.gitignore` (stops ignoring `*.pdf`), `book/Makefile` (`distrib` commits the PDF here instead of rsyncing to the old site), `book/chap00.tex` (ZIP name; Carey Smith in the acknowledgments), `book/chap06.tex` (escaped `find\_triples.m`), `book/links/urls.csv` (ZIP link), `book/figs/baseball3.eps`, `baseball4.eps` (regenerated)
+- **Untracked:** `PhysicalModelingInMATLAB.pdf` (2021-01-25, 2.7 MB; an earlier build?), `PhysicalModelingInMatlab/` (ZIP contents), `book/PhysicalModelingInMatlab4.pdf`, `book/backup/`, `book/chap15.md`, `book/images/*-eps-converted-to.pdf` (build output), `book/links/htaccess*`, `book/links/links.html`, `book/main.mtc0`, `book/replace.py`, `book/replace.sh`, `book/titlepages.tex`, `code/shift.sh`, `environment.yml`, `notebooks/chap01.ipynb` (a 2021 start on a notebook version of Chapter 1), `octave-workspace` (two copies)
+- **Tracked at the root:** `ModSimMatlabCode.zip` (2019), `PhysicalModelingInMatlab.zip`, `PhysicalModelingInMatlab4.pdf`, `build.sh`, `fonts/`, `CONTRIBUTING.md`, `LICENSE`
+- **GitHub:** 96 stars; no open issues; PR #7 open; branches `modsim`, `thinkoctave`, `wiki`; no tags; no Pages
+
+### Decisions
+
+(none yet)
+
+### Content issues
+
+(none yet)
+
+---
+
+## Task 2: Investigate running the examples online (Octave)
+
+**Status:** Pending
+
+**Goal:** Find the easiest reliable way for readers to run and modify the book's examples in a browser, with no install and ideally no account, without creating a maintenance burden. Feasibility study and a small proof of concept on Chapter 2 (Scripts), not an implementation.
+
+**Plan:** [planning/online_execution.md](planning/online_execution.md)
+
+**First experiment:** open a real Octave Online bucket from a fresh browser session. If a reader can immediately see, modify and run a complete example, that may be enough to justify a GitHub Pages version that links to buckets, without inline execution.
+
+**Deliverable:** a feasibility report in `planning/`: verified capabilities with links, comparison table, recommended architecture, a working demo link for one real example, maintenance strategy, open questions.
