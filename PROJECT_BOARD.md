@@ -40,7 +40,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [ ] `PhysicalModelingInMatlab.zip` matches `code/` (the untracked `PhysicalModelingInMatlab/` folder looks like the ZIP's contents, a subset of `code/`); a script that builds it
 
 **2. Tests and CI**
-- [ ] A test that runs the chapter code in Octave (headless, plots to files), with a list of expected failures
+- [ ] A test that runs the chapter code in Octave (headless, plots to files), with a list of expected failures. **Run it on a copy of `code/`:** 14 scripts save figures to `../../book/figs/` (`saveas`), so running them in place overwrites the book's figures (happened once in step 1, 2026-10-31; restored with `git checkout`)
 - [ ] GitHub Actions `tests.yml`: push, pull request, monthly schedule, `workflow_dispatch`; Octave from apt; `actions/checkout@v5`; `timeout-minutes`. Watch the first run
 - [ ] Status badge in the README
 - [ ] Optional: the LaTeX build in CI
