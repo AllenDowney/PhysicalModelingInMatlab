@@ -22,6 +22,5 @@
 *.mtc1
 *.out
 *.synctex.gz
-*.pdf
 *.tex.bak
 book/html

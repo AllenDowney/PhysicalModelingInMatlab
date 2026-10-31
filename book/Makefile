@@ -9,9 +9,8 @@ all:
 	makeindex main
 	mv main.pdf $(PDF)
 
-
-DEST = /home/downey/public_html/greent/matlab
-
 distrib:
-	rsync -a $(PDF) html $(DEST)
-	cd $(DEST)/..; sh back
+	rsync -a $(PDF) ..
+	cd ..; git add $(PDF)
+	git commit -m "Updating PDF"
+	git push
