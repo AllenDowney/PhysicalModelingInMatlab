@@ -1,6 +1,5 @@
 name: PhysicalModelingInMatlab
 channels:
-  - default
   - conda-forge
 dependencies:
   - jupyter

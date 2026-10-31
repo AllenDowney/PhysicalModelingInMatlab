@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-10-31)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env being created
+- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Step 0 done except edition tags; next, step 1 (run the chapter code in Octave)
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -26,7 +26,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [x] `pre-refresh-2026` at `26c259d`, pushed 2026-10-31
 - [ ] A tag for each published edition if the commit can be found (4th edition PDF committed 2021-05-26).
 - [x] Branches (2026-10-31): `modsim` (2013, draft modeling-and-simulation book), `thinkoctave` (2014, Octave edition) and `wiki` (2015, Google Code wiki page) tagged `archive/modsim`, `archive/thinkoctave`, `archive/wiki` and deleted on GitHub; `master` is the only branch
-- [ ] Environment: `environment.yml` (Octave, `octave_kernel`, Jupyter; committed, env renamed `PhysicalModelingInMatlab`): check that it solves, and create it. Octave is not installed on this machine
+- [x] Environment (2026-10-31): `environment.yml` on conda-forge only, env `PhysicalModelingInMatlab` created: GNU Octave 10.3.0, `octave_kernel`, Jupyter
 
 **1. Runs in a current environment**
 - [ ] Every script and function in `code/chap02`–`chap15` runs in current Octave (and, if Allen can check, current MATLAB). List what fails and why: Octave incompatibilities, missing functions (e.g. toolboxes), scripts that need input
