@@ -1,6 +1,6 @@
 # Running the examples online: feasibility study
 
-Board: Task 2. Status: not started (plan written 2026-10-31).
+Board: Task 2. Status: report written 2026-11-01 ([online_execution_report.md](online_execution_report.md)); plan written 2026-10-31.
 
 ## Goal
 
