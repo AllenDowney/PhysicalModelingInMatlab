@@ -5,7 +5,8 @@ Usage: python site/tex2nb.py CHAPTER AUX OUTPUT
 
 CHAPTER is the chapter number; AUX is main.aux from a build of the book (for
 the numbers of figures, sections and listings); OUTPUT is the notebook.
-Edits for a chapter (cells to add, blocks to skip) go in site/notebooks/chapNN.json.
+Edits for a chapter (cells to add, blocks to skip, solutions) go in site/notebooks/chapNN.json.
+The output is the solution version; remove_soln.py makes the student version.
 
 Prose becomes markdown cells (through pandoc), code listings become Octave
 code cells, figures are embedded as PNG attachments, and output the book
@@ -27,6 +28,9 @@ BOOK = Path(__file__).resolve().parent.parent / "book"
 KERNELSPEC = {"name": "xoctave", "display_name": "Octave (xoctave)", "language": "octave"}
 
 # Blocks of book output that start like this are error messages.
+# Solution cells start with this line (as "# Solution" in Allen's Python books).
+SOLUTION = "% Solution"
+
 ERROR_STARTS = ("Error", "error:", "Not enough", "Output argument", "Undefined")
 
 
@@ -192,8 +196,10 @@ def convert(chapter, aux, nb_path):
     def flush():
         md = to_markdown(preprocess("".join(text_buf), labels)) if text_buf else ""
         text_buf.clear()
-        if md:
-            cells.append(markdown_cell(md))
+        # start a new cell at each heading, so a section's text begins its own cell
+        for part in re.split(r"\n(?=#{1,6} )", md):
+            if part.strip():
+                cells.append(markdown_cell(part.strip()))
 
     for block in split_blocks(tex):
         if block[0] == "text":
@@ -229,8 +235,13 @@ def convert(chapter, aux, nb_path):
             else:
                 cells.append(code_cell(extra))
     flush()
-    if r"\begin{ex}" in tex:
-        cells.append(code_cell("% Your solution to the exercise here\n"))
+    # Solutions come from files in code/; remove_soln.py blanks them for the student version.
+    for sol in edits.get("solutions", []):
+        source = (BOOK.parent / sol["file"]).read_text()
+        source = "\n".join(l for l in source.splitlines() if "saveas(gcf, '../../book/figs/" not in l)
+        cells.append(code_cell(SOLUTION + "\n\n" + source.strip()))
+        if "call" in sol:
+            cells.append(code_cell(SOLUTION + "\n\n" + sol["call"]))
 
     nb = {"cells": cells,
           "metadata": {"kernelspec": KERNELSPEC,

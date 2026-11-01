@@ -122,11 +122,17 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 **Chapter notebook prototype (2026-11-01, Allen: "turn each chapter into a notebook with all of the text, and all of the REPL examples runnable", if this environment works out):** `site/tex2nb.py` converts a chapter's LaTeX to a notebook: prose through pandoc (cross-references numbered from `main.aux`), listings and REPL examples as Octave code cells (`>>` prompts and shown results dropped; MATLAB error messages kept as text), figures embedded as PNG. Per-chapter edits in `site/notebooks/chapNN.json`. Chapter 9 done (`site/notebooks/chap09.ipynb`, 57 cells): every cell runs in headless Chromium, apart from the intentional errors. Findings:
 - Functions defined in cells work (and later definitions replace earlier ones), so "put this in a file" listings run as cells; cells that only define functions get a call added after them
 - Each cell starts a new figure, so `xlabel`/`legend` examples need the plot in the same cell (Chapter 9: a small `plot_solutions` helper)
-- **`legend('euler', 'ode45')` hangs the kernel** (also on the upstream demo; `legend('a', 'b')` works; depends on the labels); Chapter 9's two legend examples are static for now. Report upstream with this repro: `plot(1:3, 1:3); hold on; plot(1:3, 2:4); legend('euler', 'ode45')`
+- **`legend` hangs the kernel for some labels at some font sizes** (also on the upstream demo); worked around per cell with `set(gca, 'fontsize', 11)` (Chapter 9). Tracked with the other upstream bugs in [planning/upstream_issues.md](planning/upstream_issues.md)
 - `saveas` can't work in the browser (no Ghostscript); shown as static text
 - Run All stops at the first intentional error (JupyterLab ignores `raises-exception`), so readers step through with Shift+Enter
 
-**Next:** Allen reviews the Chapter 9 notebook in a real browser; decide how to present intentional errors (now: Run All stops there); report the legend bug to jupyter-xeus/xeus-octave; then convert more chapters
+- Each heading starts a new markdown cell (Allen, 2026-11-01)
+- **Solutions (Allen, 2026-11-01):** the generated notebook is the solution version; exercise solutions come from the files in `code/` (Chapter 9: `coffee.m`), in cells starting `% Solution`. `site/remove_soln.py` makes the student version (`% Solution goes here`, as in ModSimPy) at build time. On the site: `chapNN/chapNN.ipynb` (student), `solutions/chapNN.ipynb`
+- Upstream bugs and xeus-octave's health: [planning/upstream_issues.md](planning/upstream_issues.md). Maintained by QuantStack in bursts; quiet since 2026-03; a fork is feasible if needed
+
+**Decision (Allen, 2026-11-01):** this is the way to go: convert each chapter to a notebook with all the text and runnable examples.
+
+**Next:** report the upstream issues; convert more chapters; decide how to present intentional errors (now: Run All stops there)
 
 **Goal:** Find the easiest reliable way for readers to run and modify the book's examples in a browser, with no install and ideally no account, without creating a maintenance burden. Feasibility study and a small proof of concept on Chapter 2 (Scripts), not an implementation.
 

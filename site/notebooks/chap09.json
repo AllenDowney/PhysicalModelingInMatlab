@@ -1,5 +1,5 @@
 {
-  "comment": "Edits for chap09.ipynb. Code blocks (code, lstlisting and stdout environments, including ones that only show output) are numbered from 1 in the order they appear in book/chap09.tex. 'after': cells to add after a block (a string of code, {source, raises_exception}, or {markdown}); 'raises_exception': blocks whose cells raise an error on purpose. 'prepend': code to put before a block's code; 'static': blocks shown as text, not run.",
+  "comment": "Edits for chap09.ipynb. Code blocks (code, lstlisting and stdout environments, including ones that only show output) are numbered from 1 in the order they appear in book/chap09.tex. 'after': cells to add after a block (a string of code, {source, raises_exception}, or {markdown}); 'raises_exception': blocks whose cells raise an error on purpose. 'prepend': code to put before a block's code; 'static': blocks shown as text, not run. 'solutions': files in code/ (and a call) that solve the chapter's exercises; remove_soln.py blanks them for the student version.",
   "after": {
     "1": [
       "duck"
@@ -24,22 +24,23 @@
     ],
     "16": [
       "% In this notebook each cell starts a new figure, so the examples below\n% call this function first to draw the two solutions in Figure 9.2 again.\nfunction plot_solutions()\n    [T, Y] = ode45(@(t, y) 0.2 * y, [0, 4], 5);\n    T_euler = 0:0.1:4;\n    Y_euler = 5 * 1.02 .^ (0:40);    % Euler's method with dt = 0.1\n    plot(T_euler, Y_euler, T, Y, '--')\nend"
-    ],
-    "19": [
-      {
-        "markdown": "*In the browser version of Octave, `legend` with these labels currently hangs (a bug in xeus-octave's graphics), so these two examples are shown but not run here. They work in MATLAB and desktop Octave.*"
-      }
     ]
   },
   "raises_exception": [
     11
   ],
   "prepend": {
-    "17": "plot_solutions"
+    "17": "plot_solutions",
+    "18": "plot_solutions\nset(gca, 'fontsize', 11)    % works around a bug in the browser version of Octave",
+    "19": "plot_solutions\nset(gca, 'fontsize', 11)    % works around a bug in the browser version of Octave"
   },
   "static": [
-    18,
-    19,
     20
+  ],
+  "solutions": [
+    {
+      "file": "code/chap09/coffee.m",
+      "call": "coffee"
+    }
   ]
 }
