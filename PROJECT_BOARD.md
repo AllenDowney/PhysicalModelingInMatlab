@@ -24,7 +24,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [x] `PROJECT_BOARD.md` and `CLAUDE.md`, committed (`cb5f018`, not pushed: Allen). Pages: none (`gh api …/pages` returns 404), so committed `.md` files are not published
 - [x] Triage uncommitted edits and untracked files with Allen (2026-10-31; see Decisions). Discarded files backed up to the session scratchpad (`discarded-2026-10-31/discarded.tar.gz`)
 - [x] `pre-refresh-2026` at `26c259d`, pushed 2026-10-31
-- [ ] A tag for each published edition if the commit can be found (4th edition PDF committed 2021-05-26).
+- [x] A tag for each published edition if the commit can be found (4th edition PDF committed 2021-05-26). `v4.0.0` at 2320f7f (2026-11-01); no commits for earlier editions (the 2014 Octave edition is `archive/thinkoctave`)
 - [x] Branches (2026-10-31): `modsim` (2013, draft modeling-and-simulation book), `thinkoctave` (2014, Octave edition) and `wiki` (2015, Google Code wiki page) tagged `archive/modsim`, `archive/thinkoctave`, `archive/wiki` and deleted on GitHub; `master` is the only branch
 - [x] Environment (2026-10-31): `environment.yml` on conda-forge only, env `PhysicalModelingInMatlab` created: GNU Octave 10.3.0, `octave_kernel`, Jupyter
 
@@ -35,7 +35,8 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
   - `chap10/lorenz_update.m` is a fragment (needs `sigma`, `r`, `b`, `dt` set first)
   - About 25 files are never named in the book (e.g. `fibonacci3`, `fibonacci_ratio`, `logchaos`, `plot_cheby6`, `exists2`, `runge`, `lorenz_diff`, `lorenz_loop`, `lorenz_update`, `plot_lorenz`, `penny2`, `baseball2`, `diagram`, `optimize`, `proj1`, `proj2`, `baseball3`, `baseball_anim`, `golden`, `manny`, `manny2`, `binary`, `odeplot`, `planet`); some may be the book's figure scripts (content issue 3)
 - [x] Do the files match the book's listings? Compared all chapters 2026-10-31; the book is the source of truth (Allen). Fixed in `0da1450` (chapters 4–8) and the following commit (9–14): `find_triples.m` and a new `is_pythagorean.m`; duck mass r³ (it was r²) and a bracketed root search; `myfunc.m` header; `logmap.m` to the exercise spec; helpers copied where a chapter uses them (`hypotenuse.m` in chap06 and chap08, `myfunc.m` in chap08); the duck first draft moved to chap09; `a_gravity`; Manny wall constants (310 ft, 37 ft); axis labels and typos. Everything changed was rerun in Octave and matches the book's output where it shows any. Judgement calls left: content issues 6–9
-- [ ] `code/data/`: the files the examples read are in the repo; no dead URLs
+- [x] `code/data/`: the files the examples read are in the repo; no dead URLs. The chapter code reads none of them; `baseball_drag.png` is linked from chap12 (short link `drag`, live); the CSVs are for the `.mlx` notebooks
+- [x] The ZIP (2026-11-01): 8 of its files had the bugs fixed in step 1 and `find_triples.m`, `bike_loop.m` lacked helpers. `build.sh` fixed (adds `is_pythagorean.m`, `bike_update.m`; replaces the ZIP instead of adding to it; own README, since the repo README's links are relative) and the ZIP rebuilt; its 23 test cases pass on the unzipped ZIP
 - [ ] `code/other/` (about 100 scripts, mostly older editions and student work) and `code/notebooks/` (`.mlx` live scripts): which does the book use? Default for leftovers: remove from `master`; they stay in the tags and history
 - [ ] `PhysicalModelingInMatlab.zip` matches `code/` (the untracked `PhysicalModelingInMatlab/` folder looks like the ZIP's contents, a subset of `code/`); a script that builds it
 
