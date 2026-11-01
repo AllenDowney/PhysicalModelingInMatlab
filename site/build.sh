@@ -8,6 +8,7 @@ rm -rf content dist .jupyterlite.doit.db
 mkdir content
 cp README.md content/
 cp -r ../code/chap?? content/
+shopt -s nullglob
 for nb in notebooks/chap??.ipynb; do
     cp "$nb" "content/$(basename "$nb" .ipynb)/"
 done
