@@ -6,7 +6,7 @@
 % ground, the shell stops rotating and the core rotates relative
 % shell, causing a displacement between the angle of the core
 % and the shell, which generates a restoring torque.  This torque
-% creates a force that acts beween the ball and the floor,
+% creates a force that acts between the ball and the floor,
 % accelerating the ball laterally.
 
 function res = lacrosse()

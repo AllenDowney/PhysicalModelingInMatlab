@@ -24,7 +24,7 @@ Y3=-l3*cos(1/2*td^2);
 dY3dt= -l3*sin(1/2*td^2)*td;
 
 
-%conveting the X cordinace to phi cordinance
+%converting the X coordinate to phi coordinate
 X1= l1*sin((1/2)*td^2);
 dX1dt= l1*cos((1/2)*td^2)*td;
 X2=l2*sin(1/2*pd^2)+X1;

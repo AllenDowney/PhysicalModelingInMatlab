@@ -9,7 +9,7 @@ function [ av ] = rot_av ( rot )
 
 % solve for w matrix from finding eigenvalue problem
 % that rot*w = w, where w is the vector we're rotating around
-% and the compex eigenvals are e^{i Phi} and e^{-i Phi}
+% and the complex eigenvals are e^{i Phi} and e^{-i Phi}
 % and Phi is the vector we're rotating about
 [eigvec, eigval] = eig(rot);
 

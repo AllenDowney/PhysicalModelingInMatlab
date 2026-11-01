@@ -1,7 +1,7 @@
 function res = corn()
     % run a simulation of the enzyme action in fuel alcohol production
     % and return the time (in hours) to reduce the unavailable starch
-    % concentation to 0.01 (mMol/L)
+    % concentration to 0.01 (mMol/L)
     options = odeset('Events', @event_func);
 
     tend = 50 * 60 * 60;                    % 50 hours in seconds

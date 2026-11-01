@@ -55,7 +55,7 @@ else
     psi = -9999;
 end
 
-% Caluculate the three Euler angles, phi, theta, psi
+% Calculate the three Euler angles, phi, theta, psi
 euler(1) = phi;
 euler(2) = theta;
 euler(3) = psi;

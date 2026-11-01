@@ -6,9 +6,9 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 
 This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX source (`book/`), the code for each chapter (`code/chapNN/`), the PDF (`PhysicalModelingInMatlab4.pdf`, committed) and the code ZIP the book links to (`PhysicalModelingInMatlab.zip`). The book page is <https://greenteapress.com/wp/physical-modeling-in-matlab/> (support code `matlab`). Last commit 2021-06-16. No GitHub Pages site.
 
-### Current focus (2026-10-31)
+### Current focus (2026-11-01)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Steps 1–2 done: chapter code runs in Octave and matches the book; CI green. Next, step 4 (typos and links)
+- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Steps 1, 2 and 4 done: chapter code runs in Octave and matches the book; CI green; typos, links and license checked. Next, step 5 (README)
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -49,9 +49,9 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [ ] See Task 2. Until it is decided, the book and README tell readers to install MATLAB or Octave
 
 **4. Text**
-- [ ] codespell and a link check over `book/*.tex`, `book/links/urls.csv` and the README; fix clear typos and broken links only (http → https where it works)
-- [ ] Everything else goes in the **content issues** list below for Allen
-- [ ] License: the text is CC BY-NC-SA? (check `LICENSE` and the copyright page); code MIT (Allen's rule for the workshops, 2026-10-20). README says both
+- [x] codespell and a link check over `book/*.tex`, `book/links/urls.csv` and the README; fix clear typos and broken links only (http → https where it works). 2026-11-01: all 31 links resolve (the MathWorks, Fandom, gnu.org and StackExchange 403s are bot blocks; checked by hand; the YouTube videos still exist). The book text had no codespell hits apart from MATLAB words (`ans`, `whos`) and no doubled words; fixed eight comment typos in `code/`. `urls.csv` and `htaccess`: `license` and `book` now https, and `fzero` (used in chap07, live on the server, missing from the CSV) added. The server's `.htaccess` was not touched; it already redirects correctly
+- [x] Everything else goes in the **content issues** list below for Allen
+- [x] License: the text is CC BY-NC 4.0 (`LICENSE` and the copyright page agree); code MIT. Fixed "4.0 Unported" to "4.0 International" in both. The README doesn't state a license yet (step 5)
 
 **5. README in a standard shape**
 - [ ] Title; badge; author; abstract; who it is for and prerequisites; table of contents with links to each chapter's code; the PDF (release asset) and the printed book; running the code (MATLAB, Octave, and online if Task 2 says so); support link (`/support/?book=matlab`); license

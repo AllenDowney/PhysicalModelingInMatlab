@@ -3,7 +3,7 @@
 
 function res = bisection_func(flag)
     % if flag is 1, run the animation at the critical velocity
-    % (minium that gets over the ramp)
+    % (minimum that gets over the ramp)
     % otherwise, run a bisection search for the critical velocity
     if flag
         v = 5.357540588225950;       % initial velocity of the rider/board

@@ -22,7 +22,7 @@ end
 
 function M = logmap(r, x1, n)
 % use the logistic map function to compute the
-% first (n) values of the sequence, starting wih
+% first (n) values of the sequence, starting with
 % (x1) and using parameter (r)
     X(1) = x1;
 

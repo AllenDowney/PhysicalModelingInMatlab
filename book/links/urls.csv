@@ -1,5 +1,5 @@
-license,http://creativecommons.org/licenses/by-nc/4.0/
-book,http://greenteapress.com/matlab
+license,https://creativecommons.org/licenses/by-nc/4.0/
+book,https://greenteapress.com/wp/physical-modeling-in-matlab/
 brent,https://en.wikipedia.org/wiki/Brents_method
 fixed,https://en.wikipedia.org/wiki/Fixed-point_iteration
 golden,https://en.wikipedia.org/wiki/Golden-section_search#Probe_point_selection
@@ -26,3 +26,4 @@ solver,https://www.mathworks.com/help/matlab/math/choose-an-ode-solver.html
 nested,https://www.mathworks.com/help/matlab/matlab_prog/nested-functions.html
 dunk,https://www.youtube.com/watch?v=UBf7WC19lpw
 chain,https://www.youtube.com/watch?v=X-QFAB0gEtE
+fzero,https://www.mathworks.com/help/matlab/ref/fzero.html

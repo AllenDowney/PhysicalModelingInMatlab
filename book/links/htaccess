@@ -1,5 +1,5 @@
-Redirect /matlab/license http://creativecommons.org/licenses/by-nc/4.0/
-Redirect /matlab/book http://greenteapress.com/matlab
+Redirect /matlab/license https://creativecommons.org/licenses/by-nc/4.0/
+Redirect /matlab/book https://greenteapress.com/wp/physical-modeling-in-matlab/
 Redirect /matlab/brent https://en.wikipedia.org/wiki/Brents_method
 Redirect /matlab/fixed https://en.wikipedia.org/wiki/Fixed-point_iteration
 Redirect /matlab/golden https://en.wikipedia.org/wiki/Golden-section_search#Probe_point_selection
@@ -26,3 +26,4 @@ Redirect /matlab/solver https://www.mathworks.com/help/matlab/math/choose-an-ode
 Redirect /matlab/nested https://www.mathworks.com/help/matlab/matlab_prog/nested-functions.html
 Redirect /matlab/dunk https://www.youtube.com/watch?v=UBf7WC19lpw
 Redirect /matlab/chain https://www.youtube.com/watch?v=X-QFAB0gEtE
+Redirect /matlab/fzero https://www.mathworks.com/help/matlab/ref/fzero.html
