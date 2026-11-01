@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-11-01)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Steps 1, 2, 4 and 5 done: chapter code runs in Octave and matches the book; CI green; typos, links and license checked; README rewritten. Next, step 6 (book builds from a clone, PDF as a release asset, repo description)
+- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Steps 1, 2, 4, 5 and 6 done (PDF release deferred by Allen). Left: step 0 edition tags, step 1 `code/data` and the ZIP, step 7 tag `2026-refresh`
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -58,9 +58,9 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 **6. Book, releases and visibility**
 - [x] The book builds from a clone (`book/Makefile`; `book/titlepages.tex` is untracked but `main.tex` inputs it). 2026-11-01: `make` ran pdflatex once, so a clean build had no contents, index or references; now makeindex and two more passes. 178 pages, the same as the 2021 PDF
-- [ ] PDF as a GitHub release asset (GreenTeaPress Task 7 pattern); the book page links `releases/latest/download/…`
+- [ ] PDF as a GitHub release asset (GreenTeaPress Task 7 pattern); the book page links `releases/latest/download/…`. **Not now (Allen, 2026-11-01):** the root PDF stays the 2021 build for now
 - [x] PR #7 ("Resolving build errors", Brian Bingham, 2024-08-23): both fixes already on `master`; closed with thanks 2026-10-31
-- [ ] Repo description and topics (`scripts/repo_about.sh` in GreenTeaPress)
+- [x] Repo description and topics (`scripts/repo_about.sh` in GreenTeaPress). Set 2026-11-01 with `gh repo edit`: description "Physical Modeling in MATLAB: a free textbook on programming, modeling and simulation in MATLAB and GNU Octave", website the Green Tea Press book page, topics matlab, octave, modeling, simulation, physics, textbook
 - [ ] Site: none now. A web version is part of Task 2's decision; if it goes ahead, the SEO checklist (`~/GreenTeaPress/plans/seo.md`) applies
 
 **7. Close**
@@ -92,11 +92,12 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 8. **Leave as is (Allen, 2026-10-31).** Figure scripts write to `book/figs/`, which the book no longer uses** (it includes `images/figureNN_MM_new.eps`). Keep the `saveas` lines, point them at `images/`, or remove them. `fibonacci4.m` writes an unused figure
 9. **Keep for now (Allen, 2026-10-31).** Leftovers from earlier editions (not in the book): `chap03/old/`, `chap03/fibonacci3.m`, `chap05/junk/`, `chap10/plot_lorenz.m` (broken), `lorenz_loop.m`, `lorenz_update.m`, `lorenz_diff.m` (duplicates `chap04/lorenz.m`), `chap11/freefall.m`, `chap12/optimize.m`, `proj1.m`, `proj2.m`, `chap13/golden.m`, `chap15/planet.m`
 10. **Book typos found on the way:** chap10.tex:293 `[drdt; dfdt]` vs the listing's `[dxdt; dydt]`; chap13.tex:140 repeats the caption of :81; chap13.tex:164–165 `x = fzero(...)` displays `ans =`; chap09.tex:345 vs :402 semicolon after `ode45`; chap11 penny2 needs a time span longer than the 10 s the text implies (:322, :327). Also exercise solutions that only partly do the exercise: `bike_loop.m` (no plot, chap03.tex:305), `lorenz.m` (no test call or time-series plot, chap10), `skydiver.m` (parachute at 8 m, not 1000 m)
-11. **Figure 12.2 needs regenerating:** it shows the old `[30; 40]` trajectory (peak 82 m at 4 s, 240 m at 8 s). With `[40; 30]` and `tspan = [0 6]` the peak is 47 m near 3 s and the ball is at (240, 4.6) at 6 s
+11. **DONE 2026-11-01 (Allen: use the Octave redraw).** Redrawn by `book/images/figure12_02.m` in the style of the Illustrator figures (Helvetica, not their Futura-like font). **Figure 12.2 needs regenerating:** it shows the old `[30; 40]` trajectory (peak 82 m at 4 s, 240 m at 8 s). With `[40; 30]` and `tspan = [0 6]` the peak is 47 m near 3 s and the ball is at (240, 4.6) at 6 s
 
 ### Errata (book changes, for the next build)
 
 - chap00.tex:85: "Anaconda Prompt", not "Jupyter Prompt" (2026-11-01)
+- Figure 12.2 redrawn for `V = [40; 30]` (2026-11-01)
 - chap12.tex:197: "run the simulation for 6 s" (was 8) (2026-11-01)
 - titlepages.tex: "4.0 International", not "4.0 Unported" (2026-11-01)
 - chap03.tex:440–452: REPL shows `ans =`, not `total =` (2026-10-31)
