@@ -8,6 +8,7 @@ by Allen B. Downey
 
 The fourth edition is free:
 
+* [Read the book and run the code online](https://allendowney.github.io/PhysicalModelingInMatlab/): each chapter is a notebook that runs in your browser, with nothing to install.
 * [Download the PDF](https://github.com/AllenDowney/PhysicalModelingInMatlab/raw/master/PhysicalModelingInMatlab4.pdf).
 * [Download the code](https://github.com/AllenDowney/PhysicalModelingInMatlab/raw/master/PhysicalModelingInMatlab.zip) for all chapters.
 
@@ -43,7 +44,9 @@ Data files used in the book are in [code/data](code/data). The LaTeX source of t
 
 ## Running the code
 
-The code runs in [MATLAB](https://www.mathworks.com/products/matlab.html) and in [GNU Octave](https://octave.org/), which is free. The preface explains how to install either one.
+The easiest way is [online](https://allendowney.github.io/PhysicalModelingInMatlab/): each chapter is a notebook, and the code runs in GNU Octave in your browser.
+
+On your own computer, the code runs in [MATLAB](https://www.mathworks.com/products/matlab.html) and in [GNU Octave](https://octave.org/), which is free. The preface explains how to install either one.
 
 To run a chapter's code, make its folder your current folder, then type the name of a script or function at the prompt.
 

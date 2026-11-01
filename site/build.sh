@@ -24,3 +24,26 @@ grep -rl "saveas(gcf, '../../book/figs/" content | xargs sed -i "/saveas(gcf, '.
 
 # overrides.json: render all cells (no windowing), so long notebooks scroll smoothly
 jupyter lite build --contents content --output-dir dist --settings-overrides overrides.json
+
+# The landing page (chapter list) replaces JupyterLite's root page, which only redirects.
+# JupyterLite's app pages read the root page's #jupyter-config-data, so carry it over.
+python - <<'END'
+import re
+root = open("dist/index.html").read()
+config = re.search(r'<script id="jupyter-config-data".*?</script>', root, re.S).group(0)
+page = open("landing.html").read().replace("</head>", config + "\n</head>", 1)
+open("dist/index.html", "w").write(page)
+END
+# Only the landing page is worth indexing: the notebooks open in a JavaScript app.
+cat > dist/sitemap.xml <<'END'
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://allendowney.github.io/PhysicalModelingInMatlab/</loc></url>
+</urlset>
+END
+# Page-view counter (GreenTeaPress Task 15): one request to greenteapress.com/gh.gif
+# per page view, counted from its access logs; no cookies, no third party.
+COUNTER='<script>new Image().src="https://greenteapress.com/gh.gif?u="+encodeURIComponent(location.href)+"\&r="+encodeURIComponent(document.referrer)</script>'
+for page in dist/lab/index.html dist/notebooks/index.html; do
+    sed -i "s#</body>#$COUNTER</body>#" "$page"
+done
