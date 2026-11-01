@@ -11,8 +11,7 @@
     ]
   },
   "prepend": {
-    "16": "V_init = [80, 20];    % the initial condition, as in lotka",
-    "21": "hold on    % so the second plot doesn't replace the first"
+    "16": "V_init = [80, 20];    % the initial condition, as in lotka"
   },
   "static": [
     13

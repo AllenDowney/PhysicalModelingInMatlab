@@ -98,6 +98,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 ### Errata (book changes; in version 4.1, released 2026-11-01, unless marked "Not in 4.1")
 
 - chap00.tex:85: "Anaconda Prompt", not "Jupyter Prompt" (2026-11-01)
+- chap10.tex:397 and chap12.tex:211: `hold on` before the two `plot` calls, so both curves appear, as in Figures 10.1 and 12.2 (2026-11-01). **Not in 4.1**
 - Typos found converting the chapters (2026-11-01): chap02:151 `fibonacci` → `fibonacci1`; chap04 exercise comment names `fibonacci_ratio.m`; chap05:374 missing `>> ` prompt; chap08:325 and chap11:286, :287, :314 stray space before punctuation; chap14:33 area in m → m². **Not in 4.1**
 - Cross-references (2026-11-01, found by the notebook converter): 6 "Section N" that point to exercises → "Exercise N" (chap03:13, chap08:144, :286, chap09:29, chap11:55, chap14:192); 4 "Chapter N.M" → "Section N.M" (chap07:202, chap12:20, chap13:33, :70); 2 `\nameref` to exercises, which have no title, so they printed nothing ("In in the previous chapter") → "Exercise N" (chap04:246, chap13:4). **Not in 4.1**
 - chap09: `rats.m` renamed `rat_pop.m` (:317–401); :345 semicolon after `ode45(...)`
@@ -141,7 +142,9 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - **All 15 chapters converted (2026-11-01, Allen: "convert all chapters"):** four agents wrote the per-chapter edits (`site/notebooks/chapNN.json`) and found solutions in `code/`; every notebook passes `tests/test_notebooks.py` (Octave 10) and runs in the browser. Converter fixes from that pass: exercise numbers, `\keycap`, `\textunderscore`, `\textdegree`, footnotes, units (², ³, g, kg), straight quotes and `~` in inline code, captions with braces, description lists as bullets, REPL loops keep their continuation lines, list text after a code block. The test leaves out chapter files that a cell redefines (in the browser the cell's function wins even through a handle; in desktop Octave the file does). Solution notebooks are in the chapter folders (`chapNN_soln.ipynb`), since solutions call the chapter's scripts
 - Agents' additions to the book's code, accepted by default: Ch4 `n = 10` before Listing 4.1 and `clear Y` before Listing 4.3; Ch7 a version of `error_func` that displays `x`, and the working version restored before the bracketing example; Ch8 calls `exists(-3:3)`; Ch10 `V_init` and `hold on`; Ch11 `X = [381, 0]` and a rerun with drag (tspan 30 s); Ch12 `hold on` and a rerun with drag; Ch15 a cell for Figure 15.1 and a note that Octave's `ode45` takes 29 steps and 177 evaluations (the book: 10 and 61)
 
-**Next:** Allen's decisions on the open questions (book `hold on`, `comet3`, `old/bike_loop2.m`, `binary.m`); report the upstream issues
+- **Allen's decisions (2026-11-01):** `hold on` added to the book's listings for Figures 10.1 and 12.2 (the notebooks' additions dropped); `code/chap04/lorenz.m` uses `plot3` (`comet3` in a comment; the solution notebook went from 155 s to 26 s in the browser); `bike_loop2.m` moved out of `code/chap03/old/` (Exercise 3.2's solution; test case added); `code/chap14/binary.m` rewritten with local functions instead of nested ones (same energy loss, -1.8505e-05) and an optional input: `binary(false)` plots the orbits instead of animating; it is Exercise 14.5's solution
+
+**Next:** report the upstream issues (when Allen says)
 
 **Goal:** Find the easiest reliable way for readers to run and modify the book's examples in a browser, with no install and ideally no account, without creating a maintenance burden. Feasibility study and a small proof of concept on Chapter 2 (Scripts), not an implementation.
 

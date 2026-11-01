@@ -19,7 +19,8 @@
       "blank": "% Exercise 14.4 (the Earth orbiting the Sun): your solution here"
     },
     {
-      "blank": "% Exercise 14.5 (energy_func): your solution here"
+      "file": "code/chap14/binary.m",
+      "call": "binary(false)    % the Sun and Jupiter; binary() animates the orbits"
     }
   ]
 }

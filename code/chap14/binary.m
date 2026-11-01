@@ -1,7 +1,12 @@
 % Calculate and plot the trajectories of two bodies with
 % the given parameters, acting under the force of gravity.
+% binary() animates the orbits; binary(false) plots them instead.
 
-function binary()
+function binary(animate)
+    if nargin < 1
+        animate = true;
+    end
+
     au = 150e9;                % astronomical unit in meters
     day = 24 * 60 * 60;        % day in seconds
     sunmass = 2.0e30;          % mass of the sun in kg
@@ -36,99 +41,110 @@ function binary()
 
     options = odeset('RelTol', 1e-5);
     step = end_time/period*100;
-    [T, M] = ode45(@rate_func, [0:step:end_time], [P1; P2; V1; V2], options);
-    animate_func(T,M);
-    energy_func(T,M);
+    rate = @(t, W) rate_func(t, W, G, m1, m2);
+    [T, M] = ode45(rate, [0:step:end_time], [P1; P2; V1; V2], options);
+    if animate
+        animate_func(T,M);
+    else
+        plot_func(M);
+    end
+    energy_func(T, M, G, m1, m2);
+end
 
-    function animate_func(T,M)
-        % animate the positions of the planets, assuming that the
-        % columns of M are x1, y1, x2, y2.
-        X1 = M(:,1);
-        Y1 = M(:,2);
+function animate_func(T,M)
+    % animate the positions of the planets, assuming that the
+    % columns of M are x1, y1, x2, y2.
+    X1 = M(:,1);
+    Y1 = M(:,2);
 
-        X2 = M(:,3);
-        Y2 = M(:,4);
+    X2 = M(:,3);
+    Y2 = M(:,4);
 
-        minmax = [min([X1;X2]), max([X1;X2]), min([Y1;Y2]), max([Y1;Y2])];
+    minmax = [min([X1;X2]), max([X1;X2]), min([Y1;Y2]), max([Y1;Y2])];
 
-        for i=1:length(T)
-            clf;
-            hold on;
-            axis(minmax);
-            draw_func(X1(i), Y1(i), X2(i), Y2(i));
-            drawnow;
-            if i < length(T)
-                dt = T(i+1) - T(i);
-                speedup = 1000;
-                pause(dt/speedup);
-            end
+    for i=1:length(T)
+        clf;
+        hold on;
+        axis(minmax);
+        draw_func(X1(i), Y1(i), X2(i), Y2(i));
+        drawnow;
+        if i < length(T)
+            dt = T(i+1) - T(i);
+            speedup = 1000;
+            pause(dt/speedup);
         end
-        hold off
     end
+    hold off
+end
 
-    function energy_func(T,M)
-        for i=1:length(T)
-            P1 = M(i,1:2);
-            P2 = M(i,3:4);
-            pe = potential_func(P1, P2);
-            V1 = M(i,5:6);
-            V2 = M(i,7:8);
-            ke = kinetic_func(V1, m1) + kinetic_func(V2, m2);
-            E(i) = ke + pe;
-        end
-        plot(T, E);
-        loss = (E(1) - E(end)) / E(1)
+function plot_func(M)
+    % plot the orbits; the columns of M are x1, y1, x2, y2.
+    plot(M(:,1), M(:,2), 'r.', M(:,3), M(:,4), 'b-')
+    axis equal
+    figure
+end
+
+function energy_func(T, M, G, m1, m2)
+    for i=1:length(T)
+        P1 = M(i,1:2);
+        P2 = M(i,3:4);
+        pe = potential_func(P1, P2, G, m1, m2);
+        V1 = M(i,5:6);
+        V2 = M(i,7:8);
+        ke = kinetic_func(V1, m1) + kinetic_func(V2, m2);
+        E(i) = ke + pe;
     end
+    plot(T, E);
+    loss = (E(1) - E(end)) / E(1)
+end
 
-    function res = potential_func(P1, P2)
-        r = norm(P1-P2);
-        pe = -G * m1 * m2 / r;
-        res = pe;
-    end
+function res = potential_func(P1, P2, G, m1, m2)
+    r = norm(P1-P2);
+    pe = -G * m1 * m2 / r;
+    res = pe;
+end
 
-    function res = kinetic_func(V, m)
-        v = norm(V);
-        ke = m * v^2 / 2;
-        res = ke;
-    end
+function res = kinetic_func(V, m)
+    v = norm(V);
+    ke = m * v^2 / 2;
+    res = ke;
+end
 
-    function draw_func(x1, y1, x2, y2)
-        plot(x1, y1, 'r.', 'MarkerSize', 50);
-        plot(x2, y2, 'b.', 'MarkerSize', 20);
-    end
+function draw_func(x1, y1, x2, y2)
+    plot(x1, y1, 'r.', 'MarkerSize', 50);
+    plot(x2, y2, 'b.', 'MarkerSize', 20);
+end
 
-    function res = rate_func(t, W)
-        % this is a slope function invoked by ode45
-        n = length(W)/2;
-        P = W(1:n);
-        V = W(n+1:end);
+function res = rate_func(t, W, G, m1, m2)
+    % this is a slope function invoked by ode45
+    n = length(W)/2;
+    P = W(1:n);
+    V = W(n+1:end);
 
-        dRdt = V;
-        dVdt = acceleration_func(t, P, V);
+    dRdt = V;
+    dVdt = acceleration_func(t, P, V, G, m1, m2);
 
-        res = [dRdt; dVdt];
-    end
+    res = [dRdt; dVdt];
+end
 
-    function res = acceleration_func(t, P, V)
-        % compute acceleration due to gravity
-        P1 = P(1:2);
-        P2 = P(3:4);
+function res = acceleration_func(t, P, V, G, m1, m2)
+    % compute acceleration due to gravity
+    P1 = P(1:2);
+    P2 = P(3:4);
 
-        F12 = gravity_force_func(P1, P2, m1, m2);
+    F12 = gravity_force_func(P1, P2, m1, m2, G);
 
-        A1 = F12 / m1;
-        A2 = -F12 / m2;
-        res = [A1; A2];
-    end
+    A1 = F12 / m1;
+    A2 = -F12 / m2;
+    res = [A1; A2];
+end
 
-    function Fg = gravity_force_func(P1, P2, m1, m2)
-        % compute the force of gravity acting on a body at
-        % P1 with mass m1, due to a body at P2 with mass m2
-        R = P2 - P1;
-        r = norm(R);
-        Rhat = R/r;
+function Fg = gravity_force_func(P1, P2, m1, m2, G)
+    % compute the force of gravity acting on a body at
+    % P1 with mass m1, due to a body at P2 with mass m2
+    R = P2 - P1;
+    r = norm(R);
+    Rhat = R/r;
 
-        Fg = G * m1 * m2 / r^2 * Rhat;
-    end
-
+    Fg = G * m1 * m2 / r^2 * Rhat;
 end

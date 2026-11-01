@@ -8,9 +8,6 @@
       "% Run the simulation again with drag (Figure 12.4)\n[T, M] = ode45(@rate_func, tspan, W);\nX = M(:, 1);\nY = M(:, 2);\n\nhold on\nplot(T, X)\nplot(T, Y)"
     ]
   },
-  "prepend": {
-    "10": "hold on    % so the second plot doesn't replace the first"
-  },
   "static": [
     15
   ],

@@ -5,6 +5,7 @@ chap02 | n=10; fibonacci1 | 55
 chap02 | x=1; y=2; swap; disp([x y]) | 2   1
 chap02 | b=100; c=100; bike_update | b = 98
 chap03 | bike_loop |
+chap03 | bike_loop2 |
 chap03 | b=100; c=100; bike_update | b = 98
 chap03 | n=10; fibonacci2 | ans = 55
 chap03 | n=10; fibonacci3 |

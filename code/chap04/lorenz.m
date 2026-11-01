@@ -14,4 +14,5 @@ for i = 1:10000
     Z(i+1) = Z(i) + (X(i) * Y(i) - b * Z(i)) * dt;
 end
 
-comet3(X, Y, Z)
+plot3(X, Y, Z)
+% comet3(X, Y, Z)    % animates the same plot (slow in the browser version of Octave)
