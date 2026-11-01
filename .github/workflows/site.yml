@@ -14,6 +14,11 @@ on:
 permissions:
   contents: read
 
+# One deploy at a time: a second push waits instead of colliding.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
