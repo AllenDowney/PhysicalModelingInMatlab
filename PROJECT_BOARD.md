@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-11-01)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Steps 1, 2 and 4 done: chapter code runs in Octave and matches the book; CI green; typos, links and license checked. Next, step 5 (README)
+- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Steps 1, 2, 4 and 5 done: chapter code runs in Octave and matches the book; CI green; typos, links and license checked; README rewritten. Next, step 6 (book builds from a clone, PDF as a release asset, repo description)
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -54,7 +54,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [x] License: the text is CC BY-NC 4.0 (`LICENSE` and the copyright page agree); code MIT. Fixed "4.0 Unported" to "4.0 International" in both. The README doesn't state a license yet (step 5)
 
 **5. README in a standard shape**
-- [ ] Title; badge; author; abstract; who it is for and prerequisites; table of contents with links to each chapter's code; the PDF (release asset) and the printed book; running the code (MATLAB, Octave, and online if Task 2 says so); support link (`/support/?book=matlab`); license
+- [x] Title; badge; author; abstract; who it is for and prerequisites; table of contents with links to each chapter's code; the PDF (release asset) and the printed book; running the code (MATLAB, Octave, and online if Task 2 says so); support link (`/support/?book=matlab`); license. Done 2026-11-01. The PDF link is still `raw/master/…pdf` until step 6 makes it a release asset; add the online link if Task 2 finds one
 
 **6. Book, releases and visibility**
 - [ ] The book builds from a clone (`book/Makefile`; `book/titlepages.tex` is untracked but `main.tex` inputs it)
@@ -96,6 +96,8 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Errata (book changes, for the next build)
 
+- chap00.tex:85: "Anaconda Prompt", not "Jupyter Prompt" (2026-11-01)
+- titlepages.tex: "4.0 International", not "4.0 Unported" (2026-11-01)
 - chap03.tex:440–452: REPL shows `ans =`, not `total =` (2026-10-31)
 - chap12.tex:191: `tspan = [0 6]` (was `[0 8]`, which ran the ball underground) (2026-10-31)
 - chap13.tex:268: `W = [0 1 40 30]` (was `[0 1 30 40]`) (2026-10-31)
