@@ -137,7 +137,7 @@ The peak is apparently near \SI{0.7}{\radian}.
 
 \begin{figure}[h]
 \centerline{\includegraphics[scale=0.8]{images/figure13_02_new.eps}}
-\caption{Simulated flight of a baseball plotted as a trajectory}
+\caption{Range of a baseball as a function of launch angle}
 \label{fig:baseball4}
 \end{figure}
 
@@ -162,7 +162,7 @@ we can call \lstinline{fzero} like this:
 
 \begin{code}
 >> x = fzero(@error_func, 1)
-ans = 1.4142
+x = 1.4142
 \end{code}
 
 The result is near the square root of 2.  Let's call \lstinline{fminsearch} with the same function:

@@ -1,6 +1,6 @@
 % Rate function for a projectile with no drag.
 
-function dWdt = proj(t, W)
+function dWdt = proj1(t, W)
     R = W(1:2);
     V = W(3:4);
 

@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-11-01)
 
-- **Task 1:** Refresh — **DONE** 2026-11-01, tag `2026-refresh`. Chapter code fixed to match the book and tested in Octave in CI; ZIP rebuilt; README, license, links, Figure 12.2 and the Makefile fixed. Open: the PDF release (deferred by Allen) and content issues 1–5, 10
+- **Task 1:** Refresh — **DONE** 2026-11-01, tag `2026-refresh`. Chapter code fixed to match the book and tested in Octave in CI; ZIP rebuilt; README, license, links, Figure 12.2 and the Makefile fixed. Open: the PDF release (deferred by Allen). Content issues all settled 2026-11-01
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started; next
 
 ---
@@ -83,21 +83,24 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Content issues
 
-1. **The code has drifted from the 4th-edition text.** `code/chap06/find_triples.m` is not the book's final listing: the book's version calls `is_pythagorean` (not in `code/`), the file calls `hypotenuse`. Compare every listing in `book/*.tex` with the `.m` files and decide which is right. Matters for Task 2: the single-source question is whether listings can be included from the `.m` files
-2. **Chapter folders aren't self-contained:** `chap06/` needs `hypotenuse.m` from `chap05/`; `chap10/plot_lorenz.m` needs a different `lorenz.m`. Copy helpers into each folder that uses them (as `bike_update.m` already is in `chap02/` and `chap03/`), or delete the stale file
-3. **Files the book never names** (list in step 1): book figure scripts, solutions, or leftovers? Keep, move or delete
-4. **Name clashes:** `rats.m` shadows Octave's `rats` (a reader who runs `rats` in that folder gets the book's function, which is intended, but Octave warns); `odeplot.m` shadows the core `odeplot`. Rename?
-5. **Function names that don't match file names** (`exists2.m`, `proj1.m`, `proj2.m`, `golden.m`, `manny2.m`): MATLAB uses the file name; Octave warns. Rename the functions to match
+1. **DONE 2026-10-31 (step 1 drift fixes).** **The code has drifted from the 4th-edition text.** `code/chap06/find_triples.m` is not the book's final listing: the book's version calls `is_pythagorean` (not in `code/`), the file calls `hypotenuse`. Compare every listing in `book/*.tex` with the `.m` files and decide which is right. Matters for Task 2: the single-source question is whether listings can be included from the `.m` files
+2. **DONE 2026-10-31 (helpers copied in step 1).** **Chapter folders aren't self-contained:** `chap06/` needs `hypotenuse.m` from `chap05/`; `chap10/plot_lorenz.m` needs a different `lorenz.m`. Copy helpers into each folder that uses them (as `bike_update.m` already is in `chap02/` and `chap03/`), or delete the stale file
+3. **DONE (see 9 and `code/other/` in step 1).** **Files the book never names** (list in step 1): book figure scripts, solutions, or leftovers? Keep, move or delete
+4. **DONE 2026-11-01 (Allen: rename both).** `rats.m` → `rat_pop.m` (chap09.tex listing, prose, REPL and error messages updated), `odeplot.m` → `plot_ode.m` (not named in the book). **Name clashes:** `rats.m` shadows Octave's `rats` (a reader who runs `rats` in that folder gets the book's function, which is intended, but Octave warns); `odeplot.m` shadows the core `odeplot`. Rename?
+5. **DONE 2026-11-01 (Allen: rename to match).** **Function names that don't match file names** (`exists2.m`, `proj1.m`, `proj2.m`, `golden.m`, `manny2.m`): MATLAB uses the file name; Octave warns. Rename the functions to match
 6. **DONE 2026-10-31 (Allen: [40; 30] everywhere).** Chapter 12 initial velocity: `baseball.m` has `V = [30; 40]`, the book's listing (chap12.tex:188, prose :180) has `[40; 30]`. But the prose at :226 ("ends just before the ball lands, having traveled almost 250 m") and the Chapter 13 animation (`W = [0 1 30 40]`, chap13.tex:268) fit `[30; 40]`; with `[40; 30]` the ball lands at 6.2 s and is underground at 8 s. So the listing may be the error
 7. **DONE 2026-10-31 (Allen: listing in `series.m`; solution moved to `series_recurrent.m`; REPL fixed to `ans =`).** Chapter 3 `series.m`: the file solves the exercise at chap03.tex:404 (recurrent version), but :437 says `series.m` holds Listing `lst:series_n` (direct version); the REPL at :440–452 shows `total =` where both print `ans =`
 8. **Leave as is (Allen, 2026-10-31).** Figure scripts write to `book/figs/`, which the book no longer uses** (it includes `images/figureNN_MM_new.eps`). Keep the `saveas` lines, point them at `images/`, or remove them. `fibonacci4.m` writes an unused figure
 9. **Keep for now (Allen, 2026-10-31).** Leftovers from earlier editions (not in the book): `chap03/old/`, `chap03/fibonacci3.m`, `chap05/junk/`, `chap10/plot_lorenz.m` (broken), `lorenz_loop.m`, `lorenz_update.m`, `lorenz_diff.m` (duplicates `chap04/lorenz.m`), `chap11/freefall.m`, `chap12/optimize.m`, `proj1.m`, `proj2.m`, `chap13/golden.m`, `chap15/planet.m`
-10. **Book typos found on the way:** chap10.tex:293 `[drdt; dfdt]` vs the listing's `[dxdt; dydt]`; chap13.tex:140 repeats the caption of :81; chap13.tex:164–165 `x = fzero(...)` displays `ans =`; chap09.tex:345 vs :402 semicolon after `ode45`; chap11 penny2 needs a time span longer than the 10 s the text implies (:322, :327). Also exercise solutions that only partly do the exercise: `bike_loop.m` (no plot, chap03.tex:305), `lorenz.m` (no test call or time-series plot, chap10), `skydiver.m` (parachute at 8 m, not 1000 m)
+10. **DONE 2026-11-01 (Allen).** Fixed: chap10:293, chap13:140 (new caption "Range of a baseball as a function of launch angle"), chap13:165 (`x = 1.4142`), chap09:345 (semicolon). Left as is: the penny2 time span. `skydiver.m` now takes the opening altitude (default 1000 m, part 4); 8 m was the answer to part 5, not a bug (lands at 5.7 m/s; 7 m gives 6.5). `bike_loop.m` and `lorenz.m` left partial. **Book typos found on the way:** chap10.tex:293 `[drdt; dfdt]` vs the listing's `[dxdt; dydt]`; chap13.tex:140 repeats the caption of :81; chap13.tex:164–165 `x = fzero(...)` displays `ans =`; chap09.tex:345 vs :402 semicolon after `ode45`; chap11 penny2 needs a time span longer than the 10 s the text implies (:322, :327). Also exercise solutions that only partly do the exercise: `bike_loop.m` (no plot, chap03.tex:305), `lorenz.m` (no test call or time-series plot, chap10), `skydiver.m` (parachute at 8 m, not 1000 m)
 11. **DONE 2026-11-01 (Allen: use the Octave redraw).** Redrawn by `book/images/figure12_02.m` in the style of the Illustrator figures (Helvetica, not their Futura-like font). **Figure 12.2 needs regenerating:** it shows the old `[30; 40]` trajectory (peak 82 m at 4 s, 240 m at 8 s). With `[40; 30]` and `tspan = [0 6]` the peak is 47 m near 3 s and the ball is at (240, 4.6) at 6 s
 
 ### Errata (book changes, for the next build)
 
 - chap00.tex:85: "Anaconda Prompt", not "Jupyter Prompt" (2026-11-01)
+- chap09: `rats.m` renamed `rat_pop.m` (:317–401); :345 semicolon after `ode45(...)`
+- chap10.tex:293: `res = [dxdt; dydt];`
+- chap13.tex:140: caption of Figure 13.2; :165 `x = 1.4142`
 - Figure 12.2 redrawn for `V = [40; 30]` (2026-11-01)
 - chap12.tex:197: "run the simulation for 6 s" (was 8) (2026-11-01)
 - titlepages.tex: "4.0 International", not "4.0 Unported" (2026-11-01)

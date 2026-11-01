@@ -1,6 +1,6 @@
 % Use ode45 to predict rat population growth.
 
-function res = rats()
+function res = rat_pop()
     t = 365/2;
     y = 1000;
     res = rate_func(t, y);

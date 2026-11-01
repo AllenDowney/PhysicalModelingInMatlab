@@ -1,6 +1,6 @@
 % Solve the Manny Ramirez problem using fminsearch.
 
-function res = manny()
+function res = manny2()
     % find the velocity that _just_ gets the ball over the wall
     initial_guess = 45;         % m/s
     velocity = fzero(@crossover_func, initial_guess);

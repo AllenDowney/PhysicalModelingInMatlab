@@ -1,6 +1,6 @@
 % Demonstrate a golden section search.
 
-function res = optimize(V)
+function res = golden(V)
     x1 = V(1);
     x2 = V(2);
     x3 = V(3);

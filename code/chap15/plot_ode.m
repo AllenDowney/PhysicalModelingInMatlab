@@ -1,6 +1,6 @@
 % Run ode45 and plot the locations where it evaluates the rate func.
 
-function odeplot()
+function plot_ode()
     clf; hold on
     total = 0;
 

@@ -35,7 +35,7 @@ chap08 | mysum([1 2 3]) | 6
 chap09 | duck |
 chap09 | coffee |
 chap09 | euler |
-chap09 | rats |
+chap09 | rat_pop |
 chap09 | runge |
 chap10 | lorenz_diff |
 chap10 | lorenz_loop |
@@ -47,7 +47,8 @@ chap11 | earth |
 chap11 | freefall(0, [4000; 0]) | -9.8
 chap11 | penny |
 chap11 | penny2 |
-chap11 | skydiver |
+chap11 | skydiver | ans = 251.3
+chap11 | skydiver(8) | -5.6657
 chap12 | baseball |
 chap12 | baseball2 |
 chap12 | diagram |
@@ -61,5 +62,5 @@ chap13 | manny |
 chap13 | manny2 |
 chap13 | optimization |
 chap14 | binary |
-chap15 | odeplot |
+chap15 | plot_ode |
 chap15 | planet |

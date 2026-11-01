@@ -314,11 +314,11 @@ function res = rate_func(t, y)
 end
 \end{code}
 
-To test this function, I put it in a file called \emph{rats.m} with a top-level function called
-\lstinline{rats}:
+To test this function, I put it in a file called \emph{rat\_pop.m} with a top-level function called
+\lstinline{rat_pop}:
 
 \begin{code}
-function res = rats()
+function res = rat_pop()
     t = 365/2;
     y = 1000;
     res = rate_func(t, y);
@@ -331,7 +331,7 @@ there are 1000 rats at $t=365/2$ (June~30) and computes the growth rate under th
 We can run the top-level function like this:
 
 \begin{code}
->> r = rats
+>> r = rat_pop
 
 r = 4
 \end{code}
@@ -339,10 +339,10 @@ r = 4
 Under these conditions, the growth rate is 4 new rats per day.
 
 Now that we've tested \lstinline{rate_func}, we can use \lstinline{ode45} to solve the differential equation.
-Here's how to call it from the top-level function in \emph{rats.m}:
+Here's how to call it from the top-level function in \emph{rat\_pop.m}:
 
 \begin{code}
-[T, Y] = ode45(@rate_func, [0, 365], 1000)
+[T, Y] = ode45(@rate_func, [0, 365], 1000);
 plot(T, Y)
 \end{code}
 
@@ -395,10 +395,10 @@ Then you get an error message:
 \begin{code}
 Not enough input arguments.
 
-Error in rats>rate_func (line 18)
+Error in rat_pop>rate_func (line 18)
     res = a * y * (1 - cos(omega * t));
 
-Error in rats (line 6)
+Error in rat_pop (line 6)
     [T, Y] = ode45(rate_func, [0, 365], 1000);
 \end{code}
 

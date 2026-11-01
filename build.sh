@@ -28,14 +28,14 @@ chap06/is_pythagorean.m \
 chap07/cheby6.m \
 chap08/exists.m \
 chap09/euler.m \
-chap09/rats.m \
+chap09/rat_pop.m \
 chap10/lotka.m \
 chap10/lorenz.m \
 chap11/skydiver.m \
 chap12/baseball.m \
 chap13/baseball3.m \
 chap14/binary.m \
-chap15/odeplot.m"
+chap15/plot_ode.m"
 
 cd code
 rsync -aR ${CODE} ../PhysicalModelingInMatlab

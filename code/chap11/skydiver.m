@@ -1,13 +1,18 @@
-% Simulate the descent of a skydiver.
+% Simulate the descent of a skydiver who opens the parachute at altitude
+% h_open (default 1000 m).  The lowest altitude where they still land at
+% less than 6 m/s is about 8 m (the last part of the exercise).
 
-function skydiver()
+function skydiver(h_open)
+    if nargin < 1
+        h_open = 1000;        % altitude where the parachute opens, in m
+    end
     t = 0;
     X = [4000, 0];
-    rate_func(t, X)
+    rate_func(t, X, h_open)
 
     tspan = [0, 1000];
     options = odeset('Events', @event_func);
-    [T, M] = ode45(@rate_func, tspan, X, options);
+    [T, M] = ode45(@(t, X) rate_func(t, X, h_open), tspan, X, options);
 
     Y = M(:, 1);
     V = M(:, 2);
@@ -20,25 +25,25 @@ function skydiver()
     M(end, :)
 end
 
-function res = rate_func(t, X)
+function res = rate_func(t, X, h_open)
     % unpack position and velocity
     y = X(1);
     v = X(2);
 
     % compute the derivatives
     dydt = v;
-    dvdt = acceleration(t, X);
+    dvdt = acceleration(t, X, h_open);
 
     % pack the derivatives into a column vector
     res = [dydt; dvdt];
 end
 
-function res = acceleration(t, X)
+function res = acceleration(t, X, h_open)
     b_free = 0.2;             % drag constant in kg/m
     b_parachute = 29;
 
     y = X(1);
-    if y < 8
+    if y < h_open
         b = b_parachute;
     else
         b = b_free;
