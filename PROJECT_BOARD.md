@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-10-31)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Step 1 done: chapter code runs in Octave and matches the book (drift fixed 2026-10-31); judgement calls in content issues 6–9. PR #7 closed
+- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Steps 1–2 done: chapter code runs in Octave and matches the book; CI green. Next, step 4 (typos and links)
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
 
 ---
@@ -40,9 +40,9 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [ ] `PhysicalModelingInMatlab.zip` matches `code/` (the untracked `PhysicalModelingInMatlab/` folder looks like the ZIP's contents, a subset of `code/`); a script that builds it
 
 **2. Tests and CI**
-- [ ] A test that runs the chapter code in Octave (headless, plots to files), with a list of expected failures. **Run it on a copy of `code/`:** 14 scripts save figures to `../../book/figs/` (`saveas`), so running them in place overwrites the book's figures (happened once in step 1, 2026-10-31; restored with `git checkout`)
-- [ ] GitHub Actions `tests.yml`: push, pull request, monthly schedule, `workflow_dispatch`; Octave from apt; `actions/checkout@v5`; `timeout-minutes`. Watch the first run
-- [ ] Status badge in the README
+- [x] `tests/run_tests.sh [octave]` runs `tests/cases.txt` (63 cases: every chapter file, with inputs like the book's and expected output where the book shows it) headless, on a copy of `code/`, with `pause` stubbed; `XFAIL` marks `plot_lorenz` (leftover, content issue 9). 62 pass locally (Octave 10.3, 70 s). Locally: `tests/run_tests.sh` with the env's octave on the PATH (`mamba activate PhysicalModelingInMatlab`). **Run it on a copy of `code/`:** 14 scripts save figures to `../../book/figs/` (`saveas`), so running them in place overwrites the book's figures (happened once in step 1, 2026-10-31; restored with `git checkout`)
+- [x] GitHub Actions `tests.yml` (2026-10-31): push, pull request, monthly, `workflow_dispatch`; Octave 8.4 from apt on Ubuntu 24.04, plus `gnuplot-nox`, fonts and Ghostscript (headless plotting and `saveas` need all three); green, 62 passed, tests take under a minute. A stalled apt mirror once took 21 min, so apt has a timeout and retries
+- [x] Status badge in the README
 - [ ] Optional: the LaTeX build in CI
 
 **3. Running online** (in place of the Colab step)
