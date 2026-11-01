@@ -8,14 +8,14 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-11-01)
 
-- **Task 1:** Refresh — step 0 nearly done: board, tags, 2021 edits committed, untracked files sorted, old branches archived; env created (Octave 10.3.0). Steps 1, 2, 4, 5 and 6 done (PDF release deferred by Allen). Left: step 0 edition tags, step 1 `code/data` and the ZIP, step 7 tag `2026-refresh`
-- **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started
+- **Task 1:** Refresh — **DONE** 2026-11-01, tag `2026-refresh`. Chapter code fixed to match the book and tested in Octave in CI; ZIP rebuilt; README, license, links, Figure 12.2 and the Makefile fixed. Open: the PDF release (deferred by Allen) and content issues 1–5, 10
+- **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started; next
 
 ---
 
 ## Task 1: Refresh
 
-**Status:** In progress (board created 2026-10-31)
+**Status:** DONE 2026-11-01 (tag `2026-refresh`; board created 2026-10-31)
 
 **Context:** Same steps as the recent refreshes of the workshop and book repos. The guide is the "Refresh checklist" in `~/GreenTeaPress/plans/workshops.md`; the Python- and Colab-specific steps are adapted here for a MATLAB book (Octave in place of Python, no notebooks to run in CI). Related GreenTeaPress board items: Task 7 (PDF as a GitHub release asset; this book is the one remaining), Task 9 (`.tex` sources with lost-domain URLs, at the next build), Task 19 (support link, code `matlab`).
 
@@ -37,7 +37,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [x] Do the files match the book's listings? Compared all chapters 2026-10-31; the book is the source of truth (Allen). Fixed in `0da1450` (chapters 4–8) and the following commit (9–14): `find_triples.m` and a new `is_pythagorean.m`; duck mass r³ (it was r²) and a bracketed root search; `myfunc.m` header; `logmap.m` to the exercise spec; helpers copied where a chapter uses them (`hypotenuse.m` in chap06 and chap08, `myfunc.m` in chap08); the duck first draft moved to chap09; `a_gravity`; Manny wall constants (310 ft, 37 ft); axis labels and typos. Everything changed was rerun in Octave and matches the book's output where it shows any. Judgement calls left: content issues 6–9
 - [x] `code/data/`: the files the examples read are in the repo; no dead URLs. The chapter code reads none of them; `baseball_drag.png` is linked from chap12 (short link `drag`, live); the CSVs are for the `.mlx` notebooks
 - [x] The ZIP (2026-11-01): 8 of its files had the bugs fixed in step 1 and `find_triples.m`, `bike_loop.m` lacked helpers. `build.sh` fixed (adds `is_pythagorean.m`, `bike_update.m`; replaces the ZIP instead of adding to it; own README, since the repo README's links are relative) and the ZIP rebuilt; its 23 test cases pass on the unzipped ZIP
-- [ ] `code/other/` (about 100 scripts, mostly older editions and student work) and `code/notebooks/` (`.mlx` live scripts): which does the book use? Default for leftovers: remove from `master`; they stay in the tags and history
+- [x] `code/other/` (about 100 scripts, mostly older editions and student work) and `code/notebooks/` (`.mlx` live scripts): which does the book use? Default for leftovers: remove from `master`; they stay in the tags and history. Allen, 2026-11-01: `code/other/` (93 scripts) and the root `ModSimMatlabCode.zip` (2019, unlinked) removed, both in `pre-refresh-2026`; `code/notebooks/` kept for MATLAB users (untested; Octave can't open `.mlx`)
 - [ ] `PhysicalModelingInMatlab.zip` matches `code/` (the untracked `PhysicalModelingInMatlab/` folder looks like the ZIP's contents, a subset of `code/`); a script that builds it
 
 **2. Tests and CI**
@@ -65,13 +65,13 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [ ] Site: none now. A web version is part of Task 2's decision; if it goes ahead, the SEO checklist (`~/GreenTeaPress/plans/seo.md`) applies
 
 **7. Close**
-- [ ] Tag `2026-refresh` and push; note what was done and what is on the content issues list on the GreenTeaPress board
+- [x] Tag `2026-refresh` and push; note what was done and what is on the content issues list on the GreenTeaPress board (2026-11-01)
 
 ### Inventory (2026-10-31)
 
 - **Modified, uncommitted (committed 2026-10-31, `06c5221`):** `.gitignore` (stops ignoring `*.pdf`), `book/Makefile` (`distrib` commits the PDF here instead of rsyncing to the old site), `book/chap00.tex` (ZIP name; Carey Smith in the acknowledgments), `book/chap06.tex` (escaped `find\_triples.m`), `book/links/urls.csv` (ZIP link), `book/figs/baseball3.eps`, `baseball4.eps` (regenerated)
 - **Untracked (sorted 2026-10-31, see Decisions):** `PhysicalModelingInMATLAB.pdf` (2021-01-25, 2.7 MB; an earlier build?), `PhysicalModelingInMatlab/` (ZIP contents), `book/PhysicalModelingInMatlab4.pdf`, `book/backup/`, `book/chap15.md`, `book/images/*-eps-converted-to.pdf` (build output), `book/links/htaccess*`, `book/links/links.html`, `book/main.mtc0`, `book/replace.py`, `book/replace.sh`, `book/titlepages.tex`, `code/shift.sh`, `environment.yml`, `notebooks/chap01.ipynb` (a 2021 start on a notebook version of Chapter 1), `octave-workspace` (two copies)
-- **Tracked at the root:** `ModSimMatlabCode.zip` (2019), `PhysicalModelingInMatlab.zip`, `PhysicalModelingInMatlab4.pdf`, `build.sh`, `fonts/`, `CONTRIBUTING.md`, `LICENSE`
+- **Tracked at the root:** `ModSimMatlabCode.zip` (2019, removed 2026-11-01), `PhysicalModelingInMatlab.zip`, `PhysicalModelingInMatlab4.pdf`, `build.sh`, `fonts/`, `CONTRIBUTING.md`, `LICENSE`
 - **GitHub:** 96 stars; no open issues; PR #7 open (closed 2026-10-31); branches `modsim`, `thinkoctave`, `wiki` (archived as tags 2026-10-31); no tags; no Pages
 
 ### Decisions
