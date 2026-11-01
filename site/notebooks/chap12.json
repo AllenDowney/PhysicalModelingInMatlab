@@ -1,0 +1,42 @@
+{
+  "comment": "Edits for chap12.ipynb; see chap09.json for the format.",
+  "after": {
+    "5": [
+      "hat(P)"
+    ],
+    "12": [
+      "% Run the simulation again with drag (Figure 12.4)\n[T, M] = ode45(@rate_func, tspan, W);\nX = M(:, 1);\nY = M(:, 2);\n\nhold on\nplot(T, X)\nplot(T, Y)"
+    ]
+  },
+  "prepend": {
+    "10": "hold on    % so the second plot doesn't replace the first"
+  },
+  "static": [
+    15
+  ],
+  "checks": {
+    "15": [
+      {
+        "code": "a = 1:3;\nb = a';\nc = [a, b]",
+        "error": "horizontal dimensions mismatch (1x3 vs 3x1)",
+        "show_after": 15
+      },
+      {
+        "code": "a = 1:3;\nb = a';\nc = [a; b]",
+        "error": "vertical dimensions mismatch (1x3 vs 3x1)",
+        "show_after": 15
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "blank": "% Exercise 12.1 (air density in Denver): your solution here"
+    },
+    {
+      "blank": "% Exercise 12.2 (drag coefficient that depends on velocity): your solution here"
+    },
+    {
+      "blank": "% Exercise 12.3 (the human cannonball): your solution here"
+    }
+  ]
+}

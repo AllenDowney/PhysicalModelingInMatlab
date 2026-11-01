@@ -30,10 +30,21 @@ def test_notebook(nb_path):
     chapter = nb_path.stem
     work = Path(tempfile.mkdtemp())
     folder = work / chapter
-    if (ROOT / "code" / chapter).exists():
-        shutil.copytree(ROOT / "code" / chapter, folder)
-    else:                       # e.g. Chapter 1 has no code folder
-        folder.mkdir()
+    # In the browser, a function defined in a cell takes precedence over a file
+    # of the same name in the folder, even through a handle (@name); desktop
+    # Octave's handles find the file. So leave out files the notebook defines.
+    defined = set()
+    for cell in nb["cells"]:
+        if cell["cell_type"] == "code":
+            defined |= set(re.findall(r"^\s*function\s+(?:\[?[\w, ]*\]?\s*=\s*)?(\w+)", cell["source"], re.M))
+    folder.mkdir()
+    source = ROOT / "code" / chapter
+    if source.exists():         # Chapter 1 has no code folder
+        for f in source.rglob("*"):
+            if f.is_file() and f.stem not in defined:
+                dest = folder / f.relative_to(source)
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy(f, dest)
 
     # Each cell and check becomes a script file ("1;" so a file of functions is a script).
     steps = []

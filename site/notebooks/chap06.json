@@ -1,0 +1,33 @@
+{
+  "comment": "Edits for chap06.ipynb; see chap09.json for the format. Blocks 13 and 16 show the output of the script in the block before; 17 and 18 are fragments. fib_triple uses hypotenuse (Exercise 5.1), so its solution comes first.",
+  "after": {
+    "3": [
+      {
+        "markdown": "In MATLAB, the error message is:\n\n```\n a^2 + b^2 = c^2\n           |\nError: Incorrect use of '=' operator.\nTo assign a value to a variable, use '='.\nTo compare values for equality, use '=='.\n```"
+      },
+      {
+        "markdown": "In Octave, it is:\n\n```\nparse error:\n\n  invalid left hand side of assignment\n```"
+      }
+    ]
+  },
+  "static": [
+    13,
+    16,
+    17,
+    18
+  ],
+  "errors": {
+    "3": {
+      "error": "invalid left hand side of assignment"
+    }
+  },
+  "solutions": [
+    {
+      "file": "code/chap06/hypotenuse.m"
+    },
+    {
+      "file": "code/chap06/fib_triple.m",
+      "call": "fib_triple(10)"
+    }
+  ]
+}

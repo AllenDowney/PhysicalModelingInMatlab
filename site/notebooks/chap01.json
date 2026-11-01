@@ -1,0 +1,36 @@
+{
+  "comment": "Edits for chap01.ipynb; see chap09.json for the format.",
+  "static": [
+    1,
+    24,
+    25,
+    27,
+    34,
+    35
+  ],
+  "errors": {
+    "26": {
+      "error": "syntax error",
+      "show_after": 27
+    },
+    "28": {
+      "error": "sin: argument must be numeric",
+      "show_after": 29
+    }
+  },
+  "solutions": [
+    {
+      "blank": "% Exercise 1.1: your solution here"
+    },
+    {
+      "blank": "% Exercise 1.2: your solution here"
+    }
+  ],
+  "after": {
+    "34": [
+      {
+        "markdown": "*In the browser version of Octave, `help` doesn't work for built-in functions like `sin`; it works in MATLAB and desktop Octave.*"
+      }
+    ]
+  }
+}

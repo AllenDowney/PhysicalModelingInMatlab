@@ -1,0 +1,24 @@
+{
+  "comment": "Edits for chap11.ipynb; see chap09.json for the format.",
+  "after": {
+    "3": [
+      "penny"
+    ],
+    "11": [
+      "% Run the simulation again with drag (Figure 11.2). The penny takes longer\n% to reach the ground, so the time span is longer.\ntspan = [0, 30];\n[T, M] = ode45(@rate_func, tspan, X, options);\nplot(T, M(:, 1))\nxlabel('Time (s)')\nylabel('Altitude (m)')\nT(end)\nM(end, :)"
+    ]
+  },
+  "prepend": {
+    "4": "X = [381, 0];    % the initial condition, as in penny"
+  },
+  "solutions": [
+    {
+      "file": "code/chap11/skydiver.m",
+      "call": "skydiver"
+    },
+    {
+      "file": "code/chap11/earth.m",
+      "call": "earth"
+    }
+  ]
+}

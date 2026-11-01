@@ -1,0 +1,68 @@
+{
+  "comment": "Edits for chap05.ipynb; see chap09.json for the format. Blocks 9, 13 and 14 are about function files, which a notebook doesn't have, so they are static. Blocks 5 and 12 show MATLAB's message in a way the converter doesn't recognize; 'after' shows it and Octave's. Block 18 has no >> prompt, so it is static with a check.",
+  "after": {
+    "5": [
+      {
+        "markdown": "In MATLAB, the output is:\n\n```\nYour variables are: y\n\nUndefined function or variable 's'.\n```"
+      },
+      {
+        "markdown": "In Octave, the error message is:\n\n```\nerror: 's' undefined\n```"
+      }
+    ],
+    "9": [
+      {
+        "markdown": "*In a notebook, functions are defined by running cells, not by files, so this cell is shown as text; running it would define a function named `something_else`.*"
+      }
+    ],
+    "12": [
+      {
+        "markdown": "In MATLAB, the error message is:\n\n```\n y = my func(1)\n        |\nError: Unexpected MATLAB expression.\n```"
+      },
+      {
+        "markdown": "In Octave, it is:\n\n```\nparse error:\n\n  syntax error\n```"
+      }
+    ],
+    "14": [
+      {
+        "markdown": "*These two cells are shown as text: in a notebook, defining a function named `sum` would replace the built-in `sum` for the rest of the notebook.*"
+      }
+    ]
+  },
+  "static": [
+    9,
+    13,
+    14,
+    18
+  ],
+  "errors": {
+    "5": {
+      "error": "'s' undefined"
+    },
+    "11": {
+      "error": "'something_else' undefined",
+      "show_after": 11
+    },
+    "12": {
+      "error": "syntax error"
+    },
+    "17": {
+      "error": "'b' undefined",
+      "show_after": 17
+    }
+  },
+  "checks": {
+    "18": [
+      {
+        "code": "ss = sum_squares(3, 4, 5)",
+        "error": "sum_squares: function called with too many inputs",
+        "show_after": 18
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "file": "code/chap05/hypotenuse.m",
+      "call": "hypotenuse(3, 4)"
+    }
+  ]
+}

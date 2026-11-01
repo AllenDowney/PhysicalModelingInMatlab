@@ -1,0 +1,36 @@
+{
+  "comment": "Edits for chap08.ipynb; see chap09.json for the format. 'before': cells to add before a block.",
+  "before": {
+    "12": [
+      "% hypotenuse with the element-wise operator\nfunction res = hypotenuse(a, b)\n    res = sqrt(a.^2 + b.^2);\nend"
+    ]
+  },
+  "after": {
+    "17": [
+      "exists(-3:3)"
+    ],
+    "21": [
+      "exists(-3:3)"
+    ]
+  },
+  "errors": {
+    "11": {
+      "error": "for x^y, only square matrix arguments are permitted and one argument must be scalar.  Use .^ for elementwise power.",
+      "show_after": 11
+    }
+  },
+  "solutions": [
+    {
+      "blank": "% Exercise 8.1 (mydiff): your solution here"
+    },
+    {
+      "blank": "% Exercise 8.2 (myratio): your solution here"
+    },
+    {
+      "blank": "% Exercise 8.3 (forall): your solution here"
+    },
+    {
+      "blank": "% Exercise 8.4 (forall using find): your solution here"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "comment": "Edits for chap10.ipynb; see chap09.json for the format.",
+  "after": {
+    "14": [
+      "lotka"
+    ],
+    "23": [
+      {
+        "markdown": "*In Octave, `ode45` accepts a rate function that returns a row vector, so you don't get this error; but return a column vector anyway, so your code works in MATLAB.*"
+      }
+    ]
+  },
+  "prepend": {
+    "16": "V_init = [80, 20];    % the initial condition, as in lotka",
+    "21": "hold on    % so the second plot doesn't replace the first"
+  },
+  "static": [
+    13
+  ],
+  "solutions": [
+    {
+      "blank": "% Exercise 10.1 (the transpose operator): your solution here"
+    },
+    {
+      "file": "code/chap10/lorenz.m",
+      "call": "lorenz"
+    }
+  ]
+}

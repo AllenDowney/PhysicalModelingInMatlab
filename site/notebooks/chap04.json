@@ -1,0 +1,80 @@
+{
+  "comment": "Edits for chap04.ipynb; see chap09.json for the format. Blocks 6 and 15-17 show MATLAB's error message without 'Error', so the converter doesn't keep it; 'after' shows it and Octave's.",
+  "after": {
+    "6": [
+      {
+        "markdown": "In MATLAB, the error message is:\n\n```\nMatrix dimensions must agree.\n```"
+      },
+      {
+        "markdown": "In Octave, it is:\n\n```\nerror: operator +: nonconformant arguments (op1 is 1x3, op2 is 1x2)\n```"
+      }
+    ],
+    "15": [
+      {
+        "markdown": "In MATLAB, the error message is:\n\n```\nArray indices must be positive integers or logical values.\n```"
+      },
+      {
+        "markdown": "In Octave, it is:\n\n```\nerror: Y(0): subscripts must be either integers 1 to (2^63)-1 or logicals\n```"
+      }
+    ],
+    "16": [
+      {
+        "markdown": "In MATLAB, the error message is:\n\n```\nArray indices must be positive integers or logical values.\n```"
+      },
+      {
+        "markdown": "In Octave, it is:\n\n```\nerror: Y(1.5): subscripts must be either integers 1 to (2^63)-1 or logicals\n```"
+      }
+    ],
+    "17": [
+      {
+        "markdown": "In MATLAB, the error message is:\n\n```\nIndex exceeds the number of array elements (4).\n```"
+      },
+      {
+        "markdown": "In Octave, it is:\n\n```\nerror: Y(5): out of bound 4 (dimensions are 1x4)\n```"
+      }
+    ]
+  },
+  "prepend": {
+    "18": "n = 10      % the number of elements (Figure 4.1 shows the first 10)",
+    "21": "clear Y     % Y is still [6 7 8 9] from above; without this, the result would end with the 9"
+  },
+  "errors": {
+    "6": {
+      "error": "operator +: nonconformant arguments"
+    },
+    "9": {
+      "error": "operator *: nonconformant arguments (op1 is 1x3, op2 is 1x3)",
+      "show_after": 9
+    },
+    "15": {
+      "error": "subscripts must be either integers 1 to (2^63)-1 or logicals"
+    },
+    "16": {
+      "error": "subscripts must be either integers 1 to (2^63)-1 or logicals"
+    },
+    "17": {
+      "error": "Y(5): out of bound 4 (dimensions are 1x4)"
+    }
+  },
+  "solutions": [
+    {
+      "blank": "% Exercise 4.1: your solution here"
+    },
+    {
+      "blank": "% Exercise 4.2: your solution here"
+    },
+    {
+      "file": "code/chap04/fibonacci_ratio.m"
+    },
+    {
+      "file": "code/chap04/lorenz.m"
+    },
+    {
+      "file": "code/chap04/logmap.m"
+    },
+    {
+      "file": "code/chap04/logchaos.m",
+      "call": "logchaos"
+    }
+  ]
+}

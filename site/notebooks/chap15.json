@@ -1,0 +1,11 @@
+{
+  "comment": "Edits for chap15.ipynb; see chap09.json for the format.",
+  "after": {
+    "3": [
+      "% Run ode45 again with the new rate function (Figure 15.1)\nhold on\n[T, Y] = ode45(@rate_func, tspan, y0, options);\nplot(T, Y, '-')",
+      {
+        "markdown": "*In Octave, `ode45` takes more, smaller steps than in MATLAB (29 time steps and 177 evaluations of the rate function here), so the plot has more points than Figure 15.1.*"
+      }
+    ]
+  }
+}

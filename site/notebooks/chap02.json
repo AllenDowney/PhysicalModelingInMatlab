@@ -1,0 +1,45 @@
+{
+  "comment": "Edits for chap02.ipynb; see chap09.json for the format. The solutions are scripts, which use variables from the workspace, so a solution cell first assigns them (a 'blank' entry that starts with '% Solution' is blanked in the student version).",
+  "after": {
+    "3": [
+      {
+        "markdown": "In Octave, it is:\n\n```\nerror: invalid call to script /drive/chap02/myscript.m\n```"
+      }
+    ]
+  },
+  "static": [
+    5
+  ],
+  "errors": {
+    "3": {
+      "error": "invalid call to script"
+    },
+    "4": {
+      "error": "'my' undefined",
+      "show_after": 4
+    },
+    "7": {
+      "error": "'n' undefined",
+      "show_after": 7
+    },
+    "22": {
+      "error": "invalid left hand side of assignment",
+      "show_after": 22
+    }
+  },
+  "solutions": [
+    {
+      "blank": "% Solution\n\nx = 1, y = 2"
+    },
+    {
+      "file": "code/chap02/swap.m",
+      "call": "x, y"
+    },
+    {
+      "blank": "% Solution\n\nb = 100\nc = 100"
+    },
+    {
+      "file": "code/chap02/bike_update.m"
+    }
+  ]
+}

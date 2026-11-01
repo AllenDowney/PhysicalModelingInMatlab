@@ -1,0 +1,65 @@
+{
+  "comment": "Edits for chap07.ipynb; see chap09.json for the format. 'before': cells to add before a block. Blocks 11 and 14 are static with checks that call error_func through an anonymous function: in desktop Octave (tests/test_notebooks.py) a handle @error_func finds code/chap07/error_func.m before the version defined in a cell; in the browser it finds the cell's version.",
+  "before": {
+    "7": [
+      "% error_func modified to display x each time fzero calls it\nfunction res = error_func(x)\n    x\n    res = x^2 - 2*x -3;\nend"
+    ],
+    "13": [
+      "% Back to the version of error_func that works\nfunction res = error_func(x)\n    res = x^2 - 2*x -3;\nend"
+    ]
+  },
+  "after": {
+    "16": [
+      "ezplot(@error_func, [-2,5])"
+    ]
+  },
+  "static": [
+    11,
+    14,
+    15
+  ],
+  "errors": {
+    "8": {
+      "error": "'x' undefined",
+      "show_after": 8
+    },
+    "12": {
+      "error": "value on right hand side of assignment is undefined",
+      "show_after": 12
+    },
+    "13": {
+      "error": "fzero: not a valid initial bracketing",
+      "show_after": 13
+    },
+    "17": {
+      "error": "sin(5): out of bound 1 (dimensions are 1x1)",
+      "show_after": 17
+    }
+  },
+  "solutions": [
+    {
+      "file": "code/chap07/cheby6.m",
+      "call": "ezplot(@cheby6, [-1, 1])"
+    },
+    {
+      "file": "code/chap07/duck.m",
+      "call": "duck"
+    }
+  ],
+  "checks": {
+    "11": [
+      {
+        "code": "fzero(@(x) error_func(x), [2,4])",
+        "error": "value on right hand side of assignment is undefined",
+        "show_after": 11
+      }
+    ],
+    "14": [
+      {
+        "code": "ezplot(@(x) error_func(x), [-2,5])",
+        "error": "for x^y, only square matrix arguments are permitted and one argument must be scalar.  Use .^ for elementwise power.",
+        "show_after": 14
+      }
+    ]
+  }
+}
