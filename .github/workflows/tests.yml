@@ -29,3 +29,6 @@ jobs:
 
       - name: Run the chapter code
         run: tests/run_tests.sh
+
+      - name: Run the chapter notebooks
+        run: python3 tests/test_notebooks.py

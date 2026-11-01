@@ -1,5 +1,5 @@
 {
-  "comment": "Edits for chap09.ipynb. Code blocks (code, lstlisting and stdout environments, including ones that only show output) are numbered from 1 in the order they appear in book/chap09.tex. 'after': cells to add after a block (a string of code, {source, raises_exception}, or {markdown}); 'raises_exception': blocks whose cells raise an error on purpose. 'prepend': code to put before a block's code; 'static': blocks shown as text, not run. 'solutions': files in code/ (and a call) that solve the chapter's exercises; remove_soln.py blanks them for the student version.",
+  "comment": "Edits for chap09.ipynb. Code blocks (code, lstlisting and stdout environments, including ones that only show output) are numbered from 1 in the order they appear in book/chap09.tex. 'after': cells to add after a block (a string of code, or {markdown}). 'prepend': code to put before a block's code. 'static': blocks shown as text, not run. 'errors': blocks that fail on purpose; shown as text, and tests/test_notebooks.py checks that they fail with this Octave message ('show_after': also show the message after that block). 'checks': more code to run after a block, expected to fail with the message. 'solutions': files in code/ (and a call) that solve the chapter's exercises; remove_soln.py blanks them for the student version.",
   "after": {
     "1": [
       "duck"
@@ -10,25 +10,10 @@
     "3": [
       "euler"
     ],
-    "13": [
-      {
-        "source": "[T, Y] = ode45(@rate_func, [0, 365], 1000);",
-        "raises_exception": true
-      }
-    ],
-    "15": [
-      {
-        "source": "[T, Y] = ode45(@rate_func, [0, 365], 1000);",
-        "raises_exception": true
-      }
-    ],
     "16": [
       "% In this notebook each cell starts a new figure, so the examples below\n% call this function first to draw the two solutions in Figure 9.2 again.\nfunction plot_solutions()\n    [T, Y] = ode45(@(t, y) 0.2 * y, [0, 4], 5);\n    T_euler = 0:0.1:4;\n    Y_euler = 5 * 1.02 .^ (0:40);    % Euler's method with dt = 0.1\n    plot(T_euler, Y_euler, T, Y, '--')\nend"
     ]
   },
-  "raises_exception": [
-    11
-  ],
   "prepend": {
     "17": "plot_solutions",
     "18": "plot_solutions\nset(gca, 'fontsize', 11)    % works around a bug in the browser version of Octave",
@@ -37,6 +22,27 @@
   "static": [
     20
   ],
+  "errors": {
+    "11": {
+      "error": "'y' undefined",
+      "show_after": 12
+    }
+  },
+  "checks": {
+    "13": [
+      {
+        "code": "[T, Y] = ode45(@rate_func, [0, 365], 1000);",
+        "error": "rate_func: function called with too many inputs"
+      }
+    ],
+    "15": [
+      {
+        "code": "[T, Y] = ode45(@rate_func, [0, 365], 1000);",
+        "error": "value on right hand side of assignment is undefined",
+        "show_after": 16
+      }
+    ]
+  },
   "solutions": [
     {
       "file": "code/chap09/coffee.m",

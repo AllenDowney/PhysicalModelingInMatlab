@@ -177,7 +177,13 @@ def convert(chapter, aux, nb_path):
     edits_path = Path(nb_path).with_suffix(".json")
     edits = json.loads(edits_path.read_text()) if edits_path.exists() else {}
     after = {int(k): v for k, v in edits.get("after", {}).items()}
-    errors = set(edits.get("raises_exception", []))
+    # Code that fails on purpose is shown as text, with a check that the tests run.
+    errors = {int(k): v for k, v in edits.get("errors", {}).items()}
+    checks = {int(k): v for k, v in edits.get("checks", {}).items()}
+    show_octave = {}   # block number -> Octave error messages to show after it
+    for n, e in list(errors.items()) + [(n, c) for n, cs in checks.items() for c in cs]:
+        if "show_after" in e:
+            show_octave.setdefault(e["show_after"], []).append(e["error"])
     static = set(edits.get("static", []))
     prepend = {int(k): v for k, v in edits.get("prepend", {}).items()}
 
@@ -220,18 +226,24 @@ def convert(chapter, aux, nb_path):
             code, output = "", textwrap.dedent(body)
         if code and ncode in prepend:
             code = prepend[ncode] + "\n" + code
-        if code:
-            cells.append(code_cell(code, ["raises-exception"] if ncode in errors else None))
+        if code and ncode in errors:
+            cell = markdown_cell("```\n" + code + "\n```")
+            cell["metadata"]["checks"] = [{"code": code, "error": errors[ncode]["error"]}]
+            cells.append(cell)
+        elif code:
+            cells.append(code_cell(code))
+        if ncode in checks:
+            cells[-1]["metadata"]["checks"] = [{"code": c["code"], "error": c["error"]} for c in checks[ncode]]
         # Running the cell shows its result; keep only error messages, which differ in MATLAB.
         if ncode in static:
             cells.append(markdown_cell("```\n" + output + "\n```"))
         elif output and output.lstrip().startswith(ERROR_STARTS):
             cells.append(markdown_cell("In MATLAB, the error message is:\n\n```\n" + output + "\n```"))
+        for message in show_octave.get(ncode, []):
+            cells.append(markdown_cell("In Octave, it is:\n\n```\nerror: " + message + "\n```"))
         for extra in after.get(ncode, []):
             if isinstance(extra, dict) and "markdown" in extra:
                 cells.append(markdown_cell(extra["markdown"]))
-            elif isinstance(extra, dict):
-                cells.append(code_cell(extra["source"], ["raises-exception"] if extra.get("raises_exception") else None))
             else:
                 cells.append(code_cell(extra))
     flush()
