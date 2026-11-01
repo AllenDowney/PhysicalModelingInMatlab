@@ -30,5 +30,24 @@ jobs:
       - name: Run the chapter code
         run: tests/run_tests.sh
 
+  notebooks:
+    # The notebooks run in the browser on Octave 10 (xeus-octave), and some error
+    # messages differ in Ubuntu's Octave 8, so test them with conda-forge's Octave.
+    name: Chapter notebooks in GNU Octave 10
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: environment.yml
+          init-shell: bash
+          cache-environment: true
+
       - name: Run the chapter notebooks
-        run: python3 tests/test_notebooks.py
+        shell: bash -l {0}
+        run: |
+          octave --version | head -1
+          python tests/test_notebooks.py
