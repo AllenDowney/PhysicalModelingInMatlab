@@ -1,0 +1,31 @@
+{
+  "comment": "Edits for chap13.ipynb; see chap09.json for the format. 'before': cells to add before a block.",
+  "before": {
+    "1": [
+      {
+        "markdown": "This chapter uses the baseball model with drag from Chapter 12. Run this cell first: it defines the rate function and its helpers."
+      },
+      "% The baseball model from Chapter 12 (code/chap13/baseball3.m)\nfunction res = rate_func(t, W)\n    P = W(1:2);\n    V = W(3:4);\n\n    dPdt = V;\n    dVdt = acceleration(t, P, V);\n\n    res = [dPdt; dVdt];\nend\n\nfunction res = acceleration(t, P, V)\n    g = 9.8;                       % acceleration of gravity in m/s^2\n    a_gravity = [0; -g];\n\n    m = 0.145;                     % mass in kilograms\n    a_drag = drag_force(V) / m;\n    res = a_gravity + a_drag;\nend\n\nfunction res = drag_force(V)\n    C_d = 0.3;      % dimensionless\n    rho = 1.3;      % kg / m^3\n    A = 0.0042;     % m^2\n    v = norm(V);    % m/s\n\n    res = - 1/2 * C_d * rho * A * v * V;\nend"
+    ]
+  },
+  "after": {
+    "16": [
+      {
+        "markdown": "*In the browser version of Octave, plots don't update while a cell runs, so `animate` shows only the first frame here. The animation works in MATLAB and desktop Octave.*"
+      }
+    ]
+  },
+  "static": [
+    16,
+    18
+  ],
+  "solutions": [
+    {
+      "file": "code/chap13/manny.m",
+      "call": "manny"
+    },
+    {
+      "blank": "% Exercise 13.2 (the golf ball): your solution here"
+    }
+  ]
+}

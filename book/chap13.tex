@@ -1,7 +1,7 @@
 \chapter{Optimization}
 
 
-In \nameref{cannon} in the previous chapter you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  This kind of problem, finding minimums and maximums, is called \emph{optimization}.
+In Exercise~\ref{cannon} in the previous chapter you were asked to find the best launch angle for a human cannonball, meaning the angle that maximizes the distance traveled before landing.  This kind of problem, finding minimums and maximums, is called \emph{optimization}.
 
 In this chapter, we'll solve a similar problem, finding the best launch angle for a baseball.
 We'll solve the problem two ways, first running simulations with a range of values and plotting the results, then using a MATLAB function that automates the process, \lstinline{fminsearch}.
@@ -30,7 +30,7 @@ end
 \index{ODE event}
 \index{odeset@\lstinline{odeset}}
 
-This is similar to the event function we saw in Chapter~\ref{events}, except that it uses \lstinline{W(2)} as the event value, which is the y-coordinate.  This event function stops the simulation when the altitude of the ball is~0 and falling.
+This is similar to the event function we saw in Section~\ref{events}, except that it uses \lstinline{W(2)} as the event value, which is the y-coordinate.  This event function stops the simulation when the altitude of the ball is~0 and falling.
 
 Now we can call \lstinline{ode45} like this:
 
@@ -67,7 +67,7 @@ Now we can extract the $x$- and $y$-positions:
     Y = M(:, 2);
 \end{code}
 
-In Chapter~\ref{projectile} we plotted \lstinline{X} and \lstinline{Y} separately as functions of time.  As an alternative, we can plot them against each other, like this:
+In Section~\ref{projectile} we plotted \lstinline{X} and \lstinline{Y} separately as functions of time.  As an alternative, we can plot them against each other, like this:
 
 \begin{code}
     plot(X, Y)

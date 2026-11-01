@@ -176,6 +176,7 @@ def convert(chapter, aux, nb_path):
     tex = (BOOK / f"chap{chapter:02d}.tex").read_text()
     edits_path = Path(nb_path).with_suffix(".json")
     edits = json.loads(edits_path.read_text()) if edits_path.exists() else {}
+    before = {int(k): v for k, v in edits.get("before", {}).items()}
     after = {int(k): v for k, v in edits.get("after", {}).items()}
     # Code that fails on purpose is shown as text, with a check that the tests run.
     errors = {int(k): v for k, v in edits.get("errors", {}).items()}
@@ -199,6 +200,14 @@ def convert(chapter, aux, nb_path):
     text_buf = []
     ncode = 0
 
+    def add_cells(extras):
+        """Add cells from the edits: a string of code, or {"markdown": text}."""
+        for extra in extras:
+            if isinstance(extra, dict):
+                cells.append(markdown_cell(extra["markdown"]))
+            else:
+                cells.append(code_cell(extra))
+
     def flush():
         md = to_markdown(preprocess("".join(text_buf), labels)) if text_buf else ""
         text_buf.clear()
@@ -218,6 +227,7 @@ def convert(chapter, aux, nb_path):
             continue
         _, body, caption, label = block
         ncode += 1
+        add_cells(before.get(ncode, []))
         if caption:
             number = labels.get(label, ("?", ""))[0] if label else "?"
             cells.append(markdown_cell(f"*Listing {number}: {caption}*"))
@@ -241,14 +251,13 @@ def convert(chapter, aux, nb_path):
             cells.append(markdown_cell("In MATLAB, the error message is:\n\n```\n" + output + "\n```"))
         for message in show_octave.get(ncode, []):
             cells.append(markdown_cell("In Octave, it is:\n\n```\nerror: " + message + "\n```"))
-        for extra in after.get(ncode, []):
-            if isinstance(extra, dict) and "markdown" in extra:
-                cells.append(markdown_cell(extra["markdown"]))
-            else:
-                cells.append(code_cell(extra))
+        add_cells(after.get(ncode, []))
     flush()
     # Solutions come from files in code/; remove_soln.py blanks them for the student version.
     for sol in edits.get("solutions", []):
+        if "file" not in sol:      # an exercise with no solution in code/: an empty cell
+            cells.append(code_cell(sol["blank"] + "\n"))
+            continue
         source = (BOOK.parent / sol["file"]).read_text()
         source = "\n".join(l for l in source.splitlines() if "saveas(gcf, '../../book/figs/" not in l)
         cells.append(code_cell(SOLUTION + "\n\n" + source.strip()))

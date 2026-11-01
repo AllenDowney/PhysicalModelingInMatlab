@@ -57,6 +57,24 @@ The result is `error: getappdata: H must be a scalar or vector of graphic handle
 
 **Workaround:** none needed for the book so far, since most of its figures have no titles.
 
+## 4. Plots don't update while a cell runs, so animations show only the first frame
+
+**Status:** already reported upstream as [#2 "Plotly renderer does not update"](https://github.com/jupyter-xeus/xeus-octave/issues/2) (open since 2021). Confirmed 2026-11-01.
+
+**Reproduce:** this loop takes 2 s (so `pause` works), but the figure shows only the first point:
+
+```
+for i = 1:5
+    clf; hold on
+    axis([0 6 0 6])
+    plot(i, i, 'o')
+    drawnow;
+    pause(0.2);
+end
+```
+
+**Workaround:** none. Chapter 13's `animate` is defined in a runnable cell, but the call that plays the animation is shown as text with a note. Add a comment to #2 with this case.
+
 ## Differences from desktop Octave that aren't bugs
 
 These are worth knowing when converting chapters, but there's nothing to report:
@@ -86,5 +104,5 @@ So it works, but reports may sit for a while. A fork is feasible:
 
 ## Next steps
 
-1. Report issues 1–3 upstream, each with its reproduction, and link them here.
+1. Report issues 1–3 upstream, each with its reproduction, and link them here; comment on #2 for issue 4.
 2. If issue 1 stays open, consider a fork. Issue 1 is the most serious, because it hangs the kernel.

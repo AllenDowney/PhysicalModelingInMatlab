@@ -2,7 +2,7 @@
 
 This site runs GNU Octave in your browser, so you can run and change the code from *Physical Modeling in MATLAB* without installing anything. The book is at https://greenteapress.com/wp/physical-modeling-in-matlab/.
 
-**Chapter 9, Ordinary Differential Equations, is a runnable notebook:** open `chap09/chap09.ipynb` and run the cells in order with Shift+Enter. It has the text of the chapter, and you can change any example and run it again. (A test: more chapters to come.)
+**Chapters 9 (Ordinary Differential Equations) and 13 (Optimization) are runnable notebooks:** open `chap09/chap09.ipynb` or `chap13/chap13.ipynb` and run the cells in order with Shift+Enter. Each has the text of the chapter, and you can change any example and run it again. Solutions to the exercises are in `solutions/`. (A test: more chapters to come.)
 
 To run the code for other chapters:
 

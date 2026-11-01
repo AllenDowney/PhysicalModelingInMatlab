@@ -98,6 +98,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 ### Errata (book changes; all in version 4.1, released 2026-11-01)
 
 - chap00.tex:85: "Anaconda Prompt", not "Jupyter Prompt" (2026-11-01)
+- Cross-references (2026-11-01, found by the notebook converter): 6 "Section N" that point to exercises → "Exercise N" (chap03:13, chap08:144, :286, chap09:29, chap11:55, chap14:192); 4 "Chapter N.M" → "Section N.M" (chap07:202, chap12:20, chap13:33, :70); 2 `\nameref` to exercises, which have no title, so they printed nothing ("In in the previous chapter") → "Exercise N" (chap04:246, chap13:4). **Not in 4.1**
 - chap09: `rats.m` renamed `rat_pop.m` (:317–401); :345 semicolon after `ode45(...)`
 - chap10.tex:293: `res = [dxdt; dydt];`
 - chap13.tex:140: caption of Figure 13.2; :165 `x = 1.4142`
@@ -132,7 +133,11 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 **Decision (Allen, 2026-11-01):** this is the way to go: convert each chapter to a notebook with all the text and runnable examples.
 
-**Next:** report the upstream issues; convert more chapters; decide how to present intentional errors (now: Run All stops there)
+- **Intentional errors (Allen, 2026-11-01):** shown as text, not run, so Run All goes through. Each carries a check in its cell metadata (the code and Octave's message); `tests/test_notebooks.py` runs every notebook's code cells in desktop Octave and confirms each error example fails with the message shown (in CI). The notebook shows MATLAB's message (from the book) and Octave's
+- **Chapter 13 (2026-11-01):** a setup cell defines Chapter 12's baseball model (from `code/chap13/baseball3.m`), since the chapter uses it without listing it. Results match the text (lands at 5.09 s, 131 m; best angle 0.692 rad, 131.6 m). The animation can't play (plots don't update during a cell: upstream #2), so the call is text with a note; Exercise 13.1's solution is `manny.m`; 13.2 (golf) has no solution in `code/`, so an empty cell
+- Converting found 12 wrong cross-reference words in the book (fixed; see Errata)
+
+**Next:** report the upstream issues; convert the other chapters
 
 **Goal:** Find the easiest reliable way for readers to run and modify the book's examples in a browser, with no install and ideally no account, without creating a maintenance burden. Feasibility study and a small proof of concept on Chapter 2 (Scripts), not an implementation.
 
