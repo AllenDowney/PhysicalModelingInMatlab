@@ -1,0 +1,50 @@
+name: site
+
+# Build the JupyterLite site (Octave in the browser, with the chapter code)
+# and deploy it to GitHub Pages.
+
+on:
+  push:
+    branches: [master]
+    paths: ['code/**', 'site/**', '.github/workflows/site.yml']
+  pull_request:
+    paths: ['code/**', 'site/**', '.github/workflows/site.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: site/build-environment.yml
+          init-shell: bash
+          cache-environment: true
+
+      - name: Build the site
+        shell: bash -l {0}
+        run: site/build.sh
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

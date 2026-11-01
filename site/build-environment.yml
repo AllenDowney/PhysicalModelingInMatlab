@@ -1,0 +1,10 @@
+# Tools that build the JupyterLite site (run in CI, not in the browser).
+name: site-build
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - jupyter_server
+  - jupyterlite-core >=0.8
+  - jupyterlite-xeus >=5.1
+  - micromamba

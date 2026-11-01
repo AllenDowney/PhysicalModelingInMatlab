@@ -9,7 +9,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 ### Current focus (2026-11-01)
 
 - **Task 1:** Refresh — **DONE** 2026-11-01, tag `2026-refresh`. Chapter code fixed to match the book and tested in Octave in CI; ZIP rebuilt; README, license, links, Figure 12.2 and the Makefile fixed. PDF version 4.1 released 2026-11-01 (GitHub release `v4.1.0`). Content issues all settled 2026-11-01
-- **Task 2:** Investigate running the examples online (Octave) — **report written** 2026-11-01 ([planning/online_execution_report.md](planning/online_execution_report.md)): recommends JupyterLite + xeus-octave (Octave 10.3 in WebAssembly) on GitHub Pages. Next: Allen's browser checks, then a test site
+- **Task 2:** Investigate running the examples online (Octave) — **report written** 2026-11-01 ([planning/online_execution_report.md](planning/online_execution_report.md)): recommends JupyterLite + xeus-octave (Octave 10.3 in WebAssembly) on GitHub Pages. Test site live at allendowney.github.io/PhysicalModelingInMatlab (2026-11-01); next: Allen's browser checks
 
 ---
 
@@ -117,7 +117,9 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 **Findings (2026-11-01):** JupyterLite with the xeus-octave kernel (Octave 10.3 compiled to WebAssembly) runs the book's code and plots in the browser with no account or server (verified with `lorenz.m`); recommended, as a GitHub Pages site built from `code/`. Octave Online: guests can open and run buckets, but buckets are made by hand (no API), guests get ~5 s per command, little maintenance since 2025-01. Colab works (verified on a real runtime: apt Octave 8.4 + `oct2py` `%%octave`, ~70 s setup, needs fonts) but needs a Google account. Binder builds but the kernel never connected in tests. SageMathCell can't plot. CoCalc and MATLAB Online need accounts.
 
-**Next:** Allen's browser checks (report section 6, items 1–3); then a test site from `jupyterlite/xeus-lite-demo` with `code/chap02`, `chap09`, `chap12`
+**Test site (2026-11-01, Allen: in this repo):** `site/` (JupyterLite + xeus-octave, all chapter folders, `saveas` lines stripped at build time because `../../book/figs` doesn't exist in the browser), deployed to <https://allendowney.github.io/PhysicalModelingInMatlab/> by `.github/workflows/site.yml` (Pages source: Actions). Local build: 2 min, 233 MB on disk; a reader downloads ~38 MB and gets a prompt in ~8 s (localhost). Tested in headless Chromium: `rat_pop`, `baseball2`, `baseball3`, `binary` run and plot. **Known issue:** `legend` followed by `clf` in one run (`lotka.m`) errors in xeus-octave's graphics (`legend>update_displayname_cb`); fine in desktop Octave; report upstream. Plot titles don't show (plotly).
+
+**Next:** Allen tries the site in a real browser (Safari, phone, edits surviving a reload); decide about the `saveas` lines in `code/` (content issue 8); report the legend bug to jupyter-xeus/xeus-octave
 
 **Goal:** Find the easiest reliable way for readers to run and modify the book's examples in a browser, with no install and ideally no account, without creating a maintenance burden. Feasibility study and a small proof of concept on Chapter 2 (Scripts), not an implementation.
 
