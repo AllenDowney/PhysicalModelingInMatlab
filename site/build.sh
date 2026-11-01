@@ -15,6 +15,7 @@ shopt -s nullglob
 for nb in notebooks/chap??.ipynb; do
     name=$(basename "$nb" .ipynb)
     cp "$nb" "content/solutions/$name.ipynb"
+    mkdir -p "content/$name"     # Chapter 1 has no code folder
     python remove_soln.py "$nb" "content/$name/$name.ipynb"
 done
 

@@ -1,6 +1,6 @@
 """Run the chapter notebooks (site/notebooks, solution versions) in GNU Octave.
 
-Usage: python3 tests/test_notebooks.py [octave command]   (default: octave)
+Usage: python3 tests/test_notebooks.py [octave command [chapNN ...]]   (default: octave, all)
 
 For each notebook, the code cells run in order in one Octave session, in a
 copy of the chapter's code folder (as on the site). A cell that raises an
@@ -30,7 +30,10 @@ def test_notebook(nb_path):
     chapter = nb_path.stem
     work = Path(tempfile.mkdtemp())
     folder = work / chapter
-    shutil.copytree(ROOT / "code" / chapter, folder)
+    if (ROOT / "code" / chapter).exists():
+        shutil.copytree(ROOT / "code" / chapter, folder)
+    else:                       # e.g. Chapter 1 has no code folder
+        folder.mkdir()
 
     # Each cell and check becomes a script file ("1;" so a file of functions is a script).
     steps = []
@@ -81,5 +84,8 @@ def test_notebook(nb_path):
 
 if __name__ == "__main__":
     notebooks = sorted((ROOT / "site" / "notebooks").glob("chap??.ipynb"))
+    chapters = [a for a in sys.argv[2:]]     # optional: chap09 chap13 ...
+    if chapters:
+        notebooks = [nb for nb in notebooks if nb.stem in chapters]
     results = [test_notebook(nb) for nb in notebooks]
     sys.exit(0 if all(results) else 1)

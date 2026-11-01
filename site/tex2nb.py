@@ -112,7 +112,36 @@ def preprocess(text, labels):
     text = text.replace(r"\begin{ex}", r"\textbf{Exercise.}").replace(r"\end{ex}", "")
     text = text.replace(r"\begin{eqnarray*}", r"\begin{align*}").replace(r"\end{eqnarray*}", r"\end{align*}")
     text = re.sub(r"&=&", "&=", text)
+    # the book's vectors are bold (\vec) and unit vectors have hats (\uvec)
+    text = re.sub(r"\\uvec\{([^}]*)\}", r"\\hat{\\mathbf{\1}}", text)
+    text = re.sub(r"\\vec\{([^}]*)\}", r"\\mathbf{\1}", text)
     return text
+
+
+LIST_TOKEN = re.compile(r"\\(begin|end)\{(enumerate|itemize|description)\}|\\item\b")
+
+
+def balance_lists(tex, stack):
+    """Close lists left open at the end of a chunk and reopen them in the next.
+
+    A code block inside a list splits the list across text chunks. stack holds
+    [env, items so far] for each open list; it is updated in place.
+    """
+    prefix = ""
+    for env, items in stack:
+        prefix += f"\\begin{{{env}}}\n"
+        if env == "enumerate" and items:
+            prefix += f"\\setcounter{{enumi}}{{{items}}}\n"
+    for m in LIST_TOKEN.finditer(tex):
+        if m.group(1) == "begin":
+            stack.append([m.group(2), 0])
+        elif m.group(1) == "end":
+            if stack:
+                stack.pop()
+        elif stack:
+            stack[-1][1] += 1
+    suffix = "".join(f"\n\\end{{{env}}}" for env, _ in reversed(stack))
+    return prefix + tex + suffix
 
 
 def to_markdown(tex):
@@ -142,10 +171,24 @@ def split_code(body):
     return "\n".join(code).rstrip(), "\n".join(output)
 
 
+def braced_arg(text, command):
+    """The brace-balanced argument of the first command in text (may span lines)."""
+    i = text.find(command + "{")
+    if i < 0:
+        return None
+    start = i + len(command) + 1
+    depth = 1
+    for j in range(start, len(text)):
+        depth += {"{": 1, "}": -1}.get(text[j], 0)
+        if depth == 0:
+            return text[start:j]
+    return None
+
+
 def figure_png(body, labels, out_dir):
     """Render a figure's EPS to PNG; return (markdown, attachments)."""
     m = re.search(r"\\includegraphics(\[[^\]]*\])?\{([^}]*)\}", body)
-    caption = re.search(r"\\caption\{(.*)\}", body)
+    caption = braced_arg(body, r"\caption")
     label = re.search(r"\\label\{([^}]*)\}", body)
     eps = BOOK / m.group(2)
     name = eps.stem + ".png"
@@ -154,7 +197,7 @@ def figure_png(body, labels, out_dir):
                     "-o", str(png), str(eps)], check=True)
     data = base64.b64encode(png.read_bytes()).decode()
     number = labels.get(label.group(1), ("?", ""))[0] if label else "?"
-    cap = to_markdown(preprocess(caption.group(1), labels)) if caption else ""
+    cap = to_markdown(preprocess(caption, labels)) if caption else ""
     md = f"![Figure {number}](attachment:{name})\n\n*Figure {number}: {cap}*"
     return md, {name: {"image/png": data}}
 
@@ -208,8 +251,11 @@ def convert(chapter, aux, nb_path):
             else:
                 cells.append(code_cell(extra))
 
+    list_stack = []
+
     def flush():
-        md = to_markdown(preprocess("".join(text_buf), labels)) if text_buf else ""
+        tex = balance_lists("".join(text_buf), list_stack) if text_buf else ""
+        md = to_markdown(preprocess(tex, labels)) if tex.strip() else ""
         text_buf.clear()
         # start a new cell at each heading, so a section's text begins its own cell
         for part in re.split(r"\n(?=#{1,6} )", md):

@@ -11,8 +11,9 @@
   "after": {
     "16": [
       {
-        "markdown": "*In the browser version of Octave, plots don't update while a cell runs, so `animate` shows only the first frame here. The animation works in MATLAB and desktop Octave.*"
-      }
+        "markdown": "*In the browser version of Octave, plots don't update while a cell runs, so the animation can't play here; it works in MATLAB and desktop Octave. Instead, the next cell draws a still picture of what the animation shows: the ball's position every 0.1 s.*"
+      },
+      "% A still picture of the animation (not in the book): the position every 0.1 s\ntspan = 0:0.1:10;\nW = [0 1 40 30];\noptions = odeset('Events', @event_func);\n[T, M] = ode45(@rate_func, tspan, W, options);\nplot(M(:, 1), M(:, 2), 'o')\nxlabel('x position (m)')\nylabel('y position (m)')"
     ]
   },
   "static": [
