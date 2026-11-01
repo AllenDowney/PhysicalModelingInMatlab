@@ -30,4 +30,4 @@ book/*.pdf
 octave-workspace
 
 # local start on a notebook version of Chapter 1 (input for Task 2)
-notebooks/
+/notebooks/
