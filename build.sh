@@ -41,5 +41,8 @@ cd code
 rsync -aR ${CODE} ../PhysicalModelingInMatlab
 
 cd ..
+# The figure scripts save the book's figures to ../../book/figs/, which
+# readers don't have; drop those lines from the ZIP's copies.
+grep -rl "saveas(gcf, '../../book/figs/" PhysicalModelingInMatlab | xargs sed -i "/saveas(gcf, '..\/..\/book\/figs\//d"
 zip -qrX PhysicalModelingInMatlab.zip PhysicalModelingInMatlab
 rm -rf PhysicalModelingInMatlab
