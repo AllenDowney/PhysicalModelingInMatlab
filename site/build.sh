@@ -8,15 +8,14 @@ rm -rf content dist .jupyterlite.doit.db
 mkdir content
 cp README.md content/
 cp -r ../code/chap?? content/
-# Chapter notebooks: the student version (solutions blanked) in each chapter
-# folder, the version with solutions in solutions/.
-mkdir content/solutions
+# Chapter notebooks: the student version (solutions blanked) and the version
+# with solutions, both in the chapter folder, so they can run the chapter's scripts.
 shopt -s nullglob
 for nb in notebooks/chap??.ipynb; do
     name=$(basename "$nb" .ipynb)
-    cp "$nb" "content/solutions/$name.ipynb"
     mkdir -p "content/$name"     # Chapter 1 has no code folder
     python remove_soln.py "$nb" "content/$name/$name.ipynb"
+    cp "$nb" "content/$name/${name}_soln.ipynb"
 done
 
 # The figure scripts save the book's figures to ../../book/figs/, which

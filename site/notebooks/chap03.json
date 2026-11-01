@@ -2,22 +2,33 @@
   "comment": "Edits for chap03.ipynb; see chap09.json for the format.",
   "before": {
     "1": [
-      {"markdown": "*The code in this section uses the variables `b` and `c` from Exercise 2.2. Run this cell first to give them starting values.*"},
+      {
+        "markdown": "*The code in this section uses the variables `b` and `c` from Exercise 2.2. Run this cell first to give them starting values.*"
+      },
       "b = 100\nc = 100"
     ]
   },
-  "after": {
-    "6": [
-      "for i=1:5\n    i\nend"
-    ]
-  },
-  "static": [6, 12],
+  "static": [
+    12
+  ],
   "solutions": [
-    {"file": "code/chap03/bike_loop.m"},
-    {"file": "code/chap03/old/bike_loop2.m"},
-    {"file": "code/chap03/sequence.m"},
-    {"file": "code/chap03/series_recurrent.m"},
-    {"file": "code/chap03/fudge.m"},
-    {"file": "code/chap03/fibonacci2.m"}
+    {
+      "file": "code/chap03/bike_loop.m"
+    },
+    {
+      "file": "code/chap03/old/bike_loop2.m"
+    },
+    {
+      "file": "code/chap03/sequence.m"
+    },
+    {
+      "file": "code/chap03/series_recurrent.m"
+    },
+    {
+      "file": "code/chap03/fudge.m"
+    },
+    {
+      "file": "code/chap03/fibonacci2.m"
+    }
   ]
 }

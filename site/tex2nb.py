@@ -64,9 +64,9 @@ def split_blocks(tex):
         if kind == "figure":
             blocks.append(("figure", body))
         else:
-            caption = re.search(r"caption=\{(.*?)\}", opts)
+            caption = braced_arg(opts, "caption=")
             label = re.search(r"label=\{(.*?)\}", opts)
-            blocks.append(("code", body.rstrip(), caption and caption.group(1), label and label.group(1)))
+            blocks.append(("code", body.rstrip(), caption, label and label.group(1)))
         pos = m.end()
     blocks.append(("text", strip_comments(tex[pos:])))
     return blocks
@@ -93,12 +93,26 @@ def preprocess(text, labels):
     text = re.sub(r"\\index\{(?:[^{}]|\{[^{}]*\})*\}", "", text)
     text = re.sub(r"\\label\{[^}]*\}", "", text)
     text = fix_refs(text, labels)
-    text = re.sub(r"\\lstinline\{([^}]*)\}", r"\\texttt{\1}", text)
-    text = re.sub(r"\\lstinline\|([^|]*)\|", r"\\texttt{\1}", text)
-    text = re.sub(r"\\mcode\{([^}]*)\}", r"\\texttt{\1}", text)
+    def code(m):
+        # keep quotes straight (pandoc would curl them) and ~ literal (not a space)
+        c = m.group(1).replace("'", r"\textquotesingle{}").replace("~", r"\textasciitilde{}")
+        return r"\texttt{" + c + "}"
+
+    text = re.sub(r"\\(?:lstinline|mcode)\{([^}]*)\}", code, text)
+    text = re.sub(r"\\lstinline\|([^|]*)\|", code, text)
+    text = re.sub(r"\\keycap\{([^}]*)\}", r"\\textbf{\1}", text)
+    text = re.sub(r"\\textunderscore(\{\})? ?", r"\\_", text)
+    text = text.replace(r"\textdegree", "°")
+    text = re.sub(r"\\(binoppenalty|relpenalty)=\\maxdimen", "", text)
+    # Jupyter's markdown has no footnotes: put them in parentheses
+    text = re.sub(r"\\footnote\{((?:[^{}]|\{[^{}]*\})*)\}", r" (\1)", text)
+    # Jupyter's markdown has no definition lists: bullets with bold terms
+    text = re.sub(r"\\item\s*\[([^\]]*)\]", r"\\item \\textbf{\1}: ", text)
+    text = text.replace(r"\begin{description}", r"\begin{itemize}").replace(r"\end{description}", r"\end{itemize}")
     units = {r"\celsius": "°C", r"\meter": "m", r"\second": "s", r"\minute": "min",
              r"\kilogram": "kg", r"\hour": "h", r"\per": "/", r"\radian": "rad",
-             r"\newton": "N", r"\degree": "°"}
+             r"\newton": "N", r"\degree": "°", r"\gram": "g", r"\kg": "kg",
+             r"\squared": "²", r"\cubed": "³"}
 
     def si(m):
         unit = m.group(2)
@@ -109,7 +123,7 @@ def preprocess(text, labels):
         return f"{m.group(1)}{sep}{unit}"
 
     text = re.sub(r"\\SI\{([^}]*)\}\{([^}]*)\}", si, text)
-    text = text.replace(r"\begin{ex}", r"\textbf{Exercise.}").replace(r"\end{ex}", "")
+    text = text.replace(r"\end{ex}", "")
     text = text.replace(r"\begin{eqnarray*}", r"\begin{align*}").replace(r"\end{eqnarray*}", r"\end{align*}")
     text = re.sub(r"&=&", "&=", text)
     # the book's vectors are bold (\vec) and unit vectors have hats (\uvec)
@@ -127,6 +141,20 @@ def balance_lists(tex, stack):
     A code block inside a list splits the list across text chunks. stack holds
     [env, items so far] for each open list; it is updated in place.
     """
+    # Text before the next \item continues an item after a code block, and an
+    # \end closes a list left open: neither needs the list reopened (an empty or
+    # item-less list would become a raw div in pandoc's markdown).
+    out, pos = "", 0
+    while stack:
+        m = LIST_TOKEN.search(tex, pos)
+        if m is None:
+            return out + tex[pos:]              # only continuation text: keep the lists open
+        out += tex[pos:m.start()]
+        if m.group(1) != "end":
+            break
+        stack.pop()
+        pos = m.end()
+    tex = tex[pos:]
     prefix = ""
     for env, items in stack:
         prefix += f"\\begin{{{env}}}\n"
@@ -141,7 +169,7 @@ def balance_lists(tex, stack):
         elif stack:
             stack[-1][1] += 1
     suffix = "".join(f"\n\\end{{{env}}}" for env, _ in reversed(stack))
-    return prefix + tex + suffix
+    return out + "\n\n" + prefix + tex + suffix
 
 
 def to_markdown(tex):
@@ -158,8 +186,15 @@ def split_code(body):
     """Split a code block into (code, output): code is runnable, output is what the book shows."""
     lines = body.split("\n")
     if any(l.startswith(">> ") for l in lines):
-        code = [l[3:] for l in lines if l.startswith(">> ")]
-        output = [l for l in lines if not l.startswith(">> ")]
+        code, output, depth = [], [], 0
+        for l in lines:
+            if l.startswith(">> ") or depth > 0:
+                stmt = l[3:] if l.startswith(">> ") else l
+                code.append(stmt)
+                depth += len(re.findall(r"^\s*(for|while|if|function|switch|try)\b", stmt))
+                depth -= len(re.findall(r"^\s*end\b", stmt))
+            else:
+                output.append(l)
         return "\n".join(code), "\n".join(output).strip()
     if lines and lines[0].strip().startswith(ERROR_STARTS):
         return "", body
@@ -234,6 +269,9 @@ def convert(chapter, aux, nb_path):
     cells = []
     title = re.search(r"\\chapter\{([^}]*)\}", tex).group(1)
     tex = tex.replace(r"\chapter{" + title + "}", "")
+    count = iter(range(1, 1000))
+    tex = re.sub(r"\\begin\{ex\}\s*(\\label\{[^}]*\}\s*)?",
+                 lambda m: f"\\textbf{{Exercise {chapter}.{next(count)}.}} ", tex)
     cells.append(markdown_cell(
         f"# {chapter}. {title}\n\n"
         f"*Physical Modeling in MATLAB* by Allen B. Downey. "
@@ -276,7 +314,8 @@ def convert(chapter, aux, nb_path):
         add_cells(before.get(ncode, []))
         if caption:
             number = labels.get(label, ("?", ""))[0] if label else "?"
-            cells.append(markdown_cell(f"*Listing {number}: {caption}*"))
+            cap = to_markdown(preprocess(caption, labels))
+            cells.append(markdown_cell(f"*Listing {number}: {cap}*"))
         code, output = split_code(textwrap.dedent(body))
         if ncode in static:
             code, output = "", textwrap.dedent(body)

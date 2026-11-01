@@ -82,6 +82,9 @@ These are worth knowing when converting chapters, but there's nothing to report:
 - **Each cell starts a new figure.** `xlabel`, `legend` and `hold on` in a later cell don't act on an earlier plot. Workaround: the plot and its decorations go in the same cell (Chapter 9: `plot_solutions`).
 - **`saveas` and `print` to EPS can't work:** there's no Ghostscript in the browser, and no folder to save to. These examples are shown as text.
 - **Run All stops at the first error**, including errors the book makes on purpose. That's JupyterLab's behavior: the `raises-exception` tag only affects `nbconvert`. Readers step past errors with Shift+Enter.
+- **`help` fails for built-in functions** (`help sin`: "unable to start subprocess for 'makeinfo'"); it works for functions and scripts with a comment header. Chapter 1's `help sin` is shown as text with a note.
+- **Nested functions can't be defined in a cell** ("nested functions not implemented in this context"); that's Octave's rule for code outside a file. `code/chap14/binary.m` uses them.
+- **`comet3` is very slow:** `code/chap04/lorenz.m` takes about 150 s in the browser and shows one dot (it animates); `plot3` takes about 5 s.
 - **`ls` fails** ("unable to start subprocess"), because a browser can't run shell commands. `dir` works.
 
 ## The project's health (2026-11-01)
