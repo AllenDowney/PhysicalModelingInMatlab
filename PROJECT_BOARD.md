@@ -119,7 +119,14 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 **Test site (2026-11-01, Allen: in this repo):** `site/` (JupyterLite + xeus-octave, all chapter folders, `saveas` lines stripped at build time because `../../book/figs` doesn't exist in the browser), deployed to <https://allendowney.github.io/PhysicalModelingInMatlab/> by `.github/workflows/site.yml` (Pages source: Actions). Local build: 2 min, 233 MB on disk; a reader downloads ~38 MB and gets a prompt in ~8 s (localhost). Tested in headless Chromium: `rat_pop`, `baseball2`, `baseball3`, `binary` run and plot. **Known issue:** `legend` followed by `clf` in one run (`lotka.m`) errors in xeus-octave's graphics (`legend>update_displayname_cb`); fine in desktop Octave; report upstream. Plot titles don't show (plotly).
 
-**Next:** Allen tries the site in a real browser (Safari, phone, edits surviving a reload); decide about the `saveas` lines in `code/` (content issue 8); report the legend bug to jupyter-xeus/xeus-octave
+**Chapter notebook prototype (2026-11-01, Allen: "turn each chapter into a notebook with all of the text, and all of the REPL examples runnable", if this environment works out):** `site/tex2nb.py` converts a chapter's LaTeX to a notebook: prose through pandoc (cross-references numbered from `main.aux`), listings and REPL examples as Octave code cells (`>>` prompts and shown results dropped; MATLAB error messages kept as text), figures embedded as PNG. Per-chapter edits in `site/notebooks/chapNN.json`. Chapter 9 done (`site/notebooks/chap09.ipynb`, 57 cells): every cell runs in headless Chromium, apart from the intentional errors. Findings:
+- Functions defined in cells work (and later definitions replace earlier ones), so "put this in a file" listings run as cells; cells that only define functions get a call added after them
+- Each cell starts a new figure, so `xlabel`/`legend` examples need the plot in the same cell (Chapter 9: a small `plot_solutions` helper)
+- **`legend('euler', 'ode45')` hangs the kernel** (also on the upstream demo; `legend('a', 'b')` works; depends on the labels); Chapter 9's two legend examples are static for now. Report upstream with this repro: `plot(1:3, 1:3); hold on; plot(1:3, 2:4); legend('euler', 'ode45')`
+- `saveas` can't work in the browser (no Ghostscript); shown as static text
+- Run All stops at the first intentional error (JupyterLab ignores `raises-exception`), so readers step through with Shift+Enter
+
+**Next:** Allen reviews the Chapter 9 notebook in a real browser; decide how to present intentional errors (now: Run All stops there); report the legend bug to jupyter-xeus/xeus-octave; then convert more chapters
 
 **Goal:** Find the easiest reliable way for readers to run and modify the book's examples in a browser, with no install and ideally no account, without creating a maintenance burden. Feasibility study and a small proof of concept on Chapter 2 (Scripts), not an implementation.
 
