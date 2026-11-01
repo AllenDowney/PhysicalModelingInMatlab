@@ -57,7 +57,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - [x] Title; badge; author; abstract; who it is for and prerequisites; table of contents with links to each chapter's code; the PDF (release asset) and the printed book; running the code (MATLAB, Octave, and online if Task 2 says so); support link (`/support/?book=matlab`); license. Done 2026-11-01. The PDF link is still `raw/master/…pdf` until step 6 makes it a release asset; add the online link if Task 2 finds one
 
 **6. Book, releases and visibility**
-- [ ] The book builds from a clone (`book/Makefile`; `book/titlepages.tex` is untracked but `main.tex` inputs it)
+- [x] The book builds from a clone (`book/Makefile`; `book/titlepages.tex` is untracked but `main.tex` inputs it). 2026-11-01: `make` ran pdflatex once, so a clean build had no contents, index or references; now makeindex and two more passes. 178 pages, the same as the 2021 PDF
 - [ ] PDF as a GitHub release asset (GreenTeaPress Task 7 pattern); the book page links `releases/latest/download/…`
 - [x] PR #7 ("Resolving build errors", Brian Bingham, 2024-08-23): both fixes already on `master`; closed with thanks 2026-10-31
 - [ ] Repo description and topics (`scripts/repo_about.sh` in GreenTeaPress)
@@ -97,6 +97,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 ### Errata (book changes, for the next build)
 
 - chap00.tex:85: "Anaconda Prompt", not "Jupyter Prompt" (2026-11-01)
+- chap12.tex:197: "run the simulation for 6 s" (was 8) (2026-11-01)
 - titlepages.tex: "4.0 International", not "4.0 Unported" (2026-11-01)
 - chap03.tex:440–452: REPL shows `ans =`, not `total =` (2026-10-31)
 - chap12.tex:191: `tspan = [0 6]` (was `[0 8]`, which ran the ball underground) (2026-10-31)

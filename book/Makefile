@@ -7,6 +7,8 @@ PDFFLAGS = -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress  \
 all:
 	pdflatex main
 	makeindex main
+	pdflatex main
+	pdflatex main
 	mv main.pdf $(PDF)
 
 distrib:
