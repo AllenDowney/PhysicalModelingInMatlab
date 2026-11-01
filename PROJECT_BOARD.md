@@ -8,7 +8,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ### Current focus (2026-11-01)
 
-- **Task 1:** Refresh — **DONE** 2026-11-01, tag `2026-refresh`. Chapter code fixed to match the book and tested in Octave in CI; ZIP rebuilt; README, license, links, Figure 12.2 and the Makefile fixed. Open: the PDF release (deferred by Allen). Content issues all settled 2026-11-01
+- **Task 1:** Refresh — **DONE** 2026-11-01, tag `2026-refresh`. Chapter code fixed to match the book and tested in Octave in CI; ZIP rebuilt; README, license, links, Figure 12.2 and the Makefile fixed. PDF version 4.1 released 2026-11-01 (GitHub release `v4.1.0`). Content issues all settled 2026-11-01
 - **Task 2:** Investigate running the examples online (Octave) — planning doc written, not started; next
 
 ---
@@ -59,7 +59,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 **6. Book, releases and visibility**
 - [x] The book builds from a clone (`book/Makefile`; `book/titlepages.tex` is untracked but `main.tex` inputs it). 2026-11-01: `make` ran pdflatex once, so a clean build had no contents, index or references; now makeindex and two more passes. 178 pages, the same as the 2021 PDF
-- [ ] PDF as a GitHub release asset (GreenTeaPress Task 7 pattern); the book page links `releases/latest/download/…`. **Not now (Allen, 2026-11-01):** the root PDF stays the 2021 build for now
+- [ ] PDF as a GitHub release asset (GreenTeaPress Task 7 pattern); the book page links `releases/latest/download/…`. **Released v4.1.0 2026-11-01** (Allen's request, after first deferring): `\theversion` 4.1, copyright 2026; built from a clean export, 178 pages, text diff against 4.0 = only the errata below; release at `62f6056`, asset identical to the root `PhysicalModelingInMatlab4.pdf` (the book page's `raw/master` link). Makefile fix: `makeindex` must run after the second pass (after only the first, index pages from Chapter 12 on were 2 low). **Left for Allen:** the greenteapress.com copy (the deploy was blocked by the permission check): in `~/GreenTeaPress`, `git add greenteapress/matlab/PhysicalModelingInMatlab4.pdf && git commit -m "Physical Modeling in MATLAB 4.1 PDF" -- greenteapress/matlab/PhysicalModelingInMatlab4.pdf && scripts/deploy_gtp.sh matlab/PhysicalModelingInMatlab4.pdf` (the file is already copied there, uncommitted); then optionally point the WP page at it
 - [x] PR #7 ("Resolving build errors", Brian Bingham, 2024-08-23): both fixes already on `master`; closed with thanks 2026-10-31
 - [x] Repo description and topics (`scripts/repo_about.sh` in GreenTeaPress). Set 2026-11-01 with `gh repo edit`: description "Physical Modeling in MATLAB: a free textbook on programming, modeling and simulation in MATLAB and GNU Octave", website the Green Tea Press book page, topics matlab, octave, modeling, simulation, physics, textbook
 - [ ] Site: none now. A web version is part of Task 2's decision; if it goes ahead, the SEO checklist (`~/GreenTeaPress/plans/seo.md`) applies
@@ -95,7 +95,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 10. **DONE 2026-11-01 (Allen).** Fixed: chap10:293, chap13:140 (new caption "Range of a baseball as a function of launch angle"), chap13:165 (`x = 1.4142`), chap09:345 (semicolon). Left as is: the penny2 time span. `skydiver.m` now takes the opening altitude (default 1000 m, part 4); 8 m was the answer to part 5, not a bug (lands at 5.7 m/s; 7 m gives 6.5). `bike_loop.m` and `lorenz.m` left partial. **Book typos found on the way:** chap10.tex:293 `[drdt; dfdt]` vs the listing's `[dxdt; dydt]`; chap13.tex:140 repeats the caption of :81; chap13.tex:164–165 `x = fzero(...)` displays `ans =`; chap09.tex:345 vs :402 semicolon after `ode45`; chap11 penny2 needs a time span longer than the 10 s the text implies (:322, :327). Also exercise solutions that only partly do the exercise: `bike_loop.m` (no plot, chap03.tex:305), `lorenz.m` (no test call or time-series plot, chap10), `skydiver.m` (parachute at 8 m, not 1000 m)
 11. **DONE 2026-11-01 (Allen: use the Octave redraw).** Redrawn by `book/images/figure12_02.m` in the style of the Illustrator figures (Helvetica, not their Futura-like font). **Figure 12.2 needs regenerating:** it shows the old `[30; 40]` trajectory (peak 82 m at 4 s, 240 m at 8 s). With `[40; 30]` and `tspan = [0 6]` the peak is 47 m near 3 s and the ball is at (240, 4.6) at 6 s
 
-### Errata (book changes, for the next build)
+### Errata (book changes; all in version 4.1, released 2026-11-01)
 
 - chap00.tex:85: "Anaconda Prompt", not "Jupyter Prompt" (2026-11-01)
 - chap09: `rats.m` renamed `rat_pop.m` (:317–401); :345 semicolon after `ode45(...)`
