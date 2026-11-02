@@ -67,7 +67,7 @@ The result is `error: getappdata: H must be a scalar or vector of graphic handle
 
 ## 4. Plots don't update while a cell runs, so animations show only the first frame
 
-**Status:** already reported upstream as [#2 "Plotly renderer does not update"](https://github.com/jupyter-xeus/xeus-octave/issues/2) (open since 2021). Confirmed 2026-11-01.
+**Status:** reported upstream as xeus-octave [#2 "Plotly renderer does not update"](https://github.com/jupyter-xeus/xeus-octave/issues/2) (open since 2021). Confirmed 2026-11-01. Fixed on our site 2026-11-02 (below).
 
 **Reproduce:** this loop takes 2 s (so `pause` works), but the figure shows only the first point:
 
@@ -81,7 +81,9 @@ for i = 1:5
 end
 ```
 
-**Workaround:** none. Chapter 13's `animate` is defined in a runnable cell, but the call that plays the animation is shown as text with a note. Add a comment to #2 with this case.
+**Cause (found 2026-11-02, Task 4):** not xeus-octave, which sends an `update_display_data` for each frame in real time (checked in the browser's message log), but plotly.py's JupyterLab renderer (jupyterlab-plotly 7.1.0): `renderModel` returns early when it already has a graph, so every update after the first frame is ignored. The same bug was reported to plotly.py in 2021 as [#3053](https://github.com/plotly/plotly.py/issues/3053) (by xeus-octave's original author), closed as stale in 2024. Fix on the fork's branch [`mimerenderer-update-display`](https://github.com/AllenDowney/plotly.py/tree/mimerenderer-update-display): redraw when the figure changes. Checked with Python display-handle updates in JupyterLab 4 and with Octave animations in JupyterLite. PR and comment drafted ([upstream_drafts.md](upstream_drafts.md)).
+
+**Workaround (2026-11-02, Allen):** `site/build.sh` patches the built renderer the same way (and fails if a new version changes the code), so animations play on our site; Chapter 13's `animate(T, M)` is a runnable cell again (the note and the still picture removed). Remove the patch when plotly.py releases a fix.
 
 ## Differences from desktop Octave that aren't bugs
 

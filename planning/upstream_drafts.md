@@ -1,6 +1,6 @@
 # Drafts of upstream issues and PRs (for Allen to review before posting)
 
-Task 4. All three posted 2026-11-02.
+Task 4. Items 1-3 posted 2026-11-02. Items 4 and 5 are drafts.
 
 ---
 
@@ -104,3 +104,57 @@ Consequences, with xeus-octave's plotly toolkit:
 Proposed fix: change the patch to `if (true)` (or define `thread::init` and `thread::is_thread` in the `__EMSCRIPTEN__` branch that patch 0013 adds to `oct-mutex.cc`, returning true, and drop 0015).
 
 (Status: the cause is confirmed by the trace and the listener-order test. The fix itself is not yet verified, which needs a rebuild of the Octave package.)
+
+---
+
+## 4. plotly.py PR: redraw a figure when its output is updated
+
+**Repo:** plotly/plotly.py, from `AllenDowney:mimerenderer-update-display` (commit `a96f8330`). After opening, add the changelog entry with the PR number (their CI requires one), under "Unreleased / Fixed".
+
+**Title:** Redraw a figure in JupyterLab when its output is updated
+
+**Body** (their template):
+
+### Link to issue
+
+Closes #3053, which was closed as stale in 2024; it still happens with jupyterlab-plotly 7.1.0.
+
+### Description of change
+
+When a kernel updates a displayed figure with `update_display_data` (for example IPython's `DisplayHandle.update`), JupyterLab calls `renderModel` again on the existing renderer, and `renderModel` returned early because it already had a graph, so the figure never changed. Now it redraws (with `Plotly.react`, through `createGraph`) when the figure in the new model differs from the one it drew. It still returns early when the figure is the same, which is what happens when `createGraph` stores the PNG of the figure in the model.
+
+### Demo
+
+The example from #3053, in JupyterLab 4 with plotly 7.1.0:
+
+```python
+from IPython.display import display
+out = {'application/vnd.plotly.v1+json': {'data': [{'x': ['giraffes', 'orangutans', 'monkeys'], 'y': [20, 14, 23], 'type': 'bar'}], 'layout': {}}}
+h = display(out, raw=True, display_id=True)
+```
+
+```python
+import time
+for y0 in [10, 5, 1]:
+    out['application/vnd.plotly.v1+json']['data'][0]['y'][0] = y0
+    h.update(out, raw=True)
+    time.sleep(0.5)
+```
+
+Before: the first bar stays at 20. After: it goes to 10, 5, then 1.
+
+This also fixes animations in the Octave kernel [xeus-octave](https://github.com/jupyter-xeus/xeus-octave) (its issue #2), which draws figures with this renderer and updates them on each `drawnow`; checked in JupyterLite with an 8-frame loop: before, the plot stays on the first frame; after, it steps through all eight.
+
+### Testing strategy
+
+I didn't find tests for the mime renderer to extend, so I tested by hand: the two examples above, before and after, in JupyterLab 4 and in JupyterLite 0.8, checking the plot's data in the page; and a plot with no updates still renders.
+
+---
+
+## 5. Comment on plotly.py #3053
+
+**Where:** https://github.com/plotly/plotly.py/issues/3053 (closed; the closing comment asks for a comment with a recent version to reopen it)
+
+**Body:**
+
+This still happens with jupyterlab-plotly 7.1.0 in JupyterLab 4 (and JupyterLite 0.8), with the example above. The cause is in `js/src/mimeExtension.ts`: `renderModel` returns early whenever the widget already has a graph, so an `update_display_data` never reaches `Plotly.react`. #NNNN redraws when the figure has changed. It also affects the Octave kernel xeus-octave, whose animations stay on their first frame.

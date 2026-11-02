@@ -26,6 +26,21 @@ grep -rl "saveas(gcf, '../../book/figs/" content | xargs sed -i "/saveas(gcf, '.
 # overrides.json: render all cells (no windowing), so long notebooks scroll smoothly
 jupyter lite build --contents content --output-dir dist/run --settings-overrides overrides.json
 
+# jupyterlab-plotly (7.1) ignores updates to a figure it has already drawn, so plots
+# don't animate (plotly.py#3053; Task 4). Patch the built renderer to redraw when the
+# figure changes, until plotly.py releases a fix; fail if the code has changed.
+python - <<'END'
+import glob
+old = 'renderModel(t){if(this.hasGraphElement())return Promise.resolve();'
+new = ('renderModel(t){if(this.hasGraphElement()){if(this._model&&JSON.stringify(this._model.data[this._mimeType])'
+       '===JSON.stringify(t.data[this._mimeType]))return Promise.resolve();this._model=t;return this.createGraph(t)}')
+paths = [p for p in glob.glob("dist/run/extensions/jupyterlab-plotly/static/*.js") if old in open(p).read()]
+if len(paths) != 1:
+    raise SystemExit("jupyterlab-plotly's renderModel has changed: check whether the patch is still needed")
+text = open(paths[0]).read()
+open(paths[0], "w").write(text.replace(old, new))
+END
+
 # The run page (chapter list) replaces JupyterLite's root page, which only redirects.
 # JupyterLite's app pages read the root page's #jupyter-config-data, so carry it over.
 python - <<'END'
