@@ -6,7 +6,7 @@ For each issue: status (not reported / reported, with a link / fixed in version)
 
 ## 1. `legend` hangs the kernel for some labels and font sizes
 
-**Status:** not reported. Found 2026-11-01. Also happens on the upstream demo site.
+**Status:** reported to emscripten-forge, [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02; cause below). Found 2026-11-01. Also happens on the upstream demo site.
 
 **Reproduce** (the cell never finishes, and the kernel has to be restarted):
 
@@ -40,7 +40,7 @@ The desktop xeus-octave kernel (built from source, plotly toolkit, also with no 
 
 ## 2. `legend` followed by `clf` raises an error and hangs
 
-**Status:** not reported. Found 2026-11-01.
+**Status:** included in [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02). Found 2026-11-01.
 
 **Reproduce:**
 
@@ -59,7 +59,7 @@ The result is `error: getappdata: H must be a scalar or vector of graphic handle
 
 ## 3. Plot titles don't appear
 
-**Status:** fixed in our fork, branch [`plotly-axes-title`](https://github.com/AllenDowney/xeus-octave/tree/plotly-axes-title) (2026-11-02); PR not yet opened. Not a regression: the plotly toolkit never drew the axes title. [#113](https://github.com/jupyter-xeus/xeus-octave/issues/113) reported it and was closed in 2024 without a fix.
+**Status:** fixed in our fork, branch [`plotly-axes-title`](https://github.com/AllenDowney/xeus-octave/tree/plotly-axes-title) (2026-11-02); PR [#146](https://github.com/jupyter-xeus/xeus-octave/pull/146), 2026-11-02. Not a regression: the plotly toolkit never drew the axes title. [#113](https://github.com/jupyter-xeus/xeus-octave/issues/113) reported it and was closed in 2024 without a fix.
 
 **Reproduce:** `plot(1:3, 1:3); title('My title')` shows the plot with no title. Axis labels and legends do appear.
 

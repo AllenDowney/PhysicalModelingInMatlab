@@ -1,10 +1,12 @@
 # Drafts of upstream issues and PRs (for Allen to review before posting)
 
-Task 4. Posted so far: item 3 (the emscripten-forge issue).
+Task 4. All three posted 2026-11-02.
 
 ---
 
 ## 1. xeus-octave PR: show axes titles with the plotly toolkit
+
+**Posted:** https://github.com/jupyter-xeus/xeus-octave/pull/146
 
 **Repo:** jupyter-xeus/xeus-octave, from `AllenDowney:plotly-axes-title` (commit `cb09add`)
 
@@ -27,11 +29,13 @@ Tested:
 - A new test, `test_plot_plotly_title`, fails without the change and passes with it; the rest of the suite passes.
 - Desktop build (conda-forge Octave 10.3) and WebAssembly build (emscripten-forge), in JupyterLite: titles on single plots, subplots, a 3-D plot, with a legend, with TeX (`x^2`, `\alpha`), and with `'fontweight', 'normal'`.
 
-(The WebAssembly build needed the change in the next PR to link with the current libflang.)
+(The WebAssembly build needed the change in #145 to link with the current libflang.)
 
 ---
 
 ## 2. xeus-octave PR: find the Fortran runtime under its new name
+
+**Posted:** https://github.com/jupyter-xeus/xeus-octave/pull/145
 
 **Repo:** jupyter-xeus/xeus-octave, from `AllenDowney:wasm-flang-runtime-name` (commit `c2eed0e`)
 
