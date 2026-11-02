@@ -30,6 +30,15 @@ jobs:
       - name: Run the chapter code
         run: tests/run_tests.sh
 
+      - name: The code ZIP matches code/
+        run: |
+          mkdir -p "$RUNNER_TEMP/zip/committed" "$RUNNER_TEMP/zip/built"
+          unzip -q PhysicalModelingInMatlab.zip -d "$RUNNER_TEMP/zip/committed"
+          sh build.sh
+          unzip -q PhysicalModelingInMatlab.zip -d "$RUNNER_TEMP/zip/built"
+          diff -r "$RUNNER_TEMP/zip/committed" "$RUNNER_TEMP/zip/built" ||
+            { echo "The ZIP is out of date: run sh build.sh and commit PhysicalModelingInMatlab.zip"; exit 1; }
+
   notebooks:
     # The notebooks run in the browser on Octave 10 (xeus-octave), and some error
     # messages differ in Ubuntu's Octave 8, so test them with conda-forge's Octave.
