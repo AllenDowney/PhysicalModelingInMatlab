@@ -161,7 +161,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ## Task 3: Jupyter Book site from the chapter notebooks
 
-**Status:** Pending (plan agreed with Allen 2026-11-02; not started)
+**Status:** In progress: built and tested locally 2026-11-02; not yet deployed
 
 An indexable, static HTML version of the book, built from `site/notebooks/`, readable without running anything; the JupyterLite part stays for running the code. JupyterLite can't be indexed, so its sitemap lists only the landing page.
 
@@ -172,8 +172,10 @@ An indexable, static HTML version of the book, built from `site/notebooks/`, rea
 - `/run/notebooks/`, `/run/lab/`: JupyterLite, moved down a level
 - `/notebooks/…`, `/lab/…`: redirect pages to `/run/…` (keep the query string)
 
-**Build:** JupyterLite into `dist/run/`; a JB prep script copies each solution notebook, adds the run links, tags solution cells `hide-cell`, sets the kernel to desktop Octave (`octave_kernel`), and executes it in a copy of its chapter folder (as `tests/test_notebooks.py` does); `jb build` (Jupyter Book 1, Think Python's `jb/_config.yml` adapted: sitemap, Open Graph, support note, counter) into `dist/`; redirect pages; upload and deploy as now (Pages stays on GitHub Actions).
+**Build (Allen, 2026-11-02: run the notebooks locally, as in the other books):** `python site/run_notebooks.py` runs each solution notebook in desktop Octave (`octave_kernel`, the `PhysicalModelingInMatlab` env) in a copy of its chapter folder, as `tests/test_notebooks.py` does, and writes `site/jb/chapNN.ipynb` with outputs and a hash of its inputs; it reruns only chapters whose notebook or code changed (all 15: 54 s, 1.1 MB). CI (`tests.yml`) fails if they're out of date (`--check`). At build time `site/jb/prep_notebooks.py` adds the run links, tags solution cells `hide-cell` ("Show solution"), writes the figures (notebook attachments, which Jupyter Book can't read) to `figs/`, and sets page descriptions (`descriptions.yml`); `jb build` (Jupyter Book 1, Think Python's `jb/_config.yml` adapted: sitemap, Open Graph, support note, counter) into `dist/`; redirect pages; upload and deploy as now (Pages stays on GitHub Actions).
 
 **Allen's choices:** keep all outputs, plots included (2026-11-01); solutions collapsed under a click-to-show toggle (2026-11-01); `/run/` and the link placement (2026-11-02).
 
-**Risk:** executing the notebooks with desktop Octave on CI hasn't been tried (inline plots headless; functions defined in cells).
+**Tested locally (2026-11-02):** full build; book pages with outputs, figures, solution toggles and run links; intro page; `/run/` page with the new sections (draft text, [planning/run_page_text.md](planning/run_page_text.md), Allen revising); old `/notebooks/` link forwards to `/run/` and the notebook runs; chapter page at phone width has no horizontal scroll; sitemap lists the book's pages and `/run/`.
+
+**Next:** Allen's revisions to the run page text; push (deploys); check the live site; Search Console sitemap.

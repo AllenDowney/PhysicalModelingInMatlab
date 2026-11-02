@@ -1,0 +1,11 @@
+{#- End-of-chapter support note (GreenTeaPress plans/revenue.md, Task 19). Shown after the
+    last section of each chapter page; not in the notebooks or the PDF.
+    BOOK is the code the support page and the access-log report use. -#}
+{%- set BOOK = "matlab" %}
+{%- if pagename.startswith("chap") %}
+<aside class="support-ask">
+  <p>If you found this chapter useful, please consider
+  <a href="https://greenteapress.com/support/?book={{ BOOK }}">supporting free, open educational
+  materials</a> from Green Tea Press.</p>
+</aside>
+{%- endif %}

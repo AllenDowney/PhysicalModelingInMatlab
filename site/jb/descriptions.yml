@@ -1,0 +1,63 @@
+# Page descriptions for search results and link previews (GreenTeaPress plans/seo.md).
+# prep_notebooks.py writes each one into its notebook's metadata; index.md has its own
+# in front matter. About 120-155 characters, in the words a reader would search for.
+
+chap01: >-
+  What modeling is, and a first look at MATLAB and GNU Octave: using it as a calculator,
+  variables, error messages, and documentation.
+
+chap02: >-
+  MATLAB scripts: your first script, the Fibonacci sequence, floating-point numbers,
+  comments, and the difference between assignment and equality.
+
+chap03: >-
+  Loops in MATLAB: updating variables, a taxonomy of bugs, absolute and relative error,
+  for loops, plotting, sequences and series, and incremental development.
+
+chap04: >-
+  Vectors in MATLAB: creating vectors, vector arithmetic, indexing and its errors,
+  plotting vectors, and common vector operations like sum and cumsum.
+
+chap05: >-
+  Writing your own MATLAB functions: name collisions, defining functions, documentation,
+  naming conventions, and functions with more than one input.
+
+chap06: >-
+  Conditionals in MATLAB: relational operators, if statements, logical functions, nested
+  loops, encapsulation and generalization, and how functions work.
+
+chap07: >-
+  Zero-finding in MATLAB: solving nonlinear equations with fzero, choosing an initial
+  value, vectorizing functions, and debugging name collisions.
+
+chap08: >-
+  Functions of vectors in MATLAB: functions that take and return vectors, computing with
+  vectors instead of loops, and debugging in four acts.
+
+chap09: >-
+  Ordinary differential equations in MATLAB: Euler's method, solving ODEs with ode45,
+  time-dependent models, what can go wrong, and labeling plots.
+
+chap10: >-
+  Systems of ODEs in MATLAB: matrices, and simulating predator-prey and other systems of
+  differential equations with ode45.
+
+chap11: >-
+  Second-order systems in MATLAB: Newtonian motion, simulating free fall, stopping a
+  simulation with ODE events, and modeling air resistance.
+
+chap12: >-
+  Modeling in two dimensions with MATLAB: spatial vectors, ODEs in two dimensions, drag
+  force, and simulating the flight of a baseball.
+
+chap13: >-
+  Optimization in MATLAB: finding the launch angle that maximizes a baseball's range,
+  using fminsearch, and animating trajectories.
+
+chap14: >-
+  More physical models in MATLAB: bungee jumping, Spider-Man, celestial mechanics, and
+  checking simulations with conservation of energy.
+
+chap15: >-
+  How MATLAB's numerical tools work under the hood: the algorithms behind ode45, fzero,
+  and fminsearch.

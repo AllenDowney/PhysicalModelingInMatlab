@@ -60,3 +60,7 @@ jobs:
         run: |
           octave --version | head -1
           python tests/test_notebooks.py
+
+      - name: The book's notebooks with outputs (site/jb) are up to date
+        shell: bash -l {0}
+        run: python site/run_notebooks.py --check
