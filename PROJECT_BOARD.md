@@ -146,7 +146,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 - **Allen's decisions (2026-11-01):** `hold on` added to the book's listings for Figures 10.1 and 12.2 (the notebooks' additions dropped); `code/chap04/lorenz.m` uses `plot3` (`comet3` in a comment; the solution notebook went from 155 s to 26 s in the browser); `bike_loop2.m` moved out of `code/chap03/old/` (Exercise 3.2's solution; test case added); `code/chap14/binary.m` rewritten with local functions instead of nested ones (same energy loss, -1.8505e-05) and an optional input: `binary(false)` plots the orbits instead of animating; it is Exercise 14.5's solution
 
 - **Landing page and visibility (2026-11-01, Allen):** `site/landing.html` replaces JupyterLite's root page (the build copies JupyterLite's `#jupyter-config-data` block into it; without it the app pages fail to load). Chapters open in the single-notebook view (`notebooks/index.html?path=chapNN/chapNN.ipynb`), with links to the solutions and the full workspace. Description, canonical, Open Graph tags (cover from greenteapress.com), `sitemap.xml` with the landing page only (the notebooks are a JS app), page-view counter on the landing, lab and notebook pages. README links the site; repo website → the site, topic `jupyterlite`; hub: Books entry, `robots.txt` Sitemap line, sitemap index (AllenDowney.github.io `ba753de`). **Allen:** submit `https://allendowney.github.io/PhysicalModelingInMatlab/sitemap.xml` in Search Console; add a link to the site on the WordPress book page
-- **PDF 4.2 (2026-11-01):** all the errata marked "Not in 4.1", plus a paragraph in the preface ("Working with the Code") pointing to the online version
+- **PDF 4.2 (2026-11-01):** all the errata marked "Not in 4.1", plus a paragraph in the preface ("Working with the Code") pointing to the online version. greenteapress.com copy deployed by Allen (GreenTeaPress `89d18d8`), verified identical to the release asset 2026-11-02
 
 **Next:** report the upstream issues (when Allen says)
 
@@ -179,4 +179,4 @@ An indexable, static HTML version of the book, built from `site/notebooks/`, rea
 
 **Tested locally (2026-11-02):** full build; book pages with outputs, figures, solution toggles and run links; intro page; `/run/` page with the new sections (draft text, [planning/run_page_text.md](planning/run_page_text.md), Allen revising); old `/notebooks/` link forwards to `/run/` and the notebook runs; chapter page at phone width has no horizontal scroll; sitemap lists the book's pages and `/run/`.
 
-**Next (Allen):** resubmit the sitemap in Search Console (it now lists the 15 chapter pages, the intro and /run/).
+Sitemap resubmitted in Search Console by Allen (2026-11-02).
