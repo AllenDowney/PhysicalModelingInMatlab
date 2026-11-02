@@ -161,7 +161,7 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ## Task 3: Jupyter Book site from the chapter notebooks
 
-**Status:** In progress: built and tested locally 2026-11-02; not yet deployed
+**Status:** DONE 2026-11-02: deployed; checked live (pages, run links, old links forward, a notebook runs under /run/); hub entry has both links
 
 An indexable, static HTML version of the book, built from `site/notebooks/`, readable without running anything; the JupyterLite part stays for running the code. JupyterLite can't be indexed, so its sitemap lists only the landing page.
 
@@ -178,4 +178,4 @@ An indexable, static HTML version of the book, built from `site/notebooks/`, rea
 
 **Tested locally (2026-11-02):** full build; book pages with outputs, figures, solution toggles and run links; intro page; `/run/` page with the new sections (draft text, [planning/run_page_text.md](planning/run_page_text.md), Allen revising); old `/notebooks/` link forwards to `/run/` and the notebook runs; chapter page at phone width has no horizontal scroll; sitemap lists the book's pages and `/run/`.
 
-**Next:** Allen's revisions to the run page text; push (deploys); check the live site; Search Console sitemap.
+**Next (Allen):** resubmit the sitemap in Search Console (it now lists the 15 chapter pages, the intro and /run/).
