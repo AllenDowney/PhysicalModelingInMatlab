@@ -156,3 +156,17 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 **First experiment:** open a real Octave Online bucket from a fresh browser session. If a reader can immediately see, modify and run a complete example, that may be enough to justify a GitHub Pages version that links to buckets, without inline execution.
 
 **Deliverable:** a feasibility report in `planning/`: verified capabilities with links, comparison table, recommended architecture, a working demo link for one real example, maintenance strategy, open questions.
+
+---
+
+## Task 3: Jupyter Book site from the chapter notebooks
+
+**Status:** Pending (Allen, 2026-11-01: not now)
+
+An indexable, static web version of the book, built from `site/notebooks/`, like the Jupyter Books of Allen's other books (Think Python's `jb/_config.yml` is the model: sitemap, Open Graph, support note, page-view counter). JupyterLite can't be indexed, so its sitemap lists only the landing page.
+
+**Proposed layout:** the Jupyter Book at the site root (so the URL in the 4.2 preface leads to it), JupyterLite moved to `/lite/`, the landing page retired. One Pages workflow builds both into one upload (Pages stays on GitHub Actions, so no `ghp-import`). `tex2nb.py` adds "Run this chapter online" after each chapter title, linking to the notebook on JupyterLite and tagged `remove-print` (like the Colab links in the other books).
+
+**Allen's choices (2026-11-01), for when it goes ahead:**
+- Outputs: run the notebooks at build time in desktop Octave and keep all output, plots included (the notebooks store none). Kernel: `octave_kernel` (in the env already); conda-forge's desktop xeus-octave is 0.0.5, too old
+- Solutions: in the page, collapsed under a "click to show" toggle (`hide-cell`)
