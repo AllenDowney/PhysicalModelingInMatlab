@@ -180,3 +180,19 @@ An indexable, static HTML version of the book, built from `site/notebooks/`, rea
 **Tested locally (2026-11-02):** full build; book pages with outputs, figures, solution toggles and run links; intro page; `/run/` page with the new sections (draft text, [planning/run_page_text.md](planning/run_page_text.md), Allen revising); old `/notebooks/` link forwards to `/run/` and the notebook runs; chapter page at phone width has no horizontal scroll; sitemap lists the book's pages and `/run/`.
 
 Sitemap resubmitted in Search Console by Allen (2026-11-02).
+
+---
+
+## Task 4: Fix the browser Octave bugs upstream (xeus-octave)
+
+**Status:** In progress (2026-11-02)
+
+The bugs in [planning/upstream_issues.md](planning/upstream_issues.md), in xeus-octave (the Octave kernel the site runs in the browser).
+
+**Allen's decisions (2026-11-02):**
+- Fork it (`AllenDowney/xeus-octave`) and try to fix each bug; file each issue with its PR. Time-boxed: if a fix doesn't come together, file the issue with the reproduction and what was learned
+- Order: titles (3), `legend` hang (1), `legend` then `clf` (2), animation (4; comment on upstream #2, maybe a draft PR)
+- Issue and PR texts go to Allen for review before anything is posted
+- The site stays on the official package from emscripten-forge; the fork is for developing and testing fixes
+
+**Approach:** reproduce each bug in a desktop build from source (quick to rebuild; the plotting code is shared with the browser build); then test fixes in a WebAssembly build on a copy of the site, with the book's notebooks that use legends and titles.
