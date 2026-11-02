@@ -161,12 +161,19 @@ This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX sourc
 
 ## Task 3: Jupyter Book site from the chapter notebooks
 
-**Status:** Pending (Allen, 2026-11-01: not now)
+**Status:** Pending (plan agreed with Allen 2026-11-02; not started)
 
-An indexable, static web version of the book, built from `site/notebooks/`, like the Jupyter Books of Allen's other books (Think Python's `jb/_config.yml` is the model: sitemap, Open Graph, support note, page-view counter). JupyterLite can't be indexed, so its sitemap lists only the landing page.
+An indexable, static HTML version of the book, built from `site/notebooks/`, readable without running anything; the JupyterLite part stays for running the code. JupyterLite can't be indexed, so its sitemap lists only the landing page.
 
-**Proposed layout:** the Jupyter Book at the site root (so the URL in the 4.2 preface leads to it), JupyterLite moved to `/lite/`, the landing page retired. One Pages workflow builds both into one upload (Pages stays on GitHub Actions, so no `ghp-import`). `tex2nb.py` adds "Run this chapter online" after each chapter title, linking to the notebook on JupyterLite and tagged `remove-print` (like the Colab links in the other books).
+**Layout (Allen, 2026-11-02):** one Pages site, one workflow:
+- `/`: the Jupyter Book. The intro page explains the two options (read here; run the code online at `/run/`, or download the ZIP for MATLAB/Octave) and links the PDF
+- `/chapNN.html`: each chapter, with outputs; at the top "Run this chapter online (or with solutions)", linking to its notebooks on JupyterLite (solution link for chapters 2–7, 9–11, 13, 14). The link is added at JB build time only, not in the notebooks (in JupyterLite it would point to itself)
+- `/run/`: today's `site/landing.html`, with a new section near the top on the two views (one chapter at a time vs the full workspace) and on saving (browser storage on this computer; survives reloads; shared by both views; not in another browser, computer or private window; lost when site data is cleared; File → Download to keep a copy, upload in the workspace to bring it back; an edited chapter shadows later site updates until deleted). Behaviour checked on the live site 2026-11-02 (reload, both views, another profile, File → Download); the last three points are from JupyterLite's documented behaviour, not tested
+- `/run/notebooks/`, `/run/lab/`: JupyterLite, moved down a level
+- `/notebooks/…`, `/lab/…`: redirect pages to `/run/…` (keep the query string)
 
-**Allen's choices (2026-11-01), for when it goes ahead:**
-- Outputs: run the notebooks at build time in desktop Octave and keep all output, plots included (the notebooks store none). Kernel: `octave_kernel` (in the env already); conda-forge's desktop xeus-octave is 0.0.5, too old
-- Solutions: in the page, collapsed under a "click to show" toggle (`hide-cell`)
+**Build:** JupyterLite into `dist/run/`; a JB prep script copies each solution notebook, adds the run links, tags solution cells `hide-cell`, sets the kernel to desktop Octave (`octave_kernel`), and executes it in a copy of its chapter folder (as `tests/test_notebooks.py` does); `jb build` (Jupyter Book 1, Think Python's `jb/_config.yml` adapted: sitemap, Open Graph, support note, counter) into `dist/`; redirect pages; upload and deploy as now (Pages stays on GitHub Actions).
+
+**Allen's choices:** keep all outputs, plots included (2026-11-01); solutions collapsed under a click-to-show toggle (2026-11-01); `/run/` and the link placement (2026-11-02).
+
+**Risk:** executing the notebooks with desktop Octave on CI hasn't been tried (inline plots headless; functions defined in cells).
