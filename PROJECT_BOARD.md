@@ -196,3 +196,10 @@ The bugs in [planning/upstream_issues.md](planning/upstream_issues.md), in xeus-
 - The site stays on the official package from emscripten-forge; the fork is for developing and testing fixes
 
 **Approach:** reproduce each bug in a desktop build from source (quick to rebuild; the plotting code is shared with the browser build); then test fixes in a WebAssembly build on a copy of the site, with the book's notebooks that use legends and titles.
+
+**Progress (2026-11-02):**
+- Fork: https://github.com/AllenDowney/xeus-octave, clone in `~/xeus-octave`; work files (test harnesses, local WebAssembly build envs, test site) in `~/xeus-octave-work`. Desktop build: env `xeus-octave-dev`. Browser build: `micromamba` envs `wasm-build` and `wasm-host` under `~/xeus-octave-work/mamba`
+- **Titles (3):** fixed on branch `plotly-axes-title`, with a test (fails before, passes after); checked on desktop and in the browser. Not a regression: the plotly toolkit never drew titles (#113 was closed without a fix). PR text ready
+- **Build break:** with the current emscripten-forge libflang (22.x), the WebAssembly build doesn't link (the Fortran runtime libraries were renamed). Fixed on branch `wasm-flang-runtime-name` (Allen: a separate PR); PR text ready
+- **`legend` hang (1) and `legend` then `clf` (2):** cause found in emscripten-forge's Octave recipe, not xeus-octave: patch 0015 queues every graphics listener (`if (false)` in place of the main-thread check), and `legend.m` assumes listeners run during `set`. Issue posted (Allen: issue only, no rebuild): https://github.com/emscripten-forge/recipes/issues/8228
+- Drafts and posted texts: [planning/upstream_drafts.md](planning/upstream_drafts.md). **Next:** Allen edits the two PR texts; then open them. Then animation (4)

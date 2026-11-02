@@ -32,6 +32,12 @@ Blank cells weren't tested. The same thing happens with `legend({...})` and with
 
 **Possibly related:** open PR [#144 "Interactive legend"](https://github.com/jupyter-xeus/xeus-octave/pull/144) (2026-06-29) changes legend handling.
 
+**Cause (found 2026-11-02, Task 4):** not xeus-octave but the Octave package it's built on. emscripten-forge's recipe patches Octave with [`0015-Disable-multithreading.patch`](https://github.com/emscripten-forge/recipes/blob/main/recipes/recipes_emscripten/octave/patches/0015-Disable-multithreading.patch), which changes `gh_manager::execute_listener` from `if (octave::thread::is_thread ())` to `if (false)`. So every property listener is queued and runs after the code that triggered it, instead of immediately (in a single-threaded browser, the right answer is always "run now"). Shown with `ax = axes; addlistener (ax, 'xlim', @(~,~) disp ('listener')); disp ('before'); set (ax, 'xlim', [0 2]); disp ('after')`: the browser prints before, after, listener; desktop Octave prints before, listener, after.
+
+`legend.m` guards its layout with an `__updating_layout__` flag, which assumes listeners run during the `set`. Run later, the legend's position listener (`update_position_cb`) sees the flag cleared, treats the layout's own change as the user moving the legend, sets `location` to `none`, and the layout and position callbacks then call each other forever. An instrumented `legend.m` stopped after 300 calls showed `update_position_cb update_layout_cb` repeating; the desktop kernel never calls `update_position_cb`. Why only some labels and font sizes: the queued `update_displayname_cb` and `update_string_cb` re-run the layout, and whether that changes the position depends on the text's size.
+
+The desktop xeus-octave kernel (built from source, plotly toolkit, also with no display so it has the browser's 72 pixels per inch) doesn't hang.
+
 ## 2. `legend` followed by `clf` raises an error and hangs
 
 **Status:** not reported. Found 2026-11-01.
@@ -49,9 +55,11 @@ The result is `error: getappdata: H must be a scalar or vector of graphic handle
 
 **Workaround:** none yet. For Chapter 10, split the two plots into separate cells, since each cell starts a new figure anyway.
 
+**Cause (likely, 2026-11-02):** the same queued listeners as issue 1: `update_displayname_cb` runs after `clf` has deleted the legend.
+
 ## 3. Plot titles don't appear
 
-**Status:** not reported. This looks like a regression of [#113](https://github.com/jupyter-xeus/xeus-octave/issues/113) ("Title of a plot does not show when using graphics_toolkit("plotly")"), closed in 2024.
+**Status:** fixed in our fork, branch [`plotly-axes-title`](https://github.com/AllenDowney/xeus-octave/tree/plotly-axes-title) (2026-11-02); PR not yet opened. Not a regression: the plotly toolkit never drew the axes title. [#113](https://github.com/jupyter-xeus/xeus-octave/issues/113) reported it and was closed in 2024 without a fix.
 
 **Reproduce:** `plot(1:3, 1:3); title('My title')` shows the plot with no title. Axis labels and legends do appear.
 
