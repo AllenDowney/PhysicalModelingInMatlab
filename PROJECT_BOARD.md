@@ -6,10 +6,11 @@ Numbered tasks for tracking work. Each task has a permanent number; add new task
 
 This is the repo for *Physical Modeling in MATLAB*, 4th edition: the LaTeX source (`book/`), the code for each chapter (`code/chapNN/`), the PDF (`PhysicalModelingInMatlab4.pdf`, committed) and the code ZIP the book links to (`PhysicalModelingInMatlab.zip`). The book page is <https://greenteapress.com/wp/physical-modeling-in-matlab/> (support code `matlab`). Last commit 2021-06-16. No GitHub Pages site.
 
-### Current focus (2026-11-01)
+### Current focus (2026-11-02)
 
 - **Task 1:** Refresh — **DONE** 2026-11-01, tag `2026-refresh`. Chapter code fixed to match the book and tested in Octave in CI; ZIP rebuilt; README, license, links, Figure 12.2 and the Makefile fixed. PDF version 4.1 released 2026-11-01 (GitHub release `v4.1.0`). Content issues all settled 2026-11-01
 - **Task 2:** Investigate running the examples online (Octave) — **report written** 2026-11-01 ([planning/online_execution_report.md](planning/online_execution_report.md)): recommends JupyterLite + xeus-octave (Octave 10.3 in WebAssembly) on GitHub Pages. Test site live at allendowney.github.io/PhysicalModelingInMatlab (2026-11-01); next: Allen's browser checks
+- **Task 3:** Jupyter Book site — **DONE** 2026-11-02: the book's chapters as web pages at allendowney.github.io/PhysicalModelingInMatlab, with the notebooks on JupyterLite at `/run/`
 
 ---
 
