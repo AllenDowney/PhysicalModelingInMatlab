@@ -75,6 +75,7 @@ function animate_func(T,M)
         end
     end
     hold off
+    figure
 end
 
 function plot_func(M)

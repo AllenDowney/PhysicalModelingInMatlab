@@ -20,7 +20,7 @@
     },
     {
       "file": "code/chap14/binary.m",
-      "call": "binary(false)    % the Sun and Jupiter; binary() animates the orbits"
+      "call": "binary()    % the Sun and Jupiter; binary(false) plots the orbits instead"
     }
   ]
 }
