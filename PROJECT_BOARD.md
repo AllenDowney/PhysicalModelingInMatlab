@@ -208,6 +208,6 @@ The bugs in [planning/upstream_issues.md](planning/upstream_issues.md), in xeus-
 **When checking back:**
 - xeus-octave [#145](https://github.com/jupyter-xeus/xeus-octave/pull/145) and [#146](https://github.com/jupyter-xeus/xeus-octave/pull/146): their CI needs a maintainer's approval to run. Answer review comments on the fork's branches (desktop build: env `xeus-octave-dev`; browser build: `~/xeus-octave-work`)
 - emscripten-forge [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228): if they ask for a PR, change patch 0015 to `if (true)`, rebuild Octave, and rerun the legend examples
-- plotly.py [#5865](https://github.com/plotly/plotly.py/pull/5865): when a release includes it, bump jupyterlab-plotly in `site/build-environment.yml` and remove the renderer patch from `site/build.sh` (the build stops with a message if the patched code changes first)
+- plotly.py [#5865](https://github.com/plotly/plotly.py/pull/5865): when a jupyterlab-plotly release includes it, remove the renderer patch from `site/build.sh`. The site gets jupyterlab-plotly unpinned, so once a fixed release is out the patch no longer matches and the build stops with a message, which is the cue
 - When a fixed xeus-octave or Octave package reaches emscripten-forge, the site picks it up on its next build; then recheck titles and legends on the live site and update [planning/upstream_issues.md](planning/upstream_issues.md)
 - Keep `~/xeus-octave-work` (3.8 GB: build envs, test site, harnesses) until the PRs are settled; then it can be deleted
