@@ -185,7 +185,7 @@ Sitemap resubmitted in Search Console by Allen (2026-11-02).
 
 ## Task 4: Fix the browser Octave bugs upstream (xeus-octave)
 
-**Status:** In progress (2026-11-02)
+**Status:** Waiting on upstream replies (all filed 2026-11-02; check back around 2026-11-09)
 
 The bugs in [planning/upstream_issues.md](planning/upstream_issues.md), in xeus-octave (the Octave kernel the site runs in the browser).
 
@@ -204,3 +204,10 @@ The bugs in [planning/upstream_issues.md](planning/upstream_issues.md), in xeus-
 - **`legend` hang (1) and `legend` then `clf` (2):** cause found in emscripten-forge's Octave recipe, not xeus-octave: patch 0015 queues every graphics listener (`if (false)` in place of the main-thread check), and `legend.m` assumes listeners run during `set`. Issue posted (Allen: issue only, no rebuild): https://github.com/emscripten-forge/recipes/issues/8228
 - PRs opened 2026-11-02: [#145](https://github.com/jupyter-xeus/xeus-octave/pull/145) (build fix, first, so the titles PR could cite it) and [#146](https://github.com/jupyter-xeus/xeus-octave/pull/146) (titles). Texts: [planning/upstream_drafts.md](planning/upstream_drafts.md). Watch the PRs and the issue for replies
 - **Animation (4):** cause is plotly.py's JupyterLab renderer, which ignores updates to a drawn figure (plotly.py #3053, closed as stale). Fix on `AllenDowney/plotly.py` branch `mimerenderer-update-display`, checked in JupyterLab 4 (Python) and JupyterLite (Octave). PR [plotly.py#5865](https://github.com/plotly/plotly.py/pull/5865) and a comment on #3053 posted 2026-11-02 (Allen); our site's build patched meanwhile; Chapter 13's animation plays again
+
+**When checking back:**
+- xeus-octave [#145](https://github.com/jupyter-xeus/xeus-octave/pull/145) and [#146](https://github.com/jupyter-xeus/xeus-octave/pull/146): their CI needs a maintainer's approval to run. Answer review comments on the fork's branches (desktop build: env `xeus-octave-dev`; browser build: `~/xeus-octave-work`)
+- emscripten-forge [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228): if they ask for a PR, change patch 0015 to `if (true)`, rebuild Octave, and rerun the legend examples
+- plotly.py [#5865](https://github.com/plotly/plotly.py/pull/5865): when a release includes it, bump jupyterlab-plotly in `site/build-environment.yml` and remove the renderer patch from `site/build.sh` (the build stops with a message if the patched code changes first)
+- When a fixed xeus-octave or Octave package reaches emscripten-forge, the site picks it up on its next build; then recheck titles and legends on the live site and update [planning/upstream_issues.md](planning/upstream_issues.md)
+- Keep `~/xeus-octave-work` (3.8 GB: build envs, test site, harnesses) until the PRs are settled; then it can be deleted
