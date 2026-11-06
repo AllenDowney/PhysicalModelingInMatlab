@@ -109,7 +109,7 @@ Proposed fix: change the patch to `if (true)` (or define `thread::init` and `thr
 
 ## 4. plotly.py PR: redraw a figure when its output is updated
 
-**Posted:** https://github.com/plotly/plotly.py/pull/5865 (changelog entry added after opening)
+**Posted:** https://github.com/plotly/plotly.py/pull/5865 (changelog entry added after opening); merged 2026-11-06
 
 **Repo:** plotly/plotly.py, from `AllenDowney:mimerenderer-update-display` (commit `a96f8330`). After opening, add the changelog entry with the PR number (their CI requires one), under "Unreleased / Fixed".
 
