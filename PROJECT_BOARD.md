@@ -185,7 +185,7 @@ Sitemap resubmitted in Search Console by Allen (2026-11-02).
 
 ## Task 4: Fix the browser Octave bugs upstream (xeus-octave)
 
-**Status:** Waiting on upstream replies (all filed 2026-11-02; check back around 2026-11-09)
+**Status:** Waiting on upstream replies (all filed 2026-11-02; plotly.py #5865 merged 2026-11-06)
 
 The bugs in [planning/upstream_issues.md](planning/upstream_issues.md), in xeus-octave (the Octave kernel the site runs in the browser).
 
@@ -206,6 +206,8 @@ The bugs in [planning/upstream_issues.md](planning/upstream_issues.md), in xeus-
 - **Animation (4):** cause is plotly.py's JupyterLab renderer, which ignores updates to a drawn figure (plotly.py #3053, closed as stale). Fix on `AllenDowney/plotly.py` branch `mimerenderer-update-display`, checked in JupyterLab 4 (Python) and JupyterLite (Octave). PR [plotly.py#5865](https://github.com/plotly/plotly.py/pull/5865) and a comment on #3053 posted 2026-11-02 (Allen); our site's build patched meanwhile; Chapter 13's animation plays again. 2026-11-02 (Allen): Chapter 14's notebook now calls `binary()`, which animates the orbit (checked in Chromium on a local build); `binary.m` opens a new figure after the animation, so the energy plot no longer replaces its last frame
 
 **When checking back:**
+- **Around 2026-11-20:** if emscripten-forge #8228 has no reply, suggest a PR to Allen (patch 0015 to `if (true)`, with a rebuild and the `legend` examples). Thorsten Beier (`DerThorsten`) made the Octave recipe's last changes
+- **Early December 2026:** if xeus-octave #145 and #146 have no reply, post one short ping mentioning `JohanMabille` (latest merges, the 0.7.0 release); text to Allen first. If that gets nothing, the fixes stay on the fork. Silence is normal there: outside PRs #136, #141 and #144 have gone months without a review
 - xeus-octave [#145](https://github.com/jupyter-xeus/xeus-octave/pull/145) and [#146](https://github.com/jupyter-xeus/xeus-octave/pull/146): their CI needs a maintainer's approval to run. Answer review comments on the fork's branches (desktop build: env `xeus-octave-dev`; browser build: `~/xeus-octave-work`)
 - emscripten-forge [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228): if they ask for a PR, change patch 0015 to `if (true)`, rebuild Octave, and rerun the legend examples
 - plotly.py [#5865](https://github.com/plotly/plotly.py/pull/5865): merged 2026-11-06 (commit `3c1aeba`), not yet in a release (latest: 7.1.0). When a jupyterlab-plotly release includes it, remove the renderer patch from `site/build.sh`. The site gets jupyterlab-plotly unpinned, so once a fixed release is out the patch no longer matches and the build stops with a message, which is the cue
