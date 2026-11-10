@@ -1,6 +1,6 @@
 # Drafts of upstream issues and PRs (for Allen to review before posting)
 
-Task 4. Items 1–5 posted 2026-11-02; item 6 is a draft.
+Task 4. Items 1–5 posted 2026-11-02; item 6 posted 2026-11-10.
 
 ---
 
@@ -167,7 +167,7 @@ This still happens with jupyterlab-plotly 7.1.0 in JupyterLab 4 (and JupyterLite
 
 ## 6. Follow-up on emscripten-forge #8228: the 6x kernel doesn't start in Chromium
 
-**Status:** draft (2026-11-10)
+**Posted 2026-11-10:** https://github.com/emscripten-forge/recipes/issues/8354
 
 **Where:** a new issue in emscripten-forge/recipes (Allen, 2026-11-10), following up on https://github.com/emscripten-forge/recipes/issues/8228 (closed 2026-11-10)
 
