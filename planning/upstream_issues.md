@@ -8,6 +8,8 @@ For each issue: status (not reported / reported, with a link / fixed in version)
 
 **Status:** reported to emscripten-forge, [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02; cause below). Found 2026-11-01. Also happens on the upstream demo site.
 
+**Fixed upstream, not yet usable (2026-11-10):** closed by Isabel Paredes with recipes PRs [#8304](https://github.com/emscripten-forge/recipes/pull/8304) (Octave 11.3.0, whose patch makes `thread::is_thread()` return true) and [#8353](https://github.com/emscripten-forge/recipes/pull/8353) (xeus-octave rebuilt, with its own fix for the libflang rename, like our #145). Both went to the `emscripten-6x` branch, so the packages are on a new channel, `https://repo.prefix.dev/emscripten-forge/6x`, not the `emscripten-forge-4x` our site uses. A test build on 6x: in Firefox, listeners run in order and both `legend` examples (issues 1 and 2) work. In Chromium 156 the kernel doesn't start: `xoctave.wasm` fails to compile ("module uses a mix of legacy and new exception handling instructions", function #795); its shared libraries compile, and so does the 4x `xoctave.wasm`. So stay on 4x until the 6x kernel works in Chromium. Draft report: [upstream_drafts.md](upstream_drafts.md), item 6.
+
 **Reproduce** (the cell never finishes, and the kernel has to be restarted):
 
 ```
@@ -40,7 +42,7 @@ The desktop xeus-octave kernel (built from source, plotly toolkit, also with no 
 
 ## 2. `legend` followed by `clf` raises an error and hangs
 
-**Status:** included in [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02). Found 2026-11-01.
+**Status:** included in [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02). Found 2026-11-01. Fixed with issue 1 on the 6x channel (2026-11-10; see there).
 
 **Reproduce:**
 
