@@ -16,8 +16,8 @@
   },
   "prepend": {
     "17": "plot_solutions",
-    "18": "plot_solutions\nset(gca, 'fontsize', 11)    % works around a bug in the browser version of Octave",
-    "19": "plot_solutions\nset(gca, 'fontsize', 11)    % works around a bug in the browser version of Octave"
+    "18": "plot_solutions",
+    "19": "plot_solutions"
   },
   "static": [
     20

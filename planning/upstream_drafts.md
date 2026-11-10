@@ -1,6 +1,6 @@
 # Drafts of upstream issues and PRs (for Allen to review before posting)
 
-Task 4. Items 1–5 posted 2026-11-02; item 6 posted 2026-11-10.
+Task 4. Items 1–5 posted 2026-11-02; item 6 posted 2026-11-10, fixed the same day (Allen's confirming reply: https://github.com/emscripten-forge/recipes/issues/8354#issuecomment-6778831694).
 
 ---
 

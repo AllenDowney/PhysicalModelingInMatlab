@@ -6,9 +6,11 @@ For each issue: status (not reported / reported, with a link / fixed in version)
 
 ## 1. `legend` hangs the kernel for some labels and font sizes
 
-**Status:** reported to emscripten-forge, [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02; cause below). Found 2026-11-01. Also happens on the upstream demo site.
+**Status:** fixed (2026-11-10; our site uses the fixed packages). Reported to emscripten-forge, [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02; cause below). Found 2026-11-01. Also happens on the upstream demo site.
 
-**Fixed upstream, not yet usable (2026-11-10):** closed by Isabel Paredes with recipes PRs [#8304](https://github.com/emscripten-forge/recipes/pull/8304) (Octave 11.3.0, whose patch makes `thread::is_thread()` return true) and [#8353](https://github.com/emscripten-forge/recipes/pull/8353) (xeus-octave rebuilt, with its own fix for the libflang rename, like our #145). Both went to the `emscripten-6x` branch, so the packages are on a new channel, `https://repo.prefix.dev/emscripten-forge/6x`, not the `emscripten-forge-4x` our site uses. A test build on 6x: in Firefox, listeners run in order and both `legend` examples (issues 1 and 2) work. In Chromium 156 the kernel doesn't start: `xoctave.wasm` fails to compile ("module uses a mix of legacy and new exception handling instructions", function #795); its shared libraries compile, and so does the 4x `xoctave.wasm`. So stay on 4x until the 6x kernel works in Chromium. Reported 2026-11-10: [recipes#8354](https://github.com/emscripten-forge/recipes/issues/8354).
+**Fixed upstream, not yet usable (2026-11-10):** closed by Isabel Paredes with recipes PRs [#8304](https://github.com/emscripten-forge/recipes/pull/8304) (Octave 11.3.0, whose patch makes `thread::is_thread()` return true) and [#8353](https://github.com/emscripten-forge/recipes/pull/8353) (xeus-octave rebuilt, with its own fix for the libflang rename, like our #145). Both went to the `emscripten-6x` branch, so the packages are on a new channel, `https://repo.prefix.dev/emscripten-forge/6x`, not the `emscripten-forge-4x` our site uses. A test build on 6x: in Firefox, listeners run in order and both `legend` examples (issues 1 and 2) work. In Chromium 156 the kernel doesn't start: `xoctave.wasm` fails to compile ("module uses a mix of legacy and new exception handling instructions", function #795); its shared libraries compile, and so does the 4x `xoctave.wasm`. Reported 2026-11-10: [recipes#8354](https://github.com/emscripten-forge/recipes/issues/8354); fixed the same day (octave `hac827d2_1`, xeus-octave `h4739749_1`).
+
+**Fixed on our site (2026-11-10, Allen):** `site/environment.yml` uses the 6x channel. Checked in Chromium on a local build: all 15 chapters' solution notebooks run with no errors, as on 4x; Chapter 9's legend cells, which hang on 4x without the workaround, work; and `code/chap10/lotka.m` runs. Chapter 9's `set(gca, 'fontsize', 11)` workaround removed.
 
 **Reproduce** (the cell never finishes, and the kernel has to be restarted):
 
@@ -30,7 +32,7 @@ It depends on the label text together with the font size, which suggests a loop 
 
 Blank cells weren't tested. The same thing happens with `legend({...})` and with `'Location', 'northwest'`.
 
-**Workaround:** in the cell that calls `legend`, set a font size that works for those labels, for example `set(gca, 'fontsize', 11)` (Chapter 9). Check each chapter's legends when converting it.
+**Workaround (until 2026-11-10):** in the cell that calls `legend`, set a font size that works for those labels, for example `set(gca, 'fontsize', 11)` (Chapter 9). No longer needed on 6x.
 
 **Possibly related:** open PR [#144 "Interactive legend"](https://github.com/jupyter-xeus/xeus-octave/pull/144) (2026-06-29) changes legend handling.
 
@@ -42,7 +44,7 @@ The desktop xeus-octave kernel (built from source, plotly toolkit, also with no 
 
 ## 2. `legend` followed by `clf` raises an error and hangs
 
-**Status:** included in [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02). Found 2026-11-01. Fixed with issue 1 on the 6x channel (2026-11-10; see there).
+**Status:** fixed (2026-11-10, with issue 1; our site uses the fixed packages). Included in [recipes#8228](https://github.com/emscripten-forge/recipes/issues/8228) (2026-11-02). Found 2026-11-01.
 
 **Reproduce:**
 
@@ -55,7 +57,7 @@ plot(1:3, 3:-1:1)
 
 The result is `error: getappdata: H must be a scalar or vector of graphic handles`, called from `legend>update_displayname_cb`, and the cell doesn't finish. `code/chap10/lotka.m` does this: it draws a time series with a legend, then calls `clf` to draw the phase plot.
 
-**Workaround:** none yet. For Chapter 10, split the two plots into separate cells, since each cell starts a new figure anyway.
+**Workaround:** none was needed: Chapter 10's notebook defines its own short `lotka`, which doesn't plot.
 
 **Cause (likely, 2026-11-02):** the same queued listeners as issue 1: `update_displayname_cb` runs after `clf` has deleted the legend.
 
