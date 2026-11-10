@@ -169,18 +169,18 @@ This still happens with jupyterlab-plotly 7.1.0 in JupyterLab 4 (and JupyterLite
 
 **Status:** draft (2026-11-10)
 
-**Where:** a comment on https://github.com/emscripten-forge/recipes/issues/8228 (closed 2026-11-10), or a new issue in emscripten-forge/recipes with the title below
+**Where:** a new issue in emscripten-forge/recipes (Allen, 2026-11-10), following up on https://github.com/emscripten-forge/recipes/issues/8228 (closed 2026-11-10)
 
-**Title (if a new issue):** xeus-octave (6x): xoctave.wasm doesn't compile in Chromium (mix of legacy and new exception handling)
+**Title:** xeus-octave (6x): xoctave.wasm doesn't compile in Chromium (mix of legacy and new exception handling)
 
 **Body:**
 
-Thanks for the quick fix, @IsabelParedes! I tried the new packages from `emscripten-forge/6x` (octave 11.3.0 `hac827d2_0`, xeus-octave 0.7.0 `h4739749_0`) in a JupyterLite build. In Firefox, listeners now run immediately, and both `legend` examples from this issue work.
+Follow-up to #8228. Thanks for the quick fix, @IsabelParedes! I tried the new packages from `emscripten-forge/6x` in a JupyterLite build: octave 11.3.0 `hac827d2_0` and xeus-octave 0.7.0 `h4739749_0`. In Firefox, listeners now run immediately, and both `legend` examples from #8228 work.
 
-In Chromium (156), though, the kernel doesn't start. `xoctave.wasm` fails to compile:
+In Chromium (156), though, the kernel doesn't start, because `xoctave.wasm` fails to compile:
 
 ```
 CompileError: WebAssembly.instantiate(): Compiling function #795 failed: module uses a mix of legacy and new exception handling instructions @+770779
 ```
 
-Only the main module fails: `libxeus.so`, `liboctave.so` and `liboctinterp.so` compile in Chromium, and so does `xoctave.wasm` from the 4x packages (xeus-octave 0.7.0 `h6cd6e3e_0`). The 6x `xoctave.wasm` is much larger (8 MB, up from 3 MB), so maybe one of the static libraries now linked into it was built with the legacy exception handling.
+Only the main module fails. In Chromium, `libxeus.so`, `liboctave.so` and `liboctinterp.so` compile, and so does `xoctave.wasm` from the 4x packages (xeus-octave 0.7.0 `h6cd6e3e_0`). The 6x `xoctave.wasm` is much larger (8 MB, up from 3 MB), so maybe one of the static libraries now linked into it was built with the legacy exception handling.
